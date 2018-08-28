@@ -7,18 +7,18 @@ import com.fr.base.FRContext;
 import com.fr.base.io.FileAssistUtilsOperator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
+import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.JTemplate;
+import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
@@ -26,7 +26,10 @@ import com.fr.workspace.WorkContext;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -37,6 +40,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Enumeration;
+
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
 
@@ -49,7 +57,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     }
 
     private TemplateFileTree reportletsTree;
-    private FileToolbarStateChangeListener toobarStateChangeListener;
+    private FileToolbarStateChangeListener toolBarStateChangeListener;
 
     private TemplateTreePane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -71,14 +79,14 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             @Override
             public void mousePressed(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    openSelectedReport();
+                    openFile();
                 }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (toobarStateChangeListener != null) {
-                    toobarStateChangeListener.stateChange();
+                if (toolBarStateChangeListener != null) {
+                    toolBarStateChangeListener.stateChange();
                 }
             }
         };
@@ -89,24 +97,24 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    openSelectedReport();
+                    openFile();
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    openSelectedReport();
+                    openFile();
                 }
-                if (toobarStateChangeListener != null) {
-                    toobarStateChangeListener.stateChange();
+                if (toolBarStateChangeListener != null) {
+                    toolBarStateChangeListener.stateChange();
                 }
             }
 
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    openSelectedReport();
+                    openFile();
                 }
             }
         });
@@ -114,6 +122,49 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
     public TemplateFileTree getTemplateFileTree() {
         return this.reportletsTree;
+    }
+
+
+    /**
+     * 选中的路径数
+     *
+     * @return 选中的路径数
+     */
+    public int countSelectedPath() {
+        TreePath[] treePaths = reportletsTree.getSelectionPaths();
+        if (treePaths == null) {
+            return 0;
+        }
+        return treePaths.length;
+    }
+
+    /**
+     * 选中的文件夹个数
+     *
+     * @return 选中的文件夹个数
+     */
+
+    public int countSelectedFolder() {
+
+        if (reportletsTree.getSelectedFolderPaths() == null) {
+            return 0;
+        }
+
+        return reportletsTree.getSelectedFolderPaths().length;
+    }
+
+    /**
+     * 选中的文件个数
+     *
+     * @return 选中的文件
+     */
+    public int countSelectedFile() {
+
+        if (reportletsTree.getSelectionPaths() == null) {
+            return 0;
+        }
+
+        return reportletsTree.getSelectedTemplatePaths().length;
     }
 
     /**
@@ -125,11 +176,16 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     }
 
 
+    @Override
+    public boolean mkdir(String path) {
+        return WorkContext.getWorkResource().createDirectory(path);
+    }
+
     /**
      * 打开选中的报表文件
      */
     @Override
-    public void openSelectedReport() {
+    public void openFile() {
         String reportPath = reportletsTree.getSelectedTemplatePath();
         final String selectedFilePath = StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath);
         DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(selectedFilePath, false)));
@@ -139,7 +195,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      * 打开文件夹
      */
     @Override
-    public void openContainerFolder() {
+    public void showInExplorer() {
         FileNode fn = TemplateTreePane.this.reportletsTree.getSelectedFileNode();
         String filePath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), fn.getEnvPath());
         filePath = filePath.substring(0, filePath.lastIndexOf(CoreConstants.SEPARATOR));
@@ -156,43 +212,128 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     @Override
     public void refresh() {
         reportletsTree.refresh();
-        FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_File_Tree_Refresh_Successfully") + "!");
+        FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_File_Tree_Refresh_Successfully") + "!");
     }
 
     /**
      * 删除文件
+     * 文件夹和文件均可删除
+     * <p>
+     * 当文件被锁时不能删除
+     * 当文件夹中包含被锁文件时不能删除
      */
     @Override
     public void deleteFile() {
-        String[] reportPaths = reportletsTree.getSelectedTemplatePaths();
-        if (reportPaths.length == 0) {
-            return;
-        }
-        if (JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File")) != JOptionPane.OK_OPTION) {
-            return;
-        }
-        for (String reportPath : reportPaths) {
-            FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
 
-            if (nodeFile.isLocked()) {
-                if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FileLocked_Undeleted"),
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.YES_OPTION, JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
-                    refreshDockingView();
-                }
-                break;
+
+        String tipContent =
+                countSelectedFolder() > 0
+                        ? Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Folder")
+                        : Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File");
+
+        ExpandMutableTreeNode[] treeNodes = reportletsTree.getSelectedTreeNodes();
+        // 筛选可以删除的文件
+        ArrayList<ExpandMutableTreeNode> deletableNodes = new ArrayList<>();
+        ArrayList<ExpandMutableTreeNode> lockedNodes = new ArrayList<>();
+        for (ExpandMutableTreeNode treeNode : treeNodes) {
+            checkFreeOrLock(treeNode, deletableNodes, lockedNodes);
+        }
+
+        boolean success = false;
+
+        if (lockedNodes.isEmpty()) {
+
+            if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                    tipContent,
+                    UIManager.getString("OptionPane.titleText"),
+                    YES_NO_OPTION)
+                    == JOptionPane.OK_OPTION) {
+                // 删除所有选中的即可
+                success = deleteNodes(Arrays.asList(treeNodes));
             }
-            if (nodeFile.exists()) {
-                String path = StableUtils.pathJoin(nodeFile.getEnvPath(), nodeFile.getPath());
-                FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
-                fileAssistUtils.moveToTrash(nodeFile.getPath());
-                deleteHistory(path.replaceAll("/", "\\\\"));
-            } else {
-                JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Warning_Template_Do_Not_Exsit"), ProductConstants.PRODUCT_NAME,
-                        JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+
+            if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                    Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File"),
+                    UIManager.getString("OptionPane.titleText"),
+                    YES_NO_OPTION)
+                    == JOptionPane.YES_OPTION) {
+                // 删除其他
+                success = deleteNodes(deletableNodes);
             }
         }
+
+        if (!success) {
+            JOptionPane.showConfirmDialog(null,
+                    Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
+                    UIManager.getString("OptionPane.titleText"),
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
         reportletsTree.refresh();
     }
+
+    private boolean deleteNodes(Collection<ExpandMutableTreeNode> nodes) {
+        boolean success = true;
+        for (ExpandMutableTreeNode treeNode : nodes) {
+            Object node = treeNode.getUserObject();
+            if (node instanceof FileNode) {
+                FileNodeFILE nodeFILE = new FileNodeFILE((FileNode) node);
+                if (nodeFILE.exists()) {
+                    FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
+                    success = fileAssistUtils.moveToTrash(nodeFILE.getPath()) && success;
+                    HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
+                }
+            }
+        }
+        return success;
+    }
+
+    private boolean checkFreeOrLock(ExpandMutableTreeNode node, ArrayList<ExpandMutableTreeNode> dNodes, ArrayList<ExpandMutableTreeNode> lNodes) {
+        // 自己没锁
+        boolean selfEmptyLock = false;
+        Object userObj = node.getUserObject();
+        if (userObj instanceof FileNode) {
+            String lock = ((FileNode) userObj).getLock();
+            selfEmptyLock = lock == null || ((FileNode) userObj).getUserID().equals(lock);
+        }
+
+        if (node.isLeaf()) {
+            if (selfEmptyLock) {
+                dNodes.add(node);
+            } else {
+                lNodes.add(node);
+            }
+            return selfEmptyLock;
+        }
+
+        ExpandMutableTreeNode[] children = reportletsTree.loadChildTreeNodes(node);
+
+        boolean childrenEmptyLock = true;
+
+        for (ExpandMutableTreeNode child : children) {
+
+            boolean childEmptyLock = checkFreeOrLock(child, dNodes, lNodes);
+            if (childEmptyLock) {
+                dNodes.add(child);
+            } else {
+                lNodes.add(child);
+            }
+
+            childrenEmptyLock = childrenEmptyLock && childEmptyLock;
+        }
+
+        boolean emptyLock = childrenEmptyLock && selfEmptyLock;
+        if (emptyLock) {
+            dNodes.add(node);
+        } else {
+            lNodes.add(node);
+        }
+        return emptyLock;
+    }
+
 
     @Override
     public void lockFile() {
@@ -200,90 +341,103 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     }
 
     @Override
-    public void unLockFile() {
+    public void unlockFile() {
         throw new UnsupportedOperationException("unsupport now");
     }
 
-    private void deleteHistory(String fileName) {
-        int index = HistoryTemplateListPane.getInstance().contains(fileName);
-        int size = HistoryTemplateListPane.getInstance().getHistoryCount();
-        if (index == -1) {
-            return;
-        }
-        //如果打开过，则删除，实时刷新多tab面板
-        HistoryTemplateListPane.getInstance().getHistoryList().remove(index);
-        int openfileCount = HistoryTemplateListPane.getInstance().getHistoryCount();
-        if (openfileCount == 0) {
-            DesignerContext.getDesignerFrame().addAndActivateJTemplate();
-        }
-        MutilTempalteTabPane.getInstance().repaint();
-        if (size == index + 1 && index != 0) {
-            //如果删除的是最后一个Tab，则定位到前一个
-            MutilTempalteTabPane.getInstance().setSelectedIndex(index - 1);
-        }
-        JTemplate selectedfile = MutilTempalteTabPane.getInstance().getSelectedFile();
-        if (!HistoryTemplateListPane.getInstance().isCurrentEditingFile(selectedfile.getPath())) {
-            //如果此时面板上的实时刷新的selectedIndex得到的和历史的不一样
-            DesignerContext.getDesignerFrame().activateJTemplate(selectedfile);
-        }
-        MutilTempalteTabPane.getInstance().repaint();
-    }
-
 
     @Override
-    public String getSelectedTemplatePath() {
+    public String getFilePath() {
         return reportletsTree.getSelectedTemplatePath();
     }
 
-    public void setToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
-        this.toobarStateChangeListener = toobarStateChangeListener;
+    @Override
+    public boolean access() {
+
+        TreePath[] selectedTreePaths = reportletsTree.getSelectionPaths();
+
+        if (selectedTreePaths == null || selectedTreePaths.length != 1) {
+            return false;
+        }
+        // 选中的是文件夹
+        TreePath treePath = selectedTreePaths[0];
+        ExpandMutableTreeNode currentTreeNode = (ExpandMutableTreeNode) treePath.getLastPathComponent();
+
+        ExpandMutableTreeNode parentTreeNode = (ExpandMutableTreeNode) currentTreeNode.getParent();
+
+        return parentTreeNode != null && parentTreeNode.hasFullAuthority();
     }
+
+    @Override
+    public boolean rename(FILE tplFile, String from, String to) {
+
+        // 多人协作时判断是否有锁定的文件
+        ExpandMutableTreeNode[] treeNodes = reportletsTree.getSelectedTreeNodes();
+        // 筛选可以重命名的文件
+        ArrayList<ExpandMutableTreeNode> unlockedNodes = new ArrayList<>();
+        ArrayList<ExpandMutableTreeNode> lockedNodes = new ArrayList<>();
+        for (ExpandMutableTreeNode treeNode : treeNodes) {
+            checkFreeOrLock(treeNode, unlockedNodes, lockedNodes);
+        }
+
+        if (!lockedNodes.isEmpty()) {
+            JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                    Toolkit.i18nText("Fine-Design_Basic_Warn_Rename_Lock_File"),
+                    UIManager.getString("OptionPane.titleText"),
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
+
+        try {
+            // com.fr.io.utils.ResourceIOUtils 接收的是WEB-INF下的路径
+            return WorkContext.getWorkResource().rename(from, to);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    @Override
+    public FileNode getFileNode() {
+        return reportletsTree.getSelectedFileNode();
+    }
+
+    public void setToolbarStateChangeListener(FileToolbarStateChangeListener listener) {
+        this.toolBarStateChangeListener = listener;
+    }
+
 
     /**
-     * 文件名是否存在
+     * 仅支持在拥有完整权限的文件夹下进行新建和重命名操作，那么是可以看到改文件夹下所有文件的。
      *
      * @param newName 原名
-     * @param oldName 新的文件名
      * @param suffix  后缀名
-     * @return 是否存在
+     * @return 是否有重名的
      */
     @Override
-    public boolean isNameAlreadyExist(String newName, String oldName, String suffix) {
-        boolean isNameAlreadyExist = false;
+    public boolean duplicated(String newName, String suffix) {
 
-        TemplateFileTree tt = reportletsTree;
-        DefaultMutableTreeNode gen = (DefaultMutableTreeNode) tt.getModel().getRoot();
-        ArrayList<String> al = new ArrayList<String>();
-
-        findFiles(gen, al);
-
-        for (int i = 0; i < al.size(); i++) {
-            if (ComparatorUtils.equals(al.get(i), newName + suffix)) {
-                isNameAlreadyExist = true;
-                break;
-            }
+        // 选中的节点
+        TreePath treePath = reportletsTree.getSelectionPath();
+        if (treePath == null) {
+            return false;
         }
+        DefaultMutableTreeNode currentTreeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+        TreeNode parentTreeNode = currentTreeNode.getParent();
 
-        if (ComparatorUtils.equals(newName, oldName)) {
-            isNameAlreadyExist = false;
-        }
+        Enumeration children = parentTreeNode.children();
 
-        return isNameAlreadyExist;
-    }
-
-
-    private void findFiles(DefaultMutableTreeNode node, ArrayList<String> al) {
-        String[] str = new String[node.getChildCount()];
-        for (int j = 0; j < node.getChildCount(); j++) {
-            DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(j);
-            if (childNode.getChildCount() > 0) {
-                findFiles(childNode, al);
-            } else {
-                str[j] = node.getChildAt(j).toString();
-                if (str[j].contains(".")) {
-                    al.add(str[j]);
+        while (children.hasMoreElements()) {
+            DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) children.nextElement();
+            Object object = childNode.getUserObject();
+            if (object instanceof FileNode) {
+                if (ComparatorUtils.equals(((FileNode) object).getName(), newName + suffix)) {
+                    return true;
                 }
+            } else {
+                return false;
             }
         }
+        return false;
     }
 }

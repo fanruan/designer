@@ -1,6 +1,7 @@
 package com.fr.file;
 
 import com.fr.base.FRContext;
+import com.fr.design.file.NodeAuthProcessor;
 import com.fr.file.filetree.FileNode;
 import com.fr.workspace.WorkContext;
 
@@ -19,7 +20,7 @@ public class FILEFactory {
      * 也有可能就是一个普通的路径d:/foo/bar
      */
     public static FILE createFILE(String path) {
-    
+
         String envPath = WorkContext.getCurrent().getPath().replaceAll("/", "\\\\");
         if (path == null) {
             return null;
@@ -45,7 +46,8 @@ public class FILEFactory {
         } else if (path.startsWith(MEM_PREFIX)) {
             return new MemFILE(path.substring(MEM_PREFIX.length()));
         } else if (path.startsWith(ENV_PREFIX)) {
-            return new FileNodeFILE(new FileNode(path.substring(ENV_PREFIX.length()), true));
+            return NodeAuthProcessor.getInstance().
+                    fixFILENodeAuth(new FileNode(path.substring(ENV_PREFIX.length()), true));
         } else if (path.startsWith(WEBREPORT_PREFIX)) {
             return new FileNodeFILE(new FileNode(path.substring(WEBREPORT_PREFIX.length()), true),
                     FRContext.getCommonOperator().getWebRootPath());

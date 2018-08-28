@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
@@ -13,6 +12,7 @@ import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.file.FileOperations;
 import com.fr.design.file.FileToolbarStateChangeListener;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.TemplateTreePane;
@@ -21,44 +21,48 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.itoolbar.UIToolbar;
-import com.fr.design.gui.itree.filetree.TemplateFileTree;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.io.utils.ResourceIOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.project.ProjectConstants;
+import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
 public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarStateChangeListener, ResponseDataSourceChange {
 
@@ -66,21 +70,17 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     private static volatile DesignerFrameFileDealerPane THIS;
 
-    private CardLayout card;
-
-    private JPanel cardPane;
-
-    private java.util.List<FileToolbarStateChangeListener> otherToobarStateChangeListeners = new ArrayList<>();
+    private List<FileToolbarStateChangeListener> otherToolbarStateChangeListeners = new ArrayList<>();
 
     private FileOperations selectedOperation;
 
     private UIToolbar toolBar;
 
-    private OpenReportAction openReportAction = new OpenReportAction();
+    private NewFolderAction newFolderAction = new NewFolderAction();
 
     private RefreshTreeAction refreshTreeAction = new RefreshTreeAction();
 
-    private OpenFolderAction openFolderAction = new OpenFolderAction();
+    private ShowInExplorerAction showInExplorerAction = new ShowInExplorerAction();
 
     private RenameAction renameAction = new RenameAction();
 
@@ -91,11 +91,10 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      * 刷新
      */
     public void refresh() {
-
         selectedOperation.refresh();
     }
 
-    public static final DesignerFrameFileDealerPane getInstance() {
+    public static DesignerFrameFileDealerPane getInstance() {
 
         if (THIS == null) {
             synchronized (DesignerFrameFileDealerPane.class) {
@@ -121,13 +120,14 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         tooBarPane.add(new UIMenuHighLight(), BorderLayout.SOUTH);
 
         add(tooBarPane, BorderLayout.NORTH);
-        cardPane = new JPanel(card = new CardLayout());
+        CardLayout card;
+        JPanel cardPane = new JPanel(card = new CardLayout());
         cardPane.add(TemplateTreePane.getInstance(), FILE);
 
         selectedOperation = TemplateTreePane.getInstance();
         card.show(cardPane, FILE);
 
-        TemplateTreePane.getInstance().setToobarStateChangeListener(this);
+        TemplateTreePane.getInstance().setToolbarStateChangeListener(this);
 
         add(cardPane, BorderLayout.CENTER);
         stateChange();
@@ -136,7 +136,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     public final void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
 
-        DesignModelAdapter.setCurrentModelAdapter(jt == null ? null : jt.getModel());
+        DesignModelAdapter.setCurrentModelAdapter(jt.getModel());
         fireDSChanged();
         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
         HistoryTemplateListPane.getInstance().setCurrentEditingTemplate(jt);
@@ -152,7 +152,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         jt.requestFocus();
         jt.revert();
 
-        FRContext.getLogger().info("\"" + jt.getEditingFILE().getName() + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_LOG_Has_Been_Openned") + "!");
+        FineLoggerFactory.getLogger().info(
+                "\"" + jt.getEditingFILE().getName() + "\""
+                        + Toolkit.i18nText("Fine-Design_Basic_LOG_Has_Been_Openned") + "!");
     }
 
     /**
@@ -161,27 +163,26 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     public void refreshDockingView() {
 
         ToolBarDef toolbarDef = new ToolBarDef();
-        toolbarDef.addShortCut(openReportAction, refreshTreeAction);
+        toolbarDef.addShortCut(newFolderAction, refreshTreeAction);
         if (WorkContext.getCurrent().isLocal()) {
-            toolbarDef.addShortCut(openFolderAction, renameAction);
+            toolbarDef.addShortCut(showInExplorerAction);
         }
-        toolbarDef.addShortCut(delFileAction);
+        toolbarDef.addShortCut(renameAction, delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
-
         toolbarDef.updateToolBar(toolBar);
-        refreshActions();
+        resetActionStatus();
         refresh();
     }
 
 
-    private void refreshActions() {
+    private void resetActionStatus() {
 
-        openReportAction.setEnabled(false);
+        newFolderAction.setEnabled(false);
         refreshTreeAction.setEnabled(true);
-        openFolderAction.setEnabled(false);
+        showInExplorerAction.setEnabled(false);
         renameAction.setEnabled(false);
         delFileAction.setEnabled(false);
         this.repaint();
@@ -206,28 +207,53 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     }
 
 
+    public void addToolbarStateChangeListener(FileToolbarStateChangeListener listener) {
+        this.otherToolbarStateChangeListeners.add(listener);
+    }
+
+    public void removeToolbarStateChangeListener(FileToolbarStateChangeListener listener) {
+        this.otherToolbarStateChangeListeners.remove(listener);
+    }
+
+    private void otherStateChange() {
+        for (FileToolbarStateChangeListener listener : otherToolbarStateChangeListeners) {
+            listener.stateChange();
+        }
+    }
+
     /*
-     * Open Report Action
+     * 新建文件夹
      */
-    private class OpenReportAction extends UpdateAction {
+    private class NewFolderAction extends UpdateAction {
 
-        public OpenReportAction() {
+        public NewFolderAction() {
 
-            this.setName(KeySetUtils.OPEN_TEMPLATE.getMenuKeySetName());
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/open.png"));
+            this.setName(KeySetUtils.NEW_FOLDER.getMenuKeySetName());
+            this.setSmallIcon(BaseUtils.readIcon("com/fr/design/images/icon_NewFolderIcon_normal.png"));
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
 
-            selectedOperation.openSelectedReport();
+            if (!selectedOperation.access()) {
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
+
+            new MkdirDialog();
         }
 
     }
 
-    private class OpenFolderAction extends UpdateAction {
+    /**
+     * 在系统资源管理器中打开
+     */
+    private class ShowInExplorerAction extends UpdateAction {
 
-        public OpenFolderAction() {
+        public ShowInExplorerAction() {
 
             this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_In_Containing_Folder"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/view_folder.png"));
@@ -236,7 +262,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         @Override
         public void actionPerformed(ActionEvent evt) {
 
-            selectedOperation.openContainerFolder();
+            selectedOperation.showInExplorer();
         }
     }
 
@@ -247,7 +273,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public RefreshTreeAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
+            this.setName(Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(UIConstants.REFRESH_ICON);
         }
 
@@ -260,20 +286,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
     }
 
-    public void addToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
-        this.otherToobarStateChangeListeners.add(toobarStateChangeListener);
-    }
-
-    public void removeToobarStateChangeListener(FileToolbarStateChangeListener toobarStateChangeListener) {
-        this.otherToobarStateChangeListeners.remove(toobarStateChangeListener);
-    }
-
-    private void otherStateChange() {
-        for (FileToolbarStateChangeListener toobarStateChangeListener : otherToobarStateChangeListeners) {
-            toobarStateChangeListener.stateChange();
-        }
-    }
-
     /*
      * 重命名文件
      */
@@ -281,14 +293,22 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public RenameAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Rename"));
+            this.setName(Toolkit.i18nText("Fine-Design_Basic_Rename"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/rename.png"));
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
+            if (!selectedOperation.access()) {
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
 
-            new RenameDialog();
+            FileNode node = selectedOperation.getFileNode();
+            new FileRenameDialog(node);
             MutilTempalteTabPane.getInstance().repaint();
         }
 
@@ -301,12 +321,20 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         public DelFileAction() {
 
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
+            this.setName(Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png"));
         }
 
         @Override
         public void actionPerformed(ActionEvent evt) {
+
+            if (!selectedOperation.access()) {
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
 
             selectedOperation.deleteFile();
         }
@@ -318,295 +346,411 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     @Override
     public void stateChange() {
 
-        if (selectedOperation.getSelectedTemplatePath() != null) {
-            openReportAction.setEnabled(true);
-            renameAction.setEnabled(true);
-            delFileAction.setEnabled(true);
-        } else {
-            openReportAction.setEnabled(false);
-            renameAction.setEnabled(false);
-            delFileAction.setEnabled(false);
-        }
-        openFolderAction.setEnabled(containsFolderNums() + seletedTemplateNums() != 0);
+        int selectedPathNum = TemplateTreePane.getInstance().countSelectedPath();
 
+        // 新建文件夹，重命名操作，在explorer中打开三个操作在选中单个文件夹或者文件时可用，其他情况不可用
+        boolean singleSelected = selectedPathNum == 1;
+        newFolderAction.setEnabled(singleSelected);
+        renameAction.setEnabled(singleSelected);
+        showInExplorerAction.setEnabled(singleSelected);
+
+        // 删除操作在至少选中一个时可用
+        boolean selected = selectedPathNum > 0;
+        delFileAction.setEnabled(selected);
+
+        // 刷新操作始终可用
         refreshTreeAction.setEnabled(true);
-        if (containsFolderNums() > 0 && (containsFolderNums() + seletedTemplateNums() > 1)) {
-            refreshActions();
-        } else if (containsFolderNums() == 0 && seletedTemplateNums() > 1) {
-            openReportAction.setEnabled(false);
-            refreshTreeAction.setEnabled(true);
-            openFolderAction.setEnabled(false);
-            renameAction.setEnabled(false);
-            delFileAction.setEnabled(true);
-        }
 
+        // 其他状态
         otherStateChange();
-    }
-
-    /**
-     * 是否包含文件夹
-     *
-     * @return
-     */
-
-    private int containsFolderNums() {
-
-        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
-        if (fileTree.getSelectionPaths() == null) {
-            return 0;
-        }
-
-        //选择的包含文件和文件夹的数目
-        if (fileTree.getSelectionPaths().length == 0) {
-            return 0;
-        }
-        //所有的num减去模板的num，得到文件夹的num
-        return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
-    }
-
-    /**
-     * 是否选择了多个模板
-     *
-     * @return
-     */
-    private int seletedTemplateNums() {
-
-        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
-        if (fileTree.getSelectionPaths() == null) {
-            return 0;
-        }
-
-        return fileTree.getSelectedTemplatePaths().length;
-    }
-
-
-    // js: 重命名对话框，模仿Eclipse的重命名，支持快捷键F2，Enter，ESC
-    private class RenameDialog {
-
-        private UITextField jt;
-
-        private String userInput;
-
-        private String oldName;
-
-        private UILabel hintsLabel;
-
-        private UIButton confirmButton;
-
-        private JDialog jd;
-
-        private String suffix;
-
-        public RenameDialog() {
-
-            final String reportPath = selectedOperation.getSelectedTemplatePath();
-            if (reportPath == null) {
-                return;
-            }
-
-            final FileNodeFILE nodeFile = new FileNodeFILE(new FileNode(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath), false));
-            final String path = nodeFile.getPath();
-            oldName = nodeFile.getName();
-            suffix = oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
-
-            jd = new JDialog();
-            jd.setLayout(new GridLayout(2, 2));
-            jd.setModal(true);
-            UILabel newNameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Enter_New_File_Name"));
-            newNameLabel.setMinimumSize(new Dimension(150, 27));
-            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            jt = new UITextField(oldName);
-            jt.getDocument().addDocumentListener(getdoDocumentListener());
-            jt.selectAll();
-            jt.setPreferredSize(new Dimension(150, 20));
-
-            JPanel newNamePanel = new JPanel();
-            newNamePanel.setLayout(new BoxLayout(newNamePanel, BoxLayout.X_AXIS));
-            newNamePanel.add(Box.createHorizontalGlue());
-            newNamePanel.add(newNameLabel);
-            newNamePanel.add(Box.createHorizontalStrut(5));
-            jd.add(newNamePanel);
-
-            JPanel jtPanel = new JPanel();
-            jtPanel.setLayout(new BoxLayout(jtPanel, BoxLayout.Y_AXIS));
-            JPanel containJt = new JPanel(new BorderLayout());
-            containJt.add(jt, BorderLayout.WEST);
-            containJt.setMaximumSize(new Dimension(200, 20));
-            jtPanel.add(Box.createVerticalGlue());
-            jtPanel.add(containJt);
-            jtPanel.add(Box.createVerticalGlue());
-            jd.add(jtPanel);
-
-            addUITextFieldListener(nodeFile, path);
-
-            hintsLabel = new UILabel();
-            hintsLabel.setBounds(20, 50, 250, 30);
-            hintsLabel.setMaximumSize(new Dimension(200, 30));
-            hintsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            hintsLabel.setForeground(Color.RED);
-            hintsLabel.setVisible(false);
-
-            confirmButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"));
-            confirmButton.setPreferredSize(new Dimension(80, 25));
-            confirmButton.setMinimumSize(new Dimension(80, 25));
-            confirmButton.setMaximumSize(new Dimension(80, 25));
-            confirmButton.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-
-                    confirmClose(nodeFile, path);
-                }
-            });
-
-            UIButton cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
-            cancelButton.setPreferredSize(new Dimension(80, 25));
-            cancelButton.setMinimumSize(new Dimension(80, 25));
-            cancelButton.setMaximumSize(new Dimension(80, 25));
-
-            cancelButton.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-
-                    jd.dispose();
-                }
-            });
-
-            JPanel hintsPanel = new JPanel();
-            hintsPanel.setLayout(new BorderLayout());
-            hintsPanel.add(hintsLabel, BorderLayout.EAST);
-            jd.add(hintsLabel);
-
-            JPanel btPanel = new JPanel(new BorderLayout());
-            btPanel.setLayout(new BoxLayout(btPanel, BoxLayout.X_AXIS));
-            btPanel.add(Box.createHorizontalGlue());
-            btPanel.add(confirmButton);
-            btPanel.add(Box.createHorizontalStrut(5));
-            btPanel.add(cancelButton);
-            btPanel.add(Box.createHorizontalStrut(20));
-            jd.add(btPanel);
-
-            jd.setSize(380, 200);
-            jd.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Rename"));
-            jd.setResizable(false);
-            jd.setAlwaysOnTop(true);
-            jd.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
-            jd.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            GUICoreUtils.centerWindow(jd);
-            jd.setVisible(true);
-        }
-
-        public void confirmClose(FileNodeFILE nodeFile, String path) {
-
-            userInput = userInput == null ? oldName : userInput;
-            String oldPath = path.replaceAll("/", "\\\\");
-            String newPath = path.replace(nodeFile.getName(), userInput + suffix);
-            renameTemplateInMemory(nodeFile, userInput + suffix, oldName + suffix);
-            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldPath, newPath.replaceAll("/", "\\\\"));
-
-            //模版重命名
-            ResourceIOUtils.renameTo(path, newPath);
-            selectedOperation.refresh();
-            DesignerContext.getDesignerFrame().setTitle();
-            jd.dispose();
-        }
-
-        private void renameTemplateInMemory(FILE tplFile, String newName, String oldName) {
-
-            JTemplate<?, ?> dPane = getSpecialTemplateByFILE(tplFile);
-            if (dPane == null) {
-                return;
-            }
-            FILE renameFile = dPane.getEditingFILE();
-            renameFile.setPath(renameFile.getPath().replace(oldName, newName));
-        }
-
-        // 增加enter以及esc快捷键的支持
-        public void addUITextFieldListener(final FileNodeFILE nodeFile, final String path) {
-
-            jt.addKeyListener(new KeyAdapter() {
-
-                public void keyPressed(KeyEvent e) {
-
-                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                        jd.dispose();
-                    }
-                }
-            });
-
-            jt.addKeyListener(new KeyAdapter() {
-
-                public void keyPressed(KeyEvent e) {
-
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        if (confirmButton.isEnabled()) {
-                            confirmClose(nodeFile, path);
-                        }
-                    }
-                }
-            });
-
-        }
-
-        // UITextField的输入监听
-        public DocumentListener getdoDocumentListener() {
-
-            DocumentListener dl = new DocumentListener() {
-
-                public void changedUpdate(DocumentEvent e) {
-
-                    isNameAlreadyExist();
-                }
-
-                public void insertUpdate(DocumentEvent e) {
-
-                    isNameAlreadyExist();
-                }
-
-                public void removeUpdate(DocumentEvent e) {
-
-                    isNameAlreadyExist();
-                }
-            };
-
-            return dl;
-        }
-
-        private void isNameAlreadyExist() {
-
-            userInput = jt.getText().trim();
-            if (selectedOperation.isNameAlreadyExist(userInput, oldName, suffix)) {
-                jt.selectAll();
-                // 如果文件名已存在，则灰掉确认按钮
-                hintsLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_File_Name_Duplicate", userInput));
-                hintsLabel.setVisible(true);
-                confirmButton.setEnabled(false);
-            } else {
-                hintsLabel.setVisible(false);
-                confirmButton.setEnabled(true);
-            }
-        }
-    }
-
-    /**
-     * @param tplFile
-     * @return 内存中的template重命名一下
-     */
-    private JTemplate<?, ?> getSpecialTemplateByFILE(FILE tplFile) {
-
-        HistoryTemplateListPane historyHandle = HistoryTemplateListPane.getInstance();
-        if (ComparatorUtils.equals(historyHandle.getCurrentEditingTemplate().getEditingFILE(), tplFile)) {
-            return historyHandle.getCurrentEditingTemplate();
-        }
-        for (int i = 0; i < historyHandle.getHistoryCount(); i++) {
-            if (ComparatorUtils.equals(historyHandle.get(i).getEditingFILE(), tplFile)) {
-                return historyHandle.get(i);
-            }
-        }
-        return null;
     }
 
     public FileOperations getSelectedOperation() {
         return selectedOperation;
     }
+
+    /**
+     * 重命名对话框
+     * 支持快捷键Enter，ESC
+     */
+    private class FileRenameDialog extends JDialog {
+
+        private UITextField nameField;
+
+        private UILabel warnLabel;
+
+        private UIButton confirmButton;
+
+        /**
+         * 操作的节点
+         */
+        private FileNodeFILE fnf;
+
+
+        private FileRenameDialog(FileNode node) {
+            if (node == null) {
+                return;
+            }
+            fnf = new FileNodeFILE(node);
+
+            String oldName = fnf.getName();
+            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, "");
+
+            this.setLayout(new BorderLayout());
+            this.setModal(true);
+
+            // 输入框前提示
+            UILabel newNameLabel = new UILabel(Toolkit.i18nText(
+                    fnf.isDirectory() ?
+                            "Fine-Design_Basic_Enter_New_Folder_Name" : "Fine-Design_Basic_Enter_New_File_Name")
+            );
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            newNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+            newNameLabel.setPreferredSize(new Dimension(118, 15));
+
+            // 重命名输入框
+            nameField = new UITextField(oldName);
+            nameField.getDocument().addDocumentListener(new DocumentListener() {
+
+                public void changedUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    validInput();
+                }
+            });
+            nameField.selectAll();
+            nameField.setPreferredSize(new Dimension(180, 20));
+
+            JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+            topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 0, 15));
+            topPanel.add(newNameLabel);
+            topPanel.add(nameField);
+
+            // 增加enter以及esc快捷键的支持
+            nameField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        dispose();
+                    } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        if (confirmButton.isEnabled()) {
+                            confirmClose();
+                        }
+                    }
+                }
+            });
+            // 重名提示
+            warnLabel = new UILabel();
+            warnLabel.setPreferredSize(new Dimension(300, 30));
+            warnLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            warnLabel.setForeground(Color.RED);
+            warnLabel.setVisible(false);
+
+            JPanel midPanel = new JPanel(new BorderLayout());
+            midPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            midPanel.add(warnLabel, BorderLayout.WEST);
+
+            // 确认按钮
+            confirmButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Confirm"));
+            confirmButton.setPreferredSize(new Dimension(60, 25));
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    confirmClose();
+                }
+            });
+
+            // 取消按钮
+            UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+            cancelButton.setPreferredSize(new Dimension(60, 25));
+
+            cancelButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+
+            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            bottomPanel.add(confirmButton);
+            bottomPanel.add(cancelButton);
+
+            this.add(
+                    TableLayoutHelper.createTableLayoutPane(
+                            new Component[][]{
+                                    new Component[]{topPanel},
+                                    new Component[]{midPanel},
+                                    new Component[]{bottomPanel}
+                            },
+                            new double[]{TableLayout.FILL, TableLayout.FILL, TableLayout.FILL},
+                            new double[]{TableLayout.FILL}
+                    ),
+                    BorderLayout.CENTER);
+
+
+            this.setSize(340, 180);
+            this.setTitle(Toolkit.i18nText("Fine-Design_Basic_Rename"));
+            this.setResizable(false);
+            this.setAlwaysOnTop(true);
+            this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+            this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            GUICoreUtils.centerWindow(this);
+            this.setVisible(true);
+        }
+
+        private void confirmClose() {
+
+            String userInput = nameField.getText().trim();
+
+            String path = fnf.getPath();
+
+            String oldName = fnf.getName();
+            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, "");
+
+            // 输入为空或者没有修改
+            if (ComparatorUtils.equals(userInput, oldName)) {
+                this.dispose();
+                return;
+            }
+
+            String oldPath = path.replaceAll(CoreConstants.SEPARATOR, "\\\\");
+
+            String parentPath = fnf.getParent().getPath().replaceAll(CoreConstants.SEPARATOR, "\\\\");
+
+            // 简单执行old new 替换是不可行的，例如 /abc/abc/abc/abc/
+            String newPath = parentPath + "\\" + userInput + suffix;
+
+            HistoryTemplateListCache.getInstance().rename(fnf, oldPath, newPath);
+            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), oldPath, newPath);
+
+            //模版重命名
+            boolean success = selectedOperation.rename(fnf, oldPath, newPath);
+            selectedOperation.refresh();
+            DesignerContext.getDesignerFrame().setTitle();
+            this.dispose();
+
+            if (!success) {
+                JOptionPane.showConfirmDialog(null,
+                        Toolkit.i18nText("Fine-Design_Basic_Rename_Failure"),
+                        UIManager.getString("OptionPane.titleText"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+        private void validInput() {
+
+            String userInput = nameField.getText().trim();
+
+            String oldName = fnf.getName();
+            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, "");
+
+            if (StringUtils.isEmpty(userInput)) {
+                confirmButton.setEnabled(false);
+            }
+
+            if (ComparatorUtils.equals(userInput, oldName)) {
+                warnLabel.setVisible(false);
+                confirmButton.setEnabled(true);
+                return;
+            }
+
+            if (selectedOperation.duplicated(userInput, suffix)) {
+                nameField.selectAll();
+                // 如果文件名已存在，则灰掉确认按钮
+                warnLabel.setText(
+                        Toolkit.i18nText(fnf.isDirectory() ?
+                                        "Fine-Design_Basic_Folder_Name_Duplicate" :
+                                        "Fine-Design_Basic_Template_File_Name_Duplicate",
+                                userInput));
+                warnLabel.setVisible(true);
+                confirmButton.setEnabled(false);
+            } else {
+                warnLabel.setVisible(false);
+                confirmButton.setEnabled(true);
+            }
+        }
+    }
+
+
+    /**
+     * 新建文件夹对话框
+     * 支持快捷键Enter，ESC
+     */
+    private class MkdirDialog extends JDialog {
+
+        private UITextField nameField;
+
+        private UILabel warnLabel;
+
+        private UIButton confirmButton;
+
+
+        private MkdirDialog() {
+
+            this.setLayout(new BorderLayout());
+            this.setModal(true);
+
+            // 输入框前提示
+            UILabel newNameLabel = new UILabel(Toolkit.i18nText(
+                    "Fine-Design_Basic_Enter_New_Folder_Name")
+            );
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            newNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+            newNameLabel.setPreferredSize(new Dimension(118, 15));
+
+            // 文件名输入框
+            nameField = new UITextField();
+            nameField.getDocument().addDocumentListener(new DocumentListener() {
+
+                public void changedUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    validInput();
+                }
+            });
+            nameField.selectAll();
+            nameField.setPreferredSize(new Dimension(180, 20));
+
+            JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+            topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 0, 15));
+            topPanel.add(newNameLabel);
+            topPanel.add(nameField);
+
+            // 增加enter以及esc快捷键的支持
+            nameField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        dispose();
+                    } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        if (confirmButton.isEnabled()) {
+                            confirmClose();
+                        }
+                    }
+                }
+            });
+            // 重名提示
+            warnLabel = new UILabel();
+            warnLabel.setPreferredSize(new Dimension(300, 30));
+            warnLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            warnLabel.setForeground(Color.RED);
+            warnLabel.setVisible(false);
+
+            JPanel midPanel = new JPanel(new BorderLayout());
+            midPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            midPanel.add(warnLabel, BorderLayout.WEST);
+
+            // 确认按钮
+            confirmButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Confirm"));
+            confirmButton.setPreferredSize(new Dimension(60, 25));
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    confirmClose();
+                }
+            });
+
+            // 取消按钮
+            UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+            cancelButton.setPreferredSize(new Dimension(60, 25));
+
+            cancelButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+
+            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            bottomPanel.add(confirmButton);
+            bottomPanel.add(cancelButton);
+
+            this.add(
+                    TableLayoutHelper.createTableLayoutPane(
+                            new Component[][]{
+                                    new Component[]{topPanel},
+                                    new Component[]{midPanel},
+                                    new Component[]{bottomPanel}
+                            },
+                            new double[]{TableLayout.FILL, TableLayout.FILL, TableLayout.FILL},
+                            new double[]{TableLayout.FILL}
+                    ),
+                    BorderLayout.CENTER);
+
+
+            this.setSize(340, 180);
+            this.setTitle(Toolkit.i18nText("Fine-Design_Basic_Mkdir"));
+            this.setResizable(false);
+            this.setAlwaysOnTop(true);
+            this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+            this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            GUICoreUtils.centerWindow(this);
+            this.setVisible(true);
+        }
+
+        private void confirmClose() {
+            String userInput = nameField.getText().trim();
+
+            if (StringUtils.isEmpty(userInput)) {
+                return;
+            }
+
+            //新建文件夹
+            boolean success = selectedOperation.mkdir(
+                    selectedOperation.getFileNode().getParent() + CoreConstants.SEPARATOR + userInput
+            );
+            selectedOperation.refresh();
+            this.dispose();
+            if (!success) {
+                JOptionPane.showConfirmDialog(null,
+                        Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
+                        UIManager.getString("OptionPane.titleText"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+
+        private void validInput() {
+            String userInput = nameField.getText().trim();
+
+
+            if (StringUtils.isEmpty(userInput)) {
+                confirmButton.setEnabled(false);
+            }
+
+            if (selectedOperation.duplicated(userInput, StringUtils.EMPTY)) {
+                nameField.selectAll();
+                // 如果文件名已存在，则灰掉确认按钮
+                warnLabel.setText(
+                        Toolkit.i18nText(
+                                "Fine-Design_Basic_Folder_Name_Duplicate",
+                                userInput));
+                warnLabel.setVisible(true);
+                confirmButton.setEnabled(false);
+            } else {
+                warnLabel.setVisible(false);
+                confirmButton.setEnabled(true);
+            }
+        }
+    }
+
+
 }

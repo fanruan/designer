@@ -2,17 +2,13 @@ package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
+import com.fr.design.file.NodeAuthProcessor;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.file.filetree.FileNode;
-import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.authority.AuthorityOperator;
 
 import javax.swing.text.Position;
 import javax.swing.tree.DefaultTreeModel;
@@ -25,12 +21,6 @@ import java.util.List;
  * 显示Env下的reportlets目录下面的所有cpt文件
  */
 public class TemplateFileTree extends EnvFileTree {
-
-
-    /**
-     * 远程设计拥有全部权限的文件夹路径
-     */
-    private ArrayList<String> paths = new ArrayList<>();
 
     public TemplateFileTree() {
         super(ProjectConstants.REPORTLETS_NAME, null, null);
@@ -79,9 +69,31 @@ public class TemplateFileTree extends EnvFileTree {
             }
         }
 
-
         return selectedPathList.toArray(new String[0]);
     }
+
+    public String[] getSelectedFolderPaths() {
+        TreePath[] selectedTreePaths = this.getSelectionPaths();
+        if (ArrayUtils.isEmpty(selectedTreePaths)) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        List<String> selectedPathList = new ArrayList<String>();
+        for (TreePath treepath : selectedTreePaths) {
+            ExpandMutableTreeNode currentTreeNode = (ExpandMutableTreeNode) treepath.getLastPathComponent();
+            Object userObject = currentTreeNode.getUserObject();
+            if (userObject instanceof FileNode) {
+                FileNode fn = (FileNode) userObject;
+                if (fn.isDirectory()) {
+                    String envPath = fn.getEnvPath();
+                    if (envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
+                        selectedPathList.add(envPath.substring(ProjectConstants.REPORTLETS_NAME.length()));
+                    }
+                }
+            }
+        }
+        return selectedPathList.toArray(new String[0]);
+    }
+
 
     @Override
     public TreePath getNextMatch(String prefix, int startingRow, Position.Bias bias) {
@@ -122,37 +134,11 @@ public class TemplateFileTree extends EnvFileTree {
      */
     @Override
     public void refreshEnv() {
-        paths.clear();
-
-        if (!WorkContext.getCurrent().isLocal()) {
-            try {
-                String username = WorkContext.getConnector().currentUser();
-                // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
-                DesignAuthority authority = null;
-
-                if (authorities != null) {
-                    for (DesignAuthority designAuthority : authorities) {
-                        if (ComparatorUtils.equals(designAuthority.getUsername(), username)) {
-                            authority = designAuthority;
-                        }
-                    }
-                }
-                if (authority != null) {
-                    for (DesignAuthority.Item item : authority.getItems()) {
-                        if (item.getType()) {
-                            paths.add(item.getPath());
-                        }
-                    }
-                }
-            } catch (Exception exception) {
-                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
-            }
-        }
-
+        NodeAuthProcessor.getInstance().refresh();
 
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
+        NodeAuthProcessor.getInstance().fixTreeNodeAuth(rootTreeNode);
         rootTreeNode.removeAllChildren();
 
         FileNode[] fns;
@@ -178,64 +164,34 @@ public class TemplateFileTree extends EnvFileTree {
     }
 
     @Override
-    protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
-    
+    public ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode treeNode) {
+
         FileNode[] fnArray = listFileNodes(treeNode);
-    
+
         return fileNodeArray2TreeNodeArray(fnArray);
+    }
+
+
+    public ExpandMutableTreeNode[] getSelectedTreeNodes() {
+        TreePath[] paths = this.getSelectionPaths();
+
+        if (paths == null) {
+            return new ExpandMutableTreeNode[0];
+        }
+
+        ArrayList<ExpandMutableTreeNode> res = new ArrayList<>();
+
+        for (TreePath path : paths) {
+            res.add((ExpandMutableTreeNode) path.getLastPathComponent());
+        }
+        return res.toArray(new ExpandMutableTreeNode[res.size()]);
     }
 
     /*
      * 把FileNode[]转成ExpandMutableTreeNode[]
      */
     private ExpandMutableTreeNode[] fileNodeArray2TreeNodeArray(FileNode[] fileNodes) {
-        boolean isLocal = WorkContext.getCurrent().isLocal();
-        boolean isRoot = WorkContext.getCurrent().isRoot();
-        ExpandMutableTreeNode[] res = new ExpandMutableTreeNode[fileNodes.length];
-        for (int i = 0; i < res.length; i++) {
-            FileNode fn = fileNodes[i];
-            res[i] = new ExpandMutableTreeNode(fn);
-            if (fn.isDirectory()) {
-                res[i].add(new ExpandMutableTreeNode());
-                if (isLocal || isRoot) {
-                    res[i].setFullAuthority(true);
-                } else {
-                    boolean hasFullAuthority = isContained(fn);
-                    res[i].setFullAuthority(hasFullAuthority);
-                }
-            }
-        }
-        return res;
-    }
-
-    private boolean isContained(FileNode fileNode) {
-
-        for (String auPath : paths) {
-            if (isContained(auPath, fileNode)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isContained(String auPath, FileNode fileNode) {
-        auPath = ProjectConstants.REPORTLETS_NAME + CoreConstants.SEPARATOR + auPath;
-        String fileName = fileNode.getEnvPath();
-        String[] auPaths = auPath.split(CoreConstants.SEPARATOR);
-        String[] nodePaths = fileName.split(CoreConstants.SEPARATOR);
-        // 待判断目录是有权限目录或者有权限目录的子目录，全部权限
-        if (auPaths.length <= nodePaths.length) {
-            for (int i = 0; i < auPaths.length; i++) {
-                if (!auPaths[i].equals(nodePaths[i])) {
-                    return false;
-                }
-            }
-            return fileNode.isDirectory();
-        }
-        // 其他情况半权限
-        else {
-            return false;
-        }
+        return NodeAuthProcessor.getInstance().parser2TreeNodeArray(fileNodes);
     }
 
 
@@ -270,7 +226,7 @@ public class TemplateFileTree extends EnvFileTree {
      * 求当前TreeNode下所有的FileNode.
      */
     private FileNode[] listFileNodes(ExpandMutableTreeNode currentTreeNode) {
-    
+
         if (currentTreeNode == null) {
             return new FileNode[0];
         }
@@ -278,12 +234,10 @@ public class TemplateFileTree extends EnvFileTree {
         Object object = currentTreeNode.getUserObject();
 
         if (object instanceof FileNode) {
-    
+
             return this.listFileNodes(((FileNode) object).getEnvPath());
         }
 
         return new FileNode[0];
     }
-
-
 }

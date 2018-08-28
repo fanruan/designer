@@ -3,17 +3,19 @@ package com.fr.file;
 import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
-import com.fr.file.filetree.LocalFileNodes;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.DefaultCompletionFilter;
 import com.fr.design.gui.itextfield.UIAutoCompletionField;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -21,37 +23,63 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.FileNode;
+import com.fr.file.filetree.LocalFileNodes;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.windows.WindowsDetector;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.AbstractListModel;
+import javax.swing.ActionMap;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -68,6 +96,7 @@ import java.util.regex.Pattern;
  * 该文件选择器，整理行为如下：
  */
 public class FILEChooserPane extends BasicPane {
+
     /**
      * Return value if OK is chosen.
      */
@@ -81,17 +110,22 @@ public class FILEChooserPane extends BasicPane {
 
     public static final int JOPTIONPANE_CANCEL_OPTION = 3;
 
+
+    /**
+     * alex:之所以在Pattern那里加个+,是因为有些路径会有两个甚至多个分隔符放在一起
+     */
+    private static final Pattern SEPARATOR_PATTERN = Pattern.compile("[/\\\\]+");
+
     private static final FILEChooserPane INSTANCE = new FILEChooserPane();
 
-    public FILE currentDirectory; // 当前路径,在subFileList中显示这个路径下所有的文件
+    private FILE currentDirectory; // 当前路径,在subFileList中显示这个路径下所有的文件
 
-    private List<FILEFilter> filterList = new ArrayList<FILEFilter>();
+    private List<FILEFilter> filterList = new ArrayList<>();
     private FILEFilter filter;
 
     private LocationButtonPane locationBtnPane; // 显示location的Panel
-    private UIButton createFolderButton;
+    private UIButton mkdirButton;
 
-    private PlaceListModel model;
     private JList placesList; // File.listRoots() + Env + Favourite
     private JList subFileList; // 当前选中目录下的文件夹及文件
 
@@ -100,7 +134,6 @@ public class FILEChooserPane extends BasicPane {
     private UIComboBox postfixComboBox; // 文件后缀名的下拉列表框
 
     private UIButton okButton;
-    private UIButton cancelButton;
 
 
     protected int type;
@@ -110,7 +143,7 @@ public class FILEChooserPane extends BasicPane {
 
     private UIDialog dialog;
 
-    private int returnValue = CANCEL_OPTION;
+    private int option = CANCEL_OPTION;
 
     protected String suffix;
 
@@ -138,7 +171,7 @@ public class FILEChooserPane extends BasicPane {
         INSTANCE.showEnv = showEnv;
         INSTANCE.showLoc = showLoc;
         INSTANCE.showWebReport = false;
-        INSTANCE.setModelOfPlaceList();
+        INSTANCE.setPlaceListModel();
         INSTANCE.removeAllFilter();
         return INSTANCE;
     }
@@ -150,7 +183,7 @@ public class FILEChooserPane extends BasicPane {
      */
     public static FILEChooserPane getInstance(boolean showEnv, FILEFilter filter) {
         INSTANCE.showEnv = showEnv;
-        INSTANCE.setModelOfPlaceList();
+        INSTANCE.setPlaceListModel();
         INSTANCE.removeAllFilter();
         INSTANCE.addChooseFILEFilter(filter, 0);
         return INSTANCE;
@@ -166,7 +199,7 @@ public class FILEChooserPane extends BasicPane {
         INSTANCE.showEnv = showEnv;
         INSTANCE.showLoc = showLoc;
         INSTANCE.showWebReport = false;
-        INSTANCE.setModelOfPlaceList();
+        INSTANCE.setPlaceListModel();
         INSTANCE.removeAllFilter();
         INSTANCE.addChooseFILEFilter(filter, 0);
         return INSTANCE;
@@ -183,7 +216,7 @@ public class FILEChooserPane extends BasicPane {
         INSTANCE.showEnv = showEnv;
         INSTANCE.showLoc = showLoc;
         INSTANCE.showWebReport = showWebReport;
-        INSTANCE.setModelOfPlaceList();
+        INSTANCE.setPlaceListModel();
         INSTANCE.removeAllFilter();
         INSTANCE.addChooseFILEFilterToFist(filter, 0);
         return INSTANCE;
@@ -202,7 +235,7 @@ public class FILEChooserPane extends BasicPane {
         actionMap.put("dialogExit", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                returnValue = CANCEL_OPTION;
+                option = CANCEL_OPTION;
                 dialogExit();
             }
         });
@@ -211,8 +244,8 @@ public class FILEChooserPane extends BasicPane {
         // locationPane.setLayout(FRGUIPaneFactory.createBorderLayout());
         locationPane.add(locationBtnPane = new LocationButtonPane(), BorderLayout.CENTER);
 
-        createFolderButton = createFolderButton();
-        locationPane.add(createFolderButton, BorderLayout.EAST);
+        mkdirButton = initMkdirButton();
+        locationPane.add(mkdirButton, BorderLayout.EAST);
 
         JPanel centerLeftPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         // centerLeftPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -222,32 +255,161 @@ public class FILEChooserPane extends BasicPane {
         centerLeftPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         centerLeftPanel.setPreferredSize(new Dimension(120, 1));
         placesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        placesList.setCellRenderer(placelistRenderer);
-        placesList.addListSelectionListener(placeListener);
-        placesList.addMouseListener(placeMouseListener);
+        placesList.setCellRenderer(new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (value instanceof FILE) {
+                    FILE dir = (FILE) value;
+
+                    String name = dir.getName();
+                    if (name != null && !StringUtils.isBlank(name)) {
+                        this.setText(name);
+                    } else {
+                        this.setText(GeneralContext.getCurrentAppNameOfEnv());
+                    }
+                    Icon icon = dir.getIcon();
+                    if (icon != null) {
+                        this.setIcon(icon);
+                    }
+                }
+
+                return this;
+            }
+
+        });
+        // placeList listener
+        placesList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Object selValue = placesList.getSelectedValue();
+                if (selValue instanceof FILE) {
+                    setSelectedDirectory((FILE) selValue);
+                }
+            }
+        });
+        /*
+         * placeList mouseListener
+         */
+        placesList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Object selValue = placesList.getSelectedValue();
+                if (selValue instanceof FILE) {
+                    setSelectedDirectory((FILE) selValue);
+                }
+            }
+        });
 
         // centerRightPane
         JPanel centerRightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         JPanel subFilePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        // subFilePanel.setLayout(FRGUIPaneFactory.createBorderLayout()); //
-        // TODO alex_GUI
         // 以后rightPanel要用JTable
-        subFileList = new JList(new DefaultListModel());
-        subFileList.setCellRenderer(listRenderer);
-        subFileList.addMouseListener(subFileListMouseListener);
-        subFileList.addKeyListener(subFileListKeyListener);
+        subFileList = new JList(new DefaultListModel<>());
+        /*
+         * JList的CellRenderer
+         */
+        subFileList.setCellRenderer(new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+                if (value instanceof FILE) {
+                    FILE dir = (FILE) value;
+
+                    String name = dir.getName();
+                    if (name != null) {
+                        this.setText(name);
+                    }
+                    Icon icon = dir.getIcon();
+                    if (icon != null) {
+                        this.setIcon(icon);
+                    }
+                }
+
+                return this;
+            }
+
+        });
+        /*
+         * 鼠标点击JList时的listener
+         */
+        subFileList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Object source = e.getSource();
+                if (!(source instanceof JList)) {
+                    return;
+                }
+
+                if (e.getClickCount() < 1) {
+                    return;
+                }
+
+                JList list = (JList) source;
+
+                Object selValue = list.getSelectedValue();
+                if (selValue instanceof FILE) {
+                    if (e.getClickCount() == 1) {
+                        fileNameTextField.removeDocumentListener();
+                        setFileTextField((FILE) selValue);
+                        fileNameTextField.addDocumentListener();
+                    } else {
+                        setSelectedDirectory((FILE) selValue);
+                        if (!((FILE) selValue).isDirectory()) {
+                            doOK();
+                        }
+                    }
+                }
+            }
+        });
+        /*
+         * right list.
+         */
+        // Richie:按下Enter的时候打开文件夹或者打开文件
+        subFileList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                Object source = e.getSource();
+                if (!(source instanceof JList)) {
+                    return;
+                }
+
+                JList list = (JList) source;
+
+                Object selValue = list.getSelectedValue();
+                if (selValue instanceof FILE) {
+                    setFileTextField((FILE) selValue);
+                    // if (((FILE)selValue).isDirectory()) {
+                    // fileNameTextField.setText("");
+                    // }
+                    // Richie:按下Enter的时候打开文件夹或者打开文件
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        setSelectedDirectory((FILE) selValue);
+                        if (!((FILE) selValue).isDirectory()) {
+                            doOK();
+                        }
+                    }
+                }
+
+            }
+        });
         scrollPane = new JScrollPane(subFileList);
         subFilePanel.add(scrollPane, BorderLayout.CENTER);
         centerRightPane.add(subFilePanel, BorderLayout.CENTER);
 
         // 用createTableLayoutPane布局下fileNamePane
+        UIButton cancelButton;
         Component[][] coms = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_File_Name") + ":"), BorderLayout.WEST),
-                        fileNameTextField = new UIAutoCompletionField(), okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_File_Open"))
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Toolkit.i18nText("Fine-Design_Basic_Utils_File_Name") + ":"), BorderLayout.WEST),
+                        fileNameTextField = new UIAutoCompletionField(), okButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Utils_Design_File_Open"))
                 },
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"), BorderLayout.WEST),
-                        postfixComboBox = new UIComboBox(), cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_Action_Cancel"))
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"), BorderLayout.WEST),
+                        postfixComboBox = new UIComboBox(), cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Utils_Design_Action_Cancel"))
                 }};
 
         JPanel fileNamePane = TableLayoutHelper.createGapTableLayoutPane(coms, new double[]{TableLayout.PREFERRED, TableLayout.PREFERRED,
@@ -255,7 +417,7 @@ public class FILEChooserPane extends BasicPane {
         centerRightPane.add(fileNamePane, BorderLayout.SOUTH);
 
         Component[][] outComponents = new Component[][]{
-                new Component[]{GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
+                new Component[]{GUICoreUtils.createBorderPane(new UILabel(Toolkit.i18nText("Fine-Design_Basic_App_File_Lookup_range") + ":"), BorderLayout.WEST), locationPane},
                 new Component[]{centerLeftPanel, centerRightPane}};
         JPanel contentPane = TableLayoutHelper.createTableLayoutPane(outComponents, new double[]{TableLayout.PREFERRED, TableLayout.FILL},
                 new double[]{TableLayout.PREFERRED, TableLayout.FILL});
@@ -269,7 +431,7 @@ public class FILEChooserPane extends BasicPane {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                returnValue = CANCEL_OPTION;
+                option = CANCEL_OPTION;
                 doCancel();
             }
         });
@@ -277,7 +439,7 @@ public class FILEChooserPane extends BasicPane {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    returnValue = CANCEL_OPTION;
+                    option = CANCEL_OPTION;
                     doOK();
                 }
             }
@@ -309,7 +471,7 @@ public class FILEChooserPane extends BasicPane {
         this();
         this.showEnv = showEnv;
         this.showLoc = showLoc;
-        this.setModelOfPlaceList();
+        this.setPlaceListModel();
     }
 
 
@@ -320,7 +482,7 @@ public class FILEChooserPane extends BasicPane {
      */
     public FILE getSelectedFILE() {
         String fileName = fileNameTextField.getText().trim();
-        if (!fileName.endsWith(suffix) && fileName.indexOf(CoreConstants.DOT) == -1) {
+        if (!fileName.endsWith(suffix) && !fileName.contains(CoreConstants.DOT)) {
             fileName += this.suffix;
         }
         if (currentDirectory == null) {
@@ -334,7 +496,7 @@ public class FILEChooserPane extends BasicPane {
     }
 
     protected String getEnvProjectName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Report_Env_Directory");
+        return Toolkit.i18nText("Fine-Design_Basic_Utils_Report_Env_Directory");
     }
 
     /**
@@ -359,9 +521,6 @@ public class FILEChooserPane extends BasicPane {
         }
         this.filterList.add(index, filter);
     }
-
-    // August:上面的方法在包含时直接return了，应该把改filter放在第一个
-    // 不然在多次打开两个FILEchooserpane时，filter会出错
 
     /**
      * 若是已经存在，则将之删去之后，在指定的位置增加
@@ -427,22 +586,15 @@ public class FILEChooserPane extends BasicPane {
         fileNameTextField.removeDocumentListener();
         fileNameTextField.setText(text);
         fileNameTextField.addDocumentListener();
-        if (currentDirectory != null) {
+        if (currentDirectory == null) {
             return;
         }
-        FILE[] res_array = currentDirectory.listFiles();
-        String[] name_array = new String[res_array.length];
-        for (int i = 0; i < res_array.length; i++) {
-            name_array[i] = res_array[i].getName();
+        FILE[] files = currentDirectory.listFiles();
+        String[] names = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            names[i] = files[i].getName();
         }
-        fileNameTextField.setFilter(new DefaultCompletionFilter(name_array));
-    }
-
-    /**
-     * @return
-     */
-    public String getFileNameTextField() {
-        return this.fileNameTextField.getText();
+        fileNameTextField.setFilter(new DefaultCompletionFilter(names));
     }
 
 
@@ -514,7 +666,7 @@ public class FILEChooserPane extends BasicPane {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                returnValue = CANCEL_OPTION;
+                option = CANCEL_OPTION;
                 dialogExit();
             }
         });
@@ -527,15 +679,13 @@ public class FILEChooserPane extends BasicPane {
         chooseType();
         // richer:当文件类型被选定时,显示的文件就仅仅显示被选定的类型
         // 如果是保存对话框,给个默认名字
-        if (type == JFileChooser.SAVE_DIALOG) {
-            this.getFileNameTextField();
-        } else {
+        if (type != JFileChooser.SAVE_DIALOG) {
             fileNameTextField.removeDocumentListener();
             fileNameTextField.setText("");
             fileNameTextField.addDocumentListener();
         }
         dialog.setVisible(true);
-        return returnValue;
+        return option;
     }
 
     protected void fileType() {
@@ -546,39 +696,39 @@ public class FILEChooserPane extends BasicPane {
             EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
             if (type == JFileChooser.OPEN_DIALOG) {
                 if (WorkContext.getCurrent().isLocal()) { //本地连接
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
                 } else {
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
                 }
             }
 
             // ben:filefilter设置初值为cpt过滤
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
 
             // richer:form文件 daniel 改成三个字
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
         } else {
             if (type == JFileChooser.OPEN_DIALOG) {
-                this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));
+                this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));
             }
         }
 
         // 添加 xls 文件类型过滤 kt
         if (WorkContext.getCurrent().isLocal()) {  //本地连接
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Excel2007_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLS, Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.XLSX, Toolkit.i18nText("Fine-Design_Basic_Import_Excel2007_Source")));
         }
         if (FileExtension.PNG.matchExtension(suffix)) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Export_png")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PNG, Toolkit.i18nText("Fine-Design_Basic_App_Export_png")));
         }
         if (type == JFileChooser.SAVE_DIALOG) {
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Export_PDF")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.SVG, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Export_SVG")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Export_CSV")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.DOC, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Export_Word")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.TXT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Import_Export_Text")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.PDF, Toolkit.i18nText("Fine-Design_Basic_Import_Export_PDF")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.SVG, Toolkit.i18nText("Fine-Design_Basic_Import_Export_SVG")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CSV, Toolkit.i18nText("Fine-Design_Basic_Import_Export_CSV")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.DOC, Toolkit.i18nText("Fine-Design_Basic_Import_Export_Word")));
+            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.TXT, Toolkit.i18nText("Fine-Design_Basic_Import_Export_Text")));
         }
 
     }
@@ -586,12 +736,12 @@ public class FILEChooserPane extends BasicPane {
     private void chooseType() {
         DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) postfixComboBox.getModel();
         defaultComboBoxModel.removeAllElements();
-        for (FILEFilter aFilterList : filterList) {
-            defaultComboBoxModel.addElement(aFilterList);
+        for (FILEFilter filter : filterList) {
+            defaultComboBoxModel.addElement(filter);
         }
         if (WorkContext.getCurrent().isLocal()) {  //本地连接
             if (!showWebReport) {
-                defaultComboBoxModel.addElement(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_App_AllFiles") + "(*.*)");
+                defaultComboBoxModel.addElement(Toolkit.i18nText("Fine-Design_Basic_Utils_App_AllFiles") + "(*.*)");
             }
         }
         // 默认选取的文件类型(.cpt)类型
@@ -643,11 +793,11 @@ public class FILEChooserPane extends BasicPane {
             if (this.subFileList.getSelectedValue() == null) {
                 FILE file = this.getSelectedFILE();
                 if (file.exists()) {
-                    returnValue = OK_OPTION;
+                    option = OK_OPTION;
                     saveDictionary();
                     dialogExit();
                 } else {
-                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Template_Report_Not_Exist"));
+                    JOptionPane.showMessageDialog(this, Toolkit.i18nText("Fine-Design_Basic_App_Template_Report_Not_Exist"));
                     return;
                 }
             }
@@ -657,7 +807,7 @@ public class FILEChooserPane extends BasicPane {
             if (selectedSubFile != null && selectedSubFile.isDirectory()) {
                 setSelectedDirectory((FILE) this.subFileList.getSelectedValue());
             } else {
-                returnValue = OK_OPTION;
+                option = OK_OPTION;
                 saveDictionary();
                 dialogExit();
             }
@@ -678,34 +828,42 @@ public class FILEChooserPane extends BasicPane {
                 fileNameTextField.setText(filename + this.suffix);
             }
         }
-        returnValue = OK_OPTION;
+        option = OK_OPTION;
         FILE selectedFile = this.getSelectedFILE();
-        boolean access = false;
 
+        if (access(selectedFile) && access(currentDirectory)) {
+            if (selectedFile.exists()) {
+                int selVal = JOptionPane.showConfirmDialog(dialog, Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Cover_The_Current_File") + " ?",
+                        ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (selVal == JOptionPane.YES_OPTION) {
+                    option = JOPTIONPANE_OK_OPTION;
+                    saveDictionary();
+                    dialogExit();
+                } else {
+                    option = JOPTIONPANE_CANCEL_OPTION;
+                }
+
+            } else {
+                dialogExit();
+                saveDictionary();
+            }
+        } else {
+            JOptionPane.showMessageDialog(FILEChooserPane.this, Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+
+    private boolean access(FILE selectedFile) {
+        boolean access = false;
         try {
             access = FRContext.getOrganizationOperator().canAccess(selectedFile.getPath());
+            if (selectedFile.isEnvFile() && selectedFile instanceof FileNodeFILE) {
+                access = access && ((FileNodeFILE) selectedFile).hasFullAuth();
+            }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-        if (!access) {
-            JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (selectedFile.exists()) {
-            int selVal = JOptionPane.showConfirmDialog(dialog, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Cover_The_Current_File") + " ?",
-                    ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            if (selVal == JOptionPane.YES_OPTION) {
-                returnValue = JOPTIONPANE_OK_OPTION;
-                saveDictionary();
-                dialogExit();
-            } else {
-                returnValue = JOPTIONPANE_CANCEL_OPTION;
-            }
-
-        } else {
-            dialogExit();
-            saveDictionary();
-        }
+        return access;
     }
 
     private void saveDictionary() {
@@ -730,18 +888,11 @@ public class FILEChooserPane extends BasicPane {
         dialog = null;
     }
 
-    /**
-     * @return
-     */
-    public int getReturnValue() {
-        return this.returnValue;
-    }
-
     /*
      * dialog的名字
      */
     private String dialogName() {
-        return type == JFileChooser.OPEN_DIALOG ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_File_Open") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Template_Save");
+        return type == JFileChooser.OPEN_DIALOG ? Toolkit.i18nText("Fine-Design_Basic_Utils_Design_File_Open") : Toolkit.i18nText("Fine-Design_Basic_App_Template_Save");
     }
 
     /*
@@ -756,7 +907,6 @@ public class FILEChooserPane extends BasicPane {
         for (int i = 0, len = model.getSize(); i < len; i++) {
             if (ComparatorUtils.equals(name, ((FILE) model.getElementAt(i)).getName())) {
                 subFileList.setSelectedIndex(i);
-                // TODO alex_GUI 怎么ScrollIntoView?
                 break;
             }
         }
@@ -782,20 +932,12 @@ public class FILEChooserPane extends BasicPane {
                 };
             }
             if (FILEChooserPane.this.showWebReport) {
-                // webReportFILE = new FileFILE(new
-                // File(FRContext.getCommonOperator().getWebReportPath()));
                 webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
-                // String webReportPath =
-                // FRContext.getCommonOperator().getWebReportPath();
-                // String webReportParentPath = new
-                // File(webReportPath).getParent();
-                // webReportFILE = new FileNodeFILE(new FileNode("WebReport",
-                // true),webReportParentPath);
             }
             if (FILEChooserPane.this.showLoc) {
 
 
-                if (OperatingSystem.isWindows()) {
+                if (WindowsDetector.detect(true)) {
                     // windows下展示桌面
                     File[] desktop = FileSystemView.getFileSystemView().getRoots();
                     if (desktop != null) {
@@ -805,7 +947,8 @@ public class FILEChooserPane extends BasicPane {
                             }
                         }
                     }
-                } else { // *nix下展示家目录
+                } else {
+                    // *nix下展示家目录
                     filesOfSystem.add(new FileFILE(FileSystemView.getFileSystemView().getDefaultDirectory()));
                 }
 
@@ -847,11 +990,11 @@ public class FILEChooserPane extends BasicPane {
             }
         }
 
-        private void setCD(final FILE lastdirctory) {
+        private void setCD(final FILE lastDirectory) {
             for (int i = 0; i < this.getSize(); i++) {
                 FILE file = this.getElementAt(i);
-                if (ComparatorUtils.equals(lastdirctory.prefix(), file.prefix())) {
-                    setCurrentDirectory(lastdirctory);
+                if (ComparatorUtils.equals(lastDirectory.prefix(), file.prefix())) {
+                    setCurrentDirectory(lastDirectory);
                     return;
                 }
             }
@@ -859,16 +1002,17 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
-    protected void setModelOfPlaceList() {
+    private void setPlaceListModel() {
         if (placesList == null) {
             return;
         }
-        model = new PlaceListModel();
+        PlaceListModel model = new PlaceListModel();
         placesList.setModel(model);
-        String lastdirctorypath = DesignerEnvManager.getEnvManager().getDialogCurrentDirectory();
+        String lastDirectoryPath = DesignerEnvManager.getEnvManager().getDialogCurrentDirectory();
         String prefix = DesignerEnvManager.getEnvManager().getCurrentDirectoryPrefix();
-        FILE lastdirctory = FILEFactory.createFolder(prefix + lastdirctorypath);
-        model.setCD(lastdirctory);
+        FILE lastDirectory = FILEFactory.createFolder(prefix + lastDirectoryPath);
+
+        model.setCD(lastDirectory);
 
         if (currentDirectory != null) {
             return;
@@ -884,159 +1028,10 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
-    private ListCellRenderer placelistRenderer = new DefaultListCellRenderer() {
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (value instanceof FILE) {
-                FILE dir = (FILE) value;
-
-                String name = dir.getName();
-                if (name != null && !StringUtils.isBlank(name)) {
-                    this.setText(name);
-                } else {
-                    this.setText(GeneralContext.getCurrentAppNameOfEnv());
-                }
-                Icon icon = dir.getIcon();
-                if (icon != null) {
-                    this.setIcon(icon);
-                }
-            }
-
-            return this;
-        }
-
-    };
-    /*
-     * JList的CellRenderer
-     */
-    private ListCellRenderer listRenderer = new DefaultListCellRenderer() {
-
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-
-            if (value instanceof FILE) {
-                FILE dir = (FILE) value;
-
-                String name = dir.getName();
-                if (name != null) {
-                    this.setText(name);
-                }
-                Icon icon = dir.getIcon();
-                if (icon != null) {
-                    this.setIcon(icon);
-                }
-            }
-
-            return this;
-        }
-
-    };
-    // placeList listener
-    ListSelectionListener placeListener = new ListSelectionListener() {
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            Object selValue = placesList.getSelectedValue();
-            if (selValue instanceof FILE) {
-                setSelectedDirectory((FILE) selValue);
-            }
-        }
-    };
-
-    /**
-     * placeList mouseListener
-     */
-    private MouseListener placeMouseListener = new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            Object selValue = placesList.getSelectedValue();
-            if (selValue instanceof FILE) {
-                setSelectedDirectory((FILE) selValue);
-            }
-        }
-    };
-
-    /**
-     * right list.
-     */
-    private KeyListener subFileListKeyListener = new KeyAdapter() {
-        @Override
-        public void keyReleased(KeyEvent e) {
-            Object source = e.getSource();
-            if (!(source instanceof JList)) {
-                return;
-            }
-
-            JList list = (JList) source;
-
-            Object selValue = list.getSelectedValue();
-            if (selValue instanceof FILE) {
-                setFileTextField((FILE) selValue);
-                // if (((FILE)selValue).isDirectory()) {
-                // fileNameTextField.setText("");
-                // }
-                // Richie:按下Enter的时候打开文件夹或者打开文件
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    setSelectedDirectory((FILE) selValue);
-                    if (!((FILE) selValue).isDirectory()) {
-                        doOK();
-                    }
-                }
-            }
-
-        }
-    };
-    /*
-     * 鼠标点击JList时的listener
-     */
-    private MouseListener subFileListMouseListener = new MouseAdapter() {
-        @Override
-        public void mousePressed(MouseEvent e) {
-            Object source = e.getSource();
-            if (!(source instanceof JList)) {
-                return;
-            }
-
-            if (e.getClickCount() < 1) {
-                return;
-            }
-
-            JList list = (JList) source;
-
-            Object selValue = list.getSelectedValue();
-            if (selValue instanceof FILE) {
-                if (e.getClickCount() == 1) {
-                    fileNameTextField.removeDocumentListener();
-                    setFileTextField((FILE) selValue);
-                    fileNameTextField.addDocumentListener();
-                } else {
-                    setSelectedDirectory((FILE) selValue);
-                    if (!((FILE) selValue).isDirectory()) {
-                        doOK();
-                    }
-                }
-            }
-        }
-    };
-
     /*
      * 选中文件
      */
     private void setFileTextField(FILE file) {
-        // clickedFILE = file;
-
-        // String okButtonText;
-        // if (file != null && file.isDirectory()
-        // && this.fileNameTextField.getText().length() == 0) {
-        // okButtonText = com.fr.design.i18n.Toolkit.i18nText("Open");// + "(O)";
-        // } else {
-        // okButtonText = dialogName();
-        // }
-        // okButton.setText(okButtonText);
-
         if (file != null && !file.isDirectory()) {
             fileNameTextField.setText(file.getName());
             if (file instanceof FileFILE) {
@@ -1066,7 +1061,7 @@ public class FILEChooserPane extends BasicPane {
                 for (int i = 0; i < defaultListModel.getSize(); i++) {
                     if (defaultListModel.getElementAt(i) instanceof FileFILE) {
                         FileFILE popDir = (FileFILE) defaultListModel.getElementAt(i);
-                        if (popDir != null && dir != null && dir.getPath().indexOf(popDir.getPath()) == 0) {
+                        if (popDir != null && dir.getPath().indexOf(popDir.getPath()) == 0) {
                             placesList.setSelectedIndex(i);
                             break;
                         }
@@ -1089,7 +1084,7 @@ public class FILEChooserPane extends BasicPane {
         currentDirectory = dir;
 
         this.locationBtnPane.populate(currentDirectory);
-        this.createFolderButton.setEnabled(currentDirectory != null);
+        this.mkdirButton.setEnabled(currentDirectory != null);
 
         refreshSubFileListModel();
     }
@@ -1127,7 +1122,7 @@ public class FILEChooserPane extends BasicPane {
         private BasicArrowButton leftArrowButton;
         private BasicArrowButton rightArrowButton;
 
-        private List<UIButton> buttonList = new ArrayList<UIButton>();
+        private List<UIButton> buttonList = new ArrayList<>();
         private int pathIndex = 0;
         private int maxPathIndex = 0;
 
@@ -1198,7 +1193,6 @@ public class FILEChooserPane extends BasicPane {
             if (dir == null) {
                 return;
             }
-
             String path = dir.getPath();
             isWebAppNamePath = ComparatorUtils.equals(dir.prefix(), FILEFactory.WEBREPORT_PREFIX);
             // 确保最后一个字符是分隔符
@@ -1209,9 +1203,7 @@ public class FILEChooserPane extends BasicPane {
             if (StringUtils.isBlank(path) && isWebAppNamePath) {
                 this.buttonList.add(createBlankButton(new SetDirectoryAction(webAppName + '/')));
             }
-
-            Pattern seperatorPattern = Pattern.compile("[/\\\\]+"); // alex:之所以在Pattern那里加个+,是因为有些路径会有两个甚至多个分隔符放在一起
-            Matcher matcher = seperatorPattern.matcher(path);
+            Matcher matcher = SEPARATOR_PATTERN.matcher(path);
             int node_start = 0;
             while (matcher.find()) {
                 int start = matcher.start();
@@ -1223,7 +1215,7 @@ public class FILEChooserPane extends BasicPane {
                 this.buttonList.add(createBlankButton((new SetDirectoryAction(btn_text + '/',
                         // alex:dir.prefix不和btn_path一起参与pathJoin,因为btn_path是否以/打头在unix,linux
                         // OS中意义很不一样
-                        FILEFactory.createFolder(dir.prefix() + StableUtils.pathJoin(new String[]{btn_path, "/"}))))));
+                        FILEFactory.createFolder(dir.prefix() + StableUtils.pathJoin(btn_path, "/"))))));
                 node_start = matcher.end();
             }
             maxPathIndex = calculateMaxPathIndex();
@@ -1350,40 +1342,44 @@ public class FILEChooserPane extends BasicPane {
 
 
     private UIButton createBlankButton(SetDirectoryAction setDirectoryAction) {
+
+        final Color brighter = this.getBackground().brighter();
+        final Color darker = this.getBackground().darker();
+
         final UIButton blankButton = new UIButton(setDirectoryAction);
         blankButton.setMargin(new Insets(0, 0, 0, 0));
         blankButton.setUI(new BasicButtonUI());
         blankButton.setHorizontalTextPosition(SwingConstants.CENTER);
         blankButton.setBorderPainted(false);
         blankButton.setBorder(BorderFactory.createRaisedBevelBorder());
-        blankButton.setBackground(FILEChooserPane.this.getBackground().darker());
+        blankButton.setBackground(darker);
         blankButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                blankButton.setBackground(FILEChooserPane.this.getBackground().brighter());
+                blankButton.setBackground(brighter);
                 blankButton.setBorderPainted(true);
-                repaint();
+                blankButton.repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                blankButton.setBackground(FILEChooserPane.this.getBackground().darker());
+                blankButton.setBackground(darker);
                 blankButton.setBorderPainted(false);
-                repaint();
+                blankButton.repaint();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                blankButton.setBackground(FILEChooserPane.this.getBackground().brighter());
+                blankButton.setBackground(brighter);
                 blankButton.setBorderPainted(false);
-                repaint();
+                blankButton.repaint();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                blankButton.setBackground(FILEChooserPane.this.getBackground().brighter());
+                blankButton.setBackground(darker);
                 blankButton.setBorderPainted(true);
-                repaint();
+                blankButton.repaint();
             }
 
 
@@ -1391,61 +1387,218 @@ public class FILEChooserPane extends BasicPane {
         return blankButton;
     }
 
-
-    private ActionListener createFolderActionListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            if (currentDirectory == null) {
-                return;
-            }
-
-            boolean access = false;
-            try {
-                access = FRContext.getOrganizationOperator().canAccess(currentDirectory.getPath());
-            } catch (Exception e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
-            if (!access) {
-                JOptionPane.showMessageDialog(FILEChooserPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            String res = JOptionPane.showInputDialog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Please_Input_A_New_Name"));
-            if (res != null) {
-                currentDirectory.createFolder(res);
-
-                refreshSubFileListModel();
-
-                setSelectedFileName(res);
-                // ben:这里处理有些不妥，取文件时没有考虑filefilter，不过效果一样，取的时候应该用subfilelist得data
-                FILE[] allFiles = currentDirectory.listFiles();
-                int place = 0;
-                for (int i = 0; i < allFiles.length; i++) {
-                    if (ComparatorUtils.equals(allFiles[i].getName(), res) && allFiles[i].isDirectory()) {
-                        place = i;
-                        break;
-                    }
-                }
-                scrollPane.validate();
-                int total = scrollPane.getVerticalScrollBar().getMaximum();
-                int value = total * place / subFileList.getModel().getSize();
-                scrollPane.getVerticalScrollBar().setValue(value);
-            }
-        }
-    };
-
-
     /*
      * 新建文件夹的Button
      */
-    private UIButton createFolderButton() {
+    private UIButton initMkdirButton() {
         UIButton folderButton = new UIButton();
-        folderButton.setIcon(BaseUtils.readIcon("/com/fr/design/images/file/newfolder.png"));
-        folderButton.setEnabled(false);
-        folderButton.setMargin(new Insets(0, 0, 0, 0));
-        folderButton.setUI(new BasicButtonUI());
-        folderButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_New_Folder"));
-        folderButton.addActionListener(createFolderActionListener);
+        folderButton.setIcon(BaseUtils.readIcon("com/fr/design/images/icon_NewFolderIcon_normal.png"));
+        folderButton.setUI(new UIButtonUI());
+        folderButton.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_Utils_New_Folder"));
+        folderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (currentDirectory == null) {
+                    return;
+                }
+
+                if (access(currentDirectory)) {
+                    new MkdirDialog();
+                } else {
+                    JOptionPane.showMessageDialog(
+                            FILEChooserPane.this,
+                            Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!",
+                            Toolkit.i18nText("Fine-Design_Basic_App_File_Message"),
+                            JOptionPane.WARNING_MESSAGE);
+                }
+
+
+            }
+        });
         return folderButton;
+    }
+
+
+    /**
+     * 新建文件夹对话框
+     * 支持快捷键Enter，ESC
+     */
+    private class MkdirDialog extends JDialog {
+
+        private UITextField nameField;
+
+        private UILabel warnLabel;
+
+        private UIButton confirmButton;
+
+
+        private MkdirDialog() {
+
+            this.setLayout(new BorderLayout());
+            this.setModal(true);
+
+            // 输入框前提示
+            UILabel newNameLabel = new UILabel(Toolkit.i18nText(
+                    "Fine-Design_Basic_Enter_New_Folder_Name")
+            );
+            newNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            newNameLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+            newNameLabel.setPreferredSize(new Dimension(118, 15));
+
+            // 文件名输入框
+            nameField = new UITextField();
+            nameField.getDocument().addDocumentListener(new DocumentListener() {
+
+                public void changedUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    validInput();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    validInput();
+                }
+            });
+            nameField.selectAll();
+            nameField.setPreferredSize(new Dimension(180, 20));
+
+            JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+            topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 0, 15));
+            topPanel.add(newNameLabel);
+            topPanel.add(nameField);
+
+            // 增加enter以及esc快捷键的支持
+            nameField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                        dispose();
+                    } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        if (confirmButton.isEnabled()) {
+                            confirmClose();
+                        }
+                    }
+                }
+            });
+            // 重名提示
+            warnLabel = new UILabel();
+            warnLabel.setPreferredSize(new Dimension(300, 30));
+            warnLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            warnLabel.setForeground(Color.RED);
+            warnLabel.setVisible(false);
+
+            JPanel midPanel = new JPanel(new BorderLayout());
+            midPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            midPanel.add(warnLabel, BorderLayout.WEST);
+
+            // 确认按钮
+            confirmButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Confirm"));
+            confirmButton.setPreferredSize(new Dimension(60, 25));
+            confirmButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    confirmClose();
+                }
+            });
+
+            // 取消按钮
+            UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+            cancelButton.setPreferredSize(new Dimension(60, 25));
+
+            cancelButton.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+
+            JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+            bottomPanel.add(confirmButton);
+            bottomPanel.add(cancelButton);
+
+            this.add(
+                    TableLayoutHelper.createTableLayoutPane(
+                            new Component[][]{
+                                    new Component[]{topPanel},
+                                    new Component[]{midPanel},
+                                    new Component[]{bottomPanel}
+                            },
+                            new double[]{TableLayout.FILL, TableLayout.FILL, TableLayout.FILL},
+                            new double[]{TableLayout.FILL}
+                    ),
+                    BorderLayout.CENTER);
+
+
+            this.setSize(340, 180);
+            this.setTitle(Toolkit.i18nText("Fine-Design_Basic_Mkdir"));
+            this.setResizable(false);
+            this.setAlwaysOnTop(true);
+            this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+            this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            GUICoreUtils.centerWindow(this);
+            this.setVisible(true);
+        }
+
+        private void confirmClose() {
+
+            String userInput = nameField.getText().trim();
+
+            currentDirectory.createFolder(userInput);
+
+            refreshSubFileListModel();
+
+            setSelectedFileName(userInput);
+            // ben:这里处理有些不妥，取文件时没有考虑filefilter，不过效果一样，取的时候应该用subfilelist得data
+            FILE[] allFiles = currentDirectory.listFiles();
+            int place = 0;
+            for (int i = 0; i < allFiles.length; i++) {
+                if (ComparatorUtils.equals(allFiles[i].getName(), userInput) && allFiles[i].isDirectory()) {
+                    place = i;
+                    break;
+                }
+            }
+            scrollPane.revalidate();
+            scrollPane.repaint();
+            int total = scrollPane.getVerticalScrollBar().getMaximum();
+            int value = total * place / subFileList.getModel().getSize();
+            scrollPane.getVerticalScrollBar().setValue(value);
+            this.dispose();
+        }
+
+
+        private void validInput() {
+
+            String userInput = nameField.getText().trim();
+
+            if (StringUtils.isEmpty(userInput)) {
+                confirmButton.setEnabled(false);
+            }
+
+            boolean duplicate = false;
+            // ben:这里处理有些不妥，取文件时没有考虑filefilter，不过效果一样，取的时候应该用subfilelist得data
+            FILE[] allFiles = currentDirectory.listFiles();
+            for (int i = 0; i < allFiles.length; i++) {
+                if (ComparatorUtils.equals(allFiles[i].getName(), userInput) && allFiles[i].isDirectory()) {
+                    duplicate = true;
+                    break;
+                }
+            }
+
+            if (duplicate) {
+                nameField.selectAll();
+                // 如果文件名已存在，则灰掉确认按钮
+                warnLabel.setText(
+                        Toolkit.i18nText(
+                                "Fine-Design_Basic_Folder_Name_Duplicate",
+                                userInput));
+                warnLabel.setVisible(true);
+                confirmButton.setEnabled(false);
+            } else {
+                warnLabel.setVisible(false);
+                confirmButton.setEnabled(true);
+            }
+        }
     }
 }
