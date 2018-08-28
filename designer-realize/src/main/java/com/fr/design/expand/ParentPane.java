@@ -122,7 +122,7 @@ public class ParentPane extends BasicPane {
 		parentCardPane.add("Fine-Design_Report_None", noneParentText);
 		defaultParentText = new UITextField(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
 		defaultParentText.setRectDirection(Constants.RIGHT);
-		parentCardPane.add("1Default", defaultParentText);
+		parentCardPane.add("Default", defaultParentText);
 		parentCardPane.add("Custom",
 				GUICoreUtils.createFlowPane(new JComponent[] { customParentColumnRowPane, imageButton4ColumnRowPane }, FlowLayout.CENTER));
 
