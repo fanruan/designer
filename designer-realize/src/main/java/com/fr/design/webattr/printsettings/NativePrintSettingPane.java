@@ -10,6 +10,7 @@ import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -57,6 +58,7 @@ public class NativePrintSettingPane extends JPanel {
     private UICheckBox inheritPageLayoutSettingCheck;
     private UICheckBox inheritPageMarginSettingCheck;
     private UICheckBox fitPaperSizeCheck;  // 缩放
+    private UINumberField scalePercentField;  // 缩放百分比
     private UIRadioButton portraitRadioButton;
     private UIRadioButton landscapeRadioButton;
     private PageMarginSettingPane pageMarginSettingPane;
@@ -174,10 +176,13 @@ public class NativePrintSettingPane extends JPanel {
 
         // 缩放
         fitPaperSizeCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_To_Fit_Paper_Size"));
+        JPanel scalePane = getScalePane();
+        scalePane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        JPanel scaleCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(fitPaperSizeCheck, scalePane, true);
 
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {60, p};
         Component[][] components = {
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Printer") + ":"), printerPane},
@@ -185,9 +190,8 @@ public class NativePrintSettingPane extends JPanel {
                 {printAreaLabelPane, getPrintAreaPane()},
                 {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Paper") + ":"), paperSettingCheckPane},
                 {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout") + ":"), layoutSettingCheckPane},
-                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Margin") + ":"), pageMarginCheckPane}
-                // 此功能暂时不做，在界面上隐藏缩放选项
-//                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Scale_EnlargeOrReduce") + ":"), fitPaperSizeCheck},
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Margin") + ":"), pageMarginCheckPane},
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Scale_EnlargeOrReduce") + ":"), scaleCheckPane},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
     }
@@ -196,6 +200,8 @@ public class NativePrintSettingPane extends JPanel {
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(
                 DocFlavor.INPUT_STREAM.AUTOSENSE, null);
         Set<String> allPrinterName = new HashSet<String>();
+
+        allPrinterName.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_None"));
 
         for (int i = 0, len = printServices.length; i < len; i++) {
             allPrinterName.add(printServices[i].getName());
@@ -296,6 +302,24 @@ public class NativePrintSettingPane extends JPanel {
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);
     }
 
+    private JPanel getScalePane() {
+        scalePercentField = new UINumberField(5);
+        scalePercentField.setMaxIntegerLength(3);
+        scalePercentField.setMaxDecimalLength(0);
+        scalePercentField.setMaxValue(200);
+
+        UILabel percent = new UILabel("%");
+
+        // TableLayout
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p};
+        double[] columnSize = {p, p};
+        Component[][] components = {
+                {scalePercentField, percent}
+        };
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);
+    }
+
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
     private JPanel getTopAlignLabelPane(String labelText) {
         JPanel labelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -329,6 +353,7 @@ public class NativePrintSettingPane extends JPanel {
         inheritPageMarginSettingCheck.setSelected(nativePrintAttr.isInheritPageMarginSetting());
         pageMarginSettingPane.populate(nativePrintAttr.getMargin());
         fitPaperSizeCheck.setSelected(nativePrintAttr.isFitPaperSize());
+        scalePercentField.setValue(nativePrintAttr.getScalePercent());
     }
 
     public void update(NativePrintAttr nativePrintAttr) {
@@ -356,6 +381,7 @@ public class NativePrintSettingPane extends JPanel {
         nativePrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         nativePrintAttr.setMargin(pageMarginSettingPane.updateBean());
         nativePrintAttr.setFitPaperSize(fitPaperSizeCheck.isSelected());
+        nativePrintAttr.setScalePercent((int)scalePercentField.getValue());
     }
 
     // 刷新面板可用状态
