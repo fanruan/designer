@@ -3,13 +3,13 @@
  */
 package com.fr.design.gui.icombobox;
 
-import java.awt.Component;
+import com.fr.data.core.DataCoreUtils;
+import com.fr.data.util.function.DataFunction;
+import com.fr.design.utils.gui.FunctionClassMappingUtils;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JList;
-
-import com.fr.data.core.DataCoreUtils;
-import com.fr.data.util.function.DataFunction;
+import java.awt.Component;
 
 /**
  * DataFunction combobox.
@@ -60,7 +60,8 @@ public class FunctionComboBox extends UIComboBox {
 
 			if (value instanceof DataFunction) {
 				DataFunction function = (DataFunction) value;
-				this.setText(" " + DataCoreUtils.getFunctionDisplayName(function));
+				String functionBriefName = DataCoreUtils.getFunctionBriefName(function);
+				this.setText(com.fr.design.i18n.Toolkit.i18nText(FunctionClassMappingUtils.getLocaleKey(functionBriefName)));
 			}
 
 			return this;
