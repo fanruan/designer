@@ -5,7 +5,7 @@
 package com.fr.design.menu;
 
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
@@ -19,6 +19,23 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
  */
 public class KeySetUtils {
 
+
+    public static final MenuKeySet NEW_FOLDER = new MenuKeySet() {
+        @Override
+        public char getMnemonic() {
+            return 'I';
+        }
+
+        @Override
+        public String getMenuName() {
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_New_Folder");
+        }
+
+        @Override
+        public KeyStroke getKeyStroke() {
+            return KeyStroke.getKeyStroke(KeyEvent.VK_I, DEFAULT_MODIFIER);
+        }
+    };
 
 
     public static final MenuKeySet OPEN_TEMPLATE = new MenuKeySet() {
@@ -547,7 +564,9 @@ public class KeySetUtils {
 
     public static final MenuKeySet REPORT_WATERMARK = new MenuKeySet() {
         @Override
-        public char getMnemonic() { return 'M'; }
+        public char getMnemonic() {
+            return 'M';
+        }
 
         @Override
         public String getMenuName() {
@@ -974,14 +993,6 @@ public class KeySetUtils {
     };
 
 
-
-
-
-
-
-
-
-
     public static final MenuKeySet INSERT_FLOAT = new MenuKeySet() {
         @Override
         public char getMnemonic() {
@@ -998,43 +1009,6 @@ public class KeySetUtils {
             return null;
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

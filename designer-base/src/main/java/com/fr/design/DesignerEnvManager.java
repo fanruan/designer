@@ -41,9 +41,10 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -57,6 +58,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -482,7 +484,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setLastEastRegionContainerWidth(int eastRegionContainerWidth) {
         this.eastRegionContainerWidth = eastRegionContainerWidth;
     }
-    
+
     /**
      * 返回默认环境
      */
@@ -544,7 +546,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                     DesignUtils.refreshDesignerFrame();
-                    if(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate() != null) {
+                    if (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate() != null) {
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                     }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
@@ -866,9 +868,35 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void replaceRecentOpenedFilePath(String oldPath, String newPath) {
         List<String> list = getRecentOpenedFilePathList();
         if (list.contains(oldPath)) {
-            int index = getRecentOpenedFilePathList().indexOf(oldPath);
+            int index = list.indexOf(oldPath);
             list.remove(oldPath);
             list.add(index, newPath);
+        }
+        oldPath = oldPath.replaceAll("\\\\", "/");
+        if (list.contains(oldPath)) {
+            int index = list.indexOf(oldPath);
+            list.remove(oldPath);
+            list.add(index, newPath);
+        }
+    }
+
+    /**
+     * 替换近期打开的文件路径
+     *
+     * @param type    文件类型,文件夹true,文件false
+     * @param oldPath 旧的路径 使用反斜杠分割
+     * @param newPath 新的路径 使用反斜杠分割
+     */
+    public void replaceRecentOpenedFilePath(boolean type, String oldPath, String newPath) {
+        List<String> list = getRecentOpenedFilePathList();
+        ListIterator<String> iterator = list.listIterator();
+
+        while (iterator.hasNext()) {
+            String s = iterator.next().replaceAll("/", "\\\\");
+            if (type ? s.contains(oldPath + "\\") : s.equals(oldPath)) {
+                s = s.replace(oldPath, newPath);
+                iterator.set(s);
+            }
         }
     }
 

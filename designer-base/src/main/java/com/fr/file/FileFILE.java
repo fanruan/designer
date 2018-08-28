@@ -4,11 +4,11 @@ import com.fr.base.io.XMLEncryptUtils;
 import com.fr.design.gui.itree.filetree.FileComparator;
 import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.general.ComparatorUtils;
-import com.fr.web.session.SessionLocalManager;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.web.session.SessionLocalManager;
 
-import javax.swing.*;
+import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FileFILE implements FILE {
 
@@ -30,9 +32,9 @@ public class FileFILE implements FILE {
     }
 
     /**
-     * 后缀
+     * 前缀
      *
-     * @return 后缀
+     * @return 前缀
      */
     public String prefix() {
         return FILEFactory.FILE_PREFIX;
@@ -44,7 +46,7 @@ public class FileFILE implements FILE {
      * @returns 是则返回true
      */
     public boolean isDirectory() {
-        return file == null ? false : file.isDirectory();
+        return file != null && file.isDirectory();
     }
 
     @Override
@@ -118,22 +120,22 @@ public class FileFILE implements FILE {
             return new FILE[]{this};
         }
 
-        File[] file_array = file.listFiles();
-        if (file_array == null) {
+        File[] fileArray = file.listFiles();
+        if (fileArray == null) {
             return new FILE[0];
         }
-        java.util.Arrays.sort(file_array, new FileComparator());
+        Arrays.sort(fileArray, new FileComparator());
 
-        java.util.List<FILE> res_list = new ArrayList<FILE>(file_array.length);
+        List<FILE> resList = new ArrayList<FILE>(fileArray.length);
 
-        for (int i = 0; i < file_array.length; i++) {
+        for (int i = 0; i < fileArray.length; i++) {
             // 因为有一些系统文件,比如虚拟内存等,会在listFiles的时候出现,但却not exists
-            if (file_array[i].exists()) {
-                res_list.add(new FileFILE(file_array[i]));
+            if (fileArray[i].exists()) {
+                resList.add(new FileFILE(fileArray[i]));
             }
         }
 
-        return res_list.toArray(new FILE[res_list.size()]);
+        return resList.toArray(new FILE[resList.size()]);
     }
 
     /**
@@ -147,9 +149,7 @@ public class FileFILE implements FILE {
             return false;
         }
 
-        File new_file = new File(StableUtils.pathJoin(new String[]{
-                file.getAbsolutePath(), name
-        }));
+        File new_file = new File(StableUtils.pathJoin(file.getAbsolutePath(), name));
 
         if (new_file.exists()) {
             return false;
@@ -164,7 +164,7 @@ public class FileFILE implements FILE {
      * @return 是否存在
      */
     public boolean exists() {
-        return file == null ? false : file.exists();
+        return file != null && file.exists();
     }
 
     /**
@@ -192,13 +192,12 @@ public class FileFILE implements FILE {
      * 作为输出流
      *
      * @return 输出流
-     * @throws Exception 异常
      */
-    public OutputStream asOutputStream() throws Exception {
+    public OutputStream asOutputStream() {
         if (file == null || !file.exists()) {
             return null;
         }
-        java.io.OutputStream out = null;
+        OutputStream out;
         try {
             out = new FileOutputStream(file);
         } catch (Exception e) {
@@ -209,10 +208,8 @@ public class FileFILE implements FILE {
 
     /**
      * 关闭文件
-     *
-     * @throws Exception 异常
      */
-    public void closeTemplate() throws Exception {
+    public void closeTemplate() {
     }
 
     @Override
@@ -225,10 +222,10 @@ public class FileFILE implements FILE {
     }
 
     /**
-         * 返回hash码
-         *
-         * @return 返回hash码
-         */
+     * 返回hash码
+     *
+     * @return 返回hash码
+     */
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + (this.file != null ? this.file.hashCode() : 0);
@@ -251,17 +248,19 @@ public class FileFILE implements FILE {
     }
 
     /**
-         * 是否是内存文件
-         * @return 是则返回true
-         */
+     * 是否是内存文件
+     *
+     * @return 是则返回true
+     */
     public boolean isMemFile() {
         return false;
     }
 
     /**
-         * 是否是环境文件
-         * @return 是则返回true
-         */
+     * 是否是环境文件
+     *
+     * @return 是则返回true
+     */
     public boolean isEnvFile() {
         return false;
     }
