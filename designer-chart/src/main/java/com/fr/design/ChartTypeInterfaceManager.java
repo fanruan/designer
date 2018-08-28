@@ -278,6 +278,14 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
         return name;
     }
+
+    public String getTitle4PopupWindow(String plotID) {
+        IndependentChartUIProvider provider = getChartTypeInterface(plotID);
+        if (provider != null) {
+            return provider.getPlotTypeTitle4PopupWindow();
+        }
+        return StringUtils.EMPTY;
+    }
     
     /**
      * 获取指定图表的标题

@@ -1,6 +1,6 @@
 package com.fr.van.chart.gantt.designer.data.link;
 
-import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.Chart;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.TableDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
@@ -14,7 +14,7 @@ public class GanttLinkTableDataPane extends TableDataPane {
     }
 
     @Override
-    protected AbstractTableDataContentPane getContentPane(Plot plot) {
+    protected AbstractTableDataContentPane getContentPane(Chart chart) {
         return new GanttLinkTableDataContentPane();
     }
 }
