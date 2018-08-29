@@ -54,11 +54,11 @@ public class Donut2DSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
         		new Component[]{stylePane, null},
         		new Component[]{new JSeparator(), null},
-        		new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"InnerRadis"}, 
+        		new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Inner_Radius"},
                 		new Component[][]{new Component[]{innerRadiusPercent}}, singleRow, singleCol)},
-        		new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"FR-Chart-Gap_Series"},
+        		new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Gap_Series"},
         				new Component[][]{new Component[]{seriesGap}}, singleRow, singleCol)},
-                new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"FR-Chart-Gap_Category"},
+                new Component[]{null, TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Gap_Category"},
                 		new Component[][]{new Component[]{categoryGap}}, singleRow, singleCol)},
         };
 	
