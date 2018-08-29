@@ -109,10 +109,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{new JSeparator()},
                 new Component[]{axisReversed},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -135,10 +135,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{new JSeparator()},
                 new Component[]{axisReversed},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -327,10 +327,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{axisLineStylePane},
                 new Component[]{zeroPane},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -352,10 +352,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         Component[][] components = new Component[][]{
         		new Component[]{getAxisTitlePane()},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},

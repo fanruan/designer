@@ -61,7 +61,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	private JPanel getPaneWithOutLineStyle(){
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Type"}, new Component[][]{
+		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Type"}, new Component[][]{
 				new Component[]{axisValuePane}}, new double[]{p}, new double[]{f});
 		double[] columnSize = {f};
 		double[] rowSize = { p, p, p, p, p, p, p, p, p, p};
@@ -73,7 +73,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
   	    new Component[]{new JSeparator()},
   	    new Component[]{axisReversed},
   	    new Component[]{new JSeparator()},
-  	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+  	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
   	    										new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
           new Component[]{new JSeparator()},
           new Component[]{axisLabelPane},
@@ -84,7 +84,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	private JPanel getPaneWithLineStyle(){
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
-		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Type"}, new Component[][]{
+		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Type"}, new Component[][]{
 				new Component[]{axisValuePane}}, new double[]{p}, new double[]{f});
 		double[] columnSize = {f};
 		double[] rowSize = { p, p, p, p, p, p, p, p, p, p, p, p};
@@ -98,7 +98,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
   	    new Component[]{new JSeparator()},
   	    new Component[]{axisReversed},
   	    new Component[]{new JSeparator()},
-  	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+  	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
   	    										new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
           new Component[]{new JSeparator()},
           new Component[]{axisLabelPane},
@@ -217,7 +217,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	private JPanel getPaneWithOutAxisRevertAndLineStyle(){
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
-		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Type"}, new Component[][]{
+		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Type"}, new Component[][]{
 				new Component[]{axisValuePane}}, new double[]{p}, new double[]{f});
 		double[] columnSize = {f};
 		double[] rowSize = { p, p, p, p, p, p, p, p};
@@ -227,7 +227,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
         	    new Component[]{new JSeparator()},
         	    new Component[]{getAxisTitlePane()},
         	    new Component[]{new JSeparator()},
-        	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+        	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
         	    										new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
                 new Component[]{new JSeparator()},
                 new Component[]{axisLabelPane},
@@ -239,7 +239,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
 	private JPanel getPaneWithOutAxisRevert(){
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
-		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Axis", "Type"}, new Component[][]{
+		JPanel axisTypePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Type"}, new Component[][]{
 				new Component[]{axisValuePane}}, new double[]{p}, new double[]{f});
 		double[] columnSize = {f};
 		double[] rowSize = { p, p, p, p, p, p, p, p, p, p};
@@ -251,7 +251,7 @@ public class ChartCategoryPane extends ChartAxisUsePane<Axis>{
         	    new Component[]{new JSeparator()},
         	    new Component[]{axisLineStylePane},
         	    new Component[]{new JSeparator()},
-        	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+        	    new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
         	    										new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
                 new Component[]{new JSeparator()},
                 new Component[]{axisLabelPane},

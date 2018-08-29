@@ -30,7 +30,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
         }else if (result.errorCode() == PluginErrorCode.NeedUninstallDependingPluginFirst) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Dependence")),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Dependence"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,

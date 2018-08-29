@@ -38,7 +38,7 @@ public class ChartBorderPane extends BasicPane{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")+":"),currentLineColorPane},
                 new Component[]{null,isRoundBorder}
         } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Border"},components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Border"},components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER) ;
         this.add(new JSeparator(), BorderLayout.SOUTH);

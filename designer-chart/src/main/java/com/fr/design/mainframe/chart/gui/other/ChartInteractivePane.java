@@ -316,7 +316,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 new Component[]{tooltipShowTypeLabel, tooltipShowType},
                 new Component[]{tooltipStyleLabel, tooltipStyle}
         };
-        tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartData-Tooltip"}, components, rowSize, columnSize);
+        tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Data_Point_Tooltip"}, components, rowSize, columnSize);
     }
 
     private void relayoutDataPointToolTipPane(Plot plot) {
@@ -338,7 +338,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                     new Component[]{isAddressTittle, tmpButton},
                     new Component[]{isDatapointValue, dataPointValueFormat},
             };
-            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartData-Tooltip"}, components, rowSize, columnSize);
+            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Data_Point_Tooltip"}, components, rowSize, columnSize);
         } else if (plot.isSupportValuePercent()) {
             Component[][] components;
             if (plot.isSupportTooltipSeriesType()) {
@@ -357,13 +357,13 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                         getTooltipStyleComponent()
                 };
             }
-            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartData-Tooltip"}, components, rowSize, columnSize);
+            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Data_Point_Tooltip"}, components, rowSize, columnSize);
         } else {
             Component[][] components = new Component[][]{
                     new Component[]{isDatapointValue, dataPointValueFormat},
                     getTooltipStyleComponent()
             };
-            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartData-Tooltip"}, components, rowSize, columnSize);
+            tooltipPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Data_Point_Tooltip"}, components, rowSize, columnSize);
         }
     }
 
@@ -396,7 +396,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
         Component[][] components = new Component[][]{
                 new Component[]{isAxisShowToolTip},
         };
-        axisShowPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Axis", "Chart-Interactive"}, components, rowSize, columnSize);
+        axisShowPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Axis_Interactive"}, components, rowSize, columnSize);
     }
 
     private void initAutoRefreshPane() {
@@ -414,7 +414,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 }, 1)},
                 new Component[]{new UILabel("<html><font size='2' face='Microsoft Yahei' color='red'>" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Support_Img_And_Cell") + "</font></html>"), null},
         };
-        autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data-Check"}, components, rowSize, columnSize);
+        autoRefreshPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Data_Check"}, components, rowSize, columnSize);
     }
 
     private void initSuperlinkPane() {
@@ -426,7 +426,7 @@ public class ChartInteractivePane extends BasicScrollPane<Chart> implements UIOb
                 new Component[]{superLink, null},
 
         };
-        superlinkPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Hyperlink"}, components, rowSize, columnSize);
+        superlinkPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Report_Hyperlink"}, components, rowSize, columnSize);
     }
 
     private void relayoutWithPlot(Plot plot) {
