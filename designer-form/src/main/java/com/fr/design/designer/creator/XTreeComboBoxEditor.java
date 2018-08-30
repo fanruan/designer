@@ -45,7 +45,7 @@ public class XTreeComboBoxEditor extends XTreeEditor {
 	protected CRPropertyDescriptor[] addWaterMark(CRPropertyDescriptor[] crp) throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("waterMark", this.data.getClass()).setI18NName(
 				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")).putKeyValue(
-				XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+				XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
 	}
 
 	protected CRPropertyDescriptor[] addAllowEdit(CRPropertyDescriptor[] crp) throws IntrospectionException{

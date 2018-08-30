@@ -42,10 +42,10 @@ public class XRadioGroup extends XFieldEditor {
 		CRPropertyDescriptor [] sup = (CRPropertyDescriptor[]) ArrayUtils.addAll(new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(
-						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")},super.supportedDescriptor());
+						DictionaryRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")},super.supportedDescriptor());
 		CRPropertyDescriptor [] properties = (CRPropertyDescriptor[]) ArrayUtils.addAll(sup,getCRPropertyDescriptor());
 		return properties;
 	}
@@ -53,11 +53,11 @@ public class XRadioGroup extends XFieldEditor {
 	private CRPropertyDescriptor[] getCRPropertyDescriptor() throws IntrospectionException {
 		CRPropertyDescriptor[] crp = new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("adaptive", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class)};
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced").setEditorClass(InChangeBooleanEditor.class)};
 		if (!toData().isAdaptive()) {
 			crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("columnsInRow", this.data
 					.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns")).putKeyValue(
-					XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+					XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
 		}
 		return crp;
 	}

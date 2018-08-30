@@ -72,7 +72,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         CRPropertyDescriptor heightLimitProperty = new CRPropertyDescriptor("heightPercent", this.xCreator.toData().getClass())
                                                                 .setEditorClass(RefinedDoubleEditor.class)
                                                                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Heightpercent"))
-                                                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+                                                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced");
         ArrayList<CRPropertyDescriptor> defaultList = (ArrayList<CRPropertyDescriptor>) createNonListenerProperties();
         defaultList.add(heightLimitProperty);
         return defaultList.toArray(new CRPropertyDescriptor[defaultList.size()]);
