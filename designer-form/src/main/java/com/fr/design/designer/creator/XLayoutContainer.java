@@ -66,7 +66,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form-Widget_Name")),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
                         WLayoutBorderStyleEditor.class).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
@@ -76,7 +76,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
                 }),
                 new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
         };
     }
 
@@ -99,7 +99,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
     public CRPropertyDescriptor createMarginDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
                 .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))
-                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
+                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced");
     }
 
     /**

@@ -90,7 +90,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override
@@ -100,10 +100,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				}),
 				new CRPropertyDescriptor("margin", this.data.getClass()).setEditorClass(PaddingMarginEditor.class)
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Toolbar"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
 		};
 		CRPropertyDescriptor[] extraTableEditor = getExtraTableEditor();
 		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraTableEditor);

@@ -36,7 +36,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
         } else if (result.errorCode() == PluginErrorCode.OperationNotSupport) {
             int rv = JOptionPane.showOptionDialog(
                     null,
-                    com.fr.design.i18n.Toolkit.i18nText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Dependence")),
+                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Dependence"),
                     com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Success"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,

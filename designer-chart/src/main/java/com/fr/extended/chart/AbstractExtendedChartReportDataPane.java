@@ -58,17 +58,20 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
     protected abstract T update();
 
     public void populateBean(ChartCollection collection) {
-
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                AbstractDataConfig dataConfig = ((AbstractChart) chart).getDataConfig();
-                if (dataConfig != null) {
-                    populate((T) dataConfig);
-                }
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
         }
 
+        Chart chart = collection.getSelectedChart();
+
+        if (chart.getFilterDefinition() instanceof ExtendedReportDataSet) {
+            ExtendedReportDataSet dataSet = (ExtendedReportDataSet) chart.getFilterDefinition();
+            AbstractDataConfig dataConfig = dataSet.getDataConfig();
+
+            if (dataConfig != null) {
+                populate((T) dataConfig);
+            }
+        }
     }
 
 

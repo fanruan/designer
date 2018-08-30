@@ -30,7 +30,7 @@ public class ChartBeautyPane extends BasicBeanPane<Integer>{
         Component[][] components = new Component[][]{
                 new Component[]{styleBox},
         } ;
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"InterfaceStyle"},components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Style"},components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
 	}
