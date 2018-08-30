@@ -20,6 +20,7 @@ import com.fr.general.ComparatorUtils;
 
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.StringUtils;
+import com.sun.deploy.panel.JavaPanel;
 
 import javax.print.DocFlavor;
 import javax.print.PrintService;
@@ -46,12 +47,17 @@ import java.util.regex.Pattern;
  * Created by plough on 2018/3/5.
  */
 public class NativePrintSettingPane extends JPanel {
+    private static final int ODD_INDEX = 0;
+    private static final int EVEN_INDEX = 1;
+
     private UICheckBox isShowDialogCheck;
     private UIComboBox printerComboBox;
     private UIBasicSpinner copySpinner;  // 份数
     private UIRadioButton allPageRadioButton;
     private UIRadioButton currentPageRadioButton;
     private UIRadioButton customPageRadioButton;
+    private UIRadioButton doublePrintRadioButton;
+    private UIComboBox doublePrintComboBox;
     private UITextField specifiedAreaField;
     private UIComboBox predefinedPaperSizeComboBox;
     private UICheckBox inheritPagePaperSettingCheck;
@@ -102,6 +108,7 @@ public class NativePrintSettingPane extends JPanel {
         allPageRadioButton.addItemListener(getPageRaidoListener());
         currentPageRadioButton.addItemListener(getPageRaidoListener());
         customPageRadioButton.addItemListener(getPageRaidoListener());
+        doublePrintRadioButton.addItemListener(getPageRaidoListener());
         isShowDialogCheck.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -134,6 +141,7 @@ public class NativePrintSettingPane extends JPanel {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 specifiedAreaField.setEnabled(customPageRadioButton.isSelected());
+                doublePrintComboBox.setEnabled(doublePrintRadioButton.isSelected());
             }
         };
     }
@@ -272,10 +280,12 @@ public class NativePrintSettingPane extends JPanel {
         allPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_All_Pages"));
         currentPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Current_Page"));
         customPageRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_HJS-Specified_Pages"));
+        doublePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Double_Side_Print"));
         ButtonGroup group = new ButtonGroup();
         group.add(allPageRadioButton);
         group.add(currentPageRadioButton);
         group.add(customPageRadioButton);
+        group.add(doublePrintRadioButton);
         allPageRadioButton.setSelected(true);
 
         specifiedAreaField = new UITextField(20) {
@@ -290,14 +300,28 @@ public class NativePrintSettingPane extends JPanel {
         };
         UILabel areaFieldTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Area_Tip"));
 
+        doublePrintComboBox = new UIComboBox() {
+            @Override
+            public void setEnabled(boolean enabled) {
+                // 如果未选中"双面打印"，此下拉框始终不可用
+                if (enabled && !doublePrintRadioButton.isSelected()) {
+                    return;
+                }
+                super.setEnabled(enabled);
+            }
+        };
+        doublePrintComboBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Odd_Page"));
+        doublePrintComboBox.addItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Even_Page"));
+
         // TableLayout
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p, p, p};
         double[] columnSize = {p, p, p};
         Component[][] components = {
                 {allPageRadioButton, null, null},
                 {currentPageRadioButton, null, null},
-                {customPageRadioButton, specifiedAreaField, areaFieldTip}
+                {customPageRadioButton, specifiedAreaField, areaFieldTip},
+                {doublePrintRadioButton, doublePrintComboBox, new JPanel()}
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);
     }
@@ -336,11 +360,19 @@ public class NativePrintSettingPane extends JPanel {
             allPageRadioButton.setSelected(true);
         } else if (nativePrintAttr.getPageType().equals(NativePrintAttr.PageType.CURRENT_PAGE)) {
             currentPageRadioButton.setSelected(true);
-        } else {
+        } else if (nativePrintAttr.getPageType().equals(NativePrintAttr.PageType.SPECIFIED_PAGES)) {
             customPageRadioButton.setSelected(true);
             specifiedAreaField.setText(nativePrintAttr.getArea());
+        } else {
+            doublePrintRadioButton.setSelected(true);
+            if (nativePrintAttr.getPageType().equals(NativePrintAttr.PageType.ODD_PAGES)) {
+                doublePrintComboBox.setSelectedIndex(ODD_INDEX);
+            } else {
+                doublePrintComboBox.setSelectedIndex(EVEN_INDEX);
+            }
         }
         specifiedAreaField.setEnabled(customPageRadioButton.isSelected());
+        doublePrintComboBox.setEnabled(doublePrintRadioButton.isSelected());
 
         inheritPagePaperSettingCheck.setSelected(nativePrintAttr.isInheritPagePaperSetting());
         predefinedPaperSizeComboBox.setSelectedItem(nativePrintAttr.getPaperSize());
@@ -368,9 +400,13 @@ public class NativePrintSettingPane extends JPanel {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.ALL_PAGES);
         } else if (currentPageRadioButton.isSelected()) {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.CURRENT_PAGE);
-        } else {
+        } else if (customPageRadioButton.isSelected()) {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.SPECIFIED_PAGES);
             nativePrintAttr.setArea(specifiedAreaField.getText());
+        } else if (doublePrintComboBox.getSelectedIndex() == ODD_INDEX){
+            nativePrintAttr.setPageType(NativePrintAttr.PageType.ODD_PAGES);
+        } else {
+            nativePrintAttr.setPageType(NativePrintAttr.PageType.EVEN_PAGES);
         }
 
         nativePrintAttr.setInheritPagePaperSetting(inheritPagePaperSettingCheck.isSelected());
