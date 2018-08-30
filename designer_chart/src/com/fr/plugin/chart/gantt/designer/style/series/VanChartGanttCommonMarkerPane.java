@@ -44,6 +44,9 @@ public class VanChartGanttCommonMarkerPane extends VanChartCommonMarkerPane {
 
     @Override
     protected void updateColor(VanChartAttrMarker marker) {
-        marker.setColorBackground(ColorBackground.getInstance(colorSelect.getSelectObject()));
+        Color color = colorSelect.getSelectObject();
+        color = color == null ? new Color(248,182,44) : color;
+
+        marker.setColorBackground(ColorBackground.getInstance(color));
     }
 }
