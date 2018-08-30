@@ -59,7 +59,7 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Top_To_Bottom") + ":"),verticalColorPane},
         };
 		
-		backgroundPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Chart_Interval_Back"}, components, rowSize, columnSize);
+		backgroundPane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Interval_Background"}, components, rowSize, columnSize);
 	}
 	
 	//初始化网格线
@@ -82,7 +82,7 @@ public class DefaultAxisAreaPane extends ChartAxisAreaPane {
                 new Component[]{container,null}
         };
 		
-		gridlinePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Grid_Line"}, components, rowSize, columnSize);
+		gridlinePane = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Grid_Line"}, components, rowSize, columnSize);
 		
 	}
 	

@@ -9,7 +9,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -28,29 +27,42 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
     private UISpinner autoRefreshTime;
     private JPanel contentPane;
 
+    protected AbstractChart getAbstractChart(Chart chart) {
+        if (chart != null && chart instanceof AbstractChart) {
+            return (AbstractChart) chart;
+        }
+        return null;
+    }
+
     @Override
     public void populate(ChartCollection collection) {
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                hyperLinkPane.populateBean((AbstractChart) chart);
-                autoRefreshTime.setValue(((AbstractChart) chart).getAutoRefreshTime());
-                refreshEnabled.setSelectedIndex(((AbstractChart) chart).isRefreshEnabled() ? 0 : 1);
-                checkRefreshEnable();
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
+        }
+
+        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+
+        if (chart != null) {
+            hyperLinkPane.populateBean(chart);
+            autoRefreshTime.setValue(chart.getAutoRefreshTime());
+            refreshEnabled.setSelectedIndex(chart.isRefreshEnabled() ? 0 : 1);
+            checkRefreshEnable();
         }
 
     }
 
     @Override
     public void update(ChartCollection collection) {
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                hyperLinkPane.updateBean((AbstractChart) chart);
-                ((AbstractChart) chart).setAutoRefreshTime(autoRefreshTime.getValue());
-                ((AbstractChart) chart).setRefreshEnabled(refreshEnabled.getSelectedIndex() == 0);
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
+        }
+
+        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+
+        if (chart != null) {
+            hyperLinkPane.updateBean(chart);
+            chart.setAutoRefreshTime(autoRefreshTime.getValue());
+            chart.setRefreshEnabled(refreshEnabled.getSelectedIndex() == 0);
         }
     }
 

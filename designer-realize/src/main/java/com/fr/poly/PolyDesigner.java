@@ -3,7 +3,6 @@
  */
 package com.fr.poly;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
@@ -19,7 +18,18 @@ import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.AuthorityEditPane;
+import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.EastRegionContainerPane;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.ElementCasePaneAuthorityEditPane;
+import com.fr.design.mainframe.FormScrollBar;
+import com.fr.design.mainframe.JSliderPane;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.NoSupportAuthorityEdit;
+import com.fr.design.mainframe.ReportComponent;
+import com.fr.design.mainframe.ReportComponentComposite;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -35,7 +45,11 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.Selection;
 import com.fr.poly.actions.DeleteBlockAction;
-import com.fr.poly.creator.*;
+import com.fr.poly.creator.BlockCreator;
+import com.fr.poly.creator.BlockEditor;
+import com.fr.poly.creator.ECBlockCreator;
+import com.fr.poly.creator.ECBlockEditor;
+import com.fr.poly.creator.PolyElementCasePane;
 import com.fr.poly.hanlder.DataEditingListener;
 import com.fr.poly.hanlder.PolyDesignerDropTarget;
 import com.fr.poly.model.AddedData;
@@ -51,9 +65,23 @@ import com.fr.stable.unit.OLDPIX;
 import com.fr.stable.unit.UNIT;
 import com.fr.stable.unit.UnitRectangle;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.KeyStroke;
+import java.awt.AWTEvent;
+import java.awt.Adjustable;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +120,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     private JScrollBar verScrollBar;
     private JScrollBar horScrollBar;
 
-    private PolyComponetsBar polyComponetsBar = new PolyComponetsBar();
+    private PolyComponentsBar polyComponentsBar = new PolyComponentsBar();
     private JComponent[] toolBarComponent = null;
     private JPanel ployareaPane;
     private JSliderPane jSliderContainer;
@@ -142,7 +170,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         @Override
         public void mouseWheelMoved(MouseWheelEvent evt) {
             int id = evt.getID();
-            if (id == MouseEvent.MOUSE_WHEEL){
+            if (id == MouseEvent.MOUSE_WHEEL) {
                 if (!InputEventBaseOnOS.isControlDown(evt)) {
                     int rotations = evt.getWheelRotation();
                     verScrollBar.setValue(verScrollBar.getValue() + rotations * ROTATIONS);
@@ -167,7 +195,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         ployareaPane.add(PolyDesignerLayout.HRuler, new HorizontalRuler(this));
         ployareaPane.setBackground(Color.WHITE);
         this.add(ployareaPane, BorderLayout.CENTER);
-        this.add(polyComponetsBar, BorderLayout.WEST);
+        this.add(polyComponentsBar, BorderLayout.WEST);
     }
 
     private void initPolyBlocks() {
@@ -749,7 +777,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 工具按钮
      */
     public JComponent[] toolBarButton4Form() {
-        polyComponetsBar.checkEnable();
+        polyComponentsBar.checkEnable();
         if (selection != null) {
             selection.checkButtonEnable();
         }
@@ -848,7 +876,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     public void updateJSliderValue() {
         ReportComponentComposite reportComposite = (ReportComponentComposite) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentReportComponentPane();
         JSliderPane jSliderContainer = reportComposite.getjSliderContainer();
-        jSliderContainer.getShowVal().setValue((int)Math.ceil((double)this.resolution * HUND / ScreenResolution.getScreenResolution()));
+        jSliderContainer.getShowVal().setValue((int) Math.ceil((double) this.resolution * HUND / ScreenResolution.getScreenResolution()));
     }
 
 

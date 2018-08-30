@@ -68,15 +68,15 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 			double f = TableLayout.FILL;
 			double[] row = {p};
 			double[] col = {f};
-			trendLine = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Chart_TrendLine"}, new Component[][]{new Component[]{trendLinePane}}, row, col);
+			trendLine = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_TrendLine"}, new Component[][]{new Component[]{trendLinePane}}, row, col);
 		}
 		//最多有两条坐标轴是值类型的
 		if(plot.getAlertLinePaneTitle().length == 2){
 			String[] title = plot.getAlertLinePaneTitle();
-			firstAlertPane = this.createAlertLinePane(new String[]{title[0], "ChartF-Alert-Line"}, true);
-			secondAlertPane = this.createAlertLinePane(new String[]{title[1], "ChartF-Alert-Line"}, false);
+			firstAlertPane = this.createAlertLinePane(new String[]{title[0], "Fine-Design_Chart_Alert_Line"}, true);
+			secondAlertPane = this.createAlertLinePane(new String[]{title[1], "Fine-Design_Chart_Alert_Line"}, false);
 		}else if(plot.getyAxis() instanceof ValueAxis){
-			firstAlertPane = this.createAlertLinePane(new String[]{"ChartF-Alert-Line"}, true);
+			firstAlertPane = this.createAlertLinePane(new String[]{"Fine-Design_Chart_Alert_Line"}, true);
 		}
 		Component[][] component = null;;
 		if(trendLine != null){

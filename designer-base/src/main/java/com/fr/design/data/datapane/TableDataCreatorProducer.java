@@ -69,7 +69,7 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createServerTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
                 DBTableDataPane.class);
         TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"), "/com/fr/design/images/data/dock/serverclasstabledata.png", ClassTableData.class,
                 ClassTableDataPane.class);
