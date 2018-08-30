@@ -17,10 +17,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.report.stable.ReportConstants;
 import com.fr.stable.StringUtils;
-import com.sun.deploy.panel.JavaPanel;
 
 import javax.print.DocFlavor;
 import javax.print.PrintService;
