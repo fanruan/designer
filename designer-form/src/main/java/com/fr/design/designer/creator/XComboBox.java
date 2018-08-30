@@ -40,9 +40,9 @@ public class XComboBox extends XCustomWriteAbleRepeatEditor {
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(
 				new CRPropertyDescriptor[]{
-						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 						new CRPropertyDescriptor("dictionary", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(DictionaryEditor.class).setRendererClass(DictionaryRenderer.class)
-								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
 				}, super.supportedDescriptor());
     }
 

@@ -115,7 +115,7 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				}),
 				new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
 						WLayoutBorderStyleEditor.class).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 					@Override

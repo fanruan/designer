@@ -40,10 +40,10 @@ public class XTreeEditor extends XWidgetCreator {
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
-                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                         new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                                TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                         new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
                                 .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
@@ -54,10 +54,10 @@ public class XTreeEditor extends XWidgetCreator {
                 : new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                        TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
                         XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),};
@@ -66,10 +66,10 @@ public class XTreeEditor extends XWidgetCreator {
 		crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp,
 				new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Font_Size"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("multipleSelection", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Mutiple_Selection_Or_Not")).putKeyValue(
-                XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class));
+                XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced").setEditorClass(InChangeBooleanEditor.class));
 
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("ajax", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Load_By_Async")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
@@ -79,9 +79,9 @@ public class XTreeEditor extends XWidgetCreator {
 		crp = this.addCustomData(crp);
 
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("selectLeafOnly", this.data
-                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Select_Leaf_Only")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Select_Leaf_Only")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("returnFullPath", this.data
-                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Return_Full_Path")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Return_Full_Path")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
 
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), crp);
     }
