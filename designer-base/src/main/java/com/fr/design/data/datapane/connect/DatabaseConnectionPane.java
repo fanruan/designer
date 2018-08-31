@@ -102,8 +102,10 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                         message.setText(database.connectMessage(connect));
                         if (connect) {
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                            message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                         }else{
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                            message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                         }
                     } catch (Exception exp) {
                         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
