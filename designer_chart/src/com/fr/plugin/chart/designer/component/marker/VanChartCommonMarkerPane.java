@@ -12,8 +12,8 @@ import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.background.VanChartMarkerBackgroundPane;
 import com.fr.plugin.chart.marker.type.MarkerType;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Component;
 
 /**
  * Created by Mitisky on 16/5/19.
@@ -152,6 +152,9 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
     @Override
     public String title4PopupWindow() {
         return "commonMarker";
+    }
+
+    public void setDefaultValue() {
     }
 
     @Override
