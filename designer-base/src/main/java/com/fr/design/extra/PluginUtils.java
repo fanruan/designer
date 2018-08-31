@@ -6,6 +6,7 @@ import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
@@ -172,7 +173,7 @@ public class PluginUtils {
             return "";
         }
         
-        return com.fr.design.i18n.Toolkit.i18nText(getInterKeyByErrorCode(errorCode));
+        return InterProviderFactory.getProvider().getLocText(getInterKeyByErrorCode(errorCode));
     }
     
     private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
