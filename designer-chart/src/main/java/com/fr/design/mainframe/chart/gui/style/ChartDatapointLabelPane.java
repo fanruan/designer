@@ -96,7 +96,7 @@ public class ChartDatapointLabelPane extends BasicPane{
         boolean isGuidline = plot.isSupportLeadLine();
 
         if(plot.isSupportCategoryFilter()) {
-		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Use_Name"));
+		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name"));
         }
 		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
 		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));

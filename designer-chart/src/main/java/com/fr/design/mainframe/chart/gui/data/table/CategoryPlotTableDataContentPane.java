@@ -41,7 +41,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
 		categoryCombox = new UIComboBox();
 		JPanel categoryPane = new JPanel(new BorderLayout(4,0));
 		categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel label1 = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name")) ;
+        UILabel label1 = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Category")) ;
         label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
         categoryCombox.setPreferredSize(new Dimension(100,20));
 

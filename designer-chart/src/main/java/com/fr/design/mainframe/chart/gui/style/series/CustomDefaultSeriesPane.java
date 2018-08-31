@@ -248,7 +248,7 @@ public class CustomDefaultSeriesPane extends BasicPane{
             double[] columnSize = { p, f };
             double[] rowSize = { p,p,p,p};
             Component[][] components = new Component[][]{
-                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),isCurve},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polyline_Style")),isCurve},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),lineStyle},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Show")), isNullValueBreak}
@@ -317,7 +317,7 @@ public class CustomDefaultSeriesPane extends BasicPane{
             double[] columnSize = { p,f };
             double[] rowSize = { p,p };
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),isCurve},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polyline_Style")),isCurve},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane}
             };
 
