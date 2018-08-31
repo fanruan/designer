@@ -9,7 +9,8 @@ import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.plugin.chart.marker.type.MarkerType;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 /**
  * Created by hufan on 2017/1/13.
@@ -48,5 +49,11 @@ public class VanChartGanttCommonMarkerPane extends VanChartCommonMarkerPane {
         color = color == null ? new Color(248,182,44) : color;
 
         marker.setColorBackground(ColorBackground.getInstance(color));
+    }
+
+    @Override
+    public void setDefaultValue() {
+        getMarkerPane().setSelectedMarker(Marker.createMarker(MarkerType.MARKER_STAR));
+        colorSelect.setSelectObject(new Color(248, 182, 44));
     }
 }

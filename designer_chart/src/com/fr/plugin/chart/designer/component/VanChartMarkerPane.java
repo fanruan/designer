@@ -9,10 +9,12 @@ import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.plugin.chart.designer.component.marker.VanChartImageMarkerPane;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 
 /**
  * 标记点设置界面
@@ -23,7 +25,7 @@ public class VanChartMarkerPane extends BasicPane {
     private JPanel centerPane;
     private CardLayout cardLayout;
 
-    private BasicBeanPane commonMarkerPane;
+    private VanChartCommonMarkerPane commonMarkerPane;
     
     private BasicBeanPane imageMarkerPane;
 
@@ -73,7 +75,7 @@ public class VanChartMarkerPane extends BasicPane {
         return new VanChartImageMarkerPane();
     }
 
-    protected BasicBeanPane<VanChartAttrMarker> createCommonMarkerPane() {
+    protected VanChartCommonMarkerPane createCommonMarkerPane() {
         return new VanChartCommonMarkerPane(){
             protected double[] getcolumnSize () {
                 double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
@@ -109,6 +111,7 @@ public class VanChartMarkerPane extends BasicPane {
             commonMarkerPane.populateBean(marker);
         } else {
             imageMarkerPane.populateBean(marker);
+            commonMarkerPane.setDefaultValue();
         }
 
         checkCenterPane();

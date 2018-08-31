@@ -13,12 +13,13 @@ import com.fr.general.Inter;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.designer.TableLayout4VanChartHelper;
 import com.fr.plugin.chart.designer.component.VanChartMarkerPane;
+import com.fr.plugin.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.plugin.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.stable.CoreConstants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Component;
 
 /**
  * Created by hufan on 2017/1/13.
@@ -82,7 +83,7 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel createMarkerPane() {
         markerPane = new VanChartMarkerPane(){
             @Override
-            protected BasicBeanPane<VanChartAttrMarker> createCommonMarkerPane() {
+            protected VanChartCommonMarkerPane createCommonMarkerPane() {
                 return new VanChartGanttCommonMarkerPane();
             }
 
