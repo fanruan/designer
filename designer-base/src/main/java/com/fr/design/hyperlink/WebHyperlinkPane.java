@@ -4,22 +4,22 @@ import com.fr.base.Parameter;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ParameterProvider;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.HashMap;
 import java.util.List;
 
 public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
     private static final int BORDER_WIDTH = 4;
     private WebHyperNorthPane northPane;
-
-    private UICheckBox useCJKCheckBox;
 
     private UICheckBox extendParametersCheckBox;
 
@@ -42,16 +42,15 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
-        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
+        parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
 
-        useCJKCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Use_CJK_To_Encode_Parameter"));
-        extendParametersCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Extends_Report_Parameters"));
-        this.add(GUICoreUtils.createFlowPane(new Component[]{useCJKCheckBox, extendParametersCheckBox}, FlowLayout.LEFT), BorderLayout.SOUTH);
+        extendParametersCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Extends_Report_Parameters"));
+        this.add(GUICoreUtils.createFlowPane(new Component[]{extendParametersCheckBox}, FlowLayout.LEFT), BorderLayout.SOUTH);
     }
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link");
+        return Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link");
     }
 
     @Override
@@ -63,7 +62,6 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
         ParameterProvider[] parameters = ob.getParameters();
         parameterViewPane.populate(parameters);
-        useCJKCheckBox.setSelected(ob.isUseCJK());
         extendParametersCheckBox.setSelected(ob.isExtendParameters());
     }
 
@@ -88,7 +86,6 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
         } else {
             webHyperlink.setParameters(null);
         }
-        webHyperlink.setUseCJK(this.useCJKCheckBox.isSelected());
         webHyperlink.setExtendParameters(this.extendParametersCheckBox.isSelected());
     }
 
@@ -108,14 +105,6 @@ public class WebHyperlinkPane extends AbstractHyperLinkPane<WebHyperlink> {
 
     public void setNorthPane(WebHyperNorthPane northPane) {
         this.northPane = northPane;
-    }
-
-    public UICheckBox getUseCJKCheckBox() {
-        return useCJKCheckBox;
-    }
-
-    public void setUseCJKCheckBox(UICheckBox useCJKCheckBox) {
-        this.useCJKCheckBox = useCJKCheckBox;
     }
 
     public UICheckBox getExtendParametersCheckBox() {
