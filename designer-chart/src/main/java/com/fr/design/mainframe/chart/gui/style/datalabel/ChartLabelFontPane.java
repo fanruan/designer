@@ -108,7 +108,7 @@ public class ChartLabelFontPane extends BasicScrollPane<Chart> {
             valueTextAttrPane = new ChartTextAttrNoColorPane();
             unitTextAttrPane = new ChartTextAttrNoColorPane();
             cateTextAttrPane = new ChartTextAttrNoColorPane();
-            categoryName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
+            categoryName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name"));
             categoryName.setSelected(true);
             categoryName.addActionListener(new ActionListener() {
                 @Override

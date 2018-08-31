@@ -46,7 +46,7 @@ public class AreaSeriesPane extends AbstractPlotSeriesPane{
         Component[][] components = new Component[][]{
                 new Component[]{stylePane, null},
                 new Component[]{new JSeparator(), null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),isCurve},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polyline_Style")),isCurve},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane}
         }  ;
         return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
