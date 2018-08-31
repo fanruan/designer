@@ -2,11 +2,9 @@ package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
 import com.fr.general.CloudCenter;
-
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
@@ -19,6 +17,7 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -173,7 +172,7 @@ public class PluginUtils {
             return "";
         }
         
-        return InterProviderFactory.getProvider().getLocText(getInterKeyByErrorCode(errorCode));
+        return com.fr.design.i18n.Toolkit.i18nCompatibleServerText(getInterKeyByErrorCode(errorCode));
     }
     
     private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
