@@ -1,27 +1,23 @@
 package com.fr.design.roleAuthority;
 
-import com.fr.decision.DecisionActivator;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTreeSelectionModel;
-import com.fr.general.NameObject;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.UserObjectRefreshJTree;
 import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.general.ComparatorUtils;
-import com.fr.module.Module;
-import com.fr.module.ModuleContext;
-import com.fr.workspace.WorkContext;
+import com.fr.general.NameObject;
+import com.fr.start.server.FineEmbedServer;
 
-
-import javax.swing.SwingUtilities;
-import javax.swing.JTree;
 import javax.swing.JComponent;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -67,18 +63,9 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
 
     @Override
     protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode selectedTreeNode) {
-        // 启动平台模块加载角色列表
-        startDecisionActivator();
+        // 启动平台模块加载角色列表, server内部已经做了启动状态与Workspace判断.
+        FineEmbedServer.start();
         return super.loadChildTreeNodes(selectedTreeNode);
-    }
-
-    private void startDecisionActivator() {
-        if (WorkContext.getCurrent().isLocal()) {
-            Module module = ModuleContext.getModule(DecisionActivator.class);
-            if (!module.isRunning()) {
-                module.start();
-            }
-        }
     }
 
     /**
