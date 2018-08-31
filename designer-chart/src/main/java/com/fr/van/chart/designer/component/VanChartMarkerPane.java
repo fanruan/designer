@@ -3,7 +3,6 @@ package com.fr.van.chart.designer.component;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.marker.VanChartCommonMarkerPane;
@@ -25,7 +24,7 @@ public class VanChartMarkerPane extends BasicPane {
     private JPanel centerPane;
     private CardLayout cardLayout;
 
-    private BasicBeanPane commonMarkerPane;
+    private VanChartCommonMarkerPane commonMarkerPane;
     
     private BasicBeanPane imageMarkerPane;
 
@@ -75,7 +74,7 @@ public class VanChartMarkerPane extends BasicPane {
         return new VanChartImageMarkerPane();
     }
 
-    protected BasicBeanPane<VanChartAttrMarker> createCommonMarkerPane() {
+    protected VanChartCommonMarkerPane createCommonMarkerPane() {
         return new VanChartCommonMarkerPane(){
             protected double[] getcolumnSize () {
                 double s = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
@@ -111,6 +110,7 @@ public class VanChartMarkerPane extends BasicPane {
             commonMarkerPane.populateBean(marker);
         } else {
             imageMarkerPane.populateBean(marker);
+            commonMarkerPane.setDefaultValue();
         }
 
         checkCenterPane();
