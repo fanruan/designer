@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.config.Configuration;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -28,6 +29,8 @@ import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.third.apache.log4j.Level;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -347,8 +350,17 @@ public class PreferencePane extends BasicPane {
         logLevelPane.add(logLevelComboBox);
         logLevelComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
+                    }
 
-                Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{Log4jConfig.class};
+                    }
+                });
             }
         });
     }
@@ -635,7 +647,17 @@ public class PreferencePane extends BasicPane {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
 
-        Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[]{Log4jConfig.class};
+            }
+        });
 
     }
 

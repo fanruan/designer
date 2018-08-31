@@ -19,7 +19,7 @@ public class XCreatorConstants {
     public static final String WIDGETNAME = "widgetName";
     // 描述属性的分类
     public static final String PROPERTY_CATEGORY = "category";
-    public static final String DEFAULT_GROUP_NAME = "Form-Basic_Properties";
+    public static final String DEFAULT_GROUP_NAME = "Fine-Design_Basic_Form_Basic_Properties";
     public static final String PROPERTY_VALIDATE = "Fine-Design_Basic_Validate";
     public static final Color FORM_BG = new Color(255, 255, 255);
     // 拖拽标识块的大小

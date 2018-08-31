@@ -11,13 +11,14 @@ package com.fr.design.gui.syntax.ui.rtextarea;
 
 
 
-import java.awt.event.ActionEvent;
-import java.util.ResourceBundle;
+import com.fr.design.gui.syntax.util.RTextAreaActionI18nMappingUtil;
+
 import javax.swing.Icon;
 import javax.swing.KeyStroke;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import java.awt.event.ActionEvent;
 
 
 /**
@@ -258,9 +259,9 @@ public abstract class RecordableTextAction extends TextAction {
 	 *        property.
 	 */
 	public void setProperties(String keyRoot) {
-		setName(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Name"));
-		setMnemonic(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Mnemonic").charAt(0));
-		setShortDescription(com.fr.design.i18n.Toolkit.i18nText(keyRoot + ".Desc"));
+		setName(com.fr.design.i18n.Toolkit.i18nText(RTextAreaActionI18nMappingUtil.getActionName(keyRoot)));
+		setMnemonic(com.fr.design.i18n.Toolkit.i18nText(RTextAreaActionI18nMappingUtil.getActionMnemonic(keyRoot)).charAt(0));
+		setShortDescription(com.fr.design.i18n.Toolkit.i18nText(RTextAreaActionI18nMappingUtil.getActionDesc(keyRoot)));
 	}
 
 

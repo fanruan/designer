@@ -25,7 +25,7 @@ import java.util.List;
  * @version 创建时间：2012-12-21 下午04:51:50
  */
 public class MeterPlotTableDataContentPane extends AbstractTableDataContentPane {
-	private static final String METER_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Use_Name");
+	private static final String METER_NAME = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name");
 	private static final String METER_VALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pointer_Value");
 	
 	private UIComboBox nameBox;

@@ -116,7 +116,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 				new Component[]{styleSelectBox},
 				new Component[]{customPane}
 		} ;
-		return TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ColorMatch"},components,rowSize,columnSize);
+		return TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Color_Match"},components,rowSize,columnSize);
 	}
 	
 	@Override

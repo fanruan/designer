@@ -58,7 +58,7 @@ public class CategoryPlotMoreCateTableDataContentPane extends CategoryPlotTableD
 
         JPanel categoryPane = new JPanel(new BorderLayout(4, 0));
         categoryPane.setBorder(BorderFactory.createMatteBorder(0, 0, 6, 1, getBackground()));
-        UILabel categoryLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Name"));
+        UILabel categoryLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Category"));
         categoryLabel.setPreferredSize(new Dimension(85,COMBOX_HEIGHT));
 
         addButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));

@@ -44,7 +44,7 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 						new CRPropertyDescriptor("widgetValue", this.data.getClass())
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value"))
 						.setEditorClass(WidgetValueEditor.class)
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")}
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")}
 				,super.supportedDescriptor());
 		CRPropertyDescriptor allowDecimal = new CRPropertyDescriptor("allowDecimals", this.data.getClass())
 				.setEditorClass(InChangeBooleanEditor.class)
@@ -71,7 +71,7 @@ public class XNumberEditor extends XWrapperedFieldEditor {
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
 						new CRPropertyDescriptor("waterMark", this.data.getClass())
 								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark"))
-								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+								.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 						new CRPropertyDescriptor("regErrorMessage", this.data.getClass())
 								.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Message"))
 								.putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate")
