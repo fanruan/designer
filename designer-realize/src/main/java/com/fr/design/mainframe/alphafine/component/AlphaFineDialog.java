@@ -67,6 +67,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -83,6 +84,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -1161,6 +1163,8 @@ public class AlphaFineDialog extends UIDialog {
                     } else if (e.getClickCount() == 1) {
                         if (selectedValue instanceof MoreModel && ((MoreModel) selectedValue).isNeedMore()) {
                             dealWithMoreOrLessResult(selectedIndex, (MoreModel) selectedValue);
+                        }else if(selectedValue instanceof BottomModel){
+                            dealWithSearchResult(selectedValue);
                         }
                     }
                 }
@@ -1172,6 +1176,23 @@ public class AlphaFineDialog extends UIDialog {
                     if (!e.getValueIsAdjusting() && getSelectedValue() != null) {
                         showResult(getSelectedValue());
                     }
+                }
+            });
+
+            addMouseMotionListener(new MouseMotionListener() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    final int x = e.getX();
+                    final int y = e.getY();
+                    final Rectangle cellBounds = getCellBounds(getModel().getSize() - 1, getModel().getSize() - 1);
+                    if (cellBounds != null && cellBounds.contains(x, y)) {
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    } else {
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
+                }
+                @Override
+                public void mouseDragged(MouseEvent e) {
                 }
             });
 
