@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ColorSelectConfigManager implements XMLReadable {
 
-    // 最近使用的颜色个数
+    // 最大存储的最近使用的颜色个数
     private int colorNum = 20;
 
     // 最近使用颜色
@@ -51,7 +51,7 @@ public class ColorSelectConfigManager implements XMLReadable {
         }
 
         // 过滤重复的最近使用颜色
-        // 最近使用的颜色需要放到最前面
+        // 最近使用的颜色需要放到"最前面"，"最前面"是在面板部分做的，是 colors 的逆序，因此保证最新的放在 list 的最后，
         colors.remove(color);
         colors.add(color);
 
@@ -78,11 +78,18 @@ public class ColorSelectConfigManager implements XMLReadable {
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG(RECENT_COLOR_TAG);
         if (this.colors != null && !this.colors.isEmpty()) {
-            for (int i = 0; i < this.colors.size(); i++) {
+            // 只应该存储 max 个，其他颜色存了也没用
+            // 从 colors 的尾部开始计算，从尾往头数 max 个，但是存储的时候还是要从头往尾
+            int size = colors.size();
+
+            int beginIndex = size > colorNum ? size - colorNum : 0;
+
+            for (int i = beginIndex; i < this.colors.size(); i++) {
                 writer.startTAG(COLOR_TAG);
                 writer.attr("colors", colors.get(i).getRGB());
                 writer.end();
             }
+
         }
         writer.end();
     }
