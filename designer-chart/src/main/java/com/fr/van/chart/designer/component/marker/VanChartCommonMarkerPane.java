@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
-
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -152,6 +151,9 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
     @Override
     public String title4PopupWindow() {
         return "commonMarker";
+    }
+
+    public void setDefaultValue() {
     }
 
     @Override

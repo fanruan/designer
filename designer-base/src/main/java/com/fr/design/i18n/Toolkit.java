@@ -37,4 +37,14 @@ public class Toolkit {
     public static String i18nTextArray(String[] keys) {
         return InterProviderFactory.getProvider().getLocText(keys);
     }
+
+    /**
+     * 兼容设计器里，插件管理的部分。
+     * 下一个版本将会废弃。
+     *
+     * @deprecated
+     */
+    public static String i18nCompatibleServerText(String key) {
+        return InterProviderFactory.getProvider().getLocText(key);
+    }
 }

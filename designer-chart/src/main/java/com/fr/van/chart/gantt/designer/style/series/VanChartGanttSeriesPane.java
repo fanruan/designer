@@ -9,12 +9,12 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
-
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartMarkerPane;
+import com.fr.van.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
 import javax.swing.JPanel;
@@ -82,7 +82,7 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected JPanel createMarkerPane() {
         markerPane = new VanChartMarkerPane(){
             @Override
-            protected BasicBeanPane<VanChartAttrMarker> createCommonMarkerPane() {
+            protected VanChartCommonMarkerPane createCommonMarkerPane() {
                 return new VanChartGanttCommonMarkerPane();
             }
 
