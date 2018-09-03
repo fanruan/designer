@@ -5,8 +5,7 @@ import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLableReader;
 
-import java.awt.*;
-
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +17,8 @@ import java.util.List;
 public class ColorSelectConfigManager implements XMLReadable {
 
     // 最近使用的颜色个数
-    private int colorNums = 20;
+    private int colorNum = 20;
 
-    private boolean init = true;
     // 最近使用颜色
     private List<Color> colors = new ArrayList<Color>();
     private static final String RECENT_COLOR_TAG = "RecentColors";
@@ -33,13 +31,12 @@ public class ColorSelectConfigManager implements XMLReadable {
     }
 
     public int getColorNum() {
-        return colorNums;
+        return colorNum;
     }
 
-    public void setColorNum(int colorNums) {
-        this.colorNums = colorNums;
+    public void setColorNum(int colorNum) {
+        this.colorNum = colorNum;
     }
-
 
     /**
      * 添加颜色到最近使用队列中
@@ -47,21 +44,17 @@ public class ColorSelectConfigManager implements XMLReadable {
      * @param color 颜色
      */
     public void addToColorQueue(Color color) {
-        if(color == null){
+
+        // 将透明度不为 0% 的 颜色去掉
+        if (color == null || color.getAlpha() != 0xff) {
             return;
         }
+
         // 过滤重复的最近使用颜色
-        // 因为有个后进先出的问题，最近使用的颜色需要放到最前面所以没用set
-        if (colors.contains(color)) {
-            colors.remove(color);
-        }
+        // 最近使用的颜色需要放到最前面
+        colors.remove(color);
         colors.add(color);
 
-        /*@author yaohwu*/
-        //将历史颜色信息保存到xml文件中去
-        if (colors != null && !colors.isEmpty()) {
-            this.setColorsToFile(colors);
-        }
     }
 
     public void readXML(XMLableReader reader) {
@@ -71,8 +64,11 @@ public class ColorSelectConfigManager implements XMLReadable {
                 String tagName = reader.getTagName();
                 if (reader.isChildNode()) {
                     if (ComparatorUtils.equals(COLOR_TAG, tagName)) {
-                        Color color = null;
-                        colors.add(reader.getAttrAsColor("colors", color));
+                        Color color = reader.getAttrAsColor("colors", null);
+                        // 将透明度不为 0% 的 颜色去掉
+                        if (color != null && color.getAlpha() == 0xff) {
+                            colors.add(color);
+                        }
                     }
                 }
             }
