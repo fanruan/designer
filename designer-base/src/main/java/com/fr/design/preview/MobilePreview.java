@@ -16,7 +16,7 @@ public class MobilePreview extends AbstractPreviewProvider {
 
     @Override
     public String nameForPopupItem() {
-        return Inter.getLocText("Fine-Engine_Mobile_Preview");
+        return Inter.getLocText("Fine-Design_Mobile_Preview");
     }
 
     @Override
