@@ -27,7 +27,7 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
-import com.fr.design.i18n.DesignI18nImpl;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.javascript.EmailPane;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
@@ -123,9 +123,9 @@ public class DesignerActivator extends Activator {
     public void start() {
         List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
         for (LocaleMarker marker : markers) {
-            if (marker.match(LocaleScope.DESIGN)) {
-                DesignI18nImpl.getInstance().addResource(marker.getPath());
-            }
+//            if (marker.match(LocaleScope.DESIGN)) {
+                Toolkit.addResource(marker.getPath());
+//            }
         }
         designerModuleStart();
         preLoadPane();
@@ -252,11 +252,11 @@ public class DesignerActivator extends Activator {
 
     private static NameableCreator[] hyperlinkTypes() {
         return new NameableCreator[]{
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"), EmailJavaScript.class, EmailPane.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript"), JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email"), EmailJavaScript.class, EmailPane.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Hyperlink-Web_link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("JavaScript-Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
+                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_JavaScript"), JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
         };
     }
 
