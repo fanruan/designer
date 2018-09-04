@@ -110,6 +110,10 @@ public class AlphaFineConstants {
 
     public static final String BOTTOM_REGEX_SECOND = "<div class=\"yes_([\\s\\S]*?)帮助</a></div></div>";
 
+    public static final String LINK_REGEX = "javascript:;\"([\\s\\S]*?)','";
+
+    public static final String LINK_REGEX_ANOTHER = "javascript:([\\s\\S]*?)url=\"";
+
     public static final String ALPHA_ROBOT_SEARCH_TOKEN = "K8dl0Np6l0gs";
 
     public static final String SIMILAR_SEARCH_URL_PREFIX = CloudCenter.getInstance().acquireUrlByKind("af.similar_search");
@@ -121,6 +125,10 @@ public class AlphaFineConstants {
     public static final String ALPHA_GO_TO_FORUM = CloudCenter.getInstance().acquireUrlByKind("af.go_fourm");
 
     public static final String ALPHA_GO_TO_WEB = CloudCenter.getInstance().acquireUrlByKind("af.go_web");
+
+    public static final String ALPHA_PREVIEW = CloudCenter.getInstance().acquireUrlByKind("af.preview");
+
+    public static final String JAVASCRIPT_PREFIX = "javascript:SendJava";
 
     public static final String CHINESE_CHARACTERS = "[\\u4e00-\\u9fa5]";
 

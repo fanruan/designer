@@ -11,20 +11,20 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
-import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
-import com.fr.design.mainframe.alphafine.cell.model.BottomModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.BottomModel;
 import com.fr.design.mainframe.alphafine.cell.model.FileModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
+import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.cell.render.ContentCellRender;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.preview.ContainsCirclePane;
 import com.fr.design.mainframe.alphafine.preview.DocumentPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.FilePreviewPane;
 import com.fr.design.mainframe.alphafine.preview.NoResultPane;
 import com.fr.design.mainframe.alphafine.preview.PluginPreviewPane;
 import com.fr.design.mainframe.alphafine.preview.RobotPreviewPane;
-import com.fr.design.mainframe.alphafine.preview.ContainsCirclePane;
 import com.fr.design.mainframe.alphafine.search.manager.impl.ActionSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.FileSearchManager;
@@ -116,6 +116,7 @@ public class AlphaFineDialog extends UIDialog {
     private static final String PLACE_HOLDER = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine");
     private static final int MAX_SHOW_SIZE = 12;
     private static final int TIMER_DELAY = 300;
+    private static final int ONLY_ONE_AVAILABLE_MODEL = 2;
 
     private AlphaFineTextField searchTextField;
     private UIButton closeButton;
@@ -705,14 +706,20 @@ public class AlphaFineDialog extends UIDialog {
                 this.showWorker = new SwingWorker<String, Void>() {
                     @Override
                     protected String doInBackground() {
+                        if(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha_Hot_No_Item").equals((selectedValue).getName())){
+                            return StringUtils.EMPTY;
+                        }
                         String content = RobotModel.getContent((selectedValue).getName());
                         if(StringUtils.isNotEmpty(content)){
-                            //去掉小帆底部的信息
-                            content = content.replaceAll(AlphaFineConstants.BOTTOM_REGEX_FIRST, "")
-                                    .replaceAll(AlphaFineConstants.BOTTOM_REGEX_SECOND, "");
+                            //1.去掉小帆底部的信息。2.修改链接标签，使点击能够正常跳转。
+                            content = content.replaceAll(AlphaFineConstants.BOTTOM_REGEX_FIRST, StringUtils.EMPTY)
+                                    .replaceAll(AlphaFineConstants.BOTTOM_REGEX_SECOND, StringUtils.EMPTY)
+                                    .replaceAll(AlphaFineConstants.LINK_REGEX,StringUtils.EMPTY)
+                                    .replaceAll("'\\)",StringUtils.EMPTY)
+                                    .replaceAll(AlphaFineConstants.LINK_REGEX_ANOTHER,StringUtils.EMPTY);
                             return content;
                         }else{
-                            return "";
+                            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha_Hot_No_Item");
                         }
                     }
 
@@ -1185,7 +1192,7 @@ public class AlphaFineDialog extends UIDialog {
                     final int x = e.getX();
                     final int y = e.getY();
                     final Rectangle cellBounds = getCellBounds(getModel().getSize() - 1, getModel().getSize() - 1);
-                    if (cellBounds != null && cellBounds.contains(x, y)) {
+                    if (cellBounds != null && cellBounds.contains(x, y) && getModel().getElementAt(getModel().getSize() - 1) instanceof BottomModel) {
                         setCursor(new Cursor(Cursor.HAND_CURSOR));
                     } else {
                         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -1323,8 +1330,15 @@ public class AlphaFineDialog extends UIDialog {
             protected Object doInBackground() throws Exception {
 
                 resetContainer();
-                for (AlphaCellModel object : modeList) {
-                    searchListModel.addElement(object);
+                if(modeList.size() == ONLY_ONE_AVAILABLE_MODEL && "".equals(modeList.get(1).getName())){
+                    RobotModel model = new RobotModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha_Hot_No_Item"), null);
+                    searchListModel.addElement(model);
+                }else {
+                    for (AlphaCellModel object : modeList) {
+                        if(!searchListModel.contains(object)){
+                            searchListModel.addElement(object);
+                        }
+                    }
                 }
                 return null;
             }
@@ -1418,6 +1432,7 @@ public class AlphaFineDialog extends UIDialog {
                 final UILabel subTitle = new UILabel(str[i]);
                 subTitle.setForeground(AlphaFineConstants.DARK_GRAY);
                 subTitle.setFont(AlphaFineConstants.MEDIUM_FONT_ANOTHER);
+                subTitle.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 subTitle.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
