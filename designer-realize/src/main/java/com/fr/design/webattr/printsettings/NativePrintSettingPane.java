@@ -15,9 +15,11 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.report.UnitFieldPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.report.stable.ReportConstants;
+import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
 import javax.print.DocFlavor;
@@ -47,6 +49,8 @@ import java.util.regex.Pattern;
 public class NativePrintSettingPane extends JPanel {
     private static final int ODD_INDEX = 0;
     private static final int EVEN_INDEX = 1;
+    private static final String CUSTOM_PAPERSIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom");
+    private static final PaperSize DEFAULT_PAPERSIZE = PaperSize.PAPERSIZE_A4;
 
     private UICheckBox isShowDialogCheck;
     private UIComboBox printerComboBox;
@@ -67,6 +71,9 @@ public class NativePrintSettingPane extends JPanel {
     private UIRadioButton landscapeRadioButton;
     private PageMarginSettingPane pageMarginSettingPane;
     private JPanel centerPane;
+    private JPanel customPaperSizePane;
+    private UnitFieldPane customWidthFieldPane;
+    private UnitFieldPane customHeightFieldPane;
 
     public NativePrintSettingPane() {
         initComponents();
@@ -130,6 +137,12 @@ public class NativePrintSettingPane extends JPanel {
                     specifiedAreaField.setText(lastValidText);
                 }
                 super.focusLost(e);
+            }
+        });
+        predefinedPaperSizeComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                updateCustomPaperSizeArea();
             }
         });
     }
@@ -222,6 +235,7 @@ public class NativePrintSettingPane extends JPanel {
             Object[] tmpPaperSizeNameArray = ReportConstants.PaperSizeNameSizeArray[i];
             predefinedPaperSizeComboBox.addItem(tmpPaperSizeNameArray[1]);
         }
+        predefinedPaperSizeComboBox.addItem(CUSTOM_PAPERSIZE);
         predefinedPaperSizeComboBox.setRenderer(new UIComboBoxRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -250,10 +264,39 @@ public class NativePrintSettingPane extends JPanel {
             }
         });
 
-        JPanel panel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        panel.add(predefinedPaperSizeComboBox);
-        panel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
+        // 下拉框
+        JPanel comboPanel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        comboPanel.add(predefinedPaperSizeComboBox);
+        comboPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
+
+        customPaperSizePane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_M_Pane();
+        // 宽度设置
+        JPanel customWidthPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        customWidthPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Designer_Width") + ":"));
+        customWidthFieldPane = new UnitFieldPane(Constants.UNIT_MM);
+        customWidthFieldPane.setUnitValue(DEFAULT_PAPERSIZE.getWidth());
+        customWidthPane.add(customWidthFieldPane);
+        // 高度设置
+        JPanel customHeightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        customHeightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Height") + ":"));
+        customHeightFieldPane = new UnitFieldPane(Constants.UNIT_MM);
+        customHeightFieldPane.setUnitValue(DEFAULT_PAPERSIZE.getHeight());
+        customHeightPane.add(customHeightFieldPane);
+
+        customPaperSizePane.add(customWidthPane);
+        customPaperSizePane.add(customHeightPane);
+        customPaperSizePane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.add(comboPanel, BorderLayout.NORTH);
+        panel.add(customPaperSizePane, BorderLayout.CENTER);
+
         return panel;
+    }
+
+    private void updateCustomPaperSizeArea() {
+        boolean isCustom = ComparatorUtils.equals(predefinedPaperSizeComboBox.getSelectedItem(), CUSTOM_PAPERSIZE);
+        customPaperSizePane.setVisible(isCustom);
     }
 
     private JPanel getLayoutSettingPane() {
@@ -373,7 +416,17 @@ public class NativePrintSettingPane extends JPanel {
         doublePrintComboBox.setEnabled(doublePrintRadioButton.isSelected());
 
         inheritPagePaperSettingCheck.setSelected(nativePrintAttr.isInheritPagePaperSetting());
-        predefinedPaperSizeComboBox.setSelectedItem(nativePrintAttr.getPaperSize());
+
+        PaperSize paperSize = nativePrintAttr.getPaperSize();
+        predefinedPaperSizeComboBox.setSelectedItem(paperSize);
+        if (!ComparatorUtils.equals(predefinedPaperSizeComboBox.getSelectedItem(), paperSize)) {
+            // 自定义尺寸
+            predefinedPaperSizeComboBox.setSelectedItem(CUSTOM_PAPERSIZE);
+            customWidthFieldPane.setUnitValue(paperSize.getWidth());
+            customHeightFieldPane.setUnitValue(paperSize.getHeight());
+        }
+        updateCustomPaperSizeArea();
+
         inheritPageLayoutSettingCheck.setSelected(nativePrintAttr.isInheritPageLayoutSetting());
         if (nativePrintAttr.getOrientation() == ReportConstants.PORTRAIT) {
             portraitRadioButton.setSelected(true);
@@ -408,7 +461,15 @@ public class NativePrintSettingPane extends JPanel {
         }
 
         nativePrintAttr.setInheritPagePaperSetting(inheritPagePaperSettingCheck.isSelected());
-        nativePrintAttr.setPaperSize((PaperSize) predefinedPaperSizeComboBox.getSelectedItem());
+
+        PaperSize newPaperSize;
+        if (ComparatorUtils.equals(predefinedPaperSizeComboBox.getSelectedItem(), CUSTOM_PAPERSIZE)) {
+            newPaperSize = new PaperSize(customWidthFieldPane.getUnitValue(), customHeightFieldPane.getUnitValue());
+        } else {
+            newPaperSize = (PaperSize) predefinedPaperSizeComboBox.getSelectedItem();
+        }
+        nativePrintAttr.setPaperSize(newPaperSize);
+
         nativePrintAttr.setInheritPageLayoutSetting(inheritPageLayoutSettingCheck.isSelected());
         nativePrintAttr.setOrientation(portraitRadioButton.isSelected() ?
                 ReportConstants.PORTRAIT : ReportConstants.LANDSCAPE);
