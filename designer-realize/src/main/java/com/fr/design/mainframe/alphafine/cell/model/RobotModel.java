@@ -1,15 +1,14 @@
 package com.fr.design.mainframe.alphafine.cell.model;
 
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
-import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.AssistUtils;
+import com.fr.stable.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -44,17 +43,17 @@ public class RobotModel extends AlphaCellModel {
     }
 
     public static String getContent(String titleStr) {
-        String result;
         String token = DigestUtils.md5Hex(AlphaFineConstants.ALPHA_ROBOT_SEARCH_TOKEN + titleStr);
         String url = AlphaFineConstants.ALPHA_GO_TO_WEB + titleStr + "&token=" + token;
-        HttpClient httpClient = new HttpClient(url);
-        httpClient.asGet();
-        result = httpClient.getResponseText();
-        AlphaFineHelper.checkCancel();
+
         try {
+            String result = HttpToolbox.get(url);
+            if(StringUtils.isEmpty(result)){
+                return StringUtils.EMPTY;
+            }
             JSONObject jsonObject = new JSONObject(result);
             return jsonObject.optString("msg");
-        } catch (JSONException e) {
+        } catch (JSONException | IOException e) {
             FineLoggerFactory.getLogger().error("get robotmodel content error: " + e.getMessage());
         }
         return null;
@@ -86,7 +85,7 @@ public class RobotModel extends AlphaCellModel {
     @Override
     public void doAction() {
         try {
-            Desktop.getDesktop().browse(new URI("http://robot.finereport.com?send=" + super.getName()));
+            Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + super.getName()));
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         } catch (URISyntaxException e) {
