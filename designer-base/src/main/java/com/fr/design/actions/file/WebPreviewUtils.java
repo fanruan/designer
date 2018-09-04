@@ -9,7 +9,6 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.GeneralUtils;
-import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.web.AbstractWebletCreator;
 
@@ -27,7 +26,7 @@ public final class WebPreviewUtils {
     @SuppressWarnings("unchecked")
     public static void preview(JTemplate<?, ?> jt, PreviewProvider provider) {
         String baseRoute = jt.route();
-        actionPerformed(jt, baseRoute, provider == null ? Collections.EMPTY_MAP : provider.parametersForPreview(), ParameterConstants.VIEWLET);
+        actionPerformed(jt, baseRoute, provider == null ? Collections.EMPTY_MAP : provider.parametersForPreview(), provider.getActionType());
     }
 
     private static void actionPerformed(JTemplate<?, ?> jt, String baseRoute, Map<String, Object> map, String actionType) {
