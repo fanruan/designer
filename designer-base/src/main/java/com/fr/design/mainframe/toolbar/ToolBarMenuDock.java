@@ -16,7 +16,6 @@ import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
 import com.fr.design.actions.community.TechSolutionAction;
-import com.fr.design.actions.community.UpAction;
 import com.fr.design.actions.community.VideoAction;
 import com.fr.design.actions.file.CloseCurrentTemplateAction;
 import com.fr.design.actions.file.ExitDesignerAction;
@@ -51,7 +50,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.onlineupdate.actions.SoftwareUpdateAction;
-import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
+import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
@@ -426,8 +425,8 @@ public abstract class ToolBarMenuDock {
                 new PlatformManagerAction()
         );
 
-        if (shouldShowRemotePermission()) {
-            menuDef.addShortCut(new RemoteDesignAuthorityManagerAction());
+        if (shouldShowRemoteAuth()) {
+            menuDef.addShortCut(new RemoteDesignAuthManagerAction());
         }
 
         if (!DesignerMode.isAuthorityEditing()) {
@@ -451,7 +450,13 @@ public abstract class ToolBarMenuDock {
         return processor == null ? new GlobalTableDataAction() : processor.createServerTDAction();
     }
 
-    private boolean shouldShowRemotePermission() {
+    /**
+     * 判断是否应该展示远程设计权限管理
+     * 如果当前环境是远程环境，并且登录用户为管理员，那么应该展示；否则不予展示
+     *
+     * @return boolean
+     */
+    private boolean shouldShowRemoteAuth() {
 
         return WorkContext.getCurrent() != null && !WorkContext.getCurrent().isLocal() && WorkContext.getCurrent().isRoot();
     }
@@ -474,7 +479,7 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new TutorialAction());
         }
         //远程不使用更新升级
-        if(WorkContext.getCurrent().isLocal()) {
+        if (WorkContext.getCurrent().isLocal()) {
             shortCuts.add(new SoftwareUpdateAction());
         }
 
