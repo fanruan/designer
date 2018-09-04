@@ -48,7 +48,7 @@ public class FormulaFloatAction extends ElementCaseAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Formula");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Formula");
         }
 
         @Override

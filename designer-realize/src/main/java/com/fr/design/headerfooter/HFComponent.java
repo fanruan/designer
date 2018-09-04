@@ -71,9 +71,9 @@ public class HFComponent extends UILabel implements MoveActionListener {
 
         popupMenu.add(new JSeparator());
         
-        menuItemAction("HF-Move_Left",'L');
+        menuItemAction("Fine-Design_Report_HF_Move_Left",'L');
         
-        menuItemAction("HF-Move_Right",'R');
+        menuItemAction("Fine-Design_Report_HF_Move_Right",'R');
 
         popupMenu.add(new JSeparator());
         
@@ -257,24 +257,24 @@ public class HFComponent extends UILabel implements MoveActionListener {
      */
     public static String getHFELementText(HFElement hfElement) {
         if (hfElement.getClass().equals(TextHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Text");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Text");
         } else if (hfElement.getClass().equals(FormulaHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Formula");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
         } else if (hfElement.getClass().equals(PageNumberHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("HF-Page_Number");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Page_Number");
         } else if (hfElement.getClass().equals(NumberOfPageHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("HF-Number_of_Page");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Number_of_Page");
         } else if (hfElement.getClass().equals(DateHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Date");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
         } else if (hfElement.getClass().equals(TimeHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Time");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Time");
         } else if (hfElement.getClass().equals(ImageHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Image");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
         } else if (hfElement.getClass().equals(NewLineHFElement.class)) {
-            return com.fr.design.i18n.Toolkit.i18nText("HF-New_Line");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_New_Line");
         }
 
-        return com.fr.design.i18n.Toolkit.i18nText("HF-Undefined");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Undefined");
     }
 
     /**

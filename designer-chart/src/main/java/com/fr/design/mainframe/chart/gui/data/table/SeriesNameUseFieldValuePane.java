@@ -76,11 +76,11 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p, p};
-        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Name"));
+        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         Label1.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
-        UILabel Label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value"));
+        UILabel Label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Value"));
         Label2.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
-        UILabel Label3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method"));
+        UILabel Label3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method"));
         Label3.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
         Component[][] components = getUseComponent(Label1, Label2, Label3);
 
@@ -95,11 +95,11 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
         double f = TableLayout.FILL;
         double[] columnSize = {f};
         double[] rowSize = {p, p, p, p};
-        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
+        UILabel Label1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
         Label1.setPreferredSize(new Dimension(75, 20));
-        UILabel Label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Value"));
+        UILabel Label2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Value"));
         Label2.setPreferredSize(new Dimension(75, 20));
-        UILabel Label3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Summary_Method"));
+        UILabel Label3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method"));
         Label3.setPreferredSize(new Dimension(75, 20));
         Component[][] components = getUseComponentWithOutSummary(Label1, Label2, Label3);
 

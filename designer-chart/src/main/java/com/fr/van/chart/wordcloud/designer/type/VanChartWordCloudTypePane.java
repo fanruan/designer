@@ -13,7 +13,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/11/29.
  */
 public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewWordCloud");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Cloud");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{
@@ -24,7 +24,7 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_WordCloud")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Cloud")
         };
     }
 
@@ -45,7 +45,7 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
      */
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewWordCloud");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Cloud");
     }
 
     protected Plot getSelectedClonedPlot(){

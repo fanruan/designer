@@ -97,8 +97,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private EastRegionContainerPane() {
         super();
         initPropertyItemList();
-        defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
-        defaultAuthorityPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Not_Support_Authority_Edit"));
+        defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
+        defaultAuthorityPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Support_Authority_Edit"));
         switchMode(PropertyMode.REPORT);
         setContainerWidth(CONTAINER_WIDTH);
     }
@@ -106,39 +106,39 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     private void initPropertyItemList() {
         propertyItemMap = new LinkedHashMap<>();  // 有序map
         // 单元格元素
-        PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell_Element"),
+        PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Element"),
                 "cellelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 单元格属性
-        PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell_Attributes"),
+        PropertyItem cellAttr = new PropertyItem(KEY_CELL_ATTR, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Attributes"),
                 "cellattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 悬浮元素
-        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Float_Element"),
+        PropertyItem floatElement = new PropertyItem(KEY_FLOAT_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Float_Element"),
                 "floatelement", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.POLY_REPORT});
         // 控件设置
-        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Settings"),
+        PropertyItem widgetSettings = new PropertyItem(KEY_WIDGET_SETTINGS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Settings"),
                 "widgetsettings", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.FORM, PropertyMode.POLY},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.FORM, PropertyMode.POLY_REPORT, PropertyMode.POLY_CHART});
         // 条件属性
-        PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Condition_Attributes"),
+        PropertyItem conditionAttr = new PropertyItem(KEY_CONDITION_ATTR, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Condition_Attributes"),
                 "conditionattr", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 超级链接
-        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Hyperlink"),
+        PropertyItem hyperlink = new PropertyItem(KEY_HYPERLINK, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Hyperlink"),
                 "hyperlink", new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_PARA, PropertyMode.REPORT_FLOAT, PropertyMode.POLY, PropertyMode.POLY_CHART},
                 new PropertyMode[]{PropertyMode.REPORT, PropertyMode.REPORT_FLOAT, PropertyMode.FORM_REPORT, PropertyMode.POLY_REPORT});
         // 组件库
-        PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget_Library"),
+        PropertyItem widgetLib = new PropertyItem(KEY_WIDGET_LIB, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Library"),
                 "widgetlib", new PropertyMode[]{PropertyMode.FORM},
                 new PropertyMode[]{PropertyMode.FORM});
         // 权限编辑
-        PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Permissions_Edition"),
+        PropertyItem authorityEdition = new PropertyItem(KEY_AUTHORITY_EDITION, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Permissions_Edition"),
                 "authorityedit", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION_DISABLED},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
         // 已配置角色
-        PropertyItem configuredRoles = new PropertyItem(KEY_CONFIGURED_ROLES, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Configured_Roles"),
+        PropertyItem configuredRoles = new PropertyItem(KEY_CONFIGURED_ROLES, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Configured_Roles"),
                 "configuredroles", new PropertyMode[]{PropertyMode.AUTHORITY_EDITION_DISABLED},
                 new PropertyMode[]{PropertyMode.AUTHORITY_EDITION});
 
@@ -1028,7 +1028,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             initListener();
             this.setVisible(true);
 
-            defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_No_Settings_Available"));
+            defaultPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No_Settings_Available"));
         }
 
         public void showDefaultPane() {

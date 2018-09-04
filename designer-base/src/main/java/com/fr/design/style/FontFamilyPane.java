@@ -1,18 +1,16 @@
 package com.fr.design.style;
 
-import java.awt.BorderLayout;
+import com.fr.base.Utils;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.FRFont;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.fr.base.Utils;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.FRFont;
-
-import com.fr.design.utils.gui.GUICoreUtils;
+import java.awt.BorderLayout;
 
 public class FontFamilyPane extends JPanel {
     private UITextField familyField;
@@ -37,7 +35,7 @@ public class FontFamilyPane extends JPanel {
 
 //        familyPane.setLayout(FRGUIPaneFactory.createBorderLayout());
         familyPane.add(FRFontPane.createTextFieldListPane("", familyField, familyList), BorderLayout.CENTER);
-        familyPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FRFont-Family"),null));
+        familyPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FRFont_Family"),null));
         
         this.add(familyPane);
     }

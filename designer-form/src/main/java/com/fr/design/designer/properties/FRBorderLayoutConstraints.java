@@ -1,27 +1,25 @@
 package com.fr.design.designer.properties;
 
+import com.fr.design.designer.beans.ConstraintsGroupModel;
+import com.fr.design.designer.creator.XWBorderLayout;
+import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
+import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
+import com.fr.design.mainframe.widget.editors.StringEditor;
+import com.fr.form.ui.FreeButton;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WBorderLayout;
+import com.fr.stable.StringUtils;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-
-
-import com.fr.stable.StringUtils;
-import com.fr.design.mainframe.widget.editors.IntegerPropertyEditor;
-import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-import com.fr.design.mainframe.widget.editors.StringEditor;
-import com.fr.design.designer.beans.ConstraintsGroupModel;
-import com.fr.design.designer.creator.XWBorderLayout;
-import com.fr.design.designer.creator.XWidgetCreator;
-import com.fr.form.ui.FreeButton;
-import com.fr.form.ui.Widget;
-import com.fr.form.ui.container.WBorderLayout;
 
 public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
 
@@ -47,7 +45,7 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
 
     @Override
     public String getGroupName() {
-        return com.fr.design.i18n.Toolkit.i18nText("Layout_Constraints");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Constraints_Duplicate");
     }
 
     @Override
@@ -84,9 +82,9 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
         if (column == 0) {
             switch (row) {
                 case 0:
-                    return com.fr.design.i18n.Toolkit.i18nText("BorderLayout-Constraints");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_Constraints");
                 case 1:
-                    return com.fr.design.i18n.Toolkit.i18nText("Title");
+                    return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title");
                 default:
                     return getSizeDisplayName();
             }
@@ -128,9 +126,9 @@ public class FRBorderLayoutConstraints implements ConstraintsGroupModel {
     private String getSizeDisplayName() {
         Object obj = layout.getConstraints(widget);
         if (BorderLayout.NORTH.equals(obj) || BorderLayout.SOUTH.equals(obj)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Tree-Height");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Height");
         } else if (BorderLayout.WEST.equals(obj) || BorderLayout.EAST.equals(obj)) {
-            return com.fr.design.i18n.Toolkit.i18nText("Tree-Width");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tree_Width");
         } else {
             return StringUtils.EMPTY;
         }

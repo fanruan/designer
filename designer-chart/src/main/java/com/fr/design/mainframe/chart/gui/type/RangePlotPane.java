@@ -25,7 +25,7 @@ public class RangePlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("ChartF-Range_Chart")
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Chart")
 		};
 	}
 
@@ -49,7 +49,7 @@ public class RangePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ChartF-Range_Chart");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Chart");
 	}
 
 	/**

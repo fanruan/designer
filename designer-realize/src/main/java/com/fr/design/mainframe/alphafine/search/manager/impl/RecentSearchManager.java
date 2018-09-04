@@ -76,7 +76,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
         this.modelList = new SearchResult();
         recentModelList = getRecentModelList(searchText);
         if (recentModelList != null && recentModelList.size() > 0) {
-            modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AlphaFine_Latest")));
+            modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Latest")));
             if (recentModelList.size() > AlphaFineConstants.LATEST_SHOW_SIZE) {
                 modelList.addAll(recentModelList.subList(0, AlphaFineConstants.LATEST_SHOW_SIZE));
             } else {

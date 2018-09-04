@@ -26,7 +26,7 @@ public class BorderHighlightPane extends ConditionAttrSingleConditionPane<Highli
     private UIButton borderButton;
     public BorderHighlightPane(final ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        borderButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        borderButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         borderButton.setPreferredSize(new Dimension(53, 23));
         borderButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -47,14 +47,14 @@ public class BorderHighlightPane extends ConditionAttrSingleConditionPane<Highli
             }
         });
 
-        UILabel borderLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Border") + ":");
+        UILabel borderLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border") + ":");
         this.add(borderLabel);
         this.add(borderButton);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Border");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border");
     }
 
 

@@ -87,7 +87,7 @@ public class MapDataPane extends DataContentsPane {
 					protected void initLayout() {
 						this.setLayout(new BorderLayout(0, 6));
 						JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
-						northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Map_ShowWay") + ":"));
+						northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Show_Way") + ":"));
 						northPane.add(jcb);
 						this.add(northPane, BorderLayout.NORTH);
 						this.add(cardPane, BorderLayout.CENTER);

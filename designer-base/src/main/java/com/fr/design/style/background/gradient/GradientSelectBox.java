@@ -63,7 +63,7 @@ public class GradientSelectBox extends BasicPane {
 	}
 
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Gradient-Color");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Gradient_Color");
 	}
 	
 	public void populate(GradientBackground background) {

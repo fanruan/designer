@@ -68,15 +68,15 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 			double f = TableLayout.FILL;
 			double[] row = {p};
 			double[] col = {f};
-			trendLine = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Chart_TrendLine"}, new Component[][]{new Component[]{trendLinePane}}, row, col);
+			trendLine = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_TrendLine"}, new Component[][]{new Component[]{trendLinePane}}, row, col);
 		}
 		//最多有两条坐标轴是值类型的
 		if(plot.getAlertLinePaneTitle().length == 2){
 			String[] title = plot.getAlertLinePaneTitle();
-			firstAlertPane = this.createAlertLinePane(new String[]{title[0], "ChartF-Alert-Line"}, true);
-			secondAlertPane = this.createAlertLinePane(new String[]{title[1], "ChartF-Alert-Line"}, false);
+			firstAlertPane = this.createAlertLinePane(new String[]{title[0], "Fine-Design_Chart_Alert_Line"}, true);
+			secondAlertPane = this.createAlertLinePane(new String[]{title[1], "Fine-Design_Chart_Alert_Line"}, false);
 		}else if(plot.getyAxis() instanceof ValueAxis){
-			firstAlertPane = this.createAlertLinePane(new String[]{"ChartF-Alert-Line"}, true);
+			firstAlertPane = this.createAlertLinePane(new String[]{"Fine-Design_Chart_Alert_Line"}, true);
 		}
 		Component[][] component = null;;
 		if(trendLine != null){
@@ -109,7 +109,7 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 	
 	private JPanel createAlertLinePane(String[] title, boolean first){
 		List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-    	list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
+    	list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), new ChartAlertValue(), ChartAlertValuePane.class));
     	if(first){
     		xAlertPane = new UICorrelationComboBoxPane(list);
     	}else{
@@ -164,9 +164,9 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 		boolean useLeftRight = numberAxis.getPosition() == Constants.LEFT || numberAxis.getPosition() == Constants.RIGHT;
 		List<UIMenuNameableCreator> menuList = new ArrayList<UIMenuNameableCreator>();
 		if(useLeftRight) {
-			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValuePane.class));
+			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), new ChartAlertValue(), ChartAlertValuePane.class));
 		} else {
-			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("ChartF-Alert-Line"), new ChartAlertValue(), ChartAlertValueInTopBottomPane.class));
+			menuList.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alert_Line"), new ChartAlertValue(), ChartAlertValueInTopBottomPane.class));
 		}
 		editAlertPane.refreshMenuAndAddMenuAction(menuList);
 		
@@ -274,7 +274,7 @@ public class ChartAnalysisLinePane extends BasicScrollPane<Chart>{
 		lineInfo.setAttrLineColor(new AttrColor(Color.gray));
 		trendLine.setLineStyleInfo(lineInfo);
 		conditionLine.setLine(trendLine);
-		list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine"), conditionLine, ConditionTrendLinePane.class));
+		list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine"), conditionLine, ConditionTrendLinePane.class));
 		trendLinePane = new UICorrelationComboBoxPane(list);
 		
 	}

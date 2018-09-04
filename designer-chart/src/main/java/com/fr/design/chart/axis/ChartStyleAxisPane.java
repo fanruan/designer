@@ -25,8 +25,8 @@ import com.fr.design.dialog.BasicPane;
  * Time   : 上午8:48
  */
 public abstract class ChartStyleAxisPane extends BasicPane implements ListSelectionListener {
-    protected static final String CATE_AXIS = com.fr.design.i18n.Toolkit.i18nText("ChartF-Category_Axis");
-    protected static final String VALUE_AXIS = com.fr.design.i18n.Toolkit.i18nText("Chart_F_Radar_Axis");
+    protected static final String CATE_AXIS = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Category");
+    protected static final String VALUE_AXIS = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Value_Axis");
     protected static final String SECOND_AXIS = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Value_Axis");
     private JList mainList;
     private CardLayout cardLayout;

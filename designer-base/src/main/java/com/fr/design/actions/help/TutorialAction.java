@@ -31,7 +31,7 @@ public class TutorialAction extends UpdateAction {
         this.setMenuKeySet(HELP_TUTORIAL);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/help.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/help.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
@@ -107,7 +107,7 @@ public class TutorialAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY_HELP");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help");
         }
 
         @Override

@@ -25,7 +25,6 @@ import com.fr.stable.ArrayUtils;
 
 import java.awt.*;
 import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
 
 /**
  * 表单参数界面container
@@ -59,19 +58,19 @@ public class XWParameterLayout extends XWAbsoluteLayout {
      */
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         CRPropertyDescriptor[] propertyTableEditor = new CRPropertyDescriptor[]{
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("FR-Designer_Form-Widget_Name")),
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form-Widget_Name")),
                 new CRPropertyDescriptor("background", this.data.getClass()).setEditorClass(BackgroundEditor.class)
-                        .setRendererClass(BackgroundRenderer.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Background"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .setRendererClass(BackgroundRenderer.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("delayDisplayContent", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DisplayNothingBeforeQuery"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Display_Nothing_Before_Query"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("position", this.data.getClass()).setEditorClass(WidgetDisplayPosition.class)
-                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WidgetDisplyPosition"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .setRendererClass(WidgetDisplayPositionRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Display_Position"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("useParamsTemplate", this.data.getClass()).setEditorClass(BooleanEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_Params_Template"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Use_Params_Template"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
         };
 
         return ArrayUtils.addAll(propertyTableEditor, getExtraTableEditor());

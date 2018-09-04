@@ -37,7 +37,7 @@ public class SupportQQAction extends UpdateAction {
         try {
             Desktop.getDesktop().browse(new URI(ProductConstants.SUPPORT_QQ));
         } catch (IOException exp) {
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Set_default_browser"));
+            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser"));
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -52,7 +52,7 @@ public class SupportQQAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("Support_QQ");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_QQ");
         }
 
         @Override

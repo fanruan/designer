@@ -96,7 +96,7 @@ public class EventPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Event_Set");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Set");
 	}
 
 
@@ -158,7 +158,7 @@ public class EventPane extends BasicPane {
 
 	public class RemoveAction extends UpdateAction {
 		public RemoveAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
 			this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/remove.png"));
 		}
 
@@ -168,7 +168,7 @@ public class EventPane extends BasicPane {
 				return;
 			}
 
-			int val = JOptionPane.showConfirmDialog(EventPane.this, com.fr.design.i18n.Toolkit.i18nText("Are_You_Sure_To_Delete_The_Data") + "?", "Message",
+			int val = JOptionPane.showConfirmDialog(EventPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message",
 					JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;
@@ -219,8 +219,8 @@ public class EventPane extends BasicPane {
 		private String[] menuName;
 
 		public AddMenuDef(String[] menuName) {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("Add"));
-			this.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Add"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
+			this.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
 			this.setMnemonic('A');
 			this.setIconPath("/com/fr/design/images/control/addPopup.png");
 			this.menuName = menuName;

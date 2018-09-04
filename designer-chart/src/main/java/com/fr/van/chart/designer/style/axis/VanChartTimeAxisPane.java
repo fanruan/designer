@@ -82,7 +82,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
     private JPanel createValueDefinition(){
         timeMinMaxValuePane = new TimeMinMaxValuePane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_ValueDefinition"), timeMinMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), timeMinMaxValuePane);
     }
 
     @Override
@@ -165,8 +165,8 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
             secTickPane.add(secondUnitField);
             secTickPane.add(secondType);
 
-            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            minPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Min"),minValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+            maxPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Max"),maxValueField, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
             mainPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Type"),mainTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
             secPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SecType"),secTickPane, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
@@ -199,9 +199,9 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMin() {
             // 最小值.
-            minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Min_Value"}));
+            minCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Min_Value"));
             Date tmp = null;
-            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
+            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Formula"));
             Editor[] editor = new Editor[]{dateEditor, formulaEditor};
             minValueField = new ValueEditorPane(editor);
@@ -214,9 +214,9 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMax() {
             // 最大值
-            maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Max_Value"}));
+            maxCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Max_Value"));
             Date tmp = null;
-            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Date"), UIDatePicker.STYLE_CN_DATETIME1);
+            DateEditor dateEditor = new DateEditor(tmp, true, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date"), UIDatePicker.STYLE_CN_DATETIME1);
             Editor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Formula"));
             Editor[] editor = new Editor[]{dateEditor, formulaEditor};
             maxValueField = new ValueEditorPane(editor);
@@ -229,7 +229,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initMain() {
             // 主要刻度单位
-            mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_MainType"}));
+            mainTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Main_Type"));
             mainUnitField = new UITextField();
             mainUnitField.setPreferredSize(new Dimension(20, 20));
             mainType = new UIComboBox(TYPES);
@@ -245,7 +245,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
 
         private void initSecond() {
             // 次要刻度单位
-            secondTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Plugin-ChartF_SecType"}));
+            secondTickBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Second_Type"));
             secondUnitField = new UITextField();
             secondUnitField.setPreferredSize(new Dimension(20, 20));
             secondType = new UIComboBox(TYPES);

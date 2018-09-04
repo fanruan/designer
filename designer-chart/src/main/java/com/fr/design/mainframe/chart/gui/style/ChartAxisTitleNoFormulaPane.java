@@ -39,7 +39,7 @@ public class ChartAxisTitleNoFormulaPane extends BasicPane {
     }
 
     private void initComponents(){
-        isAxisTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Axis_Title"));
+        isAxisTitleVisable = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Title"));
         axisTitleContentPane = new UITextField();
         axisTitleAttrPane = new ChartTextAttrPane();
         axisTitleAttrPane.populate(FRFont.getInstance("Microsoft YaHei", Font.PLAIN, 9));
@@ -57,7 +57,7 @@ public class ChartAxisTitleNoFormulaPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{null,axisTitleContentPane},
                 new Component[]{null,axisTitleAttrPane},
-                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Alignment-Style"))},
+                new Component[]{null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alignment_Style"))},
                 new Component[]{null,titleAlignmentPane,},
         };
         titlePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

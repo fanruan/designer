@@ -46,7 +46,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     }
 
     public void initComponents() {
-        goBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("BindColumn-Group"), com.fr.design.i18n.Toolkit.i18nText("BindColumn-Select"), com.fr.design.i18n.Toolkit.i18nText("BindColumn-Summary")});
+        goBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Group"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Select"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bind_Column_Summary")});
         initCardPane();
         contentPane = layoutPane();
         this.setLayout(new BorderLayout());
@@ -56,7 +56,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private JPanel layoutPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        UILabel dataSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Data_Setting"));
+        UILabel dataSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"));
         dataSetLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = new Component[][]
                 {
@@ -100,7 +100,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
                 checkButtonEnabled();
             }
         });
-        advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Custom"));
+        advancedButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
         advancedButton.addActionListener(groupAdvancedListener);
 
         JPanel pane = new JPanel(new BorderLayout(0, 10));

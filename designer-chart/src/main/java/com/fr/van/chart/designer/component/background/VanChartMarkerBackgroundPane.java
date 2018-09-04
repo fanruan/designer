@@ -33,7 +33,7 @@ public class VanChartMarkerBackgroundPane extends VanChartBackgroundPane {
     protected Component[][] getPaneComponents() {
         return  new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Shape_Fill")), typeComboBox},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill")), typeComboBox},
                 new Component[]{null, centerPane},
         };
     }

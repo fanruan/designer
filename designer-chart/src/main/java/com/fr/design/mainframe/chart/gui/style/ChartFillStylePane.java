@@ -55,8 +55,8 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-		buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Acc_Set")));
-		buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Gradient-Color")));
+		buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Acc_Set")));
+		buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_Color")));
 		customPane.add(buttonPane, BorderLayout.NORTH);
 		
 		changeColorSetPane = new JPanel(cardLayout = new CardLayout());
@@ -116,7 +116,7 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
 				new Component[]{styleSelectBox},
 				new Component[]{customPane}
 		} ;
-		return TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ColorMatch"},components,rowSize,columnSize);
+		return TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Color_Match"},components,rowSize,columnSize);
 	}
 	
 	@Override
@@ -135,13 +135,13 @@ public class ChartFillStylePane extends BasicBeanPane<AttrFillStyle>{
     private String[] getNameObj() {
 		ChartPreStyleConfig config = ChartPreStyleConfig.getInstance();
         ArrayList<String> nameArr = new ArrayList<String>();
-        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DEFAULT"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         Iterator keys = config.names();
         while (keys.hasNext()) {
             Object key = keys.next();
             nameArr.add(Utils.objectToString(key));
         }
-        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Custom"));
+        nameArr.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"));
         return nameArr.toArray(new String[nameArr.size()]);
     }
 

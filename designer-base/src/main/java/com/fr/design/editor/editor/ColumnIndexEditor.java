@@ -26,7 +26,7 @@ public class ColumnIndexEditor extends Editor<Object> {
      * @param value
      */
     public ColumnIndexEditor(int value) {
-        this(value, com.fr.design.i18n.Toolkit.i18nText("Datasource-Column_Index"));
+        this(value, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Column_Index"));
     }
 
     public ColumnIndexEditor(int value, String name) {

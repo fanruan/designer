@@ -27,7 +27,7 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 		while (serverTableDataNameIterator.hasNext()) {
 			tableDataNameList.add((String)serverTableDataNameIterator.next());
 		}
-		availableTableDataNameList = new CheckBoxList(tableDataNameList.toArray(new String[0]), CheckBoxList.SelectedState.NONE,com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Field_Name"));
+		availableTableDataNameList = new CheckBoxList(tableDataNameList.toArray(new String[0]), CheckBoxList.SelectedState.NONE,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Chart_Field_Name"));
 		this.add(availableTableDataNameList, BorderLayout.WEST);
 		availableTableDataNameList.addCheckBoxListSelectionChangeListener(this);
 		
@@ -68,7 +68,7 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData");
 	}
 	
     /**

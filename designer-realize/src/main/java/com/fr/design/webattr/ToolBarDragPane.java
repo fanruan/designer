@@ -37,7 +37,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 	private int row = 7;
 	private DefaultTableModel toolbarButtonTableModel;
 	private JTable layoutTable;
-	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar") + ":"); // 是否使用工具栏
+	private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_ToolBar") + ":"); // 是否使用工具栏
 	private boolean isEnabled;
 
 	public ToolBarDragPane() {
@@ -49,7 +49,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		toolbarButtonTableModel = new TableModel(row ,COLUMN);
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		JPanel north = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Restore_Default"));
+		UIButton defaultButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Restore_Default"));
 		// 恢复默认按钮
 		defaultButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 					northToolBar.validate();
 					northToolBar.repaint();
 				} else {
-					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChooseOneButton"));
+					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
 				}
 			}
 		});
@@ -122,7 +122,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 					southToolBar.validate();
 					southToolBar.repaint();
 				} else {
-					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ChooseOneButton"));
+					JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
 				}
 			}
 		});
@@ -143,13 +143,13 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		southToolBar.setBackground(Color.lightGray);
 		JPanel movePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		JPanel northContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ToolBar_Top"), northToolBar);
+		SettingToolBar top = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ToolBar_Top"), northToolBar);
 		northContentPane.add(top, BorderLayout.EAST);
 		northContentPane.add(northToolBar, BorderLayout.CENTER);
 		northContentPane.setBackground(Color.lightGray);
 
 		JPanel southContentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_ToolBar_Bottom"), southToolBar);
+		SettingToolBar bottom = new SettingToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ToolBar_Bottom"), southToolBar);
 		southContentPane.add(bottom, BorderLayout.EAST);
 		southContentPane.add(southToolBar, BorderLayout.CENTER);
 		southContentPane.setBackground(Color.lightGray);
@@ -169,7 +169,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		layoutTable.setColumnSelectionAllowed(false);
 		layoutTable.setRowSelectionAllowed(false);
 		layoutTable.setBackground(Color.WHITE);
-		int columnWidth = Integer.parseInt(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LayoutTable_Column_Width"));
+		int columnWidth = Integer.parseInt(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Layout_Table_Column_Width"));
 		for (int i = 0; i < layoutTable.getColumnModel().getColumnCount(); i++) {
 			layoutTable.getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
 		}
@@ -256,7 +256,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ReportServerP-Toolbar", "Set"});
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Toolbar");
 	}
 
 	public void setCheckBoxSelected(boolean b) {

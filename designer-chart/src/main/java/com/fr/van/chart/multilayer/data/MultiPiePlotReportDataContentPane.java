@@ -92,9 +92,9 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         nameField.setPreferredSize(new Dimension(WD, HT));
 
         Component[][] components_north = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_MultiPie_Series_Name")), nameField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name")), nameField},
                 new Component[]{new JSeparator(), null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Level_Number")), levelNumEdit},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Level_Number")), levelNumEdit},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components_north, rowSize_north, columnSize_north);
@@ -137,7 +137,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
         value = new TinyFormulaPane();
 
         components_center[levelNum] = new Component[]{new JSeparator(), null};
-        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart_Bubble_Size")), value};
+        components_center[levelNum+1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value")), value};
 
         registerListener4Center();
 

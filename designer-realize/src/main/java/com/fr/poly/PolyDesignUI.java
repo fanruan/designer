@@ -206,16 +206,16 @@ public class PolyDesignUI extends ComponentUI {
 //		int resolution = ScreenResolution.getScreenResolution();
 		if (unit == Constants.UNIT_MM) {
 			Double j = (i + 2) * 1.0 * Constants.HUNDRED_FU_PER_INCH / Constants.HUNDRED_FU_PER_MM / resolution;
-			return j.intValue() + com.fr.design.i18n.Toolkit.i18nText("Unit_MM");
+			return j.intValue() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM");
 		} else if (unit == Constants.UNIT_CM) {
 			Double j = (i + 2) * 1.0 * Constants.HUNDRED_FU_PER_INCH / Constants.HUNDRED_FU_PER_MM / resolution;
-			return new DecimalFormat("0.0").format(j.intValue() * 1.0 / TEN) + com.fr.design.i18n.Toolkit.i18nText("Unit_CM");
+			return new DecimalFormat("0.0").format(j.intValue() * 1.0 / TEN) + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM");
 		} else if (unit == Constants.UNIT_INCH) {
 			Double j = i == 0 ? 0 : (i + 2) * 1.0 / resolution * HHUNDRED;
-			return new DecimalFormat("0.00").format(j.intValue() * 1.0 / HHUNDRED) + com.fr.design.i18n.Toolkit.i18nText("Unit_INCH");
+			return new DecimalFormat("0.00").format(j.intValue() * 1.0 / HHUNDRED) + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");
 		} else if (unit == Constants.UNIT_PT) {
 			int j = i == 0 ? 0 : (i + 2) * UNIT.PT_PER_INCH / resolution;
-			return j + com.fr.design.i18n.Toolkit.i18nText("Unit_PT");
+			return j + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT");
 		} else {
 			return "" + i;
 		}

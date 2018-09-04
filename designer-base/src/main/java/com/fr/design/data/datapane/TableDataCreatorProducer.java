@@ -31,7 +31,7 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createReportTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("DS-Database_Query"),
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Database_Query"),
                 "ds",
                 "/com/fr/design/images/data/database.png", DBTableData.class, DBTableDataPane.class);
         TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"),
@@ -56,7 +56,7 @@ public class TableDataCreatorProducer {
                 return true;
             }
         };
-        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure"),
+        TableDataNameObjectCreator storeProcedure = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Stored_Procedure"),
                 "Proc",
                 "/com/fr/design/images/data/store_procedure.png",
                 StoreProcedure.class, ProcedureDataPane.class) {
@@ -69,7 +69,7 @@ public class TableDataCreatorProducer {
     }
 
     public TableDataNameObjectCreator[] createServerTableDataCreator() {
-        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
+        TableDataNameObjectCreator dataBase = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Database_Query"), "/com/fr/design/images/data/dock/serverdatabase.png", DBTableData.class,
                 DBTableDataPane.class);
         TableDataNameObjectCreator ds_Class = new TableDataNameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Type_Class"), "/com/fr/design/images/data/dock/serverclasstabledata.png", ClassTableData.class,
                 ClassTableDataPane.class);

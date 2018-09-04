@@ -35,18 +35,18 @@ public class NoClientPrintSettingPane extends JPanel {
     private void initComponents() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Set_Margin_When_Printing"));
+        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Set_Margin_When_Printing"));
         setMarginWhenPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipLabel = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tip_Use_Default_Print_Margin"));
+        UILabel tipLabel = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Print_Margin"));
         JPanel northPane = GUICoreUtils.createFlowPane(new Component[] {
                 setMarginWhenPrintCheck, tipLabel}, FlowLayout.LEFT);
         northPane.setBorder(BorderFactory.createEmptyBorder(8, 10, 10, 0));
 
         printPane.add(northPane, BorderLayout.NORTH);
 
-        centerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Default_Settings"));
+        centerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default_Settings"));
 
-        inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Inherit_Page_Margin_Setting"));
+        inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Inherit_Page_Margin_Setting"));
         pageMarginSettingPane = new PageMarginSettingPane();
         pageMarginSettingPane.setBorder(BorderFactory.createEmptyBorder(10, -10, 0, 0));
         JPanel pageMarginCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(inheritPageMarginSettingCheck, pageMarginSettingPane, true);
@@ -56,7 +56,7 @@ public class NoClientPrintSettingPane extends JPanel {
         double[] rowSize = {p};
         double[] columnSize = {60, p};
         Component[][] components = {
-                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Margin") + ":"), pageMarginCheckPane}
+                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Margin") + ":"), pageMarginCheckPane}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
 

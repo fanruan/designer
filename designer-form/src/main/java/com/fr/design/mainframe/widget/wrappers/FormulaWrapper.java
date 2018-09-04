@@ -40,6 +40,6 @@ public class FormulaWrapper implements Encoder, Decoder{
        if (txt.length() > 0 && txt.charAt(0) == '=') {
            return;
        }
-       throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Formula_Tips"));
+       throw new ValidationException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Formula_Tips"));
     }
 }

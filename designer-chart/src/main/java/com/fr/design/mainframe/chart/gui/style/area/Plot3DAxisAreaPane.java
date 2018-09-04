@@ -18,7 +18,7 @@ public class Plot3DAxisAreaPane extends ChartAxisAreaPane {
 	private ColorSelectBox gridColorPane;
 
 	public Plot3DAxisAreaPane() {
-        gridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Grid_Line"));
+        gridLine = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Grid_Line"));
 		gridColorPane = new ColorSelectBox(100);
 
 		double p = TableLayout.PREFERRED;
@@ -28,7 +28,7 @@ public class Plot3DAxisAreaPane extends ChartAxisAreaPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{gridLine,null},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Color")),gridColorPane,}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color")),gridColorPane,}
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.setLayout(new BorderLayout());

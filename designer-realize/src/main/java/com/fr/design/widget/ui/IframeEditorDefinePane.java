@@ -1,7 +1,6 @@
 package com.fr.design.widget.ui;
 
 import com.fr.base.FRContext;
-import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -47,15 +46,15 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
         JPanel contentPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         contentPane.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         JPanel attr = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-        attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Horizontal_Scroll_Bar_Visible")));
-        attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Vertical_Scroll_Bar_Visible")));
+        attr.add(horizontalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Horizontal_Scroll_Bar_Visible")));
+        attr.add(verticalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Vertical_Scroll_Bar_Visible")));
         contentPane.add(attr);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] rowSize = {p, p, p, p};
         double[] columnSize = {p, f};
 
-        parameterViewPaneButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+        parameterViewPaneButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         parameterViewPaneButton.addActionListener(parameterListener);
         parameterViewPane = new ReportletParameterViewPane();
         horizontalCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -63,15 +62,15 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
         java.awt.Component[][] coms = {
                 {horizontalCheck, null},
                 {verticalCheck, null},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Url")), srcTextField = new UITextField()},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameters")), parameterViewPaneButton}};
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Url")), srcTextField = new UITextField()},
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters")), parameterViewPaneButton}};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(coms, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
 
 
         contentPane.add(panel);
 
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 24, contentPane);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 24, contentPane);
         this.add(uiExpandablePane, BorderLayout.NORTH);
 
     }

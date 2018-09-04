@@ -162,7 +162,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     protected void initbuttonGroup() {
 //        Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/data/datasource.png"), BaseUtils.readIcon("/com/fr/design/images/data/dock/serverdatabase.png")};
         final Integer[] modeArray = {TEMPLATE_TABLE_DATA, SERVER_TABLE_DATA};
-        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Source_Type_Template"), com.fr.design.i18n.Toolkit.i18nText("DS-Server_TableData")};
+        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Source_Type_Template"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Server_TableData")};
         buttonGroup = new UIHeadGroup(textArray) {
             public void tabChanged(int index) {
                 if (op != null) {
@@ -233,7 +233,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
     private class EditAction extends UpdateAction {
         public EditAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             this.setMnemonic('E');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_EDIT_ICON_PATH));
         }
@@ -250,7 +250,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     private class RemoveAction extends UpdateAction {
 
         public RemoveAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils.readIcon(IconPathConstants.TD_REMOVE_ICON_PATH));
         }
@@ -263,8 +263,8 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + ":" + selectedNO.getName() + "?",
-                    com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.OK_OPTION) {
                 // richer:这个地方为什么要在DataSourceTree里面去remove呢？多此一举吧
                 op.removeAction(selectedNO.getName());

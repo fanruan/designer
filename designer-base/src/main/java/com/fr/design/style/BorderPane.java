@@ -3,6 +3,30 @@
  */
 package com.fr.design.style;
 
+import com.fr.base.BaseUtils;
+import com.fr.base.CellBorderStyle;
+import com.fr.base.FRContext;
+import com.fr.base.GraphHelper;
+import com.fr.base.Style;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.LineComboBox;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.VerticalFlowLayout;
+import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.Constants;
+import com.fr.stable.CoreConstants;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,32 +37,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.CellBorderStyle;
-import com.fr.base.FRContext;
-import com.fr.base.GraphHelper;
-import com.fr.base.Style;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.LineComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.VerticalFlowLayout;
-import com.fr.design.dialog.BasicPane;
-
-import com.fr.stable.Constants;
-import com.fr.stable.CoreConstants;
-import com.fr.design.style.color.ColorSelectBox;
-import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
  * CellBorder Pane.
@@ -97,13 +95,13 @@ public class BorderPane extends BasicPane {
 
 		JPanel centerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+		centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 		JPanel borderAllControlPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
 		centerPane.add(borderAllControlPane, BorderLayout.NORTH);
 		borderAllControlPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
 		borderAllControlPane.add(new UILabel(" "));
 		// Button reseting borders
-		borderAllControlPane.add(createVerButtonPane(NO_BORDERS, com.fr.design.i18n.Toolkit.i18nText("No")));
+		borderAllControlPane.add(createVerButtonPane(NO_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No")));
 		// Button setting all borders to active with
 		// current color and current style excepting inside borders
 		borderAllControlPane.add(createVerButtonPane(EXTERNAL_BORDERS, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_External")));
@@ -148,16 +146,16 @@ public class BorderPane extends BasicPane {
 
 		JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Line"), null));
+		northPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Line"), null));
 		JPanel rightTopPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 		northPane.add(rightTopPane, BorderLayout.NORTH);
 		JPanel first = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Style") + ":"));
+		first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style") + ":"));
 		first.add(this.currentLineCombo);
 		rightTopPane.add(first, BorderLayout.NORTH);
 
 		JPanel second = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Color") + ":"));
+		second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color") + ":"));
 
 		second.add(this.currentLineColorPane);
 		rightTopPane.add(second, BorderLayout.CENTER);
@@ -216,7 +214,7 @@ public class BorderPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Border");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border");
 	}
 
 	// p:populate Style

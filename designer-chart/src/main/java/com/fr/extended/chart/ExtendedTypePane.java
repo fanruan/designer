@@ -27,6 +27,12 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     protected void setType(T chart, int index) {
     }
 
+    protected void populate(T chart) {
+    }
+
+    protected void update(T chart) {
+    }
+
     @Override
     public void populateBean(Chart chart) {
         if (getTypeIconPath().length > 0) {
@@ -36,10 +42,13 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
             typeDemo.get(getTypeIndex((T) chart)).isPressing = true;
             checkDemosBackground();
         }
+        populate((T) chart);
     }
 
     @Override
     public void updateBean(Chart chart) {
+        update((T) chart);
+
         if (getTypeIconPath().length > 0) {
             for (int index = 0, len = typeDemo.size(); index < len; index++) {
                 if (typeDemo.get(index).isPressing) {

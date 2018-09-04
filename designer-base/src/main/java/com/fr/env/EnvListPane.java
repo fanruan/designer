@@ -53,16 +53,16 @@ public class EnvListPane extends JListControlPane {
      */
     @Override
     public NameableCreator[] createNameableCreators() {
-        NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
+        NameableCreator local = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Local_Workspace"), "com/fr/design/images/data/bind/localconnect.png",
                 LocalDesignerWorkspaceInfo.class, LocalEnvPane.class);
-        NameableCreator remote = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Env-Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
+        NameableCreator remote = new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Remote_Server"), "com/fr/design/images/data/bind/distanceconnect.png",
                 RemoteDesignerWorkspaceInfo.class, RemoteEnvPane.class);
         return new NameableCreator[]{local, remote};
     }
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Env-Configure_Workspace");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Configure_Workspace");
     }
 
     /**
@@ -102,10 +102,5 @@ public class EnvListPane extends JListControlPane {
             mgr.putEnv(nameObject.getName(), (DesignerWorkspaceInfo) nameObject.getObject());
         }
         return this.getSelectedName();
-    }
-
-    @Override
-    protected boolean filterNameableCreator(NameableCreator creator) {
-        return false;
     }
 }

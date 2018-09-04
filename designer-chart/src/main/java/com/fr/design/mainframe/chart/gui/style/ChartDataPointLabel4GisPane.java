@@ -34,15 +34,15 @@ public class ChartDataPointLabel4GisPane extends ChartDatapointLabelPane{
     public ChartDataPointLabel4GisPane(ChartStylePane parent){
         this.parent = parent;
 
-        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
+        isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label"));
 
-        isAddressTittle = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Area_Title"));
-        isAddress = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Gis_Address"));
+        isAddressTittle = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Title"));
+        isAddress = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_GIS_Address"));
         isAddress.setSelected(true);
-        isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Address_Name"));
+        isAddressName = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Address_Name"));
 
-        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
-        valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+        isDatapointValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
+        valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
 
         divideComoBox = new UIComboBox(ChartConstants.DELIMITERS);
         textFontPane = new ChartTextAttrPane();
@@ -56,7 +56,7 @@ public class ChartDataPointLabel4GisPane extends ChartDatapointLabelPane{
         double[] rowSize = { p,p,p,p,p,p};
 
         JPanel delimiterPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
-        delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
+        delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Delimiter_Symbol")), BorderLayout.WEST);
         delimiterPane.add(divideComoBox, BorderLayout.CENTER);
 
         Component[][] components = new Component[][]{

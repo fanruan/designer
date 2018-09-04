@@ -24,7 +24,7 @@ public class ReportFontNameAction extends AbstractStyleAction {
 	public ReportFontNameAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-Family"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FRFont_Family"));
     }
 
     @Override

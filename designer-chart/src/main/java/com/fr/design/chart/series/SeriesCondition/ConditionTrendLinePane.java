@@ -63,22 +63,22 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 		JPanel typePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
 		pane.add(typePane);
 		
-		typePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Type"}), null));
+		typePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Trend_Type"), null));
 		
 		JPanel buttonPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 		typePane.add(buttonPane);
 		
-		buttonPane.add(exponentButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Exponent")));
-		buttonPane.add(linearButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Linear")));
-		buttonPane.add(logButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Log")));
-		buttonPane.add(polynomialButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Polynomial")));
-		buttonPane.add(powerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Power")));
+		buttonPane.add(exponentButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Math_Exponent")));
+		buttonPane.add(linearButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Math_Linear")));
+		buttonPane.add(logButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Math_Log")));
+		buttonPane.add(polynomialButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Math_Polynomial")));
+		buttonPane.add(powerButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Math_Power")));
 		
 		JPanel maPane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 		typePane.add(maPane);
 		
-		maPane.add(maButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Chart_Move_Average")));
-		maPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle") + ":"));
+		maPane.add(maButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Move_Average")));
+		maPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle") + ":"));
 		maPane.add(maSpinner = new UIBasicSpinner(new SpinnerNumberModel(2, 1, 999, 1)));
 		maSpinner.setEnabled(false);
 		
@@ -97,14 +97,14 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	
 	private JPanel initExtendsPane() {
 		JPanel extendsPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();		// 前推倒推设置
-		extendsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Chart_Trend", "Forecast"}), null));
+		extendsPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Trend_Forecast"), null));
 		
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward") + ":"));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine_Forward") + ":"));
 		extendsPane.add(forwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Backward") + ":"));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine_Backward") + ":"));
 		extendsPane.add(backwardLabel = new UITextField("0", 5));
-		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("cycle")));
+		extendsPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")));
 		
 		return extendsPane;
 	}
@@ -127,7 +127,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine");
 	}
 	
 	ActionListener listener = new ActionListener() {

@@ -22,21 +22,21 @@ public class ForeGroundPane extends ConditionAttrSingleConditionPane<HighlightAc
 
     public ForeGroundPane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        foregroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground") + ":");
+        foregroundLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground") + ":");
         this.foregroundColorPane = new ColorSelectBox(80);
         this.add(foregroundLabel);
         this.add(this.foregroundColorPane);
         this.foreScopeComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Cell"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("Utils-Current_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Cell"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Current_Column") });
         this.add(this.foreScopeComboBox);
         this.foregroundColorPane.setSelectObject(Color.black);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Foreground");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Foreground");
     }
 
     @Override

@@ -1,5 +1,14 @@
 package com.fr.design.dialog;
 
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dialog;
@@ -9,16 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JDialog;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
 
 
 /**
@@ -104,25 +103,25 @@ public class JWizardDialog extends BasicDialog {
 		workArea.setLayout(cardLayout);
 
 		// Buttons
-		buttonBack = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Previous"));
+		buttonBack = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Previous"));
 		buttonBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				back();
 			}
 		});
-		buttonNext = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Next"));
+		buttonNext = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Next"));
 		buttonNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				next();
 			}
 		});
-		buttonFinish = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Finish"));
+		buttonFinish = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Finish"));
 		buttonFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				finish();
 			}
 		});
-		buttonCancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+		buttonCancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
 		buttonCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				cancel();

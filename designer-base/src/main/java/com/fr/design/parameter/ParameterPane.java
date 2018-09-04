@@ -1,19 +1,18 @@
 package com.fr.design.parameter;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
 import com.fr.base.Parameter;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.editor.ValueEditorPane;
+import com.fr.design.editor.ValueEditorPaneFactory;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.editor.ValueEditorPane;
-import com.fr.design.editor.ValueEditorPaneFactory;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 
 public class ParameterPane extends BasicBeanPane<Parameter> {
@@ -46,8 +45,8 @@ public class ParameterPane extends BasicBeanPane<Parameter> {
 
 		// richer:要排列显示的控件
 		Component[][] components = {{null},
-				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Name") + ":"),textFieldPanel },
-				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Utils-Default_Value") + ":"),valueEditor }
+				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"),textFieldPanel },
+				{ null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Default_Value") + ":"),valueEditor }
 				};
 		double p =TableLayout.PREFERRED;
 		double f =TableLayout.FILL;
@@ -65,7 +64,7 @@ public class ParameterPane extends BasicBeanPane<Parameter> {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Parameter");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter");
 	}
 
 	@Override

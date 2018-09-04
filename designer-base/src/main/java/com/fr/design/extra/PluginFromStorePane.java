@@ -59,13 +59,13 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_From_Local");
             }
 
             @Override
@@ -107,13 +107,13 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install");
             }
 
 
             @Override
             public String textForInstallFromDiskButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_From_Local");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_From_Local");
             }
 
             @Override
@@ -140,7 +140,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      */
     public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
-        tabbedPane.setTitleAt(2, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_All_Plugins") + "(" + plugins.size() + ")");
+        tabbedPane.setTitleAt(2, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_All_Plugins") + "(" + plugins.size() + ")");
     }
 
     /**
@@ -177,14 +177,14 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
                 public void done(PluginTaskResult result) {
                     if (result.isSuccess()) {
                         FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Success"));
-                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Successful"));
+                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                     } else {
-                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
         } catch (Exception e1) {
-            JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -218,7 +218,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      * @return 标题字符串
      */
     public String textForLoadingLabel() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Load_Plugins_From_Server");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Load_Plugins_From_Server");
     }
 
     /**
@@ -228,7 +228,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      */
     @Override
     public String textForInstallFromDiskFileButton() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_From_Local");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_From_Local");
     }
 
     @Override

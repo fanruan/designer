@@ -3,24 +3,22 @@
  */
 package com.fr.design.designer.creator;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.beans.IntrospectionException;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.editors.ParameterEditor;
 import com.fr.design.mainframe.widget.renderer.ParameterRenderer;
 import com.fr.form.ui.IframeEditor;
-import com.fr.design.form.util.XCreatorConstants;
-
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.beans.IntrospectionException;
 
 /**
  * @author richer
@@ -35,7 +33,7 @@ public class XIframeEditor extends XWidgetCreator {
     @Override
 	public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
 		return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), new CRPropertyDescriptor[] {
-				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Form-Url"))
+				new CRPropertyDescriptor("src", this.data.getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Form_Url"))
 						.setPropertyChangeListener(new PropertyChangeAdapter() {
 
 							@Override
@@ -44,13 +42,13 @@ public class XIframeEditor extends XWidgetCreator {
 							}
 						}),
 				new CRPropertyDescriptor("overflowx", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Preference-Horizontal_Scroll_Bar_Visible")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Horizontal_Scroll_Bar_Visible")).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("overflowy", this.data.getClass()).setI18NName(
-						com.fr.design.i18n.Toolkit.i18nText("Preference-Vertical_Scroll_Bar_Visible")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Vertical_Scroll_Bar_Visible")).putKeyValue(
+						XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("parameters", this.data.getClass())
-						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Parameters")).setEditorClass(ParameterEditor.class)
+						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters")).setEditorClass(ParameterEditor.class)
 						.setRendererClass(ParameterRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 								"Advanced") });
 	}

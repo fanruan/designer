@@ -75,10 +75,10 @@ public class ChartBackgroundPane extends BasicPane{
         Component[][] components = new Component[][]{
                 new Component[]{typeComboBox, null} ,
                 new Component[]{centerPane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Alpha_Int")), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Alpha_Degree")), null},
                 new Component[]{null, transparent}
         };
-        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Background"}, components,rowSize,columnSize);
+        JPanel panel = TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Background"}, components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
         this.add(new JSeparator(), BorderLayout.SOUTH);

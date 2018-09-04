@@ -17,7 +17,7 @@ public class ChangeNameAction extends FormUndoableAction {
 	public ChangeNameAction(FormDesigner t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Form-Change_Widget_Name"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Change_Widget_Name"));
         this.setMnemonic('G');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
     }

@@ -63,7 +63,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         liteConditionPane = new ChartConditionPane();
         JPanel conditionPane = new JPanel();
         conditionPane.setLayout(new BoxLayout(conditionPane, BoxLayout.Y_AXIS));
-        conditionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config"), null));
+        conditionPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config"), null));
         conditionPane.add(liteConditionPane);
 
         this.setLayout(new BorderLayout());
@@ -137,12 +137,12 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
     private JPanel getCustomAttrPane() {
         JPanel stylePane = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 
-        stylePane.add(barRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Column")));
-        stylePane.add(barStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("I-BarStyle_NormalStack")));
-        stylePane.add(bar3DRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Bar3D_Chart")));
-        stylePane.add(bar3DStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Bar3DStack_Chart")));
-        stylePane.add(lineRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("ChartF-Line")));
-        stylePane.add(areaStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("I-AreaStyle_Stack")));
+        stylePane.add(barRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Column_Chart")));
+        stylePane.add(barStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar_NormalStack_Chart")));
+        stylePane.add(bar3DRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar3D_Chart")));
+        stylePane.add(bar3DStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bar3D_Stack_Chart")));
+        stylePane.add(lineRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Chart")));
+        stylePane.add(areaStackButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Area")));
 
         ButtonGroup rendererButtonGroup = new ButtonGroup();
         rendererButtonGroup.add(barRadioButton);
@@ -168,7 +168,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         cardLayout.show(cardPane, "Bar");
 
         JPanel styleChoosePane = new JPanel();
-        styleChoosePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Choose_Style"), null));
+        styleChoosePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Choose_Style"), null));
         styleChoosePane.setLayout(new BoxLayout(styleChoosePane, BoxLayout.Y_AXIS));
         styleChoosePane.add(stylePane);
         styleChoosePane.add(mainPane);
@@ -246,7 +246,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
     }
 
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config");
     }
 
     private class CustomTypeBarSeriesPane extends BasicBeanPane<CustomAttr>{
@@ -257,8 +257,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         private UINumberDragPane categoryGap;
         public CustomTypeBarSeriesPane(){
 
-            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_Choose"));
-            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Choose"));
+            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
             String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
             positionGroup = new UIButtonGroup<String>(names, values);
             positionGroup.setAllToolTips(names);
@@ -276,8 +276,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             double[] columnSize = {p, p};
             double[] rowSize = { p, p};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Gap")), seriesGap},
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Category_Gap")), categoryGap}
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Gap")), seriesGap},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Gap")), categoryGap}
 
             };
 
@@ -312,7 +312,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         }
 
         protected String title4PopupWindow(){
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config");
         }
     }
 
@@ -320,8 +320,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         private UIButtonGroup<String> positionGroup;
 
         public CustomTypeBar3DSeriesPane(){
-            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_Choose"));
-            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Choose"));
+            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
             String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
             positionGroup = new UIButtonGroup<String>(names, values);
             positionGroup.setAllToolTips(names);
@@ -354,7 +354,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         }
 
         protected String title4PopupWindow(){
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config");
         }
     }
 
@@ -364,8 +364,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         private UIButtonGroup<String> positionGroup;
 
         public CustomTypeAreaSeriesPane(){
-            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_Choose"));
-            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Choose"));
+            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
             String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
             positionGroup = new UIButtonGroup<String>(names, values);
             positionGroup.setAllToolTips(names);
@@ -374,7 +374,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             positionPane.add(nameLabel);
             positionPane.add(positionGroup);
 
-            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Curve_Line"));
+            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Curve_Line"));
             markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
             markerPane.setPreferredSize(new Dimension(150,20));
 
@@ -383,8 +383,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             double[] rowSize = { p,p,p };
             Component[][] components = new Component[][]{
                     new Component[]{positionPane, null},
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Line_Style")),isCurve},
-                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Marker_Type")), markerPane}
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polyline_Style")),isCurve},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane}
             };
 
             this.setLayout(new BorderLayout());
@@ -419,7 +419,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         }
 
         protected String title4PopupWindow(){
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config");
         }
     }
 
@@ -432,8 +432,8 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         protected MarkerComboBox markerPane;
 
         public CustomTypeLineSeriesPane(){
-            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Axis_Choose"));
-            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+            UILabel nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Choose"));
+            String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
             String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
             positionGroup = new UIButtonGroup<String>(names, values);
             positionGroup.setAllToolTips(names);
@@ -442,14 +442,14 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             positionPane.add(nameLabel);
             positionPane.add(positionGroup);
 
-            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_Curve"));
+            isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Curve_Smooth"));
             lineStyle = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
             markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
             isCurve.setPreferredSize(new Dimension(150,20));
             lineStyle.setPreferredSize(new Dimension(150,20));
             markerPane.setPreferredSize(new Dimension(150,20));
 
-            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Chart_Null_Value_Continue")};
+            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
             Boolean[] valueArray = {true, false};
             isNullValueBreak = new UIButtonGroup<Boolean>(nameArray, valueArray);
             double p = TableLayout.PREFERRED;
@@ -457,9 +457,9 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             double[] rowSize = { p,p,p,p,p};
             Component[][] components = new Component[][]{
                     new Component[]{positionPane, null},
-                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Line_Style")),isCurve},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Polyline_Style")),isCurve},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),lineStyle},
-                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Marker_Type")), markerPane},
+                    new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Type")), markerPane},
                     new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Show")), isNullValueBreak}
             };
 
@@ -499,7 +499,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
         }
 
         protected String title4PopupWindow(){
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Series_Config");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Config");
         }
     }
 }

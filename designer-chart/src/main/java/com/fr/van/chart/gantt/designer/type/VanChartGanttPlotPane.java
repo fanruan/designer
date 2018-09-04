@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by hufan on 2017/1/9.
  */
 public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGantt");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gantt");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/gantt/images/gantt.png"
@@ -22,7 +22,7 @@ public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_GanttChart")
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gantt_Chart")
         };
     }
 
@@ -36,7 +36,7 @@ public class VanChartGanttPlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGantt");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gantt");
     }
 
     public Chart getDefaultChart() {

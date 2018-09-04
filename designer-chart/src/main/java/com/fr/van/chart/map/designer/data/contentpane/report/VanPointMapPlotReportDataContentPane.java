@@ -99,7 +99,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
             double[] rowSize = {p};
 
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-Chart_Geographic")),locationType},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Geographic")),locationType},
             };
 
             JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);

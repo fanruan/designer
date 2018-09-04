@@ -55,7 +55,7 @@ public class VanChartTrendLinePane extends BasicPane{
         double[] c = {f, p, f, p};
         Component[][] periodComps = new Component[][]{
                 new Component[]{prePeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle")), afterPeriod, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cycle"))},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_After_Period")), null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine_Forward")), null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_After_Period")), null},
         };
         JPanel periodPane = TableLayoutHelper.createTableLayoutPane(periodComps, r, c);
 
@@ -66,8 +66,8 @@ public class VanChartTrendLinePane extends BasicPane{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Name")), trendLineName},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")), trendLineStyle},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")), trendLineColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), trendLineType},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), trendLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")), trendLineType},
                 new Component[]{label, periodPane}
         };
 
@@ -75,7 +75,7 @@ public class VanChartTrendLinePane extends BasicPane{
         this.add(panel, BorderLayout.CENTER);
     }
     protected String title4PopupWindow(){
-        return com.fr.design.i18n.Toolkit.i18nText("Chart-Trend_Line");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TrendLine");
     }
 
     public void populate(VanChartAttrTrendLine trendLine) {

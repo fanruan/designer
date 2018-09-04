@@ -49,7 +49,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 	@Override
 	protected JPanel setSecondContentPane() {
-		returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Date") ,  com.fr.design.i18n.Toolkit.i18nText("String")});
+		returnTypeComboBox = new UIButtonGroup<>(new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date") ,  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_String")});
 		JPanel formatHead =  createFormatHead();
 
 		startDv = new DateValuePane();
@@ -57,11 +57,11 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 
 		double f = TableLayout.FILL;
 		double p = TableLayout.PREFERRED;
-		UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Format"));
+		UILabel formatLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format"));
 		formatLabel.setVerticalAlignment(SwingConstants.TOP);
-		UILabel startDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FS_Start_Date"));
+		UILabel startDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_FS_Start_Date"));
 		startDateLabel.setVerticalAlignment(SwingConstants.TOP);
-		UILabel endDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FS_End_Date"));
+		UILabel endDateLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_FS_End_Date"));
 		endDateLabel.setVerticalAlignment(SwingConstants.TOP);
 
 		Component[][] components = new Component[][]{
@@ -69,7 +69,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 				new Component[]{startDateLabel, startDv},
 				new Component[]{endDateLabel, endDv},
 				new Component[]{waterMarkDictPane, null},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Widget-Date_Selector_Return_Type")), returnTypeComboBox }
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Date_Selector_Return_Type")), returnTypeComboBox }
 		};
 		double[] rowSize = {p, p, p, p, p, p, p};
 		double[] columnSize = {p, f};
@@ -132,10 +132,10 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 		final JPanel customPane = new JPanel(cardLayout);
 		JPanel dateFormatPane = createFormatPane(dateFormatComboBox, dateSampleLabel);
 		JPanel timeFormatPane = createFormatPane(timeFormatComboBox, timeSampleLabel);
-		customPane.add(dateFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"));
-		customPane.add(timeFormatPane, com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time"));
-		final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")};
-		fomatHeadGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Date"), com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Time")});
+		customPane.add(dateFormatPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"));
+		customPane.add(timeFormatPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time"));
+		final String[] tabTitles = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time")};
+		fomatHeadGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Date"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Time")});
 		fomatHeadGroup.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -166,7 +166,7 @@ public class DateEditorDefinePane extends DirectWriteEditorDefinePane<DateEditor
 				String sample = simpleDateFormat.format(new Date());
 				Color c = Color.black;
 				if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-					sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
+					sample += " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DateFormat_Custom_Warning");
 					c = Color.red;
 				}
 				currentSamplelabel.setText(sample);

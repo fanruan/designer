@@ -54,7 +54,7 @@ public class NewWorkBookXAction extends UpdateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("M-New_WorkBook") + "(cptx)";
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_New_WorkBook") + "(cptx)";
         }
 
         @Override

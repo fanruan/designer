@@ -53,7 +53,6 @@ public class PluginWebBridge {
     private static final String PLUGIN_INFO = "pluginInfo";
     private static final int COREPOOLSIZE = 3;
     private static final int MAXPOOLSIZE = 5;
-    private static final String I18N_PREFIX = "FR-";
 
     private static PluginWebBridge helper;
 
@@ -380,11 +379,11 @@ public class PluginWebBridge {
         int rv = JOptionPane.showOptionDialog(
                 null,
                 message,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {
@@ -571,12 +570,14 @@ public class PluginWebBridge {
         //todo  初始化设计器其他部分
     }
 
+
     /**
-     * 国际化
+     * 国际化(用来做兼容，暂时不删)
      */
     public String parseI18(final String key) {
-        return com.fr.design.i18n.Toolkit.i18nText(I18N_PREFIX + key);
+        return com.fr.design.i18n.Toolkit.i18nText(key);
     }
+
 
     /**
      * 是否是在设计器中操作

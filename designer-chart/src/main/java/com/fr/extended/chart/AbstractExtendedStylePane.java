@@ -38,6 +38,20 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
         this.listener = listener;
     }
 
+    protected void setChart(Chart chart) {
+        if (chart instanceof AbstractChart) {
+            this.chart = (T) chart;
+        }
+    }
+
+    protected T getChart() {
+        return this.chart;
+    }
+
+    protected AttributeChangeListener getListener() {
+        return this.listener;
+    }
+
     @Override
     protected JPanel createContentPane() {
 
@@ -95,8 +109,11 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
         if (collection != null) {
             Chart chart = collection.getSelectedChart();
 
-            if (chart != null && chart instanceof AbstractChart){
-                this.chart = (T)chart;
+            if (chart != null) {
+                setChart(chart);
+            }
+
+            if (this.chart != null) {
                 paneList.get(tabPane.getSelectedIndex()).populateBean(this.chart);
             }
 
@@ -109,8 +126,11 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
         if (collection != null) {
             Chart chart = collection.getSelectedChart();
 
-            if (chart != null && chart instanceof AbstractChart){
-                this.chart = (T)chart;
+            if (chart != null) {
+                setChart(chart);
+            }
+
+            if (this.chart != null) {
                 paneList.get(tabPane.getSelectedIndex()).updateBean(this.chart);
             }
 

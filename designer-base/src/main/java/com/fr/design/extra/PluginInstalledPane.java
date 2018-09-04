@@ -40,9 +40,9 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
 
         add(panel, BorderLayout.SOUTH);
 
-        disableButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Disable"));
+        disableButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Disable"));
         disableButton.setEnabled(false);
-        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Delete"));
+        deleteButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete"));
         deleteButton.setEnabled(false);
         panel.add(disableButton);
         panel.add(deleteButton);
@@ -61,7 +61,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                 if (plugin != null) {
                     boolean isActive = plugin.isActive();
                     PluginMarker pluginMarker = PluginMarker.create(plugin.getID(), plugin.getVersion());
-                    final String modifyMessage = isActive ? com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Has_Been_Actived") : com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Has_Been_Disabled");
+                    final String modifyMessage = isActive ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Has_Been_Actived") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Has_Been_Disabled");
                     if (isActive) {
                         PluginManager.getController().forbid(pluginMarker, new PluginTaskCallback() {
                             @Override
@@ -69,7 +69,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });
@@ -80,7 +80,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
                                 if (result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, modifyMessage);
                                 } else {
-                                    JOptionPane.showMessageDialog(null,PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null,PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         });
@@ -111,19 +111,19 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
      * @return 同上
      */
     public String tabTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Installed") + "(" + num + ")";
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Installed") + "(" + num + ")";
     }
 
     private void doDelete(PluginView plugin) {
         int rv = JOptionPane.showOptionDialog(
                 PluginInstalledPane.this,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Will_Be_Delete"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Will_Be_Delete"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"),
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later"),
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel")
                 },
                 null
@@ -135,7 +135,7 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
         try {
             controlPane.deletePlugin(plugin);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(PluginInstalledPane.this, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(PluginInstalledPane.this, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
 
         if (rv == JOptionPane.OK_OPTION) {
@@ -145,9 +145,9 @@ public class PluginInstalledPane extends PluginAbstractViewPane {
 
     private void changeTextForButton(PluginView plugin) {
         if (plugin.isActive()) {
-            disableButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Disable"));
+            disableButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Disable"));
         } else {
-            disableButton.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Active"));
+            disableButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Active"));
         }
     }
 

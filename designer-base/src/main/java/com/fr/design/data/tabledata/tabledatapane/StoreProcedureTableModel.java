@@ -1,24 +1,23 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
+import com.fr.base.StoreProcedureParameter;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.itableeditorpane.UITableEditAction;
+import com.fr.design.gui.itableeditorpane.UITableModelAdapter;
+import com.fr.design.mainframe.DesignerContext;
+
+import javax.swing.BorderFactory;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-
-import com.fr.base.StoreProcedureParameter;
-import com.fr.design.gui.itableeditorpane.UITableEditAction;
-import com.fr.design.gui.itableeditorpane.UITableModelAdapter;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
-
 
 public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedureParameter> {
 
 	public StoreProcedureTableModel() {
-		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Parameter"), com.fr.design.i18n.Toolkit.i18nText("Type"), com.fr.design.i18n.Toolkit.i18nText("Model"), com.fr.design.i18n.Toolkit.i18nText("Value") });
+		super(new String[] { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value") });
 		if (shouldResponseDoubleClickAction()) {
             table.addMouseListener(new MouseAdapter() {
 
@@ -36,7 +35,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 
                     final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
                     pane.populate(spp);
-                    pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
+                    pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
                     BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
                     stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -90,7 +89,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 			StoreProcedureParameter para = new StoreProcedureParameter();
 			final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
 			pane.populate(para);
-			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
+			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
 			BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 
@@ -112,7 +111,7 @@ public class StoreProcedureTableModel extends UITableModelAdapter<StoreProcedure
 			StoreProcedureParameter para = getSelectedValue();
 			final StoreProcedureParameterPane pane = new StoreProcedureParameterPane();
 			pane.populate(para);
-			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Parameter")));
+			pane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
 			BasicDialog stpEditDialog = pane.showWindow(DesignerContext.getDesignerFrame());
 			stpEditDialog.addDialogActionListener(new DialogActionAdapter() {
 

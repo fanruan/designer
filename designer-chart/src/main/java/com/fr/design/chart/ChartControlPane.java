@@ -30,13 +30,13 @@ public class ChartControlPane extends JListControlPane {
 	@Override
 	public NameableCreator[] createNameableCreators() {
 		return new NameableCreator[] {
-				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Chart"), Chart.class, ChartTypeUpdatePane.class)
+				new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Chart"), Chart.class, ChartTypeUpdatePane.class)
 		};
 	}
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Chart-Manage_Chart_Type");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Manage_Chart_Type");
 	}
 	
 	public void populate(ChartCollection cc) {

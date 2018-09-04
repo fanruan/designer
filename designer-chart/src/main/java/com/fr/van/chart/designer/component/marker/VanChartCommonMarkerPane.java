@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.xcombox.MarkerComboBox;
 import com.fr.design.layout.TableLayout;
-
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.marker.type.MarkerType;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -130,7 +129,7 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
 
     protected Component[][] getUseComponent() {
         return  new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), markerPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")), markerPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fill_Color")), markerFillColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius")), radius},
         };
@@ -138,7 +137,7 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
 
     protected Component[][] getUseComponentWithOutFillColor() {
         return  new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")), markerPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")), markerPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius")), radius},
         };
     }
@@ -152,6 +151,9 @@ public class VanChartCommonMarkerPane extends BasicBeanPane<VanChartAttrMarker> 
     @Override
     public String title4PopupWindow() {
         return "commonMarker";
+    }
+
+    public void setDefaultValue() {
     }
 
     @Override

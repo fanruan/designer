@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +43,9 @@ public class ChartsEditPane extends ChartEditPane {
 
             dataPane4SupportCell = createChartDataPane(plotID);
             chartsConfigPane = ChartTypeInterfaceManager.getInstance().getChartConfigPane(plotID);
-            paneList.add(dataPane4SupportCell);
+            if (dataPane4SupportCell != null) {
+                paneList.add(dataPane4SupportCell);
+            }
             paneList.add(chartsConfigPane);
 
             createTabsPane();

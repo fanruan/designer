@@ -18,14 +18,14 @@ public class TreeModelWrapper implements Encoder, Decoder {
             return StringUtils.EMPTY;
         }
         if (v instanceof TreeNodeAttr[]) {
-            return TemplateUtils.render(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Total_N_Grade"), new String[]{"N"}, new String[]{((TreeNodeAttr[]) v).length + ""});
+            return TemplateUtils.render(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Total_N_Grade"), new String[]{"N"}, new String[]{((TreeNodeAttr[]) v).length + ""});
         } else if (v instanceof TreeNodeWrapper) {
             TreeNodeAttr[] treeNodeAttrs = ((TreeNodeWrapper) v).getTreeNodeAttrs();
-            return TemplateUtils.render(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Total_N_Grade"), new String[]{"N"}, new String[]{treeNodeAttrs.length + ""});
+            return TemplateUtils.render(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Total_N_Grade"), new String[]{"N"}, new String[]{treeNodeAttrs.length + ""});
         } else if (v instanceof NameObject) {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DataTable-Build");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DataTable_Build");
         } else {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Auto-Build");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Auto_Build");
         }
     }
 

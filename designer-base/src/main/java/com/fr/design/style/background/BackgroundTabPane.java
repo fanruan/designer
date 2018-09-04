@@ -27,11 +27,11 @@ public class BackgroundTabPane extends BackgroundPane {
 
     private static void registerTabpaneBackground(Map<Class<? extends Background>, BackgroundUIWrapper> map) {
         map.put(null, BackgroundUIWrapper.create()
-                .setType(NullBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Null")));
+                .setType(NullBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Null")));
         map.put(ColorBackground.class, BackgroundUIWrapper.create()
-                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Color")));
+                .setType(ColorBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Color")));
         map.put(GradientBackground.class, BackgroundUIWrapper.create()
-                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Gradient_Color")));
+                .setType(GradientBackgroundPane.class).setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Gradient_Color")));
 
     }
 

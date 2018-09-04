@@ -24,7 +24,7 @@ public class DictPresentPane extends FurtherBasicBeanPane<DictPresent> {
 
 	@Override
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("DS-Dictionary");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Dictionary");
 	}
 
 	@Override

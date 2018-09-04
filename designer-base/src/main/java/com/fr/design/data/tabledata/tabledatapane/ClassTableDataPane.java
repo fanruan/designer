@@ -44,7 +44,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         classNameTextField = new UITextField(36);
         reportletNamePane.add(classNameTextField);
 
-        UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Select"));
+        UIButton browserButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
         browserButton.setPreferredSize(new Dimension(
                 browserButton.getPreferredSize().width,
                 classNameTextField.getPreferredSize().height));
@@ -89,9 +89,9 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
         });
 
         Component[][] components = {
-        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("DS-Class_Name") + ":"), reportletNamePane},
-        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Function-The_class_must_implement_the_interface") + "\"com.fr.data.Tabledata\"")},
-        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
+        		{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_Name") + ":"), reportletNamePane},
+        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Function_The_Class_Must_Implement_The_Interface") + "\"com.fr.data.Tabledata\"")},
+        		{null, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Example") + ":\"com.fr.data.impl.ArrayTableData\"")},
                 {null,new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Class_Location_Description", StableUtils.pathJoin(ProjectConstants.WEBINF_NAME, ProjectConstants.CLASSES_NAME)))}
         };
         JPanel northPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -111,7 +111,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         new RemoveParaAction()
                 };
             }
-        }, " " + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_TableData-Default-Para"));
+        }, " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_TableData_Default_Para"));
 
         jpanel.add(editorPane, BorderLayout.CENTER);
 
@@ -120,7 +120,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     public class AddParaAction extends UITableEditAction {
         public AddParaAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
@@ -136,7 +136,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
     }
     private class RemoveParaAction extends UITableEditAction {
         public RemoveParaAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/control/remove.png"));
         }
 
@@ -154,7 +154,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("DS-Class_TableData");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Class_TableData");
     }
 
     @Override

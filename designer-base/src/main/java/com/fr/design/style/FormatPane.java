@@ -82,7 +82,7 @@ public class FormatPane extends BasicPane {
         //sample pane
         JPanel samplePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(samplePane, BorderLayout.NORTH);
-        samplePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample"), null));
+        samplePane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample"), null));
         samplePane.setLayout(FRGUIPaneFactory.createBorderLayout());
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue());
         samplePane.add(sampleLabel, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class FormatPane extends BasicPane {
         //left control pane
         JPanel leftControlPane =FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(1);
         this.add(leftControlPane, BorderLayout.WEST);
-        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Category"), null));
+        leftControlPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Format_Category"), null));
         initRadioButton();
         ButtonGroup categoryButtonGroup = new ButtonGroup();
         categoryButtonGroup.add(nullRadioButton);
@@ -170,7 +170,7 @@ public class FormatPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Style");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
     }
     
     /**
@@ -359,7 +359,7 @@ public class FormatPane extends BasicPane {
         		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(text);
         		String sample = simpleDateFormat.format(new Date());
         		if (!ArrayUtils.contains(FormatField.getInstance().getDateFormatArray(), text)) {
-        			sample += " " + com.fr.design.i18n.Toolkit.i18nText("DateFormat-Custom_Warning");
+        			sample += " " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DateFormat_Custom_Warning");
         			c = Color.red;
         		}
         		this.sampleLabel.setText(sample);

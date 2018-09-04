@@ -1,6 +1,5 @@
 package com.fr.van.chart.designer.component;
 
-import com.fr.base.chart.BasePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
@@ -13,7 +12,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.stable.Nameable;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -38,15 +36,18 @@ import java.awt.event.ActionListener;
 public abstract class VanChartUIListControlPane extends UIListControlPane implements UIObserver {
     private UIObserverListener uiObserverListener;
 
+    private Plot plot;//update用
+
+    protected Plot getPlot() {
+        return plot;
+    }
+
+    protected void setPlot(Plot plot) {
+        this.plot = plot;
+    }
 
     public VanChartUIListControlPane() {
         super();
-        this.setBorder(null);
-        iniListener();
-    }
-
-    public VanChartUIListControlPane(BasePlot plot) {
-        super(plot);
         this.setBorder(null);
         iniListener();
     }
@@ -116,7 +117,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         if (isPopulating) {
             return;
         }
-        update((Plot) plot);
+        update(getPlot());
         fireChanged();//图表属性改变，响应事件
     }
 
@@ -181,7 +182,7 @@ public abstract class VanChartUIListControlPane extends UIListControlPane implem
         }
 
         private void addCancelButton(JPanel buttonsPane) {
-            cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+            cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
             buttonsPane.add(cancelButton);
             cancelButton.addActionListener(new ActionListener() {
 

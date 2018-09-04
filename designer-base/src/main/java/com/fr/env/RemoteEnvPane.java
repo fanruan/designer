@@ -72,7 +72,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     /**
      * 是否启用 https 勾选框
      */
-    private UICheckBox httpsCheckbox = new UICheckBox(Toolkit.i18nText("FR-Designer_RemoteEnv_Enable_Https"));
+    private UICheckBox httpsCheckbox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Enable_Https"));
     /**
      * 主机位置输入框
      */
@@ -124,11 +124,11 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     /**
      * https 密钥标签
      */
-    private UILabel certSecretKeyLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Https_Secret_Key"));
+    private UILabel certSecretKeyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Https_Secret_Key"));
     /**
      * https证书路径标签
      */
-    private UILabel certPathLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Https_Cert_Path"));
+    private UILabel certPathLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Https_Cert_Path"));
     /**
      * https 证书路径输入框
      */
@@ -207,7 +207,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         contentPanel.setBorder(
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
-                        UITitledBorder.createBorderWithTitle(Toolkit.i18nText("FR-Designer_RemoteEnv_Config")))
+                        UITitledBorder.createBorderWithTitle(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Config")))
         );
 
 
@@ -218,7 +218,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                         new EmptyBorder(15, 0, 0, 0),
                         BorderFactory.createTitledBorder(
                                 new ModLineBorder(ModLineBorder.TOP),
-                                Toolkit.i18nText("FR-Designer_RemoteEnv_Server")
+                                Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Server")
                         )
                 )
         );
@@ -237,7 +237,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 new EmptyBorder(15, 0, 0, 0),
                 BorderFactory.createTitledBorder(
                         new ModLineBorder(ModLineBorder.TOP),
-                        Toolkit.i18nText("FR-Designer_RemoteEnv_Platform_Account")
+                        Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Platform_Account")
                 )
         ));
 
@@ -248,9 +248,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         JPanel testPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         testPanel.setBorder(BorderFactory.createEmptyBorder());
         testPanel.setPreferredSize(new Dimension(437, 20));
-        UIButton testConnectionButton = new UIButton(Toolkit.i18nText("FR-Designer_RemoteEnv_Test_Connection"));
+        UIButton testConnectionButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Test_Connection"));
 
-        testConnectionButton.setToolTipText(Toolkit.i18nText("Datasource-Test_Connection"));
+        testConnectionButton.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testConnectionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
@@ -323,19 +323,19 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
 
         // 主机名
-        UILabel hostNameLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Host_IP"));
+        UILabel hostNameLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Host_IP"));
         hostNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         // 端口
-        UILabel portLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Port"));
+        UILabel portLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Port"));
         portLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         // web应用
-        UILabel webAppNameLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Web_Name"));
+        UILabel webAppNameLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Web_Name"));
         webAppNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         // servlet
-        UILabel servletNameLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Servlet_Name"));
+        UILabel servletNameLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Servlet_Name"));
         servletNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         // 主机位置
-        UILabel remoteEnvURLLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_URL"));
+        UILabel remoteEnvURLLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_URL"));
         remoteEnvURLLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         enableSubDocListener();
@@ -359,7 +359,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         JTextPane urlTipsPane = new JTextPane();
         urlTipsPane.setEditable(false);
-        urlTipsPane.setText(Toolkit.i18nText("FR-Designer_RemoteEnv_Server_Config_Tips"));
+        urlTipsPane.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Server_Config_Tips"));
         urlTipsPane.setBackground(urlPanel.getBackground());
         urlTipsPane.setForeground(TIPS_FONT_COLOR);
 
@@ -373,7 +373,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         JTextPane httpsTipsPane = new JTextPane();
         httpsTipsPane.setEditable(false);
-        httpsTipsPane.setText(Toolkit.i18nText("FR-Designer_RemoteEnv_Https_Tips"));
+        httpsTipsPane.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Https_Tips"));
         httpsTipsPane.setBackground(configPanel.getBackground());
         httpsTipsPane.setForeground(TIPS_FONT_COLOR);
 
@@ -453,10 +453,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     private void packAccountPanel(JPanel accountPanel) {
 
         // 用户名
-        UILabel userNameLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Account_Username"));
+        UILabel userNameLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Account_Username"));
         userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         // 密码
-        UILabel passwordLabel = new UILabel(Toolkit.i18nText("FR-Designer_RemoteEnv_Account_Password"));
+        UILabel passwordLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Env_Account_Password"));
         passwordLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
         //输入密码的时候检测下大写锁定
@@ -464,7 +464,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (java.awt.Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-                    passwordInput.setToolTipText(Toolkit.i18nText("CapsLock"));
+                    passwordInput.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_CapsLock"));
                 } else {
                     passwordInput.setToolTipText(null);
                 }
@@ -587,7 +587,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 
-        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Toolkit.i18nText("Datasource-Test_Connection"), true);
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"), true);
 
         dialog.setSize(new Dimension(268, 118));
         okButton.setEnabled(false);

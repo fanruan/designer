@@ -26,14 +26,25 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.function.TIME;
 import com.fr.general.FRFont;
-
 import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -78,7 +89,7 @@ public class PreviewTablePane extends BasicPane {
 
         JPanel currentPreviewPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         previewNumberPanel.add(currentPreviewPanel);
-        currentPreviewPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Current_Preview_Rows") + ":"));
+        currentPreviewPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Current_Preview_Rows") + ":"));
 
         currentRowsField = new UINumberField();
         currentPreviewPanel.add(currentRowsField);
@@ -88,7 +99,7 @@ public class PreviewTablePane extends BasicPane {
 
         JPanel maxPanel = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
         previewNumberPanel.add(maxPanel);
-        maxPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Datasource-Maximum_Number_of_Preview_Rows") + ":"));
+        maxPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Maximum_Number_of_Preview_Rows") + ":"));
 
         maxPreviewNumberField = new UINumberField();
         maxPanel.add(maxPreviewNumberField);
@@ -155,7 +166,7 @@ public class PreviewTablePane extends BasicPane {
         if (this.dialog == null) {
             this.dialog = this.showWindow(DesignerContext.getDesignerFrame());
         }
-        progressBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Loading_Data"), "", 0, 100) {
+        progressBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
                 if (getWorker() != null) {
                     getWorker().cancel(true);
@@ -171,7 +182,7 @@ public class PreviewTablePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
     }
 
     private void addLoadedListener(LoadedEventListener l) {
@@ -265,7 +276,7 @@ public class PreviewTablePane extends BasicPane {
      */
     public static EmbeddedTableData previewTableData(TableData tableData, final int keyIndex, final int valueIndex) {
         PreviewTablePane previewTablePane = new PreviewTablePane();
-        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
         try {
             previewTablePane.populate(tableData);
             previewTablePane.resetPreviewTableColumnColor();
@@ -285,7 +296,7 @@ public class PreviewTablePane extends BasicPane {
             previewTablePane.dialog.setVisible(true);
         }
 
-		return previewTablePane.previewTableData;
+        return previewTablePane.previewTableData;
     }
 
     private void showErrorMessage(Exception exp) {
@@ -301,7 +312,7 @@ public class PreviewTablePane extends BasicPane {
             return;
         }
         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void populate(TableData tableData) throws Exception {
@@ -314,7 +325,7 @@ public class PreviewTablePane extends BasicPane {
     }
 
     private void previewTableDataSQL() throws Exception {
-        connectionBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Now_create_connection"), "", 0, 100) {
+        connectionBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Now_Create_Connection"), "", 0, 100) {
             public void doMonitorCanceled() {
                 getWorker().cancel(true);
                 getDialog().setVisible(false);
@@ -358,14 +369,16 @@ public class PreviewTablePane extends BasicPane {
         worker = new SwingWorker<PreviewTableModel, Void>() {
             protected PreviewTableModel doInBackground() throws Exception {
                 connectionBar.start();
-                if (tableData instanceof DBTableData) {
-                    boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
-                    if (!status) {
-                        connectionBar.close();
-                        throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
+                try {
+                    if (tableData instanceof DBTableData) {
+                        boolean status = DataOperator.getInstance().testConnection(((DBTableData) tableData).getDatabase());
+                        if (!status) {
+                            throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
+                        }
                     }
+                } finally {
+                    connectionBar.close();
                 }
-                connectionBar.close();
                 TableDataSource dataSource = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getTarget();
                 previewTableData = DesignTableDataManager.previewTableDataNeedInputParameters(dataSource, tableData, (int) maxPreviewNumberField.getValue(), true);
                 // parameterInputDialog
@@ -420,7 +433,7 @@ public class PreviewTablePane extends BasicPane {
     public static void previewStoreData(final ProcedureDataModel storeProcedureDataModel, final int keyIndex, final int valueIndex) {
         final PreviewTablePane previewTablePane = new PreviewTablePane();
         previewTablePane.storeProcedureDataModel = storeProcedureDataModel;
-        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+        previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
 
         try {
             previewTablePane.populateStoreDataSQL();
@@ -451,7 +464,7 @@ public class PreviewTablePane extends BasicPane {
         for (int i = 0; i < tableSize; i++) {
             PreviewTablePane previewTablePane = new PreviewTablePane();
             previewTablePane.storeProcedureDataModel = storeProcedureDataModels[i];
-            previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Data")));
+            previewTablePane.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Data")));
             try {
                 previewTablePane.populateStoreDataSQL();
             } catch (Exception e) {
@@ -464,7 +477,7 @@ public class PreviewTablePane extends BasicPane {
 
             @Override
             protected String title4PopupWindow() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview");
             }
 
         };

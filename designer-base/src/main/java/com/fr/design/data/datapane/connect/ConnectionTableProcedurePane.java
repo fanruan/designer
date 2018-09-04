@@ -112,15 +112,15 @@ public class ConnectionTableProcedurePane extends BasicPane {
 
 		// 根据环境是否为中文设置不同的显示
 		if (GeneralContext.isChineseEnv()) {
-			first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-Table"),
+			first.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_Table"),
 					BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING));
-			second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-View"),
+			second.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_View"),
 					BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING));
 		} else {
 			UILabel ui1 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/tables.png"), UILabel.LEADING);
 			UILabel ui2 = new UILabel(BaseUtils.readIcon("/com/fr/design/images/data/views.png"), UILabel.LEADING);
-			ui1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-Table"));
-			ui2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_SQL-View"));
+			ui1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_Table"));
+			ui2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_SQL_View"));
 			first.add(ui1);
 			second.add(ui2);
 		}

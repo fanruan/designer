@@ -26,7 +26,7 @@ public class MapCubeDataPane extends UIComboBoxPane<TopDefinitionProvider> {
 	protected void initLayout() {
 		this.setLayout(new BorderLayout(0, 0));
 		JPanel northPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("ChartF-Data-Resource") + ":"));
+		northPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Source") + ":"));
 		northPane.add(jcb);
 		
 		this.add(northPane, BorderLayout.NORTH);

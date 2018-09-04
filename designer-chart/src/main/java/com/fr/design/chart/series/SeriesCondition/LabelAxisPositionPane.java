@@ -29,12 +29,12 @@ public class LabelAxisPositionPane extends ConditionAttrSingleConditionPane<Data
     public LabelAxisPositionPane(ConditionAttributesPane conditionAttributesPane, boolean isRemove) {
         super(conditionAttributesPane, isRemove);
 
-        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"ChartF-Axis", "Selection"}));
+        nameLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Selection"));
         if (isRemove) {
             this.add(nameLabel);
         }
 
-        String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("ChartF-MainAxis"), com.fr.design.i18n.Toolkit.i18nText("ChartF-SecondAxis")};
+        String[] names = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis")};
         String[] values = new String[]{ChartAxisPosition.AXIS_LEFT.getAxisPosition(), ChartAxisPosition.AXIS_RIGHT.getAxisPosition()};
 
         positionGroup = new UIButtonGroup<String>(names, values);

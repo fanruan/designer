@@ -40,48 +40,48 @@ public class XTreeEditor extends XWidgetCreator {
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
-                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                         new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                                TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
+                                TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                         new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
-                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class)
+                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
                         new CRPropertyDescriptor("errorMessage", this.data.getClass()).setI18NName(
-                                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Verify-Message"))
-                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Verify_Message"))
+                                .putKeyValue(XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),
                 }
                 : new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetValue", this.data.getClass()).setI18NName(
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Value")).setEditorClass(WidgetValueEditor.class)
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("model", this.data.getClass(), "getNodeOrDict", "setNodeOrDict").setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS-Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
-                        TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary")).setEditorClass(TreeModelEditor.class).setRendererClass(
+                        TreeModelRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                 new CRPropertyDescriptor("allowBlank", this.data.getClass()).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
-                        XCreatorConstants.PROPERTY_VALIDATE, "FR-Designer_Validate"),};
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Blank")).setEditorClass(InChangeBooleanEditor.class).putKeyValue(
+                        XCreatorConstants.PROPERTY_VALIDATE, "Fine-Design_Basic_Validate"),};
 
 		crp = this.addWaterMark(crp);
 		crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp,
 				new CRPropertyDescriptor("fontSize", this.data.getClass(), "getFontSize", "setFontSize")
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Font_Size"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("multipleSelection", this.data.getClass()).setI18NName(
-                com.fr.design.i18n.Toolkit.i18nText("Tree-Mutiple_Selection_Or_Not")).putKeyValue(
-                XCreatorConstants.PROPERTY_CATEGORY, "Advanced").setEditorClass(InChangeBooleanEditor.class));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Mutiple_Selection_Or_Not")).putKeyValue(
+                XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced").setEditorClass(InChangeBooleanEditor.class));
 
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("ajax", this.data.getClass()).setI18NName(
-                com.fr.design.i18n.Toolkit.i18nText("Widget-Load_By_Async")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Load_By_Async")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                 "Advanced"));
 
 		crp = this.addAllowEdit(crp);
 		crp = this.addCustomData(crp);
 
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("selectLeafOnly", this.data
-                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Tree-Select_Leaf_Only")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Select_Leaf_Only")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("returnFullPath", this.data
-                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Tree-Return_Full_Path")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"));
+                .getClass()).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Return_Full_Path")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"));
 
         return (CRPropertyDescriptor[]) ArrayUtils.addAll(super.supportedDescriptor(), crp);
     }

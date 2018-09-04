@@ -117,24 +117,24 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
     private int getParameterType (Object value) {
         String type;
         if(value instanceof CursorEditor)
-            type= com.fr.design.i18n.Toolkit.i18nText("Cursor");
+            type= com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cursor");
         else if(value instanceof String ){
             if(((String) value).length() > 0 && ((String) value).charAt(0) == '=')
-                type = com.fr.design.i18n.Toolkit.i18nText("Formula");
+                type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
             else
-                type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
+                type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
         }else if(value instanceof Integer)
-            type = com.fr.design.i18n.Toolkit.i18nText("Integer");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer");
         else if(value instanceof Double)
-            type = com.fr.design.i18n.Toolkit.i18nText("Double");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double");
         else if(value instanceof Date)
-            type = com.fr.design.i18n.Toolkit.i18nText("Date");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date");
         else if(value instanceof Boolean)
-            type = com.fr.design.i18n.Toolkit.i18nText("Parameter-Boolean");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Boolean");
         else if(value instanceof BaseFormula)
-            type = com.fr.design.i18n.Toolkit.i18nText("Formula");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula");
         else
-            type = com.fr.design.i18n.Toolkit.i18nText("Parameter-String");
+            type = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_String");
         return StoreProcedureParameterPane.getInfo4Value(type);
 
     }

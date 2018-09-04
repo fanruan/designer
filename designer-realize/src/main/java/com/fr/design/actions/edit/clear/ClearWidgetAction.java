@@ -12,7 +12,7 @@ public class ClearWidgetAction extends ClearAction {
 	public ClearWidgetAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Widget"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget"));
         this.setMnemonic('W');
     }
 

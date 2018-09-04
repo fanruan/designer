@@ -51,8 +51,8 @@ import java.awt.event.ItemListener;
  * 地图-系列界面
  */
 public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
-    private static final String AREA_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Area");
-    private static final String POINT_STRING = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Point");
+    private static final String AREA_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region");
+    private static final String POINT_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Point");
     private static final String LINE_STRING = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Flow");
 
     private static final String[] MARKER_TYPES = new String[]{MapMarkerType.DEFAULT.toLocalString(),

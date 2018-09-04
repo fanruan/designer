@@ -40,17 +40,17 @@ public class GanttReportDataContentPane extends AbstractReportDataContentPane{
     }
 
     private void initAllComponent() {
-        seriesName = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
+        seriesName = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
 
-        startTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Start_Time"));
+        startTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Time"));
 
-        endTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_End_Time"));
+        endTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Time"));
 
         markerTime = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Marker_Time"));
 
-        progress = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Process"));
+        progress = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Process"));
 
-        linkID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Task_ID"));
+        linkID = createTinyFormulaPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Task_ID"));
     }
 
     private TinyFormulaPane createTinyFormulaPaneWithTitle(final String title) {

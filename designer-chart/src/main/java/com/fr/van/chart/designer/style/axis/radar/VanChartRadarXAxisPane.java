@@ -40,8 +40,8 @@ public class VanChartRadarXAxisPane extends VanChartBaseAxisPane {
     protected Component[][] getLineStylePaneComponents() {
         return new Component[][]{
                 new Component[]{null,null} ,
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_type")),axisLineStyle} ,
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),axisLineColor},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")),axisLineStyle} ,
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),axisLineColor},
         };
     }
 

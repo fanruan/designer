@@ -6,7 +6,6 @@ import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
-
 import com.fr.general.NameObject;
 import com.fr.plugin.chart.attr.DefaultAxisHelper;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -31,7 +30,7 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stack_And_Series");
     }
 
     protected String getAddItemText() {
@@ -40,14 +39,14 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
 
     protected ShortCut4JControlPane[] createShortcuts() {
         return new ShortCut4JControlPane[]{
-                moveUpItemShortCut(),
-                moveDownItemShortCut(),
-                removeItemShortCut()
+                shortCutFactory.moveUpItemShortCut(),
+                shortCutFactory.moveDownItemShortCut(),
+                shortCutFactory.removeItemShortCut()
         };
     }
 
     public void populate(VanChartRectanglePlot plot) {
-        this.plot = plot;
+        setPlot(plot);
         String[] axisXNames = DefaultAxisHelper.getXAxisNames(plot);
         String[] axisYNames = DefaultAxisHelper.getYAxisNames(plot);
 
@@ -96,6 +95,6 @@ public class VanChartStackedAndAxisListControlPane extends VanChartUIListControl
     }
 
     public String getPaneTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_StackAndSeries");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stack_And_Series");
     }
 }

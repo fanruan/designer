@@ -1,6 +1,5 @@
 package com.fr.design.widget.ui;
 
-import com.fr.data.Dictionary;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -57,13 +56,13 @@ public class TreeEditorDefinePane extends FieldEditorDefinePane<TreeEditor> {
 	protected JPanel setSecondContentPane() {
 		accessibleTreeModelEditor = new AccessibleTreeModelEditor();
 		JPanel createTree = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Create_Tree")), accessibleTreeModelEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Create_Tree")), accessibleTreeModelEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
 		createTree.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
 		JPanel contentPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
 		JPanel contenter = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
 		contentPane.add(contenter,BorderLayout.NORTH);
-		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Form-Remove_Repeat_Data"), false);
+		removeRepeatCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Remove_Repeat_Data"), false);
 		removeRepeatCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		contenter.add(createTree, BorderLayout.NORTH);
 		contenter.add(removeRepeatCheckBox, BorderLayout.CENTER);

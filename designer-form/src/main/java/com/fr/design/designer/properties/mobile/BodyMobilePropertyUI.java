@@ -36,6 +36,6 @@ public class BodyMobilePropertyUI extends AbstractWidgetPropertyUIProvider {
 
     @Override
     public String tableTitle() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Mobile-Attr");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Attr");
     }
 }

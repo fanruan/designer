@@ -24,7 +24,7 @@ public class WaterMarkDictPane extends JPanel {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_WaterMark")), waterMarkTextField},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), waterMarkTextField},
         };
         double[] rowSize = {p};
         double[] columnSize = {p, f};

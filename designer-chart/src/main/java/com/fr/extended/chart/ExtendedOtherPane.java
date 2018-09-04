@@ -9,7 +9,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
-
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -28,29 +27,42 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
     private UISpinner autoRefreshTime;
     private JPanel contentPane;
 
+    protected AbstractChart getAbstractChart(Chart chart) {
+        if (chart != null && chart instanceof AbstractChart) {
+            return (AbstractChart) chart;
+        }
+        return null;
+    }
+
     @Override
     public void populate(ChartCollection collection) {
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                hyperLinkPane.populateBean((AbstractChart) chart);
-                autoRefreshTime.setValue(((AbstractChart) chart).getAutoRefreshTime());
-                refreshEnabled.setSelectedIndex(((AbstractChart) chart).isRefreshEnabled() ? 0 : 1);
-                checkRefreshEnable();
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
+        }
+
+        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+
+        if (chart != null) {
+            hyperLinkPane.populateBean(chart);
+            autoRefreshTime.setValue(chart.getAutoRefreshTime());
+            refreshEnabled.setSelectedIndex(chart.isRefreshEnabled() ? 0 : 1);
+            checkRefreshEnable();
         }
 
     }
 
     @Override
     public void update(ChartCollection collection) {
-        if (collection != null) {
-            Chart chart = collection.getSelectedChart();
-            if (chart != null && chart instanceof AbstractChart) {
-                hyperLinkPane.updateBean((AbstractChart) chart);
-                ((AbstractChart) chart).setAutoRefreshTime(autoRefreshTime.getValue());
-                ((AbstractChart) chart).setRefreshEnabled(refreshEnabled.getSelectedIndex() == 0);
-            }
+        if (collection == null || collection.getSelectedChart() == null) {
+            return;
+        }
+
+        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+
+        if (chart != null) {
+            hyperLinkPane.updateBean(chart);
+            chart.setAutoRefreshTime(autoRefreshTime.getValue());
+            chart.setRefreshEnabled(refreshEnabled.getSelectedIndex() == 0);
         }
     }
 
@@ -97,7 +109,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         double[] rowSize = {p};
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Time_Seconds"))},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Interval")), autoRefreshTime, new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Time_Seconds"))},
         };
         contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
 
@@ -105,9 +117,9 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         panel.add(refreshEnabled, BorderLayout.NORTH);
         panel.add(contentPane, BorderLayout.CENTER);
 
-        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("FR-Design-Chart_Auto_Refresh"), panel);
+        JPanel gapPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Refresh"), panel);
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Refresh"), gapPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Refresh"), gapPane);
     }
 
     private JPanel createHyperlinkPane() {

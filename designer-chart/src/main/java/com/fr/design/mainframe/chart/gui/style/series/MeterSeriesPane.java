@@ -43,8 +43,8 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
     protected JPanel getContentInPlotType() {
         unit = new UITextField();
         angleMax = new UINumberDragPane(0, 360);
-        String[] orderUnit = new String[]{com.fr.design.i18n.Toolkit.i18nText("Ge"), com.fr.design.i18n.Toolkit.i18nText("Unit_Ten"), com.fr.design.i18n.Toolkit.i18nText("Unit_Hundred"),
-                com.fr.design.i18n.Toolkit.i18nText("Unit_Thousand"), com.fr.design.i18n.Toolkit.i18nText("Unit_Ten_Thousand")};
+        String[] orderUnit = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Ge"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Ten"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Hundred"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Thousand"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Unit_Ten_Thousand")};
         order = new UIComboBox(orderUnit);
         colorPickerPane = createColorPickerPane();
 
@@ -61,7 +61,7 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
                 return 120;
             }
             protected int getColorgroupMarginLeft () {
-                return 20;
+                return 5;
             }
         };
     }
@@ -73,11 +73,11 @@ public class MeterSeriesPane extends AbstractPlotSeriesPane {
         double[] columnSize = {p, f};
         double[] rowSize = {p};
         Component[][] tmpComponent = new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Pointer-A-Tick-Order") + ":", SwingUtilities.LEFT), order}
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pointer_A_Tick_Order") + ":", SwingUtilities.LEFT), order}
         };
         JPanel orderPane = TableLayoutHelper.createTableLayoutPane(tmpComponent, rowSize, columnSize);
         Component[][] components = new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart_Needle_Max_Range") + ":", SwingUtilities.LEFT), angleMax},
+                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Needle_Max_Range") + ":", SwingUtilities.LEFT), angleMax},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Units") + ":", SwingUtilities.LEFT), unit},
                 new Component[]{new JSeparator(), null},
                 new Component[]{orderPane, null},

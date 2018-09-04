@@ -61,7 +61,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
     private void initBasicComponet() {
 //        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
         keyColumnPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Parameter_Formula"));
         formulaEditor.setEnabled(true);
 //        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
         valueDictPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
@@ -77,8 +77,8 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value"), UILabel.LEFT), keyColumnPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value"), UILabel.LEFT), valueDictPane}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"), UILabel.LEFT), valueDictPane}
         };
         JPanel dbDictPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, GAP_HUGER, LayoutConstants.VGAP_LARGE);
         this.setLayout(new BorderLayout(0, 4));
@@ -116,7 +116,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
      *
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Datasource_From_Database");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_From_Database");
     }
 
     public void populateBean(DatabaseDictionary dbDict) {
@@ -224,7 +224,7 @@ public class DatabaseDictPane extends FurtherBasicBeanPane<DatabaseDictionary> i
         String columnNameValue = columnNames.length > 0 ? columnNames[0] : StringUtils.EMPTY;
         keyColumnPane.setEditors(new Editor[]{columnNameEditor1, columnIndexEditor1}, columnNameValue);
 
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Parameter_Formula"));
         formulaEditor.setEnabled(true);
         formulaEditor.addChangeListener(new ChangeListener() {
 

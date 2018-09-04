@@ -52,7 +52,7 @@ public class MapSeriesPane extends AbstractPlotSeriesPane{
 
 	@Override
 	protected JPanel getContentInPlotType() {
-		isHeatMap = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Heat_Map"));
+		isHeatMap = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Heat_Map"));
 		isHeatMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				checkHeatMapAreaTitles();
@@ -69,8 +69,8 @@ public class MapSeriesPane extends AbstractPlotSeriesPane{
 		double[] rowSize = { p, p, p, p, p};
         Component[][] components = new Component[][]{
 				new Component[]{isHeatMap, null},
-				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Data_Configuration")), areaTitles},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("ChartF_ValueRange_MatchColor")),null},
+				new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Configuration")), areaTitles},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Range_Color")),null},
                 new Component[]{colorPickPane,null},
         } ;
 

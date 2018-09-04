@@ -50,7 +50,7 @@ public class ImageFloatAction extends ElementCaseAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Insert_Image");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Image");
         }
 
         @Override

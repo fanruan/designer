@@ -14,6 +14,6 @@ public class CustomChartStyleAxisPane extends TernaryChartStyleAxisPane {
     }
     
     protected String getSecondValueAxisName() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Second_Axis");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Axis");
     }
 }

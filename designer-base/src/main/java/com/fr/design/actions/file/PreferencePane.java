@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
+import com.fr.config.Configuration;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -24,9 +25,12 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.third.apache.log4j.Level;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -128,9 +132,9 @@ public class PreferencePane extends BasicPane {
 
         UITabbedPane jtabPane = new UITabbedPane();
         JPanel generalPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_General"), generalPane);
+        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_General"), generalPane);
         JPanel advancePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
-        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), advancePane);
+        jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), advancePane);
         contentPane.add(jtabPane, BorderLayout.NORTH);
 
 
@@ -153,12 +157,12 @@ public class PreferencePane extends BasicPane {
 
         createJdkHomePane(advancePane);
 
-        JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Oracle_All_Tables"));
+        JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-        JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Product_improve"));
-        joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Join_Product_improve"));
+        JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
+        joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImprove);
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -169,16 +173,16 @@ public class PreferencePane extends BasicPane {
     }
 
     private void createFunctionPane(JPanel generalPane) {
-        JPanel functionPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference-Function"));
+        JPanel functionPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Function"));
         generalPane.add(functionPane);
 
         //添加supportUndo选择项
-        supportUndoCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Undo"));
+        supportUndoCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Undo"));
         functionPane.add(supportUndoCheckBox);
         //添加maxUndoLimit
         //String[] undoTimes = {"最大撤销次数","5次","10次","15次","20次","50次"};
-        String[] undoTimes = {com.fr.design.i18n.Toolkit.i18nText("FR-Designer_max_undo_limit"), MAX_UNDO_LIMIT_5 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_10 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)")
-                , MAX_UNDO_LIMIT_15 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_20 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)"), MAX_UNDO_LIMIT_50 + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_time(s)")};
+        String[] undoTimes = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Max_Undo_Limit"), MAX_UNDO_LIMIT_5 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_10 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)")
+                , MAX_UNDO_LIMIT_15 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_20 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)"), MAX_UNDO_LIMIT_50 + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Time(s)")};
         maxUndoLimit = new UIComboBox(undoTimes);
         functionPane.add(maxUndoLimit);
 
@@ -192,7 +196,7 @@ public class PreferencePane extends BasicPane {
 
         //添加supportDefaultParentCalculate选择项
         supportDefaultParentCalculateCheckBox = new UICheckBox(
-                com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Default_Parent_Calculate"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Default_Parent_Calculate"));
         functionPane.add(supportDefaultParentCalculateCheckBox);
     }
 
@@ -206,7 +210,7 @@ public class PreferencePane extends BasicPane {
         editPane.add(supportStringToFormulaBox);
 
         //是否默认转化
-        defaultStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Always"));
+        defaultStringToFormulaBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Always"));
 
         editPane.add(defaultStringToFormulaBox);
         //不支持转化则不能默认执行
@@ -216,7 +220,7 @@ public class PreferencePane extends BasicPane {
             }
         });
         JPanel keyStrokePane = new JPanel(new BorderLayout());
-        keyStrokePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Support-Auto_Complete_Shortcut") + ":"), BorderLayout.WEST);
+        keyStrokePane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Auto_Complete_Shortcut") + ":"), BorderLayout.WEST);
         shortCutLabel = new UILabel();
         keyStrokePane.add(shortCutLabel, BorderLayout.CENTER);
         editPane.add(keyStrokePane);
@@ -246,7 +250,7 @@ public class PreferencePane extends BasicPane {
             requestFocusInWindow();
             label = new UILabel(text);
             add(GUICoreUtils.createBorderLayoutPane(
-                    new UILabel(com.fr.design.i18n.Toolkit.i18nText("Support-Current_Auto_Complete_Shortcut") + ":"),
+                    new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Support_Current_Auto_Complete_Shortcut") + ":"),
                     BorderLayout.WEST,
                     label,
                     BorderLayout.CENTER),
@@ -280,24 +284,24 @@ public class PreferencePane extends BasicPane {
 
     private void createGuiOfGridPane(JPanel generalPane) {
         // GridPane
-        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-Setting_Grid"));
+        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Setting_Grid"));
         generalPane.add(guiOfGridPane);
 
-        supportCellEditorDefCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Support_Cell_Editor_Definition"));
+        supportCellEditorDefCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Support_Cell_Editor_Definition"));
         guiOfGridPane.add(supportCellEditorDefCheckBox);
 
-        isDragPermitedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Preference-Is_Drag_Permited"));
+        isDragPermitedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Is_Drag_Permited"));
         guiOfGridPane.add(isDragPermitedCheckBox);
     }
 
     private void createColorSettingPane(JPanel generalPane) {
         // Color Setting Pane
-        JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-Setting_Colors"));
+        JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Setting_Colors"));
         generalPane.add(colorSettingPane);
 
-        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Grid_Line_Color"));
+        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Grid_Line_Color"));
 
-        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Pagination_Line_Color"));
+        new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Pagination_Line_Color"));
 
         gridLineColorTBButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
         gridLineColorTBButton.setEnabled(this.isEnabled());
@@ -306,10 +310,10 @@ public class PreferencePane extends BasicPane {
         paginationLineColorTBButton.setEnabled(this.isEnabled());
 
         JPanel leftPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Grid_Line_Color") + ":"));
+        leftPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Grid_Line_Color") + ":"));
         leftPane.add(gridLineColorTBButton);
         JPanel rightPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-Pagination_Line_Color") + ":"));
+        rightPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Pagination_Line_Color") + ":"));
         rightPane.add(paginationLineColorTBButton);
         colorSettingPane.add(leftPane);
         colorSettingPane.add(rightPane);
@@ -319,9 +323,9 @@ public class PreferencePane extends BasicPane {
         //richer:选择导出log文件的目录.
         JPanel logPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
         advancePane.add(logPane);
-        JPanel logExportPane = FRGUIPaneFactory.createTitledBorderPane("log" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Export_Setting"));
+        JPanel logExportPane = FRGUIPaneFactory.createTitledBorderPane("log" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Export_Setting"));
         logPane.add(logExportPane);
-        UILabel logLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Select_Export_Log_Directory") + ":");
+        UILabel logLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select_Export_Log_Directory") + ":");
         logExportPane.add(logLabel, BorderLayout.WEST);
         logExportDirectoryField = new UITextField(24);
         logExportPane.add(logExportDirectoryField, BorderLayout.CENTER);
@@ -340,14 +344,23 @@ public class PreferencePane extends BasicPane {
             }
         });
 
-        JPanel logLevelPane = FRGUIPaneFactory.createTitledBorderPane("log" + com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Level_Setting"));
+        JPanel logLevelPane = FRGUIPaneFactory.createTitledBorderPane("log" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Level_Setting"));
         logPane.add(logLevelPane);
         logLevelComboBox = new UIComboBox(LOG);
         logLevelPane.add(logLevelComboBox);
         logLevelComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Configurations.update(new Worker() {
+                    @Override
+                    public void run() {
+                        Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
+                    }
 
-                Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
+                    @Override
+                    public Class<? extends Configuration>[] targets() {
+                        return new Class[]{Log4jConfig.class};
+                    }
+                });
             }
         });
     }
@@ -355,13 +368,13 @@ public class PreferencePane extends BasicPane {
     private void createLanPane(JPanel generalPane) {
         // ben:选择版本语言;
         JPanel languageAndDashBoard_pane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
-        JPanel LanguagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Choose_Language"));
+        JPanel LanguagePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Choose_Language"));
         generalPane.add(languageAndDashBoard_pane);
         languageAndDashBoard_pane.add(LanguagePane);
 
         languageComboBox = createLanguageComboBox();
 
-        ActionLabel languageLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Designer_Language"));
+        ActionLabel languageLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Designer_Language"));
         languageLabel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -375,7 +388,7 @@ public class PreferencePane extends BasicPane {
                 dlg.setVisible(true);
             }
         });
-        UILabel noticeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));//sail:提示重启后生效
+        UILabel noticeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));//sail:提示重启后生效
         double p = TableLayout.PREFERRED;
         double rowSize[] = {p};
         double columnSize[] = {p, p, p};
@@ -394,7 +407,8 @@ public class PreferencePane extends BasicPane {
         int i = 0;
         for (Map.Entry<Locale, String> entry : map.entrySet()) {
             keys[i] = entry.getKey();
-            values[i] = com.fr.design.i18n.Toolkit.i18nText(entry.getValue());
+            // 想要读取到，必需在这里 使用 Inter 才行。
+            values[i] = Inter.getLocText(entry.getValue());
             i++;
         }
         UIDictionaryComboBox<Locale> languageComboBox = new UIDictionaryComboBox<>(keys, values);
@@ -420,16 +434,16 @@ public class PreferencePane extends BasicPane {
         double rowSize[] = {p};
 
         // 长度单位选择
-        JPanel lengthPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Setting-Ruler-Units"));
+        JPanel lengthPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Setting_Ruler_Units"));
         advancePane.add(lengthPane);
-        pageLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup-mm"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH")});
+        pageLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH")});
         pageLengthComboBox.setPreferredSize(new Dimension(80, 20));
         pageLengthComboBox.setMinimumSize(new Dimension(80, 20));
-        reportLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer_PageSetup-mm"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_INCH"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unit_PT")});
+        reportLengthComboBox = new UIComboBox(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_MM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate")});
         reportLengthComboBox.setPreferredSize(new Dimension(80, 20));
         reportLengthComboBox.setMinimumSize(new Dimension(80, 20));
-        UILabel pagelengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Page-Setup-Scale-Units") + ":");
-        UILabel reportLengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report-Design-Ruler-Units") + ":");
+        UILabel pagelengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Page_Setup_Scale_Units") + ":");
+        UILabel reportLengthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Report_Design_Ruler_Units") + ":");
         Component[][] lengthComponents = {
                 {pagelengthLabel, pageLengthComboBox, reportLengthLabel, reportLengthComboBox},
         };
@@ -442,13 +456,13 @@ public class PreferencePane extends BasicPane {
         double rowSize[] = {p};
         double columnSize[] = {p, p, p};
 
-        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Web_Preview_Port_Setting"));
+        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Port_Setting"));
         advancePane.add(serverPortPane);
         portEditor = new IntegerEditor();
         portEditor.setPreferredSize(new Dimension(80, 20));
         portEditor.setMinimumSize(new Dimension(80, 20));
-        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));
-        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Web_Preview_Port") + ":");
+        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));
+        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Port") + ":");
         Component[][] portComponents = {
                 {serverPortLabel, portEditor, notiJlabel},
         };
@@ -461,7 +475,7 @@ public class PreferencePane extends BasicPane {
         double rowSize[] = {p};
         double columnSize[] = {p, p, p};
 
-        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Preference-JDK_Home"));
+        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home"));
         advancePane.add(serverPortPane);
         jdkHomeTextField = new UITextField();
         UIButton chooseBtn = new UIButton("...");
@@ -483,8 +497,8 @@ public class PreferencePane extends BasicPane {
             }
         });
         panel.setPreferredSize(new Dimension(300, 20));
-        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Work_After_Restart_Designer"));
-        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Preference-JDK_Home") + ":");
+        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));
+        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home") + ":");
         Component[][] portComponents = {
                 {serverPortLabel, panel, notiJlabel},
         };
@@ -493,9 +507,9 @@ public class PreferencePane extends BasicPane {
     }
 
     private JPanel createMemoryPane() {
-        JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_CachingTemplate"));
-        UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_MaxCachingTemplate"));
-        UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preference_CachingTemplateTip"));
+        JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template"));
+        UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Max_Caching_Template"));
+        UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template_Tip"));
         memoryTipLabel.setBorder(BorderFactory.createEmptyBorder(0, CACHING_GAP, 0, 0));
         cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
@@ -508,7 +522,7 @@ public class PreferencePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("M_Window-Preference");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_M_Window_Preference");
     }
 
     /**
@@ -633,7 +647,17 @@ public class PreferencePane extends BasicPane {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
 
-        Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[]{Log4jConfig.class};
+            }
+        });
 
     }
 
@@ -645,12 +669,12 @@ public class PreferencePane extends BasicPane {
         }
         int rv = JOptionPane.showOptionDialog(
                 null,
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Language_Change_Successful"),
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Warning"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Language_Change_Successful"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
-                new String[]{com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Basic_Restart_Designer_Later")},
+                new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Restart_Designer_Later")},
                 null
         );
         if (rv == JOptionPane.OK_OPTION) {

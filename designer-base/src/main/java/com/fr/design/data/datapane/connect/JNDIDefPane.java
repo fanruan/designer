@@ -73,12 +73,12 @@ public class JNDIDefPane extends JPanel {
 		// NorthPane
 		JPanel nContentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
 		innerthis.add(nContentPane);
-		nContentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Datasource-JNDI_Name") + ":"));
+		nContentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_JNDI_Name") + ":"));
 		jndiNameTextField = new UITextField(20);
 		nContentPane.add(jndiNameTextField, BorderLayout.NORTH);
 
 		// CenterPane
-		JPanel outcenterPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Datasource-Context"));
+		JPanel outcenterPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Context"));
 		innerthis.add(outcenterPane);
 		JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_M_Pane();
 		outcenterPane.add(centerPane);
@@ -105,7 +105,7 @@ public class JNDIDefPane extends JPanel {
 		centerPane.add(actionPane);
 		actionPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 6));
 
-		ActionLabel actionLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("Datasource-Other_Attributes"));
+		ActionLabel actionLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Other_Attributes"));
 		actionPane.add(actionLabel, BorderLayout.EAST);
 		actionLabel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -115,7 +115,7 @@ public class JNDIDefPane extends JPanel {
 		});
 
 		// South Description
-		UILabel explainLabe11l = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Datasource-JNDI_DES"));
+		UILabel explainLabe11l = new FRExplainLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_JNDI_DES"));
 		innerthis.add(new JScrollPane(explainLabe11l));
 	}
 
@@ -235,7 +235,7 @@ public class JNDIDefPane extends JPanel {
 
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("Datasource-Other_Attributes");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Other_Attributes");
 		}
 	}
 

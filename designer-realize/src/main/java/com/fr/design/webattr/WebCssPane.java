@@ -1,5 +1,20 @@
 package com.fr.design.webattr;
 
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.EditingStringListPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
+import com.fr.file.filter.ChooseFileFilter;
+import com.fr.stable.CoreConstants;
+import com.fr.stable.StringUtils;
+import com.fr.web.attr.ReportWebAttr;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,23 +23,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.gui.frpane.EditingStringListPane;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicPane;
-import com.fr.file.FILE;
-import com.fr.file.FILEChooserPane;
-import com.fr.file.filter.ChooseFileFilter;
-
-import com.fr.stable.CoreConstants;
-import com.fr.stable.StringUtils;
-import com.fr.web.attr.ReportWebAttr;
 
 public class WebCssPane extends BasicPane {
 	private UITextField localText;
@@ -40,14 +38,14 @@ public class WebCssPane extends BasicPane {
 		localText = new UITextField();
 		localText.setPreferredSize(new Dimension(450, 20));
 		localText.setEditable(false);
-		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Selection"));
+		chooseFile = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Selection"));
 		chooseFile.setPreferredSize(new Dimension(75, 23));
 		chooseFile.addActionListener(chooseFileListener);
-		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Disk_File") + ":"), FlowLayout.LEFT);
+		northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Disk_File") + ":"), FlowLayout.LEFT);
 		northPane.add(localText, FlowLayout.CENTER);
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
-		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("CSS_warning"));
+		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);
@@ -95,7 +93,7 @@ public class WebCssPane extends BasicPane {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("ReportServerP-Import_Css");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_Css");
 	}
 
 	public void populate(ReportWebAttr reportWebAttr) {

@@ -43,7 +43,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 
         if (this.needRenamePane()) {
             itemNameTextField = new UITextField();
-            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Use_Name") + ":"), BorderLayout.NORTH);
+            this.add(GUICoreUtils.createNamedPane(itemNameTextField, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Name") + ":"), BorderLayout.NORTH);
         }
 
         hyperEditPane = new ChartHyperEditPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
@@ -82,7 +82,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
 
     @Override
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Pop_Chart");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pop_Chart");
     }
 
     @Override

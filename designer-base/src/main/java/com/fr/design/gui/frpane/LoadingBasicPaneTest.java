@@ -31,7 +31,7 @@ public class LoadingBasicPaneTest {
 			
 			@Override
 			protected String title4PopupWindow() {
-				return com.fr.design.i18n.Toolkit.i18nText("Test") ;
+				return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Test") ;
 			}
 		};
 		BasicDialog dlg = lb.showWindow(null);

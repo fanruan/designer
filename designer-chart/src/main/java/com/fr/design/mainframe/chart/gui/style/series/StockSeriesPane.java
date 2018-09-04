@@ -49,17 +49,17 @@ public class StockSeriesPane extends AbstractPlotSeriesPane {
 		double[] columnSize = { p,f };
 		double[] rowSize = { p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("UpBarBorderStyleAndColor")), null},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_UpBar_Border_Style_And_Color")), null},
         		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), upLineBox},
-        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Border-Color")), upBorderColor},
-        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), upBackColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Color")), upBorderColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color_Background")), upBackColor},
         		
                 new Component[]{new JSeparator(),null},
                 
-            	new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("DownBarBorderStyleAndColor")), null},
+            	new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Down_Bar_Border_Style_And_Color")), null},
         		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downLineBox},
-        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Border-Color")), downBorderColor},
-        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Line_Style")), downBackColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border_Color")), downBorderColor},
+        		new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color_Background")), downBackColor},
                 
         } ;
         JPanel pane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);

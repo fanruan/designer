@@ -10,9 +10,12 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
+import com.fr.design.actions.community.CenterAction;
+import com.fr.design.actions.community.CusDemandAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
+import com.fr.design.actions.community.TechSolutionAction;
 import com.fr.design.actions.community.UpAction;
 import com.fr.design.actions.community.VideoAction;
 import com.fr.design.actions.file.CloseCurrentTemplateAction;
@@ -47,6 +50,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.onlineupdate.actions.SoftwareUpdateAction;
 import com.fr.design.remote.action.RemoteDesignAuthorityManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
@@ -334,7 +338,7 @@ public abstract class ToolBarMenuDock {
             insertMenu(menuDef, MenuHandler.FILE);
             return menuDef;
         }
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_File"), 'F');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_File"), 'F');
 
         ShortCut[] scs = new ShortCut[0];
         if (!DesignerMode.isAuthorityEditing()) {
@@ -408,7 +412,7 @@ public abstract class ToolBarMenuDock {
     }
 
     protected MenuDef createServerMenuDef(ToolBarMenuDockPlus plus) {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_M-Server"), 'S');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic__M_Server"), 'S');
 
         if (!DesignerMode.isAuthorityEditing()) {
             menuDef.addShortCut(
@@ -469,6 +473,10 @@ public abstract class ToolBarMenuDock {
             shortCuts.add(new VideoAction());
             shortCuts.add(new TutorialAction());
         }
+        //远程不使用更新升级
+//        if(WorkContext.getCurrent().isLocal()) {
+//            shortCuts.add(new SoftwareUpdateAction());
+//        }
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }
@@ -488,15 +496,17 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
         shortCuts.add(new QuestionAction());
-        shortCuts.add(new UpAction());
-        shortCuts.add(new NeedAction());
+        shortCuts.add(new TechSolutionAction());
         shortCuts.add(new BugAction());
+        shortCuts.add(new NeedAction());
+        shortCuts.add(new CusDemandAction());
+        shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 
     public MenuDef createHelpMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Help"), 'H');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Help"), 'H');
         ShortCut[] otherHelpShortCuts = createHelpShortCuts();
         for (ShortCut shortCut : otherHelpShortCuts) {
             menuDef.addShortCut(shortCut);
@@ -506,7 +516,7 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createCommunityMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_COMMUNITY"), 'C');
+        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community"), 'C');
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {
             menuDef.addShortCut(shortCut);
@@ -548,7 +558,7 @@ public abstract class ToolBarMenuDock {
             return toolBar;
 
         } else {
-            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Polyblock_Edit"));
+            return polyToolBar(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Polyblock_Edit"));
         }
     }
 

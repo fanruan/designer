@@ -23,7 +23,7 @@ public class ReportFontUnderlineAction extends ReportFontBoldAction {
     public ReportFontUnderlineAction(ElementCasePane t) {
 		super(t);
 
-		this.setName(com.fr.design.i18n.Toolkit.i18nText("FRFont-Underline"));
+		this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FRFont_Underline"));
 		this.setSmallIcon(ICONS, true);
 	}
 

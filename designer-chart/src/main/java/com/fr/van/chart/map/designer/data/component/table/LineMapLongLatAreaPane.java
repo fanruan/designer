@@ -21,7 +21,7 @@ public class LineMapLongLatAreaPane extends LineMapAreaPane {
             protected Component[][] getComponent () {
                 return new Component[][]{
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Longitude")), longitudeCom},
-                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine_Design_Chart_End_Latitude")), latitudeCom},
+                        new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Latitude")), latitudeCom},
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")), areaNameCom}
                 };
             }

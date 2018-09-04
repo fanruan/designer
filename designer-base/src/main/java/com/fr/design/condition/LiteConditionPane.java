@@ -54,16 +54,16 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     private static final long serialVersionUID = 1L;
     // peter:这两个变量在弹出公式编辑器的时候,需要用.
-    private UIRadioButton commonRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Common"));
-    private UIRadioButton formulaRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Formula"));
+    private UIRadioButton commonRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Common"));
+    private UIRadioButton formulaRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Formula"));
     private JPanel conditionCardPane;
     protected BasicBeanPane<T> defaultConditionPane;
     // card2
     private UITextArea formulaTextArea;
     private UIButton modifyButton;
     private UIButton addButton;
-    private UIRadioButton andRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_ConditionB-AND") + "  ");
-    private UIRadioButton orRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_ConditionB-OR"));
+    private UIRadioButton andRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_ConditionB_AND") + "  ");
+    private UIRadioButton orRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_ConditionB_OR"));
     protected JTree conditionsTree;// Conditions
     private UIButton removeButton;
     private UIButton moveUpButton;
@@ -223,7 +223,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             }
 
             int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
-                    com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnVal == JOptionPane.OK_OPTION) {
                 DefaultTreeModel treeModel = (DefaultTreeModel) conditionsTree.getModel();
@@ -447,30 +447,30 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
 
     private void initButtonPane(JPanel buttonPane) {
-        removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Remove"));
+        removeButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"));
         buttonPane.add(removeButton);
         removeButton.setIcon(BaseUtils.readIcon("com/fr/base/images/cell/control/remove.png"));
         removeButton.setEnabled(false);
         removeButton.addActionListener(actionListener3);
 
-        moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Up"));
+        moveUpButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Up"));
         buttonPane.add(moveUpButton);
         moveUpButton.setIcon(BaseUtils.readIcon("com/fr/design/images/control/up.png"));
         moveUpButton.addActionListener(actionListener4);
 
-        moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Utils-Move_Down"));
+        moveDownButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Move_Down"));
         buttonPane.add(moveDownButton);
         moveDownButton.setIcon(BaseUtils.readIcon("com/fr/design/images/control/down.png"));
         moveDownButton.addActionListener(actionListener5);
 
         // peter:加括号
-        bracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ConditionB-Add_bracket"));
+        bracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConditionB_Add_bracket"));
         buttonPane.add(bracketButton);
         bracketButton.setIcon(BaseUtils.readIcon("com/fr/design/images/condition/bracket.png"));
         bracketButton.addActionListener(actionListener6);
 
         // peter:去掉括号
-        unBracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("ConditionB-Remove_bracket"));
+        unBracketButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ConditionB_Remove_bracket"));
         buttonPane.add(unBracketButton);
         unBracketButton.setIcon(BaseUtils.readIcon("com/fr/design/images/condition/unBracket.png"));
         unBracketButton.addActionListener(actionListener7);
@@ -492,7 +492,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         this.add(conditonTypePane, BorderLayout.NORTH);
         conditonTypePane.setBorder(new ModLineBorder(ModLineBorder.BOTTOM));
 
-        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Type") + ":");
+        UILabel conditionTypeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Type") + ":");
         conditonTypePane.add(conditionTypeLabel, BorderLayout.WEST);
         conditionTypeLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, DOWN_PADDING, 0));
 
@@ -530,10 +530,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         formulaPane.setPreferredSize(new Dimension(450, 40));
         formulaConditionPane.add(formulaPane, BorderLayout.CENTER);
         formulaPane.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
-        formulaPane.add(GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Formula") + "="), BorderLayout.NORTH), BorderLayout.WEST);
+        formulaPane.add(GUICoreUtils.createBorderPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Formula") + "="), BorderLayout.NORTH), BorderLayout.WEST);
         formulaTextArea = new UITextArea();
         formulaPane.add(new JScrollPane(formulaTextArea), BorderLayout.CENTER);
-        UIButton editFormulaButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Define"));
+        UIButton editFormulaButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Define"));
         formulaPane.add(GUICoreUtils.createBorderPane(editFormulaButton, BorderLayout.NORTH), BorderLayout.EAST);
         editFormulaButton.addActionListener(actionListener1);
         applyCardsPane();
@@ -564,14 +564,14 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         addControlPane.add(Box.createHorizontalStrut(STRUT_ONE));
 
-        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
+        addButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"), BaseUtils.readIcon("com/fr/base/images/cell/control/add.png"));
         addButton.setMnemonic('A');
         addControlPane.add(addButton);
         addButton.addActionListener(actionListener2);
 
         addControlPane.add(Box.createHorizontalStrut(STRUT_TWO));
 
-        modifyButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Modify"), BaseUtils.readIcon("com/fr/base/images/cell/control/rename.png"));
+        modifyButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Modify"), BaseUtils.readIcon("com/fr/base/images/cell/control/rename.png"));
         modifyButton.setMnemonic('M');
         addControlPane.add(modifyButton);
         modifyButton.addActionListener(actionListener8);
@@ -583,7 +583,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Submit_Condition");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Submit_Condition");
     }
 
     // samuel:移出来，方便调用
@@ -654,10 +654,10 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
     private void applyCardsPane() {
         CardLayout cl = (CardLayout) (conditionCardPane.getLayout());
         if (this.commonRadioButton.isSelected()) {
-            this.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Common_Condition"), null));
+            this.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Common_Condition"), null));
             cl.show(conditionCardPane, "DEFAULT");
         } else {
-            this.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_LiteCondition_Formula_Condition"), null));
+            this.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Lite_Condition_Formula_Condition"), null));
             cl.show(conditionCardPane, "FORMULA");
         }
     }

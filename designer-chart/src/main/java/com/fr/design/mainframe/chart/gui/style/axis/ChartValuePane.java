@@ -77,7 +77,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 
         axisLineStylePane = new ChartAxisLineStylePane();
         zeroPane = aliagnZero4Second();
-        axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_AxisReversed"));
+        axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AxisReversed"));
         unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
         formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
@@ -109,10 +109,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{new JSeparator()},
                 new Component[]{axisReversed},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -135,10 +135,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{new JSeparator()},
                 new Component[]{axisReversed},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -176,8 +176,8 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 	// 返回对数相关界面. 百分比 没有此界面.
 	protected JPanel addLogarithmicPane2ValuePane() {
         JPanel labelLogPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
-        labelLogPane.add(logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Logarithmic")+":"));
-        labelLogPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Log_Base")));
+        labelLogPane.add(logBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Logarithmic")+":"));
+        labelLogPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Log_Base")));
 
         logBaseField = new UITextField(4);
         logBaseField.setText("10");
@@ -226,7 +226,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
      * @return  返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_F_Radar_Axis");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Value_Axis");
 	}
 	
 	@Override
@@ -327,10 +327,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
                 new Component[]{axisLineStylePane},
                 new Component[]{zeroPane},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},
@@ -352,10 +352,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         Component[][] components = new Component[][]{
         		new Component[]{getAxisTitlePane()},
                 new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"ChartF-Units"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_Units"}, new Component[][]{
 						new Component[]{unitCombox}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
-                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Data_Type"}, new Component[][]{
+                new Component[]{TableLayoutHelper.createTableLayoutPane4Chart(new String[]{"Fine-Design_Chart_DataType"}, new Component[][]{
 						new Component[]{formatPane}}, new double[]{p}, new double[]{f})},
 				new Component[]{new JSeparator()},
 				new Component[]{axisLabelPane},

@@ -839,7 +839,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             editingTemplate.stopEditing();
             if (!editingTemplate.getEditingFILE().exists()) {
                 int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
-                        com.fr.design.i18n.Toolkit.i18nText("Utils-Would_you_like_to_save") + " \"" + editingTemplate.getEditingFILE()
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + editingTemplate.getEditingFILE()
                                 + "\" ?", ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
@@ -944,23 +944,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * @param tplFile 文件
      */
     public void openTemplate(FILE tplFile) {
-        // 测试连接，如果连接失败，则提示
-//        try {
-//            if (FRContext.getCommonOperator() != null
-//                    && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
-//                JOptionPane.showMessageDialog(
-//                        DesignerContext.getDesignerFrame(),
-//                        com.fr.design.i18n.Toolkit.i18nText(new String[]{"FR-Chart-Server_disconnected", "FR-Server-Design_template_unopened"}, new String[]{
-//                                ",", "!"}), com.fr.design.i18n.Toolkit.i18nText("FR-Server-All_Error"), JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//        } catch (Exception e) {
-//            FineLoggerFactory.getLogger().error(e.getMessage());
-//        }
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {
-            JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Warning-Template_Do_Not_Exsit"),
+            JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Warning_Template_Do_Not_Exsit"),
                     ProductConstants.PRODUCT_NAME, JOptionPane.INFORMATION_MESSAGE);
             DesignerFrameFileDealerPane.getInstance().refresh();
             return;

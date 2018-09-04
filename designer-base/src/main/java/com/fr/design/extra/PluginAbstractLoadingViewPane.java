@@ -98,7 +98,7 @@ public abstract class PluginAbstractLoadingViewPane<V, T> extends PluginAbstract
 
             @Override
             public String textForInstallButton() {
-                return com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install");
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install");
             }
 
 

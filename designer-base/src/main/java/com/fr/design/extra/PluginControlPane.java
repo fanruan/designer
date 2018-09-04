@@ -8,7 +8,6 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 
-import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.license.Licensed;
 import com.fr.plugin.manage.PluginManager;
@@ -59,7 +58,7 @@ public class PluginControlPane extends BasicPane {
                 doSearch(searchTextField.getText());
             }
         });
-        add(GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Search") + ":"), searchTextField, FlowLayout.LEFT), BorderLayout.NORTH);
+        add(GUICoreUtils.createFlowPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Search") + ":"), searchTextField, FlowLayout.LEFT), BorderLayout.NORTH);
 
         pluginList = new UIList();
         DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
@@ -74,12 +73,12 @@ public class PluginControlPane extends BasicPane {
                     }
                     String extraInfo = "";
                     if (context.isLicDamaged()) {
-                        extraInfo = "(" + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Plugin_Damaged") + ")";
+                        extraInfo = "(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin_Damaged") + ")";
                     } else if (!context.isFree()) {
                         if (context.isAvailable()) {
-                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Authorized")) + context.getLeftDays() + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Left") + ")";
+                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Authorized")) + context.getLeftDays() + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Left") + ")";
                         } else {
-                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Authorized")) + com.fr.design.i18n.Toolkit.i18nText("FR-Plugin-Designer_Expired") + ")";
+                            extraInfo = "(" + (context.isOnTrial() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Trial") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Authorized")) + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Designer_Expired") + ")";
                         }
                     }
                     setText(((PluginView) value).getName() + extraInfo);
@@ -95,7 +94,7 @@ public class PluginControlPane extends BasicPane {
 
 
         PluginDescriptionLabel label = new PluginDescriptionLabel();
-        label.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Plugin"));
+        label.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Plugin"));
         JPanel leftPane = GUICoreUtils.createBorderLayoutPane(
                 jScrollPane, BorderLayout.CENTER,
                 label, BorderLayout.NORTH

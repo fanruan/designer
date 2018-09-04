@@ -25,15 +25,15 @@ public class XYScatterPlotReportDataContentPane extends AbstractReportDataConten
 	public XYScatterPlotReportDataContentPane(ChartDataPane parent) {
 		initEveryPane();
 		
-		this.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Data_Filter")), "0,4,2,4");
+		this.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter")), "0,4,2,4");
 		this.add(filterPane = new ChartDataFilterPane(new XYScatterPlot(), parent), "0,6,2,4");
 	}
 	
 	protected String[] columnNames() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Series_Name"),
-				com.fr.design.i18n.Toolkit.i18nText("Chart_Scatter") + "x",
-				com.fr.design.i18n.Toolkit.i18nText("Chart_Scatter") + "y"
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"),
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Scatter") + "x",
+				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Scatter") + "y"
 		};
 	}
 	

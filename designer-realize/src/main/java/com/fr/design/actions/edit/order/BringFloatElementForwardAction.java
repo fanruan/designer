@@ -9,11 +9,6 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-
-import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
-
 /**
  * Bring FloatElement forward.
  */
@@ -24,7 +19,7 @@ public class BringFloatElementForwardAction extends AbstractFloatElementOrderAct
 	public BringFloatElementForwardAction(ElementCasePane t) {
 		super(t);
 		
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("M_Edit-Bring_Forward"));
+        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_M_Edit_Bring_Forward"));
         this.setMnemonic('F');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/up.png"));
 //		this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_CLOSE_BRACKET, DEFAULT_MODIFIER));

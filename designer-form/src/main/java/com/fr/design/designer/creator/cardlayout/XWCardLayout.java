@@ -212,7 +212,7 @@ public class XWCardLayout extends XLayoutContainer {
     //第一个tab
     private XCardSwitchButton initFirstButton(String widgetName, XWCardTagLayout xTag) {
         CardSwitchButton firstBtn = new CardSwitchButton(widgetName);
-        firstBtn.setText(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Title") + 0);
+        firstBtn.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title") + 0);
         xTag.setCurrentCard(firstBtn);
         XCardSwitchButton xFirstBtn = new XCardSwitchButton(firstBtn, new Dimension(CardSwitchButton.DEF_WIDTH, -1), this, xTag);
         xFirstBtn.setBackupParent(xTag);
@@ -328,8 +328,8 @@ public class XWCardLayout extends XLayoutContainer {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("carousel", this.data.getClass())
                         .setEditorClass(BooleanEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_setCarousel"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Carousel"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Tab_Carousel")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
                     @Override
                     public void propertyChange() {
@@ -339,8 +339,8 @@ public class XWCardLayout extends XLayoutContainer {
                 }),
                 new CRPropertyDescriptor("carouselInterval", this.data.getClass())
                         .setEditorClass(DoubleEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_carouselInterval"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Carousel_Interval"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Tab_Carousel")
         };
     }
 
@@ -348,8 +348,8 @@ public class XWCardLayout extends XLayoutContainer {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("carousel", this.data.getClass())
                         .setEditorClass(BooleanEditor.class)
-                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_setCarousel"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "FR-Designer_Tab_carousel")
+                        .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Carousel"))
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Report_Tab_Carousel")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
                     @Override
                     public void propertyChange() {
@@ -363,7 +363,7 @@ public class XWCardLayout extends XLayoutContainer {
     public CRPropertyDescriptor[] getDefaultDescriptor() throws IntrospectionException {
         return new CRPropertyDescriptor[]{
                 new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(
-                        Toolkit.i18nText("FR-Designer_Form-Widget_Name")).setPropertyChangeListener(new PropertyChangeAdapter() {
+                        Toolkit.i18nText("Fine-Design_Form-Widget_Name")).setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override
                     public void propertyChange() {
@@ -373,7 +373,7 @@ public class XWCardLayout extends XLayoutContainer {
                 }),
                 new CRPropertyDescriptor("borderStyle", this.data.getClass()).setEditorClass(
                         CardTagWLayoutBorderStyleEditor.class).setI18NName(
-                        com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Style")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
                         .setPropertyChangeListener(new PropertyChangeAdapter() {
 
                     @Override

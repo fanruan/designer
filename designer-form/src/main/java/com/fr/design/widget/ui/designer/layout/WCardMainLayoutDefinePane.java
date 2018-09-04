@@ -42,15 +42,15 @@ public class WCardMainLayoutDefinePane extends AbstractDataModify<WCardMainBorde
         accessibleCardTagWLayoutBorderStyleEditor = new AccessibleCardTagWLayoutBorderStyleEditor();
         JPanel accessibleCardlayout = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel stylePane =  TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Widget_Style")), accessibleCardTagWLayoutBorderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")), accessibleCardTagWLayoutBorderStyleEditor}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         stylePane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         accessibleCardlayout.add(stylePane, BorderLayout.CENTER);
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Advanced"), 280, 20, accessibleCardlayout);
+        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, accessibleCardlayout);
         final JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         jPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        setCarousel = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_setCarousel"));
+        setCarousel = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Carousel"));
         IntervalPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{
-                new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_carouselInterval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+                new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Carousel_Interval")), carouselInterval}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         IntervalPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L5, IntervalConstants.INTERVAL_L6, IntervalConstants.INTERVAL_L6));
         jPanel.add(setCarousel, BorderLayout.NORTH);
         jPanel.add(IntervalPane, BorderLayout.CENTER);
@@ -60,7 +60,7 @@ public class WCardMainLayoutDefinePane extends AbstractDataModify<WCardMainBorde
                 IntervalPane.setVisible(setCarousel.isSelected());
             }
         });
-        UIExpandablePane setCarouselPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tab_carousel"), 280, 20, jPanel);
+        UIExpandablePane setCarouselPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tab_Carousel"), 280, 20, jPanel);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
         this.add(setCarouselPane, BorderLayout.CENTER);
     }

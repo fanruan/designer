@@ -39,15 +39,15 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
     private UICheckBox colorBox;
     private UIColorButton colorButton;
     private DragToolBarPane dragToolbarPane;
-    private UIRadioButton topRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Top"));
-    private UIRadioButton bottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Bottom"));
+    private UIRadioButton topRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Top"));
+    private UIRadioButton bottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Bottom"));
     private UILabel sheetShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sheet_Label_Page_Display_Position"));
-    private UIRadioButton centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Center_Display"));
-    private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Left_Display"));
-    private UILabel rptShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Report_Show_Location") + ":", UILabel.LEFT);
-    private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Use_ToolBar"));
-    private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit"));
-    private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Form-Editing_Listeners") + ":");
+    private UIRadioButton centerRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Center_Display"));
+    private UIRadioButton leftRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Left_Display"));
+    private UILabel rptShowLocationLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Location") + ":", UILabel.LEFT);
+    private UICheckBox isUseToolBarCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_ToolBar"));
+    private UIButton editToolBarButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
+    private UILabel showListenersLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Editing_Listeners") + ":");
     private UICheckBox unloadCheck;
     private UICheckBox showWidgets;
     private UICheckBox isAutoStash;//自动暂存
@@ -73,18 +73,18 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
         rptButtonGroup.add(centerRadioButton);
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{rptShowLocationLabel, centerRadioButton, leftRadioButton}, FlowLayout.LEFT));
 
-        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Face_Write", "Current", "Edit", "Row", "Background", "Set"}) + ":");
+        colorBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Face_Write_Current_Edit_Row_Background") + ":");
         colorBox.setSelected(true);
         colorBox.addActionListener(colorListener);
         colorButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png"));
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{colorBox, colorButton}, FlowLayout.LEFT));
 
-        unloadCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Unload_Check"));
+        unloadCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unload_Check"));
         unloadCheck.setSelected(true);
 
-        showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Event_ShowWidgets"));
+        showWidgets = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event_Show_Widgets"));
         showWidgets.setSelected(false);
-        isAutoStash = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Write_Auto_Stash"));
+        isAutoStash = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Write_Auto_Stash"));
         isAutoStash.setSelected(false);
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{unloadCheck, showWidgets, isAutoStash}, FlowLayout.LEFT));
 
@@ -146,7 +146,7 @@ public class WriteToolBarPane extends AbstractEditToolBarPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("WEB-Write_Setting");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WEB_Write_Setting");
     }
 
     @Override

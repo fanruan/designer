@@ -33,10 +33,10 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 	private UIButton del;
     
     private static String[] TYPE = {
-    	 com.fr.design.i18n.Toolkit.i18nText("String"),
-    	 com.fr.design.i18n.Toolkit.i18nText("Integer"),
-    	 com.fr.design.i18n.Toolkit.i18nText("Double"),
-    	 com.fr.design.i18n.Toolkit.i18nText("Date")
+    	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_String"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Integer"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Double"),
+    	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Date")
     };
 	
 	public EmbeddedTableDataDefinedPane() {
@@ -68,8 +68,8 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
         tableColumn.setMaxWidth(30);
         
         // 控制按钮
-        add = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Add"));
-        del = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Delete"));
+        add = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
+        del = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"));
         JPanel buttonPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
 //        buttonPane.setLayout(FRGUIPaneFactory.createLabelFlowLayout());
         buttonPane.add(add);
@@ -213,8 +213,8 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
         private EmbeddedTableData embeddedTableData;
         private String[] COLUMN_NAME = {
               	 "", 
-              	 com.fr.design.i18n.Toolkit.i18nText("ColumnName"),
-              	 com.fr.design.i18n.Toolkit.i18nText("Type")
+              	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Column_Name"),
+              	 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type")
               };
         private int sum = 0;
 

@@ -4,7 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.FRContext;
 import com.fr.base.Formula;
@@ -1049,9 +1048,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             return popupMenu;
         }
 
-        InsertRowAction insertRowAction = new InsertRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Row"));
+        InsertRowAction insertRowAction = new InsertRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Row"));
 
-        DeleteRowAction deleteRowAction = new DeleteRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Row"));
+        DeleteRowAction deleteRowAction = new DeleteRowAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Delete_Row"));
 
         RowHeightAction rowHeightAction = new RowHeightAction(this, selectedRows);
 
@@ -1142,9 +1141,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             return popupMenu;
         }
 
-        InsertColumnAction insertColumnAction = new InsertColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Column"));
+        InsertColumnAction insertColumnAction = new InsertColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Column"));
 
-        DeleteColumnAction deleteColumnAction = new DeleteColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Column"));
+        DeleteColumnAction deleteColumnAction = new DeleteColumnAction(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Column"));
 
         ColumnWidthAction columnWidthAction = new ColumnWidthAction(this, selectedColumn);
 
@@ -1237,7 +1236,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     public ShortCut[] shortCuts4Authority() {
         return new ShortCut[]{
-                new NameSeparator(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"DashBoard-Potence", "Edit"})),
+                new NameSeparator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Edit_DashBoard_Potence")),
                 DesignerMode.isAuthorityEditing() ? new ExitAuthorityEditAction(this) : new AllowAuthorityEditAction(this),
         };
 
@@ -1308,7 +1307,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     protected ToolBarDef createInsertToolBar() {
         MenuDef insertFloatMenu = new MenuDef();
         insertFloatMenu.setName(KeySetUtils.INSERT_FLOAT.getMenuKeySetName());
-        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("T_Insert-Float"));
+        insertFloatMenu.setTooltip(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_T_Insert_Float"));
         insertFloatMenu.setIconPath("/com/fr/design/images/m_insert/floatPop.png");
 
         UpdateAction[] actions = ActionFactory.createFloatInsertAction(ElementCasePane.class, this);

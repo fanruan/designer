@@ -61,17 +61,17 @@ public class VanChartCustomIntervalBackgroundPane extends BasicBeanPane<VanChart
 
         Component[][] rangeComponents = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bottom_Value")),bottomValue},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_TopValue")),topValue},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Top_Value")),topValue},
         };
         JPanel temp = TableLayoutHelper.createTableLayoutPane(rangeComponents, rowSize, columnSize);
         JPanel rangePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range"), temp);
 
         Component[][] styleComponents = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Color_Color")),color},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),color},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alpha")),transparent},
         };
         temp = TableLayoutHelper.createTableLayoutPane(styleComponents, rowSize, columnSize);
-        JPanel stylePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Chart-Style_Name"), temp);
+        JPanel stylePane = TableLayout4VanChartHelper.createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Name"), temp);
 
         Component[][] components = getPaneComponents(axisPane, rangePane, stylePane);
 

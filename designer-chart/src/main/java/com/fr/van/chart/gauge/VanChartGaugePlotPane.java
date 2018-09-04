@@ -12,7 +12,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/11/27.
  */
 public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGauge");
+    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -28,11 +28,11 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Pointer"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Pointer180"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Ring"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Slot"),
-                com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_Gauge_Cuvette")
+        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer180"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Ring"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Slot"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Cuvette")
         };
     }
 
@@ -41,7 +41,7 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Plugin-ChartF_NewGauge");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
     }
 
     protected Plot getSelectedClonedPlot(){

@@ -40,7 +40,7 @@ public class NoSupportAuthorityEdit extends AuthorityEditPane {
 
     private JPanel createTextPane() {
         JPanel panel = new JPanel(new BorderLayout());
-        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("not_support_authority_edit"));
+        UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Support_Authority_Edit"));
         uiLabel.setHorizontalAlignment(SwingConstants.CENTER);
         uiLabel.setVerticalAlignment(SwingConstants.CENTER);
         panel.add(uiLabel, BorderLayout.CENTER);

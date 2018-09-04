@@ -61,7 +61,7 @@ public class FormatBox extends BasicPane {
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TIME));
 		typeBox.addItem(FormatField.getInstance().getName(FormatContents.TEXT));
 		
-		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Format") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format") + ":"));
 		formatBox = new UIComboBox();
 		// kunsnat: 大小: 这个有的格式的大小需要很宽!
 		formatBox.setPreferredSize(new Dimension(150, 20));
@@ -69,7 +69,7 @@ public class FormatBox extends BasicPane {
 		formatBox.setEnabled(false);
 		pane.add(formatBox);
 		
-		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("StyleFormat-Sample") + ":"));
+		pane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_StyleFormat_Sample") + ":"));
 		pane.add(previewLabel = new UILabel(""));
 		
 		typeBox.addItemListener(typeListener);
@@ -172,7 +172,7 @@ public class FormatBox extends BasicPane {
 	
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
 	}
 	
 	private void refreshLabelText() {

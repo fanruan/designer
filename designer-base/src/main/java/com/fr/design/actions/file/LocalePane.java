@@ -95,8 +95,8 @@ public class LocalePane extends BasicPane {
         });
 
 
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Preference-Predefined"), new UIScrollPane(predefinedTable));
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Preference-Custom"), new UIScrollPane(customTable));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Predefined"), new UIScrollPane(predefinedTable));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Custom"), new UIScrollPane(customTable));
 
         loadData();
     }
@@ -146,7 +146,7 @@ public class LocalePane extends BasicPane {
         keyVector.addAll(sortKeys);
 
 
-        predefineTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Key"), keyVector);
+        predefineTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key"), keyVector);
         for (Map.Entry<Locale, Vector<String>> entry : data.entrySet()) {
             predefineTableModel.addColumn(entry.getKey().getDisplayName(), entry.getValue());
         }
@@ -161,7 +161,7 @@ public class LocalePane extends BasicPane {
 
         List<Properties> list = new ArrayList<Properties>();
         Set<String> keys = new HashSet<String>();
-        customTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Key"));
+        customTableModel.addColumn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Key"));
         for (FileNode fileNode : fileNodes) {
             String fileName = fileNode.getName();
             if (fileName.endsWith(".properties")) {
@@ -218,6 +218,6 @@ public class LocalePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Preference-Locale");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Locale");
     }
 }

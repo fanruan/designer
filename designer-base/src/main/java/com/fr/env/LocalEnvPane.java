@@ -33,7 +33,7 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Location") + ":"), BorderLayout.WEST);
+        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location") + ":"), BorderLayout.WEST);
         northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
 
         // 删除选择文件按钮 添加JFileTree
@@ -60,13 +60,13 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
 
         UITextArea description = new UITextArea();
         centerPane.add(description, BorderLayout.SOUTH);
-        description.setText(com.fr.design.i18n.Toolkit.i18nText("Env-Des1"));
+        description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Des1"));
         description.setEditable(false);
     }
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Location");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location");
     }
 
     @Override

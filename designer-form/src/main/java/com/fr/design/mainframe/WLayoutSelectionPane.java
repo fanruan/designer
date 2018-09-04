@@ -1,5 +1,26 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
+import com.fr.base.GraphHelper;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itooltip.MultiLineToolTip;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.form.ui.container.WAbsoluteLayout;
+import com.fr.form.ui.container.WBorderLayout;
+import com.fr.form.ui.container.WCardLayout;
+import com.fr.form.ui.container.WGridLayout;
+import com.fr.form.ui.container.WLayout;
+import com.fr.stable.Constants;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolTip;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,29 +32,6 @@ import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import com.fr.design.gui.ilable.*;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToolTip;
-
-import com.fr.base.BaseUtils;
-import com.fr.design.layout.TableLayoutHelper;
-
-import com.fr.stable.Constants;
-import com.fr.base.GraphHelper;
-import com.fr.design.gui.itooltip.MultiLineToolTip;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.BasicPane;
-import com.fr.form.ui.container.WAbsoluteLayout;
-import com.fr.form.ui.container.WBorderLayout;
-import com.fr.form.ui.container.WCardLayout;
-import com.fr.form.ui.container.WGridLayout;
-import com.fr.form.ui.container.WLayout;
-
 public class WLayoutSelectionPane extends BasicPane {
 
     private static Image hoverImage = BaseUtils.readImage("com/fr/design/images/form/hover.png");
@@ -41,15 +39,15 @@ public class WLayoutSelectionPane extends BasicPane {
     private KindPane currentKindPane;
 
     public WLayoutSelectionPane() {
-        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Form-Please_Select_A_Kind_Of_Form_Container") + ":"));
+        this.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Please_Select_A_Kind_Of_Form_Container") + ":"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         Component[][] coms = {
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("BorderLayout")), new
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Border_Layout")), new
             	BorderLayoutPane()},
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("GridLayout")), new GridLayoutPane()},
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("CardLayout")), new CardLayoutPane()},
-            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Form-NullLayout")), new AbsoluteLayoutPane()}};
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Grid_Layout")), new GridLayoutPane()},
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Card_Layout")), new CardLayoutPane()},
+            {createTypeLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Null_Layout")), new AbsoluteLayoutPane()}};
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] rowSize = {p, p, p, p, p};
@@ -65,7 +63,7 @@ public class WLayoutSelectionPane extends BasicPane {
     
     @Override
     protected String title4PopupWindow() {
-    	return com.fr.design.i18n.Toolkit.i18nText("Widget-Form_Widget_Container");
+    	return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Form_Widget_Container");
     }
 
     @Override
@@ -78,11 +76,11 @@ public class WLayoutSelectionPane extends BasicPane {
         public BorderLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_border_nc.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-LayoutContainer"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Border_Layout_Container"));
             KindPane b2 = new KindPane("/com/fr/web/images/form/layout_border_ncw.png", new WBorderLayout(0, 0, new String[]{WBorderLayout.WEST, WBorderLayout.NORTH, WBorderLayout.CENTER}));
-            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ThreeContainer"));
+            b2.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WLayout_Border_Three_Container"));
             KindPane b4 = new KindPane("/com/fr/web/images/form/layout_border_all.png", new WBorderLayout(0, 0));
-            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Border-ToolTips"));
+            b4.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Border_ToolTips"));
             this.add(b1);
             this.add(b2);
             this.add(b4);
@@ -115,7 +113,7 @@ public class WLayoutSelectionPane extends BasicPane {
         
         @Override
         protected String title4PopupWindow() {
-        	return "GridLayout";
+        	return "Fine-Design_Form_Grid_Layout";
         }
     }
 
@@ -124,7 +122,7 @@ public class WLayoutSelectionPane extends BasicPane {
         public CardLayoutPane() {
             this.setLayout(new /* */ GridLayout(1, 4, 5, 5));
             KindPane b1 = new KindPane("/com/fr/web/images/form/layout_absolute_big.png", new WCardLayout());
-            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("WLayout-Card-ToolTip"));
+            b1.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WLayout_Card_ToolTip"));
             this.add(b1);
             this.add(new UILabel());
             this.add(new UILabel());

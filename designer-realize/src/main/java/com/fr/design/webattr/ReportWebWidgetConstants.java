@@ -62,29 +62,29 @@ public class ReportWebWidgetConstants {
     }
 
     // 提交按钮
-    public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
+    public static final WidgetOption SUBMIT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Submit"), BaseUtils.readIcon("/com/fr/web/images/save.png"),
             Submit.class);
 
     // flash打印按钮
-    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Print[Client]"),
+    public static final WidgetOption FLASHPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Print[Client]"),
             BaseUtils.readIcon("/com/fr/web/images/flashPrint.png"), FlashPrint.class);
 
     // appletprint
-    public static final WidgetOption APPLETPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Applet_Print"),
+    public static final WidgetOption APPLETPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Applet_Print"),
             BaseUtils.readIcon("/com/fr/web/images/appletPrint.png"), AppletPrint.class);
 
     // PDF导出
-    public static final WidgetOption PDF = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-PDF"), BaseUtils.readIcon("/com/fr/web/images/pdf.png"),
+    public static final WidgetOption PDF = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_PDF"), BaseUtils.readIcon("/com/fr/web/images/pdf.png"),
             PDF.class);
 
     // 客户端PDF打印
-    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Utils-Print[Client]"),
+    public static final WidgetOption PDFPRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Print[Client]"),
             BaseUtils.readIcon("/com/fr/web/images/pdfPrint.png"), PDFPrint.class);
 
 
     // 邮件发送
-    public static final WidgetOption EMAIL = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Email"), BaseUtils.readIcon("/com/fr/web/images/email.png"), Email.class);
-    public static final WidgetOption PRINTPREVIEW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("PrintP-Print_Preview"),
+    public static final WidgetOption EMAIL = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Email"), BaseUtils.readIcon("/com/fr/web/images/email.png"), Email.class);
+    public static final WidgetOption PRINTPREVIEW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PrintP_Print_Preview"),
             BaseUtils.readIcon("/com/fr/web/images/preview.png"), PrintPreview.class);
 
 
@@ -101,75 +101,75 @@ public class ReportWebWidgetConstants {
     // 导出成Word
     public static final WidgetOption WORD = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Word"), BaseUtils.readIcon("/com/fr/web/images/word.png"), Word.class);
     // 页面设置
-    public static final WidgetOption PAGESETUP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("PageSetup-Page_Setup"), BaseUtils.readIcon("/com/fr/web/images/pageSetup.png"), PageSetup.class);
+    public static final WidgetOption PAGESETUP = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Page_Setup"), BaseUtils.readIcon("/com/fr/web/images/pageSetup.png"), PageSetup.class);
     // 导出
     public static final WidgetOption EXPORT = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export"), BaseUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Export"), BaseUtils.readIcon("/com/fr/web/images/export.png"), Export.class);
 
     // 当前页/总页数
     public static final WidgetOption PAGENAVI = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Page_Navi_Text"),
             BaseUtils.readIcon("/com/fr/web/images/pageNumber.png"), PageNavi.class);
     // 首页
-    public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),
+    public static final WidgetOption FIRST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_First"), BaseUtils.readIcon("/com/fr/web/images/first.png"),
             First.class);
     // 末页
-    public static final WidgetOption LAST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Last"), BaseUtils.readIcon("/com/fr/web/images/last.png"),
+    public static final WidgetOption LAST = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Last"), BaseUtils.readIcon("/com/fr/web/images/last.png"),
             Last.class);
     // 前一页
-    public static final WidgetOption PREVIOUS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Previous"),
+    public static final WidgetOption PREVIOUS = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Previous"),
             BaseUtils.readIcon("/com/fr/web/images/previous.png"), Previous.class);
     // 后一页
-    public static final WidgetOption NEXT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_ReportServerP-Next"), BaseUtils.readIcon("/com/fr/web/images/next.png"),
+    public static final WidgetOption NEXT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_ReportServerP_Next"), BaseUtils.readIcon("/com/fr/web/images/next.png"),
             Next.class);
-    public static final WidgetOption SCALE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Enlarge_Or_Reduce"), BaseUtils.readIcon("/com/fr/web/images/scale.png"),
+    public static final WidgetOption SCALE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Enlarge_Or_Reduce"), BaseUtils.readIcon("/com/fr/web/images/scale.png"),
             Scale.class);
 
-    public static final WidgetOption NEW_PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), NewPrint.class);
-    public static final WidgetOption PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Print_Compatible"), BaseUtils.readIcon("/com/fr/web/images/print.png"), Print.class);
-    public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Insert_Record"),
+    public static final WidgetOption NEW_PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Print"), BaseUtils.readIcon("/com/fr/web/images/print.png"), NewPrint.class);
+    public static final WidgetOption PRINT = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Print_Compatible"), BaseUtils.readIcon("/com/fr/web/images/print.png"), Print.class);
+    public static final WidgetOption APPENDCOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Insert_Record"),
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
-    public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Delete_Record"),
+    public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Record"),
             BaseUtils.readIcon("/com/fr/web/images/deleteRow.png"), DeleteColumnRow.class);
-    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Verify-Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
+    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
             Verify.class);
-    public static final WidgetOption SUBMITFORCIBLY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Submit_Forcibly"),
+    public static final WidgetOption SUBMITFORCIBLY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Submit_Forcibly"),
             BaseUtils.readIcon("/com/fr/web/images/save2.png"), SubmitForcibly.class);
 
     // show cell value
-    public static final WidgetOption SHOWCELLVALUE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Show_Cell_Value"),
+    public static final WidgetOption SHOWCELLVALUE = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Show_Cell_Value"),
             BaseUtils.readIcon("/com/fr/web/images/showValue.png"), ShowCellValue.class);
 
     // import excel data
-    public static final WidgetOption IMPORTEXCELDATA = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Utils-Import_Excel_Data"),
+    public static final WidgetOption IMPORTEXCELDATA = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Import_Excel_Data"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImportExcelData.class);
     //自定义导入excel
-    public static final WidgetOption IMPORTEXCELDATA_CUSTOMIZED = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Utils-Import_Excel_Data_Customized"),
+    public static final WidgetOption IMPORTEXCELDATA_CUSTOMIZED = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Utils_Import_Excel_Data_Customized"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), CustomizeImportExcelData.class);
     // 打印机偏移设置
-    public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
+    public static final WidgetOption SETPRINTEROFFSET = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_SetPrinterOffset"), BaseUtils.readIcon("/com/fr/web/images/pianyi.png"), SetPrinterOffset.class);
 
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nTextArray(new String[]{"Custom", "Form-Button"}), CustomToolBarButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Form_Button"), CustomToolBarButton.class);
 
     // 输出离线html报表
     public static final WidgetOption WRITEOFFLINEHTML = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Export-Offline-Html"), BaseUtils.readIcon("/com/fr/web/images/writeOffline.png"), WriteOfflineHTML.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Export-Offline-Html"), BaseUtils.readIcon("/com/fr/web/images/writeOffline.png"), WriteOfflineHTML.class);
     // 数据暂存
     public static final WidgetOption WRITESTASH = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Write_Stash"), BaseUtils.readIcon("/com/fr/web/images/edit/stash.png"), StashButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine-Write_Stash"), BaseUtils.readIcon("/com/fr/web/images/edit/stash.png"), StashButton.class);
     // 数据清空
     public static final WidgetOption WRITESTASHCLEAR = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine-Write_Clear"), BaseUtils.readIcon("/com/fr/web/images/edit/clearstash.png"), ClearStashedButton.class);
+            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine-Write_Clear"), BaseUtils.readIcon("/com/fr/web/images/edit/clearstash.png"), ClearStashedButton.class);
     //Excel导入
-    public static final WidgetOption IMPORTEXCEL= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Excel_Import_Repeat"),
+    public static final WidgetOption IMPORTEXCEL= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Excel_Import_Repeat"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ExcelImport.class);
     //Excel导入_覆盖
-    public static final WidgetOption IMPORTEXCEL_COVER= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Excel_Import_Cover"),
+    public static final WidgetOption IMPORTEXCEL_COVER= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Excel_Import_Cover"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelCover.class);
     //Excel导入_清空
-    public static final WidgetOption IMPORTEXCEL_CLEAN= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Excel_Import_Clean"),
+    public static final WidgetOption IMPORTEXCEL_CLEAN= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Excel_Import_Clean"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelClean.class);
     //Excel导入_增量
-    public static final WidgetOption IMPORTEXCEL_APPEND= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Excel_Import_Append"),
+    public static final WidgetOption IMPORTEXCEL_APPEND= WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Excel_Import_Append"),
             BaseUtils.readIcon("/com/fr/web/images/excel.png"), ImExcelAppend.class);
 }

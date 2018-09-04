@@ -39,9 +39,9 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 		tipsPane1 = new UILabel();
 		tipsPane1.setHorizontalAlignment(SwingConstants.RIGHT);
 		tipsPane1.setForeground(Color.pink);
-		tipsPane2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-tips"));
+		tipsPane2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Tips"));
 		
-		UILabel mainTextLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-mailContent") + ":");
+		UILabel mainTextLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Mail_Content") + ":");
 		mainTextLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		mainTextLabel.setVerticalAlignment(SwingConstants.TOP);
 		JScrollPane scrollPane = new JScrollPane(mainTextEditor = new JTextArea());
@@ -61,13 +61,13 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
     protected void initCenterPane(UILabel mainTextLabel, JScrollPane scrollPane, double fill, double preferred) {
     	double[] rowSize = { preferred, preferred, preferred, preferred, preferred, fill, preferred, preferred, preferred };
 		double[] columnSize = { preferred, fill};
-		showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Email-Can_Preview_Report_Content"));
+		showTplContent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email_Can_Preview_Report_Content"));
     	centerPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(), tipsPane1},
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-Mail_to"), maitoEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("HJS-CC_to"), ccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-BCC"), bccEditor = new UITextField()),
-                createLinePane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-mailSubject"), titleEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_Mail_to"), maitoEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_HJS_CC_To"), ccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Bcc"), bccEditor = new UITextField()),
+                createLinePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Mail_Subject"), titleEditor = new UITextField()),
                 {mainTextLabel, scrollPane},
                 {new UILabel(), showTplContent},
                 {new UILabel(), tipsPane2}},rowSize, columnSize, 8);
@@ -81,7 +81,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
 	}
 
 	protected void checkEmailConfig(boolean valid) {
-		tipsPane1.setText(valid ? StringUtils.BLANK : com.fr.design.i18n.Toolkit.i18nText("FR-Designer_EmailPane-warnings"));
+		tipsPane1.setText(valid ? StringUtils.BLANK : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_EmailPane_Warnings"));
 		centerPane.setEnabled(valid);
 		mainTextEditor.setEnabled(valid);
 		mainTextEditor.setBackground(valid ? Color.WHITE : UIConstants.DEFAULT_BG_RULER);
@@ -139,7 +139,7 @@ public class EmailPane extends FurtherBasicBeanPane<EmailJavaScript> {
      * @return 标题字串
      */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Email_sentEmail");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Email_Sent_Email");
 	}
 
     /**

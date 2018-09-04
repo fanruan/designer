@@ -18,7 +18,7 @@ public class StylePane extends UIComboBoxPane<Style> {
 
 	@Override
 	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Style");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style");
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class StylePane extends UIComboBoxPane<Style> {
 	}
 
 	public void setSelctedByName(String id) {
-		jcb.setSelectedIndex(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("Custom"),id)? 0 : 1);
+		jcb.setSelectedIndex(ComparatorUtils.equals(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom"),id)? 0 : 1);
 	}
 
 	public Style updateStyle(Style style) {

@@ -211,7 +211,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
     }
 
     private String createName(){
-        String prefix = com.fr.design.i18n.Toolkit.i18nText("FR-Designer-CommitTab_Submit");
+        String prefix = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Submit");
         int  count = getTabCount();
         while (true) {
             //从提交1开始
@@ -408,7 +408,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
             selectedIndex = dbManipulationPaneList.size()-1;
             commit2DBJavaScriptPane.updateCardPane();
         } else if (isOverCloseIcon(x)){
-            int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("FR-Designer-CommitTab_SureToDelete")+ "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer-CommitTab_Remove")
+            int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Sure_To_Delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Remove")
                     , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (re == JOptionPane.OK_OPTION) {
                 dbManipulationPaneList.remove(getTabIndex(x));

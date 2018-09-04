@@ -58,6 +58,8 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.page.PaperSettingProvider;
+import com.fr.report.cell.Elem;
+import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
@@ -460,7 +462,10 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     // ////////////////for toolbarMenuAdapter//////////////////////////////
     // ////////////////////////////////////////////////////////////////////
 
-
+    @Override
+    public void setPictureElem(Elem elem, CellImage cellImage) {
+        elem.setValue(cellImage.getImage());
+    }
     /**
      * 目标菜单
      *
@@ -693,7 +698,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单
      */
     public UIMenuItem[] createMenuItem4Preview() {
-        UIMenuItem form = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("M-Form_Preview"), UIConstants.RUN_SMALL_ICON);
+        UIMenuItem form = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Form_Preview"), UIConstants.RUN_SMALL_ICON);
         form.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

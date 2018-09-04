@@ -80,7 +80,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 	public ChartDatapointLabelPane(String[] locationNameArray, Integer[] locationValueArray, Plot plot, ChartStylePane parent) {
 		this.parent = parent;
 		
-		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Chart_Label"));
+		isLabelShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label"));
 		if(locationNameArray != null && locationNameArray.length > 0 
 				&& locationValueArray != null && locationValueArray.length > 0) {
 			nameValueMap.clear();
@@ -96,18 +96,18 @@ public class ChartDatapointLabelPane extends BasicPane{
         boolean isGuidline = plot.isSupportLeadLine();
 
         if(plot.isSupportCategoryFilter()) {
-		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Category_Name"));
+		    isCategory = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name"));
         }
-		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Series_Name"));
-		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Value"));
+		isSeries = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"));
+		isValue = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"));
 		isValue.setSelected(true);
-		valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+		valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
 
         if(plot.isSupportValuePercent()) {
-		    isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Percent"));
-		    valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Chart-Use_Format"));
+		    isValuePercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percent"));
+		    valuePercentFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Format"));
 			if (plot.isShowAllDataPointLabel()) {
-				isValuePercent.setText(com.fr.design.i18n.Toolkit.i18nText("Chart-Value_Conversion"));
+				isValuePercent.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Conversion"));
 			}
         }
 
@@ -117,7 +117,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 		textFontPane = new ChartTextAttrPane();
 		
 		if(isGuidline) {
-			isGuid = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("ChartF-Show_GuidLine"));
+			isGuid = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
 		}
 
         if (plot.isShowAllDataPointLabel()) {
@@ -140,7 +140,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 
 		if(positionBox != null) {
 			JPanel positionPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
-			positionPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Chart-Layout_Position")), BorderLayout.WEST);
+			positionPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")), BorderLayout.WEST);
 			positionPane.add(positionBox, BorderLayout.CENTER);
 			components[0] = new Component[]{positionPane, null};
             if(isGuidline) {
@@ -166,7 +166,7 @@ public class ChartDatapointLabelPane extends BasicPane{
 
         JPanel delimiterPane = new JPanel(new BorderLayout(LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM));
         if (plot.isSupportDelimiter()) {
-            delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("FR-Chart-Delimiter_Symbol")), BorderLayout.WEST);
+            delimiterPane.add(new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Delimiter_Symbol")), BorderLayout.WEST);
             delimiterPane.add(divideComoBox, BorderLayout.CENTER);
         }
 		

@@ -29,14 +29,13 @@ import java.awt.event.WindowEvent;
  */
 public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connection> extends BasicBeanPane<com.fr.data.impl.Connection> {
 
-    // 编码转换.
-    private UIComboBox originalCharSetComboBox;
-    private UIComboBox newCharSetComboBox;
     private UILabel message;
     private UIButton okButton;
     private UIButton cancelButton;
     private JDialog dialog;
     private UILabel uiLabel;
+    private String oirginalCharSet = null;
+    private String newCharSet = null;
 
     // Database pane
     public DatabaseConnectionPane() {
@@ -44,12 +43,10 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     }
 
     protected void initComponents() {
-        originalCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
-        newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         message = new UILabel();
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
-        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Cancel"));
+        cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);
@@ -57,25 +54,13 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         // 按钮.
         JPanel testPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         northPane.add(testPane, BorderLayout.NORTH);
-        UIButton testButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"));
+        UIButton testButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"));
         testPane.add(testButton);
         testButton.addActionListener(testConnectionActionListener);
         testPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 4));
 
         // Center
         northPane.add(mainPanel(), BorderLayout.CENTER);
-        if (!isFineBI()) {
-            // ChartSet
-            JPanel chartSetPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
-            northPane.add(chartSetPane);
-            chartSetPane.setBorder(BorderFactory.createTitledBorder(
-                    new ModLineBorder(ModLineBorder.TOP),
-                    com.fr.design.i18n.Toolkit.i18nText("Datasource-Convert_Charset")
-            ));
-
-            chartSetPane.add(GUICoreUtils.createNamedPane(originalCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-Original_Charset") + ":"));
-            chartSetPane.add(GUICoreUtils.createNamedPane(newCharSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Datasource-New_Charset") + ":"));
-        }
     }
 
     protected abstract JPanel mainPanel();
@@ -84,8 +69,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     @Override
     public void populateBean(com.fr.data.impl.Connection ob) {
-        this.originalCharSetComboBox.setSelectedItem(ob.getOriginalCharsetName());
-        this.newCharSetComboBox.setSelectedItem(ob.getNewCharsetName());
+        this.oirginalCharSet = ob.getOriginalCharsetName();
+        this.newCharSet = ob.getNewCharsetName();
 
         populateSubDatabaseConnectionBean((E) ob);
     }
@@ -96,17 +81,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     public com.fr.data.impl.Connection updateBean() {
         E ob = updateSubDatabaseConnectionBean();
 
-        if (this.originalCharSetComboBox.getSelectedIndex() == 0) {
-            ob.setOriginalCharsetName(null);
-        } else {
-            ob.setOriginalCharsetName((String) this.originalCharSetComboBox.getSelectedItem());
-        }
-
-        if (this.newCharSetComboBox.getSelectedIndex() == 0) {
-            ob.setNewCharsetName(null);
-        } else {
-            ob.setNewCharsetName((String) this.newCharSetComboBox.getSelectedItem());
-        }
+        ob.setOriginalCharsetName(this.oirginalCharSet);
+        ob.setNewCharsetName(this.newCharSet);
 
         return ob;
     }
@@ -126,8 +102,10 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                         message.setText(database.connectMessage(connect));
                         if (connect) {
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                            message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                         }else{
                             uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                            message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Failed"));
                         }
                     } catch (Exception exp) {
                         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -163,11 +141,11 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     private void initDialogPane() {
 
-        message.setText(com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection") + "...");
+        message.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection") + "...");
         message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
         okButton.setEnabled(false);
 
-        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), com.fr.design.i18n.Toolkit.i18nText("Datasource-Test_Connection"), true);
+        dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(DatabaseConnectionPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Test_Connection"), true);
         dialog.setSize(new Dimension(268, 118));
         okButton.setEnabled(false);
         JPanel jp = new JPanel();

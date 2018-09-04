@@ -63,7 +63,7 @@ public class SelectImagePane extends BasicPane {
         JPanel previewOwnerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
 
-        previewOwnerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Preview"), null));
+        previewOwnerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
 
         previewPane = new ImagePreviewPane();
         previewOwnerPane.add(new JScrollPane(previewPane));
@@ -74,7 +74,7 @@ public class SelectImagePane extends BasicPane {
                 .createEmptyBorder(8, 2, 4, 0));
 
         UIButton selectPictureButton = new UIButton(
-                com.fr.design.i18n.Toolkit.i18nText("Image-Select_Picture"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Select_Picture"));
         selectFilePane.add(selectPictureButton, BorderLayout.NORTH);
         selectPictureButton.setMnemonic('S');
         selectPictureButton.addActionListener(selectPictureActionListener);
@@ -83,10 +83,10 @@ public class SelectImagePane extends BasicPane {
         selectFilePane.add(layoutPane, BorderLayout.CENTER);
 
         //布局
-        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Default"));
-        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Image-Titled"));
-        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Image-Extend"));
-        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Image-Adjust"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
+        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Titled"));
+        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image_Extend"));
+        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Image_Adjust"));
 
         defaultRadioButton.addActionListener(layoutActionListener);
         tiledRadioButton.addActionListener(layoutActionListener);
@@ -173,7 +173,7 @@ public class SelectImagePane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Image");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Image");
     }
 
     public void populate(Elem cell) {
@@ -226,3 +226,4 @@ public class SelectImagePane extends BasicPane {
         return imageFile;
     }
 }
+

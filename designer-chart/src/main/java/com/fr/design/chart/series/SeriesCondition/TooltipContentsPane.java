@@ -62,7 +62,7 @@ public class TooltipContentsPane extends BasicPane{
 
 		valuePane.add(showValueCB);
 
-		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Format"));
+		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"));
 		valuePane.add(valueFormatButton);
 
 		valueFormatButton.addActionListener(listener);
@@ -71,12 +71,12 @@ public class TooltipContentsPane extends BasicPane{
 	}
 
 	protected String getValueString() {
-		return com.fr.design.i18n.Toolkit.i18nText("Value");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Value");
 	}
 
 	protected Component[] createComponents4PercentValue() {
 		if (showPercent == null) {
-			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Chart_ValueIntPercent"));
+			showPercent = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Percentage"));
 		}
 
 		JPanel percentValuePane = new JPanel();
@@ -84,7 +84,7 @@ public class TooltipContentsPane extends BasicPane{
 
 		percentValuePane.add(showPercent);
 
-		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Format"));
+		UIButton valueFormatButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Format"));
 		percentValuePane.add(valueFormatButton);
 
 		valueFormatButton.addActionListener(percentListener);

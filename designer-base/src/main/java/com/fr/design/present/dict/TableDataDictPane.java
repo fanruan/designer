@@ -88,7 +88,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         });
 //        keyColumnPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
         keyColumnPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor()});
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         formulaEditor.setEnabled(true);
 //        valueDictPane = ValueEditorPaneFactory.createValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
         valueDictPane = new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), formulaEditor});
@@ -107,9 +107,9 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         firstLine.add(new PreviewLabel(this), BorderLayout.EAST);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_DS_TableData") + "  ", UILabel.LEFT), firstLine},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Table_Data") + "  ", UILabel.LEFT), firstLine},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value") + "  ", UILabel.LEFT), keyColumnPane},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value") + "  ", UILabel.LEFT), valueDictPane},
         };
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, VGAP, LayoutConstants.VGAP_MEDIUM);
@@ -149,7 +149,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
      * @return 返回是窗口显示的标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dic_Data_Query");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dic_Data_Query");
     }
 
     private void tdChange(final ItemEvent e) {
@@ -171,7 +171,7 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         columnIndexEditor1.addItemListener(itemListener);
         keyColumnPane.setEditors(new Editor[]{columnNameEditor1, columnIndexEditor1}, columnNames[0]);
 
-        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"));
+        FormulaEditor formulaEditor = new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"));
         formulaEditor.setEnabled(true);
         formulaEditor.addChangeListener(new ChangeListener() {
 
@@ -252,14 +252,14 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
         TableDataSource dataSource = DesignTableDataManager.getEditingTableDataSource();
         if (dataSource != null) {
             for (int i = BEGIN; i < END; i++) {
-                TableData td = dataSource.getTableData(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dictionary_Dynamic_SQL") + i);
+                TableData td = dataSource.getTableData(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dictionary_Dynamic_SQL") + i);
                 if (td == null) {
-                    name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dictionary_Dynamic_SQL") + i;
-                    dataSource.putTableData(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dictionary_Dynamic_SQL") + i, db);
+                    name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dictionary_Dynamic_SQL") + i;
+                    dataSource.putTableData(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dictionary_Dynamic_SQL") + i, db);
                     break;
                 } else {
                     if (ComparatorUtils.equals(td, db)) {
-                        name = com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Dictionary_Dynamic_SQL") + i;
+                        name = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dictionary_Dynamic_SQL") + i;
                         break;
                     } else {
                         continue;

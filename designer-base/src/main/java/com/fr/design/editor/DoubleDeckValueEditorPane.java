@@ -67,7 +67,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel content = (JPanel) jf.getContentPane();
         content.setLayout(new BorderLayout());
-        content.add(new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Parameter-Formula"))}), BorderLayout.NORTH);
+        content.add(new DoubleDeckValueEditorPane(new Editor[]{new ColumnNameEditor(), new ColumnIndexEditor(), new FormulaEditor(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Formula"))}), BorderLayout.NORTH);
         GUICoreUtils.centerWindow(jf);
         jf.setSize(290, 400);
         jf.setVisible(true);
@@ -97,7 +97,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
             @Override
             public void stateChanged(ChangeEvent e) {
                 if (globalNameListener != null) {
-                    globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_Policy"));
+                    globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CellWrite_InsertRow_Policy"));
                 }
                 Object oldValue = currentEditor.getValue();
                 setCurrentEditor(upButton.getSelectedIndex());
@@ -116,7 +116,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Values-Editor");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Values_Editor");
     }
 
     public Editor getCurrentEditor() {
@@ -164,7 +164,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
             item.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     if (globalNameListener != null) {
-                        globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("CellWrite-InsertRow_Policy"));
+                        globalNameListener.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CellWrite_InsertRow_Policy"));
                     }
                     Object oldValue = currentEditor.getValue();
                     setCurrentEditor(j);
@@ -222,7 +222,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         String name = currentEditor.getName();
         Object columnIndex = currentEditor.getValue();
         //bug86542,这边为啥要new一个公式出来，只保留content,其他属性全不要了?
-        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Formula"))) {
+        if (columnIndex == null && ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = ((FormulaEditor) currentEditor).getFormula();
         }
 
@@ -238,7 +238,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
@@ -254,7 +254,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         Object columnIndex = currentEditor.getValue();
         Object columnName = StringUtils.EMPTY;
 
-        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Formula"))) {
+        if (ComparatorUtils.equals(name, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Formula"))) {
             columnIndex = BaseFormula.createFormulaBuilder().build(columnIndex == null ? "" : columnIndex.toString());
         }
 
@@ -283,7 +283,7 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
         int i;
         boolean containFormulaType = false;
         for (i = 0; i < cards.length; i++) {
-            if (ComparatorUtils.equals(cards[i].getName(), com.fr.design.i18n.Toolkit.i18nText("FR-Engine_Parameter-Formula"))) {
+            if (ComparatorUtils.equals(cards[i].getName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_Parameter_Formula"))) {
                 containFormulaType = true;
                 break;
             }
@@ -302,8 +302,8 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
             DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
             if (designerEnvManager.isSupportStringToFormula()) {
                 if (!designerEnvManager.isDefaultStringToFormula()) {
-                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Edit_String_To_Formula")
-                            + "?", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Tooltips"), JOptionPane.YES_NO_OPTION);
+                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit_String_To_Formula")
+                            + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.YES_NO_OPTION);
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);

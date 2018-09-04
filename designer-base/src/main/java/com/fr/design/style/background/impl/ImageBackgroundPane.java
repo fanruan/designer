@@ -50,7 +50,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         JPanel previewContainerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         this.add(previewContainerPane, BorderLayout.CENTER);
 
-        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"));
+        JPanel previewOwnerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         previewOwnerPane.setLayout(new BorderLayout());
         previewContainerPane.add(previewOwnerPane, BorderLayout.CENTER);
         previewContainerPane.add(initSelectFilePane(), BorderLayout.EAST);
@@ -70,7 +70,7 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.setBorder(BorderFactory.createEmptyBorder(8, 2, 4, 0));
 
         UIButton selectPictureButton = new UIButton(
-                com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Background_Image_Select"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background_Image_Select"));
         selectFilePane.add(selectPictureButton, BorderLayout.NORTH);
         selectPictureButton.setMnemonic('S');
         selectPictureButton.addActionListener(selectPictureActionListener);
@@ -78,10 +78,10 @@ public class ImageBackgroundPane extends BackgroundDetailPane {
         selectFilePane.add(layoutPane, BorderLayout.CENTER);
 
         //布局
-        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Default"));
-        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Titled"));
-        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Extend"));
-        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-StyleAlignment_Layout_Image_Adjust"));
+        defaultRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Default"));
+        tiledRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Titled"));
+        extendRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Extend"));
+        adjustRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Layout_Image_Adjust"));
 
         defaultRadioButton.addActionListener(layoutActionListener);
         tiledRadioButton.addActionListener(layoutActionListener);

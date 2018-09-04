@@ -108,7 +108,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	private static final String[] DML_CONFIG_TYPES = new String[] {
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Delete_Submit"),
-			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Smart_Submit"),
+			com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Insert_Submit"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Write_Update_Submit")};
 
 	/**
@@ -181,13 +181,13 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             checkBoxUpdatePane.setPreferredSize(new Dimension(120,20));
             controlBtnPane.add(checkBoxUpdatePane);
 
-            UpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("RWA-NotChange_Unmodified"));
+            UpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_NotChange_Unmodified"));
             UIButton  helpButton = new UIButton(HEIP_ICON);
             helpButton.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"));
             helpButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    FormatExplanationPane formatExplanation = new FormatExplanationPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"),com.fr.design.i18n.Toolkit.i18nText("FR-Designer_RWA-Help"), 12f);
+                    FormatExplanationPane formatExplanation = new FormatExplanationPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Help"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Help"), 12f);
                     BasicDialog dlg = formatExplanation.showMediumWindow(SwingUtilities.getWindowAncestor(DBManipulationPane.this),
                             new DialogActionAdapter(){});
                     dlg.setVisible(true);
@@ -238,7 +238,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	}
 
 	private UIButton addEventButton() {
-		UIButton addSubmitEventButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Submit_Event"));
+		UIButton addSubmitEventButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Submit_Event"));
 		addSubmitEventButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -275,7 +275,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 		JScrollPane jp = new JScrollPane(conditionsTree);
 		addComponent(conditionPane,jp);
 
-		UIButton addSubmitConditionButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Set_Submit_Condition"));
+		UIButton addSubmitConditionButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Submit_Condition"));
 		addSubmitConditionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -410,7 +410,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class SmartAddFieldsAction extends UpdateAction {
 		public SmartAddFieldsAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Fields"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Smart_Add_Fields"));
 		}
 
 		public void actionPerformed(ActionEvent evt) {
@@ -418,12 +418,12 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			BasicPane bPane = new BasicPane() {
 				@Override
 				protected String title4PopupWindow() {
-					return com.fr.design.i18n.Toolkit.i18nText("RWA-Smart_Add_Fields");
+					return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Smart_Add_Fields");
 				}
 			};
 			bPane.setLayout(FRGUIPaneFactory.createBorderLayout());
 
-			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Chart_Field_Name")) {
+			final CheckBoxList list = new CheckBoxList(currentColumnNames(), CheckBoxList.SelectedState.ALL, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Chart_Field_Name")) {
 				public String value2Text(Object value) {
 					if (value instanceof ColumnName) {
 						return ((ColumnName)value).name;
@@ -475,7 +475,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
             }
             for (int j = 0; j < keyColumnNameValueList.size(); j++) {
                 if (ComparatorUtils.equals(selected[i], keyColumnNameValueList.get(j).cn)) {
-                    Object[] options = { com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_No"), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cover_None") };
+                    Object[] options = { com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Covered_All"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Yes"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_No"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cover_None") };
                     returnValue = JOptionPane.showOptionDialog(DBManipulationPane.this,
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cover_Tips", keyColumnNameValueList.get(j).cn.name),
                             "", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -551,7 +551,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class AddFieldAction extends UpdateAction {
 		public AddFieldAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Add_Field"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Add_Field"));
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -568,7 +568,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 	protected class RemoveFieldAction extends UpdateAction {
 		public RemoveFieldAction() {
-			this.setName(com.fr.design.i18n.Toolkit.i18nText("RWA-Remove_Field"));
+			this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_RWA_Remove_Field"));
 		}
 
 		public void actionPerformed(ActionEvent evt) {
@@ -815,7 +815,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 
 		@Override
 		protected String title4PopupWindow() {
-			return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Values-Editor");
+			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Values_Editor");
 		}
 
 		public void populateBean(Object object) {
@@ -944,7 +944,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 	}
 
 	protected abstract static class KeyColumnTableModel extends AbstractTableModel {
-        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_RWA-Key");
+        public static final String RAW_KEY = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_RWA_Key");
         public static final String COLUMN = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Column");
         public static final String VALUE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Value");
 

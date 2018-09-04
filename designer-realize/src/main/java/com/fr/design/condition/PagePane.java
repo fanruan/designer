@@ -17,21 +17,21 @@ public class PagePane extends ConditionAttrSingleConditionPane<HighlightAction> 
 
     public PagePane(ConditionAttributesPane conditionAttributesPane) {
         super(conditionAttributesPane);
-        pageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Pagination") + ":");
+        pageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination") + ":");
         this.add(pageLabel);
         this.pageComboBox = new UIComboBox(new String[] {
-                com.fr.design.i18n.Toolkit.i18nText("Utils-No_Pagination"),
-                com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_After_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_Before_Row"),
-                com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_After_Column"),
-                com.fr.design.i18n.Toolkit.i18nText("CellWrite-Page_Before_Column") });
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_No_Pagination"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Write_Page_After_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Write_Page_Before_Row"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Write_Page_After_Column"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Write_Page_Before_Column") });
         this.add(this.pageComboBox);
         this.pageComboBox.setSelectedIndex(0);
     }
 
     @Override
     public String nameForPopupMenuItem() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Pagination");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Pagination");
     }
 
     @Override

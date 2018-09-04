@@ -684,7 +684,7 @@ public abstract class GUICoreUtils{
 			return false;
 		}
 
-		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText("Utils-Are_you_sure_to_remove_the_selected_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Remove"),
+		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (returnVal == JOptionPane.OK_OPTION) {
 			int minSelectedIndex = nodeList.getMinSelectionIndex();

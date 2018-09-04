@@ -88,7 +88,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
     }
 
     private void initAllBarPane(String multiName) {
-        UILabel headLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Multi_nam_formula"));
+        UILabel headLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multi_Nam_Formula"));
         setResMap();
         int len = resMap.size();
         // 10个正好不会出现滚动条
@@ -140,7 +140,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     private class RefreshAction extends UITableEditAction {
         public RefreshAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Refresh"));
+            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"));
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 
@@ -190,7 +190,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("DS-Relation_TableData");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_DS_Relation_TableData");
     }
 
     @Override
@@ -307,7 +307,7 @@ public class MultiTDTableDataPane extends AbstractTableDataPane<MultiTDTableData
             formulaButton.setEnabled(false);
             formulaButton.setPreferredSize(new Dimension(25, 23));
             formulaButton.addActionListener(getFormulaActionListener());
-            rightPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Conditions_formula") + " ="));
+            rightPanel.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Conditions_Formula") + " ="));
             rightPanel.add(formulaContentTextField);
             rightPanel.add(formulaButton);
 
