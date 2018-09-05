@@ -1,5 +1,6 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
@@ -1006,7 +1007,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return
      */
     public Icon getPreviewLargeIcon() {
-        return UIConstants.RUN_BIG_ICON;
+        PreviewProvider provider = getPreviewType();
+        String iconPath = provider.iconPathForLarge();
+        return BaseUtils.readIcon(iconPath);
     }
 
     /**
