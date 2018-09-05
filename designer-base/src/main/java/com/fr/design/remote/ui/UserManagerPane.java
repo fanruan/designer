@@ -208,10 +208,23 @@ public class UserManagerPane extends BasicPane {
                 BorderLayout.CENTER);
     }
 
+    public void populate(List<RemoteDesignMember> addedMembers) {
+
+        // 已选信息
+        resetAddedMembers();
+        this.addedMembers.addAll(addedMembers);
+
+        // 刷新右侧面板
+        addToAddedMemberList();
+
+        // 刷新左侧展示信息
+        addToMemberList();
+    }
+
 
     @Override
     protected String title4PopupWindow() {
-        return Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Add_Member");
+        return Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Choose_Member");
     }
 
     private JPanel createLeftPanel() {

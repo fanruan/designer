@@ -10,6 +10,7 @@ import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ShortCut;
@@ -19,7 +20,6 @@ import com.fr.design.remote.ui.list.AuthorityList;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.stable.ArrayUtils;
@@ -78,7 +78,7 @@ public class AuthorityListControlPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.authorityCreators = new RemoteDesignAuthorityCreator[]{
                 new RemoteDesignAuthorityCreator(
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_User"),
+                        Toolkit.i18nText("Fine-Design_Basic_Remote_Design_User"),
                         BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
                         DesignAuthority.class,
                         AuthorityEditorPane.class)
@@ -241,6 +241,34 @@ public class AuthorityListControlPane extends BasicPane {
         model.add(index, authority);
         authorityList.setSelectedIndex(index);
         authorityList.ensureIndexIsVisible(index);
+
+        authorityList.revalidate();
+        authorityList.repaint();
+    }
+
+
+    /**
+     * 添加 RemoteDesignAuthority
+     *
+     * @param authorities authority
+     */
+    public void setAuthority(List<DesignAuthority> authorities) {
+
+        if (authorities == null || authorities.isEmpty()) {
+            return;
+        }
+
+        DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
+        model.clear();
+
+        for (DesignAuthority authority : authorities) {
+            model.addElement(authority);
+        }
+
+        int size = model.getSize() - 1;
+
+        authorityList.setSelectedIndex(size);
+        authorityList.ensureIndexIsVisible(size);
 
         authorityList.revalidate();
         authorityList.repaint();
@@ -465,12 +493,12 @@ public class AuthorityListControlPane extends BasicPane {
     }
 
     /**
-     * 添加按钮
+     * 选择按钮
      */
     private class AddItemUpdateAction extends UpdateAction {
 
         AddItemUpdateAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Add"));
+            this.setName(Toolkit.i18nText("Fine-Design_Basic_Action_Choose"));
             this.setMnemonic('A');
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
@@ -480,29 +508,54 @@ public class AuthorityListControlPane extends BasicPane {
             final UserManagerPane userManagerPane = new UserManagerPane();
             BasicDialog dialog = userManagerPane.showWindow(SwingUtilities.getWindowAncestor(AuthorityListControlPane.this));
 
+            // 刷新用户管理面板展示信息
+            final DesignAuthority[] authorities = AuthorityListControlPane.this.update();
+
             dialog.addDialogActionListener(new DialogActionAdapter() {
                 @Override
                 public void doOk() {
                     // 获取添加的用户到权限编辑面板
                     List<RemoteDesignMember> members = userManagerPane.update();
+
+                    List<DesignAuthority> oldAuthorities = new ArrayList<>();
+
+                    // 已有的未修改的
+                    for (RemoteDesignMember member : members) {
+                        for (DesignAuthority authority : authorities) {
+                            if (member.getUserId().equals(authority.getUserId())) {
+                                oldAuthorities.add(authority);
+                            }
+                        }
+                    }
+                    // 保留已有且仍选择的，删除不再选择的
+                    setAuthority(oldAuthorities);
+
+                    // 新增的
                     for (RemoteDesignMember member : members) {
                         DesignAuthority authority = new DesignAuthority();
                         authority.setUsername(member.getUsername());
                         authority.setUserId(member.getUserId());
                         authority.setRealName(member.getRealName());
-                        AuthorityListControlPane.this.addAuthority(authority, getModel().getSize());
+                        addAuthority(authority, getModel().getSize());
                     }
-                }
 
-                @Override
-                public void doCancel() {
-                    super.doCancel();
                 }
             });
+
+            List<RemoteDesignMember> members = new ArrayList<>();
+
+            for (DesignAuthority authority : authorities) {
+                RemoteDesignMember m = new RemoteDesignMember();
+                m.setUsername(authority.getUsername());
+                m.setUserId(authority.getUserId());
+                m.setRealName(authority.getRealName());
+                m.setSelected(true);
+                members.add(m);
+            }
+            userManagerPane.populate(members);
+
             dialog.setModal(true);
             dialog.setVisible(true);
-
-
         }
     }
 
@@ -511,7 +564,7 @@ public class AuthorityListControlPane extends BasicPane {
      */
     private class RemoveItemAction extends UpdateAction {
         RemoveItemAction() {
-            this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
+            this.setName(Toolkit.i18nText("Fine-Design_Basic_Action_Remove"));
             this.setMnemonic('R');
             this.setSmallIcon(BaseUtils
                     .readIcon(IconPathConstants.TD_REMOVE_ICON_PATH));
