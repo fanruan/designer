@@ -16,6 +16,7 @@ import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
 import com.fr.design.actions.file.SaveTemplateAction;
+import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.InformationWarnPane;
@@ -1102,6 +1103,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @param provider 预览模式
      */
     public void previewMenuActionPerformed(PreviewProvider provider) {
+        setPreviewType(provider);
+        WebPreviewUtils.preview(this, provider);
 
     }
 

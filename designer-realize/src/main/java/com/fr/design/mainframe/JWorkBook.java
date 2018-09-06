@@ -10,7 +10,6 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
-import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.export.CSVExportAction;
 import com.fr.design.actions.file.export.EmbeddedExportExportAction;
 import com.fr.design.actions.file.export.ExcelExportAction;
@@ -924,8 +923,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public void previewMenuActionPerformed(PreviewProvider provider) {
-        setPreviewType(provider);
-        WebPreviewUtils.preview(this, provider);
+       super.previewMenuActionPerformed(provider);
     }
 
     /**
