@@ -14,7 +14,6 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.resource.WorkResourceOutputStream;
 
 import javax.swing.Icon;
 import java.io.ByteArrayInputStream;
@@ -381,7 +380,7 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-        return new WorkResourceOutputStream(envPath);
+        return new WorkResourceTempRenameStream(envPath);
     }
 
     /**
