@@ -1,7 +1,6 @@
 package com.fr.design.preview;
 
 import com.fr.design.fun.impl.AbstractPreviewProvider;
-import com.fr.general.Inter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,7 @@ public class MobilePreview extends AbstractPreviewProvider {
 
     @Override
     public String nameForPopupItem() {
-        return Inter.getLocText("Fine-Design_Mobile_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Preview");
     }
 
     @Override
