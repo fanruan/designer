@@ -14,6 +14,7 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.resource.WorkResourceTempRenameStream;
 
 import javax.swing.Icon;
 import java.io.ByteArrayInputStream;
