@@ -41,6 +41,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.plugin.manage.FineRuntime;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -93,7 +94,9 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
+    
+        //启动运行时
+        FineRuntime.start();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
 
 
