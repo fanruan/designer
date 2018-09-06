@@ -1,7 +1,6 @@
 package com.fr.design.preview;
 
 import com.fr.design.fun.impl.AbstractPreviewProvider;
-import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -13,7 +12,7 @@ public class FormPreview extends AbstractPreviewProvider {
 
     @Override
     public String nameForPopupItem() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Design_Form_M_Form_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Form_Preview");
     }
 
     @Override
