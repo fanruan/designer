@@ -41,7 +41,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.plugin.manage.FineRuntime;
+import com.fr.runtime.FineRuntime;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
