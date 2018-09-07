@@ -591,7 +591,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 return false;
             }
             editingFILE = fileChooser.getSelectedFILE();
-            mkNewFile(editingFILE);
         }
 
         return saveNewFile(editingFILE, oldName);
