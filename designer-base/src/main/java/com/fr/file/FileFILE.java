@@ -194,11 +194,12 @@ public class FileFILE implements FILE {
      * @return 输出流
      */
     public OutputStream asOutputStream() {
-        if (file == null || !file.exists()) {
+        if (file == null) {
             return null;
         }
         OutputStream out;
         try {
+            StableUtils.makesureFileExist(file);
             out = new FileOutputStream(file);
         } catch (Exception e) {
             throw SessionLocalManager.createLogPackedException(e);
