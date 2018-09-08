@@ -6,6 +6,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
@@ -52,6 +53,11 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
 
     @Override
     public SearchResult getLessSearchResult(String[] searchText) {
+        if (ArrayUtils.isEmpty(searchText)) {
+            return new SearchResult();
+        } else if (AlphaFineDialog.data == null) {
+            return AlphaFineHelper.getNoConnectList(instance);
+        }
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (ArrayUtils.isEmpty(searchText)) {
@@ -97,18 +103,6 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
             }
         }
         return lessModelList;
-    }
-
-    /**
-     * 无连接
-     *
-     * @return
-     */
-    private SearchResult getNoConnectList() {
-        SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
-        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
-        return result;
     }
 
     @Override

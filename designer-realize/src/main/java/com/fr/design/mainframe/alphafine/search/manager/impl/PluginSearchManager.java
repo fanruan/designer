@@ -6,6 +6,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
+import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
@@ -99,6 +100,8 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
     public SearchResult getLessSearchResult(String[] searchText) {
         if (ArrayUtils.isEmpty(searchText)) {
             return new SearchResult();
+        } else if (AlphaFineDialog.data == null) {
+            return AlphaFineHelper.getNoConnectList(instance);
         }
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
@@ -145,13 +148,6 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
             }
         }
         return this.lessModelList;
-    }
-
-    private SearchResult getNoConnectList() {
-        SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
-        return result;
     }
 
     @Override

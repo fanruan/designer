@@ -9,15 +9,14 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.stable.StringUtils;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Created by XiaXiang on 2017/4/20.
@@ -50,7 +49,6 @@ public class ContentCellRender implements ListCellRenderer<Object> {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(null);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-
         if (model.hasAction()) {
             if (isSelected) {
                 titleLabel.setText(StringUtils.BLANK + model.getName());
@@ -63,7 +61,6 @@ public class ContentCellRender implements ListCellRenderer<Object> {
                     titleLabel.setIcon(IconLoader.getIcon(iconUrl));
                 }
             } else {
-
                 titleLabel.setText(highLightModelName(model.getName(), segmentationResult));
                 String iconUrl = CELL_PATH + model.getType().getTypeValue() + SUFFIX;
                 if (value instanceof RobotModel && ((RobotModel) value).isHotItemModel()) {
@@ -74,6 +71,7 @@ public class ContentCellRender implements ListCellRenderer<Object> {
             }
 
         } else {
+            titleLabel.setText(model.getName());
             titleLabel.setIcon(null);
             titleLabel.setForeground(AlphaFineConstants.MEDIUM_GRAY);
         }
@@ -115,7 +113,11 @@ public class ContentCellRender implements ListCellRenderer<Object> {
                 modelName = modelName.replaceAll(strings[i], primaryStr);
             }
         }
-        modelName = "<HTML>" + modelName.replaceAll("\\|", "") + "</HTML>";
+        modelName = "<html><head><style> .style{" +
+                "overflow: hidden;" +
+                "text-overflow: ellipsis;" +
+                "white-space: nowrap;}" +
+                "</style></head><body class=\"style\">" + modelName.replaceAll("\\|", StringUtils.EMPTY) + "</body></HTML>";
         return modelName;
     }
 
