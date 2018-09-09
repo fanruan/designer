@@ -212,43 +212,43 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             return;
         }
 
-        byte[] content = ArrayUtils.EMPTY_BYTE_ARRAY;
-        Connection conn = null;
-        Table table = new Table(TABLE_NAME);
+//        byte[] content = ArrayUtils.EMPTY_BYTE_ARRAY;
+//        Connection conn = null;
+//        Table table = new Table(TABLE_NAME);
 
-        try {
-            conn = DBRecordXManager.getDB().createConnection();
-            ResultSet rs = selectAllFromLogDB(conn, table);
-
-            if(rs == null){
-                return;
-            }
-            content = getFunctionsContentAsByte(rs);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        } finally {
-            DBUtils.closeConnection(conn);
-        }
-
-        HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("functions.info"));
-        httpClient.setContent(content);
-        httpClient.setTimeout(5000);
-
-        if (!httpClient.isServerAlive()) {
-            return;
-        }
-
-        String res =  httpClient.getResponseText();
-		boolean success = false;
-		try {
-			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-		} catch (JSONException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
-		}
-		//服务器返回true, 说明已经获取成功, 清空当前记录的信息
-        if (success) {
-            deleteLogDB(conn, table);
-        }
+//        try {
+//            conn = DBRecordXManager.getDB().createConnection();
+//            ResultSet rs = selectAllFromLogDB(conn, table);
+//
+//            if(rs == null){
+//                return;
+//            }
+//            content = getFunctionsContentAsByte(rs);
+//        } catch (Exception e) {
+//            FRContext.getLogger().error(e.getMessage(), e);
+//        } finally {
+//            DBUtils.closeConnection(conn);
+//        }
+//
+//        HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("functions.info"));
+//        httpClient.setContent(content);
+//        httpClient.setTimeout(5000);
+//
+//        if (!httpClient.isServerAlive()) {
+//            return;
+//        }
+//
+//        String res =  httpClient.getResponseText();
+//		boolean success = false;
+//		try {
+//			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+//		} catch (JSONException e) {
+//			FRContext.getLogger().error(e.getMessage(), e);
+//		}
+//		//服务器返回true, 说明已经获取成功, 清空当前记录的信息
+//        if (success) {
+//            deleteLogDB(conn, table);
+//        }
 
     }
 
