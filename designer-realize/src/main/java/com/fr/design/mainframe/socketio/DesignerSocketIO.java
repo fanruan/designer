@@ -2,8 +2,9 @@ package com.fr.design.mainframe.socketio;
 
 import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
+import com.fr.design.EnvChangeEntrance;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.TemplatePane;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
@@ -84,9 +85,13 @@ public class DesignerSocketIO {
                         try {
                             SwingUtilities.invokeAndWait(new Runnable() {
                                 public void run() {
-                                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
-                                            null, 0, UIManager.getIcon("OptionPane.errorIcon"));
-                                    TemplatePane.getInstance().editItems();
+                                    JOptionPane.showMessageDialog(
+                                            DesignerContext.getDesignerFrame(),
+                                            Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
+                                            UIManager.getString("OptionPane.messageDialogTitle"),
+                                            JOptionPane.ERROR_MESSAGE,
+                                            UIManager.getIcon("OptionPane.errorIcon"));
+                                    EnvChangeEntrance.getInstance().chooseEnv();
                                 }
                             });
                         } catch (Exception e) {

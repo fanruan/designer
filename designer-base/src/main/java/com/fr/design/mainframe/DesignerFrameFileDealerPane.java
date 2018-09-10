@@ -36,6 +36,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
@@ -394,8 +395,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             fnf = new FileNodeFILE(node);
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             this.setLayout(new BorderLayout());
             this.setModal(true);
@@ -509,11 +510,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String userInput = nameField.getText().trim();
 
-            String path = fnf.getPath();
+            String path = FilenameUtils.standard(fnf.getPath());
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             // 输入为空或者没有修改
             if (ComparatorUtils.equals(userInput, oldName)) {
@@ -521,18 +522,16 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 return;
             }
 
-            String oldPath = path.replaceAll(CoreConstants.SEPARATOR, "\\\\");
-
-            String parentPath = fnf.getParent().getPath().replaceAll(CoreConstants.SEPARATOR, "\\\\");
+            String parentPath = FilenameUtils.standard(fnf.getParent().getPath());
 
             // 简单执行old new 替换是不可行的，例如 /abc/abc/abc/abc/
-            String newPath = parentPath + "\\" + userInput + suffix;
+            String newPath = parentPath + CoreConstants.SEPARATOR + userInput + suffix;
 
-            HistoryTemplateListCache.getInstance().rename(fnf, oldPath, newPath);
-            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), oldPath, newPath);
+            HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
+            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), path, newPath);
 
             //模版重命名
-            boolean success = selectedOperation.rename(fnf, oldPath, newPath);
+            boolean success = selectedOperation.rename(fnf, path, newPath);
             selectedOperation.refresh();
             DesignerContext.getDesignerFrame().setTitle();
             this.dispose();
@@ -552,8 +551,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             String userInput = nameField.getText().trim();
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             if (StringUtils.isEmpty(userInput)) {
                 confirmButton.setEnabled(false);
@@ -714,7 +713,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             //新建文件夹
             boolean success = selectedOperation.mkdir(
-                    selectedOperation.getFileNode().getParent() + CoreConstants.SEPARATOR + userInput
+                    FilenameUtils.standard(selectedOperation.getFileNode().getParent() + CoreConstants.SEPARATOR + userInput)
             );
             selectedOperation.refresh();
             this.dispose();

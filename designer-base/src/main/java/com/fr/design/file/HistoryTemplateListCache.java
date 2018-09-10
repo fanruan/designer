@@ -11,7 +11,9 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -270,8 +272,8 @@ public class HistoryTemplateListCache implements CallbackEvent {
 
         template = this.getCurrentEditingTemplate();
         if (template != null) {
-            String editingPath = template.getEditingFILE().getPath().replaceAll("/", "\\\\");
-            if (isDir ? editingPath.contains(from + "\\") : editingPath.equals(from)) {
+            String editingPath = FilenameUtils.standard(template.getEditingFILE().getPath());
+            if (isDir ? editingPath.contains(from + CoreConstants.SEPARATOR) : editingPath.equals(from)) {
                 FILE renameFile = template.getEditingFILE();
                 renameFile.setPath(editingPath.replace(from, to));
             }
@@ -279,8 +281,8 @@ public class HistoryTemplateListCache implements CallbackEvent {
 
         for (int i = 0; i < this.getHistoryCount(); i++) {
             template = this.get(i);
-            String editingPath = template.getEditingFILE().getPath().replaceAll("/", "\\\\");
-            if (isDir ? editingPath.contains(from + "\\") : editingPath.equals(from)) {
+            String editingPath = FilenameUtils.standard(template.getEditingFILE().getPath());
+            if (isDir ? editingPath.contains(from + CoreConstants.SEPARATOR) : editingPath.equals(from)) {
                 FILE renameFile = template.getEditingFILE();
                 renameFile.setPath(editingPath.replace(from, to));
             }
