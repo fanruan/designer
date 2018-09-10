@@ -4,13 +4,17 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.NoResultModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
+import com.fr.design.mainframe.alphafine.search.manager.impl.DocumentSearchManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.HotIssuesManager;
+import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
-
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
 import com.fr.general.ProcessCanceledException;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -104,7 +108,7 @@ public class AlphaFineHelper {
 
     public static SearchResult getModelListFromJSONArray(String result, String keyword) throws ClassCastException, JSONException {
         SearchResult allModelList = new SearchResult();
-        JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+        JSONArray jsonArray = (JSONArray) JSONUtils.jsonDecode(result);
         for (int i = 0; i < jsonArray.length(); i++) {
             AlphaFineHelper.checkCancel();
             JSONObject jsonObject = jsonArray.optJSONObject(i);
@@ -120,5 +124,25 @@ public class AlphaFineHelper {
         return allModelList;
     }
 
-
+    /**
+     * 网络异常时的处理
+     * @param object
+     * @return
+     */
+    public static SearchResult getNoConnectList(Object object) {
+        SearchResult result = new SearchResult();
+        if (object instanceof RecommendSearchManager) {
+            result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));
+        } else if (object instanceof DocumentSearchManager) {
+            result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
+        } else if (object instanceof PluginSearchManager) {
+            result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
+        } else if (object instanceof SimilarSearchManeger) {
+            result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Relation_Item")));
+        } else if (object instanceof HotIssuesManager) {
+            return new SearchResult();
+        }
+        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
+        return result;
+    }
 }

@@ -12,7 +12,7 @@ import com.fr.json.JSONObject;
 import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -73,7 +73,6 @@ public class HotIssuesManager {
 
         try {
             String result = HttpToolbox.get(AlphaFineConstants.ALPHA_HOT_SEARCH);
-            AlphaFineHelper.checkCancel();
             JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
             if(jsonArray != null){
                 for (int i = 0; i < HOT_ITEM_NUM; i++) {
@@ -82,10 +81,9 @@ public class HotIssuesManager {
                     data[i] = getTitleStrings(jsonObject);
                 }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error("hotissues search error: " + e.getMessage());
-        } catch (IOException e) {
-            FineLoggerFactory.getLogger().error("hotissues search get result error: " + e.getMessage());
+            return null;
         }
         return data;
     }
