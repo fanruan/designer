@@ -311,8 +311,11 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 FileNodeFILE nodeFILE = new FileNodeFILE((FileNode) node);
                 if (nodeFILE.exists()) {
                     FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
-                    success = fileAssistUtils.moveToTrash(nodeFILE.getPath()) && success;
-                    HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
+                    if (fileAssistUtils.moveToTrash(nodeFILE.getPath())) {
+                        HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
+                    } else {
+                        success = false;
+                    }
                 }
             }
         }

@@ -10,7 +10,13 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.file.*;
+import com.fr.design.file.FileOperations;
+import com.fr.design.file.FileToolbarStateChangeListener;
+import com.fr.design.file.HistoryTemplateListCache;
+import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.SaveSomeTemplatePane;
+import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -34,16 +40,29 @@ import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
@@ -509,19 +528,34 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             // 简单执行old new 替换是不可行的，例如 /abc/abc/abc/abc/
             String newPath = parentPath + CoreConstants.SEPARATOR + userInput + suffix;
 
-            HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
-            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), path, newPath);
 
             //模版重命名
-            boolean success = selectedOperation.rename(fnf, path, newPath);
-            selectedOperation.refresh();
-            DesignerContext.getDesignerFrame().setTitle();
+
             this.dispose();
 
-            if (!success) {
-                JOptionPane.showConfirmDialog(null,
+            boolean success = false;
+            SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
+            // 只有一个文件未保存时
+            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
+                int choose = saveSomeTempaltePane.saveLastOneTemplate();
+                if (choose != JOptionPane.CANCEL_OPTION) {
+                    success = selectedOperation.rename(fnf, path, newPath);
+                }
+            } else {
+                if (saveSomeTempaltePane.showSavePane()) {
+                    success = selectedOperation.rename(fnf, path, newPath);
+                }
+            }
+
+            if (success) {
+                HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
+                DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), path, newPath);
+                selectedOperation.refresh();
+                DesignerContext.getDesignerFrame().setTitle();
+            } else {
+                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Rename_Failure"),
-                        UIManager.getString("OptionPane.titleText"),
+                        UIManager.getString("OptionPane.messageDialogTitle"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }
