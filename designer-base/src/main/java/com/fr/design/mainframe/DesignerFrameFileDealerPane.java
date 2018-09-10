@@ -10,12 +10,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
-import com.fr.design.file.FileOperations;
-import com.fr.design.file.FileToolbarStateChangeListener;
-import com.fr.design.file.HistoryTemplateListCache;
-import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.file.TemplateTreePane;
+import com.fr.design.file.*;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuHighLight;
@@ -39,29 +34,16 @@ import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
@@ -664,6 +646,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                     confirmClose();
                 }
             });
+            confirmButton.setEnabled(false);
 
             // 取消按钮
             UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
@@ -700,7 +683,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             this.setAlwaysOnTop(true);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
             this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            GUICoreUtils.centerWindow(this);
+            GUICoreUtils.setWindowCenter(DesignerContext.getDesignerFrame(), this);
             this.setVisible(true);
         }
 
@@ -718,7 +701,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             selectedOperation.refresh();
             this.dispose();
             if (!success) {
-                JOptionPane.showConfirmDialog(null,
+                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
                         UIManager.getString("OptionPane.titleText"),
                         JOptionPane.DEFAULT_OPTION,
@@ -733,6 +716,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             if (StringUtils.isEmpty(userInput)) {
                 confirmButton.setEnabled(false);
+                return;
             }
 
             if (selectedOperation.duplicated(userInput, StringUtils.EMPTY)) {
