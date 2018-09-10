@@ -437,6 +437,8 @@ public class NativePrintSettingPane extends JPanel {
         pageMarginSettingPane.populate(nativePrintAttr.getMargin());
         fitPaperSizeCheck.setSelected(nativePrintAttr.isFitPaperSize());
         scalePercentField.setValue(nativePrintAttr.getScalePercent());
+
+        checkEnabled();
     }
 
     public void update(NativePrintAttr nativePrintAttr) {
