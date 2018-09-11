@@ -5,8 +5,6 @@ package com.fr.design.file;
 
 import com.fr.base.FRContext;
 import com.fr.base.io.FileAssistUtilsOperator;
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
@@ -22,10 +20,8 @@ import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -197,17 +193,8 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             if (node == null) {
                 return;
             }
-
-            String envName = DesignerEnvManager.getEnvManager().getCurEnvName();
-            DesignerWorkspaceInfo info = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
-
-            String username = null;
-            if (info != null) {
-                WorkspaceConnectionInfo connection = info.getConnection();
-                username = connection == null ? StringUtils.EMPTY : connection.getUserName();
-            }
             String lock = node.getLock();
-            if (lock != null && !lock.equals(username)) {
+            if (lock != null && !lock.equals(node.getUserID())) {
                 return;
             }
         }
