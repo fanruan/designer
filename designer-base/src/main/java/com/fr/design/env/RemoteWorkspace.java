@@ -5,7 +5,7 @@ import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
 
 /**
@@ -18,9 +18,9 @@ public class RemoteWorkspace implements Workspace {
 
     private final String address;
     
-    private final WorkspaceConnection connection;
+    private final WorkspaceConnectionInfo connection;
     
-    RemoteWorkspace(WorkspaceClient client, WorkspaceConnection connection) {
+    RemoteWorkspace(WorkspaceClient client, WorkspaceConnectionInfo connection) {
 
         this.client = client;
         this.address = connection.getUrl();

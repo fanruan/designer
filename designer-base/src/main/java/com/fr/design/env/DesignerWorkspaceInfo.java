@@ -1,7 +1,7 @@
 package com.fr.design.env;
 
 import com.fr.stable.xml.XMLable;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 public interface DesignerWorkspaceInfo extends XMLable {
     DesignerWorkspaceType getType();
@@ -10,7 +10,7 @@ public interface DesignerWorkspaceInfo extends XMLable {
 
     String getPath();
 
-    WorkspaceConnection getConnection();
+    WorkspaceConnectionInfo getConnection();
 
     boolean checkValid();
 }

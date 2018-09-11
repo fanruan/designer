@@ -57,7 +57,7 @@ import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -747,7 +747,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         String username = null;
         if (info != null) {
-            WorkspaceConnection connection = info.getConnection();
+            WorkspaceConnectionInfo connection = info.getConnection();
             username = connection == null ? StringUtils.EMPTY : connection.getUserName();
         }
         defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");

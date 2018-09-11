@@ -20,7 +20,7 @@ import com.fr.stable.StringUtils;
 import com.fr.third.guava.base.Strings;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.connect.AuthException;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -270,7 +270,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     @Override
     public void populateBean(RemoteDesignerWorkspaceInfo ob) {
-        WorkspaceConnection connection = ob.getConnection();
+        WorkspaceConnectionInfo connection = ob.getConnection();
         if (connection != null) {
             this.remoteWorkspaceURL = Strings.isNullOrEmpty(connection.getUrl())
                     ? RemoteWorkspaceURL.createDefaultURL()
@@ -303,7 +303,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     @Override
     public RemoteDesignerWorkspaceInfo updateBean() {
-        WorkspaceConnection connection = new WorkspaceConnection(
+        WorkspaceConnectionInfo connection = new WorkspaceConnectionInfo(
                 this.remoteWorkspaceURL.getURL(),
                 this.usernameInput.getText(),
                 new String(this.passwordInput.getPassword()),
@@ -518,7 +518,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
                 final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
 
-                WorkspaceConnection connection = remoteEnv.getConnection();
+                WorkspaceConnectionInfo connection = remoteEnv.getConnection();
                 DesignerEnvManager.getEnvManager().setCertificatePath(connection.getCertPath());
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
                 try {
