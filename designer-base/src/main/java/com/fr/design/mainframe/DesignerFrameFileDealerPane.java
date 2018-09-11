@@ -310,6 +310,16 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
 
             FileNode node = selectedOperation.getFileNode();
+            String lock = node.getLock();
+            if (lock != null && !lock.equals(node.getUserID())) {
+                // 提醒被锁定模板无法重命名
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Unable_Rename_Locked_File"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
+
             new FileRenameDialog(node);
             MutilTempalteTabPane.getInstance().repaint();
         }

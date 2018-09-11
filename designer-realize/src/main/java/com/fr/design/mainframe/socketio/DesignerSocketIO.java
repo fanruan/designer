@@ -8,6 +8,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogHandler;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
+import com.fr.report.RemoteDesignConstants;
 import com.fr.serialization.SerializerHelper;
 import com.fr.stable.ArrayUtils;
 import com.fr.third.apache.log4j.spi.LoggingEvent;
@@ -16,6 +17,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
 import com.fr.workspace.engine.server.rpc.netty.RemoteCallClient;
+import com.fr.workspace.server.WorkspaceConnection;
 import com.fr.workspace.server.socket.SocketInfoOperator;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -111,12 +113,16 @@ public class DesignerSocketIO {
     private static String getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
         int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
-        return String.format("%s://%s:%s%s?%s=%s",
+        WorkspaceConnection connection = RemoteCallClient.getInstance().getConnection();
+        return String.format("%s://%s:%s%s?%s=%s&%s=%s",
                 url.getProtocol(),
                 url.getHost(),
                 port,
                 WorkspaceConstants.WS_NAMESPACE,
                 DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
-                RemoteCallClient.getInstance().getConnection());
+                connection.getToken(),
+                RemoteDesignConstants.USER_LOCK_ID,
+                connection.getId()
+        );
     }
 }

@@ -25,7 +25,7 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,6 +48,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
@@ -202,7 +203,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
             String username = null;
             if (info != null) {
-                WorkspaceConnection connection = info.getConnection();
+                WorkspaceConnectionInfo connection = info.getConnection();
                 username = connection == null ? StringUtils.EMPTY : connection.getUserName();
             }
             String lock = node.getLock();
@@ -284,6 +285,16 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                     countSelectedFolder() > 0
                             ? Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File_And_Folder")
                             : Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File");
+
+            if (deletableNodes.isEmpty()) {
+                // 提醒被锁定模板无法删除
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Unable_Delete_Locked_File"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
+
 
             if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     tipContent,
