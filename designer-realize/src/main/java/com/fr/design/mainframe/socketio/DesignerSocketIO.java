@@ -112,6 +112,6 @@ public class DesignerSocketIO {
                 port,
                 WorkspaceConstants.WS_NAMESPACE,
                 DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
-                RemoteCallClient.getInstance().getConnection());
+                RemoteCallClient.getInstance().getConnection().getToken());
     }
 }
