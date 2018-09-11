@@ -44,6 +44,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 public class TemplateTreePane extends JPanel implements FileOperations {
@@ -186,6 +187,17 @@ public class TemplateTreePane extends JPanel implements FileOperations {
      */
     @Override
     public void openFile() {
+        // 判断是否是远程设计的锁定文件
+        if (!WorkContext.getCurrent().isLocal()) {
+            FileNode node = reportletsTree.getSelectedFileNode();
+            if (node == null) {
+                return;
+            }
+            String lock = node.getLock();
+            if (lock != null && !lock.equals(node.getUserID())) {
+                return;
+            }
+        }
         String reportPath = reportletsTree.getSelectedTemplatePath();
         final String selectedFilePath = StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, reportPath);
         DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(selectedFilePath, false)));
@@ -226,11 +238,6 @@ public class TemplateTreePane extends JPanel implements FileOperations {
     public void deleteFile() {
 
 
-        String tipContent =
-                countSelectedFolder() > 0
-                        ? Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Folder")
-                        : Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File");
-
         ExpandMutableTreeNode[] treeNodes = reportletsTree.getSelectedTreeNodes();
         // 筛选可以删除的文件
         ArrayList<ExpandMutableTreeNode> deletableNodes = new ArrayList<>();
@@ -238,40 +245,59 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         for (ExpandMutableTreeNode treeNode : treeNodes) {
             checkFreeOrLock(treeNode, deletableNodes, lockedNodes);
         }
-
-        boolean success = false;
-
         if (lockedNodes.isEmpty()) {
+
+            String tipContent =
+                    countSelectedFolder() > 0
+                            ? Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Folder")
+                            : Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_File");
 
             if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     tipContent,
-                    UIManager.getString("OptionPane.titleText"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     YES_NO_OPTION)
-                    == JOptionPane.OK_OPTION) {
+                    == JOptionPane.YES_OPTION) {
                 // 删除所有选中的即可
-                success = deleteNodes(Arrays.asList(treeNodes));
+                if (!deleteNodes(Arrays.asList(treeNodes))) {
+                    JOptionPane.showConfirmDialog(null,
+                            Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
+                            UIManager.getString("OptionPane.messageDialogTitle"),
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
-
         } else {
 
+            String tipContent =
+                    countSelectedFolder() > 0
+                            ? Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File_And_Folder")
+                            : Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File");
+
+            if (deletableNodes.isEmpty()) {
+                // 提醒被锁定模板无法删除
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Unable_Delete_Locked_File"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
+
+
             if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
-                    Toolkit.i18nText("Fine-Design_Basic_Confirm_Delete_Unlock_File"),
-                    UIManager.getString("OptionPane.titleText"),
+                    tipContent,
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     YES_NO_OPTION)
                     == JOptionPane.YES_OPTION) {
                 // 删除其他
-                success = deleteNodes(deletableNodes);
+                if (!deleteNodes(deletableNodes)) {
+                    JOptionPane.showConfirmDialog(null,
+                            Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
+                            UIManager.getString("OptionPane.messageDialogTitle"),
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
-
-        if (!success) {
-            JOptionPane.showConfirmDialog(null,
-                    Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
-                    UIManager.getString("OptionPane.titleText"),
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.ERROR_MESSAGE);
-        }
-
         reportletsTree.refresh();
     }
 
@@ -283,8 +309,11 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 FileNodeFILE nodeFILE = new FileNodeFILE((FileNode) node);
                 if (nodeFILE.exists()) {
                     FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
-                    success = fileAssistUtils.moveToTrash(nodeFILE.getPath()) && success;
-                    HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
+                    if (fileAssistUtils.moveToTrash(nodeFILE.getPath())) {
+                        HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
+                    } else {
+                        success = false;
+                    }
                 }
             }
         }
@@ -314,15 +343,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         boolean childrenEmptyLock = true;
 
         for (ExpandMutableTreeNode child : children) {
-
-            boolean childEmptyLock = checkFreeOrLock(child, dNodes, lNodes);
-            if (childEmptyLock) {
-                dNodes.add(child);
-            } else {
-                lNodes.add(child);
-            }
-
-            childrenEmptyLock = childrenEmptyLock && childEmptyLock;
+            childrenEmptyLock = checkFreeOrLock(child, dNodes, lNodes) && childrenEmptyLock;
         }
 
         boolean emptyLock = childrenEmptyLock && selfEmptyLock;
@@ -383,7 +404,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (!lockedNodes.isEmpty()) {
             JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design_Basic_Warn_Rename_Lock_File"),
-                    UIManager.getString("OptionPane.titleText"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
             return true;
         }

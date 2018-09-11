@@ -58,6 +58,7 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -1545,25 +1546,34 @@ public class FILEChooserPane extends BasicPane {
 
             String userInput = nameField.getText().trim();
 
-            currentDirectory.createFolder(userInput);
+            // 处理不合法的文件夹名称
+            userInput = userInput.replaceAll("[\\\\/:*?\"<>|]", StringUtils.EMPTY);
 
-            refreshSubFileListModel();
-
-            setSelectedFileName(userInput);
-            // ben:这里处理有些不妥，取文件时没有考虑filefilter，不过效果一样，取的时候应该用subfilelist得data
-            FILE[] allFiles = currentDirectory.listFiles();
-            int place = 0;
-            for (int i = 0; i < allFiles.length; i++) {
-                if (ComparatorUtils.equals(allFiles[i].getName(), userInput) && allFiles[i].isDirectory()) {
-                    place = i;
-                    break;
+            if (currentDirectory.createFolder(userInput)) {
+                refreshSubFileListModel();
+                setSelectedFileName(userInput);
+                // ben:这里处理有些不妥，取文件时没有考虑filefilter，不过效果一样，取的时候应该用subfilelist得data
+                FILE[] allFiles = currentDirectory.listFiles();
+                int place = 0;
+                for (int i = 0; i < allFiles.length; i++) {
+                    if (ComparatorUtils.equals(allFiles[i].getName(), userInput) && allFiles[i].isDirectory()) {
+                        place = i;
+                        break;
+                    }
                 }
+                scrollPane.revalidate();
+                scrollPane.repaint();
+                int total = scrollPane.getVerticalScrollBar().getMaximum();
+                int value = total * place / subFileList.getModel().getSize();
+                scrollPane.getVerticalScrollBar().setValue(value);
+
+            } else {
+                JOptionPane.showConfirmDialog(FILEChooserPane.this,
+                        Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
+                        UIManager.getString("OptionPane.messageDialogTitle"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE);
             }
-            scrollPane.revalidate();
-            scrollPane.repaint();
-            int total = scrollPane.getVerticalScrollBar().getMaximum();
-            int value = total * place / subFileList.getModel().getSize();
-            scrollPane.getVerticalScrollBar().setValue(value);
             this.dispose();
         }
 

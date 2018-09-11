@@ -15,6 +15,7 @@ import com.fr.design.file.FileToolbarStateChangeListener;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.file.SaveSomeTemplatePane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -36,6 +37,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
@@ -308,6 +310,16 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
 
             FileNode node = selectedOperation.getFileNode();
+            String lock = node.getLock();
+            if (lock != null && !lock.equals(node.getUserID())) {
+                // 提醒被锁定模板无法重命名
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Unable_Rename_Locked_File"),
+                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        WARNING_MESSAGE);
+                return;
+            }
+
             new FileRenameDialog(node);
             MutilTempalteTabPane.getInstance().repaint();
         }
@@ -394,8 +406,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             fnf = new FileNodeFILE(node);
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             this.setLayout(new BorderLayout());
             this.setModal(true);
@@ -508,12 +520,14 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         private void confirmClose() {
 
             String userInput = nameField.getText().trim();
+            // 处理不合法的文件夹名称
+            userInput = userInput.replaceAll("[\\\\/:*?\"<>|]", StringUtils.EMPTY);
 
-            String path = fnf.getPath();
+            String path = FilenameUtils.standard(fnf.getPath());
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             // 输入为空或者没有修改
             if (ComparatorUtils.equals(userInput, oldName)) {
@@ -521,26 +535,38 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 return;
             }
 
-            String oldPath = path.replaceAll(CoreConstants.SEPARATOR, "\\\\");
-
-            String parentPath = fnf.getParent().getPath().replaceAll(CoreConstants.SEPARATOR, "\\\\");
+            String parentPath = FilenameUtils.standard(fnf.getParent().getPath());
 
             // 简单执行old new 替换是不可行的，例如 /abc/abc/abc/abc/
-            String newPath = parentPath + "\\" + userInput + suffix;
-
-            HistoryTemplateListCache.getInstance().rename(fnf, oldPath, newPath);
-            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), oldPath, newPath);
-
-            //模版重命名
-            boolean success = selectedOperation.rename(fnf, oldPath, newPath);
-            selectedOperation.refresh();
-            DesignerContext.getDesignerFrame().setTitle();
+            String newPath = parentPath + CoreConstants.SEPARATOR + userInput + suffix;
             this.dispose();
 
-            if (!success) {
-                JOptionPane.showConfirmDialog(null,
+            //模版重命名
+            boolean success = false;
+
+            // 提醒保存文件
+            SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
+            // 只有一个文件未保存时
+            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
+                int choose = saveSomeTempaltePane.saveLastOneTemplate();
+                if (choose != JOptionPane.CANCEL_OPTION) {
+                    success = selectedOperation.rename(fnf, path, newPath);
+                }
+            } else {
+                if (saveSomeTempaltePane.showSavePane()) {
+                    success = selectedOperation.rename(fnf, path, newPath);
+                }
+            }
+
+            if (success) {
+                HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
+                DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(fnf.isDirectory(), path, newPath);
+                selectedOperation.refresh();
+                DesignerContext.getDesignerFrame().setTitle();
+            } else {
+                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Rename_Failure"),
-                        UIManager.getString("OptionPane.titleText"),
+                        UIManager.getString("OptionPane.messageDialogTitle"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -552,11 +578,12 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             String userInput = nameField.getText().trim();
 
             String oldName = fnf.getName();
-            String suffix = fnf.isDirectory() ? "" : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, "");
+            String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
+            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
 
             if (StringUtils.isEmpty(userInput)) {
                 confirmButton.setEnabled(false);
+                return;
             }
 
             if (ComparatorUtils.equals(userInput, oldName)) {
@@ -665,6 +692,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                     confirmClose();
                 }
             });
+            confirmButton.setEnabled(false);
 
             // 取消按钮
             UIButton cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
@@ -701,12 +729,15 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             this.setAlwaysOnTop(true);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
             this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            GUICoreUtils.centerWindow(this);
+            GUICoreUtils.setWindowCenter(DesignerContext.getDesignerFrame(), this);
             this.setVisible(true);
         }
 
         private void confirmClose() {
             String userInput = nameField.getText().trim();
+
+            // 处理不合法的文件夹名称
+            userInput = userInput.replaceAll("[\\\\/:*?\"<>|]", StringUtils.EMPTY);
 
             if (StringUtils.isEmpty(userInput)) {
                 return;
@@ -714,14 +745,14 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             //新建文件夹
             boolean success = selectedOperation.mkdir(
-                    selectedOperation.getFileNode().getParent() + CoreConstants.SEPARATOR + userInput
+                    FilenameUtils.standard(selectedOperation.getFileNode().getParent() + CoreConstants.SEPARATOR + userInput)
             );
             selectedOperation.refresh();
             this.dispose();
             if (!success) {
-                JOptionPane.showConfirmDialog(null,
+                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
-                        UIManager.getString("OptionPane.titleText"),
+                        UIManager.getString("OptionPane.messageDialogTitle"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -734,6 +765,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             if (StringUtils.isEmpty(userInput)) {
                 confirmButton.setEnabled(false);
+                return;
             }
 
             if (selectedOperation.duplicated(userInput, StringUtils.EMPTY)) {
