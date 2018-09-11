@@ -510,6 +510,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         private void confirmClose() {
 
             String userInput = nameField.getText().trim();
+            // 处理不合法的文件夹名称
+            userInput = userInput.replaceAll("[\\\\/:*?\"<>|]", StringUtils.EMPTY);
 
             String path = FilenameUtils.standard(fnf.getPath());
 
@@ -527,13 +529,12 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             // 简单执行old new 替换是不可行的，例如 /abc/abc/abc/abc/
             String newPath = parentPath + CoreConstants.SEPARATOR + userInput + suffix;
-
-
-            //模版重命名
-
             this.dispose();
 
+            //模版重命名
             boolean success = false;
+
+            // 提醒保存文件
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
             if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
@@ -572,6 +573,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             if (StringUtils.isEmpty(userInput)) {
                 confirmButton.setEnabled(false);
+                return;
             }
 
             if (ComparatorUtils.equals(userInput, oldName)) {
@@ -724,6 +726,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         private void confirmClose() {
             String userInput = nameField.getText().trim();
 
+            // 处理不合法的文件夹名称
+            userInput = userInput.replaceAll("[\\\\/:*?\"<>|]", StringUtils.EMPTY);
+
             if (StringUtils.isEmpty(userInput)) {
                 return;
             }
@@ -737,7 +742,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             if (!success) {
                 JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
-                        UIManager.getString("OptionPane.titleText"),
+                        UIManager.getString("OptionPane.messageDialogTitle"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }

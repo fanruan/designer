@@ -266,14 +266,14 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
             if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     tipContent,
-                    UIManager.getString("OptionPane.titleText"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     YES_NO_OPTION)
                     == JOptionPane.YES_OPTION) {
                 // 删除所有选中的即可
                 if (!deleteNodes(Arrays.asList(treeNodes))) {
                     JOptionPane.showConfirmDialog(null,
                             Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
-                            UIManager.getString("OptionPane.titleText"),
+                            UIManager.getString("OptionPane.messageDialogTitle"),
                             JOptionPane.DEFAULT_OPTION,
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -287,14 +287,14 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
             if (JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     tipContent,
-                    UIManager.getString("OptionPane.titleText"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     YES_NO_OPTION)
                     == JOptionPane.YES_OPTION) {
                 // 删除其他
                 if (!deleteNodes(deletableNodes)) {
                     JOptionPane.showConfirmDialog(null,
                             Toolkit.i18nText("Fine-Design_Basic_Delete_Failure"),
-                            UIManager.getString("OptionPane.titleText"),
+                            UIManager.getString("OptionPane.messageDialogTitle"),
                             JOptionPane.DEFAULT_OPTION,
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -406,7 +406,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         if (!lockedNodes.isEmpty()) {
             JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design_Basic_Warn_Rename_Lock_File"),
-                    UIManager.getString("OptionPane.titleText"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
                     JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
             return true;
         }
