@@ -8,6 +8,7 @@ import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
+import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
@@ -49,6 +50,8 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     public SearchResult getLessSearchResult(String[] searchText) {
         if (ArrayUtils.isEmpty(searchText)) {
             return new SearchResult();
+        } else if(AlphaFineDialog.data == null){
+            return AlphaFineHelper.getNoConnectList(instance);
         }
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
@@ -56,7 +59,8 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
             for (int j = 0; j < searchText.length; j++) {
                 searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
                 try {
-                    String result = HttpToolbox.get(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]));
+                    String url = AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]);
+                    String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
                     JSONObject jsonObject = new JSONObject(result);
                     if ("success".equals(jsonObject.optString("status"))) {
@@ -178,14 +182,6 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     private boolean alreadyContain(AlphaCellModel cellModel) {
         return RecentSearchManager.getInstance().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
-
-    private SearchResult getNoConnectList() {
-        SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));
-        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
-        return result;
-    }
-
 
     @Override
     public SearchResult getMoreSearchResult(String searchText) {

@@ -6,18 +6,17 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
+import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
-import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
-import java.io.IOException;
-
-import com.fr.stable.StringUtils;
+import com.fr.stable.ArrayUtils;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+
+import java.io.IOException;
 
 /**
  * Created by alex.sung on 2018/8/3.
@@ -40,6 +39,11 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
 
     @Override
     public SearchResult getLessSearchResult(String[] searchText) {
+        if (ArrayUtils.isEmpty(searchText)) {
+            return new SearchResult();
+        } else if (AlphaFineDialog.data == null) {
+            return AlphaFineHelper.getNoConnectList(instance);
+        }
         lessModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             SearchResult allModelList = new SearchResult();
