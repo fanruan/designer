@@ -11,7 +11,8 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.Arrays;
 
 /**
@@ -31,9 +32,7 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         Component[][] components = new Component[len][2];
         for (int i = 0; i < len; i++) {
-            Component formulaPane = formulaPanes[i];
-            formulaPane.setPreferredSize(new Dimension(100, 20));
-            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), formulaPane};
+            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), formulaPanes[i]};
         }
 
         double p = TableLayout.PREFERRED;
