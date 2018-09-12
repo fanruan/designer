@@ -15,6 +15,7 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.resource.WorkResourceTempRenameStream;
+import com.fr.workspace.server.lock.TplOperator;
 
 import javax.swing.Icon;
 import java.io.ByteArrayInputStream;
@@ -356,8 +357,14 @@ public class FileNodeFILE implements FILE {
         if (!envPath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             return null;
         }
-
-        InputStream in = new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1))));
+        InputStream in = new ByteArrayInputStream(
+                WorkContext.getCurrent().get(TplOperator.class).readAndLockFile(
+                        StableUtils.pathJoin(
+                                ProjectConstants.REPORTLETS_NAME,
+                                envPath.substring(ProjectConstants.REPORTLETS_NAME.length() + 1)
+                        )
+                )
+        );
 
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;
