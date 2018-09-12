@@ -21,7 +21,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.lock.TplLockOperator;
+import com.fr.workspace.server.lock.TplOperator;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
@@ -693,18 +693,16 @@ public class MutilTempalteTabPane extends JComponent {
                 specifiedTemplate.saveTemplate();
                 HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
                 // release lock
-                if (!WorkContext.getCurrent().isLocal()) {
-                    WorkContext.getCurrent().get(TplLockOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
-                }
+                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+
                 activeTemplate(filename);
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
             }
         } else {
             HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
             // release lock
-            if (!WorkContext.getCurrent().isLocal()) {
-                WorkContext.getCurrent().get(TplLockOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
-            }
+            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+
             activeTemplate(filename);
             FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
         }

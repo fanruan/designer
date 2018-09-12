@@ -4,7 +4,6 @@
 package com.fr.design.file;
 
 import com.fr.base.FRContext;
-import com.fr.base.io.FileAssistUtilsOperator;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
@@ -22,7 +21,7 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.lock.TplLockOperator;
+import com.fr.workspace.server.lock.TplOperator;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -312,19 +311,10 @@ public class TemplateTreePane extends JPanel implements FileOperations {
             if (node instanceof FileNode) {
                 FileNodeFILE nodeFILE = new FileNodeFILE((FileNode) node);
                 if (nodeFILE.exists()) {
-                    if (isLocal) {
-                        FileAssistUtilsOperator fileAssistUtils = WorkContext.getCurrent().get(FileAssistUtilsOperator.class);
-                        if (fileAssistUtils.moveToTrash(nodeFILE.getPath())) {
-                            HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
-                        } else {
-                            success = false;
-                        }
+                    if (WorkContext.getCurrent().get(TplOperator.class).delete(nodeFILE.getPath())) {
+                        HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
                     } else {
-                        if (WorkContext.getCurrent().get(TplLockOperator.class).delete(nodeFILE.getPath())) {
-                            HistoryTemplateListCache.getInstance().deleteFile(nodeFILE);
-                        } else {
-                            success = false;
-                        }
+                        success = false;
                     }
                 }
             }
@@ -422,12 +412,8 @@ public class TemplateTreePane extends JPanel implements FileOperations {
         }
 
         try {
-            if (WorkContext.getCurrent().isLocal()) {
-                // com.fr.io.utils.ResourceIOUtils 接收的是WEB-INF下的路径
-                return WorkContext.getWorkResource().rename(from, to);
-            } else {
-                return WorkContext.getCurrent().get(TplLockOperator.class).rename(from, to);
-            }
+            // 接收的是WEB-INF下的路径
+            return WorkContext.getCurrent().get(TplOperator.class).rename(from, to);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
