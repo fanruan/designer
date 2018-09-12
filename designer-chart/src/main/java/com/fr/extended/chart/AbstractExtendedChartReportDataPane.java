@@ -25,7 +25,7 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
     protected void initComponents() {
         String[] labels = fieldLabel();
-        TinyFormulaPane[] formulaPanes = formulaPanes();
+        Component[] formulaPanes = fieldComponents();
 
         int len = Math.min(labels.length, formulaPanes.length);
 
@@ -48,6 +48,10 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
+    }
+
+    protected Component[] fieldComponents() {
+        return formulaPanes();
     }
 
     protected abstract String[] fieldLabel();
