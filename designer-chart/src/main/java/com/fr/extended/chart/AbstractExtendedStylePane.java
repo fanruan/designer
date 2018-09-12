@@ -34,7 +34,7 @@ public abstract class AbstractExtendedStylePane<T extends AbstractChart> extends
     public AbstractExtendedStylePane() {
     }
 
-    public AbstractExtendedStylePane(AttributeChangeListener listener) {
+    public      AbstractExtendedStylePane(AttributeChangeListener listener) {
         this.listener = listener;
     }
 
