@@ -39,6 +39,7 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.runtime.FineRuntime;
@@ -98,13 +99,15 @@ public class Designer extends BaseDesigner {
         //启动运行时
         FineRuntime.start();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
-
-
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
+            FineLoggerFactory.getLogger().error("Designer port not available.");
+            System.exit(0);
             return;
         }
+    
+
 
         preloadResource();
 
