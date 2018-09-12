@@ -5,6 +5,7 @@ import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
+import com.fr.workspace.connect.WorkspaceConnection;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
 
@@ -54,16 +55,28 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public boolean isRoot() {
         try {
-            return WorkContext.getCurrent().get(DecisionOperator.class).isRoot(WorkContext.getConnector().currentUser());
+            return WorkContext.getCurrent().get(DecisionOperator.class).isRoot(getConnection().getUserName());
         } catch (Exception e) {
             return false;
         }
     }
-
+    
+    @Override
+    public WorkspaceConnection getConnection() {
+        
+        return client.getConnection();
+    }
+    
     @Override
     public <T> T get(Class<T> type) {
 
         return client.getPool().get(type);
+    }
+    
+    @Override
+    public void close() {
+        
+        client.close();
     }
     
     @Override
