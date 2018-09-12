@@ -16,8 +16,7 @@ import com.fr.third.guava.base.Optional;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.base.WorkspaceConstants;
-import com.fr.workspace.engine.server.rpc.netty.RemoteCallClient;
-import com.fr.workspace.server.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnection;
 import com.fr.workspace.server.socket.SocketInfoOperator;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -113,7 +112,7 @@ public class DesignerSocketIO {
     private static String getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
         int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
-        WorkspaceConnection connection = RemoteCallClient.getInstance().getConnection();
+        WorkspaceConnection connection = WorkContext.getCurrent().getConnection();
         return String.format("%s://%s:%s%s?%s=%s&%s=%s",
                 url.getProtocol(),
                 url.getHost(),

@@ -39,7 +39,7 @@ public class NodeAuthProcessor {
         authPaths.clear();
         if (!WorkContext.getCurrent().isLocal()) {
             try {
-                String username = WorkContext.getConnector().currentUser();
+                String username = WorkContext.getCurrent().getConnection().getUserName();
                 // 远程设计获取全部设计成员的权限列表
                 DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
                 DesignAuthority authority = null;
