@@ -11,8 +11,8 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,9 +56,13 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
 
+        this.setLayout(new FlowLayout());
+        this.add(panel);
+        this.add(addSouthPane());
+    }
 
-        this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
+    protected JPanel addSouthPane() {
+        return new JPanel();
     }
 
     protected boolean hasCustomFieldPane() {
