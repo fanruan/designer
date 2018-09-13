@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
@@ -40,8 +39,10 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.runtime.FineRuntime;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -94,16 +95,19 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
+    
+        //启动运行时
+        FineRuntime.start();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
-
-
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
+            FineLoggerFactory.getLogger().error("Designer port not available.");
+            System.exit(0);
             return;
         }
-        RestartHelper.deleteRecordFilesWhenStart();
+    
+
 
         preloadResource();
 
@@ -176,7 +180,7 @@ public class Designer extends BaseDesigner {
                 shortCuts.add((ShortCut) DesignModuleFactory.getNewFormAction().newInstance());
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
