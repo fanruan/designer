@@ -94,6 +94,6 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public boolean equals(Object obj) {
         
-        return obj != null && obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
+        return obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
     }
 }
