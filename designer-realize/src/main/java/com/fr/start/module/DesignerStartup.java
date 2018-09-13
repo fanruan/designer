@@ -92,6 +92,14 @@ public class DesignerStartup extends Activator {
             public void on(Event event, Workspace param) {
 
                 getSub(EnvBasedModule.class).start();
+                ExecutorService service = Executors.newSingleThreadExecutor();
+                service.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        FineEmbedServer.start();
+                    }
+                });
+                service.shutdown();
             }
         });
     }
