@@ -7,13 +7,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.util.Arrays;
 
 /**
  * Created by shine on 2018/3/7.
@@ -44,9 +43,13 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
 
+        this.setLayout(new FlowLayout());
+        this.add(panel);
+        this.add(addOtherPane());
+    }
 
-        this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
+    protected JPanel addOtherPane() {
+        return new JPanel();
     }
 
     protected Component[] fieldComponents() {

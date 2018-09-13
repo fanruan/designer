@@ -10,14 +10,14 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
-
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Created by shine on 2018/3/2.
@@ -51,11 +51,13 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         }
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p, p};
+        double f = TableLayout.FILL;
+        double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = new double[len + (hasFunction() ? 1 : 0)];
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
