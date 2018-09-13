@@ -15,6 +15,7 @@ import com.fr.design.menu.SeparatorDef;
 import com.fr.design.utils.DesignUtils;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
+import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
@@ -110,6 +111,10 @@ public class SwitchExistEnv extends MenuDef {
                         DesignUtils.refreshDesignerFrame();
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                         fireDSChanged();
+                        if (WorkContext.getCurrent().isLocal()) {
+                            //初始化一下serverTray
+                            ServerTray.init();
+                        }
                     }
                 });
             } catch (AuthException exception) {

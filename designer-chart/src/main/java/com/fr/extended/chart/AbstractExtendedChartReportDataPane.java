@@ -54,7 +54,7 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
 
 
         this.setLayout(new BorderLayout());
