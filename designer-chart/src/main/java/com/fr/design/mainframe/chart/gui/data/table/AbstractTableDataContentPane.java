@@ -5,8 +5,8 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JSeparator;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -46,8 +46,8 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
 	/**
 	 * 刷新Box的选项.
 	 */
-	protected void refreshBoxItems(UIComboBox box, List list) {
-		if(box == null) {
+	public static void refreshBoxItems(UIComboBox box, List list) {
+		if (box == null) {
 			return;
 		}
 		
@@ -66,9 +66,9 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
      * 清空box里所有东西
      * @param box 容器
      */
-    protected void clearBoxItems(UIComboBox box){
-        if(box == null){
-            return;
+	public static void clearBoxItems(UIComboBox box) {
+		if (box == null) {
+			return;
         }
         box.removeAllItems();
     }

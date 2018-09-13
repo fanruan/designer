@@ -20,12 +20,15 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -212,7 +215,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         this.populateBean(collection,true);
     }
 
-    private String getFunctionString(DataFunction function) {
+    public static String getFunctionString(DataFunction function) {
         for (int i = 0; i < CalculateComboBox.CLASS_ARRAY.length; i++) {
             Class tmp = function.getClass();
             if (ComparatorUtils.equals(tmp, CalculateComboBox.CLASS_ARRAY[i])) {
@@ -255,7 +258,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
         collection.getSelectedChart().setFilterDefinition(moreDefinition);
     }
 
-    private DataFunction getFcuntionByName(String name) {
+    public static DataFunction getFcuntionByName(String name) {
         int index = 0;
         for (int i = 0; i < CalculateComboBox.CALCULATE_ARRAY.length; i++) {
             if (ComparatorUtils.equals(name, CalculateComboBox.CALCULATE_ARRAY[i])) {
