@@ -62,7 +62,8 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return new FileModel(name, filePath, searchCount);
     }
 
-    public SearchResult getLessSearchResult(String[] searchText) {
+
+    public SearchResult getLessSearchResult(String searchStr, String[] searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
@@ -78,6 +79,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
             isContainFrm = true;
             doSearch(this.searchText);
         }
+        doFileContentSearch(searchStr);
 
         if (filterModelList.isEmpty()) {
             return new SearchResult();
@@ -91,6 +93,11 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
         }
         return lessModelList;
+    }
+
+    @Override
+    public SearchResult getLessSearchResult(String[] searchText) {
+        return null;
     }
 
     @Override
@@ -111,6 +118,13 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
             }
         }
+    }
+
+    /**
+     * 搜索模板内容
+     * @param searchText
+     */
+    private void doFileContentSearch(String searchText) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
             FileNode[] fileNodes = FRContext.getFileNodes().filterFiles(searchText, ProjectConstants.REPORTLETS_NAME, new FileExtension[]{FileExtension.CPT, FileExtension.FRM}, true);
             for (FileNode node : fileNodes) {
