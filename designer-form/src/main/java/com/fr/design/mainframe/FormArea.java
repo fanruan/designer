@@ -540,16 +540,16 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         layout();
         if (isValid) {
             XLayoutContainer root = designer.getRootComponent();
-            setScrollBarProperties(root.getWidth() - designer.getWidth(), horScrollBar);
+            setScrollBarProperties(root.getWidth() - designer.getWidth(), horScrollBar, horizontalValue);
             //计算滚动条值的时候应该算上参数面板的高度
-            setScrollBarProperties(designer.getParaHeight() + root.getHeight() - designer.getHeight(), verScrollBar);
+            setScrollBarProperties(designer.getParaHeight() + root.getHeight() - designer.getHeight(), verScrollBar, verticalValue);
         }
     }
 
     /**
      * 设置滚动条的属性
      */
-    private void setScrollBarProperties(int value, FormScrollBar bar) {
+    private void setScrollBarProperties(int value, FormScrollBar bar, int oldValue) {
         if (value == 0 && isScrollNotVisible(bar)) {
             return;
         }
@@ -560,12 +560,11 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             bar.setValue(0);
             bar.setEnabled(false);
         } else {
-            //参数面板拖拽过程中value一直为当前value
-            int oldValue = verticalValue;
             setScrollBarMax(value, bar);
             bar.setEnabled(true);
             bar.setMaximum(value);
             bar.setValue(value);
+            //参数面板拖拽过程中value一直为当前value
             bar.setValue(oldValue);
         }
     }

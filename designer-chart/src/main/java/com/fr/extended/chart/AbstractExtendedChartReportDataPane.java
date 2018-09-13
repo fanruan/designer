@@ -26,7 +26,7 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
     protected void initComponents() {
         String[] labels = fieldLabel();
-        TinyFormulaPane[] formulaPanes = formulaPanes();
+        Component[] formulaPanes = fieldComponents();
 
         int len = Math.min(labels.length, formulaPanes.length);
 
@@ -42,11 +42,15 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
 
 
         this.setLayout(new BorderLayout());
         this.add(panel, BorderLayout.CENTER);
+    }
+
+    protected Component[] fieldComponents() {
+        return formulaPanes();
     }
 
     protected abstract String[] fieldLabel();

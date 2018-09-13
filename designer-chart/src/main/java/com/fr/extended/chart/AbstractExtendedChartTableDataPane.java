@@ -47,7 +47,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
 
         if (hasFunction()) {
             function = new CalculateComboBox();
-            components[len] = new Component[]{new UILabel("function", SwingConstants.LEFT), function};
+            components[len] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method"), SwingConstants.LEFT), function};
         }
 
         double p = TableLayout.PREFERRED;
