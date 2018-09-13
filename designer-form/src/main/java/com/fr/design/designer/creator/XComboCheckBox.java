@@ -33,19 +33,19 @@ public class XComboCheckBox extends XComboBox {
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setEditorClass(
 						InChangeBooleanEditor.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Return_String"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") } : new CRPropertyDescriptor[] {
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced") } : new CRPropertyDescriptor[] {
 				new CRPropertyDescriptor("delimiter", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Delimiter")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
 						"Advanced"),
 				new CRPropertyDescriptor("returnString", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Return_String")).setEditorClass(InChangeBooleanEditor.class)
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("startSymbol", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_Start_Symbol"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("endSymbol", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Combo_CheckBox_End_Symbol"))
-						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced") });
+						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced") });
 	}
 
     @Override

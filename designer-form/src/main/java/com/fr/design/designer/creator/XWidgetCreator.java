@@ -57,7 +57,7 @@ public abstract class XWidgetCreator extends XCreator {
                 }),
                 new CRPropertyDescriptor("labelName", this.data.getClass(), "getLabelName", "setLabelName")
                         .setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Label_Name"))
-                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced")
+                        .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
         };
 
     }

@@ -43,10 +43,10 @@ public class XIframeEditor extends XWidgetCreator {
 						}),
 				new CRPropertyDescriptor("overflowx", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Horizontal_Scroll_Bar_Visible")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("overflowy", this.data.getClass()).setI18NName(
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Preference_Vertical_Scroll_Bar_Visible")).putKeyValue(
-						XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+						XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
 				new CRPropertyDescriptor("parameters", this.data.getClass())
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters")).setEditorClass(ParameterEditor.class)
 						.setRendererClass(ParameterRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,

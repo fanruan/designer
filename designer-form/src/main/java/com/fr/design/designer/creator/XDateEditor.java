@@ -61,7 +61,7 @@ public class XDateEditor extends XDirectWriteEditor {
                 new CRPropertyDescriptor[]{
                         new CRPropertyDescriptor("formatText", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Format")).setEditorClass(formatClass()).setRendererClass(
-                                DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced"),
+                                DateCellRenderer.class).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced"),
                         new CRPropertyDescriptor("startDate", this.data.getClass()).setI18NName(
                                 com.fr.design.i18n.Toolkit.i18nText("FR-Design_Form_Start_Date")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
                                 "Advanced").setEditorClass(DateRangeEditor.class),

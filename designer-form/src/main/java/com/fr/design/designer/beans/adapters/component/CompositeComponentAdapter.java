@@ -138,7 +138,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 
 		public void adjustGroupNamesPosition(ArrayList<String> groupNames){
 			for(String groupName : groupNames){
-				if(groupName.equals("Form-Basic_Properties")){
+				if(groupName.equals("Fine-Design_Basic_Form_Basic_Properties")){
 					groupNames.remove(groupName);
 					groupNames.add(0,groupName);
 					break;

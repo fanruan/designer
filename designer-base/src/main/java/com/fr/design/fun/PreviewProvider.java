@@ -11,7 +11,7 @@ import java.util.Map;
  * @since 8.0
  * 自定义预览方式接口
  */
-public interface PreviewProvider extends Mutable{
+public interface PreviewProvider extends Mutable {
 
     String MARK_STRING = "PreviewProvider";
 
