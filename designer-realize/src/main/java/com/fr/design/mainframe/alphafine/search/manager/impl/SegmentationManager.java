@@ -66,6 +66,7 @@ public class SegmentationManager {
             return new String[]{searchText};
         }
         List<String> result = new ArrayList<>();
+        result.add(searchText);
         BreakIterator itor = BreakIterator.getWordInstance();
         itor.setText(searchText);
         int start = itor.first();

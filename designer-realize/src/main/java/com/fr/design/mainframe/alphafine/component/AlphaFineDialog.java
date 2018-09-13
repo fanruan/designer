@@ -490,11 +490,11 @@ public class AlphaFineDialog extends UIDialog {
         } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
             buildDocumentList(new String[]{getStoreText(searchText)});
         } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-            buildFileList(new String[]{getStoreText(searchText)});
+            buildFileList(getStoreText(searchText), new String[]{getStoreText(searchText)});
         } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
-            buildFileList(new String[]{searchText});
+            buildFileList(getStoreText(searchText), new String[]{searchText});
         } else if (searchText.startsWith(DS_MARK)) {
-            buildFileList(new String[]{DS_NAME + getStoreText(searchText)});
+            buildFileList(getStoreText(searchText), new String[]{DS_NAME + getStoreText(searchText)});
         } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
             buildPluginList(new String[]{getStoreText(searchText)});
         } else if (searchText.startsWith(SIMILAR_MARK)) {
@@ -535,7 +535,7 @@ public class AlphaFineDialog extends UIDialog {
             buildRecentList(segmentationResult);
             buildRecommendList(segmentationResult);
             buildActionList(segmentationResult);
-            buildFileList(segmentationResult);
+            buildFileList(searchText, segmentationResult);
             buildDocumentList(segmentationResult);
             buildPluginList(segmentationResult);
             buildSimilarList(segmentationResult);
@@ -547,8 +547,8 @@ public class AlphaFineDialog extends UIDialog {
         addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
-    private void buildFileList(final String[] searchText) {
-        addSearchResult(FileSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildFileList(String searchStr, final String[] searchText) {
+        addSearchResult(FileSearchManager.getInstance().getLessSearchResult(searchStr, searchText));
     }
 
     private void buildActionList(final String[] searchText) {
