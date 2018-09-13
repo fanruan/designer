@@ -23,7 +23,6 @@ public class PreStartActivator extends Activator {
     @Override
     public void start() {
 
-        RestartHelper.deleteRecordFilesWhenStart();
         CloudCenter.getInstance();
         if (checkMultiStart()) {
             return;
