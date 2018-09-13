@@ -123,9 +123,9 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel("series", SwingConstants.LEFT), series},
-                    new Component[]{new UILabel("value", SwingConstants.LEFT), value},
-                    new Component[]{new UILabel("function", SwingConstants.LEFT), function},
+                    new Component[]{new UILabel(HEADS[1], SwingConstants.LEFT), series},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"), SwingConstants.LEFT), value},
+                    new Component[]{new UILabel(HEADS[2], SwingConstants.LEFT), function},
             };
 
             double p = TableLayout.PREFERRED;

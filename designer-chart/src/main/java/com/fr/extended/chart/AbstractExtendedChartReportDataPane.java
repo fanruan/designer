@@ -43,14 +43,14 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         if (hasCustomFieldPane()) {
             seriesPane = new TinyFormulaPane();
             valuePane = new TinyFormulaPane();
-            components[len] = new Component[]{new UILabel("series", SwingConstants.LEFT), seriesPane};
-            components[len + 1] = new Component[]{new UILabel("series", SwingConstants.LEFT), valuePane};
+            components[len] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), SwingConstants.LEFT), seriesPane};
+            components[len + 1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"), SwingConstants.LEFT), valuePane};
         }
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f, COMPONENT_WIDTH};
-        double[] rowSize = new double[len];
+        double[] rowSize = new double[len + (hasCustomFieldPane() ? 2 : 0)];
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
