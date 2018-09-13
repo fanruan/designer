@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.RestartHelper;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
@@ -106,8 +107,8 @@ public class Designer extends BaseDesigner {
             System.exit(0);
             return;
         }
-    
 
+        RestartHelper.deleteRecordFilesWhenStart();
 
         preloadResource();
 
