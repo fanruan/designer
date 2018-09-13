@@ -43,7 +43,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         }
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {TableLayout.FILL, COMPONENT_WIDTH};
+        double[] columnSize = {TableLayout.FILL, 120};
         double[] rowSize = new double[len];
         Arrays.fill(rowSize, p);
 
