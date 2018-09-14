@@ -184,9 +184,9 @@ public class HistoryTemplateListCache implements CallbackEvent {
      */
     public int contains(String filename) {
         for (int i = 0; i < historyList.size(); i++) {
-            String historyPath = historyList.get(i).getPath().replaceAll("/", "\\\\");
-            //文件路径是全路径，历史路径是reportlets/模板名
-            if (filename.endsWith(historyPath)) {
+            String historyPath = historyList.get(i).getPath();
+            //文件路径和历史路径都是 reportlets/xxx/xxx/xxx/xx.suffix
+            if (filename.equals(historyPath)) {
                 return i;
             }
         }
@@ -233,16 +233,16 @@ public class HistoryTemplateListCache implements CallbackEvent {
     public void deleteFile(FileNodeFILE file) {
         boolean isDir = file.isDirectory();
 
-        String suffix = isDir ? "\\" : StringUtils.EMPTY;
+        String suffix = isDir ? CoreConstants.SEPARATOR : StringUtils.EMPTY;
 
         // path like reportlets/xx/xxx/xxx
-        String path = file.getPath().replaceAll("/", "\\\\") + suffix;
+        String path = file.getPath() + suffix;
 
         ListIterator<JTemplate<?, ?>> iterator = historyList.listIterator();
 
         while (iterator.hasNext()) {
             JTemplate<?, ?> template = iterator.next();
-            String tPath = template.getPath().replaceAll("/", "\\\\");
+            String tPath = template.getPath();
             if (isDir ? tPath.startsWith(path) : tPath.equals(path)) {
                 iterator.remove();
                 int index = iterator.nextIndex();
