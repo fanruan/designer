@@ -6,6 +6,7 @@ import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
@@ -221,7 +222,8 @@ public class HistoryTemplateListCache implements CallbackEvent {
             JTemplate overTemplate = historyList.get(i);
 
             if (overTemplate.getEditingFILE().exists() && overTemplate.isALLSaved() && overTemplate != editingTemplate) {
-                historyList.get(i).closeOverLineTemplate(i);
+                closeVirtualSelectedReport(overTemplate);
+                historyList.set(i, new JVirtualTemplate(overTemplate.getEditingFILE()));
             }
         }
         MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);

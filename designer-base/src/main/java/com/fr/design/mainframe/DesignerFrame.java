@@ -42,7 +42,6 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -1070,8 +1069,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
-
-        WorkContext.switchTo(null);
+        //关闭当前环境
+        WorkContext.getCurrent().close();
 
         this.setVisible(false);
         this.dispose();
@@ -1153,6 +1152,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         return progressDialog;
     }
+
     public void showProgressDialog() {
 
         progressDialog.setVisible(true);
@@ -1169,6 +1169,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     /**
      * 更新进度框进度
+     *
      * @param progress
      */
     public void updateProgress(int progress) {
