@@ -209,8 +209,7 @@ public class MutilTempalteTabPane extends JComponent {
                             closeFormat(jTemplate);
                             HistoryTemplateListCache.getInstance().closeSelectedReport(jTemplate);
                             // release lock
-                            String path = jTemplate.getEditingFILE().getPath();
-                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(path);
+                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(jTemplate.getPath());
                         }
                     }
                     JTemplate<?, ?> currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
@@ -695,8 +694,7 @@ public class MutilTempalteTabPane extends JComponent {
                 specifiedTemplate.saveTemplate();
                 HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
                 // release lock
-                String path = specifiedTemplate.getEditingFILE().getPath();
-                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(path);
+                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
 
                 activeTemplate(filename);
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
