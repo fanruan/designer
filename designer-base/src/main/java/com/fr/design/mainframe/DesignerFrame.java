@@ -1069,8 +1069,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
-
-        WorkContext.switchTo(null);
+        //关闭当前环境
+        WorkContext.getCurrent().close();
 
         this.setVisible(false);
         this.dispose();
