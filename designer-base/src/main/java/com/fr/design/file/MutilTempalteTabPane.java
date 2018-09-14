@@ -203,10 +203,14 @@ public class MutilTempalteTabPane extends JComponent {
                     }
                     for (int i = 0; i < panes.length; i++) {
                         if (i != selectedIndex) {
+                            JTemplate<?, ?> jTemplate = panes[i];
                             //判断关闭的模板是不是格式刷的被参照的模板
-                            openedTemplate.remove(panes[i]);
-                            closeFormat(panes[i]);
-                            HistoryTemplateListCache.getInstance().closeSelectedReport(panes[i]);
+                            openedTemplate.remove(jTemplate);
+                            closeFormat(jTemplate);
+                            HistoryTemplateListCache.getInstance().closeSelectedReport(jTemplate);
+                            // release lock
+                            String path = jTemplate.getEditingFILE().getPath();
+                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(path);
                         }
                     }
                     JTemplate<?, ?> currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
@@ -215,8 +219,6 @@ public class MutilTempalteTabPane extends JComponent {
                     THIS.repaint();
                 }
                 //如果取消保存了，则不关闭其他模板
-
-
             }
         });
         if (openedTemplate.size() == 1) {
@@ -693,7 +695,8 @@ public class MutilTempalteTabPane extends JComponent {
                 specifiedTemplate.saveTemplate();
                 HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
                 // release lock
-                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+                String path = specifiedTemplate.getEditingFILE().getPath();
+                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(path);
 
                 activeTemplate(filename);
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
