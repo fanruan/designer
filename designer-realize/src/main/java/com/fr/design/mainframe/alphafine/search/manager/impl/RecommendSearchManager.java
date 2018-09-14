@@ -8,7 +8,6 @@ import com.fr.design.mainframe.alphafine.cell.CellModelHelper;
 import com.fr.design.mainframe.alphafine.cell.model.ActionModel;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
@@ -16,9 +15,9 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.ArrayUtils;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -47,15 +46,15 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
-        if (ArrayUtils.isEmpty(searchText)) {
-            return new SearchResult();
-        } else if(AlphaFineDialog.data == null){
-            return AlphaFineHelper.getNoConnectList(instance);
-        }
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
+            if (ArrayUtils.isEmpty(searchText)) {
+                return new SearchResult();
+            } else if(hotData == null){
+                return AlphaFineHelper.getNoConnectList(instance);
+            }
             for (int j = 0; j < searchText.length; j++) {
                 searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
                 try {
@@ -69,7 +68,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 AlphaFineHelper.checkCancel();
                                 AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                                if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
+                                if (alphaCellModel != null && !alreadyContain(alphaCellModel) && !this.recommendModelList.contains(alphaCellModel)) {
                                     this.recommendModelList.add(alphaCellModel);
                                 }
                             }

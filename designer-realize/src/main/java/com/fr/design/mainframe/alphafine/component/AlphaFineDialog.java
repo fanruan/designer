@@ -143,7 +143,15 @@ public class AlphaFineDialog extends UIDialog {
     private static String beforeSearchStr = "";
     private static boolean alreadySearch = false;
     private static boolean alreadyInitHot = false;
-    public static String[][] data;
+    private String[][] hotData;
+
+    public String[][] getHotData() {
+        return hotData;
+    }
+
+    public void setHotData(String[][] hotData) {
+        this.hotData = hotData;
+    }
 
     public AlphaFineDialog(Frame parent, boolean forceOpen) {
         super(parent);
@@ -242,14 +250,14 @@ public class AlphaFineDialog extends UIDialog {
         try {
             HttpGet getHelp = new HttpGet(AlphaFineConstants.ALPHA_HOT_SEARCH);
             HttpToolbox.getHttpClient(AlphaFineConstants.ALPHA_HOT_SEARCH).execute(getHelp).getStatusLine();
-            if (data == null) {
-                data = HotIssuesManager.getInstance().getHotIssues();
+            if (hotData == null) {
+                hotData = HotIssuesManager.getInstance().getHotIssues();
             }
-            for (int i = 0; i < data.length; i++) {
-                panel.add(new HotIssueJpanel(data[i], i + 1));
+            for (int i = 0; i < hotData.length; i++) {
+                panel.add(new HotIssueJpanel(hotData[i], i + 1));
             }
         } catch (Exception e) {
-            data = null;
+            hotData = null;
             for (int i = 0; i < AlphaFineConstants.HOT_ITEMS; i++) {
                 panel.add(new HotIssueJpanel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed")}, i + 1));
             }
@@ -544,7 +552,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildDocumentList(final String[] searchText) {
-        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
+        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
     }
 
     private void buildFileList(String searchStr, final String[] searchText) {
@@ -552,24 +560,24 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildActionList(final String[] searchText) {
-        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText));
+        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
     }
 
     private void buildPluginList(final String[] searchText) {
-        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText));
+        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
     }
 
     private void buildRecommendList(final String[] searchText) {
-        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText));
+        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
     }
 
     private void buildRecentList(final String[] searchText) {
-        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText));
+        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
 
     }
 
     private void buildSimilarList(final String[] searchText) {
-        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(searchText));
+        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(getHotData(), searchText));
     }
 
     private synchronized void addSearchResult(SearchResult searchResult) {

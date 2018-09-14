@@ -96,7 +96,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         return null;
     }
 

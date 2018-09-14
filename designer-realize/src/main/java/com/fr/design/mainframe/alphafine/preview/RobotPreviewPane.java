@@ -28,6 +28,8 @@ import java.net.URL;
  */
 public class RobotPreviewPane extends JPanel {
 
+    private static final int TITLE_AREA_HEIGHT = 30;
+
     public RobotPreviewPane(String title, String content) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
@@ -41,17 +43,17 @@ public class RobotPreviewPane extends JPanel {
 
         final JEditorPane editorPane = new JEditorPane();
         editorPane.setEditorKit(new HTMLEditorKit());
-        editorPane.setText(content+"<br><br><br>");
+        editorPane.setText(content + "<br><br><br>");
         editorPane.addHyperlinkListener(new HyperlinkListener() {
             @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() != HyperlinkEvent.EventType.ACTIVATED) {
                     return;
                 }
-                if(e.getDescription().startsWith(AlphaFineConstants.JAVASCRIPT_PREFIX)){
-                    String s = e.getDescription().replaceAll(AlphaFineConstants.JAVASCRIPT_PREFIX,StringUtils.EMPTY)
-                            .replaceAll("\\('",StringUtils.EMPTY)
-                            .replaceAll("'\\)",StringUtils.EMPTY);
+                if (e.getDescription().startsWith(AlphaFineConstants.JAVASCRIPT_PREFIX)) {
+                    String s = e.getDescription().replaceAll(AlphaFineConstants.JAVASCRIPT_PREFIX, StringUtils.EMPTY)
+                            .replaceAll("\\('", StringUtils.EMPTY)
+                            .replaceAll("'\\)", StringUtils.EMPTY);
                     try {
                         Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + s));
                     } catch (IOException e1) {
@@ -60,7 +62,8 @@ public class RobotPreviewPane extends JPanel {
                         FineLoggerFactory.getLogger().error(e1.getMessage());
                     }
                 }
-                URL linkUrl = e.getURL();if (linkUrl != null) {
+                URL linkUrl = e.getURL();
+                if (linkUrl != null) {
                     try {
                         Desktop.getDesktop().browse(e.getURL().toURI());
                     } catch (IOException | URISyntaxException e1) {
@@ -73,6 +76,7 @@ public class RobotPreviewPane extends JPanel {
         UIScrollPane jScrollPane = new UIScrollPane(editorPane);
         jScrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         jScrollPane.setBorder(BorderFactory.createMatteBorder(5, 10, 0, 10, Color.white));
+        this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT - TITLE_AREA_HEIGHT));
         add(jScrollPane, BorderLayout.CENTER);
     }
 }

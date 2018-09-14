@@ -6,7 +6,6 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
-import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
@@ -38,14 +37,14 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
-        if (ArrayUtils.isEmpty(searchText)) {
-            return new SearchResult();
-        } else if (AlphaFineDialog.data == null) {
-            return AlphaFineHelper.getNoConnectList(instance);
-        }
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         lessModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
+            if (ArrayUtils.isEmpty(searchText)) {
+                return new SearchResult();
+            } else if (hotData == null) {
+                return AlphaFineHelper.getNoConnectList(instance);
+            }
             SearchResult allModelList = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
                 String token = DigestUtils.md5Hex(AlphaFineConstants.ALPHA_ROBOT_SEARCH_TOKEN + searchText[j]);

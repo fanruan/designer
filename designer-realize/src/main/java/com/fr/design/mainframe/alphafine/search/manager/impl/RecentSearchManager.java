@@ -72,7 +72,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         this.modelList = new SearchResult();
         for (int j = 0; j < searchText.length; j++) {
             recentModelList = getRecentModelList(searchText[j]);
