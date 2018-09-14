@@ -11,15 +11,11 @@ import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;
-import com.fr.file.FileNodeFILE;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
-import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import java.io.File;
 import java.util.List;
 
 /**
@@ -30,20 +26,10 @@ import java.util.List;
  */
 public class JVirtualTemplate extends JTemplate {
 
-    private FILE editingFILE = null;
+    private FILE editingFILE;
 
     public JVirtualTemplate(FILE editingFILE) {
-        setEditingFILE(editingFILE);
-    }
-
-    @Override
-    public String getPath() {
-        String editingFileName = getEditingFILE().getPath();
-        if (editingFileName.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-            editingFileName = ((FileNodeFILE) getEditingFILE()).getEnvPath() + File.separator + editingFileName;
-        }
-        editingFileName = OperatingSystem.isWindows() ? editingFileName.replaceAll("/", "\\\\") : editingFileName.replaceAll("\\\\", "/");
-        return editingFileName;
+        this.editingFILE = editingFILE;
     }
 
     /**
@@ -235,10 +221,6 @@ public class JVirtualTemplate extends JTemplate {
     @Override
     public void activeNewJTemplate() {
         DesignerContext.getDesignerFrame().openTemplate(this.getEditingFILE());
-    }
-
-    @Override
-    public void closeOverLineTemplate(int index) {
     }
 
     @Override

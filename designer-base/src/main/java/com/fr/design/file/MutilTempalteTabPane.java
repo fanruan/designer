@@ -203,10 +203,13 @@ public class MutilTempalteTabPane extends JComponent {
                     }
                     for (int i = 0; i < panes.length; i++) {
                         if (i != selectedIndex) {
+                            JTemplate<?, ?> jTemplate = panes[i];
                             //判断关闭的模板是不是格式刷的被参照的模板
-                            openedTemplate.remove(panes[i]);
-                            closeFormat(panes[i]);
-                            HistoryTemplateListCache.getInstance().closeSelectedReport(panes[i]);
+                            openedTemplate.remove(jTemplate);
+                            closeFormat(jTemplate);
+                            HistoryTemplateListCache.getInstance().closeSelectedReport(jTemplate);
+                            // release lock
+                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(jTemplate.getPath());
                         }
                     }
                     JTemplate<?, ?> currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
@@ -215,8 +218,6 @@ public class MutilTempalteTabPane extends JComponent {
                     THIS.repaint();
                 }
                 //如果取消保存了，则不关闭其他模板
-
-
             }
         });
         if (openedTemplate.size() == 1) {
