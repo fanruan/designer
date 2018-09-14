@@ -13,12 +13,10 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
-import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
@@ -54,7 +52,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
-import java.io.File;
 import java.util.List;
 
 /**
@@ -679,12 +676,10 @@ public class MutilTempalteTabPane extends JComponent {
         }
 
         //当前激活的模板
-        String filename = openedTemplate.get(selectedIndex).getEditingFILE().getPath();
-        if (filename.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-            filename = ((FileNodeFILE) openedTemplate.get(selectedIndex).getEditingFILE()).getEnvPath() + File.separator + filename;
-        }
+        String filename = openedTemplate.get(selectedIndex).getPath();
 
-        filename = FilenameUtils.normalize(filename);
+
+        filename = FilenameUtils.standard(filename);
 
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
