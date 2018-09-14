@@ -7,17 +7,23 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.util.Arrays;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by shine on 2018/3/7.
  */
 public abstract class AbstractExtendedChartReportDataPane<T extends AbstractDataConfig> extends AbstractReportDataContentPane {
+
+    private TinyFormulaPane seriesPane;
+    private TinyFormulaPane valuePane;
 
     public AbstractExtendedChartReportDataPane() {
         initComponents();
@@ -29,15 +35,22 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         int len = Math.min(labels.length, formulaPanes.length);
 
-        Component[][] components = new Component[len][2];
+        Component[][] components = new Component[len + (hasCustomFieldPane() ? 2 : 0)][2];
         for (int i = 0; i < len; i++) {
             components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), formulaPanes[i]};
+        }
+
+        if (hasCustomFieldPane()) {
+            seriesPane = new TinyFormulaPane();
+            valuePane = new TinyFormulaPane();
+            components[len] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), SwingConstants.LEFT), seriesPane};
+            components[len + 1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"), SwingConstants.LEFT), valuePane};
         }
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f, COMPONENT_WIDTH};
-        double[] rowSize = new double[len];
+        double[] rowSize = new double[len + (hasCustomFieldPane() ? 2 : 0)];
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
@@ -45,11 +58,15 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         this.setLayout(new FlowLayout());
         this.add(panel);
-        this.add(addOtherPane());
+        this.add(addSouthPane());
     }
 
-    protected JPanel addOtherPane() {
+    protected JPanel addSouthPane() {
         return new JPanel();
+    }
+
+    protected boolean hasCustomFieldPane() {
+        return false;
     }
 
     protected Component[] fieldComponents() {
@@ -77,6 +94,11 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
             if (dataConfig != null) {
                 populate((T) dataConfig);
+
+                if (hasCustomFieldPane() && dataConfig.getCustomFields().size() == 2) {
+                    populateField(seriesPane, dataConfig.getCustomFields().get(0));
+                    populateField(valuePane, dataConfig.getCustomFields().get(1));
+                }
             }
         }
     }
@@ -89,7 +111,15 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
             if (chart != null) {
                 ExtendedReportDataSet dataSet = new ExtendedReportDataSet();
 
-                dataSet.setDataConfig(update());
+                AbstractDataConfig dataConfig = update();
+                dataSet.setDataConfig(dataConfig);
+
+                List<ExtendedField> fieldList = new ArrayList<ExtendedField>();
+                if (hasCustomFieldPane()) {
+                    fieldList.add(new ExtendedField(seriesPane.updateBean()));
+                    fieldList.add(new ExtendedField(valuePane.updateBean()));
+                }
+                dataConfig.setCustomFields(fieldList);
 
                 chart.setFilterDefinition(dataSet);
             }
