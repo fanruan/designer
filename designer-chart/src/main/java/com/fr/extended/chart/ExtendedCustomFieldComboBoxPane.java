@@ -14,8 +14,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
-import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.SeriesNameUseFieldNamePane;
+import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JComponent;
@@ -145,13 +144,13 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         }
 
         public void clearAllBoxList() {
-            AbstractTableDataContentPane.clearBoxItems(series);
-            AbstractTableDataContentPane.clearBoxItems(value);
+            DataPaneHelper.clearBoxItems(series);
+            DataPaneHelper.clearBoxItems(value);
         }
 
         public void refreshBoxListWithSelectTableData(List columnNameList) {
-            AbstractTableDataContentPane.refreshBoxItems(series, columnNameList);
-            AbstractTableDataContentPane.refreshBoxItems(value, columnNameList);
+            DataPaneHelper.refreshBoxItems(series, columnNameList);
+            DataPaneHelper.refreshBoxItems(value, columnNameList);
         }
 
         @Override
@@ -239,7 +238,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
 
             List<Object[]> list = new ArrayList<Object[]>();
             for (ExtendedField field : customFields) {
-                String[] array = {field.getFieldName(), field.getCustomName(), SeriesNameUseFieldNamePane.getFunctionString(field.getDataFunction())};
+                String[] array = {field.getFieldName(), field.getCustomName(), DataPaneHelper.getFunctionString(field.getDataFunction())};
                 list.add(array);
             }
             correlationPane.populateBean(list);
@@ -255,7 +254,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
                 ExtendedField field = new ExtendedField(Utils.objectToString(line[0]));
                 field.setCustomName(Utils.objectToString(line[1]));
                 if (line.length > 2) {
-                    field.setDataFunction(SeriesNameUseFieldNamePane.getFcuntionByName(Utils.objectToString(line[2])));
+                    field.setDataFunction(DataPaneHelper.getFunctionByName(Utils.objectToString(line[2])));
                 }
                 customFields.add(field);
             }

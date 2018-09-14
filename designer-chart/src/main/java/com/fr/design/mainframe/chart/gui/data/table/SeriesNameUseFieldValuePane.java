@@ -15,9 +15,12 @@ import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -155,22 +158,16 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
      * @param list 列表
      */
     public void refreshBoxListWithSelectTableData(List list) {
-        refreshBoxItems(seriesName, list);
-        refreshBoxItems(seriesValue, list);
+        DataPaneHelper.refreshBoxItems(seriesName, list);
+        DataPaneHelper.refreshBoxItems(seriesValue, list);
     }
 
     /**
      * 清空所有的box设置
      */
     public void clearAllBoxList(){
-        clearBoxItems(seriesName);
-        clearBoxItems(seriesValue);
-    }
-
-    private void clearBoxItems(UIComboBox box){
-        if(box != null){
-            box.removeAllItems();
-        }
+        DataPaneHelper.clearBoxItems(seriesName);
+        DataPaneHelper.clearBoxItems(seriesValue);
     }
 
     private boolean boxItemsContainsObject(UIComboBox box,Object item){
@@ -185,22 +182,6 @@ public class SeriesNameUseFieldValuePane extends FurtherBasicBeanPane<ChartColle
             }
         }
         return false;
-    }
-
-    private void refreshBoxItems(UIComboBox box, List list) {
-        if (box == null) {
-            return;
-        }
-
-        Object ob = box.getSelectedItem();
-        box.removeAllItems();
-
-        int length = list.size();
-        for (int i = 0; i < length; i++) {
-            box.addItem(list.get(i));
-        }
-
-        box.getModel().setSelectedItem(ob);
     }
 
     /**

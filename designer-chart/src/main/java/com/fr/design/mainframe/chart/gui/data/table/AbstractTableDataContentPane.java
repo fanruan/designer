@@ -46,32 +46,17 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
 	/**
 	 * 刷新Box的选项.
 	 */
-	public static void refreshBoxItems(UIComboBox box, List list) {
-		if (box == null) {
-			return;
-		}
-		
-		Object ob = box.getSelectedItem();
-		box.removeAllItems();
-		
-		int length = list.size();
-		for(int i = 0; i < length; i++) {
-			box.addItem(list.get(i));
-		}
-		
-		box.getModel().setSelectedItem(ob);
+	protected void refreshBoxItems(UIComboBox box, List list) {
+		DataPaneHelper.refreshBoxItems(box, list);
 	}
 
     /**
      * 清空box里所有东西
      * @param box 容器
      */
-	public static void clearBoxItems(UIComboBox box) {
-		if (box == null) {
-			return;
-        }
-        box.removeAllItems();
-    }
+	protected void clearBoxItems(UIComboBox box) {
+		DataPaneHelper.clearBoxItems(box);
+	}
 	
 	protected ItemListener tooltipListener = new ItemListener() {
 

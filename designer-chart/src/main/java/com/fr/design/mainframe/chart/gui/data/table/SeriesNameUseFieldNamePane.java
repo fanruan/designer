@@ -5,7 +5,6 @@ import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.ChartSummaryColumn;
 import com.fr.chart.chartdata.MoreNameCDDefinition;
-import com.fr.data.util.function.DataFunction;
 import com.fr.data.util.function.NoneFunction;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.event.UIObserver;
@@ -18,8 +17,6 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
-import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JComponent;
@@ -201,7 +198,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
             List<Object[]> list = new ArrayList<Object[]>();
             for (int i = 0; i < chartSummaryColumnArray.length; i++) {
                 ChartSummaryColumn column = chartSummaryColumnArray[i];
-                String[] nameArray = {column.getName(), column.getCustomName(), getFunctionString(column.getFunction())};
+                String[] nameArray = {column.getName(), column.getCustomName(), DataPaneHelper.getFunctionString(column.getFunction())};
                 list.add(nameArray);
             }
             seriesDataPane.populateBean(list);
@@ -213,16 +210,6 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
      */
     public void populateBean(ChartCollection collection) {
         this.populateBean(collection,true);
-    }
-
-    public static String getFunctionString(DataFunction function) {
-        for (int i = 0; i < CalculateComboBox.CLASS_ARRAY.length; i++) {
-            Class tmp = function.getClass();
-            if (ComparatorUtils.equals(tmp, CalculateComboBox.CLASS_ARRAY[i])) {
-                return CalculateComboBox.CALCULATE_ARRAY[i];
-            }
-        }
-        return CalculateComboBox.CALCULATE_ARRAY[0];
     }
 
     protected MoreNameCDDefinition createMoreNameCDDefinition() {
@@ -249,30 +236,13 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
             String second = Utils.objectToString(line[1]);
             if(isNeedSummary){
                 String third = Utils.objectToString(line[2]);
-                dataArray[i] = new ChartSummaryColumn(first, second, getFcuntionByName(third));
+                dataArray[i] = new ChartSummaryColumn(first, second, DataPaneHelper.getFunctionByName(third));
             } else{
                 dataArray[i] = new ChartSummaryColumn(first,second,new NoneFunction());
             }
         }
         moreDefinition.setChartSummaryColumn(dataArray);
         collection.getSelectedChart().setFilterDefinition(moreDefinition);
-    }
-
-    public static DataFunction getFcuntionByName(String name) {
-        int index = 0;
-        for (int i = 0; i < CalculateComboBox.CALCULATE_ARRAY.length; i++) {
-            if (ComparatorUtils.equals(name, CalculateComboBox.CALCULATE_ARRAY[i])) {
-                index = i;
-            }
-        }
-        try {
-            return (DataFunction) CalculateComboBox.CLASS_ARRAY[index].newInstance();
-        } catch (InstantiationException e) {
-            FineLoggerFactory.getLogger().error("Function Error");
-        } catch (IllegalAccessException e) {
-            FineLoggerFactory.getLogger().error("Function Error");
-        }
-        return new NoneFunction();
     }
 
     /**
