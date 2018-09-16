@@ -18,11 +18,11 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 是否开启alphafine
      */
-    private boolean isEnabled = true;
+    private boolean enabled = true;
     /**
      * 是否联网搜索
      */
-    private boolean isSearchOnLine = true;
+    private boolean searchOnLine = true;
 
     /**
      * 搜索范围
@@ -34,27 +34,35 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 猜您需要
      */
-    private boolean isContainRecommend = true;
+    private boolean containRecommend = true;
     /**
      * 设置
      */
-    private boolean isContainAction = true;
+    private boolean containAction = true;
     /**
      * 帮助文档
      */
-    private boolean isContainDocument = true;
+    private boolean containDocument = true;
     /**
      * 模板
      */
-    private boolean isContainTemplate = true;
+    private boolean containTemplate = true;
     /**
      * 模板内容
      */
-    private boolean isContainFileContent;
+    private boolean containFileContent;
     /**
      * 应用中心
      */
-    private boolean isContainPlugin = true;
+    private boolean containPlugin = true;
+    /**
+    * 分词搜索
+    */
+    private boolean needSegmentationCheckbox = true;
+    /**
+    * 智能客服
+    */
+    private boolean needIntelligentCustomerService = true;
     /**
      * 快捷键
      */
@@ -62,7 +70,7 @@ public class AlphaFineConfigManager implements XMLable {
     /**
      * 是否提醒
      */
-    private boolean isNeedRemind = true;
+    private boolean needRemind = true;
     /**
      * 直接操作菜单次数
      */
@@ -94,6 +102,8 @@ public class AlphaFineConfigManager implements XMLable {
             this.setContainAction(reader.getAttrAsBoolean("isContainAction", true));
             this.setContainTemplate(reader.getAttrAsBoolean("isContainTemplate", true));
             this.setContainFileContent(reader.getAttrAsBoolean("isContainFileContent", false));
+            this.setNeedSegmentationCheckbox(reader.getAttrAsBoolean("needSegmentationCheckbox", true));
+            this.setNeedIntelligentCustomerService(reader.getAttrAsBoolean("needIntelligentCustomerService", true));
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
             this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
@@ -115,16 +125,18 @@ public class AlphaFineConfigManager implements XMLable {
                 .attr("isContainPlugin", this.isContainPlugin())
                 .attr("isContainFileContent", this.isContainFileContent())
                 .attr("isNeedRemind", this.isNeedRemind())
-                .attr("operateCount", this.getOperateCount());
+                .attr("operateCount", this.getOperateCount())
+                .attr("needSegmentationCheckbox", this.isNeedSegmentationCheckbox())
+                .attr("needIntelligentCustomerService", this.isNeedIntelligentCustomerService());
         writer.end();
     }
 
     public boolean isSearchOnLine() {
-        return isSearchOnLine;
+        return searchOnLine;
     }
 
     public void setSearchOnLine(boolean searchOnLine) {
-        isSearchOnLine = searchOnLine;
+        this.searchOnLine = searchOnLine;
     }
 
     public String getShortcuts() {
@@ -149,51 +161,51 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isContainAction() {
-        return isContainAction;
+        return containAction;
     }
 
     public void setContainAction(boolean containAction) {
-        this.isContainAction = containAction;
+        this.containAction = containAction;
     }
 
     public boolean isContainDocument() {
-        return isContainDocument;
+        return containDocument;
     }
 
     public void setContainDocument(boolean containDocument) {
-        this.isContainDocument = containDocument;
+        this.containDocument = containDocument;
     }
 
     public boolean isContainTemplate() {
-        return isContainTemplate;
+        return containTemplate;
     }
 
     public void setContainTemplate(boolean containTemplate) {
-        this.isContainTemplate = containTemplate;
+        this.containTemplate = containTemplate;
     }
 
     public boolean isContainPlugin() {
-        return isContainPlugin;
+        return containPlugin;
     }
 
     public void setContainPlugin(boolean containPlugin) {
-        this.isContainPlugin = containPlugin;
+        this.containPlugin = containPlugin;
     }
 
     public boolean isContainRecommend() {
-        return isContainRecommend;
+        return containRecommend;
     }
 
     public void setContainRecommend(boolean containConclude) {
-        isContainRecommend = containConclude;
+        this.containRecommend = containConclude;
     }
 
     public boolean isEnabled() {
-        return isEnabled;
+        return enabled;
     }
 
-    public void setEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public KeyStroke getShortCutKeyStore() {
@@ -212,19 +224,35 @@ public class AlphaFineConfigManager implements XMLable {
     }
 
     public boolean isContainFileContent() {
-        return isContainFileContent;
+        return containFileContent;
     }
 
     public void setContainFileContent(boolean containFileContent) {
-        isContainFileContent = containFileContent;
+        this.containFileContent = containFileContent;
     }
 
     public boolean isNeedRemind() {
-        return isNeedRemind;
+        return needRemind;
     }
 
     public void setNeedRemind(boolean needRemind) {
-        isNeedRemind = needRemind;
+        this.needRemind = needRemind;
+    }
+
+    public boolean isNeedSegmentationCheckbox() {
+        return needSegmentationCheckbox;
+    }
+
+    public void setNeedSegmentationCheckbox(boolean needSegmentationCheckbox) {
+        this.needSegmentationCheckbox = needSegmentationCheckbox;
+    }
+
+    public boolean isNeedIntelligentCustomerService() {
+        return needIntelligentCustomerService;
+    }
+
+    public void setNeedIntelligentCustomerService(boolean needIntelligentCustomerService) {
+        this.needIntelligentCustomerService = needIntelligentCustomerService;
     }
 
     public int getOperateCount() {

@@ -132,11 +132,11 @@ public class TemplateInfoCollector<T extends BaseBook> implements Serializable, 
             }
             xmlInputStream.close();
         } catch (FileNotFoundException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         } catch (XMLStreamException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
 
     }

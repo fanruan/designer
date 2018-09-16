@@ -150,7 +150,7 @@ public class LoginWebBridge {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -306,7 +306,7 @@ public class LoginWebBridge {
                 }
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 

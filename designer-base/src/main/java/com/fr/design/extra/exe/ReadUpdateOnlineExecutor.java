@@ -42,7 +42,7 @@ public class ReadUpdateOnlineExecutor implements Executor {
                             }
                             result = jsonArray.toString();
                         } catch (Exception e) {
-                            FineLoggerFactory.getLogger().error(e.getMessage());
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
                     }
                 }

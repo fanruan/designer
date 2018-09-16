@@ -25,7 +25,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private static final String DS_NAME = "dsname=\"";
     private static final String FRM_PREFIX = "k:frm ";
     private static final String CPT_PREFIX = "k:cpt ";
-    private static FileSearchManager instance;
+    private static volatile FileSearchManager instance;
     private SearchResult filterModelList;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
@@ -33,7 +33,7 @@ public class FileSearchManager implements AlphaFineSearchProvider {
     private FileNode[] fileNodes = null;
 
     //停止搜索
-    //隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
+//隐藏的搜索功能，可根据特殊的字符标记判断搜索分类
     private boolean isContainCpt = true;
     private boolean isContainFrm = true;
 
@@ -62,20 +62,25 @@ public class FileSearchManager implements AlphaFineSearchProvider {
         return new FileModel(name, filePath, searchCount);
     }
 
-    public synchronized SearchResult getLessSearchResult(String searchText) {
+
+    public SearchResult getLessSearchResult(String searchStr, String[] searchText) {
         this.filterModelList = new SearchResult();
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        this.searchText = dealWithSearchText(searchText);
-        if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates")));
-            return lessModelList;
+        for (int j = 0; j < searchText.length; j++) {
+            this.searchText = dealWithSearchText(searchText[j]);
+            if (StringUtils.isBlank(this.searchText) || ComparatorUtils.equals(this.searchText, DS_NAME)) {
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates")));
+                return lessModelList;
+            }
+            AlphaFineHelper.checkCancel();
+            fileNodes = FRContext.getFileNodes().list(ProjectConstants.REPORTLETS_NAME, AlphaFineConstants.FILE_EXTENSIONS, true);
+            isContainCpt = true;
+            isContainFrm = true;
+            doSearch(this.searchText);
         }
-        AlphaFineHelper.checkCancel();
-        fileNodes = FRContext.getFileNodes().list(ProjectConstants.REPORTLETS_NAME, new FileExtension[]{FileExtension.CPT, FileExtension.FRM}, true);
-        isContainCpt = true;
-        isContainFrm = true;
-        doSearch(this.searchText);
+        doFileContentSearch(searchStr);
+
         if (filterModelList.isEmpty()) {
             return new SearchResult();
         } else if (filterModelList.size() < AlphaFineConstants.SHOW_SIZE + 1) {
@@ -88,6 +93,11 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
         }
         return lessModelList;
+    }
+
+    @Override
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+        return null;
     }
 
     @Override
@@ -108,6 +118,13 @@ public class FileSearchManager implements AlphaFineSearchProvider {
 
             }
         }
+    }
+
+    /**
+     * 搜索模板内容
+     * @param searchText
+     */
+    private void doFileContentSearch(String searchText) {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainFileContent()) {
             FileNode[] fileNodes = FRContext.getFileNodes().filterFiles(searchText, ProjectConstants.REPORTLETS_NAME, new FileExtension[]{FileExtension.CPT, FileExtension.FRM}, true);
             for (FileNode node : fileNodes) {

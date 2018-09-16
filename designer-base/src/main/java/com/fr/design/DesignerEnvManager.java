@@ -26,6 +26,7 @@ import com.fr.general.xml.GeneralXMLTools;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.CoreConstants;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ListMap;
 import com.fr.stable.ProductConstants;
@@ -38,12 +39,14 @@ import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -57,6 +60,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -482,7 +486,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setLastEastRegionContainerWidth(int eastRegionContainerWidth) {
         this.eastRegionContainerWidth = eastRegionContainerWidth;
     }
-    
+
     /**
      * 返回默认环境
      */
@@ -544,7 +548,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                     DesignUtils.refreshDesignerFrame();
-                    if(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate() != null) {
+                    if (HistoryTemplateListPane.getInstance().getCurrentEditingTemplate() != null) {
                         HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshToolArea();
                     }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
@@ -622,7 +626,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             fout.flush();
             fout.close();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -848,10 +852,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param filePath 文件路径
      */
     public void addRecentOpenedFilePath(String filePath) {
+        filePath = FilenameUtils.standard(filePath);
         // 先删除.
-        if (getRecentOpenedFilePathList().contains(filePath)) {
-            getRecentOpenedFilePathList().remove(filePath);
-        }
+        getRecentOpenedFilePathList().remove(filePath);
 
         getRecentOpenedFilePathList().add(0, filePath);
         checkRecentOpenedFileNum();
@@ -860,15 +863,35 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 替换近期打开的文件路径
      *
-     * @param oldPath 旧的路径
-     * @param newPath 新的路径
+     * @param oldPath path 使用 unix 分隔符
+     * @param newPath path 使用 unix 分隔符
      */
     public void replaceRecentOpenedFilePath(String oldPath, String newPath) {
         List<String> list = getRecentOpenedFilePathList();
         if (list.contains(oldPath)) {
-            int index = getRecentOpenedFilePathList().indexOf(oldPath);
+            int index = list.indexOf(oldPath);
             list.remove(oldPath);
             list.add(index, newPath);
+        }
+    }
+
+    /**
+     * 替换近期打开的文件路径
+     *
+     * @param type    文件类型,文件夹true,文件false
+     * @param oldPath path 使用 unix 分隔符
+     * @param newPath path 使用 unix 分隔符
+     */
+    public void replaceRecentOpenedFilePath(boolean type, String oldPath, String newPath) {
+        List<String> list = getRecentOpenedFilePathList();
+        ListIterator<String> iterator = list.listIterator();
+
+        while (iterator.hasNext()) {
+            String s = FilenameUtils.standard(iterator.next());
+            if (type ? s.contains(oldPath + CoreConstants.SEPARATOR) : s.equals(oldPath)) {
+                s = s.replace(oldPath, newPath);
+                iterator.set(s);
+            }
         }
     }
 
@@ -888,9 +911,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @param filePath 文件路径
      */
     public void removeRecentOpenedFilePath(String filePath) {
-        if (getRecentOpenedFilePathList().contains(filePath)) {
-            getRecentOpenedFilePathList().remove(filePath);
-        }
+        filePath = FilenameUtils.standard(filePath);
+        getRecentOpenedFilePathList().remove(filePath);
     }
 
 
@@ -1609,7 +1631,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                                 if (reader.isChildNode()) {
                                     String n = reader.getTagName();
                                     if ("Path".equals(n)) {
-                                        String path = reader.getElementValue();
+                                        String path = FilenameUtils.standard(reader.getElementValue());
                                         if (StringUtils.isNotEmpty(path)) {
                                             recentOpenedFileList.add(path);
                                         }

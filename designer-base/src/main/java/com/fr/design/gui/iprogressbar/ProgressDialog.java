@@ -77,4 +77,7 @@ public class ProgressDialog extends UIDialog {
         centerDialog.dispose();
         super.dispose();
     }
+    public void updateLoadingText(String text) {
+        this.text.setText(text);
+    }
 }

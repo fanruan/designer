@@ -13,7 +13,7 @@ public class NoResultModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() throws JSONException {
+    public JSONObject modelToJson() throws JSONException {
         return null;
     }
 

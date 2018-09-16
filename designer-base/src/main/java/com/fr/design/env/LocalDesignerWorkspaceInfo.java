@@ -1,13 +1,10 @@
 package com.fr.design.env;
 
-import com.fr.base.EnvException;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.NameObject;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import java.io.File;
 
@@ -47,7 +44,7 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     }
 
     @Override
-    public WorkspaceConnection getConnection() {
+    public WorkspaceConnectionInfo getConnection() {
         return null;
     }
 

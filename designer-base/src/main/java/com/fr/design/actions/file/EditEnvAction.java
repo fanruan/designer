@@ -1,10 +1,9 @@
 package com.fr.design.actions.file;
 
+import com.fr.design.EnvChangeEntrance;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.mainframe.TemplatePane;
 
 import java.awt.event.ActionEvent;
-
 
 
 public class EditEnvAction extends UpdateAction {
@@ -16,7 +15,6 @@ public class EditEnvAction extends UpdateAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	TemplatePane.getInstance().editItems();
-
+        EnvChangeEntrance.getInstance().chooseEnv();
     }
 }
