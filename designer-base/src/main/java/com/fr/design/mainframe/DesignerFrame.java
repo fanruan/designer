@@ -757,7 +757,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
                 path = workspace.getPath() + File.separator + path;
             }
-            defaultTitleSB.append("    " + path);
+            defaultTitleSB.append("    ").append(path);
         }
 
         setTitle(defaultTitleSB.toString());

@@ -12,10 +12,9 @@ import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvi
 import com.fr.design.mainframe.toolbar.UpdateActionManager;
 import com.fr.design.mainframe.toolbar.UpdateActionModel;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.json.JSONObject;
-import com.fr.stable.StringUtils;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.StringUtils;
 
 import java.util.List;
 
@@ -58,15 +57,15 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (ArrayUtils.isEmpty(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
-            return lessModelList;
-        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainAction()) {
+            if (ArrayUtils.isEmpty(searchText)) {
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
+                return lessModelList;
+            }
             List<UpdateActionModel> updateActions = UpdateActionManager.getUpdateActionManager().getUpdateActions();
             for (UpdateActionModel updateActionModel : updateActions) {
                 for (int j = 0; j < searchText.length; j++) {
