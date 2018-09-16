@@ -6,7 +6,6 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.DocumentModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
-import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
@@ -52,19 +51,16 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
-        if (ArrayUtils.isEmpty(searchText)) {
-            return new SearchResult();
-        } else if (AlphaFineDialog.data == null) {
-            return AlphaFineHelper.getNoConnectList(instance);
-        }
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
-        if (ArrayUtils.isEmpty(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
-            return lessModelList;
-        }
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
+            if (ArrayUtils.isEmpty(searchText)) {
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
+                return lessModelList;
+            } else if (hotData == null) {
+                return AlphaFineHelper.getNoConnectList(instance);
+            }
             SearchResult searchResult = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
                 String url = AlphaFineConstants.DOCUMENT_SEARCH_URL + searchText[j] + AlphaFineConstants.FIRST_PAGE;
@@ -78,7 +74,7 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaFineHelper.checkCancel();
                             DocumentModel cellModel = getModelFromCloud(jsonArray.optJSONObject(i));
-                            if (!AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                            if (!AlphaFineHelper.getFilterResult().contains(cellModel) && !searchResult.contains(cellModel)) {
                                 searchResult.add(cellModel);
                             }
                         }

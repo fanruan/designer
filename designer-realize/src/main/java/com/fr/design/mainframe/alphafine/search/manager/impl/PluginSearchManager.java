@@ -6,7 +6,6 @@ import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.alphafine.CellType;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
-import com.fr.design.mainframe.alphafine.component.AlphaFineDialog;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
@@ -17,8 +16,8 @@ import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
-import com.fr.stable.EncodeConstants;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -97,20 +96,17 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[] searchText) {
-        if (ArrayUtils.isEmpty(searchText)) {
-            return new SearchResult();
-        } else if (AlphaFineDialog.data == null) {
-            return AlphaFineHelper.getNoConnectList(instance);
-        }
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (ArrayUtils.isEmpty(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-            return lessModelList;
-        }
         SearchResult searchResult = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
+            if (ArrayUtils.isEmpty(searchText)) {
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
+                return lessModelList;
+            } else if (hotData == null) {
+                return AlphaFineHelper.getNoConnectList(instance);
+            }
             for (int j = 0; j < searchText.length; j++) {
                 try {
                     String encodedKey = URLEncoder.encode(searchText[j], EncodeConstants.ENCODING_UTF_8);
@@ -123,7 +119,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             AlphaFineHelper.checkCancel();
                             PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                            if (cellModel != null && !AlphaFineHelper.getFilterResult().contains(cellModel)) {
+                            if (cellModel != null && !AlphaFineHelper.getFilterResult().contains(cellModel) && !searchResult.contains(cellModel)) {
                                 searchResult.add(cellModel);
                             }
                         }
