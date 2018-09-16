@@ -14,6 +14,9 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.file.FILE;
 import com.fr.form.main.Form;
 import com.fr.form.main.mobile.FormMobileAttr;
+import com.fr.intelli.record.Focus;
+import com.fr.intelli.record.Original;
+import com.fr.record.analyzer.EnableMetrics;
 
 
 import javax.swing.*;
@@ -22,6 +25,7 @@ import java.awt.event.ActionEvent;
 /**
  * Created by fanglei on 2016/11/14.
  */
+@EnableMetrics
 public class FormMobileAttrAction extends JTemplateAction<JForm> {
 
     public FormMobileAttrAction(JForm jf) {
@@ -64,6 +68,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                     // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
                     jf.getTarget().addAttrMark(new MobileOnlyTemplateAttrMark());
                 }
+                recordFunction();
                 // 设置移动端属性并刷新界面
                 formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
                 ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
@@ -72,6 +77,11 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
             }
         });
         dialog.setVisible(true);
+    }
+
+    @Focus(id = "com.fr.mobile.mobile_template_frm", text = "Fine-Design_Function_Mobile_Template_Frm", source = Original.EMBED)
+    private void recordFunction() {
+        // do nothing
     }
 
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {

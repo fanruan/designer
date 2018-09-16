@@ -8,7 +8,10 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.WatermarkPane;
+import com.fr.intelli.record.Focus;
+import com.fr.intelli.record.Original;
 import com.fr.main.impl.WorkBook;
+import com.fr.record.analyzer.EnableMetrics;
 import com.fr.report.core.ReportUtils;
 
 import java.awt.event.ActionEvent;
@@ -16,6 +19,7 @@ import java.awt.event.ActionEvent;
 /**
  * Created by plough on 2018/5/15.
  */
+@EnableMetrics
 public class ReportWatermarkAction extends JWorkBookAction {
     public ReportWatermarkAction(JWorkBook jwb) {
         super(jwb);
@@ -42,7 +46,13 @@ public class ReportWatermarkAction extends JWorkBookAction {
             public void doOk() {
                 wbTpl.addAttrMark(watermarkPane.update());
                 jwb.fireTargetModified();
+                recordFunction();
             }
         }).setVisible(true);
+    }
+
+    @Focus(id = "com.fr.watermark", text = "Fine-Design_Form_WaterMark", source = Original.EMBED)
+    private void recordFunction() {
+        // do nothing
     }
 }
