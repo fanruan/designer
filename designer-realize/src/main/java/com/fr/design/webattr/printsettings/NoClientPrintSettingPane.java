@@ -8,12 +8,10 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -23,6 +21,7 @@ import java.awt.event.ItemListener;
  */
 public class NoClientPrintSettingPane extends JPanel {
     private UICheckBox setMarginWhenPrintCheck;
+    private UICheckBox ieQuietPrintCheck;
     private UICheckBox inheritPageMarginSettingCheck;  // 继承页面边距设置
     private PageMarginSettingPane pageMarginSettingPane;
     private JPanel centerPane;
@@ -35,15 +34,16 @@ public class NoClientPrintSettingPane extends JPanel {
     private void initComponents() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Set_Margin_When_Printing"));
-        setMarginWhenPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipLabel = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Print_Margin"));
-        JPanel northPane = GUICoreUtils.createFlowPane(new Component[] {
-                setMarginWhenPrintCheck, tipLabel}, FlowLayout.LEFT);
-        northPane.setBorder(BorderFactory.createEmptyBorder(8, 10, 10, 0));
+        printPane.add(createNorthPane(), BorderLayout.NORTH);
 
-        printPane.add(northPane, BorderLayout.NORTH);
+        initCenterPane();
+        printPane.add(centerPane, BorderLayout.CENTER);
 
+        this.setLayout(new BorderLayout());
+        this.add(printPane, BorderLayout.CENTER);
+    }
+
+    private void initCenterPane() {
         centerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default_Settings"));
 
         inheritPageMarginSettingCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Inherit_Page_Margin_Setting"));
@@ -61,11 +61,27 @@ public class NoClientPrintSettingPane extends JPanel {
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
 
         centerPane.add(panel);
+    }
 
-        printPane.add(centerPane, BorderLayout.CENTER);
+    private JPanel createNorthPane() {
+        setMarginWhenPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Set_Margin_When_Printing"));
+        setMarginWhenPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 20));
+        UILabel tipLabel = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Print_Margin"));
+        ieQuietPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_No_Print_Settings_In_IE"));
+        ieQuietPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 12, 10, 0));
 
-        this.setLayout(new BorderLayout());
-        this.add(printPane, BorderLayout.CENTER);
+        // TableLayout
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p};
+        double[] columnSize = {180, p};
+        Component[][] components = {
+                {setMarginWhenPrintCheck, tipLabel},
+                {ieQuietPrintCheck, null}
+        };
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
+        northPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+        return northPane;
     }
 
     private void initListeners() {
@@ -86,12 +102,14 @@ public class NoClientPrintSettingPane extends JPanel {
 
     public void populate(NoClientPrintAttr noClientPrintAttr) {
         setMarginWhenPrintCheck.setSelected(noClientPrintAttr.isSetMarginOnPrint());
+        ieQuietPrintCheck.setSelected(noClientPrintAttr.isIeQuietPrint());
         inheritPageMarginSettingCheck.setSelected(noClientPrintAttr.isInheritPageMarginSetting());
         pageMarginSettingPane.populate(noClientPrintAttr.getMargin());
     }
 
     public void update(NoClientPrintAttr noClientPrintAttr) {
         noClientPrintAttr.setSetMarginOnPrint(setMarginWhenPrintCheck.isSelected());
+        noClientPrintAttr.setIeQuietPrint(ieQuietPrintCheck.isSelected());
         noClientPrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         noClientPrintAttr.setMargin(pageMarginSettingPane.updateBean());
     }

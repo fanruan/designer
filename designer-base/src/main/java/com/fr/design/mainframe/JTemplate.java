@@ -17,7 +17,6 @@ import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
 import com.fr.design.actions.file.SaveTemplateAction;
 import com.fr.design.actions.file.WebPreviewUtils;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -47,7 +46,6 @@ import com.fr.file.MemFILE;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
@@ -56,10 +54,13 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -180,7 +181,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * 有条件取消格式刷
      */
     public void doConditionCancelFormat() {
-        return;
     }
 
     @Override
@@ -193,7 +193,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     @Override
     public void cancelFormat() {
-        return;
     }
 
     //因为报表的tab从0开始，所以表单默认为-1吧
@@ -462,8 +461,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         // 子类实现
     }
 
-    ;
-
     /**
      * 是否保存
      *
@@ -522,7 +519,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 //                return false;
 //            }
 //        } catch (Exception e) {
-//            FineLoggerFactory.getLogger().error(e.getMessage());
+//            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 //        }
 
 
@@ -565,8 +562,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     /**
      * 保存
+     *
      * @param isShowLoc 是否显示“报表运行环境”外的路径(C盘D盘等)
-     * @param fileName 保存文件名
+     * @param fileName  保存文件名
      * @return
      */
     public boolean saveAsTemplate(boolean isShowLoc, String fileName) {
@@ -592,7 +590,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 return false;
             }
             editingFILE = fileChooser.getSelectedFILE();
-            mkNewFile(editingFILE);
         }
 
         return saveNewFile(editingFILE, oldName);
@@ -727,7 +724,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             tplMenu.addShortCut(shortcut4TemplateMenu());
         }
         if (!DesignerMode.isVcsMode()) {
-        tplMenu.addShortCut(shortCuts4Authority());
+            tplMenu.addShortCut(shortCuts4Authority());
         }
 
         return new MenuDef[]{tplMenu};
@@ -941,17 +938,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public void activeNewJTemplate() {
         DesignerContext.getDesignerFrame().addAndActivateJTemplate(this);
     }
-
-    /**
-     * 后台关闭template
-     */
-    public void closeOverLineTemplate(int index) {
-        JTemplate overTemplate = HistoryTemplateListPane.getInstance().getHistoryList().get(index);
-        HistoryTemplateListPane.getInstance().closeVirtualSelectedReport(overTemplate);
-        HistoryTemplateListPane.getInstance().getHistoryList().set(index, new JVirtualTemplate(overTemplate.getEditingFILE()));
-    }
-
-    ;
 
 
     /**

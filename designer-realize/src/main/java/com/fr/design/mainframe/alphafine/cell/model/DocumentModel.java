@@ -40,7 +40,7 @@ public class DocumentModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() {
+    public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
@@ -62,9 +62,9 @@ public class DocumentModel extends AlphaCellModel {
         try {
             Desktop.getDesktop().browse(new URI(getDocumentUrl()));
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (URISyntaxException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

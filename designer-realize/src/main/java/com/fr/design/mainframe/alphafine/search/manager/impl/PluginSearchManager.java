@@ -9,16 +9,17 @@ import com.fr.design.mainframe.alphafine.cell.model.PluginModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.ComparatorUtils;
-
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
-import com.fr.stable.StringUtils;
+import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -26,7 +27,7 @@ import java.net.URLEncoder;
  * Created by XiaXiang on 2017/3/27.
  */
 public class PluginSearchManager implements AlphaFineSearchProvider {
-    private static PluginSearchManager instance;
+    private static volatile PluginSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
@@ -95,61 +96,54 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String searchText) {
+    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
         this.lessModelList = new SearchResult();
         this.moreModelList = new SearchResult();
-        if (StringUtils.isBlank(searchText)) {
-            lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-            return lessModelList;
-        }
+        SearchResult searchResult = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainPlugin()) {
-            String result;
-            try {
-                String encodedKey = URLEncoder.encode(searchText, "UTF-8");
-                String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
-                HttpClient httpClient = new HttpClient(url);
-                httpClient.asGet();
-                if (!httpClient.isServerAlive()) {
-                    return getNoConnectList();
-                }
-                result = httpClient.getResponseText();
-                AlphaFineHelper.checkCancel();
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.optJSONArray("result");
-                if (jsonArray != null) {
-                    SearchResult searchResult = new SearchResult();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        AlphaFineHelper.checkCancel();
-                        PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
-                        if (cellModel != null && !AlphaFineHelper.getFilterResult().contains(cellModel)) {
-                            searchResult.add(cellModel);
+            if (ArrayUtils.isEmpty(searchText)) {
+                lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
+                return lessModelList;
+            } else if (hotData == null) {
+                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            for (int j = 0; j < searchText.length; j++) {
+                try {
+                    String encodedKey = URLEncoder.encode(searchText[j], EncodeConstants.ENCODING_UTF_8);
+                    String url = AlphaFineConstants.PLUGIN_SEARCH_URL + "?keyword=" + encodedKey;
+                    String result = HttpToolbox.get(url);
+                    AlphaFineHelper.checkCancel();
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONArray jsonArray = jsonObject.optJSONArray("result");
+                    if (jsonArray != null) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            AlphaFineHelper.checkCancel();
+                            PluginModel cellModel = getPluginModel(jsonArray.optJSONObject(i), false);
+                            if (cellModel != null && !AlphaFineHelper.getFilterResult().contains(cellModel) && !searchResult.contains(cellModel)) {
+                                searchResult.add(cellModel);
+                            }
                         }
                     }
-                    if (searchResult.isEmpty()) {
-                        return this.lessModelList;
-                    } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-                        lessModelList.addAll(searchResult);
-                    } else {
-                        lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.PLUGIN));
-                        lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
-                        moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
-                    }
+                } catch (JSONException e) {
+                    FineLoggerFactory.getLogger().error("plugin search json error :" + e.getMessage());
+                } catch (UnsupportedEncodingException e) {
+                    FineLoggerFactory.getLogger().error("plugin search encode error :" + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("plugin search get result error :" + e.getMessage());
                 }
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error("plugin search json error :" + e.getMessage());
-            } catch (UnsupportedEncodingException e) {
-                FineLoggerFactory.getLogger().error("plugin search encode error :" + e.getMessage());
+            }
+            if (searchResult.isEmpty()) {
+                return this.lessModelList;
+            } else if (searchResult.size() < AlphaFineConstants.SHOW_SIZE + 1) {
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
+                lessModelList.addAll(searchResult);
+            } else {
+                lessModelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.PLUGIN));
+                lessModelList.addAll(searchResult.subList(0, AlphaFineConstants.SHOW_SIZE));
+                moreModelList.addAll(searchResult.subList(AlphaFineConstants.SHOW_SIZE, searchResult.size()));
             }
         }
         return this.lessModelList;
-    }
-
-    private SearchResult getNoConnectList() {
-        SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
-        return result;
     }
 
     @Override

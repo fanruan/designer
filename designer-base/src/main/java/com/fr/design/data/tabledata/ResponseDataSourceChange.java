@@ -14,12 +14,12 @@ public interface ResponseDataSourceChange {
     /**
      * 响应数据集改变
      */
-    public void fireDSChanged();
+    void fireDSChanged();
 
     /**
      * 响应数据集改变
      */
-    public void fireDSChanged(Map<String, String> map);
+    void fireDSChanged(Map<String, String> map);
 
 
 }

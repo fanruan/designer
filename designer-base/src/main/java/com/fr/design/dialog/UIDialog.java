@@ -166,7 +166,7 @@ public abstract class UIDialog extends JDialog {
                     l.doOk();
                 } catch (RuntimeException e) {
                     isDoOKSucceed = false;
-                    FRContext.getLogger().error(e.getMessage());
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
             }
             if (isDoOKSucceed) {

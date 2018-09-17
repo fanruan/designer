@@ -85,14 +85,14 @@ public class PluginModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() {
+    public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
             modelObject.put("name", getName()).put("description", getContent()).put("pic", getImageUrl()).put("version", getVersion()).put("jartime", getJartime()).put("id", getId()).put("pluginid", getPluginId()).put("type", getType().getTypeValue()).put("price", getPrice()).put("link", getLink()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         return object;
@@ -109,7 +109,7 @@ public class PluginModel extends AlphaCellModel {
         if (StringUtils.isBlank(this.pluginId) || !WorkContext.getCurrent().isLocal()) {
             return;
         }
-        WebViewDlgHelper.showPluginInStore(getName(), "[" + ModelToJson().optString("result") + "]");
+        WebViewDlgHelper.showPluginInStore(getName(), "[" + modelToJson().optString("result") + "]");
     }
 
     @Override

@@ -198,7 +198,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotLabelPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartPlotLabelPane(plot, stylePane);
@@ -218,7 +218,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotLegendPane > constructor = cl.getConstructor(VanChartStylePane.class);
                 return constructor.newInstance(stylePane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartPlotLegendPane(stylePane);
@@ -238,7 +238,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartPlotTooltipPane(plot, stylePane);
@@ -259,7 +259,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartLabelContentPane(parent, showOnPane);
@@ -280,7 +280,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartTooltipContentPane(parent, showOnPane);
@@ -301,7 +301,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class);
                 return constructor.newInstance(plot);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartPlotRefreshTooltipPane(plot);
@@ -321,7 +321,7 @@ public class PlotFactory {
                 Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartRefreshTooltipContentPane(parent, showOnPane);

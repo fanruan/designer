@@ -350,7 +350,7 @@ public class PluginWebBridge {
             Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(new JSONObject(info)));
             threadPoolExecutor.submit(task);
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -486,10 +486,10 @@ public class PluginWebBridge {
                 }
             } catch (NullPointerException e) {
                 //此为uri为空时抛出异常
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             } catch (IOException e) {
                 //此为无法获取系统默认浏览器
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }

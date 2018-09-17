@@ -149,7 +149,7 @@ public class UserInfoLabel extends UILabel {
                     }
                     Thread.sleep(DELAY_TIME);
                 } catch (InterruptedException e) {
-                    FRContext.getLogger().error(e.getMessage());
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
                 HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()) {
@@ -222,7 +222,7 @@ public class UserInfoLabel extends UILabel {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
     }
 

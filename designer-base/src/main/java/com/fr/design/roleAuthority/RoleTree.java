@@ -1,23 +1,23 @@
 package com.fr.design.roleAuthority;
 
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTree;
 import com.fr.design.gui.itree.checkboxtree.CheckBoxTreeSelectionModel;
-import com.fr.general.NameObject;
-import com.fr.design.constants.UIConstants;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.gui.itree.refreshabletree.UserObjectRefreshJTree;
 import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.NameObject;
+import com.fr.start.server.FineEmbedServer;
 
-
-import javax.swing.SwingUtilities;
-import javax.swing.JTree;
 import javax.swing.JComponent;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -54,19 +54,19 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
         this.replaceMouseListener(this, handler, 0);
         this.replaceKeyListener(this, handler, 0);
         this.addTreeSelectionListener(handler);
-//        this.removeMouseListener(treeMouseListener);
-//        this.addTreeSelectionListener(new TreeSelectionListener() {
-//            public void valueChanged(TreeSelectionEvent e) {
-//                doWithValueChanged(e);
-//            }
-//        });
-
     }
 
     public boolean isCheckBoxVisible(TreePath path) {
         return true;
     }
 
+
+    @Override
+    protected ExpandMutableTreeNode[] loadChildTreeNodes(ExpandMutableTreeNode selectedTreeNode) {
+        // 启动平台模块加载角色列表, server内部已经做了启动状态与Workspace判断.
+        FineEmbedServer.start();
+        return super.loadChildTreeNodes(selectedTreeNode);
+    }
 
     /**
      * Creates the mouse listener and key listener used by RoleTree.
@@ -100,26 +100,8 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
                 return null;
             }
 
-//            if (clicksInCheckBox(e, path)) {
-
             return path;
-//            } else {
-//                return null;
-//            }
         }
-
-//        protected boolean clicksInCheckBox(MouseEvent e, TreePath path) {
-//            if (!_tree.isCheckBoxVisible(path)) {
-//                return false;
-//            } else {
-//                Rectangle bounds = _tree.getPathBounds(path);
-//                if (_tree.getComponentOrientation().isLeftToRight()) {
-//                    return e.getX() < bounds.x + _hotspot;
-//                } else {
-//                    return e.getX() > bounds.x + bounds.width - _hotspot;
-//                }
-//            }
-//        }
 
         private TreePath preventToggleEvent(MouseEvent e) {
             TreePath pathForMouseEvent = getTreePathForMouseEvent(e);
@@ -220,9 +202,6 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
                 TreePath tmpTreePath = treePaths[i];
                 toggleSelection(tmpTreePath);
             }
-//            for (TreePath treePath : treePaths) {
-//                toggleSelection(treePath);
-//            }
         }
     }
 
@@ -366,9 +345,6 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
         for (int i = 0, length = listeners.length; i < length; i++) {
             component.removeMouseListener(listeners[i]);
         }
-//        for (MouseListener listener : listeners) {
-//            component.removeMouseListener(listener);
-//        }
         for (int i = 0; i < listeners.length; i++) {
             MouseListener listener = listeners[i];
             if (index == i) {
@@ -399,9 +375,6 @@ public class RoleTree extends UserObjectRefreshJTree<RoleSourceOP> {
         for (int i = 0, length = listeners.length; i < length; i++) {
             component.removeKeyListener(listeners[i]);
         }
-//        for (MouseListener listener : listeners) {
-//            component.removeMouseListener(listener);
-//        }
         for (int i = 0; i < listeners.length; i++) {
             KeyListener listener = listeners[i];
             if (index == i) {

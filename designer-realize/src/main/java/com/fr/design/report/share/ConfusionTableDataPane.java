@@ -193,7 +193,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 			InputStream in = IOUtils.readResource("/com/fr/design/report/share/shareToolTip.html");
 			return IOUtils.inputStream2String(in);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		}
 		
 		return StringUtils.EMPTY;

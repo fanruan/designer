@@ -1,11 +1,11 @@
 package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.EnvChangeEntrance;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
-import com.fr.design.mainframe.TemplatePane;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
-
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 
@@ -30,12 +30,13 @@ public class DesignerWorkspaceProvider extends Activator {
                 Workspace workspace = DesignerWorkspaceGenerator.generate(workspaceInfo);
                 boolean checkValid = workspace != null && workspaceInfo.checkValid();
                 if (!checkValid) {
-                    TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+                    EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
                 } else {
                     WorkContext.switchTo(workspace);
                 }
             } catch (Throwable e) {
-                TemplatePane.getInstance().dealEvnExceptionWhenStartDesigner();
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
             }
         }
     }
