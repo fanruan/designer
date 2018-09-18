@@ -253,23 +253,17 @@ public class AuthorityListControlPane extends BasicPane {
      * @param authorities authority
      */
     public void setAuthority(List<DesignAuthority> authorities) {
-
-        if (authorities == null || authorities.isEmpty()) {
-            return;
-        }
-
         DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
         model.clear();
-
-        for (DesignAuthority authority : authorities) {
-            model.addElement(authority);
+        if (authorities != null && !authorities.isEmpty()) {
+            model.clear();
+            for (DesignAuthority authority : authorities) {
+                model.addElement(authority);
+            }
+            int size = model.getSize() - 1;
+            authorityList.setSelectedIndex(size);
+            authorityList.ensureIndexIsVisible(size);
         }
-
-        int size = model.getSize() - 1;
-
-        authorityList.setSelectedIndex(size);
-        authorityList.ensureIndexIsVisible(size);
-
         authorityList.revalidate();
         authorityList.repaint();
     }
