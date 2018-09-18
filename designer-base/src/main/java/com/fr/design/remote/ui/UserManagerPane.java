@@ -369,9 +369,9 @@ public class UserManagerPane extends BasicPane {
         final SwingWorker getMemberWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
-                addingMembers.clear();
                 String username = WorkContext.getCurrent().getConnection().getUserName();
                 synchronized (addingMembers) {
+                    addingMembers.clear();
                     Collection<RemoteDesignMember> more = WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword);
                     pageNum = 1;
                     if (!more.isEmpty()) {
