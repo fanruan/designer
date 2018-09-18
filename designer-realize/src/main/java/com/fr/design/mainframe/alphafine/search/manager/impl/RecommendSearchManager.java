@@ -46,14 +46,16 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
-            } else if(hotData == null){
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
             }
             for (int j = 0; j < searchText.length; j++) {
                 searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);

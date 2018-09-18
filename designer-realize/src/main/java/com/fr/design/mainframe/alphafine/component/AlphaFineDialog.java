@@ -39,7 +39,6 @@ import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
-import com.fr.general.http.HttpToolbox;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.json.JSONException;
@@ -49,7 +48,6 @@ import com.fr.main.impl.WorkBook;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.third.org.apache.http.client.methods.HttpGet;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -247,22 +245,19 @@ public class AlphaFineDialog extends UIDialog {
         GridLayout gridLayout = new GridLayout(2, 3, 3, 3);
         JPanel panel = new JPanel();
         panel.setLayout(gridLayout);
-        try {
-            HttpGet getHelp = new HttpGet(AlphaFineConstants.ALPHA_HOT_SEARCH);
-            HttpToolbox.getHttpClient(AlphaFineConstants.ALPHA_HOT_SEARCH).execute(getHelp).getStatusLine();
+        if(AlphaFineHelper.isNetworkOk()) {
             if (hotData == null) {
                 hotData = HotIssuesManager.getInstance().getHotIssues();
             }
             for (int i = 0; i < hotData.length; i++) {
                 panel.add(new HotIssueJpanel(hotData[i], i + 1));
             }
-        } catch (Exception e) {
+        }else {
             hotData = null;
             for (int i = 0; i < AlphaFineConstants.HOT_ITEMS; i++) {
                 panel.add(new HotIssueJpanel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed")}, i + 1));
             }
         }
-
         hotPane.add(uiLabel, BorderLayout.NORTH);
         hotPane.add(panel, BorderLayout.CENTER);
         add(hotPane, BorderLayout.SOUTH);
@@ -552,7 +547,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildDocumentList(final String[] searchText) {
-        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildFileList(String searchStr, final String[] searchText) {
@@ -560,24 +555,24 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildActionList(final String[] searchText) {
-        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildPluginList(final String[] searchText) {
-        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecommendList(final String[] searchText) {
-        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecentList(final String[] searchText) {
-        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText));
 
     }
 
     private void buildSimilarList(final String[] searchText) {
-        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(searchText));
     }
 
     private synchronized void addSearchResult(SearchResult searchResult) {
@@ -740,7 +735,7 @@ public class AlphaFineDialog extends UIDialog {
                         if (!isCancelled() && rightSearchResultPane != null) {
                             rightSearchResultPane.removeAll();
                             try {
-                                rightSearchResultPane.add(new RobotPreviewPane((selectedValue).getName(), get()));
+                                rightSearchResultPane.add(new RobotPreviewPane(selectedValue, get()));
                             } catch (InterruptedException e) {
                                 FineLoggerFactory.getLogger().error("get hot item content error: " + e.getMessage());
                             } catch (ExecutionException e) {

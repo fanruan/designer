@@ -16,11 +16,15 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
 import com.fr.general.ProcessCanceledException;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.json.JSONUtils;
 import com.fr.stable.StringUtils;
+import com.fr.third.org.apache.http.HttpStatus;
+import com.fr.third.org.apache.http.StatusLine;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
 
 import java.util.List;
 
@@ -30,6 +34,7 @@ import java.util.List;
 public class AlphaFineHelper {
     public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed"));
     private static AlphaFineDialog alphaFineDialog;
+    private static final String URL_FOR_TEST_NETWORK = "https://www.baidu.com";
 
     /**
      * 弹出alphafine搜索面板
@@ -130,6 +135,9 @@ public class AlphaFineHelper {
      * @return
      */
     public static SearchResult getNoConnectList(Object object) {
+        if (isNetworkOk()){
+            return null;
+        }
         SearchResult result = new SearchResult();
         if (object instanceof RecommendSearchManager) {
             result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));
@@ -144,5 +152,20 @@ public class AlphaFineHelper {
         }
         result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
         return result;
+    }
+
+    /**
+     * 判断网络是否异常
+     * @return
+     */
+    public static boolean isNetworkOk(){
+        HttpGet getHelp = new HttpGet(URL_FOR_TEST_NETWORK);
+        try {
+            StatusLine statusLine = HttpToolbox.getHttpClient(URL_FOR_TEST_NETWORK).execute(getHelp).getStatusLine();
+            return statusLine.getStatusCode() == HttpStatus.SC_OK;
+        } catch (Exception ignore) {
+            // 网络异常
+            return false;
+        }
     }
 }

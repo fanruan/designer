@@ -37,13 +37,15 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
-            } else if (hotData == null) {
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
             }
             SearchResult allModelList = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
