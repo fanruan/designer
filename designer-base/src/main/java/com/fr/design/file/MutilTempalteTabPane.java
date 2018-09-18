@@ -17,6 +17,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.ProductConstants;
+import com.fr.third.javax.annotation.Nonnull;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
@@ -677,32 +678,29 @@ public class MutilTempalteTabPane extends JComponent {
 
         //当前激活的模板
         String filename = openedTemplate.get(selectedIndex).getPath();
-
-
         filename = FilenameUtils.standard(filename);
-
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
             int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.YES_OPTION) {
                 specifiedTemplate.saveTemplate();
-                HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
-                // release lock
-                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
-
-                activeTemplate(filename);
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
+                closeTpl(specifiedTemplate, filename);
+            } else if (returnVal == JOptionPane.NO_OPTION) {
+                closeTpl(specifiedTemplate, filename);
             }
         } else {
-            HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
-            // release lock
-            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
-
-            activeTemplate(filename);
-            FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
+            closeTpl(specifiedTemplate, filename);
         }
 
+    }
+
+    private void closeTpl(@Nonnull JTemplate<?, ?> specifiedTemplate, @Nonnull String fileName) {
+        HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
+        // release lock
+        WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+        activeTemplate(fileName);
     }
 
     /**
