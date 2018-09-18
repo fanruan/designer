@@ -86,7 +86,7 @@ public class DesignerStartup extends Activator {
                 getSub(EnvBasedModule.class).stop();
             }
         });
-        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>() {
+        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(Integer.MAX_VALUE) {
 
             @Override
             public void on(Event event, Workspace param) {
