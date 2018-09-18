@@ -12,7 +12,7 @@ public interface AlphaFineSearchProvider {
      * @param searchText
      * @return
      */
-    SearchResult getLessSearchResult(String[][] data, String[] searchText);
+    SearchResult getLessSearchResult(String[] searchText);
 
     /**
      * 获取剩余条数
