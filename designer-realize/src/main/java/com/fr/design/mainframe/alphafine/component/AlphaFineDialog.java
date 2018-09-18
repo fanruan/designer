@@ -735,7 +735,7 @@ public class AlphaFineDialog extends UIDialog {
                         if (!isCancelled() && rightSearchResultPane != null) {
                             rightSearchResultPane.removeAll();
                             try {
-                                rightSearchResultPane.add(new RobotPreviewPane((selectedValue).getName(), get()));
+                                rightSearchResultPane.add(new RobotPreviewPane(selectedValue, get()));
                             } catch (InterruptedException e) {
                                 FineLoggerFactory.getLogger().error("get hot item content error: " + e.getMessage());
                             } catch (ExecutionException e) {
