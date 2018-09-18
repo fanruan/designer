@@ -256,7 +256,6 @@ public class AuthorityListControlPane extends BasicPane {
         DefaultListModel<DesignAuthority> model = (DefaultListModel<DesignAuthority>) authorityList.getModel();
         model.clear();
         if (authorities != null && !authorities.isEmpty()) {
-            model.clear();
             for (DesignAuthority authority : authorities) {
                 model.addElement(authority);
             }
