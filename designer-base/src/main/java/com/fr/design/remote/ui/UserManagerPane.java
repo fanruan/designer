@@ -1,5 +1,6 @@
 package com.fr.design.remote.ui;
 
+import com.fr.base.BaseUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicPane;
@@ -240,13 +241,14 @@ public class UserManagerPane extends BasicPane {
         );
 
         // 搜索
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchPanel.setBorder(BorderFactory.createEmptyBorder());
-        keyField.setPreferredSize(new Dimension(250, 20));
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        keyField.setPreferredSize(new Dimension(270, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
         keyField.getDocument().addDocumentListener(documentListener);
-        keyButton.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Search"));
+        keyButton.setIcon(BaseUtils.readIcon("com/fr/design/images/buttonicon/user_search_normal.png"));
+        keyButton.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -395,7 +397,7 @@ public class UserManagerPane extends BasicPane {
         final SwingWorker loadMoreWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
-    
+
                 String username = WorkContext.getCurrent().getConnection().getUserName();
                 synchronized (addingMembers) {
                     addingMembers.remove(RemoteDesignMember.DEFAULT_MEMBER);
