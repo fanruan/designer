@@ -104,8 +104,10 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
             if (ArrayUtils.isEmpty(searchText)) {
                 lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
                 return lessModelList;
-            } else if (!AlphaFineHelper.isNetworkOk()) {
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
             }
             for (int j = 0; j < searchText.length; j++) {
                 try {

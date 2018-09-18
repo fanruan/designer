@@ -135,6 +135,9 @@ public class AlphaFineHelper {
      * @return
      */
     public static SearchResult getNoConnectList(Object object) {
+        if (isNetworkOk()){
+            return null;
+        }
         SearchResult result = new SearchResult();
         if (object instanceof RecommendSearchManager) {
             result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));

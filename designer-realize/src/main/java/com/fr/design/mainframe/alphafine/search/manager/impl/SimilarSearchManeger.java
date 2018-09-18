@@ -42,8 +42,10 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
-            } else if (!AlphaFineHelper.isNetworkOk()) {
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
             }
             SearchResult allModelList = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
