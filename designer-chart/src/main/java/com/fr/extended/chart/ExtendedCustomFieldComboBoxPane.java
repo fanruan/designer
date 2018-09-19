@@ -11,16 +11,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.stable.StringUtils;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -30,6 +26,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 /**
  * Created by shine on 2018/9/12.
@@ -119,6 +119,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
 
             series = new UIComboBox();
             value = new UIComboBox();
+            value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
@@ -146,6 +147,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         public void clearAllBoxList() {
             DataPaneHelper.clearBoxItems(series);
             DataPaneHelper.clearBoxItems(value);
+            value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
         }
 
         public void refreshBoxListWithSelectTableData(List columnNameList) {
@@ -159,6 +161,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
             if (list.size() == 2) {
                 series.setSelectedItem(list.get(0).getFieldName());
                 value.setSelectedItem(list.get(1).getFieldName());
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
                 function.populateBean((AbstractDataFunction) list.get(1).getDataFunction());
             }
         }
