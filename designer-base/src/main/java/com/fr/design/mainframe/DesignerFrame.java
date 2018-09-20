@@ -42,7 +42,6 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -57,7 +56,7 @@ import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
-import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -747,7 +746,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         String username = null;
         if (info != null) {
-            WorkspaceConnection connection = info.getConnection();
+            WorkspaceConnectionInfo connection = info.getConnection();
             username = connection == null ? StringUtils.EMPTY : connection.getUserName();
         }
         defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
@@ -758,7 +757,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
                 path = workspace.getPath() + File.separator + path;
             }
-            defaultTitleSB.append("    " + path);
+            defaultTitleSB.append("    ").append(path);
         }
 
         setTitle(defaultTitleSB.toString());
@@ -1070,8 +1069,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
-
-        WorkContext.switchTo(null);
+        //关闭当前环境
+        WorkContext.getCurrent().close();
 
         this.setVisible(false);
         this.dispose();
@@ -1152,5 +1151,37 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public ProgressDialog getProgressDialog() {
 
         return progressDialog;
+    }
+
+    public void showProgressDialog() {
+
+        progressDialog.setVisible(true);
+
+    }
+
+    /**
+     * 隐藏进度框
+     */
+    public void hideProgressDialog() {
+
+        progressDialog.setVisible(false);
+    }
+
+    /**
+     * 更新进度框进度
+     *
+     * @param progress
+     */
+    public void updateProgress(int progress) {
+
+        progressDialog.setProgressValue(progress);
+    }
+
+    /**
+     * 释放进度框
+     */
+    public void disposeProgressDialog() {
+
+        progressDialog.dispose();
     }
 }

@@ -281,7 +281,7 @@ public class BBSLoginDialog extends UIDialog {
                 username = URLEncoder.encode(username, EncodeConstants.ENCODING_GBK);
                 password = URLEncoder.encode(password, EncodeConstants.ENCODING_GBK);
             } catch (UnsupportedEncodingException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             String url = CloudCenter.getInstance().acquireUrlByKind("bbs.login") + "&username=" + username + "&password=" + password;
             String loginSuccessFlag = CloudCenter.getInstance().acquireUrlByKind("bbs");
@@ -294,7 +294,7 @@ public class BBSLoginDialog extends UIDialog {
                         return true;
                     }
                 } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }

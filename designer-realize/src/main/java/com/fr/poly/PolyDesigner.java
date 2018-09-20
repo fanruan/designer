@@ -574,7 +574,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
             DesignerContext.setReferencedElementCasePane(null);
             DesignerContext.setReferencedIndex(0);
             repaint();
-            HistoryTemplateListPane.getInstance().repaint();
         }
     }
 

@@ -113,7 +113,7 @@ public class ChoosePaneSupportFormula extends ChoosePane {
                 selectedDSName = Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(item)));
 //				selectedDSName = ParameterHelper.analyzeCurrentContextTableData4Templatee(item, parameters);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
+                FRContext.getLogger().error(e.getMessage(), e);
             }
         } else {
             selectedDSName = item;
@@ -156,7 +156,7 @@ public class ChoosePaneSupportFormula extends ChoosePane {
             dsName = dsItem.startsWith("=") ? Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(dsItem))) : dsItem;
             tableName = tableItem.startsWith("=") ? Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(tableItem))) : tableItem;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
         ori_ds_name = dsName;
         ori_table_name = tableName;

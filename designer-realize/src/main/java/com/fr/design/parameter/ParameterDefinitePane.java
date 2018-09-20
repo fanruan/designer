@@ -234,7 +234,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
                 parameterUI = StableFactory.getMarkedInstanceObjectFromClass(ParameterUI.FORM_XML_TAG, ParameterUI.class);
                 parameterUI.setDefaultSize();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
+                FRContext.getLogger().error(e.getMessage(), e);
             }
         }
 

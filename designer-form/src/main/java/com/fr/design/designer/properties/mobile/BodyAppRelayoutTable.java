@@ -50,7 +50,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 		try {
 			propertyTableEditor = supportedDescriptor();
 		}catch (IntrospectionException e) {
-			FRContext.getLogger().error(e.getMessage());
+			FRContext.getLogger().error(e.getMessage(), e);
 		}
 
 		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile"), xCreator, propertyTableEditor, designer)));

@@ -146,7 +146,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             }
             return true;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage());
+            FRContext.getLogger().error(e.getMessage(), e);
         }
         return false;
     }

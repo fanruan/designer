@@ -201,7 +201,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                         FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{wAbsoluteBodyLayout}));
             }
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 
         }
 

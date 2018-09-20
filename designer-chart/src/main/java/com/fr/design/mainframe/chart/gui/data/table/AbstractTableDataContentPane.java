@@ -5,8 +5,8 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JSeparator;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
@@ -47,31 +47,16 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
 	 * 刷新Box的选项.
 	 */
 	protected void refreshBoxItems(UIComboBox box, List list) {
-		if(box == null) {
-			return;
-		}
-		
-		Object ob = box.getSelectedItem();
-		box.removeAllItems();
-		
-		int length = list.size();
-		for(int i = 0; i < length; i++) {
-			box.addItem(list.get(i));
-		}
-		
-		box.getModel().setSelectedItem(ob);
+		DataPaneHelper.refreshBoxItems(box, list);
 	}
 
     /**
      * 清空box里所有东西
      * @param box 容器
      */
-    protected void clearBoxItems(UIComboBox box){
-        if(box == null){
-            return;
-        }
-        box.removeAllItems();
-    }
+	protected void clearBoxItems(UIComboBox box) {
+		DataPaneHelper.clearBoxItems(box);
+	}
 	
 	protected ItemListener tooltipListener = new ItemListener() {
 

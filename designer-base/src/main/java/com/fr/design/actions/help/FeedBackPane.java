@@ -279,7 +279,7 @@ public class FeedBackPane extends BasicPane {
                 try {
                     return DesignUtils.sendFeedBack(feedBackInfo);
                 } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     return false;
                 }
             }
