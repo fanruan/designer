@@ -166,23 +166,18 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         public void refreshBoxListWithSelectTableData(List columnNameList) {
             DataPaneHelper.refreshBoxItems(series, columnNameList);
             DataPaneHelper.refreshBoxItems(value, columnNameList);
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
         }
 
         @Override
         public void populateBean(AbstractDataConfig ob) {
             List<ExtendedField> list = ob.getCustomFields();
-            if (hasNoneItem) {
-                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
-            }
-
             if (list.size() == 2) {
                 series.setSelectedItem(list.get(0).getFieldName());
                 value.setSelectedItem(list.get(1).getFieldName());
                 function.populateBean((AbstractDataFunction) list.get(1).getDataFunction());
-            }
-
-            if (value.getSelectedItem() == null) {
-                value.setSelectedItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             }
         }
 
