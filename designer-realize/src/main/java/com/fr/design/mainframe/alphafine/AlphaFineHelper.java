@@ -22,9 +22,6 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.json.JSONUtils;
 import com.fr.stable.StringUtils;
-import com.fr.third.org.apache.http.HttpStatus;
-import com.fr.third.org.apache.http.StatusLine;
-import com.fr.third.org.apache.http.client.methods.HttpGet;
 
 import java.util.List;
 
@@ -159,10 +156,9 @@ public class AlphaFineHelper {
      * @return
      */
     public static boolean isNetworkOk(){
-        HttpGet getHelp = new HttpGet(URL_FOR_TEST_NETWORK);
         try {
-            StatusLine statusLine = HttpToolbox.getHttpClient(URL_FOR_TEST_NETWORK).execute(getHelp).getStatusLine();
-            return statusLine.getStatusCode() == HttpStatus.SC_OK;
+            HttpToolbox.get(URL_FOR_TEST_NETWORK);
+            return true;
         } catch (Exception ignore) {
             // 网络异常
             return false;
