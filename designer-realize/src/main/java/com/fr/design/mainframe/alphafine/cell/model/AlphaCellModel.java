@@ -75,7 +75,7 @@ public abstract class AlphaCellModel implements Comparable {
      * @return
      * @throws JSONException
      */
-    abstract public JSONObject ModelToJson() throws JSONException;
+    abstract public JSONObject modelToJson() throws JSONException;
 
     /**
      * 获取需要保存到云中心的信息

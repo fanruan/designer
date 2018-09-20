@@ -139,7 +139,7 @@ public abstract class XWidgetCreator extends XCreator {
                 this.setRolloverIcon(new ImageIcon(image1));
                 this.setPressedIcon(new ImageIcon(image));//按下去的图标
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage());
+                FRContext.getLogger().error(e.getMessage(), e);
             }
         }
 

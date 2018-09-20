@@ -278,7 +278,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                         schemaBox.setSelectedIndex(index);
                     }
                 } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage());
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
                 schemaBox.setRefreshingModel(false);
                 schemaBox.removePopupMenuListener(listener);

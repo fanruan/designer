@@ -51,14 +51,14 @@ public class ActionModel extends AlphaCellModel {
     }
 
     @Override
-    public JSONObject ModelToJson() {
+    public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
         try {
             JSONObject modelObject = JSONObject.create();
             modelObject.put("className", getAction().getClass().getName()).put("searchCount", getSearchCount());
             object.put("result", modelObject).put("cellType", getType().getTypeValue());
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return object;
     }

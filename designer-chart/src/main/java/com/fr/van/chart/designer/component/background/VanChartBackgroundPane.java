@@ -114,7 +114,7 @@ public class VanChartBackgroundPane extends BasicPane {
     }
 
 
-    private void fireStateChanged() {
+    protected void fireStateChanged() {
         Object[] listeners = listenerList.getListenerList();
         ChangeEvent e = null;
 

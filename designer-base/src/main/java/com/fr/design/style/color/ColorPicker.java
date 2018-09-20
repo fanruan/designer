@@ -73,7 +73,7 @@ public class ColorPicker extends JDialog implements ActionListener
             try {
                 Thread.sleep(100);  // 等待弹窗关闭
             } catch (InterruptedException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             colorPickerPanel.captureScreen();
         }

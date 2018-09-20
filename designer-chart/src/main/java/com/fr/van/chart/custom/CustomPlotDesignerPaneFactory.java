@@ -59,7 +59,7 @@ public class CustomPlotDesignerPaneFactory {
                 Constructor<? extends BasicBeanPane<Plot> > constructor = cl.getConstructor();
                 return constructor.newInstance();
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return null;
@@ -89,7 +89,7 @@ public class CustomPlotDesignerPaneFactory {
                 Constructor<? extends AbstractTableDataContentPane > constructor = cl.getConstructor(ChartDataPane.class);
                 return constructor.newInstance(parent);
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new CategoryPlotTableDataContentPane(parent);
@@ -125,7 +125,7 @@ public class CustomPlotDesignerPaneFactory {
                     return constructor.newInstance(plot, parent);
                 }
             } catch (Exception e){
-                FineLoggerFactory.getLogger().error(e.getMessage());
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartAxisPane(plot,parent);

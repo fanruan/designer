@@ -6,6 +6,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
 
 /**
@@ -18,9 +19,11 @@ public class RemoteWorkspace implements Workspace {
 
     private final String address;
     
-    private final WorkspaceConnection connection;
+    private final WorkspaceConnectionInfo connection;
     
-    RemoteWorkspace(WorkspaceClient client, WorkspaceConnection connection) {
+    private volatile Boolean isRoot = null;
+    
+    RemoteWorkspace(WorkspaceClient client, WorkspaceConnectionInfo connection) {
 
         this.client = client;
         this.address = connection.getUrl();
@@ -53,17 +56,33 @@ public class RemoteWorkspace implements Workspace {
 
     @Override
     public boolean isRoot() {
-        try {
-            return WorkContext.getCurrent().get(DecisionOperator.class).isRoot(WorkContext.getConnector().currentUser());
-        } catch (Exception e) {
-            return false;
+    
+        if (isRoot == null) {
+            synchronized (this) {
+                if (isRoot == null) {
+                    isRoot = WorkContext.getCurrent().get(DecisionOperator.class).isRoot(getConnection().getUserName());
+                }
+            }
         }
+        return isRoot;
     }
-
+    
+    @Override
+    public WorkspaceConnection getConnection() {
+        
+        return client.getConnection();
+    }
+    
     @Override
     public <T> T get(Class<T> type) {
 
         return client.getPool().get(type);
+    }
+    
+    @Override
+    public void close() {
+        
+        client.close();
     }
     
     @Override
@@ -75,6 +94,6 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public boolean equals(Object obj) {
         
-        return obj != null && obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
+        return obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
     }
 }

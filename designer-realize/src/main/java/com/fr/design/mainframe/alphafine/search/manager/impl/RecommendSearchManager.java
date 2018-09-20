@@ -10,15 +10,16 @@ import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
-
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,9 +27,12 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProvider {
-    private static RecommendSearchManager instance;
+    private static volatile RecommendSearchManager instance;
     private SearchResult modelList;
     private SearchResult recommendModelList;
+
+    private SearchResult complementAdviceModelList;
+    private SearchResult moreModelList = new SearchResult();
 
     public static RecommendSearchManager getInstance() {
         if (instance == null) {
@@ -42,37 +46,43 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public synchronized SearchResult getLessSearchResult(String searchText) {
-        searchText = searchText.replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
+    public SearchResult getLessSearchResult(String[] searchText) {
         this.modelList = new SearchResult();
         this.recommendModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainRecommend()) {
-            String result;
-            HttpClient httpClient = new HttpClient(AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText));
-            httpClient.asGet();
-            if (!httpClient.isServerAlive()) {
-                return getNoConnectList();
+            if (ArrayUtils.isEmpty(searchText)) {
+                return new SearchResult();
             }
-            httpClient.setTimeout(3000);
-            result = httpClient.getResponseText();
-            AlphaFineHelper.checkCancel();
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.optString("status").equals("success")) {
-                    JSONArray jsonArray = jsonObject.optJSONArray("result");
-                    if (jsonArray != null && jsonArray.length() > 0) {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            AlphaFineHelper.checkCancel();
-                            AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
-                            if (alphaCellModel != null && !alreadyContain(alphaCellModel)) {
-                                this.recommendModelList.add(alphaCellModel);
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
+            }
+            for (int j = 0; j < searchText.length; j++) {
+                searchText[j] = searchText[j].replaceAll(StringUtils.BLANK, StringUtils.EMPTY);
+                try {
+                    String url = AlphaFineConstants.SEARCH_API + CodeUtils.cjkEncode(searchText[j]);
+                    String result = HttpToolbox.get(url);
+                    AlphaFineHelper.checkCancel();
+                    JSONObject jsonObject = new JSONObject(result);
+                    if ("success".equals(jsonObject.optString("status"))) {
+                        JSONArray jsonArray = jsonObject.optJSONArray("result");
+                        if (jsonArray != null && jsonArray.length() > 0) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                AlphaFineHelper.checkCancel();
+                                AlphaCellModel alphaCellModel = CellModelHelper.getModelFromJson((JSONObject) jsonArray.get(i));
+                                if (alphaCellModel != null && !alreadyContain(alphaCellModel) && !this.recommendModelList.contains(alphaCellModel)) {
+                                    this.recommendModelList.add(alphaCellModel);
+                                }
                             }
                         }
                     }
+                } catch (JSONException e) {
+                    FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error("recommend search get result error! :" + e.getMessage());
                 }
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
             }
+
             Iterator<AlphaCellModel> modelIterator = recommendModelList.iterator();
             while (modelIterator.hasNext()) {
                 AlphaCellModel model = modelIterator.next();
@@ -80,12 +90,88 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                     modelIterator.remove();
                 }
             }
-            if (recommendModelList.size() > 0) {
-                modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
-                modelList.addAll(recommendModelList);
+            complementAdviceModelList = ComplementAdviceManager.getInstance().getAllSearchResult(searchText);
+            moreModelList.clear();
+
+            if (!recommendModelList.isEmpty()) {
+                if (complementAdviceModelList.isEmpty()) {
+                    getRecommendSearchResult();
+                } else {
+                    getRecommendAndAdviceSearchResult();
+                }
+            } else {
+                if (!complementAdviceModelList.isEmpty()) {
+                    getComplementAdviceSearchResult();
+                } else {
+                    return modelList;
+                }
             }
         }
         return modelList;
+    }
+
+    /**
+     * 将推荐接口获取的数据分别放入“显示部分”，“显示更多”的list
+     */
+    private void getRecommendSearchResult(){
+        if (recommendModelList.size() > AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM) {
+            if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+                modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+            } else {
+                modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+            }
+            modelList.addAll(recommendModelList.subList(0, AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM));
+            moreModelList.addAll(recommendModelList.subList(AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM, recommendModelList.size()));
+        } else {
+            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+            modelList.addAll(recommendModelList);
+        }
+    }
+
+    /**
+     * 将补全接口获取的数据分别放入“显示部分”，“显示更多”的list
+     */
+    private void getComplementAdviceSearchResult(){
+        if (complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+            modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
+            moreModelList.addAll(complementAdviceModelList.subList(AlphaFineConstants.SHOW_SIZE, complementAdviceModelList.size()));
+        } else {
+            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+            modelList.addAll(complementAdviceModelList);
+        }
+    }
+
+    /**
+     * 将推荐接口和补全接口获取的数据分别放入“显示部分”，“显示更多”的list
+     */
+    private void getRecommendAndAdviceSearchResult(){
+        if (recommendModelList.size() + complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
+            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
+            if (recommendModelList.size() > AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM) {
+                modelList.addAll(recommendModelList.subList(0, AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM));
+                moreModelList.addAll(recommendModelList.subList(AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM, recommendModelList.size()));
+
+                if (complementAdviceModelList.size() >= AlphaFineConstants.SHOW_SIZE - AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM) {
+                    modelList.addAll(complementAdviceModelList.subList(0, 2));
+                    moreModelList.addAll(complementAdviceModelList.subList(2, complementAdviceModelList.size()));
+                } else {
+                    modelList.addAll(complementAdviceModelList);
+                }
+            } else {
+                modelList.addAll(recommendModelList);
+                if (complementAdviceModelList.size() >= (AlphaFineConstants.SHOW_SIZE - recommendModelList.size())) {
+                    modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE - recommendModelList.size()));
+                    moreModelList.addAll(complementAdviceModelList.subList(2, complementAdviceModelList.size()));
+                } else {
+                    modelList.addAll(complementAdviceModelList);
+                }
+            }
+        } else {
+            modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), false));
+            modelList.addAll(recommendModelList);
+            modelList.addAll(complementAdviceModelList);
+        }
     }
 
     /**
@@ -98,20 +184,17 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
         return RecentSearchManager.getInstance().getRecentModelList().contains(cellModel) || this.recommendModelList.contains(cellModel);
     }
 
-    private SearchResult getNoConnectList() {
-        SearchResult result = new SearchResult();
-        result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend")));
-        result.add(AlphaFineHelper.NO_CONNECTION_MODEL);
-        return result;
-    }
-
     @Override
     public SearchResult getMoreSearchResult(String searchText) {
-        return new SearchResult();
+        return moreModelList;
     }
 
     public List<AlphaCellModel> getRecommendModelList() {
-        return recommendModelList;
+        SearchResult result = new SearchResult();
+        result.addAll(recommendModelList);
+        result.addAll(modelList);
+        result.addAll(moreModelList);
+        return result;
     }
 
 }

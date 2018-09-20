@@ -11,11 +11,11 @@ import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataConfig> extends AbstractTableDataContentPane {
 
-    private CalculateComboBox function;
+    private ExtendedCustomFieldComboBoxPane customFieldComboBoxPane;
 
     public AbstractExtendedChartTableDataPane() {
         initComponents();
@@ -37,28 +37,27 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
 
         int len = Math.min(labels.length, fieldComponents.length);
 
-        Component[][] components = new Component[len + (hasFunction() ? 1 : 0)][2];
+        Component[][] components = new Component[len][2];
         for (int i = 0; i < len; i++) {
-            Component fieldComponent = fieldComponents[i];
-            fieldComponent.setPreferredSize(new Dimension(100, 20));
-
-            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), fieldComponent};
-        }
-
-        if (hasFunction()) {
-            function = new CalculateComboBox();
-            components[len] = new Component[]{new UILabel("function", SwingConstants.LEFT), function};
+            components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), fieldComponents[i]};
         }
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {p, p};
-        double[] rowSize = new double[len + (hasFunction() ? 1 : 0)];
+        double[] columnSize = {TableLayout.FILL, 120};
+        double[] rowSize = new double[len];
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
-        this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
+        this.setLayout(new BorderLayout(0, 6));
+        this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
+        this.add(panel, BorderLayout.NORTH);
+
+        if (hasCustomFieldPane()) {
+            customFieldComboBoxPane = new ExtendedCustomFieldComboBoxPane();
+            this.add(customFieldComboBoxPane, BorderLayout.CENTER);
+        }
+
         this.add(addSouthPane(), BorderLayout.SOUTH);
     }
 
@@ -66,7 +65,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         return new JPanel();
     }
 
-    protected boolean hasFunction() {
+    protected boolean hasCustomFieldPane() {
         return false;
     }
 
@@ -96,10 +95,10 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
             AbstractDataConfig dataConfig = dataSet.getDataConfig();
             if (dataConfig != null) {
                 populate((T) dataConfig);
-            }
 
-            if (hasFunction()) {
-                function.populateBean((AbstractDataFunction) dataSet.getDataFunction());
+                if (hasCustomFieldPane()) {
+                    customFieldComboBoxPane.populateBean(dataConfig);
+                }
             }
 
         }
@@ -116,8 +115,8 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
                 ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
                 dataSet.setDataConfig(update());
 
-                if (hasFunction()) {
-                    dataSet.setDataFunction(function.updateBean());
+                if (hasCustomFieldPane()) {
+                    customFieldComboBoxPane.updateBean(dataSet.getDataConfig());
                 }
 
                 chart.setFilterDefinition(dataSet);
@@ -127,8 +126,11 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
 
     @Override
     public void checkBoxUse(boolean hasUse) {
-        for (UIComboBox comboBox : filedComboBoxes()) {
-            comboBox.setEnabled(hasUse);
+        for (Component component : fieldComponents()) {
+            component.setEnabled(hasUse);
+        }
+        if (customFieldComboBoxPane != null) {
+            customFieldComboBoxPane.checkBoxUse(hasUse);
         }
     }
 
@@ -137,6 +139,9 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         for (UIComboBox comboBox : filedComboBoxes()) {
             clearBoxItems(comboBox);
         }
+        if (customFieldComboBoxPane != null) {
+            customFieldComboBoxPane.clearAllBoxList();
+        }
     }
 
     @Override
@@ -144,14 +149,33 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         for (UIComboBox comboBox : filedComboBoxes()) {
             refreshBoxItems(comboBox, columnNameList);
         }
+        if (customFieldComboBoxPane != null) {
+            customFieldComboBoxPane.refreshBoxListWithSelectTableData(columnNameList);
+        }
     }
 
     protected void populateField(UIComboBox comboBox, ExtendedField field) {
-        comboBox.setSelectedItem(field.getFieldName());
+        populateFunctionField(comboBox, null, field);
     }
 
     protected void updateField(UIComboBox comboBox, ExtendedField field) {
+        updateFunctionField(comboBox, null, field);
+    }
+
+    protected void populateFunctionField(UIComboBox comboBox, CalculateComboBox calculateComboBox, ExtendedField field) {
+        comboBox.setSelectedItem(field.getFieldName());
+        if (calculateComboBox != null) {
+            calculateComboBox.populateBean((AbstractDataFunction) field.getDataFunction());
+        }
+    }
+
+    protected void updateFunctionField(UIComboBox comboBox, CalculateComboBox calculateComboBox, ExtendedField field) {
         field.setFieldName(GeneralUtils.objectToString(comboBox.getSelectedItem()));
+        if (calculateComboBox != null) {
+            field.setDataFunction(calculateComboBox.updateBean());
+        } else {
+            field.setDataFunction(null);
+        }
     }
 
 }
