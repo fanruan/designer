@@ -155,8 +155,6 @@ public class PreferencePane extends BasicPane {
 
         createServerPane(advancePane);
 
-        createJdkHomePane(advancePane);
-
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
@@ -470,42 +468,6 @@ public class PreferencePane extends BasicPane {
         serverPortPane.add(choosePortPane, BorderLayout.CENTER);
     }
 
-    private void createJdkHomePane(JPanel advancePane) {
-        double p = TableLayout.PREFERRED;
-        double rowSize[] = {p};
-        double columnSize[] = {p, p, p};
-
-        JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home"));
-        advancePane.add(serverPortPane);
-        jdkHomeTextField = new UITextField();
-        UIButton chooseBtn = new UIButton("...");
-        chooseBtn.setPreferredSize(new Dimension(20, 20));
-        JPanel panel = GUICoreUtils.createBorderLayoutPane(
-                jdkHomeTextField, BorderLayout.CENTER,
-                chooseBtn, BorderLayout.EAST
-        );
-        chooseBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                int returnValue = fileChooser.showOpenDialog(PreferencePane.this);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File file = fileChooser.getSelectedFile();
-                    jdkHomeTextField.setText(file.getAbsolutePath());
-                }
-            }
-        });
-        panel.setPreferredSize(new Dimension(300, 20));
-        UILabel notiJlabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));
-        UILabel serverPortLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_JDK_Home") + ":");
-        Component[][] portComponents = {
-                {serverPortLabel, panel, notiJlabel},
-        };
-        JPanel choosePortPane = TableLayoutHelper.createTableLayoutPane(portComponents, rowSize, columnSize);
-        serverPortPane.add(choosePortPane, BorderLayout.CENTER);
-    }
-
     private JPanel createMemoryPane() {
         JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template"));
         UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Max_Caching_Template"));
@@ -575,8 +537,6 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-        this.jdkHomeTextField.setText(designerEnvManager.getJdkHome());
-
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
@@ -635,8 +595,6 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setReportLengthUnit((short) reportLengthComboBox.getSelectedIndex());
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
-
-        designerEnvManager.setJdkHome(jdkHomeTextField.getText());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
