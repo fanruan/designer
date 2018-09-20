@@ -38,9 +38,16 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
     private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")};
 
     private UseFieldValuePane useFieldValuePane;
+
+    private boolean hasNoneItem = false;
+
     private CustomFieldNamePane customFieldNamePane;
 
     private List<String> fieldList = new ArrayList<String>();
+
+    public ExtendedCustomFieldComboBoxPane(boolean hasNoneItem) {
+        this.hasNoneItem = hasNoneItem;
+    }
 
     @Override
     protected void initLayout() {
@@ -119,7 +126,11 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
 
             series = new UIComboBox();
             value = new UIComboBox();
-            value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
+
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
@@ -147,7 +158,9 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         public void clearAllBoxList() {
             DataPaneHelper.clearBoxItems(series);
             DataPaneHelper.clearBoxItems(value);
-            value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
         }
 
         public void refreshBoxListWithSelectTableData(List columnNameList) {
@@ -158,11 +171,18 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         @Override
         public void populateBean(AbstractDataConfig ob) {
             List<ExtendedField> list = ob.getCustomFields();
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
+
             if (list.size() == 2) {
                 series.setSelectedItem(list.get(0).getFieldName());
                 value.setSelectedItem(list.get(1).getFieldName());
-                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
                 function.populateBean((AbstractDataFunction) list.get(1).getDataFunction());
+            }
+
+            if (value.getSelectedItem() == null) {
+                value.setSelectedItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
             }
         }
 

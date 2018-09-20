@@ -10,14 +10,13 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Created by shine on 2018/3/2.
@@ -54,7 +53,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         this.add(panel, BorderLayout.NORTH);
 
         if (hasCustomFieldPane()) {
-            customFieldComboBoxPane = new ExtendedCustomFieldComboBoxPane();
+            customFieldComboBoxPane = new ExtendedCustomFieldComboBoxPane(hasNoneItem());
             this.add(customFieldComboBoxPane, BorderLayout.CENTER);
         }
 
@@ -66,6 +65,10 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
     }
 
     protected boolean hasCustomFieldPane() {
+        return false;
+    }
+
+    protected boolean hasNoneItem() {
         return false;
     }
 
