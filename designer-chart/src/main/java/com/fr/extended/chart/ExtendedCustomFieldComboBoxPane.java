@@ -11,16 +11,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itable.UITable;
 import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.stable.StringUtils;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -30,6 +26,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 
 /**
  * Created by shine on 2018/9/12.
@@ -38,9 +38,16 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
     private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")};
 
     private UseFieldValuePane useFieldValuePane;
+
+    private boolean hasNoneItem = false;
+
     private CustomFieldNamePane customFieldNamePane;
 
     private List<String> fieldList = new ArrayList<String>();
+
+    public ExtendedCustomFieldComboBoxPane(boolean hasNoneItem) {
+        this.hasNoneItem = hasNoneItem;
+    }
 
     @Override
     protected void initLayout() {
@@ -119,6 +126,11 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
 
             series = new UIComboBox();
             value = new UIComboBox();
+
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
+
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
@@ -146,11 +158,17 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         public void clearAllBoxList() {
             DataPaneHelper.clearBoxItems(series);
             DataPaneHelper.clearBoxItems(value);
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
         }
 
         public void refreshBoxListWithSelectTableData(List columnNameList) {
             DataPaneHelper.refreshBoxItems(series, columnNameList);
             DataPaneHelper.refreshBoxItems(value, columnNameList);
+            if (hasNoneItem) {
+                value.addItem(Toolkit.i18nText("Fine-Design_Chart_Use_None"));
+            }
         }
 
         @Override
