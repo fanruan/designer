@@ -166,7 +166,7 @@ public class NativePrintSettingPane extends JPanel {
         printerPane.add(printerComboBox);
 
         // 份数
-        copySpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 0, Integer.MAX_VALUE, 1));
+        copySpinner = new UIBasicSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
         GUICoreUtils.setColumnForSpinner(copySpinner, 5);
         JPanel copyPane = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         copyPane.add(copySpinner);

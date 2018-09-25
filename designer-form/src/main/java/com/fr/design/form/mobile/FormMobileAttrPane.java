@@ -13,8 +13,6 @@ import java.awt.*;
  * Created by fanglei on 2016/11/17.
  */
 public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
-    //工具栏容器
-    private MobileToolBarPane mobileToolBarPane;
     // 模版设置面板
     private FormMobileTemplateSettingsPane formMobileTemplateSettingsPane;
     // 其他
@@ -33,7 +31,6 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
         panel.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
         panel.add(formMobileTemplateSettingsPane = new FormMobileTemplateSettingsPane());
-        panel.add(mobileToolBarPane = new MobileToolBarPane());
         panel.add(formMobileOthersPane = new FormMobileOthersPane());
 
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -47,7 +44,6 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
         if (ob == null) {
             ob = new FormMobileAttr();
         }
-        this.mobileToolBarPane.populateBean(ob);
         this.formMobileTemplateSettingsPane.populateBean(ob);
         this.formMobileOthersPane.populateBean(ob);
     }
@@ -55,7 +51,6 @@ public class FormMobileAttrPane extends BasicBeanPane<FormMobileAttr>{
     @Override
     public FormMobileAttr updateBean() {
         FormMobileAttr formMobileAttr = new FormMobileAttr();
-        this.mobileToolBarPane.updateBean(formMobileAttr);
         this.formMobileTemplateSettingsPane.updateBean(formMobileAttr);
         this.formMobileOthersPane.updateBean(formMobileAttr);
         return formMobileAttr;

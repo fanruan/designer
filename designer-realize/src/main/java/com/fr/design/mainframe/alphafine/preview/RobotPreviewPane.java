@@ -77,7 +77,7 @@ public class RobotPreviewPane extends JPanel {
         });
         editorPane.setEditable(false);
         UIScrollPane jScrollPane = new UIScrollPane(editorPane);
-        jScrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 30, 0));
+        jScrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         jScrollPane.setBorder(BorderFactory.createMatteBorder(5, 10, 0, 10, Color.white));
         if (((RobotModel) model).isHotItemModel()) {
             this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT - HOT_TITLE_AREA_HEIGHT));
