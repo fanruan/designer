@@ -4,6 +4,7 @@ import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -62,29 +63,14 @@ public abstract class ComboBoxWithButtonPane extends JPanel {
      * 刷新Box的选项.
      */
     public void refreshBoxItems(java.util.List list) {
-        if(comboBoxName == null) {
-            return;
-        }
-
-        Object ob = comboBoxName.getSelectedItem();
-        comboBoxName.removeAllItems();
-
-        int length = list.size();
-        for(int i = 0; i < length; i++) {
-            comboBoxName.addItem(list.get(i));
-        }
-
-        comboBoxName.getModel().setSelectedItem(ob);
+        DataPaneHelper.refreshBoxItems(comboBoxName, list);
     }
 
     /**
      * 清空box里所有东西
      */
     public void clearBoxItems(){
-        if(comboBoxName == null){
-            return;
-        }
-        comboBoxName.removeAllItems();
+        DataPaneHelper.clearBoxItems(comboBoxName);
 
     }
 

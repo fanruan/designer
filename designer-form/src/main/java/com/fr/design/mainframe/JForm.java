@@ -949,7 +949,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         super.previewMenuActionPerformed(provider);
     }
 
-
     @Override
     public String route() {
         return ViewRequestConstants.FORM_VIEW_PATH;

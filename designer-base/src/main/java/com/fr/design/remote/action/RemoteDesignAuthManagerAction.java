@@ -4,25 +4,25 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
-import com.fr.workspace.server.authority.AuthorityOperator;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.authority.AuthorityOperator;
 
 import java.awt.event.ActionEvent;
 
 /**
  * @author yaohwu
  */
-public class RemoteDesignAuthorityManagerAction extends UpdateAction {
+public class RemoteDesignAuthManagerAction extends UpdateAction {
 
 
-    public RemoteDesignAuthorityManagerAction() {
-        this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Authority_Manager"));
-        this.setSmallIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remote_Design_Permission_Manager_normal@1x.png"));
+    public RemoteDesignAuthManagerAction() {
+        this.setName(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Authority_Manager"));
+        this.setSmallIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remote_Design_Auth_Manager_normal@1x.png"));
     }
 
 
@@ -49,7 +49,6 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
 
             @Override
             public void doOk() {
-
                 DesignAuthority[] authorities = managerPane.update();
                 if (!WorkContext.getCurrent().isLocal()) {
                     boolean success = false;
@@ -58,14 +57,8 @@ public class RemoteDesignAuthorityManagerAction extends UpdateAction {
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
-                    FineLoggerFactory.getLogger().info("update remote design authority: " + success);
+                    FineLoggerFactory.getLogger().debug("update remote design authority: " + success);
                 }
-            }
-
-            @Override
-            public void doCancel() {
-
-                super.doCancel();
             }
         });
         dialog.setModal(true);

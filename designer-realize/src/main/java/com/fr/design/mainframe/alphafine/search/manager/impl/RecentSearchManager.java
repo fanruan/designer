@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
     private static final int MAX_SIZE = 100;
-    private static RecentSearchManager instance;
+    private static volatile RecentSearchManager instance;
     IndexReader indexReader = null;
     IndexSearcher indexSearcher = null;
     //索引存储路径
@@ -72,9 +72,11 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         this.modelList = new SearchResult();
-        recentModelList = getRecentModelList(searchText);
+        for (int j = 0; j < searchText.length; j++) {
+            recentModelList = getRecentModelList(searchText[j]);
+        }
         if (recentModelList != null && recentModelList.size() > 0) {
             modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Latest")));
             if (recentModelList.size() > AlphaFineConstants.LATEST_SHOW_SIZE) {
@@ -107,7 +109,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             directory = FSDirectory.open(new File(path));
             indexWriter = new IndexWriter(directory, config);
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
     }
@@ -121,7 +123,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             indexReader = DirectoryReader.open(directory);
             indexSearcher = new IndexSearcher(indexReader);
         } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -132,11 +134,14 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      * @param cellModel
      */
     public void addModel(String searchKey, AlphaCellModel cellModel) {
+        if(cellModel == null){
+            return;
+        }
         try {
             initWriter();
             Document doc = new Document();
             doc.add(new StringField("searchKey", searchKey, Field.Store.YES));
-            doc.add(new StringField("cellModel", cellModel.ModelToJson().toString(), Field.Store.YES));
+            doc.add(new StringField("cellModel", cellModel.modelToJson().toString(), Field.Store.YES));
             doc.add(new LongField("time", System.currentTimeMillis(), Field.Store.YES));
             writeDoc(doc);
         } catch (JSONException e) {
@@ -171,7 +176,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
             initReader();
             IndexSearcher searcher = new IndexSearcher(indexReader);
-            //构建排序字段
+			//构建排序字段
             SortField[] sortField = new SortField[1];
             sortField[0] = new SortField("time", SortField.Type.LONG, true);
             Sort sortKey = new Sort(sortField);
@@ -181,7 +186,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
             TopFieldDocs docs = searcher.search(query, MAX_SIZE, sortKey);
             ScoreDoc[] scores = docs.scoreDocs;
             this.recentModelList = new SearchResult();
-            //遍历结果
+			//遍历结果
             for (ScoreDoc scoreDoc : scores) {
                 Document document = searcher.doc(scoreDoc.doc);
                 AlphaCellModel model = CellModelHelper.getModelFromJson(new JSONObject(document.get("cellModel")));

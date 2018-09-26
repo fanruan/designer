@@ -344,8 +344,24 @@ public class ValueEditorPane extends BasicPane implements UIObserver, GlobalName
      *
      * @param listener 观察者监听事件
      */
+    @Override
     public void registerNameListener(GlobalNameListener listener) {
         globalNameListener = listener;
+        for (Editor card : cards) {
+            doLoop(card, listener);
+        }
+    }
+
+    private void doLoop(Container card, GlobalNameListener listener) {
+        for (int i = 0, len = card.getComponentCount(); i < len; i++) {
+            Component tmpComp = card.getComponent(i);
+            if (tmpComp instanceof Container) {
+                doLoop((Container) tmpComp, listener);
+            }
+            if (tmpComp instanceof GlobalNameObserver) {
+                ((GlobalNameObserver) tmpComp).registerNameListener(listener);
+            }
+        }
     }
 
     /**

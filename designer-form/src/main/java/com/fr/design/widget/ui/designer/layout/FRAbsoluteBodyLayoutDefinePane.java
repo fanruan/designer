@@ -193,7 +193,7 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
             formDesigner.getSelectionModel().setSelectedCreator(xfl);
             return true;
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }

@@ -142,7 +142,7 @@ public class UserInfoPane extends BasicPane {
                 return dayNew - dayOld;
             }
         } catch (ParseException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return 1;
     }
@@ -165,7 +165,7 @@ public class UserInfoPane extends BasicPane {
                     }
 
                 } catch (InterruptedException e) {
-                    FRContext.getLogger().error(e.getMessage());
+                    FRContext.getLogger().error(e.getMessage(), e);
                 }
 
                 String userName = MarketConfig.getInstance().getBbsUsername();

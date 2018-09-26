@@ -1,9 +1,8 @@
 package com.fr.file;
 
+import javax.swing.Icon;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.swing.Icon;
 
 public class MemFILE implements FILE {
 
@@ -103,9 +102,9 @@ public class MemFILE implements FILE {
     }
 
     /**
-     * 后缀
+     * 前缀
      *
-     * @return 后缀
+     * @return 前缀
      */
     public String prefix() {
         return FILEFactory.MEM_PREFIX;

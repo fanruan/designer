@@ -7,23 +7,41 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.file.FILE;
-import com.fr.file.FileNodeFILE;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.project.ProjectConstants;
+import com.fr.third.javax.annotation.Nonnull;
+import com.fr.third.org.apache.commons.io.FilenameUtils;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.lock.TplOperator;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.AlphaComposite;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,14 +53,15 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
-import java.io.File;
+import java.util.List;
 
 /**
  * Author : daisy
  * Date: 13-8-5
  * Time: 下午6:12
  */
-public class MutilTempalteTabPane extends JComponent implements MouseListener, MouseMotionListener, Action {
+public class MutilTempalteTabPane extends JComponent {
+
     private static Icon LIST_DOWN = BaseUtils.readIcon("/com/fr/design/images/buttonicon/list_normal.png");
     private static Icon MOUSE_OVER_LIST_DOWN = BaseUtils.readIcon("/com/fr/design/images/buttonicon/list_pressed.png");
     private static Icon MOUSE_PRESS_LIST_DOWN = BaseUtils.readIcon("/com/fr/design/images/buttonicon/list_pressed.png");
@@ -50,13 +69,11 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     private static Icon MOUSE_OVER_CLOSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/mouseoverclose icon.png");
     private static Icon MOUSE_PRESS_CLOSE = BaseUtils.readIcon("/com/fr/design/images/buttonicon/pressclose icon.png");
     private static final String ELLIPSIS = "...";
-    private static final int GAP_BEFORE_CLOSE = 10;
     private static final int GAP = 5;
     private static final int SMALLGAP = 3;
     private static final int LIST_BUTTON_WIDTH = 34;
     private static final int HEIGHT = 26;
     private static final int LIST_DOWN_HEIGHT = 25;
-    private static final double FOR_CAL_BYTES = 0.5;
     private static final double CORNOR_RADIUS = 0.0;
     //选了30度和60度的特殊角度的x,y作为经过的两个点的坐标
     private static final double SPECIAL_LOCATION_1 = 2.5;
@@ -86,18 +103,10 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     private int minPaintIndex = 0;
     private int maxPaintIndex = 0;
 
-    /**
-     * 鼠标按下时的坐标数组、鼠标放开时的坐标数组
-     */
-    private int[] xyPressedCoordinate = {0, 0};
-
-
     //每个关闭图标的起始位置
     private int[] startX;
 
     private boolean[] isNeedToolTips;
-
-    private Graphics2D g2d;
 
     //记录关闭按钮的状态
     private int closeIconIndex = -1;
@@ -112,24 +121,39 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     private JTemplate<?, ?> temTemplate = null;
 
 
-    private AWTEventListener awt = new AWTEventListener() {
-        public void eventDispatched(AWTEvent event) {
-            if (event instanceof MouseEvent) {
-                MouseEvent mv = (MouseEvent) event;
-                if (mv.getClickCount() > 0 && !ComparatorUtils.equals(mv.getSource(), MutilTempalteTabPane.this)) {
-                    isShowList = false;
-                }
-            }
-        }
-
-    };
-
-
-    public static final MutilTempalteTabPane getInstance() {
+    public static MutilTempalteTabPane getInstance() {
         if (THIS == null) {
             THIS = new MutilTempalteTabPane();
         }
         return THIS;
+    }
+
+
+    /**
+     * 多工作簿面板
+     */
+    public MutilTempalteTabPane() {
+        this.setLayout(new BorderLayout(0, 0));
+        this.addMouseListener(new MultiTemplateTabMouseListener());
+        this.addMouseMotionListener(new MultiTemplateTabMouseMotionListener());
+        this.setBorder(null);
+        this.setForeground(new Color(58, 56, 58));
+        this.setFont(new Font(Toolkit.i18nText("Fine-Design_Basic_Song_TypeFace"), 0, 12));
+        openedTemplate = HistoryTemplateListCache.getInstance().getHistoryList();
+        selectedIndex = openedTemplate.size() - 1;
+        AWTEventListener awt = new AWTEventListener() {
+            @Override
+            public void eventDispatched(AWTEvent event) {
+                if (event instanceof MouseEvent) {
+                    MouseEvent mv = (MouseEvent) event;
+                    if (mv.getClickCount() > 0 && !ComparatorUtils.equals(mv.getSource(), MutilTempalteTabPane.this)) {
+                        isShowList = false;
+                    }
+                }
+            }
+
+        };
+        java.awt.Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
     public JTemplate getSelectedFile() {
@@ -152,31 +176,18 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
     }
 
+    @Override
     public Dimension getPreferredSize() {
         Dimension dimension = super.getPreferredSize();
         dimension.height = HEIGHT;
         return dimension;
     }
 
-    /**
-     * 多工作簿面板
-     */
-    public MutilTempalteTabPane() {
-        this.setLayout(new BorderLayout(0, 0));
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
-        this.setBorder(null);
-        this.setForeground(new Color(58, 56, 58));
-        this.setFont(new Font(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Song_TypeFace"), 0, 12));
-        openedTemplate = HistoryTemplateListPane.getInstance().getHistoryList();
-        selectedIndex = openedTemplate.size() - 1;
-        Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
-    }
-
     private UIMenuItem initCloseOther() {
-        UIMenuItem closeOther = new UIMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FS_Close_Other_Templates"));
+        UIMenuItem closeOther = new UIMenuItem(Toolkit.i18nText("Fine-Design_Basic_FS_Close_Other_Templates"));
         setListDownItemPreferredSize(closeOther);
         closeOther.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (openedTemplate.size() == 1) {
                     return;
@@ -190,20 +201,21 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                     }
                     for (int i = 0; i < panes.length; i++) {
                         if (i != selectedIndex) {
+                            JTemplate<?, ?> jTemplate = panes[i];
                             //判断关闭的模板是不是格式刷的被参照的模板
-                            openedTemplate.remove(panes[i]);
-                            closeFormat(panes[i]);
-                            HistoryTemplateListPane.getInstance().closeSelectedReport(panes[i]);
+                            openedTemplate.remove(jTemplate);
+                            closeFormat(jTemplate);
+                            HistoryTemplateListCache.getInstance().closeSelectedReport(jTemplate);
+                            // release lock
+                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(jTemplate.getPath());
                         }
                     }
-                    JTemplate<?, ?> currentTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-                    HistoryTemplateListPane.getInstance().removeAllHistory();
+                    JTemplate<?, ?> currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+                    HistoryTemplateListCache.getInstance().removeAllHistory();
                     DesignerContext.getDesignerFrame().activateJTemplate(currentTemplate);
                     THIS.repaint();
                 }
                 //如果取消保存了，则不关闭其他模板
-
-
             }
         });
         if (openedTemplate.size() == 1) {
@@ -227,6 +239,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 templates[i].setBackground(UIConstants.SHADOW_CENTER);
             }
             templates[i].addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     selectedIndex = index;
                     tem.activeNewJTemplate();
@@ -256,7 +269,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
      *
      * @param history 模板
      */
-    public void refreshOpenedTemplate(java.util.List<JTemplate<?, ?>> history) {
+    public void refreshOpenedTemplate(List<JTemplate<?, ?>> history) {
         openedTemplate = history;
     }
 
@@ -271,6 +284,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         menu.setBorder(BorderFactory.createEmptyBorder(-3, 3, 3, 0));
         menu.add(initCloseOther());
         JSeparator separator = new JSeparator() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
                 d.height = 1;
@@ -278,6 +292,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
             }
         };
         menu.add(new JPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
                 d.height = 1;
@@ -287,6 +302,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         separator.setForeground(UIConstants.LINE_COLOR);
         menu.add(separator);
         menu.add(new JPanel() {
+            @Override
             public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
                 d.height = 1;
@@ -306,14 +322,16 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     }
 
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         double maxWidth = getWidth() - LIST_BUTTON_WIDTH; //最大宽度
-        g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
         paintBackgroundAndLine(g2d, maxWidth);
     }
 
 
+    @Override
     public void paint(Graphics g) {
         //不可见时，按钮.4f透明
         AlphaComposite composite = DesignerMode.isVcsMode()
@@ -354,7 +372,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 isNeedToolTips[i - minPaintIndex] = false;
             }
 
-            Icon selectedIcon = null;
+            Icon selectedIcon;
             if (i == closeIconIndex) {
                 selectedIcon = clodeMode;
             } else {
@@ -370,7 +388,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         }
 
         if (!DesignerMode.isVcsMode()) {
-        paintListDown(g2d, maxWidth);
+            paintListDown(g2d, maxWidth);
         }
         paintUnderLine(templateStartX, maxWidth, g2d);
     }
@@ -551,7 +569,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
         if (!DesignerMode.isVcsMode()) {
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
         }
         return closePosition;
 
@@ -609,7 +627,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         int closeY = (getHeight() - closeIcon.getIconHeight()) / 2;
         int closePosition = (int) templateStartX + realWidth - CLOSE.getIconWidth() - SMALLGAP;
         if (!DesignerMode.isVcsMode()) {
-        closeIcon.paintIcon(this, g2d, closePosition, closeY);
+            closeIcon.paintIcon(this, g2d, closePosition, closeY);
         }
         return closePosition;
     }
@@ -642,72 +660,6 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         generalPath.closePath();
     }
 
-    /**
-     * 点击
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    /**
-     * 按下
-     *
-     * @param e 鼠标事件
-     */
-    public void mousePressed(MouseEvent e) {
-        //如果在版本管理情况下，不允许切换tab
-        if (DesignerMode.isVcsMode()) {
-            return;
-        }
-
-        int evtX = e.getX();
-        int evtY = e.getY();
-        this.setPressedXY(evtX, evtY);
-
-        //是否点击关闭按钮 如果点击了关闭按钮，则将点击的模板关闭，不需要切换，如果没有点击关闭按钮，则切换到点击的模板处
-        boolean isOverCloseIcon = isOverCloseIcon(evtX);
-        if (isOverListDown(evtX)) {
-            listDownMode = isOverListDown(evtX) ? MOUSE_PRESS_LIST_DOWN : LIST_DOWN;
-            if (!isShowList) {
-                showListDown();
-            }
-            isShowList = !isShowList;
-
-        } else if (isOverCloseIcon) {
-            //关闭按钮的图标变化
-            closeIconIndex = getTemplateIndex(evtX);
-            clodeMode = MOUSE_PRESS_CLOSE;
-            //关闭close图标所在的模板{
-            closeFormat(openedTemplate.get(closeIconIndex));
-            closeSpecifiedTemplate(openedTemplate.get(closeIconIndex));
-            DesignerContext.getDesignerFrame().getContentFrame().repaint();
-            isShowList = false;
-        } else {
-            //没有点击关闭和ListDown按钮，则切换到点击的模板处
-            closeIconIndex = -1;
-            clodeMode = CLOSE;
-            int tempSelectedIndex = selectedIndex;
-            if (selectedIndex != getTemplateIndex(evtX) && getTemplateIndex(evtX) != -1) {
-                openedTemplate.get(selectedIndex).stopEditing();
-                selectedIndex = getTemplateIndex(evtX);
-                //如果在权限编辑情况下，不允许切换到表单类型的工作簿
-                if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
-                    DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
-                    JOptionPane.showMessageDialog(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
-                            + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
-                    this.repaint();
-                    return;
-                }
-                JTemplate evtXTemplate = openedTemplate.get(getTemplateIndex(evtX));
-                evtXTemplate.activeNewJTemplate();
-            }
-            isShowList = false;
-        }
-        this.repaint();
-
-
-    }
 
     public void setIsCloseCurrent(boolean isCloseCurrent) {
         this.isCloseCurrent = isCloseCurrent;
@@ -725,24 +677,30 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         }
 
         //当前激活的模板
-        String filename = openedTemplate.get(selectedIndex).getEditingFILE().getPath();
-        if (filename.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-            filename = ((FileNodeFILE) openedTemplate.get(selectedIndex).getEditingFILE()).getEnvPath() + File.separator + filename;
-        }
-
-        filename = OperatingSystem.isWindows() ? filename.replaceAll("/", "\\\\") : filename.replaceAll("\\\\", "/");
-
+        String filename = openedTemplate.get(selectedIndex).getPath();
+        filename = FilenameUtils.standard(filename);
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
+            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
                     ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (returnVal == JOptionPane.YES_OPTION && specifiedTemplate.saveTemplate()) {
+            if (returnVal == JOptionPane.YES_OPTION) {
                 specifiedTemplate.saveTemplate();
-                FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
+                FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
+                closeTpl(specifiedTemplate, filename);
+            } else if (returnVal == JOptionPane.NO_OPTION) {
+                closeTpl(specifiedTemplate, filename);
             }
+        } else {
+            closeTpl(specifiedTemplate, filename);
         }
-        HistoryTemplateListPane.getInstance().closeSelectedReport(specifiedTemplate);
-        activeTemplate(filename);
+
+    }
+
+    private void closeTpl(@Nonnull JTemplate<?, ?> specifiedTemplate, @Nonnull String fileName) {
+        HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
+        // release lock
+        WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+        activeTemplate(fileName);
     }
 
     /**
@@ -767,15 +725,15 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     /**
      * 关闭掉一个模板之后该激活的Tab
      *
-     * @param fileName
+     * @param fileName 关闭掉一个模板之后该激活的Tab的文件名，绝对路径
      */
     private void activeTemplate(String fileName) {
         if (openedTemplate.isEmpty()) {
             //新建并激活模板
             DesignerContext.getDesignerFrame().addAndActivateJTemplate();
             selectedIndex = 0;
-            //此时刚自动新建的模板在HistoryTemplateListPane的editingTemplate
-            temTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+            //此时刚自动新建的模板在HistoryTemplateListCache的editingTemplate
+            temTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
 
         } else {
             //如果关闭的模板是当前选中的模板，则重新激活
@@ -794,28 +752,11 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 }
             } else {
                 //如果关闭的模板不是当前选中的模板，则激活的模板不变
-                selectedIndex = HistoryTemplateListPane.getInstance().contains(fileName);
+                selectedIndex = HistoryTemplateListCache.getInstance().contains(fileName);
             }
             //如果是已后台关闭的模板，则重新打开文件
             openedTemplate.get(selectedIndex).activeOldJTemplate();
         }
-    }
-
-    /**
-     * 鼠标释放
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    /**
-     * 鼠标进入
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseEntered(MouseEvent e) {
-
     }
 
 
@@ -849,76 +790,6 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
         return -1;
     }
 
-    /**
-     * 鼠标离开
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseExited(MouseEvent e) {
-        listDownMode = LIST_DOWN;
-        closeIconIndex = -1;
-        mouseOveredIndex = -1;
-        this.repaint();
-    }
-
-    /**
-     * 鼠标拖拽
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseDragged(MouseEvent e) {
-    }
-
-    /**
-     * 鼠标移动
-     *
-     * @param e 鼠标事件
-     */
-    public void mouseMoved(MouseEvent e) {
-        int evtX = e.getX();
-        mouseOveredIndex = getTemplateIndex(evtX);
-
-        //看是否需要显示toolTip
-        if (mouseOveredIndex != -1 && isNeedToolTips[mouseOveredIndex - minPaintIndex]) {
-            setToolTipText(openedTemplate.get(mouseOveredIndex).getEditingFILE().getName());
-        } else {
-            setToolTipText(null);
-        }
-
-        listDownMode = isOverListDown(evtX) ? MOUSE_OVER_LIST_DOWN : LIST_DOWN;
-
-        boolean isOverCloseIcon = isOverCloseIcon(evtX);
-        clodeMode = isOverCloseIcon ? MOUSE_OVER_CLOSE : CLOSE;
-        closeIconIndex = isOverCloseIcon ? mouseOveredIndex : -1;
-        this.repaint();
-    }
-
-
-    private void setPressedXY(int x, int y) {
-        this.xyPressedCoordinate[0] = x;
-        this.xyPressedCoordinate[1] = y;
-    }
-
-    public Object getValue(String key) {
-        return null;
-    }
-
-    /**
-     * 加入值
-     *
-     * @param key   键
-     * @param value 值
-     */
-    public void putValue(String key, Object value) {
-    }
-
-    /**
-     * 动作
-     *
-     * @param e 事件
-     */
-    public void actionPerformed(ActionEvent e) {
-    }
 
     /**
      * 处理自动新建的模板 在切换时的处理
@@ -926,7 +797,7 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
     public void doWithtemTemplate() {
         //temtemplate保存的一定是手动新建的没有编辑或是编辑了没有保存的模板
         //没有保存，说明有编辑；已经保存在磁盘里的文件，说明有过处理，并且已经保存，此时切换都不将其自动关闭
-        if (temTemplate == null || temTemplate == HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()) {
+        if (temTemplate == null || temTemplate == HistoryTemplateListCache.getInstance().getCurrentEditingTemplate()) {
             return;
         }
 
@@ -936,9 +807,9 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
 
         //自动新建的模板B若没有进行任何编辑(新建模板没有进行任何编辑时saved都是true):还没有存盘
         if (temTemplate != null && temTemplate.getEditingFILE().isMemFile() && temTemplate.isSaved()) {
-            HistoryTemplateListPane.getInstance().closeSelectedReport(temTemplate);
+            HistoryTemplateListCache.getInstance().closeSelectedReport(temTemplate);
             temTemplate = null;
-            setSelectedIndex(HistoryTemplateListPane.getInstance().contains(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate()));
+            setSelectedIndex(HistoryTemplateListCache.getInstance().contains(HistoryTemplateListCache.getInstance().getCurrentEditingTemplate()));
         }
     }
 
@@ -967,6 +838,147 @@ public class MutilTempalteTabPane extends JComponent implements MouseListener, M
                 GUIPaintUtils.fillPaint((Graphics2D) g, GAP, 0, menuWidth - GAP, menuHeight, true, Constants.NULL, UIConstants.FLESH_BLUE, UIConstants.ARC);
                 g.setColor(oldColor);
             }
+        }
+    }
+
+    private class MultiTemplateTabMouseListener implements MouseListener {
+
+
+        /**
+         * 鼠标进入
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        /**
+         * 鼠标离开
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseExited(MouseEvent e) {
+            listDownMode = LIST_DOWN;
+            closeIconIndex = -1;
+            mouseOveredIndex = -1;
+            MutilTempalteTabPane.this.repaint();
+        }
+
+        /**
+         * 鼠标释放
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        /**
+         * 点击
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+
+        /**
+         * 按下
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //如果在版本管理情况下，不允许切换tab
+            if (DesignerMode.isVcsMode()) {
+                return;
+            }
+
+            int evtX = e.getX();
+
+            //是否点击关闭按钮 如果点击了关闭按钮，则将点击的模板关闭，不需要切换，如果没有点击关闭按钮，则切换到点击的模板处
+            boolean isOverCloseIcon = isOverCloseIcon(evtX);
+            if (isOverListDown(evtX)) {
+                listDownMode = isOverListDown(evtX) ? MOUSE_PRESS_LIST_DOWN : LIST_DOWN;
+                if (!isShowList) {
+                    showListDown();
+                }
+                isShowList = !isShowList;
+
+            } else if (isOverCloseIcon) {
+                //关闭按钮的图标变化
+                closeIconIndex = getTemplateIndex(evtX);
+                clodeMode = MOUSE_PRESS_CLOSE;
+                //关闭close图标所在的模板{
+                closeFormat(openedTemplate.get(closeIconIndex));
+                closeSpecifiedTemplate(openedTemplate.get(closeIconIndex));
+                DesignerContext.getDesignerFrame().getContentFrame().repaint();
+                isShowList = false;
+            } else {
+                //没有点击关闭和ListDown按钮，则切换到点击的模板处
+                closeIconIndex = -1;
+                clodeMode = CLOSE;
+                int tempSelectedIndex = selectedIndex;
+                if (selectedIndex != getTemplateIndex(evtX) && getTemplateIndex(evtX) != -1) {
+                    openedTemplate.get(selectedIndex).stopEditing();
+                    selectedIndex = getTemplateIndex(evtX);
+                    //如果在权限编辑情况下，不允许切换到表单类型的工作簿
+                    if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
+                        DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
+                        JOptionPane.showMessageDialog(MutilTempalteTabPane.this, Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
+                                + "!", Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
+                        MutilTempalteTabPane.this.repaint();
+                        return;
+                    }
+                    JTemplate evtXTemplate = openedTemplate.get(getTemplateIndex(evtX));
+                    evtXTemplate.activeNewJTemplate();
+                }
+                isShowList = false;
+            }
+            MutilTempalteTabPane.this.repaint();
+
+
+        }
+
+
+    }
+
+    private class MultiTemplateTabMouseMotionListener implements MouseMotionListener {
+        /**
+         * 鼠标拖拽
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseDragged(MouseEvent e) {
+        }
+
+        /**
+         * 鼠标移动
+         *
+         * @param e 鼠标事件
+         */
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            int evtX = e.getX();
+            mouseOveredIndex = getTemplateIndex(evtX);
+
+            //看是否需要显示toolTip
+            if (mouseOveredIndex != -1 && isNeedToolTips[mouseOveredIndex - minPaintIndex]) {
+                setToolTipText(openedTemplate.get(mouseOveredIndex).getEditingFILE().getName());
+            } else {
+                setToolTipText(null);
+            }
+
+            listDownMode = isOverListDown(evtX) ? MOUSE_OVER_LIST_DOWN : LIST_DOWN;
+
+            boolean isOverCloseIcon = isOverCloseIcon(evtX);
+            clodeMode = isOverCloseIcon ? MOUSE_OVER_CLOSE : CLOSE;
+            closeIconIndex = isOverCloseIcon ? mouseOveredIndex : -1;
+            MutilTempalteTabPane.this.repaint();
         }
     }
 

@@ -11,7 +11,9 @@ import com.fr.design.report.mobile.ReportMobileAttrPane;
 import com.fr.file.FILE;
 import com.fr.general.IOUtils;
 
+import com.fr.intelli.record.Focus;
 import com.fr.main.TemplateWorkBook;
+import com.fr.record.analyzer.EnableMetrics;
 import com.fr.report.mobile.ElementCaseMobileAttr;
 
 import javax.swing.*;
@@ -22,6 +24,7 @@ import java.awt.event.ActionEvent;
  *
  * Created by Administrator on 2016/5/12/0012.
  */
+@EnableMetrics
 public class ReportMobileAttrAction extends JWorkBookAction{
 
     public ReportMobileAttrAction(JWorkBook jwb) {
@@ -64,12 +67,18 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                     // 放到后面。如果提前 return 了，则仍然处于未设置状态，不要添加
                     wbTpl.addAttrMark(new MobileOnlyTemplateAttrMark());
                 }
+                recordFunction();
                 // 设置移动端属性并刷新界面
                 wbTpl.setReportMobileAttr(elementCaseMobileAttr);  // 会同时修改页面设置，放到最后
                 jwb.fireTargetModified();
             }
         });
         dialog.setVisible(true);
+    }
+
+    @Focus(id = "com.fr.mobile.mobile_template_cpt", text = "Fine-Design_Function_Mobile_Template_Cpt")
+    private void recordFunction() {
+        // do nothing
     }
 
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {

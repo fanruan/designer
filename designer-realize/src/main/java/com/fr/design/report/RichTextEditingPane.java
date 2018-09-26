@@ -150,7 +150,7 @@ public class RichTextEditingPane extends UITextPane{
 						doc.remove(formulaStart, formulaContent.length() + WRAPPER_LEN);
 						doc.insertString(formulaStart, content, attrs);
 					} catch (BadLocationException e) {
-						FRContext.getLogger().error(e.getMessage());
+						FRContext.getLogger().error(e.getMessage(), e);
 					}
 				}
 			}).setVisible(true);

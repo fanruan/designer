@@ -8,7 +8,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
@@ -56,7 +55,7 @@ public class AlphaFineConfigPane extends BasicPane {
     private static final double COLUMN_GAP = 180;
     private static final double ROW_GAP = 25;
     private KeyStroke shortCutKeyStore = null;
-    private UICheckBox isEnabledCheckbox, isSearchOnlineCheckbox, isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox, isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox;
+    private UICheckBox enabledCheckbox, searchOnlineCheckbox, needSegmentationCheckbox, needIntelligentCustomerService, containRecommendCheckbox, containActionCheckbox, containDocumentCheckbox, containTemplateCheckbox, containPluginCheckbox, containFileContentCheckbox;
     private UITextField shortcutsField;
 
     public AlphaFineConfigPane() {
@@ -76,24 +75,33 @@ public class AlphaFineConfigPane extends BasicPane {
 
     private Component[][] initSearchRangeComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{isContainRecommendCheckbox, isContainActionCheckbox, isContainDocumentCheckbox},
-                new Component[]{isContainTemplateCheckbox, isContainPluginCheckbox, isContainFileContentCheckbox}
+                new Component[]{containRecommendCheckbox, containActionCheckbox, containDocumentCheckbox},
+                new Component[]{containTemplateCheckbox, containPluginCheckbox, containFileContentCheckbox},
+                new Component[]{needIntelligentCustomerService, null, null}
+        };
+        return components;
+    }
+
+    private Component[][] initOnlineComponents() {
+        Component[][] components = new Component[][]{
+                new Component[]{searchOnlineCheckbox, needSegmentationCheckbox, null}
         };
         return components;
     }
 
     private void createSearchConfigPane(JPanel contentPane) {
-        double[] rowSize = {ROW_GAP, ROW_GAP};
+        double[] rowSize = {ROW_GAP, ROW_GAP, ROW_GAP};
 
         double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
 
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Search_Range"));
-        isContainRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Recommend"));
-        isContainActionCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"));
-        isContainPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"));
-        isContainDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"));
-        isContainTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates"));
-        isContainFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Templates_Content"));
+        containRecommendCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Recommend"));
+        containActionCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"));
+        containPluginCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon"));
+        containDocumentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help"));
+        containTemplateCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Templates"));
+        containFileContentCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Templates_Content"));
+        needIntelligentCustomerService = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Intelligent_Customer_Service"));
         JPanel searchConfigPane = TableLayoutHelper.createTableLayoutPane(initSearchRangeComponents(), rowSize, columnSize);
         northPane.add(searchConfigPane);
         contentPane.add(northPane);
@@ -138,33 +146,40 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     private void createOnlinePane(JPanel contentPane) {
-        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Internet"));
-        isSearchOnlineCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Internet_Search"));
-        isSearchOnlineCheckbox.addActionListener(new ActionListener() {
+        JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Search_Type"));
+        searchOnlineCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Internet_Search"));
+        needSegmentationCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_Segmentation"));
+        searchOnlineCheckbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!isSearchOnlineCheckbox.isSelected()) {
-                    isContainRecommendCheckbox.setEnabled(false);
-                    isContainPluginCheckbox.setEnabled(false);
-                    isContainDocumentCheckbox.setEnabled(false);
-                    isContainRecommendCheckbox.setSelected(false);
-                    isContainPluginCheckbox.setSelected(false);
-                    isContainDocumentCheckbox.setSelected(false);
+                if (!searchOnlineCheckbox.isSelected()) {
+                    containRecommendCheckbox.setEnabled(false);
+                    containPluginCheckbox.setEnabled(false);
+                    containDocumentCheckbox.setEnabled(false);
+                    needIntelligentCustomerService.setEnabled(false);
+                    containRecommendCheckbox.setSelected(false);
+                    containPluginCheckbox.setSelected(false);
+                    containDocumentCheckbox.setSelected(false);
+                    needIntelligentCustomerService.setSelected(false);
                 } else {
-                    isContainRecommendCheckbox.setEnabled(true);
-                    isContainPluginCheckbox.setEnabled(true);
-                    isContainDocumentCheckbox.setEnabled(true);
+                    containRecommendCheckbox.setEnabled(true);
+                    containPluginCheckbox.setEnabled(true);
+                    containDocumentCheckbox.setEnabled(true);
+                    needIntelligentCustomerService.setEnabled(true);
                 }
             }
         });
-        northPane.add(isSearchOnlineCheckbox);
+        double[] rowSize = {ROW_GAP};
+        double[] columnSize = {COLUMN_GAP, COLUMN_GAP, COLUMN_GAP};
+        JPanel onlinePane = TableLayoutHelper.createTableLayoutPane(initOnlineComponents(), rowSize, columnSize);
+        northPane.add(onlinePane);
         contentPane.add(northPane);
     }
 
     private void createOpenPane(JPanel contentPane) {
         JPanel northPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable"));
-        isEnabledCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_AlphaFine"));
-        northPane.add(isEnabledCheckbox);
+        enabledCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_AlphaFine_Enable_AlphaFine"));
+        northPane.add(enabledCheckbox);
         contentPane.add(northPane);
     }
 
@@ -174,40 +189,46 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     public void populate(AlphaFineConfigManager alphaFineConfigManager) {
-        this.isEnabledCheckbox.setSelected(alphaFineConfigManager.isEnabled());
-        this.isSearchOnlineCheckbox.setEnabled(FRContext.isChineseEnv());
-        this.isSearchOnlineCheckbox.setSelected(alphaFineConfigManager.isSearchOnLine());
-        this.isContainActionCheckbox.setSelected(alphaFineConfigManager.isContainAction());
-        this.isContainTemplateCheckbox.setSelected(alphaFineConfigManager.isContainTemplate());
-        this.isContainFileContentCheckbox.setSelected(alphaFineConfigManager.isContainFileContent());
-        this.isContainDocumentCheckbox.setSelected(alphaFineConfigManager.isContainDocument() && alphaFineConfigManager.isSearchOnLine());
-        this.isContainDocumentCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
-        this.isContainPluginCheckbox.setSelected(alphaFineConfigManager.isContainPlugin() && alphaFineConfigManager.isSearchOnLine());
-        this.isContainPluginCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
-        this.isContainRecommendCheckbox.setSelected(alphaFineConfigManager.isContainRecommend() && alphaFineConfigManager.isSearchOnLine());
-        this.isContainRecommendCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.enabledCheckbox.setSelected(alphaFineConfigManager.isEnabled());
+        this.searchOnlineCheckbox.setEnabled(FRContext.isChineseEnv());
+        this.searchOnlineCheckbox.setSelected(alphaFineConfigManager.isSearchOnLine());
+        this.containActionCheckbox.setSelected(alphaFineConfigManager.isContainAction());
+        this.containTemplateCheckbox.setSelected(alphaFineConfigManager.isContainTemplate());
+        this.containFileContentCheckbox.setSelected(alphaFineConfigManager.isContainFileContent());
+        this.containDocumentCheckbox.setSelected(alphaFineConfigManager.isContainDocument() && alphaFineConfigManager.isSearchOnLine());
+        this.containDocumentCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.containPluginCheckbox.setSelected(alphaFineConfigManager.isContainPlugin() && alphaFineConfigManager.isSearchOnLine());
+        this.containPluginCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.containRecommendCheckbox.setSelected(alphaFineConfigManager.isContainRecommend() && alphaFineConfigManager.isSearchOnLine());
+        this.containRecommendCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
         this.shortcutsField.setText(getDisplayShortCut(alphaFineConfigManager.getShortcuts()));
+
+        this.needSegmentationCheckbox.setSelected(alphaFineConfigManager.isNeedSegmentationCheckbox());
+        this.needIntelligentCustomerService.setSelected(alphaFineConfigManager.isNeedIntelligentCustomerService() && alphaFineConfigManager.isSearchOnLine());
+        this.needIntelligentCustomerService.setEnabled(alphaFineConfigManager.isSearchOnLine());
         shortCutKeyStore = convert2KeyStroke(alphaFineConfigManager.getShortcuts());
     }
 
     public void update() {
         DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
         AlphaFineConfigManager alphaFineConfigManager = designerEnvManager.getAlphaFineConfigManager();
-        alphaFineConfigManager.setContainPlugin(this.isContainPluginCheckbox.isSelected());
-        alphaFineConfigManager.setContainAction(this.isContainActionCheckbox.isSelected());
-        alphaFineConfigManager.setContainDocument(this.isContainDocumentCheckbox.isSelected());
-        alphaFineConfigManager.setContainRecommend(this.isContainRecommendCheckbox.isSelected());
-        alphaFineConfigManager.setEnabled(this.isEnabledCheckbox.isSelected());
-        alphaFineConfigManager.setSearchOnLine(this.isSearchOnlineCheckbox.isSelected());
-        alphaFineConfigManager.setContainTemplate(this.isContainTemplateCheckbox.isSelected());
-        alphaFineConfigManager.setContainFileContent(this.isContainFileContentCheckbox.isSelected());
+        alphaFineConfigManager.setContainPlugin(this.containPluginCheckbox.isSelected());
+        alphaFineConfigManager.setContainAction(this.containActionCheckbox.isSelected());
+        alphaFineConfigManager.setContainDocument(this.containDocumentCheckbox.isSelected());
+        alphaFineConfigManager.setContainRecommend(this.containRecommendCheckbox.isSelected());
+        alphaFineConfigManager.setEnabled(this.enabledCheckbox.isSelected());
+        alphaFineConfigManager.setSearchOnLine(this.searchOnlineCheckbox.isSelected());
+        alphaFineConfigManager.setContainTemplate(this.containTemplateCheckbox.isSelected());
+        alphaFineConfigManager.setContainFileContent(this.containFileContentCheckbox.isSelected());
+        alphaFineConfigManager.setNeedSegmentationCheckbox(this.needSegmentationCheckbox.isSelected());
+        alphaFineConfigManager.setNeedIntelligentCustomerService(this.needIntelligentCustomerService.isSelected());
         alphaFineConfigManager.setShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : this.shortcutsField.getText());
         designerEnvManager.setAlphaFineConfigManager(alphaFineConfigManager);
         try {
             DesignerEnvManager.loadLogSetting();
             DesignerEnvManager.getEnvManager().saveXMLFile();
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
 
@@ -234,10 +255,10 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     public UICheckBox getIsContainFileContentCheckbox() {
-        return isContainFileContentCheckbox;
+        return containFileContentCheckbox;
     }
 
     public void setIsContainFileContentCheckbox(UICheckBox isContainFileContentCheckbox) {
-        this.isContainFileContentCheckbox = isContainFileContentCheckbox;
+        this.containFileContentCheckbox = isContainFileContentCheckbox;
     }
 }
