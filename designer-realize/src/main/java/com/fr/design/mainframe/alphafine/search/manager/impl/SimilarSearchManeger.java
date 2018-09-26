@@ -24,7 +24,7 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
 
     public static SimilarSearchManeger getInstance() {
         if (instance == null) {
-            synchronized (SimilarSearchManeger.class){
+            synchronized (SimilarSearchManeger.class) {
                 if (instance == null) {
                     instance = new SimilarSearchManeger();
                 }
@@ -41,7 +41,7 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                 return new SearchResult();
             }
             SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
-            if(noConnectList != null){
+            if (noConnectList != null) {
                 return noConnectList;
             }
             SearchResult allModelList = new SearchResult();
@@ -51,9 +51,9 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"title");
+                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result, "title");
                 } catch (Exception e) {
-                    FineLoggerFactory.getLogger().debug("similar search error: " + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("similar search error.search str {}", searchText[j]);
                 }
             }
             moreModelList.clear();

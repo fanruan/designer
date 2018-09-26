@@ -30,6 +30,7 @@ public class ComplementAdviceManager {
 
     /**
      * 从接口中获取补全建议结果
+     *
      * @param searchText
      * @return
      */
@@ -43,9 +44,9 @@ public class ComplementAdviceManager {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"keywords");
-                } catch(Exception e){
-                    FineLoggerFactory.getLogger().debug("complement advice search error: " + e.getMessage());
+                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result, "keywords");
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().debug("complement advice search error. search str {}", searchText[j]);
                 }
             }
             if (searchResult.isEmpty()) {
