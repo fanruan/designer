@@ -12,14 +12,12 @@ import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                 return new SearchResult();
             }
             SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
-            if(noConnectList != null){
+            if (noConnectList != null) {
                 return noConnectList;
             }
             for (int j = 0; j < searchText.length; j++) {
@@ -76,9 +74,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                             }
                         }
                     }
-                } catch (JSONException e) {
-                    FineLoggerFactory.getLogger().debug("recommend search error! :" + e.getMessage());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     FineLoggerFactory.getLogger().debug("recommend search get result error! :" + e.getMessage());
                 }
             }
@@ -113,7 +109,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     /**
      * 将推荐接口获取的数据分别放入“显示部分”，“显示更多”的list
      */
-    private void getRecommendSearchResult(){
+    private void getRecommendSearchResult() {
         if (recommendModelList.size() > AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM) {
             if (recommendModelList.size() > AlphaFineConstants.SHOW_SIZE) {
                 modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
@@ -131,7 +127,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     /**
      * 将补全接口获取的数据分别放入“显示部分”，“显示更多”的list
      */
-    private void getComplementAdviceSearchResult(){
+    private void getComplementAdviceSearchResult() {
         if (complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
             modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
             modelList.addAll(complementAdviceModelList.subList(0, AlphaFineConstants.SHOW_SIZE));
@@ -145,7 +141,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
     /**
      * 将推荐接口和补全接口获取的数据分别放入“显示部分”，“显示更多”的list
      */
-    private void getRecommendAndAdviceSearchResult(){
+    private void getRecommendAndAdviceSearchResult() {
         if (recommendModelList.size() + complementAdviceModelList.size() > AlphaFineConstants.SHOW_SIZE) {
             modelList.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Recommend"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_ShowAll"), true, CellType.RECOMMEND));
             if (recommendModelList.size() > AlphaFineConstants.RECOMMEND_MAX_ITEM_NUM) {

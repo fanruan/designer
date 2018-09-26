@@ -9,13 +9,10 @@ import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
-
-import java.io.IOException;
 
 /**
  * Created by alex.sung on 2018/8/3.
@@ -55,10 +52,8 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
                     allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"title");
-                } catch (ClassCastException | JSONException e) {
+                } catch (Exception e) {
                     FineLoggerFactory.getLogger().debug("similar search error: " + e.getMessage());
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().debug("similar search get result error: " + e.getMessage());
                 }
             }
             moreModelList.clear();
