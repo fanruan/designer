@@ -77,9 +77,9 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
                         }
                     }
                 } catch (JSONException e) {
-                    FineLoggerFactory.getLogger().error("recommend search error! :" + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("recommend search error! :" + e.getMessage());
                 } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error("recommend search get result error! :" + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("recommend search get result error! :" + e.getMessage());
                 }
             }
 

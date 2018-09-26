@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 /**
@@ -32,6 +33,7 @@ public class RobotPreviewPane extends JPanel {
 
     private static final int TITLE_AREA_HEIGHT = 15;
     private static final int HOT_TITLE_AREA_HEIGHT = 30;
+    private static final String STRING_ENCODER = "UTF-8";
 
     public RobotPreviewPane(AlphaCellModel model, String content) {
         this.setLayout(new BorderLayout());
@@ -58,7 +60,7 @@ public class RobotPreviewPane extends JPanel {
                             .replaceAll("\\('", StringUtils.EMPTY)
                             .replaceAll("'\\)", StringUtils.EMPTY);
                     try {
-                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + s));
+                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + URLEncoder.encode(s, STRING_ENCODER)));
                     } catch (IOException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage());
                     } catch (URISyntaxException e1) {

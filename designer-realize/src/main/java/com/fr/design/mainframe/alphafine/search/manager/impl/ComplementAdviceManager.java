@@ -3,17 +3,13 @@ package com.fr.design.mainframe.alphafine.search.manager.impl;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.AlphaFineHelper;
-import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
-import com.fr.json.JSONObject;
-import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.StringUtils;
-import java.io.IOException;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+
+import java.io.IOException;
 
 
 /**
@@ -52,9 +48,9 @@ public class ComplementAdviceManager {
                     AlphaFineHelper.checkCancel();
                     allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"keywords");
                 } catch(ClassCastException | JSONException e){
-                    FineLoggerFactory.getLogger().error("complement advice search error: " + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("complement advice search error: " + e.getMessage());
                 } catch (IOException e1) {
-                    FineLoggerFactory.getLogger().error("complement advice get result error: " + e1.getMessage());
+                    FineLoggerFactory.getLogger().debug("complement advice get result error: " + e1.getMessage());
                 }
             }
             if (searchResult.isEmpty()) {

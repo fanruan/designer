@@ -56,9 +56,9 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                     AlphaFineHelper.checkCancel();
                     allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"title");
                 } catch (ClassCastException | JSONException e) {
-                    FineLoggerFactory.getLogger().error("similar search error: " + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("similar search error: " + e.getMessage());
                 } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error("similar search get result error: " + e.getMessage());
+                    FineLoggerFactory.getLogger().debug("similar search get result error: " + e.getMessage());
                 }
             }
             moreModelList.clear();
