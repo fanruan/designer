@@ -246,6 +246,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
 
             new MkdirDialog();
+            stateChange();
         }
 
     }
@@ -263,7 +264,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-
             selectedOperation.showInExplorer();
         }
     }
@@ -281,10 +281,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
         @Override
         public void actionPerformed(ActionEvent evt) {
-
             selectedOperation.refresh();
             stateChange();
-
         }
     }
 
@@ -322,6 +320,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             new FileRenameDialog(node);
             MutilTempalteTabPane.getInstance().repaint();
+            stateChange();
         }
 
     }
@@ -347,8 +346,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                         WARNING_MESSAGE);
                 return;
             }
-
             selectedOperation.deleteFile();
+            stateChange();
         }
     }
 
