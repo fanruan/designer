@@ -6,7 +6,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.general.Background;
 
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
@@ -18,18 +17,24 @@ import java.awt.Color;
  */
 public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
-	private NewColorSelectPane detailColorSelectPane;
-	private boolean isBackGroundColor;
+    private NewColorSelectPane detailColorSelectPane;
+    private boolean isBackGroundColor;
 
-	public ColorBackgroundQuickPane() {
-		this.setLayout(FRGUIPaneFactory.createBorderLayout());
+    public ColorBackgroundQuickPane() {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        detailColorSelectPane = new NewColorSelectPane();
+        this.add(detailColorSelectPane, BorderLayout.NORTH);
+    }
 
-		detailColorSelectPane = new NewColorSelectPane();
-		this.add(detailColorSelectPane, BorderLayout.NORTH);
-	}
+    public ColorBackgroundQuickPane(Color color) {
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        detailColorSelectPane = new NewColorSelectPane(color);
+        this.add(detailColorSelectPane, BorderLayout.NORTH);
+    }
 
-	public void populateBean(Background background) {
-		ColorBackground colorBackgroud = (ColorBackground) background;
+
+    public void populateBean(Background background) {
+        ColorBackground colorBackgroud = (ColorBackground) background;
         populateColor(colorBackgroud.getColor());
     }
 
@@ -47,48 +52,48 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
         return this.detailColorSelectPane.getNotNoneColor();
     }
 
-	public boolean isBackGroundColor(){
-		return isBackGroundColor;
-	}
+    public boolean isBackGroundColor() {
+        return isBackGroundColor;
+    }
 
-	/**
-	 * 给组件登记一个观察者监听事件
-	 *
-	 * @param listener 观察者监听事件
-	 */
-	public void registerChangeListener(final UIObserverListener listener) {
-		detailColorSelectPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				isBackGroundColor = true;
-				listener.doChange();
-				isBackGroundColor = false;
-			}
-		});
-	}
+    /**
+     * 给组件登记一个观察者监听事件
+     *
+     * @param listener 观察者监听事件
+     */
+    public void registerChangeListener(final UIObserverListener listener) {
+        detailColorSelectPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                isBackGroundColor = true;
+                listener.doChange();
+                isBackGroundColor = false;
+            }
+        });
+    }
 
-	@Override
-	/**
-	 * 是否为ColorBackground 类型
-	 * 
-	 * @param background 背景
-	 * @return 同上
-	 * 
-	 */
-	public boolean accept(Background background) {
-		return background instanceof ColorBackground;
-	}
+    @Override
+    /**
+     * 是否为ColorBackground 类型
+     *
+     * @param background 背景
+     * @return 同上
+     *
+     */
+    public boolean accept(Background background) {
+        return background instanceof ColorBackground;
+    }
 
-	@Override
-	/**
-	 * 窗口名称
-	 * @return 同上
-	 */
-	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color");
-	}
+    @Override
+    /**
+     * 窗口名称
+     * @return 同上
+     */
+    public String title4PopupWindow() {
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Color");
+    }
 
-	@Override
-	public void reset() {
-		this.detailColorSelectPane.setColor(null);
-	}
+    @Override
+    public void reset() {
+        this.detailColorSelectPane.setColor(null);
+    }
 }
