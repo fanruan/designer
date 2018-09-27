@@ -54,10 +54,6 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         this(false);
     }
 
-    public NewColorSelectPane(Color color) {
-        this(false);
-        this.setColor(color);
-    }
 
     /**
      * Constructor.

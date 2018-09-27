@@ -26,13 +26,6 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
         this.add(detailColorSelectPane, BorderLayout.NORTH);
     }
 
-    public ColorBackgroundQuickPane(Color color) {
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        detailColorSelectPane = new NewColorSelectPane(color);
-        this.add(detailColorSelectPane, BorderLayout.NORTH);
-    }
-
-
     public void populateBean(Background background) {
         ColorBackground colorBackgroud = (ColorBackground) background;
         populateColor(colorBackgroud.getColor());
