@@ -3,14 +3,15 @@ package com.fr.design.gui.controlpane.shortcutfactory;
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;
+import com.fr.design.gui.frpane.HyperLinkGroupFilter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StringUtils;
 
@@ -36,11 +37,11 @@ public class ShortCutFactory extends AbstractShortCutFactory {
     @Override
     public ShortCut4JControlPane[] createShortCuts() {
         return new ShortCut4JControlPane[]{
-            copyItemShortCut(),
-            moveUpItemShortCut(),
-            moveDownItemShortCut(),
-            sortItemShortCut(),
-            removeItemShortCut()
+                copyItemShortCut(),
+                moveUpItemShortCut(),
+                moveDownItemShortCut(),
+                sortItemShortCut(),
+                removeItemShortCut()
         };
     }
 
@@ -77,7 +78,7 @@ public class ShortCutFactory extends AbstractShortCutFactory {
             Object object = this.getValue(UIButton.class.getName());
             if (!(object instanceof AbstractButton)) {
                 // 直接使用默认UI
-                UIButton button =  new UIButton();
+                UIButton button = new UIButton();
                 // 添加一个名字作为自动化测试用
                 button.setName(getName());
 
@@ -124,7 +125,8 @@ public class ShortCutFactory extends AbstractShortCutFactory {
 
         /**
          * 生成UIButton
-         * @return  菜单按钮
+         *
+         * @return 菜单按钮
          */
         public UIButton createUIButton() {
             createdButton = super.createUIButton();
@@ -139,7 +141,8 @@ public class ShortCutFactory extends AbstractShortCutFactory {
 
         private void wrapActionListener(NameableCreator[] creators) {
             for (final NameableCreator creator : creators) {
-                if (!whetherAdd(creator.menuName())) {
+                HyperLinkGroupFilter filter = DesignModuleFactory.getHyperlinkGroupType().getFilter();
+                if (!filter.filter(creator.getHyperlink())) {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), com.fr.design.i18n.Toolkit.i18nText("Datasource-Stored_Procedure")) ||
@@ -162,10 +165,6 @@ public class ShortCutFactory extends AbstractShortCutFactory {
                     }
                 });
             }
-        }
-
-        protected boolean whetherAdd(String itemName){
-            return HyperlinkFilterHelper.whetherAddHyperlink4cell(itemName);
         }
     }
 }
