@@ -947,11 +947,13 @@ public class AlphaFineDialog extends UIDialog {
         Thread sendThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RecentSearchManager searchManager = RecentSearchManager.getInstance();
-                searchManager.addModel(storeText, cellModel);
-                sendDataToServer(storeText, cellModel);
-                TemplateInfoCollector.getInstance().sendTemplateInfo();
-                ErrorInfoUploader.getInstance().sendErrorInfo();
+                if(StringUtils.isNotEmpty(storeText)){
+                    RecentSearchManager searchManager = RecentSearchManager.getInstance();
+                    searchManager.addModel(storeText, cellModel);
+                    sendDataToServer(storeText, cellModel);
+                    TemplateInfoCollector.getInstance().sendTemplateInfo();
+                    ErrorInfoUploader.getInstance().sendErrorInfo();
+                }
             }
         });
         sendThread.start();
@@ -1376,10 +1378,11 @@ public class AlphaFineDialog extends UIDialog {
     private void initBackPane() {
         backPane = new JPanel(new BorderLayout());
         JLabel jLabel = new JLabel("  <  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
-        jLabel.setPreferredSize(new Dimension(680, 20));
+        jLabel.setPreferredSize(new Dimension(80, 20));
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);
-        backPane.add(jLabel, BorderLayout.CENTER);
+        jLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        backPane.add(jLabel, BorderLayout.WEST);
 
         jLabel.addMouseListener(new MouseAdapter() {
             @Override

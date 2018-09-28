@@ -8,7 +8,6 @@ import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.BaseHyperlinkGroup;
-
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
@@ -23,15 +22,16 @@ public class FormHyperlinkGroup extends BaseHyperlinkGroup {
 
     /**
      * 返回支持的超级链接类型
+     *
      * @return NameableCreator[]
      */
     public NameableCreator[] getHyperlinkCreators() {
-    	FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        NameableCreator[] realted4CharthyperUse = {
+        FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        NameableCreator[] related4ChartHyper = {
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Chart"), ChartHyperPoplink.class, ChartHyperPoplinkPane.ChartNoRename.class),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Cell"), ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.ChartNoRename.class),
                 new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hyperlink_Form_Link"), formHyperlink.getClass(), FormHyperlinkPane.class)};
-        return (NameableCreator[]) ArrayUtils.addAll(super.getHyperlinkCreators(), realted4CharthyperUse);
+        return ArrayUtils.addAll(super.getHyperlinkCreators(), related4ChartHyper);
 
     }
 }

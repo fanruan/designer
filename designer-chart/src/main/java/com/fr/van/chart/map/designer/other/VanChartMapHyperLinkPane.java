@@ -1,7 +1,11 @@
 package com.fr.van.chart.map.designer.other;
 
+import com.fr.base.BaseFormula;
+import com.fr.base.FormulaBuilder;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.dialog.BasicScrollPane;
+import com.fr.extended.chart.HyperLinkPara;
+import com.fr.extended.chart.HyperLinkParaHelper;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.type.MapType;
@@ -11,6 +15,8 @@ import com.fr.van.chart.map.designer.VanMapAreaPointAndLineGroupPane;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by hufan on 2016/12/20.
@@ -192,6 +198,16 @@ public class VanChartMapHyperLinkPane extends BasicScrollPane<Plot> {
             @Override
             protected NameJavaScriptGroup populateHotHyperLink(Plot plot) {
                 return ((VanChartMapPlot)plot).getLineHotHyperLink();
+            }
+
+            @Override
+            protected Map<String, BaseFormula> getHyperLinkEditorMap() {
+                FormulaBuilder builder = BaseFormula.createFormulaBuilder();
+                Map<String, BaseFormula> map = new LinkedHashMap<>();
+                for (HyperLinkPara para : HyperLinkParaHelper.LINE_MAP) {
+                    map.put(para.getName(), builder.build(para.getFormulaContent()));
+                }
+                return map;
             }
         };
     }
