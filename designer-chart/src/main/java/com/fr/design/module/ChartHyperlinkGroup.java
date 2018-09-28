@@ -11,13 +11,13 @@ import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.frpane.BaseHyperlinkGroup;
-import com.fr.design.gui.frpane.HyperLinkGroupFilter;
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.js.JavaScript;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.Filter;
 import com.fr.stable.bridge.StableFactory;
 
 /**
@@ -46,10 +46,10 @@ public class ChartHyperlinkGroup extends BaseHyperlinkGroup {
     }
 
     @Override
-    public HyperLinkGroupFilter getFilter() {
-        return new HyperLinkGroupFilter() {
+    public Filter<Class<? extends JavaScript>> getFilter() {
+        return new Filter<Class<? extends JavaScript>>() {
             @Override
-            public boolean filter(Class<? extends JavaScript> clazz) {
+            public boolean accept(Class<? extends JavaScript> clazz) {
                 JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (template == null) {
                     return false;
@@ -78,25 +78,23 @@ public class ChartHyperlinkGroup extends BaseHyperlinkGroup {
                 }
                 return true;
             }
+        };
+    }
 
-            /**
-             * 兼容老图表
-             * @param object
-             * @return
-             */
+    @Override
+    public Filter<Object> getOldFilter() {
+        return new Filter<Object>() {
             @Override
-            public boolean filter(Object object) {
+            public boolean accept(Object object) {
                 JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (template == null) {
                     return false;
                 }
-
                 if (template.isJWorkBook()) {
                     // 如果是普通报表单元格，那么没有 FormHyperlink 选项
                     FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
                     //返回true表示可用，返回false表示不可用
                     return !ComparatorUtils.equals(object.getClass(), formHyperlink.getClass());
-
                 } else {
                     // 如果是决策报表
                     Class[] classes = new Class[]{ChartHyperRelateCellLink.class, ChartHyperRelateFloatLink.class};

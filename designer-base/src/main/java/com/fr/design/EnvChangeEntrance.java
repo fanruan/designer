@@ -16,6 +16,7 @@ import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
+import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
@@ -99,6 +100,10 @@ public class EnvChangeEntrance {
                         template.refreshToolArea();
                     }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
+                    if (WorkContext.getCurrent().isLocal()) {
+                        //初始化一下serverTray
+                        ServerTray.init();
+                    }
                 }
             });
 
