@@ -5,25 +5,25 @@ import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.js.JavaScript;
 import com.fr.stable.Nameable;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 public interface NameableCreator {
-	public String menuName();
-	
-	public Icon menuIcon();
-	
-	public String createTooltip();
-	
-	public Nameable createNameable(UnrepeatedNameHelper helper);
-	
-	public Class<? extends BasicBeanPane> getUpdatePane();
-	
-	public Object acceptObject2Populate(Object ob);
-	
-	public void saveUpdatedBean(ListModelElement wrapper, Object bean);
+    String menuName();
 
-	public Class <? extends JavaScript> getHyperlink();
+    Icon menuIcon();
+
+    String createTooltip();
+
+    Nameable createNameable(UnrepeatedNameHelper helper);
+
+    Class<? extends BasicBeanPane> getUpdatePane();
+
+    Object acceptObject2Populate(Object ob);
+
+    void saveUpdatedBean(ListModelElement wrapper, Object bean);
+
+    Class<? extends JavaScript> getHyperlink();
 
 
-	public boolean isNeedParameterWhenPopulateJControlPane();
+    boolean isNeedParameterWhenPopulateJControlPane();
 }

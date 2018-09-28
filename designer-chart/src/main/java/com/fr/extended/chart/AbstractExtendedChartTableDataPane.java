@@ -10,13 +10,14 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 /**
  * Created by shine on 2018/3/2.
@@ -52,8 +53,8 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
         this.add(panel, BorderLayout.NORTH);
 
-        if (hasCustomFieldPane()) {
-            customFieldComboBoxPane = new ExtendedCustomFieldComboBoxPane(hasNoneItem());
+        customFieldComboBoxPane = createExtendedCustomFieldComboBoxPane();
+        if (customFieldComboBoxPane != null) {
             this.add(customFieldComboBoxPane, BorderLayout.CENTER);
         }
 
@@ -64,12 +65,8 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         return new JPanel();
     }
 
-    protected boolean hasCustomFieldPane() {
-        return false;
-    }
-
-    protected boolean hasNoneItem() {
-        return false;
+    protected ExtendedCustomFieldComboBoxPane createExtendedCustomFieldComboBoxPane() {
+        return null;
     }
 
     protected Component[] fieldComponents() {
@@ -99,7 +96,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
             if (dataConfig != null) {
                 populate((T) dataConfig);
 
-                if (hasCustomFieldPane()) {
+                if (customFieldComboBoxPane != null) {
                     customFieldComboBoxPane.populateBean(dataConfig);
                 }
             }
@@ -118,7 +115,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
                 ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
                 dataSet.setDataConfig(update());
 
-                if (hasCustomFieldPane()) {
+                if (customFieldComboBoxPane != null) {
                     customFieldComboBoxPane.updateBean(dataSet.getDataConfig());
                 }
 

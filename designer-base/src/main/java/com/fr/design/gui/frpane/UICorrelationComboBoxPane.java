@@ -8,7 +8,6 @@ import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenutable.UIMenuNameableCreator;
@@ -16,9 +15,9 @@ import com.fr.design.gui.imenutable.UIMenuTable;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
 import com.fr.design.javascript.EmailPane;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.js.AbstractJavaScript;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.ReportletHyperlink;
@@ -26,10 +25,17 @@ import com.fr.js.WebHyperlink;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -76,6 +82,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 刷新下拉列表和按钮
+     *
      * @param values 下拉列表里的值
      */
     public void refreshMenuAndAddMenuAction(List<? extends UIMenuNameableCreator> values) {
@@ -88,7 +95,8 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         if (values.size() > 1) {
             for (UIMenuNameableCreator value : values) {
                 final String itemName = value.getName();
-                if(!HyperlinkFilterHelper.whetherAddHyperlink4Chart(itemName)){
+                HyperLinkGroupFilter filter = DesignModuleFactory.getHyperlinkGroupType().getFilter();
+                if (!filter.filter(value.getObj())) {
                     continue;
                 }
                 UIMenuItem item = new UIMenuItem(itemName);
@@ -238,6 +246,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
         /**
          * 增加布局
+         *
          * @param name 名字
          * @param comp 组件
          */
@@ -247,6 +256,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
         /**
          * 删除组件
+         *
          * @param comp 组件
          */
         public void removeLayoutComponent(Component comp) {
@@ -255,6 +265,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
         /**
          * 获得组件的大小
+         *
          * @param parent 上层容器
          * @return 组件的大小
          */
@@ -265,6 +276,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
         /**
          * 最小的布局大小
+         *
          * @param parent 上层容器
          * @return 最小的大小
          */
@@ -274,6 +286,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
         /**
          * 布局容器
+         *
          * @param parent 上层容器
          */
         public void layoutContainer(Container parent) {
@@ -287,6 +300,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 增加监听事件
+     *
      * @param l 监听的对象
      */
     public void addChangeListener(ChangeListener l) {
@@ -296,6 +310,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 删除监听事件
+     *
      * @param l 需要删除的事件
      */
     public void removeChangeListener(ChangeListener l) {
@@ -337,6 +352,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 更新并且重载 当前列表的值
+     *
      * @param list 更新的列表
      */
     public void populateBean(List list) {
@@ -353,14 +369,14 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
     /**
      * 重置每个条目的名字
      */
-    public void resetItemName(){
-        for(int i = 0; i < tablePane.getRowCount(); i++){
+    public void resetItemName() {
+        for (int i = 0; i < tablePane.getRowCount(); i++) {
             UIMenuNameableCreator line = tablePane.getLine(i);
             Object obj = line.getObj();
-            if(obj instanceof AbstractJavaScript){
-                AbstractJavaScript script = (AbstractJavaScript)obj;
+            if (obj instanceof AbstractJavaScript) {
+                AbstractJavaScript script = (AbstractJavaScript) obj;
                 String itemName = script.getItemName();
-                if(!StringUtils.isBlank(itemName)){
+                if (!StringUtils.isBlank(itemName)) {
                     line.setName(itemName);
                 }
             }
@@ -369,6 +385,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 测试例子界面
+     *
      * @param args 参数向量
      */
     public static void main(String... args) {
@@ -397,6 +414,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 注册观察者监听事件
+     *
      * @param listener 观察者监听事件
      */
     public void registerChangeListener(UIObserverListener listener) {
@@ -406,6 +424,7 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
 
     /**
      * 是否需要响应事件
+     *
      * @return 需要相应
      */
     public boolean shouldResponseChangeListener() {
