@@ -8,16 +8,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JPanel;
+
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -53,7 +48,6 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     public NewColorSelectPane() {
         this(false);
     }
-
 
     /**
      * Constructor.

@@ -6,6 +6,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.general.Background;
 
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
@@ -22,6 +23,7 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
     public ColorBackgroundQuickPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+
         detailColorSelectPane = new NewColorSelectPane();
         this.add(detailColorSelectPane, BorderLayout.NORTH);
     }
