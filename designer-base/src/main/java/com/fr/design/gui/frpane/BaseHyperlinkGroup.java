@@ -3,6 +3,7 @@ package com.fr.design.gui.frpane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.js.JavaScript;
+import com.fr.stable.Filter;
 
 /**
  * 基础的超级链接类型, 不包括图表相关超链.
@@ -22,15 +23,20 @@ public class BaseHyperlinkGroup implements HyperlinkGroupType {
     }
 
     @Override
-    public HyperLinkGroupFilter getFilter() {
-        return new HyperLinkGroupFilter() {
+    public Filter<Class<? extends JavaScript>> getFilter() {
+        return new Filter<Class<? extends JavaScript>>() {
             @Override
-            public boolean filter(Class<? extends JavaScript> clazz) {
+            public boolean accept(Class<? extends JavaScript> aClass) {
                 return true;
             }
+        };
+    }
 
+    @Override
+    public Filter<Object> getOldFilter() {
+        return new Filter<Object>() {
             @Override
-            public boolean filter(Object object) {
+            public boolean accept(Object object) {
                 return true;
             }
         };

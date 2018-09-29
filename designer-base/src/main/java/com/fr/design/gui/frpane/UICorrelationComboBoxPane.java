@@ -23,6 +23,7 @@ import com.fr.js.EmailJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.Filter;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JFrame;
@@ -95,8 +96,8 @@ public class UICorrelationComboBoxPane extends JPanel implements UIObserver {
         if (values.size() > 1) {
             for (UIMenuNameableCreator value : values) {
                 final String itemName = value.getName();
-                HyperLinkGroupFilter filter = DesignModuleFactory.getHyperlinkGroupType().getFilter();
-                if (!filter.filter(value.getObj())) {
+                Filter<Object> filter = DesignModuleFactory.getHyperlinkGroupType().getOldFilter();
+                if (!filter.accept(value.getObj())) {
                     continue;
                 }
                 UIMenuItem item = new UIMenuItem(itemName);
