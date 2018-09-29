@@ -23,7 +23,6 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.filetree.FileNode;
-import com.fr.file.filetree.LocalFileNodes;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
@@ -693,14 +692,9 @@ public class FILEChooserPane extends BasicPane {
         String appName = ProductConstants.APP_NAME;
         JTemplate editing = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (editing == null || !editing.isChartBook()) {
-            String[] fileSuffix_local = LocalFileNodes.FILE_TYPE;
-            EnumSet<FileExtension> fileExtensions = EnumSet.of(FileExtension.CPT, FileExtension.CPTX, FileExtension.FRM, FileExtension.FRMX, FileExtension.CHT);
+
             if (type == JFileChooser.OPEN_DIALOG) {
-                if (WorkContext.getCurrent().isLocal()) { //本地连接
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileSuffix_local, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
-                } else {
-                    this.addChooseFILEFilter(new ChooseFileFilter(fileExtensions, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
-                }
+                this.addChooseFILEFilter(new ChooseFileFilter(FRContext.getFileNodes().getSupportedTypes(), appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
             }
 
             // ben:filefilter设置初值为cpt过滤
