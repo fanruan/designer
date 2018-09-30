@@ -62,7 +62,7 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
     @Override
     public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
-        return new Dimension((int) dim.getWidth(), (int) dim.getHeight() - (getDesignTypeButtonGroup().getSelectedIndex() == 1 ? 0 : 30));
+        return new Dimension((int) dim.getWidth(), (int) dim.getHeight() - (numLabel.isVisible() ? 0 : 30));
     }
 
     @Override
