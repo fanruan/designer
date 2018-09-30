@@ -16,22 +16,24 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Arrays;
 
 /**
  * Created by shine on 2018/3/12.
  */
-public class ExtendedOtherPane extends AbstractChartAttrPane {
+public class ExtendedOtherPane<T extends AbstractChart> extends AbstractChartAttrPane {
 
     private ExtendedChartHyperLinkPane hyperLinkPane;
     private UIButtonGroup refreshEnabled;
     private UISpinner autoRefreshTime;
     private JPanel contentPane;
 
-    protected AbstractChart getAbstractChart(Chart chart) {
-        if (chart != null && chart instanceof AbstractChart) {
-            return (AbstractChart) chart;
+    private T chart;
+
+    protected void setChart(Chart chart) {
+        if (chart instanceof AbstractChart) {
+            this.chart = (T) chart;
         }
-        return null;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
             return;
         }
 
-        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+        setChart(collection.getSelectedChart());
 
         if (chart != null) {
             hyperLinkPane.populateBean(chart);
@@ -57,7 +59,7 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
             return;
         }
 
-        AbstractChart chart = getAbstractChart(collection.getSelectedChart());
+        setChart(collection.getSelectedChart());
 
         if (chart != null) {
             hyperLinkPane.updateBean(chart);
@@ -77,14 +79,18 @@ public class ExtendedOtherPane extends AbstractChartAttrPane {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
-        double[] rowSize = {p, p, p, p, p, p};
-
-        Component[][] components = new Component[][]{
-                new Component[]{createRefreshPane(), null},
-                new Component[]{createHyperlinkPane(), null}
-        };
+        Component[][] components = getComponents(createRefreshPane(), createHyperlinkPane());
+        double[] rowSize = new double[components.length];
+        Arrays.fill(rowSize, p);
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    protected Component[][] getComponents(JPanel refresh, JPanel hyperlink) {
+        return new Component[][]{
+                new Component[]{refresh, null},
+                new Component[]{hyperlink, null}
+        };
     }
 
     @Override

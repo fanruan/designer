@@ -1,6 +1,8 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.design.gui.controlpane.NameableCreator;
+import com.fr.js.JavaScript;
+import com.fr.stable.Filter;
 
 /**
  * 超级链接 支持的类型 种类.
@@ -18,6 +20,18 @@ public interface HyperlinkGroupType {
     NameableCreator[] getHyperlinkCreators();
 
 
-    HyperLinkGroupFilter getFilter();
+    /**
+     * 图表超链过滤
+     *
+     * @return 图表超链过滤
+     */
+    Filter<Class<? extends JavaScript>> getFilter();
+
+    /**
+     * 老图表超链的过滤
+     *
+     * @return 老图表超链的过滤
+     */
+    Filter<Object> getOldFilter();
 
 }
