@@ -38,7 +38,7 @@ public class DesignerSocketIO {
     }
 
     private static Optional<Socket> socketIO = Optional.absent();
-    public static Status status = Status.Disconnected;
+    private static Status status = Status.Disconnected;
 
     private static final Emitter.Listener printLog = new Emitter.Listener() {
         @Override

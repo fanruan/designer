@@ -58,7 +58,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 每页个数
      */
-    private final int DEFAULT_NUM_EACH_PAGE = 50;
+    private static final int DEFAULT_NUM_EACH_PAGE = 50;
 
     /**
      * 获取的决策平台成员
@@ -171,7 +171,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 搜索关键词变更监听
      */
-    private DocumentListener documentListener = new DocumentListener() {
+    private transient DocumentListener documentListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
             keyWord = keyField.getText();
