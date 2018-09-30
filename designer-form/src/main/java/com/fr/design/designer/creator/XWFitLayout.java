@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ContainerEvent;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
@@ -29,6 +32,7 @@ import com.fr.general.FRScreen;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 
 import com.fr.stable.ArrayUtils;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -1213,7 +1217,7 @@ public class XWFitLayout extends XLayoutContainer {
 		return false;
 	}
 
-	public static boolean switch2FitBodyLayout(XCreator creator) {
+	public  boolean switch2FitBodyLayout(XCreator creator) {
 		try {
 			XWFitLayout xfl = (XWFitLayout) creator.getBackupParent();
 			//备份一下组件间隔
@@ -1262,7 +1266,7 @@ public class XWFitLayout extends XLayoutContainer {
 		}
 	}
 
-	private static void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
+	private void moveComponents2FitLayout(XWFitLayout xwFitLayout) {
 		Component[] components = xwFitLayout.getComponents();
 		if (components.length == 0) {
 			xwFitLayout.updateBoundsWidget();
@@ -1310,7 +1314,7 @@ public class XWFitLayout extends XLayoutContainer {
 	}
 
 	//以组件的位置来确定先后顺序，y小的在前，x小的在前
-	private static class ComparatorComponentLocation implements Comparator {
+	private class ComparatorComponentLocation implements Comparator {
 		@Override
 		public int compare(Object o1, Object o2) {
 			if (((Component) o1).getY() < ((Component) o2).getY()) {
