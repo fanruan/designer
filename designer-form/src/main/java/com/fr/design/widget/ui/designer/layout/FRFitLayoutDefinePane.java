@@ -140,7 +140,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
             //原单例面板populate根据当前样式populate属性面板，现加入移动端逻辑：可能需要根据面板属性改变样式
             Form form = formDesigner.getTarget();
             if (form.getFormMobileAttr().isMobileOnly() && form.getFormMobileAttr().isAdaptivePropertyAutoMatch()) {
-                WLayoutSwitchUtl.switch2FitBodyLayout(rootLayout);
+                XWFitLayout.switch2FitBodyLayout(rootLayout);
             } else {
                 formDesigner.getSelectionModel().setSelectedCreators(
                         FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{selectedBodyLayout(formDesigner).toData()}));
