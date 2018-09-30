@@ -1,5 +1,6 @@
 package com.fr.van.chart.range.component;
 
+import com.fr.chart.chartglyph.MapHotAreaColor;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
@@ -62,5 +63,11 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
     public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
         return new Dimension((int) dim.getWidth(), (int) dim.getHeight() - (getDesignTypeButtonGroup().getSelectedIndex() == 1 ? 0 : 30));
+    }
+
+    @Override
+    public void populateBean(MapHotAreaColor hotAreaColor) {
+        super.populateBean(hotAreaColor);
+        setRegionVisible(hotAreaColor.getUseType() == 1);
     }
 }
