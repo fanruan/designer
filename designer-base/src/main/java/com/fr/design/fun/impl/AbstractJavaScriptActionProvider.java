@@ -26,4 +26,13 @@ public abstract class AbstractJavaScriptActionProvider extends AbstractProvider 
     public FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane(JavaScriptActionPane pane) {
         return getJavaScriptActionPane();
     }
+
+    /**
+     * 判断是否是支持的类型（cpt,frm），默认是
+     * @return
+     */
+    @Override
+    public boolean isSupportType(){
+        return true;
+    }
 }
