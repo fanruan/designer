@@ -35,7 +35,7 @@ public class JDBCDefPane extends JPanel {
 	public static final String DRIVER_TYPE = "driver_type";
 	public static final String USER_NAME = "user_name";
     public static final int TIME_MULTIPLE = 1000;
-	private static final String EMPTY_DB = StringUtils.EMPTY;
+	private static final String OTHER_DB = "Others";
 
 	private static Map<String, DriverURLName[]> jdbcMap = new HashMap<String, DriverURLName[]>();
 
@@ -65,7 +65,7 @@ public class JDBCDefPane extends JPanel {
 	private UITextField userNameTextField;
 	private JPasswordField passwordTextField;
 	// 请不要改动dbtype,只应该最后添加
-	private final String[] dbtype = {EMPTY_DB, "Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre","SQLite","Inceptor", "Others"};
+	private final String[] dbtype = {"Oracle", "DB2", "SQL Server", "MySQL", "Sybase", "Access", "Derby", "Postgre","SQLite","Inceptor", OTHER_DB};
 
 	// carl:DBCP的一些属性
 	private IntegerEditor DBCP_INITIAL_SIZE = new IntegerEditor();
@@ -184,7 +184,7 @@ public class JDBCDefPane extends JPanel {
 				}
 			}
 			if (!out) {
-				this.dbtypeComboBox.setSelectedItem(EMPTY_DB);
+				this.dbtypeComboBox.setSelectedItem(OTHER_DB);
 			}
 		}
 		this.driverComboBox.setSelectedItem(jdbcDatabase.getDriver());
