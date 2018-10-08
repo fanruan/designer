@@ -40,7 +40,7 @@ public class JDBCDefPane extends JPanel {
 	private static Map<String, DriverURLName[]> jdbcMap = new HashMap<String, DriverURLName[]>();
 
 	static {
-		jdbcMap.put("Others", new DriverURLName[]{new DriverURLName("sun.jdbc.odbc.JdbcOdbcDriver", "jdbc:odbc:"),
+		jdbcMap.put(OTHER_DB, new DriverURLName[]{new DriverURLName("sun.jdbc.odbc.JdbcOdbcDriver", "jdbc:odbc:"),
 				new DriverURLName("org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:[PATH_TO_DB_FILES]"), new DriverURLName("com.inet.tds.TdsDriver", "jdbc:inetdae7:localhost:1433/"),
 				new DriverURLName("COM.cloudscape.JDBCDriver", "jdbc:cloudscape:/cloudscape/"),
 				new DriverURLName("com.internetcds.jdbc.tds.Driver", "jdbc:freetds:sqlserver://localhost/")});
