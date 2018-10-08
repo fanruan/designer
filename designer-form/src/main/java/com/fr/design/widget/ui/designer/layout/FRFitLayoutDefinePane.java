@@ -26,6 +26,7 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
+import com.fr.form.main.Form;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
@@ -81,8 +82,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         paddingBound = new PaddingBoundPane();
         JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")), stylePane},
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), watermarkEditor}
+                        new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style")), stylePane},
+                        new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark")), watermarkEditor}
                 }, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W3, IntervalConstants.INTERVAL_L1);
         jp2.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         jPanel.add(paddingBound, BorderLayout.CENTER);
@@ -136,8 +137,14 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         XLayoutContainer rootLayout = selectedBodyLayout(formDesigner);
         if (rootLayout != formDesigner.getRootComponent()
                 && formDesigner.getSelectionModel().getSelection().getSelectedCreator() == formDesigner.getRootComponent()) {
-            formDesigner.getSelectionModel().setSelectedCreators(
-                    FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{selectedBodyLayout(formDesigner).toData()}));
+            //原单例面板populate根据当前样式populate属性面板，现加入移动端逻辑：可能需要根据面板属性改变样式
+            Form form = formDesigner.getTarget();
+            if (form.getFormMobileAttr().isMobileOnly() && form.getFormMobileAttr().isAdaptivePropertyAutoMatch()) {
+                ((XWFitLayout)formDesigner.getRootComponent()).switch2FitBodyLayout(rootLayout);
+            } else {
+                formDesigner.getSelectionModel().setSelectedCreators(
+                        FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{selectedBodyLayout(formDesigner).toData()}));
+            }
         }
         paddingBound.populate(ob);
         layoutComboBox.setSelectedIndex(ob.getBodyLayoutType().getTypeValue());
@@ -149,8 +156,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
     private XLayoutContainer selectedBodyLayout(FormDesigner formDesigner) {
         XLayoutContainer rootLayout = formDesigner.getRootComponent();
-        if (rootLayout.getComponentCount() == 1 && rootLayout.getXCreator(0).acceptType(XWAbsoluteBodyLayout.class)){
-            rootLayout = (XWAbsoluteBodyLayout)rootLayout.getXCreator(0);
+        if (rootLayout.getComponentCount() == 1 && rootLayout.getXCreator(0).acceptType(XWAbsoluteBodyLayout.class)) {
+            rootLayout = (XWAbsoluteBodyLayout) rootLayout.getXCreator(0);
         }
         return rootLayout;
     }
@@ -162,8 +169,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout_Padding_Duplicate"))) {
             paddingBound.update(layout);
         }
-        LayoutBorderStyle borderStyle =  (LayoutBorderStyle) stylePane.getValue();
-        if(borderStyle != null){
+        LayoutBorderStyle borderStyle = (LayoutBorderStyle) stylePane.getValue();
+        if (borderStyle != null) {
             layout.setBorderStyle(borderStyle);
         }
         updateWatermark();
@@ -205,7 +212,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
 
         }
 
-        int intervelValue = (int)componentIntervel.getValue();
+        int intervelValue = (int) componentIntervel.getValue();
         if (xWFitLayout.canAddInterval(intervelValue)) {
 //             设置完间隔后，要同步处理界面组件，容器刷新后显示出对应效果
             setLayoutGap(intervelValue);
@@ -227,7 +234,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
     }
 
     private void setLayoutGap(int value) {
-        int  interval = wFitLayout.getCompInterval();
+        int interval = wFitLayout.getCompInterval();
         if (value != interval) {
             xWFitLayout.moveContainerMargin();
             xWFitLayout.moveCompInterval(xWFitLayout.getAcualInterval());

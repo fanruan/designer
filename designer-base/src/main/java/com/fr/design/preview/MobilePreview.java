@@ -1,7 +1,6 @@
 package com.fr.design.preview;
 
 import com.fr.design.fun.impl.AbstractPreviewProvider;
-
 import java.util.HashMap;
 import java.util.Map;
 
