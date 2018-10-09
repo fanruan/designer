@@ -72,7 +72,7 @@ public class SegmentationManager {
         for (int end = itor.next(); end != BreakIterator.DONE; start = end, end = itor.next()) {
             String temp = searchText.substring(start, end);
             //去掉空和连词
-            if (!StringUtils.isEmpty(temp) & !AlphaFineConstants.CONJUNCTION.contains(temp)) {
+            if (StringUtils.isNotEmpty(temp) && !AlphaFineConstants.CONJUNCTION.contains(temp)) {
                 result.add(temp);
             }
         }
