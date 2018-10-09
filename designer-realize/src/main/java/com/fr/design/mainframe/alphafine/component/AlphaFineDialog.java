@@ -239,20 +239,21 @@ public class AlphaFineDialog extends UIDialog {
         hotPane.setLayout(new BorderLayout());
 
         UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Hot"));
+        uiLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         uiLabel.setFont(AlphaFineConstants.SMALL_FONT);
         uiLabel.setForeground(AlphaFineConstants.DARK_GRAY);
 
         GridLayout gridLayout = new GridLayout(2, 3, 3, 3);
         JPanel panel = new JPanel();
         panel.setLayout(gridLayout);
-        if(AlphaFineHelper.isNetworkOk()) {
+        if (AlphaFineHelper.isNetworkOk()) {
             if (hotData == null) {
                 hotData = HotIssuesManager.getInstance().getHotIssues();
             }
             for (int i = 0; i < hotData.length; i++) {
                 panel.add(new HotIssueJpanel(hotData[i], i + 1));
             }
-        }else {
+        } else {
             hotData = null;
             for (int i = 0; i < AlphaFineConstants.HOT_ITEMS; i++) {
                 panel.add(new HotIssueJpanel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed")}, i + 1));
@@ -947,7 +948,7 @@ public class AlphaFineDialog extends UIDialog {
         Thread sendThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(StringUtils.isNotEmpty(storeText)){
+                if (StringUtils.isNotEmpty(storeText)) {
                     RecentSearchManager searchManager = RecentSearchManager.getInstance();
                     searchManager.addModel(storeText, cellModel);
                     sendDataToServer(storeText, cellModel);
@@ -1377,7 +1378,9 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initBackPane() {
         backPane = new JPanel(new BorderLayout());
-        JLabel jLabel = new JLabel("  <  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
+        JLabel jLabel = new JLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
+        jLabel.setIcon(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + AlphaFineConstants.BACK_ICON_NAME));
+        jLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         jLabel.setPreferredSize(new Dimension(80, 20));
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);
