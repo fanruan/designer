@@ -18,4 +18,5 @@ public interface JavaScriptActionProvider extends Mutable{
 
     FurtherBasicBeanPane<? extends JavaScript> getJavaScriptActionPane(JavaScriptActionPane pane);
 
+	boolean isSupportType();
 }

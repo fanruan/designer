@@ -46,7 +46,9 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
         Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
         if (javaScriptActionProviders != null) {
             for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
-                paneList.add(jsp.getJavaScriptActionPane(this));
+               if(jsp.isSupportType()){
+                    paneList.add(jsp.getJavaScriptActionPane(this));
+                }
             }
         }
         // 自定义事件
