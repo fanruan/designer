@@ -936,7 +936,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public PreviewProvider[] supportPreview() {
-        return new PreviewProvider[]{new FormPreview()};
+        return new PreviewProvider[]{new FormPreview(), new MobilePreview()};
     }
 
     /**
