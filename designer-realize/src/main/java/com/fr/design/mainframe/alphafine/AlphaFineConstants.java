@@ -143,9 +143,9 @@ public class AlphaFineConstants {
     public static final String BACK_ICON_NAME = "back@1x.png";
 
     public static final ArrayList<String> CONJUNCTION = new ArrayList<String>() {{
-        add("和");
-        add("与");
-        add("的");
+        add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Conjunction_HE"));
+        add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Conjunction_YU"));
+        add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Conjunction_DE"));
     }};
 
 }
