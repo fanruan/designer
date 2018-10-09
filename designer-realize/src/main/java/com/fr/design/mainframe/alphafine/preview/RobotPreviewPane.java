@@ -7,6 +7,7 @@ import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 /**
@@ -58,7 +60,7 @@ public class RobotPreviewPane extends JPanel {
                             .replaceAll("\\('", StringUtils.EMPTY)
                             .replaceAll("'\\)", StringUtils.EMPTY);
                     try {
-                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + s));
+                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + URLEncoder.encode(s, EncodeConstants.ENCODING_UTF_8)));
                     } catch (IOException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage());
                     } catch (URISyntaxException e1) {

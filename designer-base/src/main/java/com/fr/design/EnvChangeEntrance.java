@@ -16,6 +16,7 @@ import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EnvChangedListener;
+import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
@@ -51,11 +52,20 @@ public class EnvChangeEntrance {
         });
     }
 
-    private boolean envListOkAction(EnvListPane envListPane) {
+    private boolean envListOkAction(EnvListPane envListPane, PopTipStrategy strategy) {
         final String selectedName = envListPane.updateEnvManager();
-        return switch2Env(selectedName);
+        return switch2Env(selectedName, strategy);
     }
 
+
+    /**
+     * 切换到指定名称的工作目录
+     *
+     * @param envName 目标工作目录名称
+     */
+    public void switch2Env(final String envName) {
+        switch2Env(envName, PopTipStrategy.LATER);
+    }
 
     /**
      * 切换到新环境
@@ -63,7 +73,7 @@ public class EnvChangeEntrance {
      * @param envName 新工作环境名称
      * @return 是否成功
      */
-    public boolean switch2Env(final String envName) {
+    private boolean switch2Env(final String envName, PopTipStrategy strategy) {
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(envName);
 
@@ -71,8 +81,13 @@ public class EnvChangeEntrance {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
             boolean checkValid = workspace != null && selectedEnv.checkValid();
             if (!checkValid) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                        UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                strategy.showTip(new PopTip() {
+                    @Override
+                    public void show() {
+                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                                UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                    }
+                });
                 return false;
             }
             WorkContext.switchTo(workspace, new WorkContextCallback() {
@@ -85,19 +100,34 @@ public class EnvChangeEntrance {
                         template.refreshToolArea();
                     }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
+                    if (WorkContext.getCurrent().isLocal()) {
+                        //初始化一下serverTray
+                        ServerTray.init();
+                    }
                 }
             });
 
         } catch (AuthException | RegistEditionException e) {
             // String title = Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed");
             // String title = Toolkit.i18nText("Fine-Design_Basic_Lic_Does_Not_Support_Remote");
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                    UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+            strategy.showTip(new PopTip() {
+                @Override
+                public void show() {
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                            UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                }
+            });
             return false;
         } catch (Exception exception) {
             FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                    UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+            strategy.showTip(new PopTip() {
+                @Override
+                public void show() {
+                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                            UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                }
+            });
+
             return false;
         }
         TemplateTreePane.getInstance().refreshDockingView();
@@ -131,13 +161,11 @@ public class EnvChangeEntrance {
 
             @Override
             public void doOk() {
-                envListDialog.dispose();
-                envListOkAction(envListPane);
+                envListOkAction(envListPane, PopTipStrategy.LATER);
             }
 
             @Override
             public void doCancel() {
-
                 envListDialog.dispose();
             }
         });
@@ -155,11 +183,9 @@ public class EnvChangeEntrance {
 
             @Override
             public void doOk() {
-
-                if (!envListOkAction(envListPane)) {
+                if (!envListOkAction(envListPane, PopTipStrategy.NOW)) {
                     System.exit(0);
                 }
-
             }
 
             @Override
@@ -170,4 +196,40 @@ public class EnvChangeEntrance {
         envListDialog.setVisible(true);
     }
 
+
+    /**
+     * 提示显示策略
+     */
+    enum PopTipStrategy {
+
+        /**
+         * 切换失败，就马上提示失败，不关闭选择列表对话框
+         */
+        NOW {
+            @Override
+            void showTip(PopTip tip) {
+                tip.show();
+            }
+        },
+        /**
+         * 切换失败，自动关闭选择列表对话框，然后提示切换失败
+         */
+        LATER {
+            @Override
+            void showTip(final PopTip tip) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        tip.show();
+                    }
+                });
+            }
+        };
+
+        abstract void showTip(PopTip tip);
+    }
+
+    interface PopTip {
+        void show();
+    }
 }

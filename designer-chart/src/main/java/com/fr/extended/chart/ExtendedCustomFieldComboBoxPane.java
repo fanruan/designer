@@ -38,6 +38,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
     private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")};
 
     private UseFieldValuePane useFieldValuePane;
+
     private CustomFieldNamePane customFieldNamePane;
 
     private List<String> fieldList = new ArrayList<String>();
@@ -67,6 +68,10 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
     @Override
     protected String title4PopupWindow() {
         return StringUtils.EMPTY;
+    }
+
+    protected boolean valueComboBoxHasNone() {
+        return false;
     }
 
     public void checkBoxUse(boolean hasUse) {
@@ -118,7 +123,8 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         private void initComponents() {
 
             series = new UIComboBox();
-            value = new UIComboBox();
+            value = valueComboBoxHasNone() ? new UIComboBoxWithNone() : new UIComboBox();
+
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
