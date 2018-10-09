@@ -239,6 +239,7 @@ public class AlphaFineDialog extends UIDialog {
         hotPane.setLayout(new BorderLayout());
 
         UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Hot"));
+		uiLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         uiLabel.setFont(AlphaFineConstants.SMALL_FONT);
         uiLabel.setForeground(AlphaFineConstants.DARK_GRAY);
 
@@ -1378,6 +1379,8 @@ public class AlphaFineDialog extends UIDialog {
     private void initBackPane() {
         backPane = new JPanel(new BorderLayout());
         JLabel jLabel = new JLabel("  <  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
+		jLabel.setIcon(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + AlphaFineConstants.BACK_ICON_NAME));
+        jLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         jLabel.setPreferredSize(new Dimension(80, 20));
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);

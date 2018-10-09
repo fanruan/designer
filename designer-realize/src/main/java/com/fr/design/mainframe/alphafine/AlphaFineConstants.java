@@ -5,7 +5,7 @@ import com.fr.general.CloudCenter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-
+import java.util.ArrayList;
 
 /**
  * Created by XiaXiang on 2017/5/10.
@@ -137,5 +137,13 @@ public class AlphaFineConstants {
     public static final FileExtension[] FILE_EXTENSIONS= new FileExtension[]{FileExtension.CPT, FileExtension.FRM};
 
     public static final int RECOMMEND_MAX_ITEM_NUM = 3;
+	
+	public static final String BACK_ICON_NAME = "back@1x.png";
+
+    public static final ArrayList<String> CONJUNCTION = new ArrayList<String>() {{
+        add("和");
+        add("与");
+        add("的");
+    }};
 
 }

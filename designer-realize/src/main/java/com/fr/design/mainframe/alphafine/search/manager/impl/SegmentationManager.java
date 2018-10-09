@@ -6,6 +6,7 @@ import com.fr.stable.StringUtils;
 import com.fr.third.ibm.icu.text.BreakIterator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,8 +77,26 @@ public class SegmentationManager {
                 result.add(temp);
             }
         }
+		result = removeConjunction(result);
         String[] strings = new String[result.size()];
         result.toArray(strings);
         return strings;
+    }
+	
+	/**
+     * 去除连词
+     *
+     * @param result
+     * @return
+     */
+    public static List<String> removeConjunction(List<String> result) {
+        Iterator<String> it = result.iterator();
+        while (it.hasNext()) {
+            String s = it.next();
+            if (AlphaFineConstants.CONJUNCTION.contains(s)) {
+                it.remove();
+            }
+        }
+        return result;
     }
 }
