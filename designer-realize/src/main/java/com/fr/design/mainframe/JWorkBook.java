@@ -52,6 +52,7 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.ParameterDefinitePane;
 import com.fr.design.parameter.ParameterInputPane;
+import com.fr.design.preview.MobilePreview;
 import com.fr.design.preview.PagePreview;
 import com.fr.design.preview.ViewPreview;
 import com.fr.design.preview.WriteEnhancePreview;
@@ -889,7 +890,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     public PreviewProvider[] supportPreview() {
         Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
         return ArrayUtils.addAll(new PreviewProvider[]{
-                new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview()
+                new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview(), new MobilePreview()
         }, set.toArray(new PreviewProvider[set.size()]));
     }
 
