@@ -7,6 +7,7 @@ import com.fr.event.Listener;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
+import com.fr.runtime.FineRuntime;
 import com.fr.start.Designer;
 import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
@@ -63,7 +64,7 @@ public class DesignerStartup extends Activator {
     
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
-    
+        FineRuntime.startFinish();
     }
     
     private void browserDemo() {
