@@ -4,6 +4,7 @@ import com.fr.base.TemplateUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import javafx.application.Platform;
@@ -32,6 +33,8 @@ import java.util.Map;
 public class PluginWebPane extends JFXPanel {
     private static final String RESOURCE_URL = "resourceURL";
     private static final String LANGUAGE = "language";
+    private static final String URL_PLUS = "+";
+    private static final String URL_SPACING = "%20";
     private WebEngine webEngine;
 
     public PluginWebPane(final String installHome, final String mainJs) {
@@ -75,8 +78,9 @@ public class PluginWebPane extends JFXPanel {
         StringBuffer sb = new StringBuffer();
         String line;
         Map<String, Object> map4Tpl = new HashMap<String, Object>();
-
-        map4Tpl.put(RESOURCE_URL, "file:///" + URLEncoder.encode(installHome, "UTF-8"));
+        //URL中关于空格的编码与空格所在位置相关：空格被编码成+的情况只能在查询字符串部分出现，而被编码成%20则可以出现在路径和查询字符串中
+        //URLEncoder会将空格转成+,这边需要+转成%20
+        map4Tpl.put(RESOURCE_URL, "file:///" + URLEncoder.encode(installHome, EncodeConstants.ENCODING_UTF_8).replace(URL_PLUS, URL_SPACING));
         map4Tpl.put(LANGUAGE, GeneralContext.getLocale().toString());
         while ((line = read.readLine()) != null) {
             if (sb.length() > 0) {
