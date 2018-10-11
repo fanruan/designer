@@ -152,9 +152,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
             try{
                 Chart newDefaultChart = (Chart)((AbstractChartTypePane)getSelectedPane()).getDefaultChart().clone();
-                if(!chart.accept(newDefaultChart.getClass())){
-                    //vanChart 和 chart 之间切换
-                    editingCollection.removeNameObject(editingCollection.getSelectedIndex());
+				if (!ComparatorUtils.equals(chart.getClass(), newDefaultChart.getClass())) {
+					//vanChart 和 chart 之间切换
+					//不同chart之间切换
+					editingCollection.removeNameObject(editingCollection.getSelectedIndex());
                     editingCollection.addChart(newDefaultChart);
                     chart = newDefaultChart;
                 }
