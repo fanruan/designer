@@ -40,7 +40,6 @@ public class UICheckListPopup extends UIPopupMenu {
 
     public void setMaxDisplayNumber(int maxDisplayNumber) {
         this.maxDisplayNumber = maxDisplayNumber;
-        //全选加在第一个位置
         addCheckboxValues(values);
     }
 
