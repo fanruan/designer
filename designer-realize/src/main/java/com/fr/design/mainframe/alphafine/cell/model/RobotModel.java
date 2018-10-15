@@ -7,6 +7,7 @@ import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.AssistUtils;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -14,6 +15,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 /**
  * Created by alex.sung on 2018/8/3.
@@ -85,7 +87,7 @@ public class RobotModel extends AlphaCellModel {
     @Override
     public void doAction() {
         try {
-            Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + super.getName()));
+            Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + URLEncoder.encode(super.getName(), EncodeConstants.ENCODING_UTF_8)));
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         } catch (URISyntaxException e) {

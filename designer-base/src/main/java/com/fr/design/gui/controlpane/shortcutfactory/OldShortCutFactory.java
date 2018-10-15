@@ -2,15 +2,17 @@ package com.fr.design.gui.controlpane.shortcutfactory;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.gui.HyperlinkFilterHelper;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.controlpane.ShortCutListenerProvider;
 import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.Inter;
+import com.fr.js.JavaScript;
+import com.fr.stable.Filter;
 
 import javax.swing.Icon;
 import java.awt.event.ActionEvent;
@@ -83,7 +85,8 @@ public class OldShortCutFactory extends AbstractShortCutFactory {
 
         private void wrapActionListener(NameableCreator[] creators) {
             for (final NameableCreator creator : creators) {
-                if (!HyperlinkFilterHelper.whetherAddHyperlink4cell(creator.menuName())) {
+                Filter<Class<? extends JavaScript>> filter = DesignModuleFactory.getHyperlinkGroupType().getFilter();
+                if (!filter.accept(creator.getHyperlink())) {
                     continue;
                 }
                 boolean isTrue = ComparatorUtils.equals(creator.menuName(), Inter.getLocText("Datasource-Stored_Procedure")) ||

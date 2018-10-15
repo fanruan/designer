@@ -1,9 +1,10 @@
 package com.fr.van.chart.range.component;
 
+import com.fr.chart.chartglyph.MapHotAreaColor;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -16,15 +17,19 @@ import java.awt.Dimension;
  * Created by Mitisky on 16/10/20.
  * 没有主题颜色,自动的时候没有划分阶段
  */
-public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithFormula{
+public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithFormula {
     private BoldFontTextLabel numLabel;
+
+    public String getNameOfSubRange() {
+        return Toolkit.i18nText("Fine-Design_Chart_Range_Num");
+    }
 
     public SectionIntervalConfigPaneWithOutNum(AbstractAttrNoScrollPane container) {
         super(container);
         getDesignTypeButtonGroup().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if(getDesignTypeButtonGroup().getSelectedIndex() == 0){
+                if (getDesignTypeButtonGroup().getSelectedIndex() == 0) {
                     setRegionVisible(false);
                 } else {
                     setRegionVisible(true);
@@ -33,33 +38,41 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
         });
     }
 
-    protected JPanel getUpControlPane (Component[][] components) {
+    @Override
+    protected JPanel getUpControlPane(Component[][] components) {
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double[] columnSize = {d, e};
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, getRowSIze (), columnSize);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, getRowSIze(), columnSize);
         return panel;
     }
 
-    private void setRegionVisible(boolean visible){
+    private void setRegionVisible(boolean visible) {
         getRegionNumPane().setVisible(visible);
         numLabel.setVisible(visible);
     }
 
     @Override
     protected Component[][] createComponents() {
-        numLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage"));
+        numLabel = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage"));
 
         setRegionVisible(false);
 
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Num")),getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(getNameOfSubRange()), getDesignTypeButtonGroup()},
                 new Component[]{numLabel, getRegionNumPane()},
         };
     }
 
-    public Dimension getPreferredSize(){
+    @Override
+    public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
-        return new Dimension((int)dim.getWidth(), (int) dim.getHeight() - (numLabel.isVisible() ? 0 : 30));
+        return new Dimension((int) dim.getWidth(), (int) dim.getHeight() - (numLabel.isVisible() ? 0 : 30));
+    }
+
+    @Override
+    public void populateBean(MapHotAreaColor hotAreaColor) {
+        super.populateBean(hotAreaColor);
+        setRegionVisible(hotAreaColor.getUseType() == 1);
     }
 }

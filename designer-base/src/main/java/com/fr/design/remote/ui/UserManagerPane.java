@@ -1,5 +1,6 @@
 package com.fr.design.remote.ui;
 
+import com.fr.base.BaseUtils;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicPane;
@@ -57,7 +58,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 每页个数
      */
-    private final int DEFAULT_NUM_EACH_PAGE = 50;
+    private static final int DEFAULT_NUM_EACH_PAGE = 50;
 
     /**
      * 获取的决策平台成员
@@ -170,7 +171,7 @@ public class UserManagerPane extends BasicPane {
     /**
      * 搜索关键词变更监听
      */
-    private DocumentListener documentListener = new DocumentListener() {
+    private transient DocumentListener documentListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
             keyWord = keyField.getText();
@@ -240,13 +241,14 @@ public class UserManagerPane extends BasicPane {
         );
 
         // 搜索
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchPanel.setBorder(BorderFactory.createEmptyBorder());
-        keyField.setPreferredSize(new Dimension(250, 20));
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        keyField.setPreferredSize(new Dimension(270, 20));
         keyField.requestFocus();
         keyField.addKeyListener(keyFieldKeyListener);
         keyField.getDocument().addDocumentListener(documentListener);
-        keyButton.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Search"));
+        keyButton.setIcon(BaseUtils.readIcon("com/fr/design/images/buttonicon/user_search_normal.png"));
+        keyButton.setToolTipText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Search"));
         keyButton.addActionListener(keyButtonActionListener);
         searchPanel.add(keyField);
         searchPanel.add(keyButton);
@@ -367,9 +369,9 @@ public class UserManagerPane extends BasicPane {
         final SwingWorker getMemberWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
-                addingMembers.clear();
                 String username = WorkContext.getCurrent().getConnection().getUserName();
                 synchronized (addingMembers) {
+                    addingMembers.clear();
                     Collection<RemoteDesignMember> more = WorkContext.getCurrent().get(DecisionOperator.class).getMembers(username, keyword);
                     pageNum = 1;
                     if (!more.isEmpty()) {
@@ -395,7 +397,7 @@ public class UserManagerPane extends BasicPane {
         final SwingWorker loadMoreWorker = new SwingWorker<List<RemoteDesignMember>, Void>() {
             @Override
             protected List<RemoteDesignMember> doInBackground() {
-    
+
                 String username = WorkContext.getCurrent().getConnection().getUserName();
                 synchronized (addingMembers) {
                     addingMembers.remove(RemoteDesignMember.DEFAULT_MEMBER);

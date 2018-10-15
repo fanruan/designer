@@ -19,7 +19,7 @@ public class ImagePreLoader {
         int start = 0;
         for (int i = 0; i < len; i++) {
             if (i != 0 && i % THRESHOLD == 0) {
-                loadImage(start,i, service);
+                loadImage(start, i, service);
                 start = i;
             }
             if (len - i < THRESHOLD) {
@@ -401,6 +401,9 @@ public class ImagePreLoader {
             "com/fr/design/images/control/up.png",
             "com/fr/design/images/control/down.png",
             "com/fr/design/images/condition/bracket.png",
-            "com/fr/design/images/condition/unBracket.png"
+            "com/fr/design/images/condition/unBracket.png",
+            "com/fr/design/images/buttonicon/user_search_normal.png",
+            "com/fr/design/remote/images/icon_Member_normal@1x.png",
+            "/com/fr/design/images/buttonicon/add.png"
     };
 }

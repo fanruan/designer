@@ -53,8 +53,8 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
         this.add(panel, BorderLayout.NORTH);
 
-        if (hasCustomFieldPane()) {
-            customFieldComboBoxPane = new ExtendedCustomFieldComboBoxPane();
+        customFieldComboBoxPane = createExtendedCustomFieldComboBoxPane();
+        if (customFieldComboBoxPane != null) {
             this.add(customFieldComboBoxPane, BorderLayout.CENTER);
         }
 
@@ -65,8 +65,8 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         return new JPanel();
     }
 
-    protected boolean hasCustomFieldPane() {
-        return false;
+    protected ExtendedCustomFieldComboBoxPane createExtendedCustomFieldComboBoxPane() {
+        return null;
     }
 
     protected Component[] fieldComponents() {
@@ -96,7 +96,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
             if (dataConfig != null) {
                 populate((T) dataConfig);
 
-                if (hasCustomFieldPane()) {
+                if (customFieldComboBoxPane != null) {
                     customFieldComboBoxPane.populateBean(dataConfig);
                 }
             }
@@ -115,7 +115,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
                 ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
                 dataSet.setDataConfig(update());
 
-                if (hasCustomFieldPane()) {
+                if (customFieldComboBoxPane != null) {
                     customFieldComboBoxPane.updateBean(dataSet.getDataConfig());
                 }
 
