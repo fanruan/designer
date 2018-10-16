@@ -1091,7 +1091,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public void previewMenuActionPerformed(PreviewProvider provider) {
         setPreviewType(provider);
         WebPreviewUtils.preview(this, provider);
-
     }
 
     /**

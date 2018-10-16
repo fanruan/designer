@@ -21,15 +21,7 @@ public class DataPaneHelper {
             return;
         }
 
-        Object ob = box.getSelectedItem();
-        box.removeAllItems();
-
-        int length = list.size();
-        for (int i = 0; i < length; i++) {
-            box.addItem(list.get(i));
-        }
-
-        box.getModel().setSelectedItem(ob);
+        box.refreshBoxItems(list);
     }
 
     /**
@@ -39,7 +31,7 @@ public class DataPaneHelper {
      */
     public static void clearBoxItems(UIComboBox box) {
         if (box != null) {
-            box.removeAllItems();
+            box.clearBoxItems();
         }
     }
 

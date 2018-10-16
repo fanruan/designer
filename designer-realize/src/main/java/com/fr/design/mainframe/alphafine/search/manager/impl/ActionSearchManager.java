@@ -57,7 +57,7 @@ public class ActionSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         filterModelList = new SearchResult();
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();

@@ -2,6 +2,8 @@ package com.fr.design.gui.frpane;
 
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.js.JavaScript;
+import com.fr.stable.Filter;
 
 /**
  * 基础的超级链接类型, 不包括图表相关超链.
@@ -11,13 +13,34 @@ import com.fr.design.module.DesignModuleFactory;
  */
 public class BaseHyperlinkGroup implements HyperlinkGroupType {
 
-	/**
-	 * 返回支持的超级链接类型
-	 *
-	 * @return
-	 */
-	public NameableCreator[] getHyperlinkCreators() {
-		return DesignModuleFactory.getCreators4Hyperlink();
-	}
+    /**
+     * 返回支持的超级链接类型
+     *
+     * @return NameableCreator[]
+     */
+    public NameableCreator[] getHyperlinkCreators() {
+        return DesignModuleFactory.getCreators4Hyperlink();
+    }
+
+    @Override
+    public Filter<Class<? extends JavaScript>> getFilter() {
+        return new Filter<Class<? extends JavaScript>>() {
+            @Override
+            public boolean accept(Class<? extends JavaScript> aClass) {
+                return true;
+            }
+        };
+    }
+
+    @Override
+    public Filter<Object> getOldFilter() {
+        return new Filter<Object>() {
+            @Override
+            public boolean accept(Object object) {
+                return true;
+            }
+        };
+    }
+
 
 }

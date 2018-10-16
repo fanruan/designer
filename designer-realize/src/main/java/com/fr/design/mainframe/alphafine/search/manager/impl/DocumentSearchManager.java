@@ -51,15 +51,17 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         moreModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isContainDocument()) {
             if (ArrayUtils.isEmpty(searchText)) {
                 lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
                 return lessModelList;
-            } else if (hotData == null) {
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if(noConnectList != null){
+                return noConnectList;
             }
             SearchResult searchResult = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {

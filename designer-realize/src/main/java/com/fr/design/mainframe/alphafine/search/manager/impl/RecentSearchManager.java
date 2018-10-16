@@ -45,9 +45,10 @@ import java.util.List;
  */
 public class RecentSearchManager implements AlphaFineSearchProvider {
     private static final int MAX_SIZE = 100;
-    private static volatile RecentSearchManager instance;
-    IndexReader indexReader = null;
-    IndexSearcher indexSearcher = null;
+    
+    private static final RecentSearchManager INSTANCE = new RecentSearchManager();
+    
+    private IndexReader indexReader = null;
     //索引存储路径
     private String path = ProductConstants.getEnvHome() + File.separator + "searchIndex";
     //分词器，暂时先用这个
@@ -57,25 +58,18 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, analyzer);
     private IndexWriter indexWriter = null;
     private SearchResult recentModelList;
-    private SearchResult modelList;
-
+    
     public static RecentSearchManager getInstance() {
-        if (instance == null) {
-            synchronized (RecentSearchManager.class) {
-                if (instance == null) {
-                    instance = new RecentSearchManager();
-                    instance.initWriter();
-                }
-            }
-        }
-        return instance;
+        
+        return INSTANCE;
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
-        this.modelList = new SearchResult();
-        for (int j = 0; j < searchText.length; j++) {
-            recentModelList = getRecentModelList(searchText[j]);
+    public SearchResult getLessSearchResult(String[] searchText) {
+    
+        SearchResult modelList = new SearchResult();
+        for (String aSearchText : searchText) {
+            recentModelList = getRecentModelList(aSearchText);
         }
         if (recentModelList != null && recentModelList.size() > 0) {
             modelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Latest")));
@@ -92,8 +86,8 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     public SearchResult getMoreSearchResult(String searchText) {
         return new SearchResult();
     }
-
-    public synchronized SearchResult getRecentModelList(String searchText) {
+    
+    private synchronized SearchResult getRecentModelList(String searchText) {
         return searchBySort(searchText);
     }
 
@@ -121,7 +115,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
         try {
             indexWriter.close();
             indexReader = DirectoryReader.open(directory);
-            indexSearcher = new IndexSearcher(indexReader);
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -130,8 +123,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     /**
      * 添加模型
      *
-     * @param searchKey
-     * @param cellModel
      */
     public void addModel(String searchKey, AlphaCellModel cellModel) {
         if(cellModel == null){
@@ -151,8 +142,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 写文档，建立索引
-     *
-     * @param doc
      */
     private void writeDoc(Document doc) {
         try {
@@ -166,9 +155,6 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
 
     /**
      * 按序搜索
-     *
-     * @param key
-     * @return
      */
     private synchronized SearchResult searchBySort(String key) {
         recentModelList = new SearchResult();

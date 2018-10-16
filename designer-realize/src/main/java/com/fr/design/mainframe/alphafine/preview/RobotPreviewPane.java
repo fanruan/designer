@@ -4,7 +4,10 @@ package com.fr.design.mainframe.alphafine.preview;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
+import com.fr.design.mainframe.alphafine.cell.model.AlphaCellModel;
+import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 
 /**
@@ -28,13 +32,14 @@ import java.net.URL;
  */
 public class RobotPreviewPane extends JPanel {
 
-    private static final int TITLE_AREA_HEIGHT = 30;
+    private static final int TITLE_AREA_HEIGHT = 15;
+    private static final int HOT_TITLE_AREA_HEIGHT = 30;
 
-    public RobotPreviewPane(String title, String content) {
+    public RobotPreviewPane(AlphaCellModel model, String content) {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
         this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT));
-        UITextArea titleArea = new UITextArea(title);
+        UITextArea titleArea = new UITextArea(model.getName());
         titleArea.setBorder(null);
         titleArea.setEditable(false);
         titleArea.setForeground(AlphaFineConstants.BLUE);
@@ -55,7 +60,7 @@ public class RobotPreviewPane extends JPanel {
                             .replaceAll("\\('", StringUtils.EMPTY)
                             .replaceAll("'\\)", StringUtils.EMPTY);
                     try {
-                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + s));
+                        Desktop.getDesktop().browse(new URI(AlphaFineConstants.ALPHA_PREVIEW + URLEncoder.encode(s, EncodeConstants.ENCODING_UTF_8)));
                     } catch (IOException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage());
                     } catch (URISyntaxException e1) {
@@ -76,7 +81,11 @@ public class RobotPreviewPane extends JPanel {
         UIScrollPane jScrollPane = new UIScrollPane(editorPane);
         jScrollPane.getVerticalScrollBar().setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 0));
         jScrollPane.setBorder(BorderFactory.createMatteBorder(5, 10, 0, 10, Color.white));
-        this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT - TITLE_AREA_HEIGHT));
+        if (((RobotModel) model).isHotItemModel()) {
+            this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT - HOT_TITLE_AREA_HEIGHT));
+        } else {
+            this.setPreferredSize(new Dimension(AlphaFineConstants.RIGHT_WIDTH, AlphaFineConstants.CONTENT_HEIGHT - TITLE_AREA_HEIGHT));
+        }
         add(jScrollPane, BorderLayout.CENTER);
     }
 }
