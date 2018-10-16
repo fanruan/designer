@@ -3,6 +3,7 @@ package com.fr.van.chart.range.component;
 import com.fr.chart.chartglyph.MapHotAreaColor;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -18,6 +19,10 @@ import java.awt.Dimension;
  */
 public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithFormula {
     private BoldFontTextLabel numLabel;
+
+    public String getNameOfSubRange() {
+        return Toolkit.i18nText("Fine-Design_Chart_Range_Num");
+    }
 
     public SectionIntervalConfigPaneWithOutNum(AbstractAttrNoScrollPane container) {
         super(container);
@@ -49,12 +54,12 @@ public class SectionIntervalConfigPaneWithOutNum extends MapColorPickerPaneWithF
 
     @Override
     protected Component[][] createComponents() {
-        numLabel = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage"));
+        numLabel = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage"));
 
         setRegionVisible(false);
 
         return new Component[][]{
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Num")), getDesignTypeButtonGroup()},
+                new Component[]{new BoldFontTextLabel(getNameOfSubRange()), getDesignTypeButtonGroup()},
                 new Component[]{numLabel, getRegionNumPane()},
         };
     }
