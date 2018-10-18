@@ -10,25 +10,25 @@ import java.util.List;
  */
 public class UIComboBoxWithNone extends UIComboBox {
 
-    private static String getNoneLocaleString() {
+    protected String getDefaultLocaleString() {
         return Toolkit.i18nText("Fine-Design_Chart_Use_None");
     }
 
     @Override
     public void refreshBoxItems(List list) {
         super.refreshBoxItems(list);
-        addNoneItem();
+        addDefaultItem();
     }
 
     @Override
     public void clearBoxItems() {
         super.clearBoxItems();
-        addNoneItem();
+        addDefaultItem();
     }
 
 
-    private void addNoneItem() {
-        addItem(getNoneLocaleString());
+    private void addDefaultItem() {
+        addItem(getDefaultLocaleString());
 
     }
 
@@ -37,7 +37,7 @@ public class UIComboBoxWithNone extends UIComboBox {
         super.setSelectedItem(anObject);
 
         if (getSelectedIndex() == -1) {//找不到的都选中无。中文的无 英文下是none。
-            super.setSelectedItem(getNoneLocaleString());
+            super.setSelectedItem(getDefaultLocaleString());
         }
     }
 
