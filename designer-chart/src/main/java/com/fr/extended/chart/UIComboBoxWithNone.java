@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class UIComboBoxWithNone extends UIComboBox {
 
-    private static String getNoneLocaleString() {
+    public String getNoneLocaleString() {
         return Toolkit.i18nText("Fine-Design_Chart_Use_None");
     }
 
