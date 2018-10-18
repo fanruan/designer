@@ -61,6 +61,7 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.van.chart.area.AreaIndependentVanChartInterface;
@@ -106,6 +107,8 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         new LinkedHashMap<String, CloseableContainedMap<String, IndependentChartUIProvider, LinkedHashMap>>();
 
     private static Map<String, String> idAndPriorityMap = new HashMap<String, String>();
+
+    public static final String TYPE_PANE_DEFAULT_TITLE = "DEFAULT_NAME";
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
         
@@ -260,6 +263,9 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 String plotID = entry.getKey();
 
                 AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
+                if (AssistUtils.equals(pane.title4PopupWindow(), TYPE_PANE_DEFAULT_TITLE)) {
+                    continue;
+                }
                 pane.setPlotID(plotID);
                 paneList.add(pane);
 
