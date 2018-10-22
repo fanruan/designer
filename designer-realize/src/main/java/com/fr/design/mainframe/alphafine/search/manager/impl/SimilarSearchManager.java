@@ -17,16 +17,16 @@ import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 /**
  * Created by alex.sung on 2018/8/3.
  */
-public class SimilarSearchManeger implements AlphaFineSearchProvider {
-    private static volatile SimilarSearchManeger instance;
+public class SimilarSearchManager implements AlphaFineSearchProvider {
+    private static volatile SimilarSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList = new SearchResult();
 
-    public static SimilarSearchManeger getInstance() {
+    public static SimilarSearchManager getInstance() {
         if (instance == null) {
-            synchronized (SimilarSearchManeger.class) {
+            synchronized (SimilarSearchManager.class) {
                 if (instance == null) {
-                    instance = new SimilarSearchManeger();
+                    instance = new SimilarSearchManager();
                 }
             }
         }

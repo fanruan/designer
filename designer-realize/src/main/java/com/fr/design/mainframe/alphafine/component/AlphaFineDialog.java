@@ -32,7 +32,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SegmentationManager;
-import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.form.main.Form;
@@ -573,7 +573,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildSimilarList(final String[] searchText) {
-        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(searchText));
+        addSearchResult(SimilarSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private synchronized void addSearchResult(SearchResult searchResult) {
@@ -1052,7 +1052,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ROBOT:
             case RECOMMEND_ROBOT:
-                moreResult = SimilarSearchManeger.getInstance().getMoreSearchResult(searchTextField.getText());
+                moreResult = SimilarSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             case RECOMMEND:
                 moreResult = RecommendSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
