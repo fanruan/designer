@@ -10,17 +10,45 @@ import java.util.Comparator;
  * Directory is in the first. and  normal file  the  in the  last.
  */
 public class FileNodeComparator implements Comparator<FileNode> {
-	// 正序还是倒序
-	private boolean isReverse = false;
-	
-	public FileNodeComparator() {
-		this(false);
-	}
-	
-	public FileNodeComparator(boolean reverse) {
-		this.isReverse = reverse;
-	}
-	
+    /**
+     * 正序还是倒序
+     */
+    private boolean isReverse;
+
+    /**
+     * 文件扩展名类型
+     */
+    private String[] supportTypes;
+
+    /**
+     * @see FileNodeComparator#FileNodeComparator(boolean, String[])
+     * @deprecated
+     */
+    @Deprecated
+    public FileNodeComparator() {
+        this(false);
+    }
+
+    public FileNodeComparator(String[] types) {
+        this(false, types);
+    }
+
+    /**
+     * @param reverse 是否是倒序，{@code true} 倒序，{@code false} 正序
+     * @see FileNodeComparator#FileNodeComparator(boolean, String[])
+     * @deprecated
+     */
+    @Deprecated
+    public FileNodeComparator(boolean reverse) {
+        this.isReverse = reverse;
+        this.supportTypes = FRContext.getFileNodes().getSupportedTypes();
+    }
+
+    public FileNodeComparator(boolean reverse, String[] types) {
+        this.isReverse = reverse;
+        this.supportTypes = types;
+    }
+
     /**
      * This method should return > 0 if v1 is greater than v2, 0 if
      * v1 is equal to v2, or < 0 if v1 is less than v2.
@@ -29,49 +57,48 @@ public class FileNodeComparator implements Comparator<FileNode> {
      * @return < 0, 0, or > 0 for v1<v2, v1==v2, or v1>v2.
      */
     public int compare(FileNode nameNode1, FileNode nameNode2) {
-    	int returnVal;
+        int returnVal;
         if (nameNode1.isDirectory()) {
             if (nameNode2.isDirectory()) {
-            	returnVal = nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
+                returnVal = nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
             } else {
-            	returnVal = -1;
+                returnVal = -1;
             }
         } else {
             if (nameNode2.isDirectory()) {
-            	returnVal = 1;
+                returnVal = 1;
             } else {
-            	returnVal=groupByFileType(nameNode1, nameNode2, 0);
+                returnVal = groupByFileType(nameNode1, nameNode2, 0);
             }
         }
         if (isReverse) {
-        	returnVal = 0 - returnVal;
+            returnVal = 0 - returnVal;
         }
         return returnVal;
     }
 
     /**
-     * 一个简单的递归判断算法
-     * @param nameNode1
-     * @param nameNode2
-     * @param i
-     * @return
+     * 一个简单的递归判断算法，依据文件类型排序
+     *
+     * @param nameNode1 节点1
+     * @param nameNode2 节点2
+     * @param i         i
+     * @return value
      */
-	private int groupByFileType(FileNode nameNode1, FileNode nameNode2,
-			int i) {
-		
-		String[] supportTypes = FRContext.getFileNodes().getSupportedTypes();
-		if (i < supportTypes.length) {
-			if (nameNode1.isFileType(supportTypes[i]))
-				if (nameNode2.isFileType(supportTypes[i]))
-					return nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
-				else
-					return-1;
-			else if (nameNode2.isFileType(supportTypes[i]))
-					return 1;
-				else{
-					return groupByFileType(nameNode1, nameNode2, i+1);
-					}
-			}else
-				return -1;
-		}
-	}
+    private int groupByFileType(FileNode nameNode1, FileNode nameNode2,
+                                int i) {
+        if (i < supportTypes.length) {
+            if (nameNode1.isFileType(supportTypes[i]))
+                if (nameNode2.isFileType(supportTypes[i]))
+                    return nameNode1.getName().toLowerCase().compareTo(nameNode2.getName().toLowerCase());
+                else
+                    return -1;
+            else if (nameNode2.isFileType(supportTypes[i]))
+                return 1;
+            else {
+                return groupByFileType(nameNode1, nameNode2, i + 1);
+            }
+        } else
+            return -1;
+    }
+}
