@@ -52,7 +52,8 @@ public class NativePrintSettingPane extends JPanel {
     private static final String CUSTOM_PAPERSIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom");
     private static final PaperSize DEFAULT_PAPERSIZE = PaperSize.PAPERSIZE_A4;
 
-    private UICheckBox isShowDialogCheck;
+    private UICheckBox showDialogCheck;
+    private UICheckBox needSelectSheetCheck;  // 打印需要指定 sheet
     private UIComboBox printerComboBox;
     private UIBasicSpinner copySpinner;  // 份数
     private UIRadioButton allPageRadioButton;
@@ -83,16 +84,22 @@ public class NativePrintSettingPane extends JPanel {
     private void initComponents() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 15);
+        JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 12);
         UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Native_Print_Need_Client"));
         northPane.add(tipDownload);
-        isShowDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
-        isShowDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel tipCheck = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
-        JPanel checkPane =  GUICoreUtils.createFlowPane(new Component[] {
-                isShowDialogCheck, tipCheck}, FlowLayout.LEFT);
-        northPane.add(checkPane);
-        northPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 10, 0));
+
+        showDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
+        showDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UILabel showDialogTipCheck = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
+        JPanel showDialogCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+                showDialogCheck, showDialogTipCheck}, FlowLayout.LEFT);
+        northPane.add(showDialogCheckPane);
+
+        needSelectSheetCheck = new UICheckBox("打印需要指定 sheet");
+        needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        northPane.add(needSelectSheetCheck);
+
+        northPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 15, 0));
 
         printPane.add(northPane, BorderLayout.NORTH);
 
@@ -114,7 +121,7 @@ public class NativePrintSettingPane extends JPanel {
         currentPageRadioButton.addItemListener(getPageRaidoListener());
         customPageRadioButton.addItemListener(getPageRaidoListener());
         doublePrintRadioButton.addItemListener(getPageRaidoListener());
-        isShowDialogCheck.addItemListener(new ItemListener() {
+        showDialogCheck.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 checkEnabled();
@@ -393,7 +400,8 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     public void populate(NativePrintAttr nativePrintAttr) {
-        isShowDialogCheck.setSelected(nativePrintAttr.isShowDialog());
+        showDialogCheck.setSelected(nativePrintAttr.isShowDialog());
+        needSelectSheetCheck.setSelected(nativePrintAttr.isNeedSelectSheet());
         printerComboBox.setSelectedItem(nativePrintAttr.getPrinterName());
         copySpinner.setValue(nativePrintAttr.getCopy());
 
@@ -442,7 +450,8 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     public void update(NativePrintAttr nativePrintAttr) {
-        nativePrintAttr.setShowDialog(isShowDialogCheck.isSelected());
+        nativePrintAttr.setShowDialog(showDialogCheck.isSelected());
+        nativePrintAttr.setNeedSelectSheet(needSelectSheetCheck.isSelected());
         if (printerComboBox.getSelectedItem() != null) {
             nativePrintAttr.setPrinterName(printerComboBox.getSelectedItem().toString());
         }
@@ -483,6 +492,6 @@ public class NativePrintSettingPane extends JPanel {
 
     // 刷新面板可用状态
     public void checkEnabled() {
-        GUICoreUtils.setEnabled(centerPane, !isShowDialogCheck.isSelected());
+        GUICoreUtils.setEnabled(centerPane, !showDialogCheck.isSelected());
     }
 }
