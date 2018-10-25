@@ -90,14 +90,17 @@ public class NativePrintSettingPane extends JPanel {
 
         showDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
         showDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel showDialogTipCheck = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
+        UILabel showDialogCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
         JPanel showDialogCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
-                showDialogCheck, showDialogTipCheck}, FlowLayout.LEFT);
+                showDialogCheck, showDialogCheckTip}, FlowLayout.LEFT);
         northPane.add(showDialogCheckPane);
 
-        needSelectSheetCheck = new UICheckBox("打印需要指定 sheet");
-        needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        northPane.add(needSelectSheetCheck);
+        needSelectSheetCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Need_Select_Sheet_When_Printing"));
+        needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UILabel needSelectSheetCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Invalid_In_Page_View"));
+        JPanel needSelectSheetCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+                needSelectSheetCheck, needSelectSheetCheckTip}, FlowLayout.LEFT);
+        northPane.add(needSelectSheetCheckPane);
 
         northPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 15, 0));
 
