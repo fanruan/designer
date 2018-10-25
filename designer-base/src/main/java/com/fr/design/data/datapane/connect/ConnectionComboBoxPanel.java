@@ -15,11 +15,13 @@ import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.WorkerFacade;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.connection.DBConnectAuth;
 
 import javax.swing.SwingUtilities;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,8 +64,16 @@ public class ConnectionComboBoxPanel extends ItemEditableComboBoxPanel {
 
         ConnectionConfig mgr = ConnectionConfig.getInstance();
         Iterator<String> nameIt = mgr.getConnections().keySet().iterator();
+
+        Collection<String> noAuthConnections = WorkContext.getCurrent().get(DBConnectAuth.class).getNoAuthConnections();
+        if (noAuthConnections == null) {
+            return nameList.iterator();
+        }
         while (nameIt.hasNext()) {
             String conName = nameIt.next();
+            if (noAuthConnections.contains(conName)) {
+                continue;
+            }
             Connection connection = mgr.getConnection(conName);
             filterConnection(connection, conName, nameList);
         }
