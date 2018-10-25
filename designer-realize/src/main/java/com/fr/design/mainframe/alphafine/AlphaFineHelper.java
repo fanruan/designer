@@ -14,7 +14,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.HotIssuesManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
-import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
 import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
@@ -142,7 +142,7 @@ public class AlphaFineHelper {
             result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Community_Help")));
         } else if (object instanceof PluginSearchManager) {
             result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
-        } else if (object instanceof SimilarSearchManeger) {
+        } else if (object instanceof SimilarSearchManager) {
             result.add(0, new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Relation_Item")));
         } else if (object instanceof HotIssuesManager) {
             return new SearchResult();
