@@ -34,8 +34,6 @@ public class VanChartCustomStackAndAxisConditionPane extends BasicBeanPane<Condi
     protected UIButtonGroup<Integer> isStacked;
     protected UIButtonGroup<Integer> isPercentStacked;
 
-    private ConditionAttr conditionAttr;
-
     private LiteConditionPane liteConditionPane;
 
     public VanChartCustomStackAndAxisConditionPane() {
