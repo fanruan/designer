@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -161,7 +162,7 @@ public class RestoreResultDialog extends JDialog {
     }
 
     private void putJarBackupFilesToInstallLib(String installHome, Map<String, String> map, java.util.List<String> list) {
-        String[] files = UpdateConstants.JARS_FOR_DESIGNER_X;
+        List<String> files = UpdateConstants.JARS_FOR_DESIGNER_X;
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
@@ -171,7 +172,7 @@ public class RestoreResultDialog extends JDialog {
     }
 
     private void putJarBackupFilesToInstallEnv(String installHome, Map<String, String> map, java.util.List<String> list) {
-        String[] files = UpdateConstants.JARS_FOR_SERVER_X;
+        List<String> files = UpdateConstants.JARS_FOR_SERVER_X;
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
