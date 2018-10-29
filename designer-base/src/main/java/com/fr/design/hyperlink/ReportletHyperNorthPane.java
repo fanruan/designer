@@ -352,7 +352,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         titleFiled = new JFormulaField(15);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         titlePanel.add(titleFiled);
-        Component[] titleComponents = new Component[]{new UILabel(Toolkit.i18nText("对话框标题") + ":"), titlePanel};
+        Component[] titleComponents = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Title") + ":"), titlePanel};
         dialogComponents.add(titleComponents);
     }
 
@@ -373,16 +373,16 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(widthTextFiled);
         sizeJPanel.setVisible(true);
-        dialogComponents.add(new Component[]{new UILabel(Toolkit.i18nText("对话框大小") + ":"), sizeJPanel});
+        dialogComponents.add(new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Size") + ":"), sizeJPanel});
     }
 
     private void initDialogLocationPanel(List<Component[]> dialogComponents) {
         // 显示位置
         final JPanel locationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         // 居中
-        center = new UIRadioButton(Toolkit.i18nText("居中"));
+        center = new UIRadioButton(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Center"));
         // 自定义
-        custom = new UIRadioButton(Toolkit.i18nText("自定义"));
+        custom = new UIRadioButton(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Custom"));
 
         custom.setBorder(BorderFactory.createEmptyBorder(4, 20, 4, 5));
         ButtonGroup group = new ButtonGroup();
@@ -393,12 +393,12 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         locationPanel.add(custom);
 
         // 位置 距左
-        final UILabel leftLabel = new UILabel(Toolkit.i18nText("距左"));
+        final UILabel leftLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Left"));
         leftLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10));
         leftLocation = new UINumberField();
         leftLocation.setPreferredSize(new Dimension(40, 20));
         // 位置 距上
-        final UILabel topLabel = new UILabel(Toolkit.i18nText("距上"));
+        final UILabel topLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Top"));
         topLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         topLocation = new UINumberField();
         topLocation.setPreferredSize(new Dimension(40, 20));
@@ -426,7 +426,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         center.addChangeListener(actionListener);
         custom.addChangeListener(actionListener);
 
-        dialogComponents.add(new Component[]{new UILabel(Toolkit.i18nText("显示位置") + ":"), locationPanel});
+        dialogComponents.add(new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Show_Position") + ":"), locationPanel});
     }
 
     private void initFooterPanel(List<Component[]> dialogComponents, List<Component[]> othersComponents) {
