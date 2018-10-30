@@ -96,6 +96,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     public static final String FUNC_COLUMNNAME = "func";
     public static final String COLUMN_TIME = "time";
     public static final String TABLE_FUNCTION_RECORD = "function.record";
+    private static final String ATTR_ID = "id";
+    private static final String ATTR_TEXT = "text";
+    private static final String ATTR_SOURCE = "source";
+    private static final String ATTR_TIME = "time";
+    private static final String ATTR_TITLE = "title";
+    private static final String ATTR_USER_NAME = "username";
+    private static final String ATTR_UUID = "uuid";
 
 	private static InformationCollector collector;
 
@@ -219,38 +226,42 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
     private void sendFunctionsInfo(){
         long currentTime = new Date().getTime();
-        long lastTime = getLastTimeMillis();
-        if (currentTime - lastTime <= DELTA) {
-            return;
-        }
-        String content = null;
-		try {
-			content = getFunctionsContentAsByte(currentTime);
-		} catch (JSONException e) {
+        ArrayList<Map<String, Object>> content = null;
+        try {
+            content = getFunctionsContentAsByte(currentTime);
+        } catch (JSONException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		}
-		if(StringUtils.isNotEmpty(content)){
-            HashMap<String, String> para = new HashMap<>();
-            String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-            para.put("token", SiteCenterToken.generateToken());
-            para.put("content", content);
-            String res = null;
-            try {
-                res = HttpToolbox.get(url, para);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
-            boolean success = false;
-            try {
-                success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        boolean success = false;
+        String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+        if(content.size() > 0){
+            for(int i=0; i<content.size(); i++){
+                success = sendFunctionRecord(url, content.get(i));
             }
             //服务器返回true, 说明已经获取成功, 清空当前记录的信息
             if (success) {
                 deleteFunctionRecords(currentTime);
             }
         }
+    }
+
+    private boolean sendFunctionRecord(String url, Map<String,Object> record) {
+        HashMap<String, String> para = new HashMap<>();
+        para.put("token", SiteCenterToken.generateToken());
+        para.put("content",  new JSONObject(record).toString());
+        String res = null;
+        try {
+            res = HttpToolbox.get(url, para);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        boolean success = false;
+        try {
+            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+        } catch (JSONException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        return success;
     }
 
     /**
@@ -413,34 +424,34 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static String getFunctionsContentAsByte(long currentTime) throws JSONException{
-		com.fr.json.JSONObject content = new com.fr.json.JSONObject();
-		QueryCondition condition = QueryFactory.create().addRestriction(
-				RestrictionFactory.lte(COLUMN_TIME, currentTime)
-		);
-		try {
-			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class, condition);
-			JSONArray functionArray = new JSONArray();
-			if(!focusPoints.isEmpty()){
+	public static ArrayList getFunctionsContentAsByte(long currentTime) throws JSONException{
+        ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
+        QueryCondition condition = QueryFactory.create().addRestriction(
+                RestrictionFactory.lte(COLUMN_TIME, currentTime)
+        );
+        try {
+            DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+            focusPoints.getList();
+            DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+            String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+            String uuid = envManager.getUUID();
+            if(!focusPoints.isEmpty()){
                 for(FocusPoint focusPoint : focusPoints.getList()){
-                    com.fr.json.JSONObject jsonObject = new com.fr.json.JSONObject();
-                    jsonObject.put("id", focusPoint.getId());
-                    jsonObject.put("text", focusPoint.getText());
-                    jsonObject.put("source", focusPoint.getSource());
-                    jsonObject.put("time", focusPoint.getTime());
-                    jsonObject.put("title", focusPoint.getTitle());
-                    functionArray.put(jsonObject);
+                    Map<String,Object> record = new HashMap<>();
+                    record.put(ATTR_ID, focusPoint.getId());
+                    record.put(ATTR_TEXT, focusPoint.getText());
+                    record.put(ATTR_SOURCE, focusPoint.getSource());
+                    record.put(ATTR_TIME, focusPoint.getTime().getTime());
+                    record.put(ATTR_TITLE, focusPoint.getTitle());
+                    record.put(ATTR_USER_NAME, bbsUserName);
+                    record.put(ATTR_UUID, uuid);
+                    records.add(record);
                 }
-
-                DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-                content.put("username", MarketConfig.getInstance().getBbsUsername());
-                content.put("uuid", envManager.getUUID());
-                content.put("functions", functionArray);
             }
-		} catch (MetricException e) {
+        } catch (MetricException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		}
-		return content.toString();
+        }
+        return records;
 	}
 
 	private void deleteFunctionRecords(long currentTime) {
