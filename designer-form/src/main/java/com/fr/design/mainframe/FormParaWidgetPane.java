@@ -22,9 +22,9 @@ import com.fr.form.ui.WidgetConfig;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.injectable.SpecialLevel;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import static com.fr.plugin.injectable.SpecialLevel.IndependentChartUIProvider;
 
 /**
  * @author null
@@ -98,7 +100,8 @@ public class FormParaWidgetPane extends JPanel {
             @Override
             public boolean accept(PluginContext context) {
 
-                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG);
+                return context.contain(PluginModule.ExtraDesign, FormWidgetOptionProvider.XML_TAG)
+                        || context.contain(PluginModule.ExtraChartDesign, SpecialLevel.IndependentChartUIProvider.getTagName());
             }
         });
     }
