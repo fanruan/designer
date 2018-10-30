@@ -20,12 +20,14 @@ import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.intelli.record.FocusPoint;
 import com.fr.intelli.record.MetricException;
 import com.fr.intelli.record.MetricRegistry;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.log.message.ParameterMessage;
 import com.fr.record.DBRecordXManager;
 import com.fr.stable.ArrayUtils;
@@ -225,27 +227,24 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		try {
 			content = getFunctionsContentAsByte(currentTime);
 		} catch (JSONException e) {
-			e.printStackTrace();
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		if(StringUtils.isNotEmpty(content)){
             HashMap<String, String> para = new HashMap<>();
             String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
             para.put("token", SiteCenterToken.generateToken());
             para.put("content", content);
-            HttpClient httpClient = new HttpClient(url, para, true);
-            httpClient.setTimeout(5000);
-            httpClient.asGet();
-
-            if (!httpClient.isServerAlive()) {
-                return;
+            String res = null;
+            try {
+                res = HttpToolbox.get(url, para);
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-
-            String res =  httpClient.getResponseText();
             boolean success = false;
             try {
                 success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
             } catch (JSONException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             //服务器返回true, 说明已经获取成功, 清空当前记录的信息
             if (success) {
@@ -439,7 +438,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 content.put("functions", functionArray);
             }
 		} catch (MetricException e) {
-			e.printStackTrace();
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		return content.toString();
 	}
@@ -451,7 +450,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		try {
 			MetricRegistry.getMetric().clean(condition);
 		}catch (Exception e){
-			e.printStackTrace();
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 	}
 
