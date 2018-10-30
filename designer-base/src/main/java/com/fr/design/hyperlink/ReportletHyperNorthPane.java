@@ -284,6 +284,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
     }
 
     private void bindListener(final List<Component[]> dialogComponents, final List<Component[]> othersComponents) {
+        final UIComboBox targetFrameComboBox = this.getTargetFrameComboBox();
         targetFrameComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -337,7 +338,8 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
 
     private void initTargetComboBoxPanel(List<Component[]> dialogComponents, List<Component[]> othersComponents) {
         // 链接打开于
-        targetFrameComboBox = new UIComboBox(getTargetFrames());
+        UIComboBox targetFrameComboBox = new UIComboBox(getTargetFrames());
+        this.setTargetFrameComboBox(targetFrameComboBox);
         targetFrameComboBox.setEditable(true);
         targetFrameComboBox.setPreferredSize(new Dimension(100, 20));
         JPanel targetFramePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -361,17 +363,19 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         UILabel heightLabel = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Height") + ":");
         heightLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         sizeJPanel.add(heightLabel);
-        heightTextFiled = new UINumberField();
+        UINumberField heightTextFiled = new UINumberField();
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(heightTextFiled);
+        this.setHeightTextFiled(heightTextFiled);
         UILabel widthLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Designer_Width") + ":");
         widthLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         sizeJPanel.add(widthLabel);
-        widthTextFiled = new UINumberField();
+        UINumberField widthTextFiled = new UINumberField();
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(widthTextFiled);
+        this.setWidthTextFiled(widthTextFiled);
         sizeJPanel.setVisible(true);
         dialogComponents.add(new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Size") + ":"), sizeJPanel});
     }

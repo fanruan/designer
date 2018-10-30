@@ -27,15 +27,15 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
     /**
      * 链接打开方式对话框
      */
-    UIComboBox targetFrameComboBox;
+    private UIComboBox targetFrameComboBox;
     /**
      * 对话框高度输入框
      */
-    UINumberField heightTextFiled;
+    private UINumberField heightTextFiled;
     /**
      * 对话框宽度输入框
      */
-    UINumberField widthTextFiled;
+    private UINumberField widthTextFiled;
 
 
     public AbstractHyperNorthPane() {
