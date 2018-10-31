@@ -3,9 +3,9 @@ package com.fr.design.webattr.printsettings;
 import com.fr.base.print.PrintSettingsAttrMark;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -23,13 +23,17 @@ import java.awt.event.ItemListener;
 public class PrintSettingPane extends BasicPane {
     private UIRadioButton noClientPrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_No_Client_Print"));
     private UIRadioButton nativePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Native_Print"));
-
     private NoClientPrintSettingPane noClientPrintSettingPane;
-    private NativePrintSettingPane nativePrintSettingPane;
+    private AbstractNativePrintSettingPane nativePrintSettingPane;
     private CardLayout printCard;
     private JPanel printPane;
 
     public PrintSettingPane() {
+        this(new ReportNativePrintSettingPane());
+    }
+
+    public PrintSettingPane(AbstractNativePrintSettingPane nativePrintSettingPane) {
+        this.nativePrintSettingPane = nativePrintSettingPane;
         initComponents();
         initListener();
     }
@@ -50,12 +54,14 @@ public class PrintSettingPane extends BasicPane {
         north.add(radioGroupPane);
 
         noClientPrintSettingPane = new NoClientPrintSettingPane();
-        nativePrintSettingPane = new NativePrintSettingPane();
         printCard = new CardLayout();
         printPane = new JPanel();
         printPane.setLayout(printCard);
         printPane.add(noClientPrintRadioButton.getText(), noClientPrintSettingPane);
-        printPane.add(nativePrintRadioButton.getText(), nativePrintSettingPane);
+
+        UIScrollPane scrollPane = new UIScrollPane(nativePrintSettingPane);
+        scrollPane.setBorder(null);
+        printPane.add(nativePrintRadioButton.getText(), scrollPane);
 
         north.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         allPanel.add(printPane, BorderLayout.CENTER);

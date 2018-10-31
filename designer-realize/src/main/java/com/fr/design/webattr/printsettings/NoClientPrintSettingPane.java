@@ -26,7 +26,7 @@ public class NoClientPrintSettingPane extends JPanel {
     private PageMarginSettingPane pageMarginSettingPane;
     private JPanel centerPane;
 
-    public NoClientPrintSettingPane() {
+    NoClientPrintSettingPane() {
         initComponents();
         initListeners();
     }

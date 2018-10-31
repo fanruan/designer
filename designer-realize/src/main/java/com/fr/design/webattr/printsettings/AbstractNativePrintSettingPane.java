@@ -7,7 +7,6 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
@@ -46,12 +45,13 @@ import java.util.regex.Pattern;
 /**
  * Created by plough on 2018/3/5.
  */
-public class NativePrintSettingPane extends JPanel {
+public abstract class AbstractNativePrintSettingPane extends JPanel {
     private static final int ODD_INDEX = 0;
     private static final int EVEN_INDEX = 1;
     private static final String CUSTOM_PAPERSIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom");
     private static final PaperSize DEFAULT_PAPERSIZE = PaperSize.PAPERSIZE_A4;
 
+    // 公共组件
     private UICheckBox showDialogCheck;
     private UICheckBox needSelectSheetCheck;  // 打印需要指定 sheet
     private UIComboBox printerComboBox;
@@ -76,7 +76,7 @@ public class NativePrintSettingPane extends JPanel {
     private UnitFieldPane customWidthFieldPane;
     private UnitFieldPane customHeightFieldPane;
 
-    public NativePrintSettingPane() {
+    AbstractNativePrintSettingPane() {
         initComponents();
         initListeners();
     }
@@ -84,40 +84,58 @@ public class NativePrintSettingPane extends JPanel {
     private void initComponents() {
         JPanel printPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
-        JPanel northPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(1, 0, 12);
-        UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Native_Print_Need_Client"));
-        northPane.add(tipDownload);
-
-        showDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
-        showDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel showDialogCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
-        JPanel showDialogCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
-                showDialogCheck, showDialogCheckTip}, FlowLayout.LEFT);
-        northPane.add(showDialogCheckPane);
-
-        needSelectSheetCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Need_Select_Sheet_When_Printing"));
-        needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel needSelectSheetCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Invalid_In_Page_View"));
-        JPanel needSelectSheetCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
-                needSelectSheetCheck, needSelectSheetCheckTip}, FlowLayout.LEFT);
-        northPane.add(needSelectSheetCheckPane);
-
-        northPane.setBorder(BorderFactory.createEmptyBorder(3, 10, 15, 0));
-
+        JPanel northPane = getHeaderPane();
         printPane.add(northPane, BorderLayout.NORTH);
 
         centerPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default_Settings"));
-
-        UIScrollPane scrollPane = new UIScrollPane(getNativePrintMainSettingPane());
-        scrollPane.setBorder(null);
-        scrollPane.setPreferredSize(new Dimension(600, 340));
-        centerPane.add(scrollPane);
+        centerPane.add(getNativePrintMainSettingPane());
 
         printPane.add(centerPane, BorderLayout.CENTER);
 
         this.setLayout(new BorderLayout());
         this.add(printPane, BorderLayout.CENTER);
     }
+
+    private JPanel getHeaderPane() {
+        UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Native_Print_Need_Client"));
+
+        // 打印时需要打印设置窗口
+        showDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
+        showDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UILabel showDialogCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
+        JPanel showDialogCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+                showDialogCheck, showDialogCheckTip}, FlowLayout.LEFT);
+
+        // 打印需要指定 sheet
+        needSelectSheetCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Need_Select_Sheet_When_Printing"));
+        needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        UILabel needSelectSheetCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Invalid_In_Page_View"));
+        JPanel needSelectSheetCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+                needSelectSheetCheck, needSelectSheetCheckTip}, FlowLayout.LEFT);
+
+        return createHeaderPane(tipDownload, showDialogCheckPane, needSelectSheetCheckPane);
+    }
+
+    abstract JPanel createHeaderPane(Component... comps);
+
+    JPanel createHeaderLayoutPane(Component... comps) {
+        // TableLayout
+        double p = TableLayout.PREFERRED;
+        double[] columnSize = {p};
+
+        double[] rowSize = new double[comps.length];
+        for (int i = 0; i < rowSize.length; i++) {
+            rowSize[i] = p;
+        }
+
+        Component[][] components = new Component[rowSize.length][columnSize.length];
+        for (int i = 0; i < rowSize.length; i++) {
+            components[i][0] = comps[i];
+        }
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
+    }
+
+
 
     private void initListeners() {
         allPageRadioButton.addItemListener(getPageRaidoListener());
@@ -396,13 +414,15 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
-    private JPanel getTopAlignLabelPane(String labelText) {
+    JPanel getTopAlignLabelPane(String labelText) {
         JPanel labelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         labelPane.add(new UILabel(labelText), BorderLayout.NORTH);
+        labelPane.add(new JPanel(), BorderLayout.CENTER);
         return labelPane;
     }
 
     public void populate(NativePrintAttr nativePrintAttr) {
+        extraPopulate(nativePrintAttr);
         showDialogCheck.setSelected(nativePrintAttr.isShowDialog());
         needSelectSheetCheck.setSelected(nativePrintAttr.isNeedSelectSheet());
         printerComboBox.setSelectedItem(nativePrintAttr.getPrinterName());
@@ -452,12 +472,14 @@ public class NativePrintSettingPane extends JPanel {
         checkEnabled();
     }
 
+    protected void extraPopulate(NativePrintAttr nativePrintAttr) {
+        // do nothing
+    }
+
     public void update(NativePrintAttr nativePrintAttr) {
+        extraUpdate(nativePrintAttr);
         nativePrintAttr.setShowDialog(showDialogCheck.isSelected());
         nativePrintAttr.setNeedSelectSheet(needSelectSheetCheck.isSelected());
-        if (printerComboBox.getSelectedItem() != null) {
-            nativePrintAttr.setPrinterName(printerComboBox.getSelectedItem().toString());
-        }
         nativePrintAttr.setCopy((int)copySpinner.getValue());
 
         // 页码
@@ -491,6 +513,10 @@ public class NativePrintSettingPane extends JPanel {
         nativePrintAttr.setMargin(pageMarginSettingPane.updateBean());
         nativePrintAttr.setFitPaperSize(fitPaperSizeCheck.isSelected());
         nativePrintAttr.setScalePercent((int)scalePercentField.getValue());
+    }
+
+    protected void extraUpdate(NativePrintAttr nativePrintAttr) {
+        // do nothing
     }
 
     // 刷新面板可用状态
