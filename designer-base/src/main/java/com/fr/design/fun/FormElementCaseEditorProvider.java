@@ -2,7 +2,7 @@ package com.fr.design.fun;
 
 import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditorProvider;
-import com.fr.stable.fun.ReportFitAttrProvider;
+import com.fr.report.fun.ReportFitAttrProvider;
 import com.fr.stable.fun.mark.Mutable;
 
 import java.beans.PropertyDescriptor;

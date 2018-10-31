@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.stable.fun.ReportFitAttrProvider;
+import com.fr.report.fun.ReportFitAttrProvider;
 import com.fr.stable.fun.mark.Immutable;
 
 import java.beans.PropertyDescriptor;

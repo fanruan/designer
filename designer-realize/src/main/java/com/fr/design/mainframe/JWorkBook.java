@@ -41,6 +41,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
+import com.fr.design.mainframe.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -698,6 +699,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
                 new ReportWebAttrAction(this),
                 new ReportExportAttrAction(this),
                 new ReportParameterAction(this),
+                new ReportFitAttrAction(this),
                 new ReportMobileAttrAction(this),
                 new ReportPrintSettingAction(this),
                 new ReportWatermarkAction(this),

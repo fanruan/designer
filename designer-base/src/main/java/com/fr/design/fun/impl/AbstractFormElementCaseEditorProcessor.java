@@ -1,7 +1,7 @@
 package com.fr.design.fun.impl;
 
 import com.fr.design.fun.FormElementCaseEditorProcessor;
-import com.fr.stable.fun.ReportFitAttrProvider;
+import com.fr.report.fun.ReportFitAttrProvider;
 import com.fr.stable.fun.mark.API;
 
 import java.beans.PropertyDescriptor;
