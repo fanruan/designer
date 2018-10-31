@@ -115,6 +115,10 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	public CRPropertyDescriptor[] getExtraTableEditor(){
 		CRPropertyDescriptor[] extraTableEditor = resolveCompatible();
+		return ArrayUtils.addAll(extraTableEditor, new CRPropertyDescriptor[] {getReportFitEditor()});
+	}
+
+	private CRPropertyDescriptor getReportFitEditor() {
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = designer.getTarget();
 		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
@@ -133,7 +137,7 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		if (editor.getReportFitAttr() == null) {
 			editor.setReportFitInPc(browserFitPropertyEditor.getFitStateInPC(fitAttr));
 		}
-		return ArrayUtils.addAll(extraTableEditor, new CRPropertyDescriptor[] {extraEditor});
+		return extraEditor;
 	}
 
 
