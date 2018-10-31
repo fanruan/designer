@@ -7,7 +7,6 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
@@ -46,16 +45,12 @@ import java.util.regex.Pattern;
 /**
  * Created by plough on 2018/3/5.
  */
-public class NativePrintSettingPane extends JPanel {
+public abstract class AbstractNativePrintSettingPane extends JPanel {
     private static final int ODD_INDEX = 0;
     private static final int EVEN_INDEX = 1;
     private static final String CUSTOM_PAPERSIZE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom");
     private static final PaperSize DEFAULT_PAPERSIZE = PaperSize.PAPERSIZE_A4;
 
-    // 服务器配置面板特有的组件
-    private UICheckBox defaultDownloadUrlCheck;  // 采用默认的软件下载地址
-    private UITextField customUrlFieldWin;
-    private UITextField customUrlFieldMac;
     // 公共组件
     private UICheckBox showDialogCheck;
     private UICheckBox needSelectSheetCheck;  // 打印需要指定 sheet
@@ -80,10 +75,8 @@ public class NativePrintSettingPane extends JPanel {
     private JPanel customPaperSizePane;
     private UnitFieldPane customWidthFieldPane;
     private UnitFieldPane customHeightFieldPane;
-    private boolean serverConfigMode;  // 是否为服务器配置中的面板
 
-    NativePrintSettingPane(boolean serverConfigMode) {
-        this.serverConfigMode = serverConfigMode;
+    AbstractNativePrintSettingPane() {
         initComponents();
         initListeners();
     }
@@ -104,8 +97,6 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     private JPanel getHeaderPane() {
-        JPanel headerPane;
-
         UILabel tipDownload = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Native_Print_Need_Client"));
 
         // 打印时需要打印设置窗口
@@ -122,17 +113,12 @@ public class NativePrintSettingPane extends JPanel {
         JPanel needSelectSheetCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
                 needSelectSheetCheck, needSelectSheetCheckTip}, FlowLayout.LEFT);
 
-        if (isServerConfigMode()) {
-            headerPane = createHeaderLayoutPane(tipDownload, showDialogCheckPane, needSelectSheetCheckPane, getDownloadUrlSettingPane());
-            headerPane.setBorder(BorderFactory.createEmptyBorder(2, 12, 5, 0));
-        } else {
-            headerPane = createHeaderLayoutPane(tipDownload, showDialogCheckPane, needSelectSheetCheckPane);
-            headerPane.setBorder(BorderFactory.createEmptyBorder(2, 12, 12, 0));
-        }
-        return headerPane;
+        return createHeaderPane(tipDownload, showDialogCheckPane, needSelectSheetCheckPane);
     }
 
-    private JPanel createHeaderLayoutPane(Component... comps) {
+    abstract JPanel createHeaderPane(Component... comps);
+
+    JPanel createHeaderLayoutPane(Component... comps) {
         // TableLayout
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p};
@@ -149,37 +135,7 @@ public class NativePrintSettingPane extends JPanel {
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
     }
 
-    private JPanel getDownloadUrlSettingPane() {
-        defaultDownloadUrlCheck = GUICoreUtils.createNoBorderCheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
-        JPanel downloadUrlSettingCheckPane = GUICoreUtils.createCheckboxAndDynamicPane(defaultDownloadUrlCheck, getCustomUrlSettingPane(), true);
-        downloadUrlSettingCheckPane.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        // TableLayout
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p};
-        double[] columnSize = {p, p};
-        Component[][] components = {
-                {getTopAlignLabelPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Software_Download_Url") + ": "), downloadUrlSettingCheckPane}
-        };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 15);
-    }
-
-    private JPanel getCustomUrlSettingPane() {
-        customUrlFieldWin = new UITextField(20);
-        customUrlFieldMac = new UITextField(20);
-
-        // TableLayout
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
-        double[] columnSize = {60, p};
-        Component[][] components = {
-                {new UILabel("windows: "), customUrlFieldWin},
-                {new UILabel("macOS: "), customUrlFieldMac}
-        };
-        JPanel urlSettingPane =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
-        urlSettingPane.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        return urlSettingPane;
-    }
 
     private void initListeners() {
         allPageRadioButton.addItemListener(getPageRaidoListener());
@@ -458,7 +414,7 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     // 返回包含一个标签的 panel，标签始终位于 panel 顶部
-    private JPanel getTopAlignLabelPane(String labelText) {
+    JPanel getTopAlignLabelPane(String labelText) {
         JPanel labelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         labelPane.add(new UILabel(labelText), BorderLayout.NORTH);
         labelPane.add(new JPanel(), BorderLayout.CENTER);
@@ -466,9 +422,7 @@ public class NativePrintSettingPane extends JPanel {
     }
 
     public void populate(NativePrintAttr nativePrintAttr) {
-        if (isServerConfigMode()) {
-            serverOnlyPopulate(nativePrintAttr);
-        }
+        extraPopulate(nativePrintAttr);
         showDialogCheck.setSelected(nativePrintAttr.isShowDialog());
         needSelectSheetCheck.setSelected(nativePrintAttr.isNeedSelectSheet());
         printerComboBox.setSelectedItem(nativePrintAttr.getPrinterName());
@@ -518,16 +472,12 @@ public class NativePrintSettingPane extends JPanel {
         checkEnabled();
     }
 
-    private void serverOnlyPopulate(NativePrintAttr nativePrintAttr) {
-        defaultDownloadUrlCheck.setSelected(nativePrintAttr.isUseDefaultDownloadUrl());
-        customUrlFieldMac.setText(nativePrintAttr.getCustomDownloadUrlMac());
-        customUrlFieldWin.setText(nativePrintAttr.getCustomDownloadUrlWin());
+    protected void extraPopulate(NativePrintAttr nativePrintAttr) {
+        // do nothing
     }
 
     public void update(NativePrintAttr nativePrintAttr) {
-        if (isServerConfigMode()) {
-            serverOnlyUpdate(nativePrintAttr);
-        }
+        extraUpdate(nativePrintAttr);
         nativePrintAttr.setShowDialog(showDialogCheck.isSelected());
         nativePrintAttr.setNeedSelectSheet(needSelectSheetCheck.isSelected());
         nativePrintAttr.setCopy((int)copySpinner.getValue());
@@ -565,22 +515,12 @@ public class NativePrintSettingPane extends JPanel {
         nativePrintAttr.setScalePercent((int)scalePercentField.getValue());
     }
 
-    private void serverOnlyUpdate(NativePrintAttr nativePrintAttr) {
-        if (defaultDownloadUrlCheck.isSelected()) {
-            nativePrintAttr.setUseDefaultDownloadUrl(true);
-        } else {
-            nativePrintAttr.setUseDefaultDownloadUrl(false);
-            nativePrintAttr.setCustomDownloadUrlMac(customUrlFieldMac.getText());
-            nativePrintAttr.setCustomDownloadUrlWin(customUrlFieldWin.getText());
-        }
+    protected void extraUpdate(NativePrintAttr nativePrintAttr) {
+        // do nothing
     }
 
     // 刷新面板可用状态
     public void checkEnabled() {
         GUICoreUtils.setEnabled(centerPane, !showDialogCheck.isSelected());
-    }
-
-    public boolean isServerConfigMode() {
-        return serverConfigMode;
     }
 }

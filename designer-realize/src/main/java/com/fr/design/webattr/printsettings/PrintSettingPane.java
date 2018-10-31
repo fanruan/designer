@@ -7,7 +7,6 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -24,19 +23,17 @@ import java.awt.event.ItemListener;
 public class PrintSettingPane extends BasicPane {
     private UIRadioButton noClientPrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_No_Client_Print"));
     private UIRadioButton nativePrintRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Native_Print"));
-
     private NoClientPrintSettingPane noClientPrintSettingPane;
-    private NativePrintSettingPane nativePrintSettingPane;
+    private AbstractNativePrintSettingPane nativePrintSettingPane;
     private CardLayout printCard;
     private JPanel printPane;
-    private boolean serverConfigMode;  // 是否为服务器配置中的面板
 
     public PrintSettingPane() {
-        this(false);
+        this(new ReportNativePrintSettingPane());
     }
 
-    public PrintSettingPane(boolean serverConfigMode) {
-        this.serverConfigMode = serverConfigMode;
+    public PrintSettingPane(AbstractNativePrintSettingPane nativePrintSettingPane) {
+        this.nativePrintSettingPane = nativePrintSettingPane;
         initComponents();
         initListener();
     }
@@ -57,7 +54,6 @@ public class PrintSettingPane extends BasicPane {
         north.add(radioGroupPane);
 
         noClientPrintSettingPane = new NoClientPrintSettingPane();
-        nativePrintSettingPane = new NativePrintSettingPane(serverConfigMode);
         printCard = new CardLayout();
         printPane = new JPanel();
         printPane.setLayout(printCard);

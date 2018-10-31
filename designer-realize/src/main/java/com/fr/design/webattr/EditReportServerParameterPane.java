@@ -10,16 +10,16 @@ import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.webattr.printsettings.GlobalNativePrintSettingPane;
 import com.fr.design.webattr.printsettings.PrintSettingPane;
-
 import com.fr.report.core.ReportUtils;
 import com.fr.report.web.WebPage;
 import com.fr.report.web.WebView;
 import com.fr.report.web.WebWrite;
 import com.fr.web.attr.ReportWebAttr;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 /**
  * Edit Report Server Parameter.
@@ -60,7 +60,7 @@ public class EditReportServerParameterPane extends LoadingBasicPane {
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_Css"), cssPane = new WebCssPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Import_JavaScript"), jsPane = new WebJsPane());
         tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Error_Handler_Template"), errorTemplatePane = new ErrorTemplatePane());
-        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting"), printSettingPane = new PrintSettingPane(true));
+        tabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Print_Setting"), printSettingPane = new PrintSettingPane(new GlobalNativePrintSettingPane()));
     }
     
     @Override
