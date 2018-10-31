@@ -9,27 +9,24 @@ import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.design.mainframe.alphafine.search.manager.fun.AlphaFineSearchProvider;
 import com.fr.general.http.HttpToolbox;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
-import java.io.IOException;
-
 /**
  * Created by alex.sung on 2018/8/3.
  */
-public class SimilarSearchManeger implements AlphaFineSearchProvider {
-    private static volatile SimilarSearchManeger instance;
+public class SimilarSearchManager implements AlphaFineSearchProvider {
+    private static volatile SimilarSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList = new SearchResult();
 
-    public static SimilarSearchManeger getInstance() {
+    public static SimilarSearchManager getInstance() {
         if (instance == null) {
-            synchronized (SimilarSearchManeger.class){
+            synchronized (SimilarSearchManager.class) {
                 if (instance == null) {
-                    instance = new SimilarSearchManeger();
+                    instance = new SimilarSearchManager();
                 }
             }
         }
@@ -37,13 +34,15 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
     }
 
     @Override
-    public SearchResult getLessSearchResult(String[][] hotData, String[] searchText) {
+    public SearchResult getLessSearchResult(String[] searchText) {
         lessModelList = new SearchResult();
         if (DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isNeedIntelligentCustomerService()) {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
-            } else if (hotData == null) {
-                return AlphaFineHelper.getNoConnectList(instance);
+            }
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            if (noConnectList != null) {
+                return noConnectList;
             }
             SearchResult allModelList = new SearchResult();
             for (int j = 0; j < searchText.length; j++) {
@@ -52,11 +51,9 @@ public class SimilarSearchManeger implements AlphaFineSearchProvider {
                 try {
                     String result = HttpToolbox.get(url);
                     AlphaFineHelper.checkCancel();
-                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result,"title");
-                } catch (ClassCastException | JSONException e) {
-                    FineLoggerFactory.getLogger().error("similar search error: " + e.getMessage());
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error("similar search get result error: " + e.getMessage());
+                    allModelList = AlphaFineHelper.getModelListFromJSONArray(result, "title");
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().debug("similar search error.search str {}", searchText[j]);
                 }
             }
             moreModelList.clear();

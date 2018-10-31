@@ -10,7 +10,7 @@ import com.sun.javafx.iio.gif.GIFImageLoaderFactory;
 import com.sun.javafx.tk.PlatformImage;
 import com.sun.prism.Image;
 import com.sun.prism.impl.PrismSettings;
-import sun.util.logging.PlatformLogger;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,8 +21,6 @@ import java.io.InputStream;
  * @author daniel
  */
 class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
-
-    private static PlatformLogger imageioLogger = null;
 
     private Image[] images;
     private int[] delayTimes;
@@ -110,7 +108,6 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         return 40;
     }
 
-    @Override
     public int getLoopCount() {
         return 0;
     }
@@ -174,21 +171,11 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         return image;
     }
 
-    /**
-     * Returns the PlatformLogger for logging imageio-related activities.
-     */
-    private static synchronized PlatformLogger getImageioLogger() {
-        if (imageioLogger == null) {
-            imageioLogger = PlatformLogger.getLogger("imageio");
-        }
-
-        return imageioLogger;
-    }
 
     private class PrismLoadListener implements ImageLoadListener {
         @Override
         public void imageLoadWarning(ImageLoader loader, String message) {
-            getImageioLogger().warning(message);
+
         }
 
         @Override

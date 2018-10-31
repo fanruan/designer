@@ -40,7 +40,6 @@ import com.fr.report.web.button.write.StashButton;
 import com.fr.report.web.button.write.Submit;
 import com.fr.report.web.button.write.SubmitForcibly;
 import com.fr.report.web.button.write.Verify;
-import com.fr.report.web.button.write.WriteOfflineHTML;
 
 public class ReportWebWidgetConstants {
     private ReportWebWidgetConstants() {
@@ -57,7 +56,7 @@ public class ReportWebWidgetConstants {
 
     public static WidgetOption[] getWriteToolBarInstance() {
         return new WidgetOption[]{SUBMIT, VERIFY, EMAIL, EXPORT, PDF, EXCELP, EXCELO, EXCELS, WORD, NEW_PRINT, PRINT, FLASHPRINT, APPLETPRINT, PDFPRINT, IMPORTEXCELDATA, SHOWCELLVALUE,
-                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, WRITEOFFLINEHTML, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
+                APPENDCOLUMNROW, DELETECOLUMNROW, SETPRINTEROFFSET, CUSTOM_BUTTON, WRITESTASH, WRITESTASHCLEAR, IMPORTEXCELDATA_CUSTOMIZED,
                 IMPORTEXCEL, IMPORTEXCEL_COVER, IMPORTEXCEL_CLEAN, IMPORTEXCEL_APPEND};
     }
 
@@ -151,9 +150,6 @@ public class ReportWebWidgetConstants {
     public static final WidgetOption CUSTOM_BUTTON = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Form_Button"), CustomToolBarButton.class);
 
-    // 输出离线html报表
-    public static final WidgetOption WRITEOFFLINEHTML = WidgetOptionFactory
-            .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Export-Offline-Html"), BaseUtils.readIcon("/com/fr/web/images/writeOffline.png"), WriteOfflineHTML.class);
     // 数据暂存
     public static final WidgetOption WRITESTASH = WidgetOptionFactory
             .createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine-Write_Stash"), BaseUtils.readIcon("/com/fr/web/images/edit/stash.png"), StashButton.class);

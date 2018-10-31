@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.fr.design.mainframe;
 
@@ -20,15 +20,25 @@ import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
+import com.fr.intelli.record.FocusPoint;
+import com.fr.intelli.record.MetricException;
+import com.fr.intelli.record.MetricRegistry;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
+import com.fr.log.message.ParameterMessage;
 import com.fr.record.DBRecordXManager;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.query.QueryFactory;
+import com.fr.stable.query.condition.QueryCondition;
+import com.fr.stable.query.data.DataList;
+import com.fr.stable.query.restriction.RestrictionFactory;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
@@ -65,7 +75,7 @@ import java.util.Map;
  * @date: 2015-4-8-下午5:11:46
  */
 public class InformationCollector implements XMLReadable, XMLWriter {
-	
+
 	// 24小时上传一次
 	private static final long DELTA = 24 * 3600 * 1000L;
 	private static final long SEND_DELAY = 30 * 1000L;
@@ -84,25 +94,34 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
     public static final String TABLE_NAME = "fr_functionrecord";
     public static final String FUNC_COLUMNNAME = "func";
+    public static final String COLUMN_TIME = "time";
+    public static final String TABLE_FUNCTION_RECORD = "function.record";
+    private static final String ATTR_ID = "id";
+    private static final String ATTR_TEXT = "text";
+    private static final String ATTR_SOURCE = "source";
+    private static final String ATTR_TIME = "time";
+    private static final String ATTR_TITLE = "title";
+    private static final String ATTR_USER_NAME = "username";
+    private static final String ATTR_UUID = "uuid";
 
 	private static InformationCollector collector;
-	
+
 	//启动时间与关闭时间列表
 	private List<StartStopTime> startStop = new ArrayList<StartStopTime>();
 	//上一次的发送时间
 	private String lastTime;
 	private StartStopTime current = new StartStopTime();
-	
+
 	public static InformationCollector getInstance(){
 		if (collector == null) {
 			collector = new InformationCollector();
-			
+
             readEncodeXMLFile(collector, collector.getInfoFile());
 		}
-		
+
 		return collector;
 	}
-	
+
 	private static void readEncodeXMLFile(XMLReadable xmlReadable, File xmlFile){
 		if (xmlFile == null || !xmlFile.exists()) {
 			return;
@@ -128,29 +147,29 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 
 	}
-	
+
 	private static String getDecodeFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException{
 		InputStream encodeInputStream = new FileInputStream(xmlFile);
 		String encodeContent = IOUtils.inputStream2String(encodeInputStream);
 		return DesUtils.getDecString(encodeContent);
 	}
-	
+
 	private long getLastTimeMillis(){
 		if (StringUtils.isEmpty(this.lastTime)) {
 			return 0;
 		}
-		
+
 		try {
 			return DateUtils.string2Date(this.lastTime, true).getTime();
 		} catch (Exception e) {
 			return -1;
 		}
-		
+
 	}
-	
+
 	private byte[] getJSONContentAsByte(){
 		JSONObject content = new JSONObject();
-		
+
 		JSONArray startStopArray = new JSONArray();
 		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
@@ -182,7 +201,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private void sendUserInfo(){
 		long currentTime = new Date().getTime();
 		long lastTime = getLastTimeMillis();
-		
+
 		if (currentTime - lastTime <= DELTA) {
 			return;
 		}
@@ -207,139 +226,50 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
     private void sendFunctionsInfo(){
         long currentTime = new Date().getTime();
-        long lastTime = getLastTimeMillis();
-        if (currentTime - lastTime <= DELTA) {
-            return;
-        }
-
-//        byte[] content = ArrayUtils.EMPTY_BYTE_ARRAY;
-//        Connection conn = null;
-//        Table table = new Table(TABLE_NAME);
-
-//        try {
-//            conn = DBRecordXManager.getDB().createConnection();
-//            ResultSet rs = selectAllFromLogDB(conn, table);
-//
-//            if(rs == null){
-//                return;
-//            }
-//            content = getFunctionsContentAsByte(rs);
-//        } catch (Exception e) {
-//            FRContext.getLogger().error(e.getMessage(), e);
-//        } finally {
-//            DBUtils.closeConnection(conn);
-//        }
-//
-//        HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("functions.info"));
-//        httpClient.setContent(content);
-//        httpClient.setTimeout(5000);
-//
-//        if (!httpClient.isServerAlive()) {
-//            return;
-//        }
-//
-//        String res =  httpClient.getResponseText();
-//		boolean success = false;
-//		try {
-//			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-//		} catch (JSONException e) {
-//			FRContext.getLogger().error(e.getMessage(), e);
-//		}
-//		//服务器返回true, 说明已经获取成功, 清空当前记录的信息
-//        if (success) {
-//            deleteLogDB(conn, table);
-//        }
-
-    }
-
-    private void deleteLogDB(Connection conn, Table table) {
+        ArrayList<Map<String, Object>> content = null;
         try {
-            conn = DBRecordXManager.getDB().createConnection();
-            Delete delete = new Delete(table);
-            delete.execute(conn);
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        } finally {
-            DBUtils.closeConnection(conn);
+            content = getFunctionsContentAsByte(currentTime);
+        } catch (JSONException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-    }
-
-
-    private byte[] getFunctionsContentAsByte(ResultSet rs) throws JSONException{
-        com.fr.json.JSONObject content = new com.fr.json.JSONObject();
-        HashMap resultMap = new HashMap();
-
-        try {
-            while (rs.next()) {
-                com.fr.json.JSONObject js = new com.fr.json.JSONObject(rs.getString(FUNC_COLUMNNAME));
-                Map tempMap = js.toMap();
-                for (Object key : tempMap.keySet()) {
-                    if(resultMap.containsKey(key)){
-                        int cacheCount = Integer.parseInt(resultMap.get(key).toString());
-                        int currentCount = Integer.parseInt(tempMap.get(key).toString());
-                        resultMap.put(key, cacheCount + currentCount);
-                    } else {
-                        resultMap.put(key, tempMap.get(key));
-                    }
-                }
+        boolean success = false;
+        String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+        if(content.size() > 0){
+            for(int i=0; i<content.size(); i++){
+                success = sendFunctionRecord(url, content.get(i));
             }
-            rs.close();
-        } catch (SQLException e) {
-            //这边不记，可能还没建表
-        }
-
-        JSONArray functionArray = new JSONArray();
-        for(Object key : resultMap.keySet()){
-            com.fr.json.JSONObject jsonObject = new com.fr.json.JSONObject();
-            jsonObject.put("point", key);
-            jsonObject.put("times", resultMap.get(key));
-            functionArray.put(jsonObject);
-        }
-
-        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        content.put("username", MarketConfig.getInstance().getBbsUsername());
-        content.put("uuid", envManager.getUUID());
-        content.put("functions", functionArray);
-
-        try {
-            return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-            return ArrayUtils.EMPTY_BYTE_ARRAY;
-        }
-    }
-
-    private ResultSet selectAllFromLogDB(Connection conn, Table table) {
-
-        Select select = new Select(table, DialectFactory.generateDialect(conn));
-        PreparedStatement ps;
-        ResultSet rs;
-        try {
-            ps = select.createPreparedStatement(conn);
-        } catch (SQLException e) {
-            return null;
-        }
-
-        try {
-            rs = ps.executeQuery();
-        } catch (SQLException e) {
-            try {
-                ps.close();
-            } catch (SQLException e1) {
-                //这边不记，可能还没建表
+            //服务器返回true, 说明已经获取成功, 清空当前记录的信息
+            if (success) {
+                deleteFunctionRecords(currentTime);
             }
-            return null;
         }
-        return rs;
     }
 
+    private boolean sendFunctionRecord(String url, Map<String,Object> record) {
+        HashMap<String, String> para = new HashMap<>();
+        para.put("token", SiteCenterToken.generateToken());
+        para.put("content",  new JSONObject(record).toString());
+        String res = null;
+        try {
+            res = HttpToolbox.get(url, para);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        boolean success = false;
+        try {
+            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+        } catch (JSONException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        return success;
+    }
 
     /**
      * 收集开始使用时间，发送信息
      */
 	public void collectStartTime(){
 		this.current.setStartDate(dateToString());
-		
+
 		sendUserInfoInOtherThread();
 	}
 
@@ -347,9 +277,9 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		if (!DesignerEnvManager.getEnvManager().isJoinProductImprove() || !FRContext.isChineseEnv()) {
 			return;
 		}
-		
+
     	Thread sendThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -373,17 +303,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	public void collectStopTime(){
 		this.current.setStopDate(dateToString());
 	}
-	
+
 	private String dateToString(){
 		DateFormat df = FRContext.getDefaultValues().getDateTimeFormat();
 		return df.format(new Date());
 	}
-	
+
 	private void reset(){
 		this.startStop.clear();
 		this.lastTime = dateToString();
 	}
-	
+
     private File getInfoFile() {
     	return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FILE_NAME));
     }
@@ -403,10 +333,10 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			writeEncodeContentToFile(encodeCotent, xmlFile);
     	}catch (Exception e) {
     		FRContext.getLogger().error(e.getMessage(), e);
-		}		
+		}
     }
-    
-	
+
+
 	/**
 	 * 将文件内容写到输出流中
 	 */
@@ -438,10 +368,10 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		writeStartStopList(writer);
 		//上一次更新的时间
 		writeTag(XML_LAST_TIME, this.lastTime, writer);
-		
+
 		writer.end();
 	}
-	
+
 	private void writeStartStopList(XMLPrintWriter writer){
 		//启停
     	writer.startTAG(XML_START_STOP_LIST);
@@ -450,12 +380,12 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
     	writer.end();
 	}
-	
+
 	private void writeTag(String tag, String content, XMLPrintWriter writer){
 		if (StringUtils.isEmpty(content)) {
 			return;
 		}
-		
+
     	writer.startTAG(tag);
     	writer.textNode(content);
     	writer.end();
@@ -472,17 +402,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
         }
 	}
-	
+
 	private void readLastTime(XMLableReader reader){
 		String tmpVal;
 		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
 			this.lastTime = tmpVal;
 		}
 	}
-	
+
 	private void readStartStopList(XMLableReader reader){
     	startStop.clear();
-		
+
 		reader.readXMLObject(new XMLReadable() {
             public void readXML(XMLableReader reader) {
                 if (XML_START_STOP.equals(reader.getTagName())) {
@@ -493,9 +423,50 @@ public class InformationCollector implements XMLReadable, XMLWriter {
             }
         });
 	}
-	
+
+	public static ArrayList getFunctionsContentAsByte(long currentTime) throws JSONException{
+        ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
+        QueryCondition condition = QueryFactory.create().addRestriction(
+                RestrictionFactory.lte(COLUMN_TIME, currentTime)
+        );
+        try {
+            DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+            focusPoints.getList();
+            DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+            String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+            String uuid = envManager.getUUID();
+            if(!focusPoints.isEmpty()){
+                for(FocusPoint focusPoint : focusPoints.getList()){
+                    Map<String,Object> record = new HashMap<>();
+                    record.put(ATTR_ID, focusPoint.getId());
+                    record.put(ATTR_TEXT, focusPoint.getText());
+                    record.put(ATTR_SOURCE, focusPoint.getSource());
+                    record.put(ATTR_TIME, focusPoint.getTime().getTime());
+                    record.put(ATTR_TITLE, focusPoint.getTitle());
+                    record.put(ATTR_USER_NAME, bbsUserName);
+                    record.put(ATTR_UUID, uuid);
+                    records.add(record);
+                }
+            }
+        } catch (MetricException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        return records;
+	}
+
+	private void deleteFunctionRecords(long currentTime) {
+		QueryCondition condition = QueryFactory.create().addRestriction(
+				RestrictionFactory.lte(COLUMN_TIME, currentTime)
+		);
+		try {
+			MetricRegistry.getMetric().clean(condition);
+		}catch (Exception e){
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
 	private class StartStopTime implements XMLReadable, XMLWriter {
-		
+
 		private String startDate;
 		private String stopDate;
 

@@ -24,7 +24,7 @@ public class BottomCellRender implements ListCellRenderer<Object> {
 
         JPanel line = new JPanel();
         line.setPreferredSize(new Dimension(200, 1));
-        line.setBackground(AlphaFineConstants.GRAY);
+        line.setBackground(AlphaFineConstants.WHITE);
         panel.add(line, BorderLayout.NORTH);
 
         goToWebLabel.setFont(AlphaFineConstants.MEDIUM_FONT);

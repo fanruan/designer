@@ -15,6 +15,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -129,6 +130,21 @@ public class UIComboBox extends JComboBox implements UIObserver, GlobalNameObser
     public Dimension getPreferredSize() {
         //加5的原因在于：render里，每一个项前面了空了一格，要多几像素
         return new Dimension(super.getPreferredSize().width + SIZE5, SIZE);
+    }
+
+    public void refreshBoxItems(List list) {
+        Object ob = getSelectedItem();
+
+        removeAllItems();
+        for (Object o : list) {
+            addItem(o);
+        }
+
+        getModel().setSelectedItem(ob);
+    }
+
+    public void clearBoxItems() {
+        removeAllItems();
     }
 
     /**

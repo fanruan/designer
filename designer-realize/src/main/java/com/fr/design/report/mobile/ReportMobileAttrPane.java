@@ -15,8 +15,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
 
     private ReportMobileTemplateSettingsPane reportMobileTemplateSettingsPane;  // 模版设置面板
     private AppFitBrowserPane appFitBrowserPane;
-    //工具栏容器
-    private MobileToolBarPane mobileToolBarPane;
     // 其他
     private MobileOthersPane mobileOthersPane;
 
@@ -38,7 +36,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
         appFitBrowserPane.setAppFitPreviewPane(appFitPreviewPane);
         jPanel.add(appFitBrowserPane);
 
-        jPanel.add(mobileToolBarPane = new MobileToolBarPane());
         jPanel.add(mobileOthersPane = new MobileOthersPane());
 
         jPanel.add(appFitPreviewPane);
@@ -52,7 +49,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
             ob = new ElementCaseMobileAttr();
         }
         appFitBrowserPane.populateBean(ob);
-        mobileToolBarPane.populateBean(ob);
         mobileOthersPane.populateBean(ob);
         reportMobileTemplateSettingsPane.populateBean(ob);
     }
@@ -60,7 +56,6 @@ public class ReportMobileAttrPane extends BasicBeanPane<ElementCaseMobileAttr>{
     @Override
     public ElementCaseMobileAttr updateBean() {
         ElementCaseMobileAttr caseMobileAttr = appFitBrowserPane.updateBean();
-        mobileToolBarPane.updateBean(caseMobileAttr);
         mobileOthersPane.updateBean(caseMobileAttr);
         reportMobileTemplateSettingsPane.updateBean(caseMobileAttr);
 

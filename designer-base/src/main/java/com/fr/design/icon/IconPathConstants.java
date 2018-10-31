@@ -33,4 +33,8 @@ public class IconPathConstants {
     public static final String XMLA_ICON_PATH = "/com/fr/design/images/data/cube.png";
     public static final String FORBID_ICON_PATH = "/com/fr/web/images/form/forbid.png";
     public static final String EDIT_ICON_PATH = "/com/fr/design/images/control/newEdit.png";
+    public static final String ARROW_ICON_PATH = "com/fr/design/images/buttonicon/arrow.png";
+    public static final String CHECKBOX_NORMAL = "com/fr/design/images/buttonicon/control_checkbox_normal.png";
+    public static final String CHECKBOX_SELECTED = "com/fr/design/images/buttonicon/control_checkbox_selected.png";
+    public static final String CHECKBOX_HATFSELECT = "com/fr/design/images/buttonicon/control_checkbox_part.png";
 }

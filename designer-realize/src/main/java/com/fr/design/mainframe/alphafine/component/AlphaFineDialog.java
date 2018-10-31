@@ -32,14 +32,13 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SegmentationManager;
-import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManeger;
+import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
-import com.fr.general.http.HttpToolbox;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
 import com.fr.json.JSONException;
@@ -49,7 +48,6 @@ import com.fr.main.impl.WorkBook;
 import com.fr.stable.CodeUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.third.org.apache.http.client.methods.HttpGet;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -241,28 +239,26 @@ public class AlphaFineDialog extends UIDialog {
         hotPane.setLayout(new BorderLayout());
 
         UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Hot"));
+        uiLabel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         uiLabel.setFont(AlphaFineConstants.SMALL_FONT);
         uiLabel.setForeground(AlphaFineConstants.DARK_GRAY);
 
         GridLayout gridLayout = new GridLayout(2, 3, 3, 3);
         JPanel panel = new JPanel();
         panel.setLayout(gridLayout);
-        try {
-            HttpGet getHelp = new HttpGet(AlphaFineConstants.ALPHA_HOT_SEARCH);
-            HttpToolbox.getHttpClient(AlphaFineConstants.ALPHA_HOT_SEARCH).execute(getHelp).getStatusLine();
+        if (AlphaFineHelper.isNetworkOk()) {
             if (hotData == null) {
                 hotData = HotIssuesManager.getInstance().getHotIssues();
             }
             for (int i = 0; i < hotData.length; i++) {
                 panel.add(new HotIssueJpanel(hotData[i], i + 1));
             }
-        } catch (Exception e) {
+        } else {
             hotData = null;
             for (int i = 0; i < AlphaFineConstants.HOT_ITEMS; i++) {
                 panel.add(new HotIssueJpanel(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed")}, i + 1));
             }
         }
-
         hotPane.add(uiLabel, BorderLayout.NORTH);
         hotPane.add(panel, BorderLayout.CENTER);
         add(hotPane, BorderLayout.SOUTH);
@@ -552,7 +548,7 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildDocumentList(final String[] searchText) {
-        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildFileList(String searchStr, final String[] searchText) {
@@ -560,24 +556,24 @@ public class AlphaFineDialog extends UIDialog {
     }
 
     private void buildActionList(final String[] searchText) {
-        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildPluginList(final String[] searchText) {
-        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecommendList(final String[] searchText) {
-        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private void buildRecentList(final String[] searchText) {
-        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText));
 
     }
 
     private void buildSimilarList(final String[] searchText) {
-        addSearchResult(SimilarSearchManeger.getInstance().getLessSearchResult(getHotData(), searchText));
+        addSearchResult(SimilarSearchManager.getInstance().getLessSearchResult(searchText));
     }
 
     private synchronized void addSearchResult(SearchResult searchResult) {
@@ -740,7 +736,7 @@ public class AlphaFineDialog extends UIDialog {
                         if (!isCancelled() && rightSearchResultPane != null) {
                             rightSearchResultPane.removeAll();
                             try {
-                                rightSearchResultPane.add(new RobotPreviewPane((selectedValue).getName(), get()));
+                                rightSearchResultPane.add(new RobotPreviewPane(selectedValue, get()));
                             } catch (InterruptedException e) {
                                 FineLoggerFactory.getLogger().error("get hot item content error: " + e.getMessage());
                             } catch (ExecutionException e) {
@@ -952,11 +948,13 @@ public class AlphaFineDialog extends UIDialog {
         Thread sendThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                RecentSearchManager searchManager = RecentSearchManager.getInstance();
-                searchManager.addModel(storeText, cellModel);
-                sendDataToServer(storeText, cellModel);
-                TemplateInfoCollector.getInstance().sendTemplateInfo();
-                ErrorInfoUploader.getInstance().sendErrorInfo();
+                if (StringUtils.isNotEmpty(storeText)) {
+                    RecentSearchManager searchManager = RecentSearchManager.getInstance();
+                    searchManager.addModel(storeText, cellModel);
+                    sendDataToServer(storeText, cellModel);
+                    TemplateInfoCollector.getInstance().sendTemplateInfo();
+                    ErrorInfoUploader.getInstance().sendErrorInfo();
+                }
             }
         });
         sendThread.start();
@@ -1054,7 +1052,7 @@ public class AlphaFineDialog extends UIDialog {
                 break;
             case ROBOT:
             case RECOMMEND_ROBOT:
-                moreResult = SimilarSearchManeger.getInstance().getMoreSearchResult(searchTextField.getText());
+                moreResult = SimilarSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
                 break;
             case RECOMMEND:
                 moreResult = RecommendSearchManager.getInstance().getMoreSearchResult(searchTextField.getText());
@@ -1380,11 +1378,14 @@ public class AlphaFineDialog extends UIDialog {
      */
     private void initBackPane() {
         backPane = new JPanel(new BorderLayout());
-        JLabel jLabel = new JLabel("  <  " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
-        jLabel.setPreferredSize(new Dimension(680, 20));
+        JLabel jLabel = new JLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Back"));
+        jLabel.setIcon(IconLoader.getIcon(AlphaFineConstants.IMAGE_URL + AlphaFineConstants.BACK_ICON_NAME));
+        jLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        jLabel.setPreferredSize(new Dimension(80, 20));
         jLabel.setFont(AlphaFineConstants.SMALL_FONT);
         jLabel.setForeground(AlphaFineConstants.DARK_GRAY);
-        backPane.add(jLabel, BorderLayout.CENTER);
+        jLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        backPane.add(jLabel, BorderLayout.WEST);
 
         jLabel.addMouseListener(new MouseAdapter() {
             @Override
