@@ -1,6 +1,6 @@
-package com.fr.design.mainframe.menupane;
+package com.fr.design.reportfit.menupane;
 
-import com.fr.conf.FitAttrState;
+import com.fr.design.reportfit.FitType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
@@ -81,10 +81,10 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
         fontRadioGroup.addActionListener(actionListener);
 
         fitRadionGroup = new FitRadioGroup();
-        defaultRadio = new UIRadioButton(FitAttrState.DEFAULT.description());
-        horizonRadio = new UIRadioButton(FitAttrState.HORIZONTAL_FIT.description());
-        doubleRadio = new UIRadioButton(FitAttrState.DOUBLE_FIT.description());
-        notFitRadio = new UIRadioButton(FitAttrState.NOT_FIT.description());
+        defaultRadio = new UIRadioButton(FitType.DEFAULT.description());
+        horizonRadio = new UIRadioButton(FitType.HORIZONTAL_FIT.description());
+        doubleRadio = new UIRadioButton(FitType.DOUBLE_FIT.description());
+        notFitRadio = new UIRadioButton(FitType.NOT_FIT.description());
         addRadioToGroup(fitRadionGroup, defaultRadio, horizonRadio, doubleRadio, notFitRadio);
         fitRadionGroup.addActionListener(actionListener);
 

@@ -1,4 +1,4 @@
-package com.fr.conf;
+package com.fr.design.reportfit;
 
 import com.fr.design.designer.properties.items.Item;
 import com.fr.report.fun.ReportFitAttrProvider;
@@ -7,7 +7,7 @@ import com.fr.stable.StringUtils;
 /**
  * Created by Administrator on 2016/4/13/0013.
  */
-public enum FitAttrState {
+public enum FitType {
     DEFAULT(0) {
         @Override
         public String description() {
@@ -41,17 +41,17 @@ public enum FitAttrState {
     private int state;
 
 
-    FitAttrState(int state) {
+    FitType(int state) {
         this.state = state;
     }
 
-    public static FitAttrState parse(ReportFitAttrProvider attr) {
+    public static FitType parse(ReportFitAttrProvider attr) {
 
         if (attr == null) {
             return DEFAULT;
         }
 
-        for (FitAttrState attrState : values()) {
+        for (FitType attrState : values()) {
             if (attrState.state == attr.fitStateInPC()) {
                 return attrState;
             }
