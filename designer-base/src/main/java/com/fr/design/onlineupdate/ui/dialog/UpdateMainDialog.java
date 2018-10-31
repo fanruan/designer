@@ -337,14 +337,8 @@ public class UpdateMainDialog extends UIDialog {
         initUpdateActionPane();
 
         add(jarVersionInfoPane, BorderLayout.NORTH);
-
-        //海外版本不显示更新信息
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)){
-            add(jarUpdateInfoPane, BorderLayout.CENTER);
-            add(updateActionPane, BorderLayout.SOUTH);
-        }else {
-            add(updateActionPane, BorderLayout.CENTER);
-        }
+        add(jarUpdateInfoPane, BorderLayout.CENTER);
+        add(updateActionPane, BorderLayout.SOUTH);
 
         addActionListenerForUpdateBtn();
 
