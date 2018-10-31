@@ -2,12 +2,10 @@ package com.fr.design.mainframe.alphafine;
 
 import com.fr.base.extension.FileExtension;
 import com.fr.general.CloudCenter;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
-
 
 /**
  * Created by XiaXiang on 2017/5/10.
@@ -51,7 +49,7 @@ public class AlphaFineConstants {
 
     public static final Dimension HOT_ICON_LABEL_SIZE = new Dimension(36, 36);
 
-    public static final Dimension HOT_ISSUES_JAPNEL_SIZE = new Dimension(213, 182);
+    public static final Dimension HOT_ISSUES_JAPNEL_SIZE = new Dimension(213,182);
 
     public static final Dimension CLOSE_BUTTON_SIZE = new Dimension(40, 40);
 
@@ -85,7 +83,7 @@ public class AlphaFineConstants {
 
     public static final String IMAGE_URL = "/com/fr/design/mainframe/alphafine/images/";
 
-    public static final String ALPHA_HOT_IMAGE_NAME = "alphafine_hot";
+    public static final String ALPHA_HOT_IMAGE_NAME  = "alphafine_hot";
 
     public static final String PLUGIN_SEARCH_URL = CloudCenter.getInstance().acquireUrlByKind("plugin.searchAPI");
 
@@ -136,11 +134,11 @@ public class AlphaFineConstants {
 
     public static final String FIRST_PAGE = "-1";
 
-    public static final FileExtension[] FILE_EXTENSIONS = new FileExtension[]{FileExtension.CPT, FileExtension.FRM};
+    public static final FileExtension[] FILE_EXTENSIONS= new FileExtension[]{FileExtension.CPT, FileExtension.FRM};
 
     public static final int RECOMMEND_MAX_ITEM_NUM = 3;
-
-    public static final String BACK_ICON_NAME = "back@1x.png";
+	
+	public static final String BACK_ICON_NAME = "back@1x.png";
 
     public static final ArrayList<String> CONJUNCTION = new ArrayList<String>() {{
         add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_AlphaFine_Conjunction_HE"));
