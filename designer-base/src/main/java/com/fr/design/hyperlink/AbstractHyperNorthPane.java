@@ -6,14 +6,11 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
+
 import com.fr.js.Hyperlink;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,17 +21,10 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
     public static final int DEFAULT_H_VALUE = 400;
     public static final int DEFAULT_V_VALUE = 600;
 
-    /**
-     * 链接打开方式对话框
-     */
+    private JPanel headerPane;
     private UIComboBox targetFrameComboBox;
-    /**
-     * 对话框高度输入框
-     */
+
     private UINumberField heightTextFiled;
-    /**
-     * 对话框宽度输入框
-     */
     private UINumberField widthTextFiled;
 
 
@@ -45,7 +35,7 @@ public abstract class AbstractHyperNorthPane<T extends Hyperlink> extends BasicB
     protected void initComponents() {
         this.setLayout(FRGUIPaneFactory.createM_BorderLayout());
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        JPanel headerPane = this.setHeaderPanel();
+        headerPane = this.setHeaderPanel();
         this.add(headerPane, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
         targetFrameComboBox = new UIComboBox(getTargetFrames());
