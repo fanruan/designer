@@ -3,6 +3,7 @@ package com.fr.design.webattr.printsettings;
 import com.fr.base.print.PrintSettingsAttrMark;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -28,8 +29,14 @@ public class PrintSettingPane extends BasicPane {
     private NativePrintSettingPane nativePrintSettingPane;
     private CardLayout printCard;
     private JPanel printPane;
+    private boolean serverConfigMode;  // 是否为服务器配置中的面板
 
     public PrintSettingPane() {
+        this(false);
+    }
+
+    public PrintSettingPane(boolean serverConfigMode) {
+        this.serverConfigMode = serverConfigMode;
         initComponents();
         initListener();
     }
@@ -50,12 +57,15 @@ public class PrintSettingPane extends BasicPane {
         north.add(radioGroupPane);
 
         noClientPrintSettingPane = new NoClientPrintSettingPane();
-        nativePrintSettingPane = new NativePrintSettingPane();
+        nativePrintSettingPane = new NativePrintSettingPane(serverConfigMode);
         printCard = new CardLayout();
         printPane = new JPanel();
         printPane.setLayout(printCard);
         printPane.add(noClientPrintRadioButton.getText(), noClientPrintSettingPane);
-        printPane.add(nativePrintRadioButton.getText(), nativePrintSettingPane);
+
+        UIScrollPane scrollPane = new UIScrollPane(nativePrintSettingPane);
+        scrollPane.setBorder(null);
+        printPane.add(nativePrintRadioButton.getText(), scrollPane);
 
         north.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         allPanel.add(printPane, BorderLayout.CENTER);
