@@ -2,7 +2,6 @@ package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.stable.StringUtils;
-
 import com.fr.third.ibm.icu.text.BreakIterator;
 
 import java.util.ArrayList;

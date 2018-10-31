@@ -4,7 +4,11 @@ package com.fr.design.onlineupdate.domain;
  * Created by XINZAI on 2018/8/21.
  */
 
+
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 更新升级的常量
@@ -28,7 +32,7 @@ public interface UpdateConstants {
 
     int BYTE = 153600;
 
-    String[] JARS_FOR_SERVER_X = new String[]{
+    List<String> JARS_FOR_SERVER_X = Collections.unmodifiableList(Arrays.asList(new String[]{
             "fine-activator-10.0.jar",
             "fine-core-10.0.jar",
             "fine-report-engine-10.0.jar",
@@ -41,16 +45,16 @@ public interface UpdateConstants {
             "fine-datasource-10.0.jar",
             "fine-third-10.0.jar",
             "fine-accumulator-10.0.jar"
-    };
+    }));
 
-    String[] JARS_FOR_DESIGNER_X = new String[]{
+    List<String> JARS_FOR_DESIGNER_X = Collections.unmodifiableList(Arrays.asList(new String[]{
             "fine-report-designer-10.0.jar",
             "aspectjrt.jar"
-    };
+    }));
 
 
-    String[] LOG_TYPE = new String[]{
+    List<String> LOG_TYPE = Collections.unmodifiableList(Arrays.asList(new String[]{
             "REPORT", "MOBILE", "CHART", "PFC", "BI"
-    };
+    }));
 
 }

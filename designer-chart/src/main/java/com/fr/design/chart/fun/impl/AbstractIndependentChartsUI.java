@@ -1,6 +1,7 @@
 package com.fr.design.chart.fun.impl;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
 import com.fr.design.condition.ConditionAttributesPane;
@@ -40,7 +41,12 @@ public abstract class AbstractIndependentChartsUI extends AbstractProvider imple
 
     @Override
     public AbstractChartTypePane getPlotTypePane() {
-        return new PiePlotPane();
+        return new PiePlotPane() {
+            @Override
+            public String title4PopupWindow() {
+                return ChartTypeInterfaceManager.TYPE_PANE_DEFAULT_TITLE;
+            }
+        };
     }
 
     @Override
