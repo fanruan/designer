@@ -21,8 +21,8 @@ public class TemplateBrowserFitAttrPane extends BrowserFitAttrPane {
     @Override
     protected Component[][] initFitComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Fit-Font")), fontFitRadio, null, fontNotFitRadio},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Fit-Element")), horizonRadio, doubleRadio, notFitRadio}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Font")), fontFitRadio, null, fontNotFitRadio},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Element")), horizonRadio, doubleRadio, notFitRadio}
         };
         return components;
     }
@@ -41,9 +41,9 @@ public class TemplateBrowserFitAttrPane extends BrowserFitAttrPane {
         } else if (fitAttr.fitStateInPC() == 0) {
             attr = new ReportFitAttr();
             attr.setFitStateInPC(3);
-            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Local"));
+            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Local"));
         } else {
-            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Local"));
+            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Local"));
         }
         this.localFitAttr = attr;
         fontRadioGroup.selectFontFit((attr).isFitFont());

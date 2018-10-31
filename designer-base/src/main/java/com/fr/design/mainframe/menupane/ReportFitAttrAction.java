@@ -28,7 +28,7 @@ public class ReportFitAttrAction extends JTemplateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit-Template");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Template");
         }
 
         @Override
@@ -44,7 +44,7 @@ public class ReportFitAttrAction extends JTemplateAction {
 
         @Override
         public String getMenuName() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit-Elementcase");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Elementcase");
         }
 
         @Override
@@ -67,7 +67,7 @@ public class ReportFitAttrAction extends JTemplateAction {
         }
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_report/fit.png"));
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/reportfit/fit.png"));
     }
 
     /**

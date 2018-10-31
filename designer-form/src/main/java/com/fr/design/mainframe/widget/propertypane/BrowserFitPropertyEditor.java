@@ -25,7 +25,7 @@ public class BrowserFitPropertyEditor {
         }
         try {
             CRPropertyDescriptor propertyDescriptors = new CRPropertyDescriptor("fitStateInPC", temp).setEditorClass(BrowserFitEditor.class)
-                    .setRendererClass(BrowserFitRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit-In-Web"))
+                    .setRendererClass(BrowserFitRender.class).setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-In-Web"))
                     .putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Advanced");
             return propertyDescriptors;
         } catch (IntrospectionException e) {

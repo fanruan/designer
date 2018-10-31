@@ -74,9 +74,9 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
         ActionListener actionListener = getPreviewActionListener();
 
         fontRadioGroup = new FontRadioGroup();
-        fontFitRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Fit"));
+        fontFitRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit"));
         fontFitRadio.setSelected(true);
-        fontNotFitRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit_No"));
+        fontNotFitRadio = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-No"));
         addRadioToGroup(fontRadioGroup, fontFitRadio, fontNotFitRadio);
         fontRadioGroup.addActionListener(actionListener);
 
@@ -96,8 +96,8 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
 
     protected Component[][] initFitComponents() {
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Fit-Font")), fontFitRadio, null, fontNotFitRadio},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Fit-Element")), defaultRadio, horizonRadio, doubleRadio, notFitRadio}
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Font")), fontFitRadio, null, fontNotFitRadio},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Element")), defaultRadio, horizonRadio, doubleRadio, notFitRadio}
         };
         return components;
     }
@@ -110,7 +110,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
 
     private JPanel initGlobalOpsPane(final ReportFitAttr globalFitAttr) {
         final JPanel globalOpsPane = FRGUIPaneFactory.createRightFlowInnerContainer_S_Pane();
-        globalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Use-Global"));
+        globalCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-UseGlobal"));
         globalOpsPane.add(globalCheck);
         globalCheck.addActionListener(new ActionListener() {
             @Override
@@ -123,14 +123,14 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
                     fitRadionGroup.selectIndexButton(attr.fitStateInPC());
                     fitPreviewPane.refreshPreview(getCurrentFitOptions(), fitRadionGroup.isEnabled());
                     remove(BrowserFitAttrPane.this.borderPane);
-                    initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Global"));
+                    initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Global"));
                 } else {
                     ReportFitAttrProvider attr = localFitAttr;
                     fontRadioGroup.selectFontFit(((ReportFitAttr) attr).isFitFont());
                     fitRadionGroup.selectIndexButton(attr.fitStateInPC());
                     fitPreviewPane.refreshPreview(getCurrentFitOptions(), fitRadionGroup.isEnabled());
                     remove(BrowserFitAttrPane.this.borderPane);
-                    initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Local"));
+                    initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Local"));
                 }
                 fontRadioGroup.setEnabled(isLocalConfig);
                 fitRadionGroup.setEnabled(isLocalConfig);
@@ -140,7 +140,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
             }
         });
 
-        editGlobalOps = new UIButton(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Edit-Global"));
+        editGlobalOps = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-EditGlobal"));
         editGlobalOps.setVisible(false);
         editGlobalOps.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -165,7 +165,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Attr-Set");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-AttrSet");
     }
 
     @Override
@@ -175,7 +175,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
             attr = ReportFitConfig.getInstance().getFrmFitAttr();
             populateGlobalComponents();
         } else {
-            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Local"));
+            initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Local"));
         }
         this.localFitAttr = attr;
         fontRadioGroup.selectFontFit(((ReportFitAttr) attr).isFitFont());
@@ -188,7 +188,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
         fontRadioGroup.setEnabled(false);
         fitRadionGroup.setEnabled(false);
         editGlobalOps.setVisible(true);
-        initBorderPane(com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Global"));
+        initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Global"));
     }
 
     //有八种组合, 不过有意义的就是6种, 以此为key去缓存里找对应的预览图片

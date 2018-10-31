@@ -504,7 +504,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this),  new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
             return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }

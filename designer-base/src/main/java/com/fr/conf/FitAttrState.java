@@ -11,7 +11,7 @@ public enum FitAttrState {
     DEFAULT(0) {
         @Override
         public String description() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit_Default");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Default");
         }
 
     },
@@ -19,21 +19,21 @@ public enum FitAttrState {
     HORIZONTAL_FIT(1) {
         @Override
         public String description() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit_Horizontal");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Horizontal");
         }
     },
     // 双向自适应, 横纵向都是根据页面宽高来计算
     DOUBLE_FIT(2) {
         @Override
         public String description() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit_Horizontal_Vertical");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Horizontal_Vertical");
         }
     },
 
     NOT_FIT(3) {
         @Override
         public String description() {
-            return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit_No");
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-No");
         }
     };
 

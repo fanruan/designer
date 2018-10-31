@@ -50,6 +50,6 @@ public class TemplateFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
      * @return 标题
      */
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Fit-Attr");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Attr");
     }
 }

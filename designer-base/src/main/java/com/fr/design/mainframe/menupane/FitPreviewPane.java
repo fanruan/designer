@@ -67,7 +67,7 @@ public class FitPreviewPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("FR-Plugin_Preview");
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Preview");
     }
 
 
