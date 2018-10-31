@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.fun.FormElementCaseEditorProcessor;
 import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
