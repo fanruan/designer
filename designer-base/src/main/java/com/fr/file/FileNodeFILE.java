@@ -211,7 +211,7 @@ public class FileNodeFILE implements FILE {
         try {
             FileNode[] nodeArray;
             nodeArray = listFile(node.getEnvPath());
-            Arrays.sort(nodeArray, new FileNodeComparator());
+            Arrays.sort(nodeArray, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
 
             return fileNodeArray2FILEArray(nodeArray, envPath);
         } catch (Exception e) {
@@ -240,7 +240,7 @@ public class FileNodeFILE implements FILE {
                 return FRContext.getFileNodes().list(rootFilePath);
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new FileNode[0];
     }
@@ -280,7 +280,7 @@ public class FileNodeFILE implements FILE {
         try {
             return FRContext.getCommonOperator().fileLocked(node.getEnvPath());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }
@@ -304,7 +304,7 @@ public class FileNodeFILE implements FILE {
         try {
             return WorkContext.getWorkResource().exist(node.getEnvPath());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }
