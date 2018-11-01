@@ -19,11 +19,11 @@ import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.ElementCaseEditorProvider;
 
+import com.fr.report.reportfit.ReportFitAttr;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.report.fun.FitProvider;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.FitProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -120,17 +120,17 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 	private CRPropertyDescriptor getReportFitEditor() {
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = designer.getTarget();
-		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+		ReportFitAttr fitAttr = wbTpl.getReportFitAttr();
 		ElementCaseEditor editor = this.toData();
 		//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
 		if (editor.getFitStateInPC() == 0) {
 			editor.setReportFitAttr(null);
 		}
-		ReportFitAttrProvider reportFit = editor.getReportFitAttr();
+		ReportFitAttr reportFit = editor.getReportFitAttr();
 		if(fitAttr != null){
 			reportFit = fitAttr.fitInBrowser() ? editor.getReportFitAttr() : fitAttr;
 		}
-		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
+		ReportFitAttr reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
 		BrowserFitPropertyEditor browserFitPropertyEditor = new BrowserFitPropertyEditor();
 		CRPropertyDescriptor extraEditor = browserFitPropertyEditor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (editor.getReportFitAttr() == null) {

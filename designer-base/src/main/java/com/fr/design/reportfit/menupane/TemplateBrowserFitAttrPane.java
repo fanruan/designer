@@ -2,9 +2,8 @@ package com.fr.design.reportfit.menupane;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.log.FineLoggerFactory;
-import com.fr.main.ReportFitAttr;
-import com.fr.main.ReportFitConfig;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.reportfit.ReportFitConfig;
 
 import java.awt.Component;
 
@@ -28,12 +27,12 @@ public class TemplateBrowserFitAttrPane extends BrowserFitAttrPane {
     }
 
     @Override
-    public void populateBean(ReportFitAttrProvider attr) {
+    public void populateBean(ReportFitAttr attr) {
         //模板界面，自适应选项去掉了默认，这边的判断为了兼容之前的设置
         if (attr != null && attr.fitStateInPC() == 0) {
             attr.setFitStateInPC(3);
         }
-        ReportFitAttrProvider fitAttr = ReportFitConfig.getInstance().getCptFitAttr();
+        ReportFitAttr fitAttr = ReportFitConfig.getInstance().getCptFitAttr();
         if (attr == null) {
             //如果为空, 就用全局的
             attr = fitAttr;
@@ -52,7 +51,7 @@ public class TemplateBrowserFitAttrPane extends BrowserFitAttrPane {
     }
 
     @Override
-    public ReportFitAttrProvider updateBean() {
+    public ReportFitAttr updateBean() {
         ReportFitAttr attr = new ReportFitAttr();
         attr.setFitFont(fontRadioGroup.isFontFit());
         attr.setFitStateInPC(fitRadionGroup.getSelectRadioIndex());

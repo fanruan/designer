@@ -8,8 +8,8 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.report.fun.FitProvider;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.FitProvider;
+import com.fr.report.reportfit.ReportFitAttr;
 
 import javax.swing.KeyStroke;
 import java.awt.Dimension;
@@ -81,7 +81,7 @@ public class ReportFitAttrAction extends JTemplateAction {
             return;
         }
         final FitProvider wbTpl = (FitProvider) jwb.getTarget();
-        ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+        ReportFitAttr fitAttr = wbTpl.getReportFitAttr();
         if (jwb.isJWorkBook()) {
             final TemplateFitAttrPane attrPane = new TemplateFitAttrPane();
             showReportFitDialog(fitAttr, jwb, wbTpl, attrPane);
@@ -91,12 +91,12 @@ public class ReportFitAttrAction extends JTemplateAction {
         }
     }
 
-    private void showReportFitDialog(ReportFitAttrProvider fitAttr, final JTemplate jwb, final FitProvider wbTpl, final BasicBeanPane<ReportFitAttrProvider> attrPane) {
+    private void showReportFitDialog(ReportFitAttr fitAttr, final JTemplate jwb, final FitProvider wbTpl, final BasicBeanPane<ReportFitAttr> attrPane) {
         attrPane.populateBean(fitAttr);
         UIDialog dialog = attrPane.showUnsizedWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
-                wbTpl.setFitAttr(attrPane.updateBean());
+                wbTpl.setReportFitAttr(attrPane.updateBean());
                 jwb.fireTargetModified();
             }
         });

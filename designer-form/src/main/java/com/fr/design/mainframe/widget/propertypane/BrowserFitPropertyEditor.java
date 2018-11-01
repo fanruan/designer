@@ -2,8 +2,8 @@ package com.fr.design.mainframe.widget.propertypane;
 
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.main.ReportFitConfig;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.reportfit.ReportFitConfig;
 
 import java.beans.IntrospectionException;
 
@@ -19,7 +19,7 @@ public class BrowserFitPropertyEditor {
      * @param reportFitAttr 传入的自适应属性
      * @return 返回属性表
      */
-    public CRPropertyDescriptor createPropertyDescriptor(Class<?> temp, ReportFitAttrProvider reportFitAttr) {
+    public CRPropertyDescriptor createPropertyDescriptor(Class<?> temp, ReportFitAttr reportFitAttr) {
         if (getFitStateInPC(reportFitAttr) == 0) {
             return null;
         }
@@ -33,7 +33,7 @@ public class BrowserFitPropertyEditor {
         }
     }
 
-    public int getFitStateInPC(ReportFitAttrProvider fitAttrProvider) {
+    public int getFitStateInPC(ReportFitAttr fitAttrProvider) {
         if (fitAttrProvider != null) {
             return fitAttrProvider.fitStateInPC();
         }

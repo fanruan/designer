@@ -10,9 +10,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.log.FineLoggerFactory;
-import com.fr.main.ReportFitAttr;
-import com.fr.main.ReportFitConfig;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.reportfit.ReportFitConfig;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -28,13 +27,13 @@ import java.awt.event.MouseEvent;
 /**
  * Created by Administrator on 2016/5/5/0005.
  */
-public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
+public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttr> {
 
     protected FontRadioGroup fontRadioGroup;
     protected FitRadioGroup fitRadionGroup;
     protected UICheckBox globalCheck;
     protected FitPreviewPane fitPreviewPane;
-    protected ReportFitAttrProvider localFitAttr;
+    protected ReportFitAttr localFitAttr;
     protected UIRadioButton defaultRadio;
     protected UIRadioButton horizonRadio;
     protected UIRadioButton doubleRadio;
@@ -118,14 +117,14 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
                 boolean isLocalConfig = !globalCheck.isSelected();
                 //勾选全局时，采用全局保存的自适应属性更新界面
                 if (!isLocalConfig) {
-                    ReportFitAttrProvider attr = globalFitAttr;
+                    ReportFitAttr attr = globalFitAttr;
                     fontRadioGroup.selectFontFit(((ReportFitAttr) attr).isFitFont());
                     fitRadionGroup.selectIndexButton(attr.fitStateInPC());
                     fitPreviewPane.refreshPreview(getCurrentFitOptions(), fitRadionGroup.isEnabled());
                     remove(BrowserFitAttrPane.this.borderPane);
                     initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Global"));
                 } else {
-                    ReportFitAttrProvider attr = localFitAttr;
+                    ReportFitAttr attr = localFitAttr;
                     fontRadioGroup.selectFontFit(((ReportFitAttr) attr).isFitFont());
                     fitRadionGroup.selectIndexButton(attr.fitStateInPC());
                     fitPreviewPane.refreshPreview(getCurrentFitOptions(), fitRadionGroup.isEnabled());
@@ -169,7 +168,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
     }
 
     @Override
-    public void populateBean(ReportFitAttrProvider attr) {
+    public void populateBean(ReportFitAttr attr) {
         if (attr == null) {
             //如果为空, 就用全局的
             attr = ReportFitConfig.getInstance().getFrmFitAttr();
@@ -178,7 +177,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
             initBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Local"));
         }
         this.localFitAttr = attr;
-        fontRadioGroup.selectFontFit(((ReportFitAttr) attr).isFitFont());
+        fontRadioGroup.selectFontFit((attr).isFitFont());
         fitRadionGroup.selectIndexButton(attr.fitStateInPC());
         fitPreviewPane.refreshPreview(getCurrentFitOptions(), fitRadionGroup.isEnabled());
     }
@@ -207,7 +206,7 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
     }
 
     @Override
-    public ReportFitAttrProvider updateBean() {
+    public ReportFitAttr updateBean() {
         ReportFitAttr attr = new ReportFitAttr();
         attr.setFitFont(fontRadioGroup.isFontFit());
         attr.setFitStateInPC(fitRadionGroup.getSelectRadioIndex());

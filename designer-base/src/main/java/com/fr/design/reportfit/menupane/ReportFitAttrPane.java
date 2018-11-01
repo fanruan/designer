@@ -1,7 +1,7 @@
 package com.fr.design.reportfit.menupane;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.ReportFitAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -9,7 +9,7 @@ import javax.swing.BoxLayout;
 /**
  * Created by Administrator on 2015/7/6 0006.
  */
-public class ReportFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
+public class ReportFitAttrPane extends BasicBeanPane<ReportFitAttr> {
 
     private BrowserFitAttrPane attrPane;
 
@@ -31,7 +31,7 @@ public class ReportFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
      *
      * @param fitAttr 自适应属性
      */
-    public void populateBean(ReportFitAttrProvider fitAttr) {
+    public void populateBean(ReportFitAttr fitAttr) {
         attrPane.populateBean(fitAttr);
     }
 
@@ -40,7 +40,7 @@ public class ReportFitAttrPane extends BasicBeanPane<ReportFitAttrProvider> {
      *
      * @return 界面上的更新数据
      */
-    public ReportFitAttrProvider updateBean() {
+    public ReportFitAttr updateBean() {
         return attrPane.updateBean();
     }
 

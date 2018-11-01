@@ -1,7 +1,7 @@
 package com.fr.design.reportfit;
 
 import com.fr.design.designer.properties.items.Item;
-import com.fr.report.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.ReportFitAttr;
 import com.fr.stable.StringUtils;
 
 /**
@@ -45,7 +45,7 @@ public enum FitType {
         this.state = state;
     }
 
-    public static FitType parse(ReportFitAttrProvider attr) {
+    public static FitType parse(ReportFitAttr attr) {
 
         if (attr == null) {
             return DEFAULT;
