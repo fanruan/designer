@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.properties.mobile.ElementCasePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.fun.FormElementCaseEditorProcessor;
 import com.fr.design.fun.FormElementCaseEditorProvider;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.fun.impl.AbstractFormElementCaseEditorProvider;
@@ -13,17 +12,18 @@ import com.fr.design.mainframe.*;
 import com.fr.design.mainframe.widget.editors.ElementCaseToolBarEditor;
 import com.fr.design.mainframe.widget.editors.PaddingMarginEditor;
 import com.fr.design.mainframe.widget.editors.WLayoutBorderStyleEditor;
+import com.fr.design.mainframe.widget.propertypane.BrowserFitPropertyEditor;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.ElementCaseEditorProvider;
 
+import com.fr.report.reportfit.ReportFitAttr;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.stable.fun.FitProvider;
-import com.fr.stable.fun.ReportFitAttrProvider;
+import com.fr.report.reportfit.FitProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,35 +104,39 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 				new CRPropertyDescriptor("toolBars", this.data.getClass()).setEditorClass(ElementCaseToolBarEditor.class)
 						.setI18NName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EC_Toolbar"))
 						.putKeyValue(XCreatorConstants.PROPERTY_CATEGORY, "Fine-Design_Basic_Advanced")
+
+
 		};
 		CRPropertyDescriptor[] extraTableEditor = getExtraTableEditor();
-		return  (CRPropertyDescriptor[]) ArrayUtils.addAll(propertyTableEditor, extraTableEditor);
+		return  ArrayUtils.addAll(propertyTableEditor, extraTableEditor);
 	}
+
 
 	public CRPropertyDescriptor[] getExtraTableEditor(){
 		CRPropertyDescriptor[] extraTableEditor = resolveCompatible();
-		FormElementCaseEditorProcessor processor = ExtraDesignClassManager.getInstance().getSingle(FormElementCaseEditorProcessor.MARK_STRING);
-		if (processor == null) {
-			return extraTableEditor;
-		}
+		return ArrayUtils.addAll(extraTableEditor, new CRPropertyDescriptor[] {getReportFitEditor()});
+	}
+
+	private CRPropertyDescriptor getReportFitEditor() {
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
-		FitProvider wbTpl = (FitProvider) designer.getTarget();
-		ReportFitAttrProvider fitAttr = wbTpl.getFitAttr();
+		FitProvider wbTpl = designer.getTarget();
+		ReportFitAttr fitAttr = wbTpl.getReportFitAttr();
 		ElementCaseEditor editor = this.toData();
 		//兼容之前报表块（之前三个选项为：默认 横向 双向 现在是：横向 双向 不自适应)
 		if (editor.getFitStateInPC() == 0) {
 			editor.setReportFitAttr(null);
 		}
-		ReportFitAttrProvider reportFit = editor.getReportFitAttr();
+		ReportFitAttr reportFit = editor.getReportFitAttr();
 		if(fitAttr != null){
 			reportFit = fitAttr.fitInBrowser() ? editor.getReportFitAttr() : fitAttr;
 		}
-		ReportFitAttrProvider reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
-		PropertyDescriptor[] extraEditor = processor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
+		ReportFitAttr reportFitAttr = editor.getReportFitAttr() == null ? fitAttr : reportFit;
+		BrowserFitPropertyEditor browserFitPropertyEditor = new BrowserFitPropertyEditor();
+		CRPropertyDescriptor extraEditor = browserFitPropertyEditor.createPropertyDescriptor(this.data.getClass(), reportFitAttr);
 		if (editor.getReportFitAttr() == null) {
-			editor.setReportFitInPc(processor.getFitStateInPC(fitAttr));
+			editor.setReportFitInPc(browserFitPropertyEditor.getFitStateInPC(fitAttr));
 		}
-		return (CRPropertyDescriptor[]) ArrayUtils.addAll(extraTableEditor, extraEditor);
+		return extraEditor;
 	}
 
 

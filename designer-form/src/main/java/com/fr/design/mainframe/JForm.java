@@ -32,10 +32,10 @@ import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPaneNoPop;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
-import com.fr.design.mainframe.actions.FormMobileAttrAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
+import com.fr.design.reportfit.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -503,9 +503,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, new ShortCut[0]);
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this),  new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
