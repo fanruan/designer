@@ -240,6 +240,22 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 deleteFunctionRecords(currentTime);
             }
         }
+//      //先将发送压缩文件这段代码注释，之后提任务
+		//大数据量下发送压缩zip数据不容易丢失
+//		try {
+//			ObjectMapper objectMapper = new ObjectMapper();
+//			String contentStr = objectMapper.writeValueAsString(content);
+//			InputStream inputStream = new ByteArrayInputStream(contentStr.getBytes("UTF-8"));
+//			String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+ IOUtils.inputStream2Bytes(IOUtils.toZipIn(inputStream));
+//
+//			String res = HttpToolbox.get(recordUrl);
+//			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+//		} catch (Exception e) {
+//			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+//		}
+//		if (success) {
+//			deleteFunctionRecords(currentTime);
+//		}
     }
 
     private boolean sendFunctionRecord(String url, Map<String,Object> record) {
