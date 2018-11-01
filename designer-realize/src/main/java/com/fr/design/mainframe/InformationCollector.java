@@ -58,6 +58,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -227,11 +228,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     private void sendFunctionsInfo(){
         long currentTime = new Date().getTime();
         ArrayList<Map<String, Object>> content = null;
-        try {
-            content = getFunctionsContentAsByte(currentTime);
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        content = getFunctionsContentAsByte(currentTime);
         boolean success = false;
         String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
         if(content.size() > 0){
@@ -243,22 +240,31 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 deleteFunctionRecords(currentTime);
             }
         }
+//      //先将发送压缩文件这段代码注释，之后提任务
+		//大数据量下发送压缩zip数据不容易丢失
+//		try {
+//			ObjectMapper objectMapper = new ObjectMapper();
+//			String contentStr = objectMapper.writeValueAsString(content);
+//			InputStream inputStream = new ByteArrayInputStream(contentStr.getBytes("UTF-8"));
+//			String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+ IOUtils.inputStream2Bytes(IOUtils.toZipIn(inputStream));
+//
+//			String res = HttpToolbox.get(recordUrl);
+//			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+//		} catch (Exception e) {
+//			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+//		}
+//		if (success) {
+//			deleteFunctionRecords(currentTime);
+//		}
     }
 
     private boolean sendFunctionRecord(String url, Map<String,Object> record) {
-        HashMap<String, String> para = new HashMap<>();
-        para.put("token", SiteCenterToken.generateToken());
-        para.put("content",  new JSONObject(record).toString());
-        String res = null;
-        try {
-            res = HttpToolbox.get(url, para);
-        } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
         boolean success = false;
         try {
+            String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+URLEncoder.encode(new JSONObject(record).toString(), EncodeConstants.ENCODING_UTF_8);
+            String res = HttpToolbox.get(recordUrl);
             success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-        } catch (JSONException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return success;
@@ -424,14 +430,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static ArrayList getFunctionsContentAsByte(long currentTime) throws JSONException{
+	public static ArrayList getFunctionsContentAsByte(long currentTime){
         ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
         QueryCondition condition = QueryFactory.create().addRestriction(
                 RestrictionFactory.lte(COLUMN_TIME, currentTime)
         );
         try {
             DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-            focusPoints.getList();
             DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
             String bbsUserName = MarketConfig.getInstance().getBbsUsername();
             String uuid = envManager.getUUID();
