@@ -1,8 +1,11 @@
 package com.fr.design.widget.ui.designer.mobile;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.properties.PropertyTab;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.fun.ParameterExpandablePaneUIProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
@@ -14,6 +17,7 @@ import com.fr.form.ui.container.WSortLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.util.Set;
 
 /**
  * Created by plough on 2018/2/5.
@@ -33,7 +37,21 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         this.add(getMobileWidgetListPane(), BorderLayout.CENTER);
+        this.addExtraUIExpandablePaneFromPlugin();
         this.repaint();
+    }
+
+    private void addExtraUIExpandablePaneFromPlugin() {
+        Set<ParameterExpandablePaneUIProvider> pluginCreators = ExtraDesignClassManager.getInstance().getArray(ParameterExpandablePaneUIProvider.XML_TAG);
+        JPanel panel = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+        for (ParameterExpandablePaneUIProvider provider : pluginCreators) {
+            UIExpandablePane uiExpandablePane = provider.createUIExpandablePane();
+            PropertyTab propertyTab = provider.addToWhichPropertyTab();
+            if (uiExpandablePane != null && propertyTab == PropertyTab.MOBILE) {
+                panel.add(uiExpandablePane);
+            }
+        }
+        this.add(panel, BorderLayout.SOUTH);
     }
 
     // 控件顺序
