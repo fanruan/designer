@@ -15,12 +15,17 @@ public interface ParameterExpandablePaneUIProvider extends Mutable {
     int CURRENT_LEVEL = 1;
 
     /**
-     * 如果面板不存在，则创建可展开面板并添加子容器；否则在某个tabPane下的UIExpandablePane实例中增加子容器
+     * 创建可展开面板并添加子容器
      *
-     * @param propertyTab 可展开面板放在哪个propertyTab下，例如属性或者移动端
-     * @param uiExpandablePaneName 可扩展面板名称
      * @return UIExpandablePane
      */
-    UIExpandablePane createUIExpandablePane(PropertyTab propertyTab, String uiExpandablePaneName);
+    UIExpandablePane createUIExpandablePane();
+
+    /**
+     * 指定添加UIExpandablePane到哪个PropertyTab下，例如属性，移动端
+     *
+     * @return PropertyTab
+     */
+    PropertyTab addToWhichPropertyTab();
 
 }
