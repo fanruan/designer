@@ -1,14 +1,17 @@
 package com.fr.design.parameter;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.PropertyGroupPane;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XWParameterLayout;
+import com.fr.design.designer.properties.PropertyTab;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.fun.ParameterExpandablePaneUIProvider;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -30,6 +33,7 @@ import javax.swing.Icon;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.Set;
 
 /**
  * Created by ibm on 2017/8/2.
@@ -63,7 +67,21 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         JPanel layoutPane = createBoundsPane();
         UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Size"), 280, 20, layoutPane);
         this.add(layoutExpandablePane, BorderLayout.CENTER);
+        this.addExtraUIExpandablePaneFromPlugin();
 
+    }
+
+    private void addExtraUIExpandablePaneFromPlugin() {
+        Set<ParameterExpandablePaneUIProvider> pluginCreators = ExtraDesignClassManager.getInstance().getArray(ParameterExpandablePaneUIProvider.XML_TAG);
+        JPanel panel = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+        for (ParameterExpandablePaneUIProvider provider : pluginCreators) {
+            UIExpandablePane uiExpandablePane = provider.createUIExpandablePane();
+            PropertyTab propertyTab = provider.addToWhichPropertyTab();
+            if (uiExpandablePane != null && propertyTab == PropertyTab.ATTR) {
+                panel.add(uiExpandablePane);
+            }
+        }
+        this.add(panel, BorderLayout.SOUTH);
     }
 
     public JPanel createBoundsPane() {
