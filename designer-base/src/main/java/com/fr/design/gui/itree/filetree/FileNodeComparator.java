@@ -3,13 +3,15 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.FRContext;
 import com.fr.file.filetree.FileNode;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
  * FileTreeNode compare...
  * Directory is in the first. and  normal file  the  in the  last.
  */
-public class FileNodeComparator implements Comparator<FileNode> {
+public class FileNodeComparator implements Comparator<FileNode>, Serializable {
     /**
      * 正序还是倒序
      */
@@ -46,7 +48,7 @@ public class FileNodeComparator implements Comparator<FileNode> {
 
     public FileNodeComparator(boolean reverse, String[] types) {
         this.isReverse = reverse;
-        this.supportTypes = types;
+        this.supportTypes = Arrays.copyOf(types, types.length);
     }
 
     /**

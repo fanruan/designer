@@ -303,8 +303,6 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
     private boolean deleteNodes(Collection<ExpandMutableTreeNode> nodes) {
 
-        boolean isLocal = WorkContext.getCurrent().isLocal();
-
         boolean success = true;
         for (ExpandMutableTreeNode treeNode : nodes) {
             Object node = treeNode.getUserObject();
