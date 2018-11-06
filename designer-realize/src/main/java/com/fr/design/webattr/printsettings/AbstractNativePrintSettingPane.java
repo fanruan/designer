@@ -118,25 +118,6 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
 
     abstract JPanel createHeaderPane(Component... comps);
 
-    JPanel createHeaderLayoutPane(Component... comps) {
-        // TableLayout
-        double p = TableLayout.PREFERRED;
-        double[] columnSize = {p};
-
-        double[] rowSize = new double[comps.length];
-        for (int i = 0; i < rowSize.length; i++) {
-            rowSize[i] = p;
-        }
-
-        Component[][] components = new Component[rowSize.length][columnSize.length];
-        for (int i = 0; i < rowSize.length; i++) {
-            components[i][0] = comps[i];
-        }
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
-    }
-
-
-
     private void initListeners() {
         allPageRadioButton.addItemListener(getPageRaidoListener());
         currentPageRadioButton.addItemListener(getPageRaidoListener());

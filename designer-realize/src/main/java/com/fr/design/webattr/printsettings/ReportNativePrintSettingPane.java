@@ -1,5 +1,7 @@
 package com.fr.design.webattr.printsettings;
 
+import com.fr.design.utils.gui.GUICoreUtils;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.Component;
@@ -11,7 +13,7 @@ import java.awt.Component;
 public class ReportNativePrintSettingPane extends AbstractNativePrintSettingPane {
     @Override
     JPanel createHeaderPane(Component... comps) {
-        JPanel headerPane = createHeaderLayoutPane(comps);
+        JPanel headerPane = GUICoreUtils.createHeaderLayoutPane(comps);
         headerPane.setBorder(BorderFactory.createEmptyBorder(2, 12, 12, 0));
         return headerPane;
     }

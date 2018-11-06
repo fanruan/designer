@@ -18,6 +18,8 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.EditTextField;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorCell;
 import com.fr.design.style.color.ColorFactory;
 import com.fr.design.style.color.ColorSelectBox;
@@ -890,5 +892,27 @@ public abstract class GUICoreUtils{
 		dynamicPaneWrapper.add(dynamicPane);
 		panel.add(dynamicPaneWrapper, BorderLayout.CENTER);
 		return panel;
+	}
+
+	/**
+	 * 创建一个单列垂直布局的 TableLayout 面板
+	 * @param comps 组件数组
+	 * @return 布局完成后的面板
+	 */
+	public static JPanel createHeaderLayoutPane(Component... comps) {
+		// TableLayout
+		double p = TableLayout.PREFERRED;
+		double[] columnSize = {p};
+
+		double[] rowSize = new double[comps.length];
+		for (int i = 0; i < rowSize.length; i++) {
+			rowSize[i] = p;
+		}
+
+		Component[][] components = new Component[rowSize.length][columnSize.length];
+		for (int i = 0; i < rowSize.length; i++) {
+			components[i][0] = comps[i];
+		}
+		return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
 	}
 }

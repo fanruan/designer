@@ -33,7 +33,7 @@ public class GlobalNativePrintSettingPane extends AbstractNativePrintSettingPane
         System.arraycopy(comps, 0, allComps, 0, comps.length);
         System.arraycopy(newComps, 0, allComps, comps.length, newComps.length);
 
-        JPanel headerPane = createHeaderLayoutPane(allComps);
+        JPanel headerPane = GUICoreUtils.createHeaderLayoutPane(allComps);
         headerPane.setBorder(BorderFactory.createEmptyBorder(2, 12, 5, 0));
         return headerPane;
     }
