@@ -75,9 +75,9 @@ public class NoClientPrintSettingPane extends JPanel {
         ieQuietPrintCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_No_Print_Settings_In_IE"));
         ieQuietPrintCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        needlePrinterOptimizeCheck = new UICheckBox("针式打印优化");
+        needlePrinterOptimizeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Needle_Printer_Optimize"));
         needlePrinterOptimizeCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
-        UILabel needleTip = GUICoreUtils.createTipLabel("提示：将文字字体替换为黑体以优化打印效果。");
+        UILabel needleTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Needle_Printer_Optimize_Tip"));
         JPanel needlePrinterOptimizePane =  GUICoreUtils.createFlowPane(new Component[] {
                 needlePrinterOptimizeCheck, needleTip}, FlowLayout.LEFT);
 
