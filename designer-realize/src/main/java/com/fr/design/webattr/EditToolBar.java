@@ -65,6 +65,14 @@ import java.util.Set;
 
 public class EditToolBar extends BasicPane {
 
+	private static final String EMAIL = "email";
+	private static final String CUSTOM = "custom";
+	private static final String EXPORT = "export";
+	private static final String NONE = "none";
+	private static final String EDIT_EXCEL = "editexcel";
+	private static final String APPEND_COUNT = "appendcount";
+	private static final String SUBMIT = "submit";
+
 	private JWorkBook jwb;
 	private JList list;
 	private DefaultListModel listModel;
@@ -74,14 +82,6 @@ public class EditToolBar extends BasicPane {
 	private ToolBarButton lastButton;
 	private Background background = null;
 	private UICheckBox defaultCheckBox;
-
-	private static final String EMAIL = "email";
-	private static final String CUSTOM = "custom";
-	private static final String EXPORT = "export";
-	private static final String NONE = "none";
-	private static final String EDIT_EXCEL = "editexcel";
-	private static final String APPEND_COUNT = "appendcount";
-	private static final String SUBMIT = "submit";
 
 	private ListSelectionListener listSelectionListener = new ListSelectionListener() {
 		public void valueChanged(ListSelectionEvent evt) {
