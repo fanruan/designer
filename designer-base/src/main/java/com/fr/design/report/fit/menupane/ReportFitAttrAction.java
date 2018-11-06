@@ -1,4 +1,4 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.JTemplateAction;
@@ -8,8 +8,8 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.report.reportfit.FitProvider;
-import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.report.fit.FitProvider;
+import com.fr.report.fit.ReportFitAttr;
 
 import javax.swing.KeyStroke;
 import java.awt.Dimension;

@@ -1,7 +1,7 @@
-package com.fr.design.reportfit;
+package com.fr.design.report.fit;
 
 import com.fr.design.designer.properties.items.Item;
-import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.report.fit.ReportFitAttr;
 import com.fr.stable.StringUtils;
 
 /**
