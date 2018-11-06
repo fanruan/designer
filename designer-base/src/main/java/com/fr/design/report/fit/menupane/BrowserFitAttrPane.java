@@ -1,6 +1,6 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
-import com.fr.design.reportfit.FitType;
+import com.fr.design.report.fit.FitType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
@@ -10,8 +10,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.log.FineLoggerFactory;
-import com.fr.report.reportfit.ReportFitAttr;
-import com.fr.reportfit.ReportFitConfig;
+import com.fr.report.fit.ReportFitAttr;
+import com.fr.report.fit.ReportFitConfig;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;

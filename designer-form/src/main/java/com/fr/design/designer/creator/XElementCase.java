@@ -19,11 +19,11 @@ import com.fr.form.FormProvider;
 import com.fr.form.ui.ElementCaseEditor;
 import com.fr.form.ui.ElementCaseEditorProvider;
 
-import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.report.fit.ReportFitAttr;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
-import com.fr.report.reportfit.FitProvider;
+import com.fr.report.fit.FitProvider;
 
 import javax.swing.*;
 import java.awt.*;

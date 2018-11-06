@@ -1,6 +1,6 @@
 package com.fr.design.mainframe.widget.propertypane;
 
-import com.fr.design.reportfit.FitType;
+import com.fr.design.report.fit.FitType;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.designer.properties.items.ItemProvider;
 

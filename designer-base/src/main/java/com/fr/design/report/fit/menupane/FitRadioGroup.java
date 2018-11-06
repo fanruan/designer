@@ -1,4 +1,4 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
 import com.fr.design.gui.ibutton.UIRadioButton;
 

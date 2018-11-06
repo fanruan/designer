@@ -1,9 +1,9 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.log.FineLoggerFactory;
-import com.fr.report.reportfit.ReportFitAttr;
-import com.fr.reportfit.ReportFitConfig;
+import com.fr.report.fit.ReportFitAttr;
+import com.fr.report.fit.ReportFitConfig;
 
 import java.awt.Component;
 

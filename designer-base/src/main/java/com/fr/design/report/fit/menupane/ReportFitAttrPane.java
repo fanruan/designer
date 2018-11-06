@@ -1,26 +1,27 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.report.reportfit.ReportFitAttr;
+import com.fr.report.fit.ReportFitAttr;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 
 /**
- * Created by 夏翔 on 2016/6/24.
+ * Created by Administrator on 2015/7/6 0006.
  */
-public class TemplateFitAttrPane extends BasicBeanPane<ReportFitAttr> {
-    private TemplateBrowserFitAttrPane attrPane;
+public class ReportFitAttrPane extends BasicBeanPane<ReportFitAttr> {
+
+    private BrowserFitAttrPane attrPane;
 
 
-    public TemplateFitAttrPane() {
+    public ReportFitAttrPane() {
         initComponents();
     }
 
     private void initComponents() {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        attrPane = new TemplateBrowserFitAttrPane();
+        attrPane = new BrowserFitAttrPane();
         this.add(attrPane);
 
     }
@@ -33,7 +34,6 @@ public class TemplateFitAttrPane extends BasicBeanPane<ReportFitAttr> {
     public void populateBean(ReportFitAttr fitAttr) {
         attrPane.populateBean(fitAttr);
     }
-
 
     /**
      * 提交数据
@@ -52,4 +52,5 @@ public class TemplateFitAttrPane extends BasicBeanPane<ReportFitAttr> {
     protected String title4PopupWindow() {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Attr");
     }
+
 }
