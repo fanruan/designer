@@ -2,8 +2,8 @@ package com.fr.design.mainframe.widget.propertypane;
 
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.report.reportfit.ReportFitAttr;
-import com.fr.reportfit.ReportFitConfig;
+import com.fr.report.fit.ReportFitAttr;
+import com.fr.report.fit.ReportFitConfig;
 
 import java.beans.IntrospectionException;
 

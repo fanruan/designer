@@ -1,4 +1,4 @@
-package com.fr.design.reportfit.menupane;
+package com.fr.design.report.fit.menupane;
 
 /**
  * 字体的两个选项组成的group

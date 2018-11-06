@@ -41,7 +41,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
-import com.fr.design.reportfit.menupane.ReportFitAttrAction;
+import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;

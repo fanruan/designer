@@ -35,7 +35,7 @@ import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
 import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
-import com.fr.design.reportfit.menupane.ReportFitAttrAction;
+import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
