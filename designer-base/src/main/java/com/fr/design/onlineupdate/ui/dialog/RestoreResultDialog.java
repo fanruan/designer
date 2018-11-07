@@ -1,6 +1,6 @@
 package com.fr.design.onlineupdate.ui.dialog;
 
-import com.fr.base.F RContext;
+import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
