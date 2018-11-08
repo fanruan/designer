@@ -26,6 +26,7 @@ public abstract class AbstractTemplateServerSettingPane extends BasicPane {
     protected static final int SERVER_SET = 1;
 
     protected UIComboBox chooseComboBox;
+    protected JPanel buttonPane;
     private JPanel contentPane;
 
     protected AbstractTemplateServerSettingPane() {
@@ -35,8 +36,9 @@ public abstract class AbstractTemplateServerSettingPane extends BasicPane {
     private void initComponents() {
         chooseComboBox = new UIComboBox(CHOOSEITEM);
         chooseComboBox.addItemListener(itemListener);
-        UILabel belowSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Blow_Set") + ":");
-        JPanel buttonPane = GUICoreUtils.createFlowPane(new Component[] {
+        UILabel belowSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Blow_Set"));
+        belowSetLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+        buttonPane = GUICoreUtils.createFlowPane(new Component[] {
                 belowSetLabel, chooseComboBox}, FlowLayout.LEFT, 0, 0);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
 

@@ -31,8 +31,6 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     // color setting action.
     private ArrayList<ChangeListener> colorChangeListenerList = new ArrayList<ChangeListener>();
 
-    // 颜色选择器
-    private ColorSelectDetailPane pane;
     // 是否支持透明
     private boolean isSupportTransparent;
 
@@ -52,10 +50,10 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     /**
      * Constructor.
      */
-    public NewColorSelectPane(boolean isSupportTransparent) {
+    NewColorSelectPane(boolean isSupportTransparent) {
         this.isSupportTransparent = isSupportTransparent;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 5));
+        this.setBorder(new UIRoundedBorder(UIConstants.TOOLBAR_BORDER_COLOR, 1, 5));
         if (isSupportTransparent) {
             UIButton transpanrentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
             this.add(transpanrentButton, BorderLayout.NORTH);
@@ -96,12 +94,13 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         // mod by anchore 16/11/16
         UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
 
-        customButton.addMouseListener(new MouseAdapter() {
+        customButton.addActionListener(new ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 customButtonPressed();
             }
         });
+
         customButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JPanel centerPane1 = FRGUIPaneFactory.createBorderLayout_S_Pane();
         centerPane1.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 8));
@@ -183,7 +182,8 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     }
 
     protected void customButtonPressed() {
-        pane = new ColorSelectDetailPane(Color.WHITE);
+        // 颜色选择器
+        ColorSelectDetailPane pane = new ColorSelectDetailPane(Color.WHITE);
         ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, this);
     }
 

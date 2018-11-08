@@ -4,6 +4,7 @@ import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.dialog.AbstractTemplateServerSettingPane;
 import com.fr.report.core.ReportUtils;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
@@ -11,6 +12,15 @@ import javax.swing.JPanel;
  */
 public class WatermarkSettingPane extends AbstractTemplateServerSettingPane {
     private WatermarkPane watermarkPane;
+
+    public WatermarkSettingPane() {
+        super();
+        initComponents();
+    }
+
+    private void initComponents() {
+        buttonPane.setBorder(BorderFactory.createEmptyBorder(10, 8, 0, 0));
+    }
 
     @Override
     protected JPanel getContentPane() {

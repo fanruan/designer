@@ -89,6 +89,10 @@ public class ColorCell extends JComponent implements ColorSelectable {
      * @param 鼠标事件
      */
     public void processMouseEvent(MouseEvent e) {
+        if (!isEnabled()) {
+            return;
+        }
+
         if (e == null || e.getID() == MouseEvent.MOUSE_RELEASED) {
             colorSelectable.setColor(this.getColor());
             colorSelectable.colorSetted(this);
