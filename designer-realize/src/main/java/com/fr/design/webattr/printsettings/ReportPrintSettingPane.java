@@ -47,7 +47,7 @@ public class ReportPrintSettingPane extends AbstractTemplateServerSettingPane {
 
     public PrintSettingsAttrMark updateBean() {
         PrintSettingsAttrMark printSettings = printSettingPane.updateBean();
-        if (chooseComboBox.getSelectedIndex() == SERVER_SET) {
+        if (isUsingServerSettings()) {
             printSettings.setValid(false);
         }
         return printSettings;

@@ -8,6 +8,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.report.WatermarkPane;
+import com.fr.design.report.WatermarkSettingPane;
 import com.fr.intelli.record.Focus;
 import com.fr.intelli.record.Original;
 import com.fr.main.impl.WorkBook;
@@ -37,9 +38,8 @@ public class ReportWatermarkAction extends JWorkBookAction {
             return;
         }
         final WorkBook wbTpl = jwb.getTarget();
-        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(wbTpl);
-
-        final WatermarkPane watermarkPane = new WatermarkPane();
+        WatermarkAttr watermark = ReportUtils.getWatermarkAttrFromTemplate(wbTpl);
+        final WatermarkSettingPane watermarkPane = new WatermarkSettingPane();
         watermarkPane.populate(watermark);
         watermarkPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
