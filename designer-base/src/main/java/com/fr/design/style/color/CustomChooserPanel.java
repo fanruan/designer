@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
 import javax.swing.SpinnerNumberModel;
@@ -706,7 +707,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         mainPanel.add(hexPanel, BorderLayout.SOUTH);
 
         JPanel rightPane = new JPanel(new BorderLayout());
-        SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
+        JButton pickColorButton = PickColorButtonFactory.getPickColorButton(this, PickColorButtonFactory.IconType.ICON18, true);
         JPanel blankArea = new JPanel();
         blankArea.setPreferredSize(new Dimension(100, 175));
         rightPane.add(blankArea, BorderLayout.CENTER);

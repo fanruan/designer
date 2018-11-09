@@ -7,6 +7,7 @@ import com.fr.design.mainframe.widget.editors.ITextComponent;
 import com.fr.design.mainframe.widget.renderer.WatermarkRenderer;
 import com.fr.design.mainframe.widget.wrappers.WatermarkWrapper;
 import com.fr.design.report.WatermarkPane;
+import com.fr.design.report.WatermarkSettingPane;
 import com.fr.intelli.record.Focus;
 import com.fr.intelli.record.Original;
 import com.fr.record.analyzer.EnableMetrics;
@@ -20,7 +21,7 @@ import java.awt.*;
 
 @EnableMetrics
 public class AccessibleBodyWatermarkEditor extends UneditableAccessibleEditor {
-    private WatermarkPane watermarkPane;
+    private WatermarkSettingPane watermarkPane;
 
     public AccessibleBodyWatermarkEditor() {
         super(new WatermarkWrapper());
@@ -34,7 +35,7 @@ public class AccessibleBodyWatermarkEditor extends UneditableAccessibleEditor {
     @Override
     protected void showEditorPane() {
         if (watermarkPane == null) {
-            watermarkPane = new WatermarkPane();
+            watermarkPane = new WatermarkSettingPane();
             watermarkPane.setPreferredSize(new Dimension(600, 400));
         }
         BasicDialog dlg = watermarkPane.showWindow(SwingUtilities.getWindowAncestor(this));

@@ -13,7 +13,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -47,7 +46,7 @@ public class WatermarkPane extends BasicPane {
     }
 
     private void initComponents() {
-        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(4, 4, -5, 4));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -66,7 +65,7 @@ public class WatermarkPane extends BasicPane {
         // 设置
         JPanel rightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         contentPane.add(rightPane, BorderLayout.EAST);
-        rightPane.add(initRightPane(), BorderLayout.CENTER);
+        rightPane.add(initRightPane(), BorderLayout.NORTH);
     }
 
     public void populate(WatermarkAttr watermark) {
