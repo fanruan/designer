@@ -226,20 +226,27 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
     private void sendFunctionsInfo(){
-        long currentTime = new Date().getTime();
-        ArrayList<Map<String, Object>> content = null;
-        content = getFunctionsContentAsByte(currentTime);
-        boolean success = false;
-        String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-        if(content.size() > 0){
-            for(int i=0; i<content.size(); i++){
-                success = sendFunctionRecord(url, content.get(i));
-            }
-            //服务器返回true, 说明已经获取成功, 清空当前记录的信息
-            if (success) {
-                deleteFunctionRecords(currentTime);
-            }
+		Date current = new Date();
+		long lastTime = getLastTimeMillis();
+		long currentTime = current.getTime();
+        if (currentTime - lastTime <= DELTA) {
+            return;
         }
+		ArrayList<Map<String, Object>> content = null;
+		content = getFunctionsContent(current, new Date(lastTime));
+		boolean success = false;
+		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
+		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+		if(content.size() > 0){
+			for(int i=0; i<content.size(); i++){
+				success = sendFunctionRecord(url, content.get(i));
+			}
+			//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
+			if (success) {
+				this.lastTime = dateToString();
+			}
+		}
+		FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
 //		try {
@@ -294,8 +301,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				} catch (InterruptedException e) {
 					FRContext.getLogger().error(e.getMessage(), e);
 				}
-                sendFunctionsInfo();
                 sendUserInfo();
+				sendFunctionsInfo();
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
@@ -430,44 +437,33 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static ArrayList getFunctionsContentAsByte(long currentTime){
-        ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
-        QueryCondition condition = QueryFactory.create().addRestriction(
-                RestrictionFactory.lte(COLUMN_TIME, currentTime)
-        );
-        try {
-            DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-            DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-            String bbsUserName = MarketConfig.getInstance().getBbsUsername();
-            String uuid = envManager.getUUID();
-            if(!focusPoints.isEmpty()){
-                for(FocusPoint focusPoint : focusPoints.getList()){
-                    Map<String,Object> record = new HashMap<>();
-                    record.put(ATTR_ID, focusPoint.getId());
-                    record.put(ATTR_TEXT, focusPoint.getText());
-                    record.put(ATTR_SOURCE, focusPoint.getSource());
-                    record.put(ATTR_TIME, focusPoint.getTime().getTime());
-                    record.put(ATTR_TITLE, focusPoint.getTitle());
-                    record.put(ATTR_USER_NAME, bbsUserName);
-                    record.put(ATTR_UUID, uuid);
-                    records.add(record);
-                }
-            }
-        } catch (MetricException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-        return records;
-	}
-
-	private void deleteFunctionRecords(long currentTime) {
-		QueryCondition condition = QueryFactory.create().addRestriction(
-				RestrictionFactory.lte(COLUMN_TIME, currentTime)
-		);
+	public static ArrayList getFunctionsContent(Date current, Date last){
+		ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
+		QueryCondition condition = QueryFactory.create()
+				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
+				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
 		try {
-			MetricRegistry.getMetric().clean(condition);
-		}catch (Exception e){
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+			String uuid = envManager.getUUID();
+			if(!focusPoints.isEmpty()){
+				for(FocusPoint focusPoint : focusPoints.getList()){
+					Map<String,Object> record = new HashMap<>();
+					record.put(ATTR_ID, focusPoint.getId());
+					record.put(ATTR_TEXT, focusPoint.getText());
+					record.put(ATTR_SOURCE, focusPoint.getSource());
+					record.put(ATTR_TIME, focusPoint.getTime().getTime());
+					record.put(ATTR_TITLE, focusPoint.getTitle());
+					record.put(ATTR_USER_NAME, bbsUserName);
+					record.put(ATTR_UUID, uuid);
+					records.add(record);
+				}
+			}
+		} catch (MetricException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
+		return records;
 	}
 
 	private class StartStopTime implements XMLReadable, XMLWriter {
