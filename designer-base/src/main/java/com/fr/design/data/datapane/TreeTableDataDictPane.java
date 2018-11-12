@@ -16,12 +16,15 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-
-import com.fr.script.Calculator;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -155,7 +158,6 @@ public class TreeTableDataDictPane extends BasicPane implements Previewable {
                     }
                 }
                 rtd.setTableDataSource(DesignTableDataManager.getEditingTableDataSource());
-                rtd.createDataModel(Calculator.createCalculator());
                 PreviewTablePane.previewTableData(rtd);
             }
         });
