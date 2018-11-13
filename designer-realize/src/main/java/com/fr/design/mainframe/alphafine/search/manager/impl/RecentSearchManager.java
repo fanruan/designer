@@ -113,10 +113,11 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
      */
     private void initReader() {
         try {
-            if(indexWriter != null){
+            if(indexWriter == null){
+                directory = FSDirectory.open(new File(path));
+            }else{
                 indexWriter.close();
             }
-            directory = FSDirectory.open(new File(path));
             indexReader = DirectoryReader.open(directory);
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
