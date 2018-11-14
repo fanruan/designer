@@ -37,7 +37,9 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
+import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
@@ -57,10 +59,16 @@ import com.fr.plugin.chart.scatter.VanChartScatterPlot;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
+import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
+import com.fr.plugin.injectable.SpecialLevel;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.solution.closeable.CloseableContainedMap;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.van.chart.area.AreaIndependentVanChartInterface;
@@ -107,6 +115,8 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
     private static Map<String, String> idAndPriorityMap = new HashMap<String, String>();
 
+    public static final String TYPE_PANE_DEFAULT_TITLE = "DEFAULT_NAME";
+
     public synchronized static ChartTypeInterfaceManager getInstance() {
         
         return classManager;
@@ -116,6 +126,25 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         readDefault();
         readVanChart();
         PluginModule.registerAgent(PluginModule.ExtraChartDesign, classManager);
+
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+
+            @Override
+            public void on(PluginEvent event) {
+
+                synchronized (ChartTypeInterfaceManager.class) {
+                    //因为是CloseableContainedMap，所以不能在mount那边处理。
+                    DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
+                }
+            }
+        }, new PluginFilter() {
+
+            @Override
+            public boolean accept(PluginContext context) {
+
+                return context.contain(PluginModule.ExtraChartDesign, SpecialLevel.IndependentChartUIProvider.getTagName());
+            }
+        });
     }
     
     public static WidgetOption[] initWidgetOption() {
@@ -260,6 +289,9 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 String plotID = entry.getKey();
 
                 AbstractChartTypePane pane = entry.getValue().getPlotTypePane();
+                if (AssistUtils.equals(pane.title4PopupWindow(), TYPE_PANE_DEFAULT_TITLE)) {
+                    continue;
+                }
                 pane.setPlotID(plotID);
                 paneList.add(pane);
 

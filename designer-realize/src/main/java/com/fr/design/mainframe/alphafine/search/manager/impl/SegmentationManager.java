@@ -2,7 +2,6 @@ package com.fr.design.mainframe.alphafine.search.manager.impl;
 
 import com.fr.design.mainframe.alphafine.AlphaFineConstants;
 import com.fr.stable.StringUtils;
-
 import com.fr.third.ibm.icu.text.BreakIterator;
 
 import java.util.ArrayList;
@@ -72,7 +71,8 @@ public class SegmentationManager {
         int start = itor.first();
         for (int end = itor.next(); end != BreakIterator.DONE; start = end, end = itor.next()) {
             String temp = searchText.substring(start, end);
-            if (!StringUtils.isEmpty(temp)) {
+            //去掉空和连词
+            if (StringUtils.isNotEmpty(temp) && !AlphaFineConstants.CONJUNCTION.contains(temp)) {
                 result.add(temp);
             }
         }

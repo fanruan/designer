@@ -23,11 +23,7 @@ import com.fr.design.onlineupdate.ui.widget.UpdateInfoTableCellRender;
 import com.fr.design.onlineupdate.ui.widget.UpdateInfoTableModel;
 import com.fr.design.onlineupdate.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.DateUtils;
-import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -58,12 +54,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -443,8 +434,8 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            FileReader reader = new FileReader(cacheFile);
-            BufferedReader br = new BufferedReader(reader);
+            InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
+            BufferedReader br = new BufferedReader(streamReader);
             String readStr, updateTimeStr;
 
             while ((readStr = br.readLine()) != null) {
@@ -466,7 +457,7 @@ public class UpdateMainDialog extends UIDialog {
                 }
             }
             br.close();
-            reader.close();
+            streamReader.close();
         }
     }
 
@@ -490,8 +481,8 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        FileWriter fileWriter = new FileWriter(cacheFile, true);
-        BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+        OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), "UTF-8");
+        BufferedWriter bufferWriter = new BufferedWriter(writerStream);
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jo = (JSONObject) jsonArray.get(i);
             bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
@@ -499,7 +490,7 @@ public class UpdateMainDialog extends UIDialog {
             bufferWriter.flush();
         }
         bufferWriter.close();
-        fileWriter.close();
+        writerStream.close();
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
         lastUpdateCacheTime = endTime;
         cacheProperty.updateProperty("updateTime", lastUpdateCacheTime);
@@ -678,7 +669,7 @@ public class UpdateMainDialog extends UIDialog {
         jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
     }
 
-    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, String[] files) {
+    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, List<String> files) {
         for (String file : files) {
             try {
                 IOUtils.copy(
@@ -690,7 +681,7 @@ public class UpdateMainDialog extends UIDialog {
         }
     }
 
-    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, String[] files) {
+    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, List<String> files) {
         for (String file : files) {
             try {
                 IOUtils.copy(
@@ -734,21 +725,22 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     //获取服务器jar包列表
-    private String[] getJARList4Server() {
+    private List<String> getJARList4Server() {
         return UpdateConstants.JARS_FOR_SERVER_X;
     }
 
     //获取设计器jar包列表
-    private String[] getJARList4Designer() {
+    private List<String> getJARList4Designer() {
         return UpdateConstants.JARS_FOR_DESIGNER_X;
     }
 
     //获取服务器jar包下载列表
     private String[] getDownLoadJAR4Server() {
         ArrayList<String> jarList = new ArrayList<String>();
+        List<String> serverItems = getJARList4Server();
         for (DownloadItem downloadItem : downloadItems) {
             String downloadItemName = downloadItem.getName();
-            if (ArrayUtils.contains(getJARList4Server(), downloadItemName)) {
+            if (serverItems.contains(downloadItemName)) {
                 jarList.add(downloadItemName);
             }
         }
@@ -758,9 +750,10 @@ public class UpdateMainDialog extends UIDialog {
     //获取设计器jar包下载列表
     private String[] getDownLoadJAR4Designer() {
         ArrayList<String> jarList = new ArrayList<String>();
+        List<String> designerJarItems = getJARList4Designer();
         for (DownloadItem downloadItem : downloadItems) {
             String downloadItemName = downloadItem.getName();
-            if (ArrayUtils.contains(getJARList4Designer(), downloadItemName)) {
+            if (designerJarItems.contains(downloadItemName)) {
                 jarList.add(downloadItemName);
             }
         }
@@ -791,7 +784,8 @@ public class UpdateMainDialog extends UIDialog {
     //判断是否是有效的日志内容
     private boolean isValidLogInfo(String logContent) {
         String log = logContent.toUpperCase();
-        for (String s : UpdateConstants.LOG_TYPE) {
+        List<String> logType = UpdateConstants.LOG_TYPE;
+        for (String s : logType) {
             if (log.startsWith(s)) {
                 return true;
             }

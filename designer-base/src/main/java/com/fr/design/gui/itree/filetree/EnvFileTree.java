@@ -146,14 +146,14 @@ public class EnvFileTree extends RefreshableJTree {
      *
      * 返回currentTreeNode下是否找到了filePath
      */
-    private boolean selectFilePath(ExpandMutableTreeNode currentTreeNode, String prefix, String filePath, DefaultTreeModel m_model) {
+    private boolean selectFilePath(ExpandMutableTreeNode currentTreeNode, String prefix, String filePath, DefaultTreeModel model) {
         FileNode fileNode = (FileNode) currentTreeNode.getUserObject();
         String nodePath = fileNode.getName();
         String currentTreePath = prefix + nodePath;
 
         // 如果equals,说明找到了,不必再找下去了
         if (ComparatorUtils.equals(new File(currentTreePath), new File(filePath))) {
-            this.setSelectionPath(new TreePath(m_model.getPathToRoot(currentTreeNode)));
+            this.setSelectionPath(new TreePath(model.getPathToRoot(currentTreeNode)));
             return true;
         }
         // 如果当前路径是currentFilePath的ParentFile,则expandTreeNode,并继续往下找
@@ -164,7 +164,7 @@ public class EnvFileTree extends RefreshableJTree {
             for (int i = 0, len = currentTreeNode.getChildCount(); i < len; i++) {
                 ExpandMutableTreeNode childTreeNode = (ExpandMutableTreeNode) currentTreeNode.getChildAt(i);
 
-                if (selectFilePath(childTreeNode, prefix, filePath, m_model)) {
+                if (selectFilePath(childTreeNode, prefix, filePath, model)) {
                     return true;
                 }
             }
@@ -219,7 +219,7 @@ public class EnvFileTree extends RefreshableJTree {
             resFns = tList.toArray(new FileNode[tList.size()]);
         }
 
-        Arrays.sort(resFns, new FileNodeComparator());
+        Arrays.sort(resFns, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
 
         return resFns;
     }
@@ -248,8 +248,8 @@ public class EnvFileTree extends RefreshableJTree {
      */
     public void refreshEnv() {
 
-        DefaultTreeModel m_model = (DefaultTreeModel) this.getModel();
-        ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) m_model.getRoot();
+        DefaultTreeModel model = (DefaultTreeModel) this.getModel();
+        ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) model.getRoot();
         rootTreeNode.removeAllChildren();
 
         FileNode[] fns;
@@ -273,7 +273,7 @@ public class EnvFileTree extends RefreshableJTree {
             rootTreeNode.add(node);
         }
 
-        m_model.reload(rootTreeNode);
+        model.reload(rootTreeNode);
     }
 
     /*
