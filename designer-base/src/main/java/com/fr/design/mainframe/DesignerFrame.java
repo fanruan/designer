@@ -155,6 +155,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     // 右边的虚线
     private DottedLine rightDottedLine;
 
+    //用于判断设计器是否打开了
+    private boolean designerOpened = false;
+
     private int contentWidth = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 
     private int contentHeight = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight());
@@ -351,7 +354,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void addDesignerOpenedListener(DesignerOpenedListener listener) {
 
-        designerOpenedListenerList.add(listener);
+        if (!designerOpened) {
+            designerOpenedListenerList.add(listener);
+        }
     }
 
     /**
@@ -362,6 +367,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (DesignerOpenedListener listener : designerOpenedListenerList) {
             listener.designerOpened();
         }
+
+        designerOpened = true;
+        //使用完清除监听
+        designerOpenedListenerList.clear();
     }
 
     protected DesktopCardPane getCenterTemplateCardPane() {
