@@ -73,7 +73,7 @@ public abstract class UIDialog extends JDialog {
         }
         this.setName(pane.title4PopupWindow());
         this.setModal(true);
-        this.pack();
+
         GUICoreUtils.centerWindow(this);
     }
 
@@ -90,12 +90,10 @@ public abstract class UIDialog extends JDialog {
         //取消
         addCancelButton(buttonsPane);
 
-        this.getRootPane().setDefaultButton(okButton);
-
         return controlPane;
     }
 
-    protected void addCustomButton(JPanel buttonsPane){
+    protected void addCustomButton(JPanel buttonsPane) {
 
     }
 
@@ -108,6 +106,18 @@ public abstract class UIDialog extends JDialog {
 
             public void actionPerformed(ActionEvent evt) {
                 doCancel();
+            }
+        });
+        JPanel defaultPane = (JPanel) this.getContentPane();
+        InputMap inputMapAncestor = defaultPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = defaultPane.getActionMap();
+
+        // transfer focus to CurrentEditor
+        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "dialogOK");
+        actionMap.put("dialogOK", new AbstractAction() {
+
+            public void actionPerformed(ActionEvent evt) {
+                doOK();
             }
         });
     }
@@ -130,7 +140,6 @@ public abstract class UIDialog extends JDialog {
      * 添加监听器
      *
      * @param l 监听器
-     *
      */
     public void addDialogActionListener(DialogActionListener l) {
         listeners.add(l);
@@ -138,7 +147,6 @@ public abstract class UIDialog extends JDialog {
 
     /**
      * 清除所有监听器
-     *
      */
     public void clearDialogActionListeners() {
         listeners.clear();
@@ -146,7 +154,6 @@ public abstract class UIDialog extends JDialog {
 
     /**
      * 确定操作
-     *
      */
     public void doOK() {
         try {
@@ -177,7 +184,6 @@ public abstract class UIDialog extends JDialog {
 
     /**
      * 取消操作
-     *
      */
     public void doCancel() {
 
@@ -224,7 +230,6 @@ public abstract class UIDialog extends JDialog {
 
     /**
      * 检测结果是否合法
-     *
      */
     public abstract void checkValid() throws Exception;
 
