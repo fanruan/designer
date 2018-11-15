@@ -148,6 +148,9 @@ public abstract class ToolBarMenuDock {
     };
     private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
+
+    private static final List<PluginEventListener> PLUGIN_LISTENERS = new ArrayList<>();
+
     private MenuDef[] menus;
     private ToolBarDef toolBarDef;
     private List<UpdateActionModel> shortCutsList;
@@ -218,6 +221,8 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
+        //删除之前创建的插件菜单监听
+        clearPluginListeners();
         java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
@@ -246,6 +251,15 @@ public abstract class ToolBarMenuDock {
         UpdateActionManager.getUpdateActionManager().setUpdateActions(shortCutsList);
 
         return menuList.toArray(new MenuDef[menuList.size()]);
+    }
+
+    //清空监听
+    private static synchronized void clearPluginListeners() {
+
+        for (PluginEventListener listener : PLUGIN_LISTENERS) {
+            GeneralContext.stopListenPlugin(listener);
+        }
+        PLUGIN_LISTENERS.clear();
     }
 
     /**
@@ -644,7 +658,7 @@ public abstract class ToolBarMenuDock {
             }
         };
 
-        GeneralContext.listenPlugin(PluginEventType.BeforeStop, new PluginEventListener() {
+        PluginEventListener beforeStop = new PluginEventListener() {
 
             @Override
             public void on(PluginEvent event) {
@@ -652,8 +666,9 @@ public abstract class ToolBarMenuDock {
                 Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
                 removeExtraMenus(menuDef, anchor, action, menuHandlers);
             }
-        }, filter);
-        GeneralContext.listenPlugin(PluginEventType.AfterRun, new PluginEventListener() {
+        };
+
+        PluginEventListener afterRun = new PluginEventListener() {
 
             @Override
             public void on(PluginEvent event) {
@@ -662,7 +677,13 @@ public abstract class ToolBarMenuDock {
                 Set<MenuHandler> menuHandlers = runtime.get(MenuHandler.MARK_STRING);
                 addExtraMenus(menuDef, anchor, action, menuHandlers);
             }
-        }, filter);
+        };
+
+        GeneralContext.listenPlugin(PluginEventType.BeforeStop, beforeStop, filter);
+        GeneralContext.listenPlugin(PluginEventType.AfterRun, afterRun, filter);
+
+        PLUGIN_LISTENERS.add(afterRun);
+        PLUGIN_LISTENERS.add(beforeStop);
     }
 
     private void removeExtraMenus(MenuDef menuDef, String anchor, ShortCutMethodAction action, Set<MenuHandler> set) {
