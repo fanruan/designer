@@ -131,8 +131,9 @@ public class HistoryTemplateListPane implements CallbackEvent {
     }
 
 
+    @Override
     public void callback() {
-        getCurrentEditingTemplate().repaint();
+        instead().callback();
     }
 
     /**
