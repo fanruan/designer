@@ -15,8 +15,6 @@ import com.fr.file.FILEChooserPane;
 import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
-import com.fr.report.report.Report;
-import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.exporter.TemplateExportOperator;
@@ -40,6 +38,7 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
         super(jwb);
     }
 
+
     protected WorkBook getTemplateWorkBook() {
         return this.getEditingComponent().getTarget();
     }
@@ -50,7 +49,7 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // todo 弹出提醒保存，如果没保存
+        // todo 弹出提醒保存，如果没保存。。。
 
 
         JWorkBook jwb = this.getEditingComponent();
@@ -113,9 +112,7 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
             protected Void doInBackground() throws Exception {
                 //bug 10516
                 Thread.sleep(100);
-                OutputStream outputStream = null;
-                try {
-                    outputStream = target.asOutputStream();
+                try (OutputStream outputStream = target.asOutputStream()) {
                     this.setProgress(10);
                     dealExporter(outputStream, path, parameterMap);
                     this.setProgress(80);
@@ -138,10 +135,6 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
                             JOptionPane.ERROR_MESSAGE,
                             UIManager.getIcon("OptionPane.errorIcon")
                     );
-                } finally {
-                    if (outputStream != null) {
-                        outputStream.close();
-                    }
                 }
                 return null;
             }
@@ -168,26 +161,6 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
             outputStream.write(contents);
         }
     }
-
-    /*
-     * 这边判断是否有层式报表，有层式需要使用大数据量导出
-     */
-    protected boolean hasLayerReport(TemplateWorkBook tpl) {
-        if (tpl == null) {
-            return false;
-        }
-        for (int i = 0; i < tpl.getReportCount(); i++) {
-            Report r = tpl.getReport(i);
-            if (r instanceof WorkSheet) {
-                if (((WorkSheet) r).getLayerReportAttr() != null) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
 
     protected abstract String getDefaultExtension();
 

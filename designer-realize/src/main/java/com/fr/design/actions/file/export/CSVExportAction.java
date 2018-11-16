@@ -11,6 +11,7 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.io.exporter.DesignExportType;
 import com.fr.main.TemplateWorkBook;
+import com.fr.report.core.ReportUtils;
 
 /**
  * Export CSV.
@@ -35,7 +36,7 @@ public class CSVExportAction extends AbstractJWorkBookExportAction {
     @Override
     protected String getDefaultExtension() {
         TemplateWorkBook tpl = this.getTemplateWorkBook();
-        if (hasLayerReport(tpl)) {
+        if (ReportUtils.hasLayerReport4Template(tpl)) {
             return FileExtension.ZIP.getExtension();
         } else {
             return FileExtension.CSV.getExtension();

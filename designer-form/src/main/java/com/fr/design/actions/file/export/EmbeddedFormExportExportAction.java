@@ -127,7 +127,7 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"frm"}, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_EmbeddedTD"));
+        return new ChooseFileFilter(new String[]{"frm"}, Toolkit.i18nText("Fine-Design_Form_EmbeddedTD"));
     }
 
     private SwingWorker createExportWork(FILE source, final FILE target, final Map<String, Object> parameterMap) {
@@ -138,9 +138,7 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
             @Override
             protected Void doInBackground() throws Exception {
                 Thread.sleep(100);
-                try {
-                    final OutputStream fileOutputStream = target.asOutputStream();
-
+                try (OutputStream fileOutputStream = target.asOutputStream()) {
                     this.setProgress(10);
                     dealExporter(fileOutputStream, path, parameterMap);
                     this.setProgress(80);
