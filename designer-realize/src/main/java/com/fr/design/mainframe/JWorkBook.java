@@ -635,8 +635,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public ShortCut[] shortcut4FileMenu() {
         boolean showWorkBookExportMenu = DesignerMode.isVcsMode()
-                || DesignerMode.isAuthorityEditing()
-                || !WorkContext.getCurrent().isLocal();
+                || DesignerMode.isAuthorityEditing();
+//                || !WorkContext.getCurrent().isLocal();
         return (ShortCut[]) ArrayUtils.addAll(super.shortcut4FileMenu(),
                 showWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );

@@ -5,6 +5,8 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
+import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.designer.TargetComponent;
@@ -31,11 +33,8 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPaneNoPop;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
-import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
-import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
@@ -47,6 +46,7 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.preview.FormPreview;
 import com.fr.design.preview.MobilePreview;
+import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -469,6 +469,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public void setPictureElem(Elem elem, CellImage cellImage) {
         elem.setValue(cellImage.getImage());
     }
+
     /**
      * 目标菜单
      *
@@ -503,7 +504,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this),  new ReportFitAttrAction(this)}, new ShortCut[0]);
+            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
             return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
@@ -932,6 +933,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     /**
      * 支持的预览模式
+     *
      * @return 预览模式
      */
     @Override

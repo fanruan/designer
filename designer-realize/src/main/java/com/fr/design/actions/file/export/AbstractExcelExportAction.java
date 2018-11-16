@@ -12,7 +12,7 @@ import com.fr.main.TemplateWorkBook;
 /**
  * Export excel.
  */
-public abstract class AbstractExcelExportAction extends AbstractExportAction {
+public abstract class AbstractExcelExportAction extends AbstractJWorkBookExportAction {
     /**
      * Constructor
      */

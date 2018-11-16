@@ -5,52 +5,45 @@ package com.fr.design.actions.file.export;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.extension.FileExtension;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-
-import com.fr.io.exporter.CSVExporter;
-import com.fr.io.exporter.Exporter;
-import com.fr.io.exporter.LargeDataPageCSVExporter;
+import com.fr.io.exporter.DesignExportType;
 import com.fr.main.TemplateWorkBook;
 
 /**
  * Export CSV.
  */
-public class CSVExportAction extends AbstractExportAction {
+public class CSVExportAction extends AbstractJWorkBookExportAction {
     /**
      * Constructor
      */
-	public CSVExportAction(JWorkBook jwb) {
-		super(jwb);
+    public CSVExportAction(JWorkBook jwb) {
+        super(jwb);
         this.setMenuKeySet(KeySetUtils.CSV_EXPORT);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/csv.png"));
     }
-	
+
     @Override
-	protected Exporter getExporter() {
-        TemplateWorkBook tpl = this.getTemplateWorkBook();
-        if (hasLayerReport(tpl)) {
-            return new LargeDataPageCSVExporter();
-        } else {
-            return new CSVExporter();
-        }
+    protected ChooseFileFilter getChooseFileFilter() {
+        return new ChooseFileFilter(FileExtension.CSV, Toolkit.i18nText("Fine-Design_Report_Export_CSV"));
     }
 
     @Override
-	protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.CSV, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_CSV"));
-    }
-
-    @Override
-	protected String getDefaultExtension() {
+    protected String getDefaultExtension() {
         TemplateWorkBook tpl = this.getTemplateWorkBook();
         if (hasLayerReport(tpl)) {
             return FileExtension.ZIP.getExtension();
         } else {
             return FileExtension.CSV.getExtension();
         }
+    }
+
+    @Override
+    public DesignExportType exportType() {
+        return DesignExportType.CSV;
     }
 }

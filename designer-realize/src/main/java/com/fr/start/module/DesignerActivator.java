@@ -42,7 +42,7 @@ import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.WidgetToolBarPane;
-import com.fr.design.mainframe.actions.NewFormAction;
+import com.fr.design.actions.NewFormAction;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;

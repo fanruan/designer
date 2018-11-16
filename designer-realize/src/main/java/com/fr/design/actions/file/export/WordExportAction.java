@@ -5,17 +5,16 @@ package com.fr.design.actions.file.export;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.extension.FileExtension;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.file.filter.ChooseFileFilter;
-
-import com.fr.io.exporter.Exporter;
-import com.fr.io.exporter.WordExporter;
+import com.fr.io.exporter.DesignExportType;
 
 /**
  * Export excel.
  */
-public class WordExportAction extends AbstractExportAction {
+public class WordExportAction extends AbstractJWorkBookExportAction {
     /**
      * Constructor
      */
@@ -28,13 +27,13 @@ public class WordExportAction extends AbstractExportAction {
     }
 
     @Override
-    protected Exporter getExporter() {
-        return new WordExporter();
+    public DesignExportType exportType() {
+        return DesignExportType.WORD;
     }
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(FileExtension.DOC, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Export_Word"));
+        return new ChooseFileFilter(FileExtension.DOC, Toolkit.i18nText("Fine-Design_Report_Export_Word"));
     }
 
     @Override
