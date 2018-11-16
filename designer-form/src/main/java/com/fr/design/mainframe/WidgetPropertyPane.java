@@ -28,7 +28,7 @@ import java.util.Set;
  * 控件属性表绘制
  * Modified by fanglei
  */
-public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPropertyPane {
+public class WidgetPropertyPane extends FormDockView implements BaseWidgetPropertyPane {
 
     private static final int PADDING = 10;
     private static final int PADDING_M = 12;
@@ -108,11 +108,10 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
      */
     private void initTables() {
         formWidgetCardPane.populate();
-        eventTable.refresh();
+
         if (mobileExtraPropertyPanes != null) {
             for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
                 extraPane.initPropertyGroups(designer);
-                extraPane.populate(designer);
             }
         }
         if (widgetPropertyTables != null) {
@@ -222,7 +221,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Widget_Mobile_Terminal")
         };
-        final CardLayout tabbedPane =  new CardLayout();
+        final CardLayout tabbedPane = new CardLayout();
         final JPanel center = new JPanel(tabbedPane);
         center.add(formWidgetCardPane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Properties"));
         center.add(eventTable, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Event"));
@@ -232,6 +231,16 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
         tabsHeaderIconPane = new UIHeadGroup(tabTitles) {
             @Override
             public void tabChanged(int index) {
+                //切换的时候再populate
+                if (index == 1) {
+                    eventTable.refresh();
+                } else if (index == 2) {
+                    if (mobileExtraPropertyPanes != null) {
+                        for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
+                            extraPane.populate(designer);
+                        }
+                    }
+                }
                 tabbedPane.show(center, tabTitles[index]);
             }
         };
@@ -292,7 +301,7 @@ public class WidgetPropertyPane  extends FormDockView implements BaseWidgetPrope
             if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED
                     || evt.getCreatorEventID() == DesignerEvent.CREATOR_RESIZED) {
                 formWidgetCardPane.populate();
-            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED){
+            } else if (evt.getCreatorEventID() == DesignerEvent.CREATOR_SELECTED) {
                 // 防止多次触发
                 if (lastAffectedCreator != null && lastAffectedCreator == evt.getAffectedCreator()) {
                     return;
