@@ -8,6 +8,7 @@ import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
 import java.awt.CardLayout;
@@ -71,7 +72,11 @@ class JControlUpdatePane extends JPanel {
                     cardPane.add(updatePanes[i], String.valueOf(i));
                 }
                 card.show(cardPane, String.valueOf(i));
-                updatePanes[i].populateBean(ob2Populate);
+                try{
+                    updatePanes[i].populateBean(ob2Populate);
+                }catch (Exception e){
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
                 break;
             }
         }
