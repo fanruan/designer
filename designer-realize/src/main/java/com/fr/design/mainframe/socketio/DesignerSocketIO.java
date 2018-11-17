@@ -68,8 +68,8 @@ public class DesignerSocketIO {
             return;
         }
         try {
-            String uri = getSocketUri(current);
-            socketIO = Optional.of(IO.socket(new URI(uri)));
+            String[] uri = getSocketUri(current);
+            socketIO = Optional.of(IO.socket(new URI(uri[0])));
             socketIO.get().on(WorkspaceConstants.WS_LOGRECORD, printLog);
             socketIO.get().on(WorkspaceConstants.CONFIG_MODIFY, new Emitter.Listener() {
                 @Override
@@ -109,19 +109,23 @@ public class DesignerSocketIO {
         }
     }
 
-    private static String getSocketUri(Workspace current) throws IOException {
+    private static String[] getSocketUri(Workspace current) throws IOException {
         URL url = new URL(current.getPath());
-        int port = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
+        Integer[] ports = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
         WorkspaceConnection connection = WorkContext.getCurrent().getConnection();
-        return String.format("%s://%s:%s%s?%s=%s&%s=%s",
-                url.getProtocol(),
-                url.getHost(),
-                port,
-                WorkspaceConstants.WS_NAMESPACE,
-                DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
-                connection.getToken(),
-                RemoteDesignConstants.USER_LOCK_ID,
-                connection.getId()
-        );
+        String[] result = new String[ports.length];
+        for (int i = 0; i < ports.length; i++ ) {
+            result[i] = String.format("%s://%s:%s%s?%s=%s&%s=%s",
+                    url.getProtocol(),
+                    url.getHost(),
+                    ports[i],
+                    WorkspaceConstants.WS_NAMESPACE,
+                    DecisionServiceConstants.WEB_SOCKET_TOKEN_NAME,
+                    connection.getToken(),
+                    RemoteDesignConstants.USER_LOCK_ID,
+                    connection.getId());
+        }
+        return result;
+
     }
 }
