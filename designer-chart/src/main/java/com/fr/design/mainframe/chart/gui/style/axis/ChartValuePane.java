@@ -2,6 +2,7 @@ package com.fr.design.mainframe.chart.gui.style.axis;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
+import com.fr.chart.base.AxisUnitType;
 import com.fr.chart.base.ChartBaseUtils;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Axis;
@@ -257,10 +258,10 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 			axisLineStylePane.update(axis);
 			axis.setAxisReversed(this.axisReversed.isSelected());
 			String unitValue = Utils.objectToString(unitCombox.getSelectedItem());
-			if(ComparatorUtils.equals(unitValue, ChartConstants.UNIT_I18N_VALUES[0])) {
+			if(ComparatorUtils.equals(unitValue, AxisUnitType.UNIT_NONE.toLocaleString())) {
 				unitValue = null;
 			}
-			numberAxis.setShowUnit(ChartConstants.getUnitValueFromKey(unitValue));
+			numberAxis.setShowUnit(AxisUnitType.parse(unitValue));
             if(numberAxis.isSurpportAxisTitle()) {
                 updateAxisTitle(numberAxis);
             }
@@ -378,11 +379,13 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
 
             axisLineStylePane.populate(axis);
             axisReversed.setSelected(axis.hasAxisReversed());
-            String unitKey = numberAxis.getShowUnit();
-            if(StringUtils.isBlank(unitKey)) {
-                unitKey = ChartConstants.UNIT_I18N_KEYS[0];
+			String unitKey;
+            if(numberAxis.getShowUnit() != null) {
+            	unitKey = numberAxis.getShowUnit().getStringType();
+			}else{
+                unitKey = AxisUnitType.UNIT_NONE.getStringType();
             }
-            unitCombox.setSelectedItem(ChartConstants.getUnitKey2Value(unitKey));
+            unitCombox.setSelectedItem(AxisUnitType.parse(unitKey).toLocaleString());
 
             if(numberAxis.isSurpportAxisTitle()) {
                 populateAxisTitle(axis);
