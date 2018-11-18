@@ -4,7 +4,6 @@ import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
 import com.fr.chart.base.AxisUnitType;
 import com.fr.chart.base.ChartBaseUtils;
-import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.NumberAxis;
@@ -79,7 +78,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         axisLineStylePane = new ChartAxisLineStylePane();
         zeroPane = aliagnZero4Second();
         axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AxisReversed"));
-        unitCombox = new UIComboBox(ChartConstants.UNIT_I18N_VALUES);
+        unitCombox = new UIComboBox(AxisUnitType.UNIT_I18N_VALUES);
         formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
         dataPane = createDataDefinePane();
