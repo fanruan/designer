@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class JSContentPane extends BasicPane {
     private RSyntaxTextArea contentTextArea;
     private UILabel funNameLabel;
+    private AutoCompletion ac;
 
     private int titleWidth = 180;
 
@@ -78,14 +79,6 @@ public class JSContentPane extends BasicPane {
         contentTextArea.setCodeFoldingEnabled(true);
         contentTextArea.setAntiAliasingEnabled(true);
 
-        CompletionProvider provider = createCompletionProvider();
-
-        AutoCompletion ac = new AutoCompletion(provider);
-        String shortCuts = DesignerEnvManager.getEnvManager().getAutoCompleteShortcuts();
-
-        ac.setTriggerKey(convert2KeyStroke(shortCuts));
-        ac.install(contentTextArea);
-
         UIScrollPane sp = new UIScrollPane(contentTextArea);
         this.add(sp, BorderLayout.CENTER);
 
@@ -104,11 +97,29 @@ public class JSContentPane extends BasicPane {
     }
 
     public void populate(String js) {
+        if (ac == null) {
+            CompletionProvider provider = createCompletionProvider();
+            ac = new AutoCompletion(provider);
+            String shortCuts = DesignerEnvManager.getEnvManager().getAutoCompleteShortcuts();
+
+            ac.setTriggerKey(convert2KeyStroke(shortCuts));
+            ac.install(contentTextArea);
+        }
+
         this.contentTextArea.setText(js);
     }
 
     public String update() {
+        if (ac != null) {
+            this.ac.uninstall();
+            ac = null;
+        }
+
         return this.contentTextArea.getText();
+    }
+
+    public void reset() {
+        this.contentTextArea.setText(null);
     }
 
     public void setFunctionTitle(String[] args) {
