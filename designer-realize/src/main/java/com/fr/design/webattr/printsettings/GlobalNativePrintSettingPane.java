@@ -10,12 +10,10 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.sun.jna.Native;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.Component;
-import java.awt.FlowLayout;
 
 /**
  * 本地打印设置面板——全局
