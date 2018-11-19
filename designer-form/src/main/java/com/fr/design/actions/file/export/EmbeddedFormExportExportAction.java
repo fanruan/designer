@@ -17,6 +17,8 @@ import com.fr.stable.project.ProjectConstants;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.fr.io.exporter.DesignExportScope.FINE_FORM;
+
 /**
  * Export Embedded.
  */
@@ -33,7 +35,7 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
 
     @Override
     public String exportScopeName() {
-        return "FINE_FORM";
+        return FINE_FORM.toString();
     }
 
     @Override

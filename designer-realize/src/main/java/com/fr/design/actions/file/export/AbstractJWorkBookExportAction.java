@@ -14,6 +14,8 @@ import com.fr.main.impl.WorkBook;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.fr.io.exporter.DesignExportScope.FINE_BOOK;
+
 /**
  * Abstract export action.
  */
@@ -30,7 +32,7 @@ public abstract class AbstractJWorkBookExportAction extends AbstractExportAction
     }
 
     public String exportScopeName() {
-        return "FINE_BOOK";
+        return FINE_BOOK.toString();
     }
 
     @Override
