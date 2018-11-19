@@ -80,7 +80,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
         Map<String, Object> para = processParameter();
 
         // 选择输入的文件
-        FILEChooserPane fileChooserPane = FILEChooserPane.getInstance(true, true);
+        FILEChooserPane fileChooserPane = FILEChooserPane.getMultiEnvInstance(true, false);
         fileChooserPane.addChooseFILEFilter(this.getChooseFileFilter());
 
 
@@ -95,7 +95,6 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                 FineLoggerFactory.getLogger().error("Error In Make New File", exp);
             }
             FineLoggerFactory.getLogger().info("\"" + target.getName() + "\"" + Toolkit.i18nText("Fine-Design_Report_Prepare_Export") + "!");
-
 
             progressbar = new FRProgressBar(
                     createExportWork(getSource(), target, para),
