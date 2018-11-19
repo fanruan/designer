@@ -34,13 +34,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<MobileTemplateStyle> {
+    private static final String[] TAB_STYLES = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"),
+            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom")};
     private UIComboBox custom;
     protected NewColorSelectBox initialColorBox;
     protected MobileTabFontConfPane fontConfPane;
     private JPanel centerPane;
     protected MobileTemplatePreviewPane previewPane;
-    private static final String[] TAB_STYLES = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"),
-            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom")};
     private WCardTagLayout tagLayout;
 
 
@@ -142,7 +142,7 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
         });
         UILabel fillLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill"));
         fillLabel.setPreferredSize(new Dimension(55, 20));
-        JPanel boxFlowPane = FRGUIPaneFactory.createBoxFlowInnerContainerPane(10, 0);
+        JPanel boxFlowPane = GUICoreUtils.createBoxFlowInnerContainerPane(10, 0);
         boxFlowPane.add(fillLabel);
         boxFlowPane.add(initialColorBox);
         initialColorBox.setPreferredSize(new Dimension(157, 20));
@@ -161,7 +161,7 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
         });
         UILabel initCharLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Tab_Init_Char"));
         initCharLabel.setPreferredSize(new Dimension(55, 20));
-        JPanel jPanel3 = FRGUIPaneFactory.createBoxFlowInnerContainerPane(5, 0);
+        JPanel jPanel3 = GUICoreUtils.createBoxFlowInnerContainerPane(5, 0);
         jPanel3.add(initCharLabel);
         jPanel3.add(fontConfPane);
         jPanel3.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));

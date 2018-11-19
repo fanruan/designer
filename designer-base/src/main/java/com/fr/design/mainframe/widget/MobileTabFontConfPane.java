@@ -20,14 +20,15 @@ import java.awt.event.ItemListener;
 import java.util.Vector;
 
 public class MobileTabFontConfPane extends JPanel {
+    private static final Icon[] ITALIC_ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
+    private static final Icon[] BOLD_ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png")};
+
     private EventListenerList fontChangeListener = new EventListenerList();
     private UIComboBox fontFamily;
     private UIComboBox fontSize;
     private UIToggleButton bold;
     private UIColorButton color;
     private UIToggleButton italic;
-    private final static Icon[] ITALIC_ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic_white.png")};
-    private final static Icon[] BOLD_ICONS = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold_white.png")};
 
 
     public MobileTabFontConfPane() {

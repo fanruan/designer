@@ -1,12 +1,8 @@
 package com.fr.design.mainframe.widget;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,12 +11,12 @@ public class UITitleSplitLine extends JPanel {
     private static final Color LINE_COLOR = Color.decode("#E0E0E1");
     private static final Color TITLE_COLOR = Color.decode("#333334");
     private static final FRFont TITLE_FONT = FRFont.getInstance("PingFangSC-Regular", 0, 12.0F);
-
+    private static final int OFFSETX = 10;
+    private static final int OFFSET = 3;
     private Color color;
     private UILabel label;
     private int width;
-    private static final int OFFSETX = 10;
-    private static final int OFFSET = 3;
+
 
 
     public UITitleSplitLine(String title, int width) {
@@ -50,20 +46,5 @@ public class UITitleSplitLine extends JPanel {
     }
 
 
-    public static void main(String[] args) {
-//        JFrame jf = new JFrame("test");
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        JPanel content = (JPanel) jf.getContentPane();
-//        content.setLayout(new BorderLayout());
-//        JPanel myPanel = new JPanel();
-//        myPanel.setLayout(new BorderLayout());
-//        JPanel Panel = new JPanel();
-//        Panel.setBackground(Color.blue);
-//        myPanel.add(new UITitleSplitLine("基本", 223), BorderLayout.CENTER);
-//        content.add(myPanel, BorderLayout.CENTER);
-//        GUICoreUtils.centerWindow(jf);
-//        jf.setSize(439, 400);
-//        jf.setVisible(true);
-    }
 
 }
