@@ -12,7 +12,6 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.main.Form;
 import com.fr.io.exporter.DesignExportType;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.project.ProjectConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
 
     @Override
     protected String getDefaultExtension() {
-        return ProjectConstants.FRM_SUFFIX;
+        return getEditingComponent().suffix().substring(1);
     }
 
     @Override
