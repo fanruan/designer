@@ -14,6 +14,7 @@ import com.fr.io.exporter.DesignExportType;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
+import com.fr.third.jodd.io.FileNameUtil;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.exporter.TemplateExportOperator;
 
@@ -115,12 +116,8 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
 
     private String getTargetFileName() {
         FILE source = getSource();
-        // 打开文件后输出文件名修改，eg：w.cpt.doc / w.svg.doc，去掉中间的后缀名~~ w.doc
         String fileName = source.getName();
-        if (fileName.indexOf('.') != -1) {
-            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-        }
-        return fileName;
+        return FileNameUtil.removeExtension(fileName);
     }
 
     private boolean processNotSaved() {
