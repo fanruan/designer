@@ -251,6 +251,17 @@ public class FRGUIPaneFactory {
         return jp;
     }
 
+
+    /**
+     * 创建一个靠左流式布局，流式内嵌
+     *
+     * @return JPanel对象
+     */
+    public static JPanel createBoxFlowInnerContainerPane(int hgap, int vgap) {
+        JPanel jp = new JPanel();
+        jp.setLayout(new FlowLayout(FlowLayout.LEFT, hgap, vgap));
+        return jp;
+    }
     /**
      * 创建一个靠左流式布局，流式内嵌，首元素距离左边0
      *
