@@ -78,7 +78,7 @@ public class ChartValuePane extends ChartAxisUsePane<Axis>{
         axisLineStylePane = new ChartAxisLineStylePane();
         zeroPane = aliagnZero4Second();
         axisReversed = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AxisReversed"));
-        unitCombox = new UIComboBox(AxisUnitType.UNIT_I18N_VALUES);
+        unitCombox = new UIComboBox(AxisUnitType.getUNIT_I18N_VALUES());
         formatPane = new FormatPaneWithOutFont();
         axisLabelPane = new ChartAxisLabelPane();
         dataPane = createDataDefinePane();
