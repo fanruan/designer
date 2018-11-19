@@ -5,9 +5,9 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
-import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
 import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
+import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.actions.CopyAction;
@@ -118,7 +118,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public void refreshEastPropertiesPane() {
         // 暂时用不到，遇到的时候再加刷新右侧tab面板的代码
-        return;
     }
 
     @Override
@@ -152,7 +151,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setJTemplateResolution(int resolution) {
-        return;
     }
 
     @Override
@@ -195,7 +193,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     public void setAuthorityMode(boolean isUpMode) {
-        return;
     }
 
     public int getToolBarHeight() {
@@ -208,7 +205,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单数组
      */
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(
+        return ArrayUtils.addAll(
                 super.shortcut4FileMenu(),
                 DesignerMode.isVcsMode() ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
@@ -226,7 +223,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * 取消格式
      */
     public void cancelFormat() {
-        return;
     }
 
     /**
@@ -292,30 +288,25 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * 去除选择
      */
     public void removeTemplateSelection() {
-        return;
     }
 
     public void setSheetCovered(boolean isCovered) {
-        return;
     }
 
     /**
      * 刷新容器
      */
     public void refreshContainer() {
-        return;
     }
 
     /**
      * 去除参数面板选择
      */
     public void removeParameterPaneSelection() {
-        return;
     }
 
     @Override
     public void setScale(int resolution) {
-        return;
     }
 
     @Override
@@ -478,8 +469,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public MenuDef[] menus4Target() {
         return this.index == FORM_TAB ?
-                (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.formDesign.menus4Target()) :
-                (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.elementCaseDesign.menus4Target());
+                ArrayUtils.addAll(super.menus4Target(), this.formDesign.menus4Target()) :
+                ArrayUtils.addAll(super.menus4Target(), this.elementCaseDesign.menus4Target());
     }
 
 
@@ -504,9 +495,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 

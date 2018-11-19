@@ -41,7 +41,6 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
-import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.mainframe.templateinfo.JWorkBookProcessInfo;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
@@ -58,6 +57,7 @@ import com.fr.design.preview.PagePreview;
 import com.fr.design.preview.ViewPreview;
 import com.fr.design.preview.WriteEnhancePreview;
 import com.fr.design.preview.WritePreview;
+import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.selection.QuickEditor;
@@ -68,7 +68,6 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.ModuleContext;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
@@ -96,7 +95,9 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -351,7 +352,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             return parameterPane.getParaDesigner().getEastUpPane();
         }
         if (delegate4ToolbarMenuAdapter() instanceof PolyDesigner) {
-            return ((PolyDesigner) delegate4ToolbarMenuAdapter()).getEastUpPane();
+            return delegate4ToolbarMenuAdapter().getEastUpPane();
         } else {
             ElementCasePane casePane = ((ReportComponent) delegate4ToolbarMenuAdapter()).elementCasePane;
             if (casePane != null) {
@@ -370,7 +371,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             if (((PolyDesigner) delegate4ToolbarMenuAdapter()).getSelectionType() == PolyDesigner.SelectionType.NONE) {
                 return new JPanel();
             } else {
-                return ((PolyDesigner) delegate4ToolbarMenuAdapter()).getEastDownPane();
+                return delegate4ToolbarMenuAdapter().getEastDownPane();
             }
         } else {
             ElementCasePane casePane = ((ReportComponent) delegate4ToolbarMenuAdapter()).elementCasePane;
@@ -634,11 +635,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public ShortCut[] shortcut4FileMenu() {
-        boolean showWorkBookExportMenu = DesignerMode.isVcsMode()
+        boolean hideWorkBookExportMenu = DesignerMode.isVcsMode()
                 || DesignerMode.isAuthorityEditing();
-//                || !WorkContext.getCurrent().isLocal();
-        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4FileMenu(),
-                showWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
+        return ArrayUtils.addAll(super.shortcut4FileMenu(),
+                hideWorkBookExportMenu ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
     }
 
@@ -649,7 +649,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public MenuDef[] menus4Target() {
-        return (MenuDef[]) ArrayUtils.addAll(
+        return ArrayUtils.addAll(
                 super.menus4Target(), this.delegate4ToolbarMenuAdapter().menus4Target()
         );
     }
@@ -695,7 +695,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{
+        return ArrayUtils.addAll(new ShortCut[]{
                 new ReportWebAttrAction(this),
                 new ReportExportAttrAction(this),
                 new ReportParameterAction(this),
@@ -925,7 +925,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public void previewMenuActionPerformed(PreviewProvider provider) {
-       super.previewMenuActionPerformed(provider);
+        super.previewMenuActionPerformed(provider);
     }
 
     /**
