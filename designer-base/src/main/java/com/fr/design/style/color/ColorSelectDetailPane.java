@@ -95,7 +95,7 @@ public class ColorSelectDetailPane extends BasicPane {
             public void stateChanged(ChangeEvent e) {
                 ColorSelectionModel model = (ColorSelectionModel) e.getSource();
                 colorChooserPreview.setMyColor(model.getSelectedColor());
-                colorChooserPreview.paint(colorChooserPreview.getGraphics());
+                colorChooserPreview.repaint();
             }
         });
         previewPanel.add(colorChooserPreview);
