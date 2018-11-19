@@ -5,6 +5,7 @@ import com.fr.base.IconManager;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.mainframe.widget.preview.MobileTemplatePreviewPane;
@@ -15,15 +16,18 @@ import com.fr.general.cardtag.mobile.DownMenuStyle;
 import com.fr.general.cardtag.mobile.LineDescription;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
@@ -36,6 +40,8 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
     }
 
     protected void createExtraConfPane(JPanel centerPane) {
+        JPanel panel = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 0);
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
         UITitleSplitLine iconSplitLine = new UITitleSplitLine(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Icon"), 520);
         iconSplitLine.setPreferredSize(new Dimension(520, 20));
         centerPane.add(iconSplitLine);
@@ -51,8 +57,8 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         JPanel selectIconContainePane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{selectIconLabel, selectIconConfigPane}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
         initIconContainPane.setPreferredSize(new Dimension(240, 50));
         selectIconContainePane.setPreferredSize(new Dimension(240, 50));
-        centerPane.add(initIconContainPane);
-        centerPane.add(selectIconContainePane);
+        panel.add(initIconContainPane);
+        panel.add(selectIconContainePane);
         UITitleSplitLine splitLine = new UITitleSplitLine(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Spit_Line"), 520);
         splitLine.setPreferredSize(new Dimension(520, 20));
         splitLinePane = new LinePane();
@@ -62,6 +68,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                 updatePreviewPane();
             }
         });
+        centerPane.add(panel);
         centerPane.add(splitLine);
         centerPane.add(splitLinePane);
     }
@@ -122,8 +129,10 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
     }
 
     public class DownMenuStylePreviewPane extends MobileTemplatePreviewPane {
-        private LineDescription splitLine;
+        private static final int ICON_OFFSET = 16;
+        private static final int GAP = 6;
         private static final String PAINT_ICON = "fund_white";
+        private LineDescription splitLine;
 
         public DownMenuStylePreviewPane() {
             this.setBackground(Color.decode("#3888EE"));
@@ -145,21 +154,31 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = DownMenuStyleDefinePane.this.getTagLayout();
             int eachWidth = panelWidth / cardTagLayout.getWidgetCount();
+            g2d.setFont(frFont);
+            int fontHeight = fm.getHeight();
+            int ascent = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
-                g2d.setFont(frFont);
+
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
                 String widgetName = cardSwitchButton.getText();
                 int width = fm.stringWidth(widgetName);
+                if(i == 0){
+                    Color oldColor = g2d.getColor();
+                    g2d.setColor(this.getSelectColor());
+                    g2d.fillRect(0, 0 ,eachWidth, panelHeight);
+                    g2d.setColor(oldColor);
+                }
                 String iconName = PAINT_ICON;
-                g2d.drawImage(IconManager.getIconManager().getIconImage(iconName), (eachWidth - 18) / 2, 6, null);
-                g2d.drawString(widgetName, (eachWidth - width) / 2, panelHeight / 2 + 9);
+                g2d.drawImage(IconManager.getIconManager().getIconImage(iconName), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
+                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight + ICON_OFFSET + GAP - fontHeight) / 2  + ascent);
+                Stroke oldStroke = g2d.getStroke();
                 if (splitLine.getLineStyle() != 0) {
                     g2d.setColor(splitLine.getColor());
-
+                    g2d.setStroke(GraphHelper.getStroke(splitLine.getLineStyle()));
                     g2d.drawLine(eachWidth, 0, eachWidth, panelHeight);
                 }
-
+                g2d.setStroke(oldStroke);
                 g2d.translate(eachWidth, 0);
 
             }

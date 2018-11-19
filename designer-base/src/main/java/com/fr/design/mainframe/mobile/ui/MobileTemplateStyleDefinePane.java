@@ -142,13 +142,12 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
         });
         UILabel fillLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Fill"));
         fillLabel.setPreferredSize(new Dimension(55, 20));
-        JPanel boxFlowPane = GUICoreUtils.createBoxFlowInnerContainerPane(10, 0);
-        boxFlowPane.add(fillLabel);
-        boxFlowPane.add(initialColorBox);
+
+        JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{fillLabel, initialColorBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
+        jPanel.setPreferredSize(new Dimension(240, 20));
         initialColorBox.setPreferredSize(new Dimension(157, 20));
-        boxFlowPane.setPreferredSize(new Dimension(500, 20));
-        boxFlowPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-        return boxFlowPane;
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
+        return jPanel;
     }
 
     protected JPanel createFontConfPane() {
@@ -180,7 +179,7 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
     @Override
     public void populateBean(MobileTemplateStyle ob) {
         centerPane.setVisible(ob.isCustom());
-        custom.setSelectedItem(ob.isCustom() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default") :
+        custom.setSelectedItem(!ob.isCustom() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default") :
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom"));
         initialColorBox.setSelectObject(ob.getInitialColor());
         fontConfPane.populate(ob.getTabFontConfig().getFont());

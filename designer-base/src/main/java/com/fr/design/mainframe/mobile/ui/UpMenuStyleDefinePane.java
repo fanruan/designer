@@ -21,7 +21,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -29,6 +28,7 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
     private UIRadioButton gapFix;
@@ -177,23 +177,34 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             WCardTagLayout cardTagLayout = UpMenuStyleDefinePane.this.getTagLayout();
             int eachWidth = panelWidth / cardTagLayout.getWidgetCount();
             g2d.setFont(frFont);
+            int fontHeight = fm.getHeight();
+            int ascentHeight = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
                 String widgetName = cardSwitchButton.getText();
                 int width = fm.stringWidth(widgetName);
-                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight) / 2);
+                if(i == 0){
+                    Color oldColor = g2d.getColor();
+                    g2d.setColor(this.getSelectColor());
+                    g2d.fillRect(0, 0 ,eachWidth, panelHeight);
+                    g2d.setColor(oldColor);
+                }
+                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
+                Stroke oldStroke = g2d.getStroke();
                 if (i == 0) {
                     g2d.setColor(this.underLine.getColor());
-                    g2d.setStroke(new BasicStroke(2.0f));
+                    g2d.setStroke(GraphHelper.getStroke(underLine.getLineStyle()));
                     int underLineX = this.isGapFix ? (eachWidth - width) / 2 : 0;
                     int underLineWidth = this.isGapFix ? width : eachWidth;
                     g2d.drawLine(underLineX, panelHeight - 1, underLineX + underLineWidth, panelHeight - 1);
                 }
                 if (bottomBorder.getLineStyle() != 0) {
                     g2d.setColor(bottomBorder.getColor());
+                    g2d.setStroke(GraphHelper.getStroke(bottomBorder.getLineStyle()));
                     g2d.drawLine(eachWidth, 0, eachWidth, panelHeight);
                 }
+                g2d.setStroke(oldStroke);
                 g2d.translate(eachWidth, 0);
             }
 
