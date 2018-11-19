@@ -19,10 +19,10 @@ import static com.fr.io.exporter.DesignExportScope.FINE_BOOK;
 /**
  * Abstract export action.
  */
-public abstract class AbstractJWorkBookExportAction extends AbstractExportAction<JWorkBook> {
+public abstract class AbstractWorkBookExportAction extends AbstractExportAction<JWorkBook> {
 
 
-    protected AbstractJWorkBookExportAction(JWorkBook jwb) {
+    protected AbstractWorkBookExportAction(JWorkBook jwb) {
         super(jwb);
     }
 

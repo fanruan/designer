@@ -16,7 +16,7 @@ import com.fr.report.core.ReportUtils;
 /**
  * Export CSV.
  */
-public class CSVExportAction extends AbstractJWorkBookExportAction {
+public class CSVExportAction extends AbstractWorkBookExportAction {
     /**
      * Constructor
      */

@@ -14,7 +14,7 @@ import com.fr.io.exporter.DesignExportType;
 /**
  * Export excel.
  */
-public class WordExportAction extends AbstractJWorkBookExportAction {
+public class WordExportAction extends AbstractWorkBookExportAction {
     /**
      * Constructor
      */

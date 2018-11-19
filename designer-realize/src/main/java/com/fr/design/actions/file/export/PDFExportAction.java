@@ -14,7 +14,7 @@ import com.fr.io.exporter.DesignExportType;
 /**
  * Export pdf
  */
-public class PDFExportAction extends AbstractJWorkBookExportAction {
+public class PDFExportAction extends AbstractWorkBookExportAction {
     /**
      * Constructor
      */

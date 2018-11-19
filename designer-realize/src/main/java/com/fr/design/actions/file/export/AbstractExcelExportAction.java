@@ -13,7 +13,7 @@ import com.fr.report.core.ReportUtils;
 /**
  * Export excel.
  */
-public abstract class AbstractExcelExportAction extends AbstractJWorkBookExportAction {
+public abstract class AbstractExcelExportAction extends AbstractWorkBookExportAction {
 
     protected AbstractExcelExportAction(JWorkBook jwb) {
         super(jwb);

@@ -14,7 +14,7 @@ import com.fr.io.exporter.DesignExportType;
 /**
  * Export Text.
  */
-public class TextExportAction extends AbstractJWorkBookExportAction {
+public class TextExportAction extends AbstractWorkBookExportAction {
 
     public TextExportAction(JWorkBook jwb) {
         super(jwb);

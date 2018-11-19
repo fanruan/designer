@@ -14,7 +14,7 @@ import com.fr.io.exporter.DesignExportType;
 /**
  * Export SVG
  */
-public class SVGExportAction extends AbstractJWorkBookExportAction {
+public class SVGExportAction extends AbstractWorkBookExportAction {
     /**
      * Constructor
      */

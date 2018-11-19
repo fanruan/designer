@@ -13,7 +13,7 @@ import java.util.EnumSet;
 /**
  * Export Embedded.
  */
-public class EmbeddedExportExportAction extends AbstractJWorkBookExportAction {
+public class EmbeddedExportExportAction extends AbstractWorkBookExportAction {
     /**
      * Constructor
      */
