@@ -6,6 +6,7 @@ import com.fr.design.gui.iprogressbar.FRProgressBar;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
@@ -170,6 +171,19 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Design_Report_Exported_Successfully") + "\n" + name);
+
+
+                } catch (RemoteDesignPermissionDeniedException exp) {
+                    this.setProgress(100);
+                    target.closeTemplate();
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
+                    JOptionPane.showMessageDialog(
+                            DesignerContext.getDesignerFrame(),
+                            Toolkit.i18nText("Fine-Engine_Remote_Design_Permission_Denied"),
+                            null,
+                            JOptionPane.ERROR_MESSAGE,
+                            UIManager.getIcon("OptionPane.errorIcon")
+                    );
                 } catch (Exception exp) {
                     this.setProgress(100);
                     target.closeTemplate();
