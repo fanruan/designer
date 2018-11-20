@@ -15,6 +15,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTabPaneBackgroundEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTemplateStyleEditor;
+import com.fr.design.mainframe.widget.accessibles.TemplateStylePane;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WTabDisplayPosition;
@@ -51,7 +52,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         backgroundEditor = new AccessibleTabPaneBackgroundEditor();
-        templateStyleEditor = new AccessibleTemplateStyleEditor();
+        templateStyleEditor = new AccessibleTemplateStyleEditor(new TemplateStylePane());
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p};
