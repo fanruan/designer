@@ -55,10 +55,6 @@ public class ScanCodeMobilePane extends WidgetMobilePane {
     }
 
     private boolean scanCodeState2boolean(ScanCodeState scanCodeState) {
-        if (scanCodeState == ScanCodeState.SUPPORT_SCAN_CODE) {
-            return true;
-        } else {
-            return false;
-        }
+        return scanCodeState == ScanCodeState.SUPPORT_SCAN_CODE;
     }
 }
