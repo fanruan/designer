@@ -4,11 +4,8 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.mobile.ui.TemplateStyleDefinePaneFactory;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
-import com.fr.general.cardtag.mobile.DefaultMobileTemplateStyle;
-import com.fr.general.cardtag.mobile.DownMenuStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
-import com.fr.general.cardtag.mobile.SliderStyle;
-import com.fr.general.cardtag.mobile.UpMenuStyle;
+import com.fr.general.cardtag.mobile.MobileTemplateStyleType;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -26,12 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTemplateStyle> {
-    private static final List<MobileTemplateStyle> STYLE_LIST = new ArrayList<MobileTemplateStyle>();
+    private static final List<MobileTemplateStyleType> STYLE_LIST = new ArrayList<MobileTemplateStyleType>();
     static {
-        STYLE_LIST.add(new DefaultMobileTemplateStyle());
-        STYLE_LIST.add(new UpMenuStyle());
-        STYLE_LIST.add(new DownMenuStyle());
-        STYLE_LIST.add(new SliderStyle());
+        STYLE_LIST.add(MobileTemplateStyleType.DEFAULT_STYLE);
+        STYLE_LIST.add(MobileTemplateStyleType.UP_MENU_STYLE);
+        STYLE_LIST.add(MobileTemplateStyleType.DOWN_MENU_STYLE);
+        STYLE_LIST.add(MobileTemplateStyleType.SLIDER_STYLE);
     }
 
     private DefaultListModel listModel;
@@ -49,11 +46,11 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         card = new CardLayout();
         right = FRGUIPaneFactory.createCardLayout_S_Pane();
         right.setLayout(card);
-        for(MobileTemplateStyle style : STYLE_LIST){
-            listModel.addElement(style.toString());
+        for(MobileTemplateStyleType style : STYLE_LIST){
+            listModel.addElement(style.getDisplayName());
             BasicBeanPane<MobileTemplateStyle> styleBasicBeanPane = TemplateStyleDefinePaneFactory.createDefinePane(style.getStyle(), tagLayout);
-            map.put(style.toString(), styleBasicBeanPane);
-            right.add(style.toString(), styleBasicBeanPane);
+            map.put(style.getDisplayName(), styleBasicBeanPane);
+            right.add(style.getDisplayName(), styleBasicBeanPane);
         }
         styleList = new JList(listModel);
         styleList.setCellRenderer(render);
@@ -97,7 +94,9 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
 
     public void populate(MobileTemplateStyle templateStyle) {
         for(int i = 0; i< listModel.getSize(); i++){
-            if((listModel.getElementAt(i)).equals(templateStyle.toString())){
+            String style = templateStyle.getStyle();
+            MobileTemplateStyleType templateStyleType = MobileTemplateStyleType.parse(style);
+            if((listModel.getElementAt(i)).equals(templateStyleType.getDisplayName())){
                 styleList.setSelectedIndex(i);
                 map.get(templateStyle.toString()).populateBean(templateStyle);
                 card.show(right, templateStyle.toString());
