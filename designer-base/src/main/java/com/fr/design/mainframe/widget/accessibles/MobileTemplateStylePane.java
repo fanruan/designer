@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTemplateStyle> {
-    private static final List<String> STYLE_LIST = new ArrayList<String>();
+    private static final List<MobileTemplateStyle> STYLE_LIST = new ArrayList<MobileTemplateStyle>();
     static {
-        STYLE_LIST.add(DefaultMobileTemplateStyle.STYLE_NAME);
-        STYLE_LIST.add(UpMenuStyle.STYLE_NAME);
-        STYLE_LIST.add(DownMenuStyle.STYLE_NAME);
-        STYLE_LIST.add(SliderStyle.STYLE_NAME);
+        STYLE_LIST.add(new DefaultMobileTemplateStyle());
+        STYLE_LIST.add(new UpMenuStyle());
+        STYLE_LIST.add(new DownMenuStyle());
+        STYLE_LIST.add(new SliderStyle());
     }
 
     private DefaultListModel listModel;
@@ -49,11 +49,11 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         card = new CardLayout();
         right = FRGUIPaneFactory.createCardLayout_S_Pane();
         right.setLayout(card);
-        for(String style : STYLE_LIST){
-            listModel.addElement(style);
-            BasicBeanPane<MobileTemplateStyle> styleBasicBeanPane = TemplateStyleDefinePaneFactory.createDefinePane(style, tagLayout);
-            map.put(style, styleBasicBeanPane);
-            right.add(style, styleBasicBeanPane);
+        for(MobileTemplateStyle style : STYLE_LIST){
+            listModel.addElement(style.toString());
+            BasicBeanPane<MobileTemplateStyle> styleBasicBeanPane = TemplateStyleDefinePaneFactory.createDefinePane(style.getStyle(), tagLayout);
+            map.put(style.toString(), styleBasicBeanPane);
+            right.add(style.toString(), styleBasicBeanPane);
         }
         styleList = new JList(listModel);
         styleList.setCellRenderer(render);
@@ -97,10 +97,10 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
 
     public void populate(MobileTemplateStyle templateStyle) {
         for(int i = 0; i< listModel.getSize(); i++){
-            if((listModel.getElementAt(i)).equals(templateStyle.getStyle())){
+            if((listModel.getElementAt(i)).equals(templateStyle.toString())){
                 styleList.setSelectedIndex(i);
-                map.get(templateStyle.getStyle()).populateBean(templateStyle);
-                card.show(right, templateStyle.getStyle());
+                map.get(templateStyle.toString()).populateBean(templateStyle);
+                card.show(right, templateStyle.toString());
                 return;
             }
         }
