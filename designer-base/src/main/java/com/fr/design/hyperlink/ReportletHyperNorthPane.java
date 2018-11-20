@@ -23,6 +23,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.ReportletHyperlinkDialogAttr;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.FormulaProvider;
 import com.fr.stable.StringUtils;
 
@@ -191,8 +192,13 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         topLocation.setText(StringUtils.EMPTY);
         center.setSelected(true);
         if (attr != null) {
-            FormulaProvider title = attr.getTitleFormula();
-            String titleContent = title == null ? StringUtils.EMPTY : title.getPureContent();
+            Object title = attr.getTitle();
+            String titleContent;
+            if (title instanceof FormulaProvider) {
+                titleContent = ((FormulaProvider) title).getContent();
+            } else {
+                titleContent = title == null ? StringUtils.EMPTY : title.toString();
+            }
             titleFiled.setFormulaText(titleContent);
             boolean isCenter = attr.isCenter();
             if (!isCenter) {
@@ -222,7 +228,12 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         reportletHyperlink.setByPost(postComboBox.getSelectedIndex() == 1);
 
         ReportletHyperlinkDialogAttr attr = new ReportletHyperlinkDialogAttr();
-        attr.setTitleFormula(BaseFormula.createFormulaBuilder().build(titleFiled.getFormulaText()));
+        String title = titleFiled.getFormulaText();
+        if (CommonUtils.maybeFormula(title)) {
+            attr.setTitle(BaseFormula.createFormulaBuilder().build(titleFiled.getFormulaText()));
+        } else {
+            attr.setTitle(title);
+        }
         attr.setCenter(center.isSelected());
         if (!attr.isCenter()) {
             attr.setLeft((int) leftLocation.getValue());
