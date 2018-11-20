@@ -57,7 +57,6 @@ import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
-import com.fr.form.module.FormBaseActivator;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.xml.GeneralXMLTools;
@@ -89,7 +88,6 @@ import com.fr.report.cell.cellattr.core.SubReport;
 import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.cell.painter.BiasTextPainter;
 import com.fr.report.cell.painter.CellImagePainter;
-import com.fr.report.module.ReportBaseActivator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
@@ -158,7 +156,6 @@ public class DesignerActivator extends Activator {
         ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
         DesignModuleFactory.registerCreators4Hyperlink(hyperlinkTypes());
 
-        justStartModules4Engine();
         justStartModules4Designer();
 
         CalculatorProviderContext.setValueConverter(valueConverter());
@@ -259,14 +256,6 @@ public class DesignerActivator extends Activator {
         };
     }
 
-    /**
-     * kunsnat: 一些模块信息 必须跟随设计器启动,
-     * 比如 读取CC.XML, 设计器启动之后, 马上会读取XML, 需要Chart_Module中的注册信息
-     */
-    private void justStartModules4Engine() {
-        startSub(ReportBaseActivator.class);
-        startSub(FormBaseActivator.class);
-    }
 
     private static void justStartModules4Designer() {
         formDesignerRegister();
