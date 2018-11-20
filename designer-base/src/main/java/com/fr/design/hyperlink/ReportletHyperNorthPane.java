@@ -370,6 +370,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         heightLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         sizeJPanel.add(heightLabel);
         UINumberField heightTextFiled = new UINumberField();
+        heightTextFiled.setMinValue(0);
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(heightTextFiled);
@@ -378,6 +379,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         widthLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         sizeJPanel.add(widthLabel);
         UINumberField widthTextFiled = new UINumberField();
+        widthTextFiled.setMinValue(0);
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(widthTextFiled);
@@ -406,11 +408,13 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         final UILabel leftLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Left"));
         leftLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10));
         leftLocation = new UINumberField();
+        leftLocation.setMinValue(0);
         leftLocation.setPreferredSize(new Dimension(40, 20));
         // 位置 距上
         final UILabel topLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Top"));
         topLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         topLocation = new UINumberField();
+        topLocation.setMinValue(0);
         topLocation.setPreferredSize(new Dimension(40, 20));
 
         locationPanel.add(leftLabel);
