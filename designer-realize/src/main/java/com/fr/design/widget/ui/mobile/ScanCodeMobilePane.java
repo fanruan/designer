@@ -37,24 +37,14 @@ public class ScanCodeMobilePane extends WidgetMobilePane {
     public void populate(Widget widget) {
         MobileScanCodeAttr mobileScanCodeAttr = ((TextEditor) widget).getMobileScanCodeAttr();
         ScanCodeState scanCodeState = mobileScanCodeAttr.getScanCodeState();
-        appScanCodeCheck.setSelected(scanCodeState2boolean(scanCodeState));
+        appScanCodeCheck.setSelected(scanCodeState.getState());
     }
 
     @Override
     public void update(Widget widget) {
         MobileScanCodeAttr mobileScanCodeAttr = ((TextEditor) widget).getMobileScanCodeAttr();
-        mobileScanCodeAttr.setScanCodeState(boolean2ScanCodeState(appScanCodeCheck.isSelected()));
+        mobileScanCodeAttr.setScanCodeState(ScanCodeState.parse(appScanCodeCheck.isSelected()));
     }
 
-    private ScanCodeState boolean2ScanCodeState(boolean scanCodeCheck) {
-        if (scanCodeCheck) {
-            return ScanCodeState.SUPPORT_SCAN_CODE;
-        } else {
-            return ScanCodeState.NOT_SUPPORT_SCAN_CODE;
-        }
-    }
 
-    private boolean scanCodeState2boolean(ScanCodeState scanCodeState) {
-        return scanCodeState == ScanCodeState.SUPPORT_SCAN_CODE;
-    }
 }
