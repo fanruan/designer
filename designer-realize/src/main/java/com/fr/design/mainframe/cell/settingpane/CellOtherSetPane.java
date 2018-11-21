@@ -427,7 +427,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             }
         }
 
-        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Preview"))) {
+        if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"))) {
             cellGUIAttr.setPreviewContent(previewCellContent.isSelected());
         }
 

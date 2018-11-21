@@ -780,7 +780,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 ((JTemplateActionListener) listeners[i + 1]).templateClosed(this);
             }
         }
-
+        this.undoState = null;
         this.repaint(30);
     }
 
