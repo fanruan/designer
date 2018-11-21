@@ -222,7 +222,7 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
 
             wordCloudPlot.setShapeType((CloudShapeType) cloudShape.getSelectedItem());
             if(wordCloudPlot.getShapeType() != CloudShapeType.DEFAULT) {
-                wordCloudPlot.setShapeImage((ImageFileBackground) imageBackgroundQuickPane.updateBean());
+                wordCloudPlot.setShapeImage((ImageBackground) imageBackgroundQuickPane.updateBean());
             } else {
                 wordCloudPlot.setShapeImage(null);
             }
