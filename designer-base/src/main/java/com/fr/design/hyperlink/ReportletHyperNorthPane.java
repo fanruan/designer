@@ -4,10 +4,7 @@ import com.fr.base.BaseFormula;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.event.UIObserverListener;
-import com.fr.design.formula.FormulaFactory;
-import com.fr.design.formula.UIFormula;
-import com.fr.design.formula.VariableResolver;
+import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -20,7 +17,6 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.IOUtils;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.ReportletHyperlinkDialogAttr;
 import com.fr.stable.CommonUtils;
@@ -77,7 +73,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
     /**
      * 对话框标题输入框
      */
-    private JFormulaField titleFiled;
+    private TinyFormulaPane titleFiled;
 
 
     /**
@@ -187,7 +183,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         this.postComboBox.setSelectedIndex(link.isByPost() ? 1 : 0);
 
         ReportletHyperlinkDialogAttr attr = link.getAttr();
-        titleFiled.setFormulaText(StringUtils.EMPTY);
+        titleFiled.populateBean(StringUtils.EMPTY);
         leftLocation.setText(StringUtils.EMPTY);
         topLocation.setText(StringUtils.EMPTY);
         center.setSelected(true);
@@ -199,7 +195,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
             } else {
                 titleContent = title == null ? StringUtils.EMPTY : title.toString();
             }
-            titleFiled.setFormulaText(titleContent);
+            titleFiled.populateBean(titleContent);
             boolean isCenter = attr.isCenter();
             if (!isCenter) {
                 int left = attr.getLeft(), top = attr.getTop();
@@ -228,9 +224,9 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         reportletHyperlink.setByPost(postComboBox.getSelectedIndex() == 1);
 
         ReportletHyperlinkDialogAttr attr = new ReportletHyperlinkDialogAttr();
-        String title = titleFiled.getFormulaText();
+        String title = titleFiled.updateBean();
         if (CommonUtils.maybeFormula(title)) {
-            attr.setTitle(BaseFormula.createFormulaBuilder().build(titleFiled.getFormulaText()));
+            attr.setTitle(BaseFormula.createFormulaBuilder().build(titleFiled.updateBean()));
         } else {
             attr.setTitle(title);
         }
@@ -357,7 +353,8 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
 
     private void initTitlePanel(List<Component[]> dialogComponents) {
         // 对话框标题
-        titleFiled = new JFormulaField(15);
+        titleFiled = new TinyFormulaPane();
+        titleFiled.getUITextField().setColumns(15);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         titlePanel.add(titleFiled);
         Component[] titleComponents = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Title") + ":"), titlePanel};
@@ -449,76 +446,5 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         Component[] footerComponents = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Basic_Reportlet_Parameter_Type") + ":"), this.setFootPanel()};
         dialogComponents.add(footerComponents);
         othersComponents.add(footerComponents);
-    }
-
-    /**
-     * 公式输入框
-     */
-    public class JFormulaField extends JPanel {
-        private UITextField formulaTextField;
-
-        public JFormulaField(int columns) {
-
-            formulaTextField = new UITextField(columns);
-            JPanel textFieldPane = new JPanel(new BorderLayout());
-            textFieldPane.add(formulaTextField, BorderLayout.CENTER);
-            textFieldPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-            UIButton formulaButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/m_insert/formula.png"));
-            formulaButton.setToolTipText(Toolkit.i18nText("Fine-Design_Report_Formula") + "...");
-            formulaButton.setPreferredSize(new Dimension(24, formulaTextField.getPreferredSize().height));
-            formulaButton.addActionListener(formulaButtonActionListener);
-
-            JPanel pane = new JPanel(new BorderLayout());
-            pane.add(textFieldPane, BorderLayout.CENTER);
-            pane.add(formulaButton, BorderLayout.EAST);
-            this.setLayout(new BorderLayout());
-            this.add(pane, BorderLayout.NORTH);
-        }
-
-        public void setFormulaText(String formulaContent) {
-            this.formulaTextField.setText(formulaContent);
-        }
-
-        public String getFormulaText() {
-
-            String text = formulaTextField.getText();
-            if (text == null) {
-                text = StringUtils.EMPTY;
-            }
-            return text;
-        }
-
-        /**
-         * 添加事件监听器
-         *
-         * @param listener 公式文本输入框改动事件监听器
-         */
-        public void addListener(UIObserverListener listener) {
-            this.formulaTextField.registerChangeListener(listener);
-        }
-
-        /**
-         * 取消事件监听器
-         */
-        public void removeListener() {
-            this.formulaTextField.registerChangeListener(null);
-        }
-
-        private ActionListener formulaButtonActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                BaseFormula valueFormula = BaseFormula.createFormulaBuilder().build();
-                valueFormula.setContent(getFormulaText());
-                final UIFormula formulaPane = FormulaFactory.createFormulaPaneWhenReserveFormula();
-                formulaPane.populate(valueFormula, VariableResolver.DEFAULT);
-                formulaPane.showLargeWindow(SwingUtilities.getWindowAncestor(ReportletHyperNorthPane.this), new DialogActionAdapter() {
-                    @Override
-                    public void doOk() {
-                        BaseFormula valueFormula = formulaPane.update();
-                        setFormulaText(valueFormula.getContent());
-                    }
-                }).setVisible(true);
-            }
-        };
     }
 }
