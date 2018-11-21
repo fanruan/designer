@@ -138,6 +138,9 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
     public void populateBean(JavaScriptImpl javaScriptImpl) {
         if (javaScriptImpl == null) {
             javaScriptImpl = new JavaScriptImpl();
+            jsPane.reset();
+        }else{
+            jsPane.populate(javaScriptImpl.getContent());
         }
 
         int rowCount = javaScriptImpl.getJSImportSize();
@@ -147,7 +150,6 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
         }
         importedJsPane.populate(value);
         parameterPane.populate(javaScriptImpl.getParameters());
-        jsPane.populate(javaScriptImpl.getContent());
 
         if (itemNameTextField != null) {
             itemNameTextField.setText(javaScriptImpl.getItemName());
