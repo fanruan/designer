@@ -33,7 +33,7 @@ public class EmbeddedExportExportAction extends AbstractWorkBookExportAction {
 
     @Override
     protected String getDefaultExtension() {
-        return getEditingComponent().suffix().substring(1);
+        return FileExtension.CPT.getExtension();
     }
 
     @Override

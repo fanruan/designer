@@ -4,6 +4,7 @@
 package com.fr.design.actions.file.export;
 
 import com.fr.base.ExcelUtils;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.file.filter.ChooseFileFilter;
@@ -23,9 +24,10 @@ public abstract class AbstractExcelExportAction extends AbstractWorkBookExportAc
     protected ChooseFileFilter getChooseFileFilter() {
         TemplateWorkBook tpl = this.getTemplateWorkBook();
         if (ReportUtils.hasLayerReport4Template(tpl)) {
-            return new ChooseFileFilter(new String[]{"zip"}, "ZIP");
+            return new ChooseFileFilter(FileExtension.ZIP, "ZIP");
         } else {
-            return new ChooseFileFilter(new String[]{"xls", "xlsx"}, Toolkit.i18nText("Fine-Design_Report_Export_Excel"));
+            return new ChooseFileFilter(new String[]{FileExtension.XLSX.getExtension(), FileExtension.XLS.getExtension()},
+                    Toolkit.i18nText("Fine-Design_Report_Export_Excel"));
         }
     }
 
@@ -33,9 +35,9 @@ public abstract class AbstractExcelExportAction extends AbstractWorkBookExportAc
     protected String getDefaultExtension() {
         TemplateWorkBook tpl = this.getTemplateWorkBook();
         if (ReportUtils.hasLayerReport4Template(tpl)) {
-            return "zip";
+            return FileExtension.ZIP.getExtension();
         } else {
-            return ExcelUtils.checkThirdJarSupportPOI() ? "xlsx" : "xls";
+            return ExcelUtils.checkThirdJarSupportPOI() ? FileExtension.XLSX.getExtension() : FileExtension.XLS.getExtension();
         }
     }
 }

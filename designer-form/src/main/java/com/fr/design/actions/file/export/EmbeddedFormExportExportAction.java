@@ -2,17 +2,18 @@ package com.fr.design.actions.file.export;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterInputPane;
-import com.fr.io.exporter.ExporterKey;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.main.Form;
 import com.fr.io.exporter.DesignExportScope;
 import com.fr.io.exporter.DesignExportType;
+import com.fr.io.exporter.ExporterKey;
 import com.fr.stable.ArrayUtils;
 
 import java.util.HashMap;
@@ -71,6 +72,6 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
 
     @Override
     protected ChooseFileFilter getChooseFileFilter() {
-        return new ChooseFileFilter(new String[]{"frm"}, Toolkit.i18nText("Fine-Design_Form_EmbeddedTD"));
+        return new ChooseFileFilter(FileExtension.FRM.getExtensions(), Toolkit.i18nText("Fine-Design_Form_EmbeddedTD"));
     }
 }
