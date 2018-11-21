@@ -23,6 +23,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.ReportletHyperlinkDialogAttr;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.FormulaProvider;
 import com.fr.stable.StringUtils;
 
@@ -191,8 +192,13 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         topLocation.setText(StringUtils.EMPTY);
         center.setSelected(true);
         if (attr != null) {
-            FormulaProvider title = attr.getTitleFormula();
-            String titleContent = title == null ? StringUtils.EMPTY : title.getPureContent();
+            Object title = attr.getTitle();
+            String titleContent;
+            if (title instanceof FormulaProvider) {
+                titleContent = ((FormulaProvider) title).getContent();
+            } else {
+                titleContent = title == null ? StringUtils.EMPTY : title.toString();
+            }
             titleFiled.setFormulaText(titleContent);
             boolean isCenter = attr.isCenter();
             if (!isCenter) {
@@ -222,7 +228,12 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         reportletHyperlink.setByPost(postComboBox.getSelectedIndex() == 1);
 
         ReportletHyperlinkDialogAttr attr = new ReportletHyperlinkDialogAttr();
-        attr.setTitleFormula(BaseFormula.createFormulaBuilder().build(titleFiled.getFormulaText()));
+        String title = titleFiled.getFormulaText();
+        if (CommonUtils.maybeFormula(title)) {
+            attr.setTitle(BaseFormula.createFormulaBuilder().build(titleFiled.getFormulaText()));
+        } else {
+            attr.setTitle(title);
+        }
         attr.setCenter(center.isSelected());
         if (!attr.isCenter()) {
             attr.setLeft((int) leftLocation.getValue());
@@ -359,6 +370,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         heightLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         sizeJPanel.add(heightLabel);
         UINumberField heightTextFiled = new UINumberField();
+        heightTextFiled.setMinValue(0);
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(heightTextFiled);
@@ -367,6 +379,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         widthLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         sizeJPanel.add(widthLabel);
         UINumberField widthTextFiled = new UINumberField();
+        widthTextFiled.setMinValue(0);
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(widthTextFiled);
@@ -395,11 +408,13 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         final UILabel leftLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Left"));
         leftLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 10));
         leftLocation = new UINumberField();
+        leftLocation.setMinValue(0);
         leftLocation.setPreferredSize(new Dimension(40, 20));
         // 位置 距上
         final UILabel topLabel = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Dialog_Position_Top"));
         topLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         topLocation = new UINumberField();
+        topLocation.setMinValue(0);
         topLocation.setPreferredSize(new Dimension(40, 20));
 
         locationPanel.add(leftLabel);
