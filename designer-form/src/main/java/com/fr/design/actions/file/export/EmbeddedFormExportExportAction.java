@@ -8,15 +8,15 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterInputPane;
+import com.fr.io.exporter.ExporterKey;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.main.Form;
+import com.fr.io.exporter.DesignExportScope;
 import com.fr.io.exporter.DesignExportType;
 import com.fr.stable.ArrayUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.fr.io.exporter.DesignExportScope.FINE_FORM;
 
 /**
  * Export Embedded.
@@ -33,8 +33,8 @@ public class EmbeddedFormExportExportAction extends AbstractExportAction<JForm> 
     }
 
     @Override
-    public String exportScopeName() {
-        return FINE_FORM.toString();
+    public ExporterKey exportKey() {
+        return DesignExportScope.FINE_FORM;
     }
 
     @Override

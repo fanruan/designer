@@ -9,6 +9,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
+import com.fr.io.exporter.ExporterKey;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.io.exporter.DesignExportType;
 import com.fr.log.FineLoggerFactory;
@@ -38,7 +39,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
      *
      * @return String scopeName
      */
-    public abstract String exportScopeName();
+    public abstract ExporterKey exportKey();
 
     /**
      * 导出类型
@@ -209,11 +210,11 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
         // todo 后续想想办法
         if (WorkContext.getCurrent().isLocal()) {
             WorkContext.getCurrent().get(TemplateExportOperator.class)
-                    .export(exportScopeName(), exportType(), outputStream, path, para);
+                    .export(exportKey(), exportType(), outputStream, path, para);
         } else {
             byte[] contents =
                     WorkContext.getCurrent().get(TemplateExportOperator.class)
-                            .export(exportScopeName(), exportType(), null, path, para);
+                            .export(exportKey(), exportType(), null, path, para);
 
             outputStream.write(contents);
         }

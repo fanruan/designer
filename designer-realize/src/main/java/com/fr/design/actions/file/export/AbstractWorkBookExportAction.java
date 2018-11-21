@@ -8,13 +8,13 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.parameter.ParameterInputPane;
+import com.fr.io.exporter.ExporterKey;
+import com.fr.io.exporter.DesignExportScope;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.fr.io.exporter.DesignExportScope.FINE_BOOK;
 
 /**
  * Abstract export action.
@@ -31,8 +31,8 @@ public abstract class AbstractWorkBookExportAction extends AbstractExportAction<
         return this.getEditingComponent().getTarget();
     }
 
-    public String exportScopeName() {
-        return FINE_BOOK.toString();
+    public ExporterKey exportKey() {
+        return DesignExportScope.FINE_BOOK;
     }
 
     @Override
