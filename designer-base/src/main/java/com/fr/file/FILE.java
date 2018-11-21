@@ -55,6 +55,7 @@ public interface FILE {
      * @return 是否新建成功
      * @throws Exception 异常
      */
+    @SuppressWarnings({"UnusedReturnValue"})
     boolean mkfile() throws Exception;
 
     /**
