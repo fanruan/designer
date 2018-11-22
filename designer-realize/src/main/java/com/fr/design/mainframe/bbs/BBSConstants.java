@@ -26,29 +26,51 @@ public class BBSConstants {
 
     private static Properties PROP = null;
 
+    /**
+     * 获取所有的感谢对象，无法获取在线使用默认
+     * @return 感谢对象的数组
+     */
     public static String[] getAllGuest() {
         return loadAllGuestsInfoOnline(GUEST_KEY_ONLINE, loadAllGuestsInfo(GUEST_KEY));
     }
 
+    /**
+     * 获取所有的链接，无法获取在线使用默认
+     * @return 链接的数组
+     */
     public static String[] getAllLink() {
         return loadAllGuestsInfoOnline(LINK_KEY_ONLINE, loadAllGuestsInfo(LINK_KEY));
     }
 
-    //加载所有用户的信息, 用户名, 论坛连接
+    /**
+     * 获取所有的感谢对象，手动选择策略
+     * @return 感谢对象的数组
+     */
+    public static String[] getAllGuestManual(boolean isOnline) {
+        String guest;
+        if (isOnline) {
+            guest = CloudCenter.getInstance().acquireUrlByKind(GUEST_KEY_ONLINE, StringUtils.EMPTY);
+        } else {
+            guest = loadAllGuestsInfo(GUEST_KEY);
+        }
+        if (StringUtils.isNotEmpty(guest)) {
+            return guest.split("\\|");
+        }
+        return new String[0];
+    }
+
     private static String loadAllGuestsInfo(String key) {
         return loadAttribute(key, StringUtils.EMPTY);
     }
 
-    //加载所有用户的信息, 用户名, 论坛连接
     private static String[] loadAllGuestsInfoOnline(String key, String defaultValue) {
-        String[] allGuests = new String[0];
         String guest = CloudCenter.getInstance().acquireUrlByKind(key, defaultValue);
         if (StringUtils.isNotEmpty(guest)) {
-            allGuests = guest.split("\\|");
+            return guest.split("\\|");
         }
-        return allGuests;
+        return new String[0];
     }
-    
+
     //如果要定制, 直接改bbs.properties就行了
     private static String loadAttribute(String key, String defaultValue) {
         if (PROP == null) {
