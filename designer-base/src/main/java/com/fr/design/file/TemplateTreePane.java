@@ -378,7 +378,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
         TreePath[] selectedTreePaths = reportletsTree.getSelectionPaths();
 
-        if (selectedTreePaths == null || ArrayUtils.isEmpty(selectedTreePaths)) {
+        if (ArrayUtils.isEmpty(selectedTreePaths)) {
             return false;
         }
         // 选中的是文件夹
