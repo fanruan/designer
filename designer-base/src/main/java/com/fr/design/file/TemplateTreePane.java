@@ -20,14 +20,9 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.stable.script.CalculatorProvider;
-import com.fr.stable.web.BrowserProvider;
-import com.fr.stable.web.Device;
-import com.fr.stable.web.Repository;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
@@ -48,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Map;
 
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
