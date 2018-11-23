@@ -52,6 +52,7 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -98,9 +99,10 @@ import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
+import com.fr.start.preload.ImagePreLoader;
 import com.fr.xml.ReportXMLUtils;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -176,6 +178,20 @@ public class DesignerActivator extends Activator {
 
     private static void preLoadPane() {
         ExecutorService service = Executors.newCachedThreadPool();
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                new ImagePreLoader();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                TemplateInfoCollector.getInstance();
+            }
+        });
+
         service.submit(new Runnable() {
             @Override
             public void run() {
