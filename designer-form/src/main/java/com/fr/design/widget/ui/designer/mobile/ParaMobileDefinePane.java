@@ -22,12 +22,10 @@ import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.json.JSONException;
-import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.ExtraReportClassManager;
-import com.fr.report.fun.LocationAttrProvider;
-import com.fr.report.fun.impl.AbstractLocationAttrProvider;
-
+import com.fr.report.fun.MobileParamStyleProvider;
+import com.fr.report.mobile.DefaultMobileParamStyle;
 
 
 import javax.swing.BorderFactory;
@@ -90,10 +88,10 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
-        if (ExtraReportClassManager.getInstance().getArray(LocationAttrProvider.MARK_STRING).size() != 0) {
+        if (ExtraReportClassManager.getInstance().getArray(MobileParamStyleProvider.MARK_STRING).size() != 0) {
             tipLabel = null;
         } else {
-            ((WParameterLayout) (paraCreator.toData())).setProvider((LocationAttrProvider) ((Item) paramLocationComboBox.getItemAt(0)).getValue());
+            ((WParameterLayout) (paraCreator.toData())).setProvider((MobileParamStyleProvider) ((Item) paramLocationComboBox.getItemAt(0)).getValue());
         }
         Component[][] components = new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Parameter_Panel")), paramLocationComboBox},
@@ -107,9 +105,9 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
     }
 
     private Item[] getItems() {
-        Set<LocationAttrProvider> pluginCreators =  ExtraReportClassManager.getInstance().getArray(LocationAttrProvider.MARK_STRING);
+        Set<MobileParamStyleProvider> pluginCreators =  ExtraReportClassManager.getInstance().getArray(MobileParamStyleProvider.MARK_STRING);
         Item[] items = new Item[pluginCreators.size() + 1];
-        LocationAttrProvider provider = getDefaultLocationAttr();
+        MobileParamStyleProvider provider = new DefaultMobileParamStyle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         items[0] = new Item(provider.descriptor(), provider);
         for (int i = 0; i < pluginCreators.size(); i++) {
             provider = pluginCreators.iterator().next();
@@ -120,11 +118,10 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
 
     private UILabel getTipLabel() {
         UILabel tipLabel = new UILabel();
-        String[] strings = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile_Tip").split("\\|");
         StringBuilder text = new StringBuilder();
-        text.append("<html><font color=gray>").append(strings[0])
-        .append("</font><font color=blue><u>").append(strings[1])
-        .append("</u></font><font color=gray>").append(strings[2])
+        text.append("<html><font color=gray>").append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile_Tip"))
+        .append("</font><font color=blue><u>").append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile_Install_Parameter_Pane_Plugin"))
+        .append("</u></font><font color=gray>").append(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile_To_Get_More_Style"))
         .append("</font></html>");
         tipLabel.setText(text.toString());
         tipLabel.addMouseListener(new MouseAdapter() {
@@ -169,31 +166,11 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    ((WParameterLayout) (paraCreator.toData())).setProvider((LocationAttrProvider) ((Item) e.getItem()).getValue());
+                    ((WParameterLayout) (paraCreator.toData())).setProvider((MobileParamStyleProvider) ((Item) e.getItem()).getValue());
                 }
             }
         });
         return paramLocationComoBox;
-    }
-
-    private LocationAttrProvider getDefaultLocationAttr() {
-        return new AbstractLocationAttrProvider() {
-            @Override
-            public String descriptor() {
-                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default");
-            }
-
-            @Override
-            public JSONObject createJSON() {
-                JSONObject jo = JSONObject.create();
-                try {
-                    jo.put("queryType", "default");
-                } catch (JSONException e) {
-
-                }
-                return jo;
-            }
-        };
     }
 
     // 控件顺序
@@ -232,10 +209,10 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         this.addAttributeChangeListener(changeListener);
         int index = 0;
         try {
-            LocationAttrProvider provider = ((WParameterLayout) paraCreator.toData()).getProvider();
+            MobileParamStyleProvider provider = ((WParameterLayout) paraCreator.toData()).getProvider();
             String currentQueryType = provider.createJSON().getString("queryType");
             for (int i = 0; i < items.length; i++) {
-                String existedQueryType = ((LocationAttrProvider) items[i].getValue()).createJSON().getString("queryType");
+                String existedQueryType = ((MobileParamStyleProvider) items[i].getValue()).createJSON().getString("queryType");
                 if (ComparatorUtils.equals(existedQueryType, currentQueryType)) {
                     index = i;
                     break;
