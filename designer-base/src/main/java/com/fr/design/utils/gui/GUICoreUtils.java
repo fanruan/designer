@@ -526,6 +526,18 @@ public abstract class GUICoreUtils{
 		return leftPane;
 	}
 
+
+	/**
+	 * 创建一个靠左流式布局，流式内嵌
+	 *
+	 * @return JPanel对象
+	 */
+	public static JPanel createBoxFlowInnerContainerPane(int hgap, int vgap) {
+		JPanel jp = new JPanel();
+		jp.setLayout(new FlowLayout(FlowLayout.LEFT, hgap, vgap));
+		return jp;
+	}
+
 	/**
 	 * 生成一个以流式布局为布局的面板
 	 * @param comps 面板中的组件以及布局的参数，后3位参数（可选）分别表示对齐方式，水平间隙，垂直间隙

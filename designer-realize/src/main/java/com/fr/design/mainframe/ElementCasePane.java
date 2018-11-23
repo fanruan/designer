@@ -596,7 +596,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 是则返回true
      */
     public boolean isSelectedOneCell() {
-        return selection.isSelectedOneCell(this);
+        return (selection == null) ? false : selection.isSelectedOneCell(this);
     }
 
     /**
