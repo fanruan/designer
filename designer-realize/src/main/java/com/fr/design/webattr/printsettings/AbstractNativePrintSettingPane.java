@@ -461,6 +461,7 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
         extraUpdate(nativePrintAttr);
         nativePrintAttr.setShowDialog(showDialogCheck.isSelected());
         nativePrintAttr.setNeedSelectSheet(needSelectSheetCheck.isSelected());
+        nativePrintAttr.setPrinterName((String)printerComboBox.getSelectedItem());
         nativePrintAttr.setCopy((int)copySpinner.getValue());
 
         // 页码
