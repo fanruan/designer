@@ -142,6 +142,7 @@ public class AutoRefreshPane extends BasicBeanPane<RefreshMoreLabel> {
 
                     }
                 });
+                dialog.pack();
                 dialog.setModal(true);
                 dialog.setVisible(true);
             }
