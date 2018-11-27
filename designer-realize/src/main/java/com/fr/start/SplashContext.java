@@ -24,6 +24,7 @@ public class SplashContext {
 
     public static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
     public static final String SPLASH_CACHE_NAME = "splash_10.gif";
+    private static final int FETCH_ONLINE_MAX_TIMES = 10;
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
 
@@ -33,7 +34,8 @@ public class SplashContext {
     private int loadingIndex = 0;
     private String[] loading = new String[]{"..", "....", "......"};
 
-    private static final String GUEST = getRandomUser();
+    private int fetchOnlineTimes = 0;
+    private String guest = StringUtils.EMPTY;
 
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -81,6 +83,7 @@ public class SplashContext {
         scheduler.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
+                showThanks();
                 loadingIndex++;
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
             }
@@ -90,7 +93,6 @@ public class SplashContext {
 
             @Override
             public void on(Event event, String i18n) {
-                showThanks();
                 moduleID = i18n;
                 loadingIndex++;
                 updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
@@ -110,21 +112,42 @@ public class SplashContext {
     /**
      * 获取随机感谢人员
      */
-    private static String getRandomUser() {
-        String[] allGuest = BBSConstants.getAllGuest();
-        if (allGuest.length == 0) {
-            return StringUtils.EMPTY;
-        }
+    private String getRandomUser(String[] allGuest) {
         int num = new Random().nextInt(allGuest.length);
         return StringUtils.BLANK + allGuest[num];
     }
 
     /**
-     * 展示感谢信息
+     * 尝试获取在线资源，达到尝试上限之后使用默认值
+     */
+    private void tryFetchOnline() {
+        if (StringUtils.isNotEmpty(guest)) {
+            return;
+        }
+        String[] allGuest;
+        if (fetchOnlineTimes < FETCH_ONLINE_MAX_TIMES) {
+            allGuest = BBSConstants.getAllGuestManual(true);
+            if (allGuest.length == 0) {
+                fetchOnlineTimes++;
+                return;
+            }
+        } else {
+            allGuest = BBSConstants.getAllGuestManual(false);
+        }
+        guest = getRandomUser(allGuest);
+    }
+
+    /**
+     * 展示感谢信息。这里场景是优先使用在线名单，
+     * 甚至可以因此可以延迟几秒显示。目前是尝试
+     * 获取10次在线资源，最大时间3秒
      */
     private void showThanks() {
         if (shouldShowThanks()) {
-            updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thanks_To") + GUEST);
+            tryFetchOnline();
+            if (StringUtils.isNotEmpty(guest)) {
+                updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thanks_To") + guest);
+            }
         }
     }
 

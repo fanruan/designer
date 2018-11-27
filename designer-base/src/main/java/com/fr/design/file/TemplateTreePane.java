@@ -17,6 +17,7 @@ import com.fr.file.filetree.IOFileNodeFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -377,7 +378,7 @@ public class TemplateTreePane extends JPanel implements FileOperations {
 
         TreePath[] selectedTreePaths = reportletsTree.getSelectionPaths();
 
-        if (selectedTreePaths == null || selectedTreePaths.length != 1) {
+        if (ArrayUtils.isEmpty(selectedTreePaths)) {
             return false;
         }
         // 选中的是文件夹
