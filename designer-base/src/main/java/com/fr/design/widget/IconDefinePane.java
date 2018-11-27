@@ -1,5 +1,6 @@
 package com.fr.design.widget;
 
+import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -48,7 +49,7 @@ public class IconDefinePane extends BasicPane {
                         setShowIconImage();
                         IconDefinePane.this.repaint();
                         //把图标信息入库
-                        WidgetInfoConfig.getInstance().setIconManager(WidgetInfoConfig.getInstance().getIconManager());
+                        WidgetInfoConfig.getInstance().setIconManager(IconManager.getIconManager());
                     }
                 });
                 editDialog.setVisible(true);
