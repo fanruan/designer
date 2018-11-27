@@ -8,6 +8,7 @@ import com.fr.design.DesignState;
 import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.actions.CopyAction;
@@ -427,6 +428,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         this.formDesign.copy();
     }
 
@@ -449,6 +453,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         return this.formDesign.cut();
     }
 

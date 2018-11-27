@@ -35,7 +35,7 @@ public class ExitAuthorityEditAction extends TemplateComponentAction {
 		}
 
 		if (DesignerMode.isAuthorityEditing()) {
-			DesignerMode.setMode(DesignerMode.NORMARL);
+			DesignerMode.setMode(DesignerMode.NORMAL);
 			WestRegionContainerPane.getInstance().replaceDownPane(TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
 			HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
 			DesignerContext.getDesignerFrame().resetToolkitByPlus(tc.getToolBarMenuDockPlus());

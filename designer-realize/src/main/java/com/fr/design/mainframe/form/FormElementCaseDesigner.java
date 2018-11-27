@@ -3,12 +3,12 @@
  */
 package com.fr.design.mainframe.form;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.event.TargetModifiedEvent;
@@ -30,7 +30,6 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionListener;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
-
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.report.cell.CellElement;
@@ -50,8 +49,9 @@ import java.awt.image.BufferedImage;
 /**
  * 表单中的ElementCase编辑面板
  */
-public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extends ElementCasePane, S extends SelectableElement> extends TargetComponent<T> implements Selectedable<S>, FormECDesignerProvider{
+public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extends ElementCasePane, S extends SelectableElement> extends TargetComponent<T> implements Selectedable<S>, FormECDesignerProvider {
     protected FormElementCasePaneDelegate elementCasePane;
+
     @Override
     public FormElementCasePaneDelegate getEditingElementCasePane() {
         return elementCasePane;
@@ -118,9 +118,9 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
      * @param size 缩略图的大小
      */
     @Override
-    public BufferedImage getElementCaseImage(Dimension size){
+    public BufferedImage getElementCaseImage(Dimension size) {
         BufferedImage image = null;
-        try{
+        try {
             image = new java.awt.image.BufferedImage(size.width, size.height,
                     java.awt.image.BufferedImage.TYPE_INT_RGB);
             Graphics g = image.getGraphics();
@@ -133,7 +133,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 
             this.elementCasePane.paintComponents(g);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             FRContext.getLogger().error(e.getMessage(), e);
         }
 
@@ -163,16 +163,20 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 //////////////////////////////////////////////////////////////////////
 
     /**
-     *  复制
+     * 复制
      */
     @Override
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         this.elementCasePane.copy();
     }
 
     /**
      * 粘贴
-     * @return   粘贴成功则返回true
+     *
+     * @return 粘贴成功则返回true
      */
     @Override
     public boolean paste() {
@@ -181,10 +185,14 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
 
     /**
      * 剪切
-     * @return   粘贴成功则返回true
+     *
+     * @return 粘贴成功则返回true
      */
     @Override
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         return this.elementCasePane.cut();
     }
 
@@ -264,7 +272,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     public JPanel getHyperlinkPane(JTemplate jt) {
         HyperlinkGroupPane hyperlinkGroupPane = jt.getHyperLinkPane(HyperlinkGroupPaneActionImpl.getInstance());
         hyperlinkGroupPane.populate(elementCasePane);
-        return  hyperlinkGroupPane;
+        return hyperlinkGroupPane;
     }
 
 
@@ -327,7 +335,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
         return;
     }
 
-    public FormElementCase getElementCase(){
+    public FormElementCase getElementCase() {
         return (FormElementCase) this.getTarget();
     }
 
@@ -342,7 +350,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
     }
 
     @Override
-    public FormElementCaseProvider getEditingElementCase(){
+    public FormElementCaseProvider getEditingElementCase() {
         return this.getEditingElementCasePane().getTarget();
     }
 }

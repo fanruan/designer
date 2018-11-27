@@ -4,6 +4,7 @@ import com.fr.base.io.XMLEncryptUtils;
 import com.fr.design.gui.itree.filetree.FileComparator;
 import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.general.ComparatorUtils;
+import com.fr.io.EncryptUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.session.SessionLocalManager;
@@ -185,7 +186,7 @@ public class FileFILE implements FILE {
     public InputStream asInputStream() throws Exception {
         InputStream in = new java.io.FileInputStream(file);
         return file.getName().endsWith(".cpt") || file.getName().endsWith(".frm")
-                ? XMLEncryptUtils.decodeInputStream(in) : in;
+                ? XMLEncryptUtils.decodeInputStream(EncryptUtils.decodeInputStream(in)) : in;
     }
 
     /**

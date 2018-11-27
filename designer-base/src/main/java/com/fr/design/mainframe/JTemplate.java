@@ -5,6 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.io.BaseBook;
+import com.fr.base.iofile.attr.DesignBanCopyAttrMark;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
@@ -17,6 +18,7 @@ import com.fr.design.actions.edit.UndoAction;
 import com.fr.design.actions.file.SaveAsTemplateAction;
 import com.fr.design.actions.file.SaveTemplateAction;
 import com.fr.design.actions.file.WebPreviewUtils;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -104,6 +106,12 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     public JTemplate(T t, FILE file, boolean isNewFile) {
         super(t);
+        // 判断是否切换设计器状态到禁止拷贝剪切
+        if (t.getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
+            DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.BAN_COPY_AND_CUT);
+        } else {
+            DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
+        }
         this.template = t;
         this.previewType = parserPreviewProvider(t.getPreviewType());
         this.editingFILE = file;
@@ -117,6 +125,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             openTime = System.currentTimeMillis();
             process.append(tic.loadProcess(t));
         }
+
     }
 
     // 刷新右侧属性面板

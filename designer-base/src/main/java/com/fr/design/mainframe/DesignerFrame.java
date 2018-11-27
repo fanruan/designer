@@ -37,6 +37,7 @@ import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.exception.DecryptTemplateException;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -65,6 +66,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
 import java.awt.BorderLayout;
@@ -223,7 +225,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         public void mouseReleased(MouseEvent e) {
             if (DesignerMode.isAuthorityEditing()) {
-                DesignerMode.setMode(DesignerMode.NORMARL);
+                DesignerMode.setMode(DesignerMode.NORMAL);
                 WestRegionContainerPane.getInstance().replaceDownPane(
                         TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
                 HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
@@ -963,6 +965,17 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         try {
             openFile(tplFile);
+        } catch (DecryptTemplateException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Encrypt_Decrypt_Exception"),
+                    UIManager.getString("OptionPane.messageDialogTitle"),
+                    JOptionPane.WARNING_MESSAGE,
+                    UIManager.getIcon("OptionPane.errorIcon")
+            );
+            if (this.getSelectedJTemplate() == null) {
+                addAndActivateJTemplate();
+            }
         } catch (Throwable t) {
             FineLoggerFactory.getLogger().error(t.getMessage(), t);
             addAndActivateJTemplate();

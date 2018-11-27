@@ -25,6 +25,7 @@ import com.fr.design.actions.report.ReportParameterAction;
 import com.fr.design.actions.report.ReportPrintSettingAction;
 import com.fr.design.actions.report.ReportWatermarkAction;
 import com.fr.design.actions.report.ReportWebAttrAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -568,6 +569,9 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         this.delegate4ToolbarMenuAdapter().copy();
     }
 
@@ -578,6 +582,9 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         return this.delegate4ToolbarMenuAdapter().cut();
     }
 
