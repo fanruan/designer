@@ -904,7 +904,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
             actionMap.put("copy", new AbstractAction() {
                 public void actionPerformed(ActionEvent evt) {
-                    System.out.println("copy");
                     copy();
                 }
             });
