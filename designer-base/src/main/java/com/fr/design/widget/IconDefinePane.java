@@ -48,8 +48,6 @@ public class IconDefinePane extends BasicPane {
                         curIconName = cip.update();
                         setShowIconImage();
                         IconDefinePane.this.repaint();
-                        //把图标信息入库
-                        WidgetInfoConfig.getInstance().setIconManager(IconManager.getIconManager());
                     }
                 });
                 editDialog.setVisible(true);

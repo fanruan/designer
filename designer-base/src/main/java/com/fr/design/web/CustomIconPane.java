@@ -283,6 +283,8 @@ public class CustomIconPane extends BasicPane {
 	}
 	
 	public String update() {
+		//把图标信息入库
+		WidgetInfoConfig.getInstance().setIconManager(IconManager.getIconManager());
 		return selectedIconName;
 	}
 	
