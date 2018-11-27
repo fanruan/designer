@@ -6,7 +6,9 @@ package com.fr.design.designer.creator;
 import com.fr.base.BaseUtils;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
+import com.fr.design.designer.properties.mobile.ScanCodeMobilePropertyUI;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.mainframe.widget.editors.RegexEditor;
 import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.RegexCellRencerer;
@@ -82,4 +84,8 @@ public class XTextEditor extends XWrapperedFieldEditor {
         return "text_field_16.png";
     }
 
+    @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[] {new ScanCodeMobilePropertyUI(this)};
+    }
 }
