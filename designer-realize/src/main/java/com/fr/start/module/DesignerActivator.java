@@ -170,8 +170,6 @@ public class DesignerActivator extends Activator {
         designerRegister();
 
         InformationCollector.getInstance().collectStartTime();
-
-        ExtraDesignClassManager.getInstance().getFeedback().didFeedback();
     }
 
     private static void preLoadPane() {
