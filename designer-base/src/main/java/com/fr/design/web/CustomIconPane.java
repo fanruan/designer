@@ -20,7 +20,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 
-import com.fr.schedule.entry.Configuration;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.ListMap;
