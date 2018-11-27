@@ -1,6 +1,5 @@
 package com.fr.design.widget;
 
-import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
