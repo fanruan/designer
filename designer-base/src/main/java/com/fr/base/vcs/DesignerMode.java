@@ -10,33 +10,54 @@ import com.fr.design.base.mode.DesignModeContext;
 @Deprecated
 public enum DesignerMode {
 
-    NORMAL,
-    VCS,
-    AUTHORITY;
+    NORMAL() {
+        @Override
+        public void doSwitch() {
+            DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
+        }
+    },
+    VCS() {
+        @Override
+        public void doSwitch() {
+            DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.VCS);
+        }
+    },
+    AUTHORITY() {
+        @Override
+        public void doSwitch() {
+            DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.AUTHORITY);
+        }
+    };
+
+    abstract void doSwitch();
 
 
+    /**
+     * @return 是否时版本控制模式
+     * @deprecated use {@link DesignModeContext#isVcsMode()} instead
+     */
+    @Deprecated
     public static boolean isVcsMode() {
         return DesignModeContext.isVcsMode();
     }
 
 
+    /**
+     * 切换设计器模式
+     *
+     * @param mode mode
+     * @deprecated use {@link DesignModeContext#switchTo(com.fr.design.base.mode.DesignerMode)} instead
+     */
+    @Deprecated
     public static void setMode(DesignerMode mode) {
-
-        switch (mode) {
-            case AUTHORITY:
-                DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.AUTHORITY);
-                break;
-            case VCS:
-                DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.VCS);
-                break;
-            case NORMAL:
-            default:
-                DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
-        }
-
-
+        mode.doSwitch();
     }
 
+    /**
+     * @return 获取当前设计器模式
+     * @deprecated use {@link DesignModeContext#getMode()} instead
+     */
+    @Deprecated
     public static DesignerMode getMode() {
         switch (DesignModeContext.getMode()) {
             case VCS:
@@ -53,7 +74,9 @@ public enum DesignerMode {
      * 是否为权限编辑
      *
      * @return 是否为权限编辑
+     * @deprecated use {@link DesignModeContext#isAuthorityEditing()} instead
      */
+    @Deprecated
     public static boolean isAuthorityEditing() {
         return DesignModeContext.isAuthorityEditing();
     }
