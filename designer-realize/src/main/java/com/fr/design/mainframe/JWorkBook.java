@@ -569,10 +569,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public void copy() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return;
-        }
-        this.delegate4ToolbarMenuAdapter().copy();
+        DesignModeContext.doCopy(this.delegate4ToolbarMenuAdapter());
     }
 
     /**
@@ -582,10 +579,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public boolean cut() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return false;
-        }
-        return this.delegate4ToolbarMenuAdapter().cut();
+        return DesignModeContext.doCut(this.delegate4ToolbarMenuAdapter());
     }
 
     /**
@@ -595,7 +589,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public boolean paste() {
-        return this.delegate4ToolbarMenuAdapter().paste();
+        return DesignModeContext.doPaste(this.delegate4ToolbarMenuAdapter());
     }
 
     /**

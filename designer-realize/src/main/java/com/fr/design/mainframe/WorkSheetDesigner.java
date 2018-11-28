@@ -7,6 +7,7 @@ import com.fr.design.actions.report.ReportEngineAttrAction;
 import com.fr.design.actions.report.ReportPageAttrAction;
 import com.fr.design.actions.report.ReportWriteAttrAction;
 import com.fr.design.base.mode.DesignModeContext;
+import com.fr.design.designer.DesignerProxy;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -29,7 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import java.awt.BorderLayout;
 
-public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePaneDelegate, Selection> {
+public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePaneDelegate, Selection> implements DesignerProxy {
 
     private static final int HUND = 100;
 
@@ -81,23 +82,17 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
 
     @Override
     public void copy() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return;
-        }
-        this.elementCasePane.copy();
+        DesignModeContext.doCopy(this.elementCasePane);
     }
 
     @Override
     public boolean paste() {
-        return this.elementCasePane.paste();
+        return DesignModeContext.doPaste(this.elementCasePane);
     }
 
     @Override
     public boolean cut() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return false;
-        }
-        return this.elementCasePane.cut();
+        return DesignModeContext.doCut(this.elementCasePane);
     }
 
     @Override
@@ -117,7 +112,7 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
 
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4TemplateMenu(), new ShortCut[]{
+        return ArrayUtils.addAll(super.shortcut4TemplateMenu(), new ShortCut[]{
                 new DottedSeparator(),
                 new ReportWriteAttrAction(this),
                 new ReportColumnsAction(this),
@@ -199,8 +194,6 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
     @Override
     public void removeSelectionChangeListener(SelectionListener selectionListener) {
         elementCasePane.removeSelectionChangeListener(selectionListener);
-
     }
-
 
 }

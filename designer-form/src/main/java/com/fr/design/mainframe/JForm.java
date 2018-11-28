@@ -428,10 +428,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public void copy() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return;
-        }
-        this.formDesign.copy();
+        DesignModeContext.doCopy(this.formDesign);
     }
 
 
@@ -442,7 +439,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public boolean paste() {
-        return this.formDesign.paste();
+        return DesignModeContext.doPaste(this.formDesign);
     }
 
 
@@ -453,10 +450,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public boolean cut() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return false;
-        }
-        return this.formDesign.cut();
+        return DesignModeContext.doCut(this.formDesign);
     }
 
     // ////////////////////////////////////////////////////////////////////

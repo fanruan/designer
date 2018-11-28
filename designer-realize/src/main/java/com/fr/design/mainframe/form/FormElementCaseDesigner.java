@@ -9,6 +9,7 @@ import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.base.mode.DesignModeContext;
+import com.fr.design.designer.DesignerProxy;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.event.TargetModifiedEvent;
@@ -49,7 +50,10 @@ import java.awt.image.BufferedImage;
 /**
  * 表单中的ElementCase编辑面板
  */
-public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extends ElementCasePane, S extends SelectableElement> extends TargetComponent<T> implements Selectedable<S>, FormECDesignerProvider {
+public class FormElementCaseDesigner
+        <T extends FormElementCaseProvider, E extends ElementCasePane, S extends SelectableElement>
+        extends TargetComponent<T>
+        implements Selectedable<S>, FormECDesignerProvider, DesignerProxy {
     protected FormElementCasePaneDelegate elementCasePane;
 
     @Override
@@ -167,10 +171,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
      */
     @Override
     public void copy() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return;
-        }
-        this.elementCasePane.copy();
+        DesignModeContext.doCopy(elementCasePane);
     }
 
     /**
@@ -180,7 +181,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
      */
     @Override
     public boolean paste() {
-        return this.elementCasePane.paste();
+        return DesignModeContext.doPaste(elementCasePane);
     }
 
     /**
@@ -190,10 +191,7 @@ public class FormElementCaseDesigner<T extends FormElementCaseProvider, E extend
      */
     @Override
     public boolean cut() {
-        if (DesignModeContext.isBanCopyAndCut()) {
-            return false;
-        }
-        return this.elementCasePane.cut();
+        return DesignModeContext.doCut(elementCasePane);
     }
 
     /**

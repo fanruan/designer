@@ -24,10 +24,7 @@ public class CopyAction extends FormWidgetEditAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        FormDesigner tc = getEditingComponent();
-        if (tc != null) {
-            tc.copy();
-        }
+        DesignModeContext.doCopy(getEditingComponent());
         return false;
     }
 }

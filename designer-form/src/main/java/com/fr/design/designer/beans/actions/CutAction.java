@@ -24,10 +24,6 @@ public class CutAction extends FormWidgetEditAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        FormDesigner editPane = getEditingComponent();
-        if (editPane == null) {
-            return false;
-        }
-        return editPane.cut();
+        return DesignModeContext.doCut(getEditingComponent());
     }
 }

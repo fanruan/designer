@@ -32,10 +32,6 @@ public class CutAction extends TemplateComponentAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        TargetComponent editPane = getEditingComponent();
-        if (editPane == null) {
-            return false;
-        }
-        return editPane.cut();
+        return DesignModeContext.doPaste(getEditingComponent());
     }
 }
