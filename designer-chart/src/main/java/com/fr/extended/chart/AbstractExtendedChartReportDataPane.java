@@ -12,7 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,11 +54,11 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         Arrays.fill(rowSize, p);
 
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 15));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 8));
 
-        this.setLayout(new FlowLayout());
-        this.add(panel);
-        this.add(addSouthPane());
+        this.setLayout(new BorderLayout());
+        this.add(panel, BorderLayout.CENTER);
+        this.add(addSouthPane(),  BorderLayout.SOUTH);
     }
 
     protected JPanel addSouthPane() {

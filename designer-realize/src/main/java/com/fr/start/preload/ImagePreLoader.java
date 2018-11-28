@@ -370,7 +370,7 @@ public class ImagePreLoader {
             "com/fr/web/images/scale.png",
             "com/fr/web/images/appendRow.png",
             "com/fr/web/images/deleteRow.png",
-            "com/fr/web/images/verify.gif",
+            "com/fr/web/images/verify.png",
             "com/fr/web/images/save2.png",
             "com/fr/design/images/m_file/export.png",
             "com/fr/web/images/showValue.png",
