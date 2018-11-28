@@ -167,7 +167,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         });
     }
 
-    MouseWheelListener mouseWheelListener = new MouseWheelListener() {
+    private MouseWheelListener mouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent evt) {
             int id = evt.getID();
@@ -459,6 +459,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         return DesignerEnvManager.getEnvManager().getReportLengthUnit();
     }
 
+    /**
+     * 复制
+     */
     @Override
     public void copy() {
         if (DesignModeContext.isBanCopyAndCut()) {
