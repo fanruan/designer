@@ -114,6 +114,9 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 
 	public CRPropertyDescriptor[] getExtraTableEditor(){
 		CRPropertyDescriptor[] extraTableEditor = resolveCompatible();
+		if (getReportFitEditor() == null) {
+			return extraTableEditor;
+		}
 		return ArrayUtils.addAll(extraTableEditor, new CRPropertyDescriptor[] {getReportFitEditor()});
 	}
 
