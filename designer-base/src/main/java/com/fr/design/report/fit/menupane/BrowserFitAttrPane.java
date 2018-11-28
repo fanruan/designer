@@ -1,5 +1,6 @@
 package com.fr.design.report.fit.menupane;
 
+import com.fr.config.Configuration;
 import com.fr.design.report.fit.FitType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -12,6 +13,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.fit.ReportFitAttr;
 import com.fr.report.fit.ReportFitConfig;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -220,12 +223,19 @@ public class BrowserFitAttrPane extends BasicBeanPane<ReportFitAttr> {
         return attr;
     }
 
-    private void updateGlobalConfig(ReportFitAttr attr) {
-        try {
-            ReportFitConfig manager = ReportFitConfig.getInstance();
-            manager.setFrmFitAttr(attr);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+    private void updateGlobalConfig(final ReportFitAttr attr) {
+
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ReportFitConfig manager = ReportFitConfig.getInstance();
+                manager.setFrmFitAttr(attr);
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[]{ReportFitConfig.class};
+            }
+        });
     }
 }
