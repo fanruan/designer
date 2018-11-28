@@ -1,5 +1,7 @@
 package com.fr.design.base.mode;
 
+import com.fr.design.designer.TargetComponent;
+
 import static com.fr.design.base.mode.DesignerMode.AUTHORITY;
 
 public class DesignModeContext {
@@ -38,5 +40,27 @@ public class DesignModeContext {
      */
     public static boolean isAuthorityEditing() {
         return mode == AUTHORITY;
+    }
+
+
+    public static void doCopy(TargetComponent principal) {
+        if (isBanCopyAndCut() || principal == null) {
+            return;
+        }
+        principal.copy();
+    }
+
+    public static boolean doPaste(TargetComponent principal) {
+        if (principal == null) {
+            return false;
+        }
+        return principal.paste();
+    }
+
+    public static boolean doCut(TargetComponent principal) {
+        if (isBanCopyAndCut() || principal == null) {
+            return false;
+        }
+        return principal.cut();
     }
 }

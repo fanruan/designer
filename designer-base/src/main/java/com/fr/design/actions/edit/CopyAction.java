@@ -29,10 +29,7 @@ public class CopyAction extends TemplateComponentAction {
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        TargetComponent tc = getEditingComponent();
-        if (tc != null) {
-            tc.copy();
-        }
+        DesignModeContext.doCopy(getEditingComponent());
         return false;
     }
 }

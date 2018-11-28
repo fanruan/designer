@@ -1,6 +1,5 @@
 package com.fr.design.designer;
 
-import com.fr.design.DesignState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.mainframe.AuthorityEditPane;
@@ -8,7 +7,6 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.stable.StringUtils;
 import com.fr.third.javax.annotation.Nullable;
 
 import javax.swing.JComponent;
@@ -115,82 +113,4 @@ public abstract class TargetComponent<T> extends JComponent {
     public EditingState createEditingState() {
         return EditingState.NULL;
     }
-
-    public static final TargetComponent<String> NULLAVOID = new TargetComponent<String>(StringUtils.EMPTY) {
-
-        @Override
-        public void copy() {
-        }
-
-        @Override
-        public boolean paste() {
-            return false;
-        }
-
-        @Override
-        public int getMenuState() {
-            return DesignState.WORK_SHEET;
-        }
-
-        @Override
-        public void cancelFormat() {
-            return;
-        }
-
-        @Override
-        public boolean cut() {
-            return false;
-        }
-
-        @Override
-        public void stopEditing() {
-        }
-
-        @Override
-        public AuthorityEditPane createAuthorityEditPane() {
-            return null;
-        }
-
-        @Override
-        public ToolBarMenuDockPlus getToolBarMenuDockPlus() {
-            return null;
-        }
-
-        @Override
-        public ToolBarDef[] toolbars4Target() {
-            return new ToolBarDef[0];
-        }
-
-        @Override
-        public MenuDef[] menus4Target() {
-            return new MenuDef[0];
-        }
-
-        @Override
-        public ShortCut[] shortcut4TemplateMenu() {
-            return new ShortCut[0];
-        }
-
-        @Override
-        public ShortCut[] shortCuts4Authority() {
-            return new ShortCut[0];
-
-        }
-
-        @Override
-        public JComponent[] toolBarButton4Form() {
-            return new JComponent[0];
-        }
-
-        @Override
-        public JPanel getEastUpPane() {
-            return new JPanel();
-        }
-
-        @Override
-        public JPanel getEastDownPane() {
-            return new JPanel();
-        }
-
-    };
 }
