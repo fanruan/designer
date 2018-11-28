@@ -6,6 +6,7 @@ import com.fr.design.actions.report.ReportColumnsAction;
 import com.fr.design.actions.report.ReportEngineAttrAction;
 import com.fr.design.actions.report.ReportPageAttrAction;
 import com.fr.design.actions.report.ReportWriteAttrAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.EditingState;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -80,6 +81,9 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
 
     @Override
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         this.elementCasePane.copy();
     }
 
@@ -90,6 +94,9 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
 
     @Override
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         return this.elementCasePane.cut();
     }
 
@@ -181,7 +188,7 @@ public class WorkSheetDesigner extends ReportComponent<WorkSheet, ElementCasePan
     public void updateJSliderValue() {
         ReportComponentComposite reportComposite = (ReportComponentComposite) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getCurrentReportComponentPane();
         JSliderPane jSliderContainer = reportComposite.getjSliderContainer();
-        jSliderContainer.getShowVal().setValue((int)Math.ceil((double) this.elementCasePane.getResolution() * HUND / ScreenResolution.getScreenResolution()));
+        jSliderContainer.getShowVal().setValue((int) Math.ceil((double) this.elementCasePane.getResolution() * HUND / ScreenResolution.getScreenResolution()));
     }
 
     @Override

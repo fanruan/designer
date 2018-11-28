@@ -14,6 +14,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DecodeDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.exception.DecryptTemplateException;
 import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.exception.TplLockedException;
 import com.fr.file.FILE;
@@ -58,6 +59,8 @@ class CptApp extends AbstractWorkBookApp {
         namestyle.clear();
         try {
             tpl.readStream(file.asInputStream());
+        } catch (DecryptTemplateException e) {
+            throw e;
         } catch (RemoteDesignPermissionDeniedException exp) {
             FineLoggerFactory.getLogger().error(Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + file, exp);
         } catch (TplLockedException exp) {

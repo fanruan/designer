@@ -13,6 +13,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.PasteAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
@@ -472,6 +473,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * 复制
      */
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         if (selection != null) {
             clip_board.clear();
             clip_board.add(selection.getValue());
@@ -583,6 +587,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 剪切成功返回true
      */
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         copy();
         delete();
         return true;

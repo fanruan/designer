@@ -48,6 +48,7 @@ import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.PasteAction;
 import com.fr.design.actions.edit.merge.MergeCellAction;
 import com.fr.design.actions.edit.merge.UnmergeCellAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
@@ -81,7 +82,6 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
 import com.fr.grid.GridCorner;
@@ -612,6 +612,11 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 成功返回true
      */
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            FineLoggerFactory.getLogger().debug("Prohibit Cut");
+            return false;
+        }
+
         this.copy();
 
         return this.clearAll();
@@ -621,6 +626,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * 复制
      */
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         // p:Elements Transferable.
         ElementsTransferable elementsTransferable = this.transferSelection();
 
@@ -884,20 +892,22 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         // clearReportPage old values.
         inputMapAncestor.clear();
         actionMap.clear();
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), "cut");
-        actionMap.put("cut", new AbstractAction() {
-            public void actionPerformed(ActionEvent evt) {
-                if (cut()) {
-                    fireTargetModified();
+        if (!DesignModeContext.isBanCopyAndCut()) {
+            inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), "cut");
+            actionMap.put("cut", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    if (cut()) {
+                        fireTargetModified();
+                    }
                 }
-            }
-        });
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
-        actionMap.put("copy", new AbstractAction() {
-            public void actionPerformed(ActionEvent evt) {
-                copy();
-            }
-        });
+            });
+            inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
+            actionMap.put("copy", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    copy();
+                }
+            });
+        }
         inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), "paste");
         actionMap.put("paste", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {

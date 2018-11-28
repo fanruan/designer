@@ -5,10 +5,10 @@ package com.fr.design.actions.edit;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.TemplateComponentAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.TargetComponent;
 
-
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 
 import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_MODIFIER;
@@ -24,6 +24,7 @@ public class CopyAction extends TemplateComponentAction {
         this.setMnemonic('C');
         this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER));
+        this.setEnabled(!DesignModeContext.isBanCopyAndCut());
     }
 
     @Override
