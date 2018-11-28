@@ -129,7 +129,7 @@ public class ReportWebWidgetConstants {
             BaseUtils.readIcon("/com/fr/web/images/appendRow.png"), AppendColumnRow.class);
     public static final WidgetOption DELETECOLUMNROW = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Delete_Record"),
             BaseUtils.readIcon("/com/fr/web/images/deleteRow.png"), DeleteColumnRow.class);
-    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.gif"),
+    public static final WidgetOption VERIFY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Verify_Data_Verify"), BaseUtils.readIcon("/com/fr/web/images/verify.png"),
             Verify.class);
     public static final WidgetOption SUBMITFORCIBLY = WidgetOptionFactory.createByWidgetClass(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Submit_Forcibly"),
             BaseUtils.readIcon("/com/fr/web/images/save2.png"), SubmitForcibly.class);

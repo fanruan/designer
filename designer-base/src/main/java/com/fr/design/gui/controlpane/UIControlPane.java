@@ -249,7 +249,8 @@ abstract class UIControlPane extends JControlPane {
                 checkValid();
             } catch (Exception exp) {
                 // 存在非法输入 拒绝隐藏
-                JOptionPane.showMessageDialog(UIControlPane.this.controlUpdatePane, exp.getMessage());
+                this.setAlwaysOnTop(true);
+                JOptionPane.showMessageDialog(this, exp.getMessage());
                 this.requestFocus();
                 return;
             }
