@@ -2,7 +2,6 @@ package com.fr.design.report.fit.menupane;
 
 import com.fr.config.Configuration;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.log.FineLoggerFactory;
 import com.fr.report.fit.ReportFitAttr;
 import com.fr.report.fit.ReportFitConfig;
 import com.fr.transaction.Configurations;

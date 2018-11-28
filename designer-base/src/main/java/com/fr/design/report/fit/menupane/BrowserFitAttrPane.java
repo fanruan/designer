@@ -1,7 +1,6 @@
 package com.fr.design.report.fit.menupane;
 
 import com.fr.config.Configuration;
-import com.fr.design.report.fit.FitType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
@@ -10,7 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.log.FineLoggerFactory;
+import com.fr.design.report.fit.FitType;
 import com.fr.report.fit.ReportFitAttr;
 import com.fr.report.fit.ReportFitConfig;
 import com.fr.transaction.Configurations;
