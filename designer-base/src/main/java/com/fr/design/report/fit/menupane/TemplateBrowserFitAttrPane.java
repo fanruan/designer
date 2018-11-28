@@ -1,9 +1,11 @@
 package com.fr.design.report.fit.menupane;
 
+import com.fr.config.Configuration;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.log.FineLoggerFactory;
 import com.fr.report.fit.ReportFitAttr;
 import com.fr.report.fit.ReportFitConfig;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.Worker;
 
 import java.awt.Component;
 
@@ -65,12 +67,19 @@ public class TemplateBrowserFitAttrPane extends BrowserFitAttrPane {
         return attr;
     }
 
-    private void updateGlobalConfig(ReportFitAttr attr) {
-        try {
-            ReportFitConfig manager = ReportFitConfig.getInstance();
-            manager.setCptFitAttr(attr);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+    private void updateGlobalConfig(final ReportFitAttr attr) {
+
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ReportFitConfig manager = ReportFitConfig.getInstance();
+                manager.setCptFitAttr(attr);
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[]{ReportFitConfig.class};
+            }
+        });
     }
 }
