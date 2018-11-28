@@ -7,7 +7,6 @@ package com.fr.design;
 import com.fr.base.BaseUtils;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
 import com.fr.design.fun.CellWidgetOptionProvider;
-import com.fr.design.fun.Feedback;
 import com.fr.design.fun.FormWidgetOptionProvider;
 import com.fr.design.fun.ParameterWidgetOptionProvider;
 import com.fr.design.fun.ServerTableDataDefineProvider;
@@ -19,8 +18,6 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.widget.Appearance;
 import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.form.ui.Widget;
-import com.fr.general.FRLogger;
-import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
@@ -208,19 +205,6 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
             map.put(provider.classForWidget(), provider.classForMobilePane());
         }
         return map;
-    }
-
-
-    public Feedback getFeedback() {
-        try {
-            Class clazz = GeneralUtils.classForName("com.fr.design.feedback.CurrentFeedback");
-            if (clazz != null) {
-                return (Feedback) clazz.newInstance();
-            }
-        } catch (Exception e) {
-            FRLogger.getLogger().info("no feed back support");
-        }
-        return Feedback.EMPTY;
     }
 
     @Override
