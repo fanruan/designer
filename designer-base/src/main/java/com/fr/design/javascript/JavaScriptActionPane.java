@@ -7,6 +7,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.fun.JavaScriptActionProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.form.ui.WebContentUtils;
 import com.fr.js.JavaScript;
@@ -45,7 +46,7 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
         Set<JavaScriptActionProvider> javaScriptActionProviders = ExtraDesignClassManager.getInstance().getArray(JavaScriptActionProvider.XML_TAG);
         if (javaScriptActionProviders != null) {
             for (JavaScriptActionProvider jsp : javaScriptActionProviders) {
-                if(jsp.isSupportType()){
+                if(jsp.accept(DesignerContext.getDesignerFrame().getSelectedJTemplate())){
                     paneList.add(jsp.getJavaScriptActionPane(this));
                 }
             }
