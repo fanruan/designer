@@ -6,6 +6,7 @@ import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 
 import javax.swing.BorderFactory;
@@ -49,16 +50,17 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {f, COMPONENT_WIDTH};
+        double[] columnSize = {ChartDataPane.LABEL_WIDTH, COMPONENT_WIDTH};
         double[] rowSize = new double[len + (hasCustomFieldPane() ? 2 : 0)];
         Arrays.fill(rowSize, p);
 
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 24, 6);
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 8));
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 6);
 
-        this.setLayout(new BorderLayout());
-        this.add(panel, BorderLayout.CENTER);
-        this.add(addSouthPane(),  BorderLayout.SOUTH);
+        this.setLayout(new BorderLayout(0,6));
+        this.add(panel, BorderLayout.NORTH);
+        this.add(addSouthPane(),  BorderLayout.CENTER);
+
+        this.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
     }
 
     protected JPanel addSouthPane() {
