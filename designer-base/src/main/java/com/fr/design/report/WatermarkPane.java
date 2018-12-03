@@ -29,12 +29,6 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/5/15.
  */
 public class WatermarkPane extends BasicPane {
-    private static final Integer[] FONT_SIZES = {
-            6, 8, 9, 10, 11, 12, 13, 14, 16,
-            18, 20, 22, 24, 26, 28, 30, 32, 34,
-            36, 38, 40, 48, 64, 72, 128
-    };
-
     private static final int MAX_WIDTH = 160;
 
     // 水印预览面板
@@ -102,7 +96,8 @@ public class WatermarkPane extends BasicPane {
 
     protected UIScrollPane initRightPane(){
         formulaPane = new TinyFormulaPane();
-        fontSizeComboBox = new UIComboBox(FONT_SIZES);
+        fontSizeComboBox = new UIComboBox(FRFontPane.FONT_SIZES);
+        fontSizeComboBox.setEditable(true);
         JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
         fontSizeTypePane.add(fontSizeComboBox, BorderLayout.CENTER);
 
