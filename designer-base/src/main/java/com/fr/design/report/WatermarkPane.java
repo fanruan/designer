@@ -83,6 +83,7 @@ public class WatermarkPane extends BasicPane {
         watermark.setText(formulaPane.getUITextField().getText());
         watermark.setFontSize((int)fontSizeComboBox.getSelectedItem());
         watermark.setColor(colorPane.getColor());
+        colorPane.updateUsedColor();
         return watermark;
     }
 
@@ -156,7 +157,8 @@ public class WatermarkPane extends BasicPane {
     }
 
     private void populateColor(Color color) {
-        colorPane.setColor(color);
+        // 颜色面板的色值只有 rgb，去掉 alpha 通道
+        colorPane.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
         colorPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
