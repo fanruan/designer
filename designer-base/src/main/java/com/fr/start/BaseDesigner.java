@@ -64,6 +64,8 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
         DesignerContext.getDesignerFrame().updateProgress(PERCENT_COMPLETE);
+        throw new NullPointerException();
+
     }
 
 
