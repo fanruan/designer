@@ -15,6 +15,7 @@ import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 
 import javax.swing.*;
@@ -48,7 +49,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
         cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
-        newCharSetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
+        String[] defaultEncode = new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Encode_Auto")};
+        newCharSetComboBox = new UIComboBox(ArrayUtils.addAll(defaultEncode, EncodeConstants.ENCODING_ARRAY));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);
