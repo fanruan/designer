@@ -52,9 +52,11 @@ public class DesignerStartup extends Activator {
         
             @Override
             public void run() {
-            
-                designer.show(args);
-                DesignerContext.getDesignerFrame().getProgressDialog().dispose();
+                try {
+                    designer.show(args);
+                } finally {
+                    DesignerContext.getDesignerFrame().getProgressDialog().dispose();
+                }
             }
         });
         service.shutdown();
