@@ -66,7 +66,11 @@ public class ServerStarter {
 
                 @Override
                 public void run() {
-                    FineEmbedServer.start();
+                    try {
+                        FineEmbedServer.start();
+                    } finally {
+                        FineEmbedServerMonitor.getInstance().setComplete();
+                    }
                     BrowseUtils.browser(url);
                 }
             });
