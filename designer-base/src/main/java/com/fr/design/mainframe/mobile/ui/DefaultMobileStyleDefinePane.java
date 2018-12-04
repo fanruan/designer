@@ -7,7 +7,6 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.DefaultMobileTemplateStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
-
 import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -44,9 +43,19 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
         return new DefaultMobileTemplateStyle();
     }
 
+    public MobileTemplateStyle updateConfig(){
+        return new DefaultMobileTemplateStyle();
+    }
+
+
     @Override
     protected MobileTemplateStyle getDefaultTemplateStyle() {
         return new DefaultMobileTemplateStyle();
+    }
+
+    @Override
+    public void populateSubStyle(MobileTemplateStyle ob) {
+
     }
 
     @Override

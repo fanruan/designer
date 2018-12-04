@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.base.GraphHelper;
+import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
@@ -15,7 +16,6 @@ import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.DownMenuStyle;
 import com.fr.general.cardtag.mobile.LineDescription;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -89,8 +89,8 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
 
 
     @Override
-    public void populateBean(MobileTemplateStyle ob) {
-        super.populateBean(ob);
+    public void populateSubStyle(MobileTemplateStyle ob) {
+        super.populateSubStyle(ob);
         DownMenuStyle downMenuStyle = (DownMenuStyle) ob;
         splitLinePane.populate(downMenuStyle.getSplitLine());
         ArrayList<String> initialIconNames = new ArrayList<String>();
@@ -132,6 +132,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         private static final int ICON_OFFSET = 16;
         private static final int GAP = 6;
         private static final String PAINT_ICON = "fund_white";
+        private static final String ICON_PATH = "/com/fr/web/images/fund_white.png";
         private LineDescription splitLine;
 
         public DownMenuStylePreviewPane() {
@@ -158,7 +159,6 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             int fontHeight = fm.getHeight();
             int ascent = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
-
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
                 String widgetName = cardSwitchButton.getText();
@@ -169,8 +169,8 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                     g2d.fillRect(0, 0 ,eachWidth, panelHeight);
                     g2d.setColor(oldColor);
                 }
-                String iconName = PAINT_ICON;
-                g2d.drawImage(IconManager.getIconManager().getIconImage(iconName), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
+                Icon icon = new Icon(PAINT_ICON, ICON_PATH);
+                g2d.drawImage(IconManager.getIconManager().getDefaultIconImage(icon), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
                 g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight + ICON_OFFSET + GAP - fontHeight) / 2  + ascent);
                 Stroke oldStroke = g2d.getStroke();
                 if (splitLine.getLineStyle() != 0) {

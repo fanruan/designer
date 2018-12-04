@@ -84,7 +84,7 @@ public class CustomIconPane extends BasicPane {
         noNamePane.add(jsPane);
 
         DescriptionTextArea des = new DescriptionTextArea(2);
-        des.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message1"));
+        des.setText(createDescriptionText());
         centerPane.add(des, BorderLayout.SOUTH);
 
         this.add(centerPane, BorderLayout.CENTER);
@@ -100,6 +100,11 @@ public class CustomIconPane extends BasicPane {
         eastPane.add(buttonPane);
         this.add(eastPane, BorderLayout.EAST);
 
+    }
+
+
+    protected String createDescriptionText(){
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message1");
     }
 
     private void initIcons() {

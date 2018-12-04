@@ -9,7 +9,6 @@ import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.general.cardtag.mobile.LineDescription;
 import com.fr.stable.CoreConstants;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;

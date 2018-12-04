@@ -1,17 +1,16 @@
 package com.fr.design.mainframe.mobile.ui;
 
-import com.fr.base.GraphHelper;
 import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.DrawRoutines;
 import com.fr.design.web.CustomIconPane;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
-import com.fr.stable.Constants;
-
+import com.fr.general.FRFont;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -24,12 +23,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class TabIconConfigPane extends JPanel {
@@ -47,11 +46,16 @@ public class TabIconConfigPane extends JPanel {
         JPanel panel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         editIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
+        editIconButton.setFont(FRFont.getInstance("Helvetica", Font.PLAIN, 12, Color.decode("#3A383A")));
         editIconButton.setPreferredSize(new Dimension(62, 20));
         panel.add(editIconButton);
         editIconButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                final CustomIconPane cip = new CustomIconPane();
+                final CustomIconPane cip = new CustomIconPane(){
+                    protected String createDescriptionText(){
+                        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Custom_Icon_Message");
+                    }
+                };
                 BasicDialog editDialog = cip.showWindow(DesignerContext.getDesignerFrame());
                 editDialog.addDialogActionListener(new DialogActionAdapter() {
                     @Override
@@ -120,6 +124,18 @@ public class TabIconConfigPane extends JPanel {
             });
         }
 
+        protected void paintBorder(Graphics g) {
+            super.paintBorder(g);
+            if (ComparatorUtils.equals(this, selectIconButton)) {
+                DrawRoutines.drawRoundedBorder(
+                        g, Color.decode("#419BF9"), 0, 0, 20, 20);
+            } else {
+                DrawRoutines.drawRoundedBorder(
+                        g, Color.decode("#D9DADD"), 0, 0, 20, 20);
+            }
+
+        }
+
         public String getIconName() {
             return iconName;
         }
@@ -137,12 +153,6 @@ public class TabIconConfigPane extends JPanel {
             if (iconImage != null) {
                 g2d.drawImage(iconImage, ICON_X, ICON_Y, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
             }
-            if (this.iconName != null && ComparatorUtils.equals(this, selectIconButton)) {
-                g2d.setPaint(Color.decode("#419BF9"));
-            } else {
-                g2d.setPaint(Color.decode("#D9DADD"));
-            }
-            GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, 20, 20), Constants.LINE_MEDIUM);
         }
 
         @Override

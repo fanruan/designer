@@ -15,7 +15,6 @@ import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.LineDescription;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.UpMenuStyle;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -94,7 +93,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                 updatePreviewPane();
             }
         });
-        UITitleSplitLine titleSplitLine = new UITitleSplitLine(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Spit_Line"), 520);
+        UITitleSplitLine titleSplitLine = new UITitleSplitLine(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Bottom_Border"), 520);
         titleSplitLine.setPreferredSize(new Dimension(520, 20));
         centerPane.add(titleSplitLine);
         centerPane.add(bottomBorderPane);
@@ -120,8 +119,8 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
     }
 
     @Override
-    public void populateBean(MobileTemplateStyle ob) {
-        super.populateBean(ob);
+    public void populateSubStyle(MobileTemplateStyle ob) {
+        super.populateSubStyle(ob);
         UpMenuStyle style = (UpMenuStyle) ob;
         gapFix.setSelected(style.isGapFix());
         titleWidthFix.setSelected(style.isTitleWidthFix());
@@ -179,6 +178,11 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             g2d.setFont(frFont);
             int fontHeight = fm.getHeight();
             int ascentHeight = fm.getAscent();
+            if (bottomBorder.getLineStyle() != 0) {
+                g2d.setColor(bottomBorder.getColor());
+                g2d.setStroke(GraphHelper.getStroke(bottomBorder.getLineStyle()));
+                g2d.drawLine(0, panelHeight - 1, panelWidth, panelHeight - 1);
+            }
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
@@ -187,7 +191,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                 if(i == 0){
                     Color oldColor = g2d.getColor();
                     g2d.setColor(this.getSelectColor());
-                    g2d.fillRect(0, 0 ,eachWidth, panelHeight);
+                    g2d.fillRect(0, 0 ,eachWidth, panelHeight - 2);
                     g2d.setColor(oldColor);
                 }
                 g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
@@ -197,18 +201,11 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                     g2d.setStroke(GraphHelper.getStroke(underLine.getLineStyle()));
                     int underLineX = this.isGapFix ? (eachWidth - width) / 2 : 0;
                     int underLineWidth = this.isGapFix ? width : eachWidth;
-                    g2d.drawLine(underLineX, panelHeight - 1, underLineX + underLineWidth, panelHeight - 1);
-                }
-                if (bottomBorder.getLineStyle() != 0) {
-                    g2d.setColor(bottomBorder.getColor());
-                    g2d.setStroke(GraphHelper.getStroke(bottomBorder.getLineStyle()));
-                    g2d.drawLine(eachWidth, 0, eachWidth, panelHeight);
+                    g2d.drawLine(underLineX, panelHeight - 2, underLineX + underLineWidth, panelHeight - 2);
                 }
                 g2d.setStroke(oldStroke);
                 g2d.translate(eachWidth, 0);
             }
-
-
         }
 
         public void populateConfig(MobileTemplateStyle templateStyle) {

@@ -9,7 +9,6 @@ import com.fr.general.cardtag.mobile.SliderStyle;
 import com.fr.general.cardtag.mobile.UpMenuStyle;
 import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 

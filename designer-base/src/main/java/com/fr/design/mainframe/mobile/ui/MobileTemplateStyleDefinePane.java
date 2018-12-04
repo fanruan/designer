@@ -14,10 +14,12 @@ import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.mainframe.widget.preview.MobileTemplatePreviewPane;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.TabFontConfig;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -34,7 +36,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<MobileTemplateStyle> {
-    private static final String[] TAB_STYLES = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"),
+    private static final String[] TAB_STYLES = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Style_Standard"),
             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom")};
     private UIComboBox custom;
     protected NewColorSelectBox initialColorBox;
@@ -179,6 +181,7 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
     @Override
     public void populateBean(MobileTemplateStyle ob) {
         centerPane.setVisible(ob.isCustom());
+        populateSubStyle(ob);
         custom.setSelectedItem(!ob.isCustom() ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default") :
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Custom"));
         initialColorBox.setSelectObject(ob.getInitialColor());
@@ -189,6 +192,16 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
 
     @Override
     public MobileTemplateStyle updateBean() {
+        //保存之前需要先将cardSwitchBtn的icon设置清空
+        for (int i = 0; i < getTagLayout().getWidgetCount(); i++) {
+            CardSwitchButton cardSwitchButton = (CardSwitchButton) getTagLayout().getWidget(i);
+            cardSwitchButton.setInitIconName(StringUtils.EMPTY);
+            cardSwitchButton.setSelectIconName(StringUtils.EMPTY);
+        }
+        return updateConfig();
+    }
+
+    public MobileTemplateStyle updateConfig(){
         if (custom.getSelectedIndex() == 0) {
             return getDefaultTemplateStyle();
         }
@@ -203,10 +216,12 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
     protected abstract MobileTemplateStyle getDefaultTemplateStyle();
 
     public void updatePreviewPane() {
-        previewPane.populateConfig(updateBean());
+        previewPane.populateConfig(updateConfig());
         previewPane.setBackground(previewPane.getInitialColor());
         previewPane.repaint();
     }
+
+    public abstract void populateSubStyle(MobileTemplateStyle ob);
 
     public abstract MobileTemplateStyle updateSubStyle();
 

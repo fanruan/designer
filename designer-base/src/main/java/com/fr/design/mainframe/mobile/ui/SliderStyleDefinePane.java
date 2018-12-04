@@ -13,7 +13,6 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.SliderStyle;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -36,8 +35,7 @@ public class SliderStyleDefinePane extends MobileTemplateStyleDefinePane {
     }
 
     @Override
-    public void populateBean(MobileTemplateStyle ob) {
-        super.populateBean(ob);
+    public void populateSubStyle(MobileTemplateStyle ob) {
         SliderStyle sliderStyle = (SliderStyle) ob;
         initDotColor.setSelectObject(sliderStyle.getInitDotColor());
         selectDotColor.setSelectObject(sliderStyle.getSelectDotColor());
@@ -47,6 +45,7 @@ public class SliderStyleDefinePane extends MobileTemplateStyleDefinePane {
     protected MobileTemplateStyle getDefaultTemplateStyle() {
         return new SliderStyle();
     }
+
 
     @Override
     public MobileTemplateStyle updateSubStyle() {
