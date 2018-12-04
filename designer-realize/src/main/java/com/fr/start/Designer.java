@@ -115,7 +115,7 @@ public class Designer extends BaseDesigner {
         try {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
-            System.exit(0);
+            FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
         }
 
         if (WorkContext.getCurrent().isLocal()) {
