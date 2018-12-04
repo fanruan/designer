@@ -29,7 +29,6 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
@@ -54,7 +53,6 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
-import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
@@ -69,8 +67,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -110,8 +106,6 @@ public class Designer extends BaseDesigner {
 
         RestartHelper.deleteRecordFilesWhenStart();
 
-        preloadResource();
-
         SplashContext.getInstance().registerSplash(createSplash());
 
         SplashContext.getInstance().show();
@@ -129,25 +123,6 @@ public class Designer extends BaseDesigner {
             ServerTray.init();
         }
 
-    }
-
-    private static void preloadResource() {
-        ExecutorService service = Executors.newCachedThreadPool();
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                TemplateInfoCollector.getInstance();
-            }
-        });
-        service.shutdown();
     }
 
     private static SplashStrategy createSplash() {

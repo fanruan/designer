@@ -24,6 +24,8 @@ import com.fr.stable.Constants;
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.ListMap;
 import com.fr.stable.StringUtils;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.WorkerFacade;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -283,6 +285,13 @@ public class CustomIconPane extends BasicPane {
 	}
 	
 	public String update() {
+		//把图标信息入库
+		Configurations.update(new WorkerFacade(WidgetInfoConfig.class) {
+			@Override
+			public void run() {
+				WidgetInfoConfig.getInstance().setIconManager(IconManager.getIconManager());
+			}
+		});
 		return selectedIconName;
 	}
 	

@@ -108,6 +108,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
      */
     private void initTables() {
         formWidgetCardPane.populate();
+        eventTable.refresh();
 
         if (mobileExtraPropertyPanes != null) {
             for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {
@@ -233,7 +234,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
             public void tabChanged(int index) {
                 //切换的时候再populate
                 if (index == 1) {
-                    eventTable.refresh();
+                    eventTable.populateNameObjects();
                 } else if (index == 2) {
                     if (mobileExtraPropertyPanes != null) {
                         for (MobileWidgetDefinePane extraPane : mobileExtraPropertyPanes) {

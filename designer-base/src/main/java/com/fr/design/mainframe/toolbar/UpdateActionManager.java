@@ -56,21 +56,15 @@ public class UpdateActionManager {
     }
 
     public synchronized void dealWithSearchText(final String paneClass, final UpdateAction updateAction) {
-        threadPoolExecutor.allowCoreThreadTimeOut(true);
-        threadPoolExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                JPanel panel = null;
-                try {
-                    panel = (JPanel) StableUtils.classForName(paneClass).newInstance();
-                    if (panel instanceof LoadingBasicPane) {
-                        panel = ((LoadingBasicPane) panel).getAllComponents();
-                    }
-                    updateAction.setSearchText(updateAction.getComponentTexts(panel, "_", new StringBuffer(), new StringBuffer(), new StringBuffer()));
-                } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
+        JPanel panel = null;
+        try {
+            panel = (JPanel) StableUtils.classForName(paneClass).newInstance();
+            if (panel instanceof LoadingBasicPane) {
+                panel = ((LoadingBasicPane) panel).getAllComponents();
             }
-        });
+            updateAction.setSearchText(updateAction.getComponentTexts(panel, "_", new StringBuffer(), new StringBuffer(), new StringBuffer()));
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
     }
 }
