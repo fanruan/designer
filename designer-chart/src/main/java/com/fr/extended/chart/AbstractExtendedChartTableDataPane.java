@@ -7,6 +7,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.general.GeneralUtils;
@@ -43,13 +44,13 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         }
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {TableLayout.FILL, 120};
+        double[] columnSize = {ChartDataPane.LABEL_WIDTH, 122};
         double[] rowSize = new double[len];
         Arrays.fill(rowSize, p);
 
-        JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize,0,6);
 
-        this.setLayout(new BorderLayout(0, 6));
+        this.setLayout(new BorderLayout(0, 4));
         this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
         this.add(panel, BorderLayout.NORTH);
 
