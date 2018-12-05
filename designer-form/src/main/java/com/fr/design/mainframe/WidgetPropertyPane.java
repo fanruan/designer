@@ -174,16 +174,24 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         FormSelection selection = designer.getSelectionModel().getSelection();
         WidgetPropertyUIProvider[] embeddedPropertyUIProviders = null;
         if (selection != null && selection.getSelectedCreator() != null) {
-            XCreator xCreator = selection.getSelectedCreator();
-            embeddedPropertyUIProviders = xCreator.getWidgetPropertyUIProviders();
-            if (xCreator instanceof XWScaleLayout
-                    && ComparatorUtils.equals(((XWScaleLayout) xCreator).getXCreatorCount(), 1)
-                    && ((XWScaleLayout) xCreator).getXCreator(0) instanceof XTextEditor) {
-                embeddedPropertyUIProviders = ((XWScaleLayout) xCreator).getXCreator(0).getWidgetPropertyUIProviders();
-            }
+            embeddedPropertyUIProviders = getEmbeddedPropertyUIProviders(selection.getSelectedCreator());
         }
         Set<WidgetPropertyUIProvider> set = ExtraDesignClassManager.getInstance().getArray(WidgetPropertyUIProvider.XML_TAG);
         return ArrayUtils.addAll(embeddedPropertyUIProviders, set.toArray(new WidgetPropertyUIProvider[set.size()]));
+    }
+
+    /**
+     * 获取当前控件扩展的属性tab
+     * @param xCreator
+     * @return
+     */
+    private  WidgetPropertyUIProvider[] getEmbeddedPropertyUIProviders(XCreator xCreator) {
+        if (xCreator instanceof XWScaleLayout
+                && ComparatorUtils.equals(((XWScaleLayout) xCreator).getXCreatorCount(), 1)
+                && ((XWScaleLayout) xCreator).getXCreator(0) instanceof XTextEditor) {
+            return ((XWScaleLayout) xCreator).getXCreator(0).getWidgetPropertyUIProviders();
+        }
+        return xCreator.getWidgetPropertyUIProviders();
     }
 
     /**
