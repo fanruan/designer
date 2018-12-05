@@ -1114,7 +1114,7 @@ public class GridUI extends ComponentUI {
 
     // 绘制水印
     private void paintWatermark(Graphics2D g2d, FineBook book) {
-        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(book);
+        WatermarkAttr watermark = ReportUtils.getWatermarkAttrFromTemplateAndGlobal(book);
         WatermarkPainter painter = WatermarkPainter.createPainter(watermark, resolution);
         painter.paint(g2d, gridSize.width, gridSize.height);
     }

@@ -7,7 +7,8 @@ import com.fr.design.mainframe.AbstractAppProvider;
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.DecodeDialog;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.exception.PermissionDeniedException;
+import com.fr.exception.DecryptTemplateException;
+import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.exception.TplLockedException;
 import com.fr.file.FILE;
 import com.fr.form.main.Form;
@@ -57,7 +58,9 @@ class FormApp extends AbstractAppProvider {
         FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("file.getName()", file.getName()) + "...");
         try {
             tpl.readStream(file.asInputStream());
-        } catch (PermissionDeniedException exp) {
+        } catch (DecryptTemplateException e) {
+            throw e;
+        } catch (RemoteDesignPermissionDeniedException exp) {
             FineLoggerFactory.getLogger().error(Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + file, exp);
         } catch (TplLockedException exp) {
             FineLoggerFactory.getLogger().error(file + Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"), exp);

@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.actions;
+package com.fr.design.actions;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;

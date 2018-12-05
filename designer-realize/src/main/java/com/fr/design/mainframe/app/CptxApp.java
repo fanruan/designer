@@ -4,7 +4,8 @@ import com.fr.base.extension.FileExtension;
 import com.fr.base.frpx.exception.FRPackageRunTimeException;
 import com.fr.base.frpx.exception.InvalidWorkBookException;
 import com.fr.design.i18n.Toolkit;
-import com.fr.exception.PermissionDeniedException;
+import com.fr.exception.DecryptTemplateException;
+import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.exception.TplLockedException;
 import com.fr.file.FILE;
 import com.fr.log.FineLoggerFactory;
@@ -36,9 +37,9 @@ class CptxApp extends AbstractWorkBookApp {
             long time = System.currentTimeMillis();
             tpl = new WorkBookX(inputStream);
             FineLoggerFactory.getLogger().error("cost: " + (System.currentTimeMillis() - time) + " ms");
-
-
-        } catch (PermissionDeniedException exp) {
+        } catch (DecryptTemplateException e) {
+            throw e;
+        } catch (RemoteDesignPermissionDeniedException exp) {
             FineLoggerFactory.getLogger().error(Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + file, exp);
         } catch (TplLockedException exp) {
             FineLoggerFactory.getLogger().error(file + Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"), exp);

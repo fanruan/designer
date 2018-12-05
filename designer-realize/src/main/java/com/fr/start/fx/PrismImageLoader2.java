@@ -108,7 +108,6 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         return 40;
     }
 
-    @Override
     public int getLoopCount() {
         return 0;
     }
