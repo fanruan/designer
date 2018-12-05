@@ -4,7 +4,9 @@ import com.fr.base.FRContext;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.design.widget.ui.mobile.MultiFileEditorMobilePane;
+import com.fr.design.widget.ui.mobile.ScanCodeMobilePane;
 import com.fr.form.ui.MultiFileEditor;
+import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.Widget;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class WidgetMobilePaneFactory {
 
     static {
         mobilePaneMap.put(MultiFileEditor.class, MultiFileEditorMobilePane.class);
+        mobilePaneMap.put(TextEditor.class, ScanCodeMobilePane.class);
         mobilePaneMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetMobileOptionsMap());
     }
 

@@ -9,6 +9,7 @@ import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.design.i18n.Toolkit;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.io.EncryptUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
@@ -367,7 +368,7 @@ public class FileNodeFILE implements FILE {
         );
 
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
-                ? XMLEncryptUtils.decodeInputStream(in) : in;
+                ? XMLEncryptUtils.decodeInputStream(EncryptUtils.decodeInputStream(in)) : in;
     }
 
     /**

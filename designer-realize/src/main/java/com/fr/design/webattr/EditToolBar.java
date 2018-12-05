@@ -30,6 +30,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.Background;
 
+import com.fr.report.web.button.Email;
 import com.fr.report.web.button.Export;
 import com.fr.report.web.button.write.AppendColumnRow;
 import com.fr.report.web.button.write.Submit;
@@ -63,6 +64,14 @@ import java.util.List;
 import java.util.Set;
 
 public class EditToolBar extends BasicPane {
+
+	private static final String EMAIL = "email";
+	private static final String CUSTOM = "custom";
+	private static final String EXPORT = "export";
+	private static final String NONE = "none";
+	private static final String EDIT_EXCEL = "editexcel";
+	private static final String APPEND_COUNT = "appendcount";
+	private static final String SUBMIT = "submit";
 
 	private JWorkBook jwb;
 	private JList list;
@@ -333,7 +342,8 @@ public class EditToolBar extends BasicPane {
 		private JPanel centerPane;
 		private UICheckBox icon, text, pdf, excelP, excelO, excelS, image, word,
 				isPopup, isVerify, failSubmit, isCurSheet, excelImClean,
-				excelImCover, excelImAppend, excelImCust;
+				excelImCover, excelImAppend, excelImCust,
+				customConsignee, consigneeByDepartment, consigneeByRole;
 		private UIBasicSpinner count;
 		private Widget widget;
 		private UITextField nameField;
@@ -392,17 +402,17 @@ public class EditToolBar extends BasicPane {
 			centerPane = FRGUIPaneFactory.createCardLayout_S_Pane();
 			card = new CardLayout();
 			centerPane.setLayout(card);
-			centerPane.add("custom", getCustomPane());
-			centerPane.add("export", getExport());
-			centerPane.add("none", none);
-			// centerPane.add("editexcel", editExcel);
-			centerPane.add(getCpane(), "appendcount");
-			centerPane.add(getSubmitPane(), "submit");
+			centerPane.add(CUSTOM, getCustomPane());
+			centerPane.add(EXPORT, getExport());
+			centerPane.add(EMAIL, getEmail());
+			centerPane.add(NONE, none);
+			centerPane.add(getCpane(), APPEND_COUNT);
+			centerPane.add(getSubmitPane(), SUBMIT);
 
-            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
-            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
-                provider.updateCenterPane(centerPane);
-            }
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+				provider.updateCenterPane(centerPane);
+			}
 
 			this.add(centerPane, BorderLayout.CENTER);
 		}
@@ -444,6 +454,22 @@ public class EditToolBar extends BasicPane {
 
 			export.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Form_Button_Property"), null));
 			return export;
+		}
+
+		private JPanel getEmail() {
+			JPanel email = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
+			customConsignee = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Custom_Consignee"));
+			consigneeByDepartment = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Consignee_By_Department"));
+			consigneeByRole = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Consignee_By_Role"));
+			email.add(customConsignee);
+			email.add(Box.createVerticalStrut(2));
+			email.add(consigneeByDepartment);
+			email.add(Box.createVerticalStrut(2));
+			email.add(consigneeByRole);
+			email.add(Box.createVerticalStrut(2));
+
+			email.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set_Form_Button_Property"), null));
+			return email;
 		}
 
 		private JPanel getCpane() {
@@ -514,13 +540,15 @@ public class EditToolBar extends BasicPane {
 				populateSubmit();
 			} else if (widget instanceof CustomToolBarButton) {
 				populateCustomToolBarButton();
+			} else if (widget instanceof Email) {
+				populateEmail();
 			}
 
-            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
-            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
-                provider.populate(widget, card, centerPane);
-            }
-        }
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+				provider.populate(widget, card, centerPane);
+			}
+		}
 
 		private void populateAppendColumnRow(){
 			card.show(centerPane, "appendcount");
@@ -541,6 +569,14 @@ public class EditToolBar extends BasicPane {
 					exportToolBarProviders[i].populate();;
 				}
 			}
+		}
+
+		private void populateEmail(){
+			card.show(centerPane, EMAIL);
+			Email email = (Email) widget;
+			this.customConsignee.setSelected(email.isCustomConsignee());
+			this.consigneeByDepartment.setSelected(email.isConsigneeByDepartment());
+			this.consigneeByRole.setSelected(email.isConsigneeByRole());
 		}
 
 		private void populateCustomToolBarButton(){
@@ -584,15 +620,17 @@ public class EditToolBar extends BasicPane {
 				updateSubmit();
 			} else if (widget instanceof CustomToolBarButton) {
 				((CustomToolBarButton) widget).setJSImpl(this.javaScriptPane.updateBean());
+			} else if (widget instanceof Email) {
+				updateEmail();
 			}
 			if (widget instanceof Button) {
 				updateDefault();
 			}
 
-            Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
-            for (ExtraButtonToolBarProvider provider : extraButtonSet) {
-                provider.update(widget);
-            }
+			Set<ExtraButtonToolBarProvider> extraButtonSet = ExtraDesignClassManager.getInstance().getArray(ExtraButtonToolBarProvider.XML_TAG);
+			for (ExtraButtonToolBarProvider provider : extraButtonSet) {
+				provider.update(widget);
+			}
 
 			return widget;
 		}
@@ -624,6 +662,13 @@ public class EditToolBar extends BasicPane {
 					exportToolBarProviders[i].update();;
 				}
 			}
+		}
+
+		private void updateEmail(){
+			Email email = ((Email) widget);
+			email.setCustomConsignee(this.customConsignee.isSelected());
+			email.setConsigneeByDepartment(this.consigneeByDepartment.isSelected());
+			email.setConsigneeByRole(this.consigneeByRole.isSelected());
 		}
 	}
 

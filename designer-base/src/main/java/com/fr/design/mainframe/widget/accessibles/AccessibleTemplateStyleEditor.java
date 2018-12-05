@@ -2,7 +2,6 @@ package com.fr.design.mainframe.widget.accessibles;
 
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.cardtag.TemplateStyle;
 import com.fr.design.mainframe.widget.wrappers.TemplateStyleWrapper;
 
 import javax.swing.SwingUtilities;
@@ -15,18 +14,16 @@ public class AccessibleTemplateStyleEditor extends UneditableAccessibleEditor {
 
     private static final Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
 
-    private TemplateStylePane stylePane;
+    private AbstractTemplateStylePane stylePane;
 
-    public AccessibleTemplateStyleEditor() {
+    public AccessibleTemplateStyleEditor(AbstractTemplateStylePane stylePane) {
         super(new TemplateStyleWrapper());
+        this.stylePane = stylePane;
     }
 
     @Override
     protected void showEditorPane() {
-        if (stylePane == null) {
-            stylePane = new TemplateStylePane();
-            stylePane.setPreferredSize(DEFAULT_DIMENSION);
-        }
+        stylePane.setPreferredSize(DEFAULT_DIMENSION);
         BasicDialog dlg = stylePane.showWindow(SwingUtilities.getWindowAncestor(this));
         dlg.addDialogActionListener(new DialogActionAdapter() {
 
@@ -36,7 +33,7 @@ public class AccessibleTemplateStyleEditor extends UneditableAccessibleEditor {
                 fireStateChanged();
             }
         });
-        stylePane.populate((TemplateStyle) getValue());
+        stylePane.populate(getValue());
         dlg.setVisible(true);
     }
 }

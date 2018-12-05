@@ -65,12 +65,12 @@ public class DesignUtils {
      * @return 启动了返回true
      */
     public static boolean isStarted() {
-        try {
-            new Socket("localhost", port);
-            return true;
-        } catch (Exception exp) {
-
-        }
+//        try {
+//            new Socket("localhost", port);
+//            return true;
+//        } catch (Exception exp) {
+//
+//        }
         return false;
     }
 

@@ -16,9 +16,11 @@ import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWHorizontalBoxLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.designer.properties.mobile.TabMobilePropertyUI;
 import com.fr.design.form.layout.FRFlowLayout;
 import com.fr.design.form.layout.FRHorizontalLayout;
 import com.fr.design.form.layout.FRVerticalLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -328,6 +330,10 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
         return ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION);
     }
 
+    @Override
+    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+        return new WidgetPropertyUIProvider[]{ new TabMobilePropertyUI(this)};
+    }
 
     /**
      * data属性改变触发其他操作

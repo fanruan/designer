@@ -13,6 +13,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.edit.CopyAction;
 import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.PasteAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.EditingState;
 import com.fr.design.designer.TargetComponent;
@@ -166,7 +167,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
         });
     }
 
-    MouseWheelListener mouseWheelListener = new MouseWheelListener() {
+    private MouseWheelListener mouseWheelListener = new MouseWheelListener() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent evt) {
             int id = evt.getID();
@@ -366,9 +367,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     @Override
-    /**
-     *
-     */
     public BlockCreator getSelection() {
         return selection;
     }
@@ -377,9 +375,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * 选中一个聚合快
      */
     @Override
-    /**
-     * 选中一个聚合快
-     */
     public void setSelection(BlockCreator selectElement) {
         //聚合块不参加权限编辑
 
@@ -460,18 +455,18 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     @Override
-    /**
-     *
-     */
     public short getRulerLengthUnit() {
         return DesignerEnvManager.getEnvManager().getReportLengthUnit();
     }
 
-    @Override
     /**
      * 复制
      */
+    @Override
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         if (selection != null) {
             clip_board.clear();
             clip_board.add(selection.getValue());
@@ -583,6 +578,9 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 剪切成功返回true
      */
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return false;
+        }
         copy();
         delete();
         return true;
@@ -643,9 +641,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
 
 
     @Override
-    /**
-     * Gets horizontal scroll bar
-     */
     public JScrollBar getHorizontalScrollBar() {
         return this.horScrollBar;
     }
@@ -658,32 +653,28 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     @Override
-    /**
-     *
-     */
     public int getMinWidth() {
         return ReportHelper.calculateOccupiedArea(getTarget()).width.toPixI(resolution);
     }
 
     @Override
-    /**
+    /*
      *
      */
     public int getMinHeight() {
         return ReportHelper.calculateOccupiedArea(getTarget()).width.toPixI(resolution);
     }
 
-    @Override
     /**
      *
      */
+    @Override
     public int getDesignerHeight() {
         return this.getHeight();
     }
 
     @Override
-    /**
-     *
+    /*
      */
     public int getDesignerWidth() {
         return this.getWidth();
@@ -803,7 +794,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
      * @return 子菜单
      */
     public ShortCut[] shortcut4TemplateMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(super.shortcut4TemplateMenu(), new ShortCut[]{});
+        return ArrayUtils.addAll(super.shortcut4TemplateMenu(), new ShortCut[]{});
     }
 
     public int getMenuState() {
@@ -865,9 +856,6 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
     }
 
     @Override
-    /**
-     *
-     */
     public BlockCreator getDefaultSelectElement() {
         return null;
     }

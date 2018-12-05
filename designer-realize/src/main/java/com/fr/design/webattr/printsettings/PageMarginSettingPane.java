@@ -19,7 +19,7 @@ public class PageMarginSettingPane extends JPanel {
     private UnitFieldPane marginLeftUnitFieldPane;
     private UnitFieldPane marginRightUnitFieldPane;
 
-    public PageMarginSettingPane() {
+    PageMarginSettingPane() {
         initComponents();
     }
     private void initComponents() {

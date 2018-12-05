@@ -18,6 +18,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.utils.ComponentUtils;
 
+import com.fr.form.main.parameter.FormParameterUI;
 import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
@@ -113,7 +114,10 @@ public class FormDesignerUI extends ComponentUI {
 
     // 绘制水印
     private void paintWatermark(Graphics2D g) {
-        WatermarkAttr watermark = ReportUtils.getWatermarkFromAttrMarkFile(designer.getTarget());
+        if (designer.getTarget() instanceof FormParameterUI) { // cpt 的参数面板
+            return;
+        }
+        WatermarkAttr watermark = ReportUtils.getWatermarkAttrFromTemplateAndGlobal(designer.getTarget());
         WatermarkPainter painter = WatermarkPainter.createPainter(watermark, designer.getResolution());
         painter.paint(g, 0, 0, designer.getArea().getBounds());
     }
