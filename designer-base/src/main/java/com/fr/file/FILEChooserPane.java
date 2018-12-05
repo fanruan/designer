@@ -7,6 +7,8 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
@@ -15,6 +17,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.DefaultCompletionFilter;
 import com.fr.design.gui.itextfield.UIAutoCompletionField;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -85,6 +88,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -175,6 +179,28 @@ public class FILEChooserPane extends BasicPane {
         INSTANCE.removeAllFilter();
         return INSTANCE;
     }
+
+    public static FILEChooserPane getMultiEnvInstance(boolean showLoc, boolean showWebReport, FILEFilter filter) {
+        INSTANCE.showEnv = true;
+        INSTANCE.showLoc = showLoc;
+        INSTANCE.showWebReport = showWebReport;
+        // 替换掉 PlaceListModel
+        INSTANCE.setMultiPlaceListModel();
+        INSTANCE.removeAllFilter();
+        INSTANCE.addChooseFILEFilter(filter, 0);
+        return INSTANCE;
+    }
+
+    public static FILEChooserPane getMultiEnvInstance(boolean showLoc, boolean showWebReport) {
+        INSTANCE.showEnv = true;
+        INSTANCE.showLoc = showLoc;
+        INSTANCE.showWebReport = showWebReport;
+        // 替换掉 PlaceListModel
+        INSTANCE.setMultiPlaceListModel();
+        INSTANCE.removeAllFilter();
+        return INSTANCE;
+    }
+
 
     /**
      * @param showEnv
@@ -912,96 +938,10 @@ public class FILEChooserPane extends BasicPane {
         return dialogName();
     }
 
-    private class PlaceListModel extends AbstractListModel {
-        private FileNodeFILE envFILE;
-        private FileNodeFILE webReportFILE;
-        private List<FileFILE> filesOfSystem = new ArrayList<FileFILE>();
-
-        PlaceListModel() {
-            if (FILEChooserPane.this.showEnv) {
-                envFILE = new FileNodeFILE(new FileNode(ProjectConstants.REPORTLETS_NAME, true)) {
-                    @Override
-                    public String getName() {
-                        return getEnvProjectName();
-                    }
-                };
-            }
-            if (FILEChooserPane.this.showWebReport) {
-                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
-            }
-            if (FILEChooserPane.this.showLoc) {
-
-
-                if (WindowsDetector.detect(true)) {
-                    // windows下展示桌面
-                    File[] desktop = FileSystemView.getFileSystemView().getRoots();
-                    if (desktop != null) {
-                        for (int i = 0; i < desktop.length; i++) {
-                            if (desktop[i].exists()) {
-                                filesOfSystem.add(new FileFILE(desktop[i]));
-                            }
-                        }
-                    }
-                } else {
-                    // *nix下展示家目录
-                    filesOfSystem.add(new FileFILE(FileSystemView.getFileSystemView().getDefaultDirectory()));
-                }
-
-                // C, D, E等盘符
-                File[] roots = File.listRoots();
-                if (roots != null) {
-                    for (int i = 0; i < roots.length; i++) {
-                        if (roots[i].exists()) {
-                            filesOfSystem.add(new FileFILE(roots[i]));
-                        }
-                    }
-                }
-            }
-        }
-
-        @Override
-        public FILE getElementAt(int index) {
-            int n = FILEChooserPane.this.showEnv ? 1 : 0;
-            int n2 = FILEChooserPane.this.showWebReport ? 1 : 0;
-
-            if (index < n) {
-                return envFILE;
-            } else if (index < n + n2) {
-                return webReportFILE;
-            } else if (index < n + n2 + filesOfSystem.size()) {
-                return filesOfSystem.get(index - n - n2);
-            }
-            throw new IndexOutOfBoundsException();
-        }
-
-        @Override
-        public int getSize() {
-            if (FILEChooserPane.this.showEnv && FILEChooserPane.this.showWebReport) {
-                return 2 + filesOfSystem.size();
-            } else if (FILEChooserPane.this.showEnv || FILEChooserPane.this.showWebReport) {
-                return 1 + filesOfSystem.size();
-            } else {
-                return filesOfSystem.size();
-            }
-        }
-
-        private void setCD(final FILE lastDirectory) {
-            for (int i = 0; i < this.getSize(); i++) {
-                FILE file = this.getElementAt(i);
-                if (ComparatorUtils.equals(lastDirectory.prefix(), file.prefix())) {
-                    setCurrentDirectory(lastDirectory);
-                    return;
-                }
-            }
-            setCurrentDirectory(this.getElementAt(0));
-        }
-    }
-
-    private void setPlaceListModel() {
+    private void setPlaceListModel(AbstractPlaceListModel model) {
         if (placesList == null) {
             return;
         }
-        PlaceListModel model = new PlaceListModel();
         placesList.setModel(model);
         String lastDirectoryPath = DesignerEnvManager.getEnvManager().getDialogCurrentDirectory();
         String prefix = DesignerEnvManager.getEnvManager().getCurrentDirectoryPrefix();
@@ -1021,6 +961,20 @@ public class FILEChooserPane extends BasicPane {
         if (currentDirectory != null && currentDirectory.exists()) {
             this.setCurrentDirectory(currentDirectory);
         }
+    }
+
+    private void setPlaceListModel() {
+        if (placesList == null) {
+            return;
+        }
+        setPlaceListModel(new PlaceListModel());
+    }
+
+    private void setMultiPlaceListModel() {
+        if (placesList == null) {
+            return;
+        }
+        setPlaceListModel(new MultiLocalEnvPlaceListModel());
     }
 
     /*
@@ -1052,7 +1006,7 @@ public class FILEChooserPane extends BasicPane {
             if (ComparatorUtils.equals(dir.prefix(), FILEFactory.ENV_PREFIX) || dir.prefix().endsWith(FILEFactory.WEBREPORT_PREFIX)) {
                 placesList.setSelectedIndex(0);
             } else if (ComparatorUtils.equals(dir.prefix(), FILEFactory.FILE_PREFIX)) {
-                PlaceListModel defaultListModel = (PlaceListModel) placesList.getModel();
+                AbstractPlaceListModel defaultListModel = (AbstractPlaceListModel) placesList.getModel();
                 for (int i = 0; i < defaultListModel.getSize(); i++) {
                     if (defaultListModel.getElementAt(i) instanceof FileFILE) {
                         FileFILE popDir = (FileFILE) defaultListModel.getElementAt(i);
@@ -1105,6 +1059,182 @@ public class FILEChooserPane extends BasicPane {
             fileNameTextField.setFilter(new DefaultCompletionFilter(name_array));
             subFileList.validate();
             subFileList.repaint(10);
+        }
+    }
+
+    private abstract class AbstractPlaceListModel extends AbstractListModel<FILE> {
+
+        protected List<FileFILE> filesOfSystem = new ArrayList<FileFILE>();
+
+        protected void processSystemFile() {
+            if (WindowsDetector.detect(true)) {
+                // windows下展示桌面
+                File[] desktop = FileSystemView.getFileSystemView().getRoots();
+                if (desktop != null) {
+                    for (int i = 0; i < desktop.length; i++) {
+                        if (desktop[i].exists()) {
+                            filesOfSystem.add(new FileFILE(desktop[i]));
+                        }
+                    }
+                }
+            } else {
+                // *nix下展示家目录
+                filesOfSystem.add(new FileFILE(FileSystemView.getFileSystemView().getDefaultDirectory()));
+            }
+
+            // C, D, E等盘符
+            File[] roots = File.listRoots();
+            if (roots != null) {
+                for (int i = 0; i < roots.length; i++) {
+                    if (roots[i].exists()) {
+                        filesOfSystem.add(new FileFILE(roots[i]));
+                    }
+                }
+            }
+        }
+
+        protected void setCD(final FILE lastDirectory) {
+            for (int i = 0; i < this.getSize(); i++) {
+                FILE file = this.getElementAt(i);
+                if (ComparatorUtils.equals(lastDirectory.prefix(), file.prefix())) {
+                    setCurrentDirectory(lastDirectory);
+                    return;
+                }
+            }
+            setCurrentDirectory(this.getElementAt(0));
+        }
+    }
+
+    private class PlaceListModel extends AbstractPlaceListModel {
+        private FileNodeFILE envFILE;
+        private FileNodeFILE webReportFILE;
+
+        PlaceListModel() {
+            if (FILEChooserPane.this.showEnv) {
+                envFILE = new FileNodeFILE(new FileNode(ProjectConstants.REPORTLETS_NAME, true)) {
+                    @Override
+                    public String getName() {
+                        return getEnvProjectName();
+                    }
+                };
+            }
+            if (FILEChooserPane.this.showWebReport) {
+                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
+            }
+            if (FILEChooserPane.this.showLoc) {
+                processSystemFile();
+            }
+        }
+
+        @Override
+        public FILE getElementAt(int index) {
+            int n = FILEChooserPane.this.showEnv ? 1 : 0;
+            int n2 = FILEChooserPane.this.showWebReport ? 1 : 0;
+
+            if (index < n) {
+                return envFILE;
+            } else if (index < n + n2) {
+                return webReportFILE;
+            } else if (index < n + n2 + filesOfSystem.size()) {
+                return filesOfSystem.get(index - n - n2);
+            }
+            throw new IndexOutOfBoundsException();
+        }
+
+        @Override
+        public int getSize() {
+            if (FILEChooserPane.this.showEnv && FILEChooserPane.this.showWebReport) {
+                return 2 + filesOfSystem.size();
+            } else if (FILEChooserPane.this.showEnv || FILEChooserPane.this.showWebReport) {
+                return 1 + filesOfSystem.size();
+            } else {
+                return filesOfSystem.size();
+            }
+        }
+
+    }
+
+    private class MultiLocalEnvPlaceListModel extends AbstractPlaceListModel {
+
+        private List<FileFILE> envFiles = new ArrayList<FileFILE>();
+        private FileNodeFILE webReportFILE;
+
+        MultiLocalEnvPlaceListModel() {
+            Iterator<String> iterator = DesignerEnvManager.getEnvManager().getEnvNameIterator();
+
+            while (iterator.hasNext()) {
+                final String envName = iterator.next();
+                DesignerWorkspaceInfo info = DesignerEnvManager.getEnvManager().getWorkspaceInfo(envName);
+                if (info.getType() == DesignerWorkspaceType.Local) {
+                    FileFILE fileFILE =
+                            new FileFILE(new File(info.getPath() + CoreConstants.SEPARATOR + ProjectConstants.REPORTLETS_NAME)) {
+                                @Override
+                                public String getName() {
+                                    return envName;
+                                }
+                            };
+                    if (fileFILE.exists() && fileFILE.isDirectory()) {
+                        envFiles.add(fileFILE);
+                    }
+                }
+            }
+
+            if (FILEChooserPane.this.showWebReport) {
+                webReportFILE = new FileNodeFILE(FRContext.getCommonOperator().getWebRootPath());
+            }
+            if (FILEChooserPane.this.showLoc) {
+                processSystemFile();
+            }
+        }
+
+        @Override
+        public FILE getElementAt(int index) {
+            int envCount = envFiles.size();
+            int webReportCount = FILEChooserPane.this.showWebReport ? 1 : 0;
+
+            if (index < envCount) {
+                return envFiles.get(index);
+            } else if (index < envCount + webReportCount) {
+                return webReportFILE;
+            } else if (index < envCount + webReportCount + filesOfSystem.size()) {
+                return filesOfSystem.get(index - envCount - webReportCount);
+            }
+            throw new IndexOutOfBoundsException();
+        }
+
+        @Override
+        public int getSize() {
+            int webReportCount = FILEChooserPane.this.showWebReport ? 1 : 0;
+            return envFiles.size() + filesOfSystem.size() + webReportCount;
+        }
+
+        private class FileFILE extends com.fr.file.FileFILE {
+
+            public FileFILE(File file) {
+                super(file);
+            }
+
+            @Override
+            public Icon getIcon() {
+                if (ComparatorUtils.equals(getTotalName(), ProjectConstants.REPORTLETS_NAME)) {
+                    return BaseUtils.readIcon("/com/fr/base/images/oem/logo.png");
+                } else {
+                    return FileTreeIcon.getIcon(new File(this.getPath()), false);
+                }
+            }
+
+            @Override
+            public FILE[] listFiles() {
+                FILE[] fileFILES = super.listFiles();
+
+                List<FileFILE> results = new ArrayList<>();
+
+                for (FILE fileFILE : fileFILES) {
+                    results.add(new FileFILE(new File(fileFILE.getPath())));
+                }
+
+                return results.toArray(new FILE[results.size()]);
+            }
         }
     }
 

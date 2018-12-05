@@ -72,7 +72,7 @@ public class UsedColorPane extends BasicPane {
         int i = 0;
         if (needPickColorButton) {
             // 取色按钮
-            SpecialUIButton pickColorButton = PickColorButtonFactory.getPickColorButton(selectable, PickColorButtonFactory.IconType.ICON16, setColorRealTime);
+            JButton pickColorButton = PickColorButtonFactory.getPickColorButton(selectable, PickColorButtonFactory.IconType.ICON16, setColorRealTime);
             panel.add(pickColorButton);
             i++;
             this.reserveCells += 1;

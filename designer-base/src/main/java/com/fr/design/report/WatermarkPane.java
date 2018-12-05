@@ -13,7 +13,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.NewColorSelectPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -30,7 +29,6 @@ import java.awt.event.ItemListener;
  * Created by plough on 2018/5/15.
  */
 public class WatermarkPane extends BasicPane {
-
     private static final int MAX_WIDTH = 160;
 
     // 水印预览面板
@@ -47,7 +45,7 @@ public class WatermarkPane extends BasicPane {
     }
 
     private void initComponents() {
-        this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+        this.setBorder(BorderFactory.createEmptyBorder(4, 4, -5, 4));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
         JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -66,7 +64,7 @@ public class WatermarkPane extends BasicPane {
         // 设置
         JPanel rightPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         contentPane.add(rightPane, BorderLayout.EAST);
-        rightPane.add(initRightPane(), BorderLayout.CENTER);
+        rightPane.add(initRightPane(), BorderLayout.NORTH);
     }
 
     public void populate(WatermarkAttr watermark) {
@@ -84,6 +82,7 @@ public class WatermarkPane extends BasicPane {
         watermark.setText(formulaPane.getUITextField().getText());
         watermark.setFontSize((int)fontSizeComboBox.getSelectedItem());
         watermark.setColor(colorPane.getColor());
+        colorPane.updateUsedColor();
         return watermark;
     }
 
@@ -98,6 +97,7 @@ public class WatermarkPane extends BasicPane {
     protected UIScrollPane initRightPane(){
         formulaPane = new TinyFormulaPane();
         fontSizeComboBox = new UIComboBox(FRFontPane.FONT_SIZES);
+        fontSizeComboBox.setEditable(true);
         JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
         fontSizeTypePane.add(fontSizeComboBox, BorderLayout.CENTER);
 
@@ -157,7 +157,8 @@ public class WatermarkPane extends BasicPane {
     }
 
     private void populateColor(Color color) {
-        colorPane.setColor(color);
+        // 颜色面板的色值只有 rgb，去掉 alpha 通道
+        colorPane.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
         colorPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
