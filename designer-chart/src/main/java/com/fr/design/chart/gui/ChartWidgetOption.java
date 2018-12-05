@@ -2,11 +2,12 @@ package com.fr.design.chart.gui;
 
 import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
+import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 /**
  * 表单中 图表控件信息, 名称, class, form中通过XcreatorUtils反射类 实现XChartEditor的初始化.
@@ -19,13 +20,13 @@ public class ChartWidgetOption extends WidgetOption {
 	private String optionName;
 	private Icon optionIcon;
 	private Class<? extends ChartEditor> widgetClass;
-	private Chart chart;
+	private String chartID;
 
-	public ChartWidgetOption(String optionName, Icon optionIcon, Class<? extends ChartEditor> widgetClass, Chart chart) {
+	public ChartWidgetOption(String optionName, Icon optionIcon, Class<? extends ChartEditor> widgetClass, String chartID) {
 		this.optionName = optionName;
 		this.optionIcon = optionIcon;
 		this.widgetClass = widgetClass;
-		this.chart = chart;
+		this.chartID = chartID;
 	}
 
 	/**
@@ -37,6 +38,7 @@ public class ChartWidgetOption extends WidgetOption {
 		Class<? extends ChartEditor> clz = widgetClass();
 		try {
 			ChartEditor widget = clz.newInstance();
+			Chart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.chartID)[0];
 			widget.addChart((Chart) chart.clone());
 			return widget;
 		} catch (InstantiationException e) {

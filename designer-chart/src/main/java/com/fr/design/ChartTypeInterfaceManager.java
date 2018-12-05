@@ -121,12 +121,17 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         
         return classManager;
     }
-    
+
     static {
         readDefault();
         readVanChart();
         PluginModule.registerAgent(PluginModule.ExtraChartDesign, classManager);
 
+    }
+
+    //安装插件，图表类型热更新。
+    //不在static原因：放在static，启动过程中图表插件init也会触发（不需要）
+    public static void addPluginChangedListener() {
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
 
             @Override
@@ -151,41 +156,20 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
-        final Chart[][] allCharts = new Chart[typeName.length][];
-        for (int i = 0; i < typeName.length; i++) {
-            String plotID = typeName[i].getPlotID();
+        int index = 0;
+        for (ChartInternationalNameContentBean bean : typeName) {
+            String plotID = bean.getPlotID();
             Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
-            if (ArrayUtils.isEmpty(rowChart)) {
+            if (ArrayUtils.isEmpty(rowChart) && !ChartTypeManager.innerChart(plotID)) {
                 continue;
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
-            child[i] = new ChartWidgetOption(com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), icon, ChartEditor.class, rowChart[0]);
-            
-            allCharts[i] = rowChart;
+            child[index] = new ChartWidgetOption(com.fr.design.i18n.Toolkit.i18nText(bean.getName()), icon, ChartEditor.class, plotID);
+            index++;
         }
 
         return child;
-    }
-    
-    //加载所有图表图片
-    private static void initAllChartsDemoImage(Chart[][] allCharts) {
-        
-        for (Chart[] rowChart : allCharts) {
-            if (rowChart == null) {
-                continue;
-            }
-            //加载初始化图表模型图片
-            initChartsDemoImage(rowChart);
-        }
-    }
-    
-    private static void initChartsDemoImage(Chart[] rowChart) {
-        
-        for (Chart aRowChart : rowChart) {
-            //此时，为图片生成模型数据
-            aRowChart.createSlotImage();
-        }
     }
 
     private static void readVanChart() {
@@ -252,7 +236,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
     }
 
-    private static IndependentChartUIProvider getChartTypeInterface(String plotID) {
+    private IndependentChartUIProvider getChartTypeInterface(String plotID) {
         if (idAndPriorityMap.containsKey(plotID)) {
             String priority = idAndPriorityMap.get(plotID);
             if (chartTypeInterfaces.containsKey(priority)) {
@@ -303,7 +287,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
     }
 
-    private static String getChartName(String plotID, IndependentChartUIProvider provider) {
+    private String getChartName(String plotID, IndependentChartUIProvider provider) {
         String name = provider.getPlotTypeTitle4PopupWindow();
         if (StringUtils.isEmpty(name)) {
             name = ChartTypeManager.getInstance().getChartName(plotID);

@@ -52,6 +52,8 @@ public class ChartDesignerActivator extends Activator implements Prepare {
         
         DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
         DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
+
+        ChartTypeInterfaceManager.addPluginChangedListener();
     }
 
     @Override
