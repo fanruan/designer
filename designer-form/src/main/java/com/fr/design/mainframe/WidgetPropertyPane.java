@@ -16,7 +16,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.ui.FormWidgetCardPane;
 import com.fr.design.widget.ui.designer.mobile.MobileWidgetDefinePane;
 
-import com.fr.general.ComparatorUtils;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
@@ -174,24 +173,10 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         FormSelection selection = designer.getSelectionModel().getSelection();
         WidgetPropertyUIProvider[] embeddedPropertyUIProviders = null;
         if (selection != null && selection.getSelectedCreator() != null) {
-            embeddedPropertyUIProviders = getEmbeddedPropertyUIProviders(selection.getSelectedCreator());
+            embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
         }
         Set<WidgetPropertyUIProvider> set = ExtraDesignClassManager.getInstance().getArray(WidgetPropertyUIProvider.XML_TAG);
         return ArrayUtils.addAll(embeddedPropertyUIProviders, set.toArray(new WidgetPropertyUIProvider[set.size()]));
-    }
-
-    /**
-     * 获取当前控件扩展的属性tab
-     * @param xCreator
-     * @return
-     */
-    private  WidgetPropertyUIProvider[] getEmbeddedPropertyUIProviders(XCreator xCreator) {
-        if (xCreator instanceof XWScaleLayout
-                && ComparatorUtils.equals(((XWScaleLayout) xCreator).getXCreatorCount(), 1)
-                && ((XWScaleLayout) xCreator).getXCreator(0) instanceof XTextEditor) {
-            return ((XWScaleLayout) xCreator).getXCreator(0).getWidgetPropertyUIProviders();
-        }
-        return xCreator.getWidgetPropertyUIProviders();
     }
 
     /**
