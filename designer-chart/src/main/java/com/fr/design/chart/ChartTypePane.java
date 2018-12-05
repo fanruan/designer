@@ -15,25 +15,32 @@ import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
 
-    private ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstance().getAllChartBaseNames();
+    private ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstanceWithCheck().getAllChartBaseNames();
     private Chart[][] charts4Icon = null;
 
     {
         charts4Icon = new Chart[this.typeName.length][];
         for (int i = 0; i < this.typeName.length; i++) {
-            Chart[] rowCharts = ChartTypeManager.getInstance().getChartTypes(this.typeName[i].getPlotID());
+            Chart[] rowCharts = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.typeName[i].getPlotID());
             int rowChartsCount = rowCharts.length;
             charts4Icon[i] = new Chart[rowChartsCount];
             for (int j = 0; j < rowChartsCount; j++) {
@@ -137,7 +144,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         int subIndex = 0;
 
         for (int i = 0; i < typeName.length; i++) {
-        	Chart [] charts = ChartTypeManager.getInstance().getChartTypes(typeName[i].getPlotID());
+            Chart[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(typeName[i].getPlotID());
             for (int j = 0; j < charts.length; j++) {
                 if (charts[j].getPlot().match4GUI(plot)) {
                     mainIndex = i;
@@ -154,7 +161,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
 
     public void update(Chart oldChart) {
         String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
-        Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
+        Chart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
             if(chart.getPlot() instanceof MapPlot && !supportMap()){
                 JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Not_Supported"));

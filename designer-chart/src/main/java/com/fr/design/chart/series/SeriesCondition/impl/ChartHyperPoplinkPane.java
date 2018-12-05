@@ -15,8 +15,8 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
 
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.HashMap;
 
 /**
@@ -66,7 +66,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
     private ChartCollection createChartCollection() {
         ChartCollection cc = new ChartCollection();
 
-        Chart chart = ChartTypeManager.getFirstChart();
+        Chart chart = ChartTypeManager.getInstanceWithCheck().getFirstChart();
         if (chart != null) {
             try {
                 cc.addChart((Chart) chart.clone());
