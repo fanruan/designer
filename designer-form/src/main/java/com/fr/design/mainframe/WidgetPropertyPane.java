@@ -175,7 +175,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         WidgetPropertyUIProvider[] embeddedPropertyUIProviders = null;
         if (selection != null && selection.getSelectedCreator() != null) {
             XCreator xCreator = selection.getSelectedCreator();
-            embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
+            embeddedPropertyUIProviders = xCreator.getWidgetPropertyUIProviders();
             if (xCreator instanceof XWScaleLayout
                     && ComparatorUtils.equals(((XWScaleLayout) xCreator).getXCreatorCount(), 1)
                     && ((XWScaleLayout) xCreator).getXCreator(0) instanceof XTextEditor) {
