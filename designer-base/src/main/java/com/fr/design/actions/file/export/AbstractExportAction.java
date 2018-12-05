@@ -9,9 +9,9 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
-import com.fr.io.exporter.ExporterKey;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.io.exporter.DesignExportType;
+import com.fr.io.exporter.ExporterKey;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
@@ -178,7 +178,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Engine_Remote_Design_Permission_Denied"),
-                            null,
+                            UIManager.getString("OptionPane.messageDialogTitle"),
                             JOptionPane.ERROR_MESSAGE,
                             UIManager.getIcon("OptionPane.errorIcon")
                     );
@@ -189,7 +189,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Design_Report_Export_Failed") + "\n" + path,
-                            null,
+                            UIManager.getString("OptionPane.messageDialogTitle"),
                             JOptionPane.ERROR_MESSAGE,
                             UIManager.getIcon("OptionPane.errorIcon")
                     );
