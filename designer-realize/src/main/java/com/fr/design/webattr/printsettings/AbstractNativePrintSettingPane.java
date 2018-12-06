@@ -373,7 +373,7 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
                 {customPageRadioButton, specifiedAreaField, areaFieldTip},
                 {doublePrintRadioButton, doublePrintComboBox, new JPanel()}
         };
-        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 0);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 8);
     }
 
     private JPanel getScalePane() {
