@@ -13,6 +13,7 @@ import com.fr.function.SUM;
 import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
@@ -225,39 +226,48 @@ public abstract class FunctionConstants {
 		String pkgName = "com.fr.function";
 		Class<Function> iface = Function.class;
 		ClassLoader classloader = iface.getClassLoader();
-		URL url = classloader.getResource(pkgName.replace('.', '/'));
-		String classFilePath = url.getFile();
-		
-		/*
-		 * alex:url.getFile获取的地址中,如果有空格或中文会被URLEncoder.encode处理
-		 * 会变成%20这种%打头的东西,但是new File的时候%20是无法解析成空格,所以在此需要做URLDecoder.decode处理
-		 */
+		Enumeration<URL> urlEnumeration = null;
 		try {
-			classFilePath = URLDecoder.decode(classFilePath, EncodeConstants.ENCODING_UTF_8);
-		} catch (UnsupportedEncodingException e1) {
-			FRContext.getLogger().error(e1.getMessage(), e1);
+			urlEnumeration = classloader.getResources(pkgName.replace('.', '/'));
+		} catch (IOException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage());
 		}
-		FRContext.getLogger().info("ClassFilePath:" + classFilePath);
-		/*
-		 * alex:如果是jar包中的class文件
-		 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
-		 */
-		for (String fileName : findClassNamesUnderFilePath(classFilePath)) {
+		while (urlEnumeration.hasMoreElements()) {
+			URL url = urlEnumeration.nextElement();
+			String classFilePath = url.getFile();
+
+			/*
+			 * alex:url.getFile获取的地址中,如果有空格或中文会被URLEncoder.encode处理
+			 * 会变成%20这种%打头的东西,但是new File的时候%20是无法解析成空格,所以在此需要做URLDecoder.decode处理
+			 */
 			try {
-				Class<?> cls = Class.forName(pkgName + "." + fileName.substring(0, fileName.length() - 6));
-				if (StableUtils.classInstanceOf(cls, iface)) {
-					Function inst;
-					inst = (Function)cls.newInstance();
-					for (int fi = 0; fi < EMBFUNCTIONS.length; fi++) {
-						if (EMBFUNCTIONS[fi].test(inst)) {
-							break;
+				classFilePath = URLDecoder.decode(classFilePath, EncodeConstants.ENCODING_UTF_8);
+			} catch (UnsupportedEncodingException e1) {
+				FRContext.getLogger().error(e1.getMessage(), e1);
+			}
+			FRContext.getLogger().info("ClassFilePath:" + classFilePath);
+			/*
+			 * alex:如果是jar包中的class文件
+			 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
+			 */
+			for (String fileName : findClassNamesUnderFilePath(classFilePath)) {
+				try {
+					Class<?> cls = Class.forName(pkgName + "." + fileName.substring(0, fileName.length() - 6));
+					System.out.println(pkgName + "." + fileName.substring(0, fileName.length() - 6));
+					if (StableUtils.classInstanceOf(cls, iface)) {
+						Function inst;
+						inst = (Function)cls.newInstance();
+						for (int fi = 0; fi < EMBFUNCTIONS.length; fi++) {
+							if (EMBFUNCTIONS[fi].test(inst)) {
+								break;
+							}
 						}
+
 					}
-					
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
 				}
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
 			}
 		}
 	}
