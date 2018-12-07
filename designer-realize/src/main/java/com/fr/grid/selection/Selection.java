@@ -1,18 +1,21 @@
 package com.fr.grid.selection;
 
-import java.io.Serializable;
-
-import javax.swing.JPopupMenu;
-
 import com.fr.base.FRContext;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.cell.clipboard.FloatElementsClip;
+import com.fr.design.fun.RightSelectionHandlerProvider;
+import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.design.selection.SelectableElement;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.FCloneable;
+
+import javax.swing.JPopupMenu;
+import java.io.Serializable;
+import java.util.Set;
 
 /*
  * TODO ALEX_SEP Selection是跟ElementCasePane绑定的,能不能把ElementCasePane保存在Selection里面呢?
@@ -64,6 +67,20 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 
 	// ///////////////////////////////popup////////////////////////////////
 	public abstract JPopupMenu createPopupMenu(ElementCasePane ePane);
+
+	/**
+	 * 添加插件菜单(增删改都可以)
+	 * @param ePane
+	 * @param popupMenu
+	 */
+	public void addExtraMenu(ElementCasePane ePane, UIPopupMenu popupMenu) {
+		Set<RightSelectionHandlerProvider> selectionHandlerProviders = ExtraDesignClassManager.getInstance().getArray(RightSelectionHandlerProvider.XML_TAG);
+		for (RightSelectionHandlerProvider handler : selectionHandlerProviders) {
+			if (handler.accept(this)) {
+				handler.dmlMenu(ePane, popupMenu);
+			}
+		}
+	}
 
 	// ///////////////////////////////clear////////////////////////////////
 	public abstract boolean clear(ElementCasePane.Clear type, ElementCasePane ePane);
