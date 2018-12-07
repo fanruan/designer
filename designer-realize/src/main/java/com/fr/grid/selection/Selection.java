@@ -27,10 +27,8 @@ import java.util.Set;
 public abstract class Selection implements FCloneable, Serializable , SelectableElement {
 	public abstract boolean isSelectedOneCell(ElementCasePane ePane);
 
-	// ///////////////////////////////copy/////////////////////////////////
 	public abstract void asTransferable(ElementsTransferable transferable, ElementCasePane ePane);
 
-	// ///////////////////////////////paste////////////////////////////////
 	public boolean pasteFloatElementClip(FloatElementsClip feClip, ElementCasePane ePane) {
 		FloatElementsClip floatElementClip;
 		try {
@@ -56,7 +54,6 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 
 	public abstract boolean pasteOtherType(Object ob, ElementCasePane ePane);
 
-	// ///////////////////////////////merge////////////////////////////////
 	public abstract boolean canMergeCells(ElementCasePane ePane);
 
 	public abstract boolean mergeCells(ElementCasePane ePane);
@@ -65,7 +62,6 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 
 	public abstract boolean unMergeCells(ElementCasePane ePane);
 
-	// ///////////////////////////////popup////////////////////////////////
 	public abstract JPopupMenu createPopupMenu(ElementCasePane ePane);
 
 	/**
@@ -82,15 +78,12 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 		}
 	}
 
-	// ///////////////////////////////clear////////////////////////////////
 	public abstract boolean clear(ElementCasePane.Clear type, ElementCasePane ePane);
 
-	// ////////////////////////////////////////////////////////////////////
 	public abstract int[] getSelectedRows();
 
 	public abstract int[] getSelectedColumns();
 
-	// //////////////////////////////move//////////////////////////////////
 	public abstract void moveLeft(ElementCasePane ePane);
 
 	public abstract void moveRight(ElementCasePane ePane);
@@ -99,10 +92,8 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 
 	public abstract void moveDown(ElementCasePane ePane);
 
-	// //////////////////////////DeleteAction///////////////////////////////
 	public abstract boolean triggerDeleteAction(ElementCasePane ePane);
 
-	// //////////////////////////Just4CellSelection///////////////////////////////
 	public abstract boolean containsColumnRow(ColumnRow cr);
 
 	public abstract void populatePropertyPane(ElementCasePane ePane);
