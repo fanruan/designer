@@ -18,7 +18,7 @@ public class FormulaPaneWhenReserveFormula extends FormulaPane {
     private UICheckBox reserveCheckBox4Result;
     private UICheckBox reserveCheckBox4Write;
 
-    FormulaPaneWhenReserveFormula() {
+    public FormulaPaneWhenReserveFormula() {
         super();
     }
 

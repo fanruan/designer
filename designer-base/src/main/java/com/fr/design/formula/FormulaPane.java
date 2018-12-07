@@ -77,7 +77,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
     private DefaultListModel functionNameModel;
     private JList functionNameList;
 
-    FormulaPane() {
+    public FormulaPane() {
         initComponents();
     }
 
