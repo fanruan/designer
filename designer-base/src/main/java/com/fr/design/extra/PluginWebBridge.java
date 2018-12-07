@@ -1,8 +1,8 @@
 package com.fr.design.extra;
 
+import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
 import com.fr.design.RestartHelper;
-import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.GetInstalledPluginsExecutor;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
@@ -554,7 +554,7 @@ public class PluginWebBridge {
      */
     public void clearUserInfo() {
         MarketConfig.getInstance().setInShowBBsName(StringUtils.EMPTY);
-        BBSLoginUtils.bbsLogout();
+        FinePassportManager.getInstance().logout();
         uiLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
     }
 
