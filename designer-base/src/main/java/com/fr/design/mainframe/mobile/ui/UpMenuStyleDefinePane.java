@@ -27,6 +27,7 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 
 public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
@@ -171,6 +172,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             int panelWidth = dimension.width;
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             FRFont frFont = UpMenuStyleDefinePane.this.fontConfPane.update();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = UpMenuStyleDefinePane.this.getTagLayout();

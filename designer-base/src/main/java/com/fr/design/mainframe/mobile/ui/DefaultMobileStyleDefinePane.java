@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane {
 
@@ -84,6 +85,7 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int panelWidth = dimension.width;
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             FRFont frFont = DefaultMobileTemplateStyle.DEFAULT_TAB_FONT.getFont();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = DefaultMobileStyleDefinePane.this.getTagLayout();
