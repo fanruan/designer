@@ -173,7 +173,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            FRFont frFont = UpMenuStyleDefinePane.this.fontConfPane.update();
+            FRFont frFont = this.getTabFontConfig().getFont();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = UpMenuStyleDefinePane.this.getTagLayout();
             int eachWidth = panelWidth / cardTagLayout.getWidgetCount();

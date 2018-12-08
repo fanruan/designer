@@ -86,7 +86,7 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            FRFont frFont = DefaultMobileTemplateStyle.DEFAULT_TAB_FONT.getFont();
+            FRFont frFont = this.getTabFontConfig().getFont();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = DefaultMobileStyleDefinePane.this.getTagLayout();
             int eachWidth = panelWidth / cardTagLayout.getWidgetCount();
