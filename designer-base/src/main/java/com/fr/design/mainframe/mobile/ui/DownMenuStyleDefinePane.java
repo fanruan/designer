@@ -27,6 +27,7 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.util.ArrayList;
 
@@ -151,6 +152,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             int panelWidth = dimension.width;
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             FRFont frFont = this.getTabFontConfig().getFont();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = DownMenuStyleDefinePane.this.getTagLayout();
