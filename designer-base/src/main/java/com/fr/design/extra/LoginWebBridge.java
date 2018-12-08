@@ -1,23 +1,18 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
+import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
-import com.fr.design.bbs.BBSLoginUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.PluginLoginExecutor;
-import com.fr.design.extra.ucenter.Client;
-import com.fr.design.extra.ucenter.XMLHelper;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
-import com.fr.json.JSONObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
-
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import java.awt.Color;
@@ -25,8 +20,6 @@ import java.awt.Desktop;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author vito
@@ -150,7 +143,7 @@ public class LoginWebBridge {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -161,7 +154,7 @@ public class LoginWebBridge {
         try {
             Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.register")));
         } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -172,7 +165,7 @@ public class LoginWebBridge {
         try {
             Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -202,35 +195,16 @@ public class LoginWebBridge {
         if (!testConnection()) {
             return NET_FAILED;
         }
-        List<String> loginResult = frPassport(userInfo, password);
-        String uid = loginResult.get(0);
-        String username = loginResult.get(1);
-        if (Integer.parseInt(uid) > 0) {
-            loginSuccess(username);
-        }
-        return uid;
-    }
-
-    private List<String> frPassport(String username, String password) {
-        LinkedList<String> list = new LinkedList<>();
+        int uid = 0;
         try {
-            Client uc = new Client();
-            String result = uc.ucUserLogin(username, password);
-            result = new String(result.getBytes("iso-8859-1"), "gbk");
-            list = XMLHelper.ucUnserialize(result);
-            if (list.size() > 0) {
-                int uid = Integer.parseInt(list.get(0));
-                if (uid > 0) {
-                    BBSLoginUtils.bbsLogin(list);
-                }
-            } else {
-                list.push(NET_FAILED);
-            }
+            uid = FinePassportManager.getInstance().login(userInfo, password);
         } catch (Exception e) {
-            FRContext.getLogger().info(e.getMessage());
-            list.push(UNKNOWN_ERROR);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-        return list;
+        if (uid > 0) {
+            loginSuccess(MarketConfig.getInstance().getBbsUsername());
+        }
+        return String.valueOf(uid);
     }
 
     /**
@@ -276,39 +250,6 @@ public class LoginWebBridge {
         }
     }
 
-    /**
-     * 获取用户信息
-     *
-     * @param userInfo
-     */
-    public void getLoginInfo(String userInfo) {
-        try {
-            JSONObject jo = new JSONObject(userInfo);
-            String status = jo.get("status").toString();
-            if (ComparatorUtils.equals(status, LOGIN_SUCCESS)) {
-                String username = jo.get("username").toString();
-                int uid = Integer.parseInt(jo.get("uid") == null ? StringUtils.EMPTY : jo.get("uid").toString());
-                closeQQWindow();
-                loginSuccess(username);
-
-                LinkedList<String> list = new LinkedList<>();
-                list.add(String.valueOf(uid));
-                list.add(username);
-                list.add(StringUtils.EMPTY);
-                BBSLoginUtils.bbsLogin(list);
-            } else if (ComparatorUtils.equals(status, LOGIN_FAILED)) {
-                //账号没有QQ授权
-                closeQQWindow();
-                try {
-                    Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("QQ_binding")));
-                } catch (Exception ignored) {
-                    // ignored
-                }
-            }
-        } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
-        }
-    }
 
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
         if (url.indexOf("qqLogin.html") > 0) {
