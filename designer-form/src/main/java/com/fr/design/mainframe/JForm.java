@@ -160,7 +160,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    protected boolean accept(Object o) {
+    public boolean accept(Object o) {
         return !(o instanceof FloatElementsProvider);
     }
 

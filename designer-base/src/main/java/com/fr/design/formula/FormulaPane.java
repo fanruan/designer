@@ -63,19 +63,19 @@ import java.util.Locale;
  */
 public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
-    protected VariableTreeAndDescriptionArea variableTreeAndDescriptionArea;
-    protected RSyntaxTextArea formulaTextArea;
-    protected UITextField keyWordTextField = new UITextField(18);
-    protected int currentPosition = 0;
-    protected int beginPosition = 0;
-    protected int insertPosition = 0;
-    protected JList tipsList;
+    private VariableTreeAndDescriptionArea variableTreeAndDescriptionArea;
+    private RSyntaxTextArea formulaTextArea;
+    private UITextField keyWordTextField = new UITextField(18);
+    private int currentPosition = 0;
+    private int beginPosition = 0;
+    private int insertPosition = 0;
+    private JList tipsList;
     protected DefaultListModel listModel = new DefaultListModel();
-    protected int ifHasBeenWriten = 0;
-    protected DefaultListModel functionTypeListModel = new DefaultListModel();
-    protected QuickList functionTypeList;
-    protected DefaultListModel functionNameModel;
-    protected JList functionNameList;
+    private int ifHasBeenWriten = 0;
+    private DefaultListModel functionTypeListModel = new DefaultListModel();
+    private QuickList functionTypeList;
+    private DefaultListModel functionNameModel;
+    private JList functionNameList;
 
     public FormulaPane() {
         initComponents();
@@ -184,6 +184,18 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     protected void initComponents() {
         this.setLayout(new BorderLayout(4, 4));
+
+        initTextPane();
+        initTipsPane();
+        initVariableTreeAndDescriptionArea();
+    }
+
+    private void initVariableTreeAndDescriptionArea() {
+        variableTreeAndDescriptionArea = new VariableTreeAndDescriptionArea();
+        this.add(variableTreeAndDescriptionArea, BorderLayout.SOUTH);
+    }
+
+    private void initTextPane() {
         // text
         JPanel textPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(textPane, BorderLayout.CENTER);
@@ -199,7 +211,6 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         textPane.add(formulaTextAreaScrollPane, BorderLayout.CENTER);
         textPane.add(checkBoxandbuttonPane, BorderLayout.SOUTH);
 
-        initTipsPane();
 
         UIButton checkValidButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Check_Valid"));
         checkValidButton.addActionListener(checkValidActionListener);
@@ -209,8 +220,6 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         checkBoxandbuttonPane.add(checkBoxPane, BorderLayout.WEST);
         checkBoxandbuttonPane.add(checkValidButton, BorderLayout.EAST);
         extendCheckBoxPane(checkBoxPane);
-        variableTreeAndDescriptionArea = new VariableTreeAndDescriptionArea();
-        this.add(variableTreeAndDescriptionArea, BorderLayout.SOUTH);
     }
 
 
@@ -218,7 +227,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     }
 
-    protected void configFormulaArea() {
+    private void configFormulaArea() {
         formulaTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_FORMULA);
         formulaTextArea.setAnimateBracketMatching(true);
         formulaTextArea.setAntiAliasingEnabled(true);
@@ -313,7 +322,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         }
     }
 
-    protected void fixFunctionNameList() {
+    private void fixFunctionNameList() {
         if (tipsList.getSelectedValue() != null) {
             int signOfContinue = 1;
             int indexOfFunction = 0;
@@ -346,7 +355,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     }
 
-    protected int getBeginPosition() {
+    private int getBeginPosition() {
         int i = currentPosition;
         String textArea = formulaTextArea.getText();
         for (; i > 0; i--) {
@@ -361,7 +370,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         return i;
     }
 
-    protected void firstStepToFindTips(int theBeginPosition) {
+    private void firstStepToFindTips(int theBeginPosition) {
         String textArea = formulaTextArea.getText();
 
         if (currentPosition > 0 && theBeginPosition < currentPosition) {
@@ -443,7 +452,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
     /**
      * Apply text.
      */
-    public void applyText(String text) {
+    private void applyText(String text) {
         if (text == null || text.length() <= 0) {
             return;
         }
@@ -541,7 +550,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
     }
 
     // check valid
-    protected ActionListener checkValidActionListener = new ActionListener() {
+    private ActionListener checkValidActionListener = new ActionListener() {
 
         public void actionPerformed(ActionEvent evt) {
             // Execute Formula default cell element.
@@ -579,7 +588,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         private JTree variablesTree;
         private UITextArea descriptionTextArea;
 
-        public VariableTreeAndDescriptionArea() {
+        VariableTreeAndDescriptionArea() {
             this.initComponents();
         }
 
@@ -802,13 +811,15 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
         private void initComponents() {
             this.setLayout(new BorderLayout(4, 4));
-            // Function
+            initVariablesTree();
+            initFunctionPane();
+        }
+
+        private void initFunctionPane() {
             JPanel functionPane = new JPanel(new BorderLayout(4, 4));
             this.add(functionPane, BorderLayout.WEST);
             initFunctionTypeList(functionPane);
             initFunctionNameList(functionPane);
-            initVariablesTree();
-            // 选择:
             functionTypeList.setSelectedIndex(0);
         }
 
@@ -959,7 +970,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         private Icon icon;
         private String[] subNodes = new String[0];
 
-        public TextFolderUserObject(String text, Icon icon, String[] subNodes) {
+        TextFolderUserObject(String text, Icon icon, String[] subNodes) {
             this.text = text;
             this.icon = icon;
             this.subNodes = subNodes;
@@ -986,11 +997,11 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     public static class TextUserObject {
 
-        public TextUserObject(String text) {
+        TextUserObject(String text) {
             this(text, text);
         }
 
-        public TextUserObject(String text, String displayText) {
+        TextUserObject(String text, String displayText) {
             this.text = text;
             this.displayText = displayText;
         }
@@ -999,7 +1010,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             return this.text;
         }
 
-        public String getDisplayText() {
+        String getDisplayText() {
             return this.displayText;
         }
 
