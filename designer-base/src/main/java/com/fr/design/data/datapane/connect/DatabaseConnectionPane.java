@@ -85,7 +85,6 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         this.originalCharSet = ob.getOriginalCharsetName();
         if (StringUtils.isBlank(originalCharSet)) {
             this.charSetComboBox.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Encode_Auto"));
-
         } else {
             this.charSetComboBox.setSelectedItem(ob.getOriginalCharsetName());
         }
