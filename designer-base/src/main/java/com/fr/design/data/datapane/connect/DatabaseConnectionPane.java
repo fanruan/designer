@@ -73,7 +73,7 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
                 new ModLineBorder(ModLineBorder.TOP),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced")
         ));
-        chartSetPane.add(GUICoreUtils.createNamedPane(charSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_New_Charset") + ":"));
+        chartSetPane.add(GUICoreUtils.createNamedPane(charSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Charset") + ":"));
     }
 
     protected abstract JPanel mainPanel();
