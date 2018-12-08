@@ -705,7 +705,7 @@ public class MutilTempalteTabPane extends JComponent {
         // 只有是环境内的文件，才执行释放锁
         if (file != null && file.isEnvFile()) {
             // release lock
-            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(template.getPath());
+            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(file.getPath());
         }
     }
 

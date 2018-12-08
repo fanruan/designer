@@ -32,6 +32,7 @@ import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
@@ -56,6 +57,8 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.lock.TplOperator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -587,6 +590,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (isCancelOperation(chooseResult)) {
             return false;
         }
+        // 源文件
+        FILE sourceFile = editingFILE;
 
         if (isOkOperation(chooseResult)) {
             boolean access = false;
@@ -596,13 +601,33 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(
+                        DesignerContext.getDesignerFrame(),
+                        Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!",
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                        JOptionPane.WARNING_MESSAGE);
                 return false;
             }
+            // 目标文件
             editingFILE = fileChooser.getSelectedFILE();
         }
 
-        return saveNewFile(editingFILE, oldName);
+        boolean lockedTarget = WorkContext.getCurrent().get(TplOperator.class).saveAs(editingFILE.getPath());
+        if (lockedTarget) {
+            boolean saved = saveNewFile(editingFILE, oldName);
+            // 目标文件保存成功并且源文件不一致的情况下，把源文件锁释放掉
+            if (saved && !ComparatorUtils.equals(editingFILE.getPath(), sourceFile.getPath())) {
+                WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(sourceFile.getPath());
+            }
+            return saved;
+        } else {
+            JOptionPane.showMessageDialog(
+                    DesignerContext.getDesignerFrame(),
+                    Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
     }
 
     protected boolean saveNewFile(FILE editingFILE, String oldName) {
