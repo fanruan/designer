@@ -419,7 +419,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         fireSuperTargetModified();
     }
 
-    protected boolean accept(Object o) {
+    public boolean accept(Object o) {
         return true;
     }
 
