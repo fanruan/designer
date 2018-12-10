@@ -52,7 +52,8 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
         }
         foregroundColorPane = new ColorSelectBox(60);
         backgroundColorPane = new ColorSelectBox(60);
-
+        foregroundColorPane.setSelectObject(Color.lightGray);
+        foregroundColorPane.setSelectObject(Color.black);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -219,7 +220,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
     @Override
     public void reset() {
         patternButtonArray[0].setSelected(true);
-        foregroundColorPane.setSelectObject(null);
-        backgroundColorPane.setSelectObject(null);
+        foregroundColorPane.setSelectObject(Color.lightGray);
+        backgroundColorPane.setSelectObject(Color.black);
     }
 }
