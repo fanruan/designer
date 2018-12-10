@@ -3,9 +3,6 @@
  */
 package com.fr.design.cell.clipboard;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
 import com.fr.base.FRContext;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.cell.CellElement;
@@ -14,6 +11,9 @@ import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StringUtils;
 import com.fr.stable.unit.FU;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The clip of CellElement.
@@ -39,7 +39,47 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
         this.clips = clips;
     }
 
-    public String compateExcelPaste() {
+	public int getColumnSpan() {
+		return columnSpan;
+	}
+
+	public void setColumnSpan(int columnSpan) {
+		this.columnSpan = columnSpan;
+	}
+
+	public int getRowSpan() {
+		return rowSpan;
+	}
+
+	public void setRowSpan(int rowSpan) {
+		this.rowSpan = rowSpan;
+	}
+
+	public FU[] getColumnWidth() {
+		return columnWidth;
+	}
+
+	public void setColumnWidth(FU[] columnWidth) {
+		this.columnWidth = columnWidth;
+	}
+
+	public FU[] getRowHeight() {
+		return rowHeight;
+	}
+
+	public void setRowHeight(FU[] rowHeight) {
+		this.rowHeight = rowHeight;
+	}
+
+	public TemplateCellElement[] getClips() {
+		return clips;
+	}
+
+	public void setClips(TemplateCellElement[] clips) {
+		this.clips = clips;
+	}
+
+	public String compateExcelPaste() {
     	Arrays.sort(this.clips, CellElementComparator.getRowFirstComparator());
 
 		// 排序
