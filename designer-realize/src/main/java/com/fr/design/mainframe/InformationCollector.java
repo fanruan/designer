@@ -105,6 +105,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     private static final String ATTR_USER_NAME = "username";
     private static final String ATTR_UUID = "uuid";
 	private static final String ATTR_FUNCTION_ARRAY = "functionArray";
+	private static final int MAX_EACH_REQUEST_RECORD_COUNT = 200;
 
 	private static InformationCollector collector;
 
@@ -242,14 +243,22 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		boolean success = false;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
 		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-		if(content.length() > 0){
-			success = sendFunctionRecord(url, content);
+		try {
+			for(int i=0;i<content.length();i++){
+				JSONArray functionArray = content.getJSONArray(i);
+				if(functionArray.length() > 0){
+					success = sendFunctionRecord(url, functionArray);
+				}
+			}
 			//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
 			if (success) {
 				this.lastTime = dateToString();
 				FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
 			}
+		}catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
+
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
 //		try {
@@ -443,32 +452,50 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
 	public static JSONArray getFunctionsContent(Date current, Date last) throws JSONException{
+		//记录当前条数，达到200条合并成一个请求
+		int count = 0;
 		JSONArray functionArray = new JSONArray();
 		QueryCondition condition = QueryFactory.create()
 				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
 				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
 		try {
 			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-
+			JSONArray temp = new JSONArray();
 			if(!focusPoints.isEmpty()){
-				for(FocusPoint focusPoint : focusPoints.getList()){
-					com.fr.json.JSONObject record = new com.fr.json.JSONObject();
-					record.put(ATTR_ID, focusPoint.getId());
-					record.put(ATTR_TEXT, focusPoint.getText());
-					record.put(ATTR_SOURCE, focusPoint.getSource());
-					record.put(ATTR_TIME, focusPoint.getTime().getTime());
-					record.put(ATTR_TITLE, focusPoint.getTitle());
-					record.put(ATTR_USER_NAME, MarketConfig.getInstance().getBbsUsername());
-					record.put(ATTR_UUID, DesignerEnvManager.getEnvManager().getUUID());
-					record.put(ATTR_FUNCTION_ARRAY, functionArray);
-					functionArray.put(record);
+				for(int i=0;i<  focusPoints.getList().size();i++){
+					FocusPoint focusPoint = focusPoints.getList().get(i);
+					if(focusPoint != null){
+						if((++count <= MAX_EACH_REQUEST_RECORD_COUNT)){
+							temp.put(getOneRecord(focusPoint));
+						} else {
+							count = 0;
+							functionArray.put(temp);
+							temp = new JSONArray();
+							temp.put(getOneRecord(focusPoint));
+						}
+						if(i == (focusPoints.getList().size() -1)){
+							functionArray.put(temp);
+						}
+					}
 				}
 			}
 
-		} catch (MetricException e) {
+		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		return functionArray;
+	}
+
+	private static JSONObject getOneRecord(FocusPoint focusPoint) throws JSONException{
+		com.fr.json.JSONObject record = new com.fr.json.JSONObject();
+		record.put(ATTR_ID, focusPoint.getId());
+		record.put(ATTR_TEXT, focusPoint.getText());
+		record.put(ATTR_SOURCE, focusPoint.getSource());
+		record.put(ATTR_TIME, focusPoint.getTime().getTime());
+		record.put(ATTR_TITLE, focusPoint.getTitle());
+		record.put(ATTR_USER_NAME, MarketConfig.getInstance().getBbsUsername());
+		record.put(ATTR_UUID, DesignerEnvManager.getEnvManager().getUUID());
+		return record;
 	}
 
 	private class StartStopTime implements XMLReadable, XMLWriter {
