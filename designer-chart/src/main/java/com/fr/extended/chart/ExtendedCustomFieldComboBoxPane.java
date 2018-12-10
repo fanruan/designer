@@ -13,6 +13,7 @@ import com.fr.design.gui.itable.UITableEditor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.stable.StringUtils;
@@ -49,7 +50,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
         JPanel northPane = new JPanel(new BorderLayout());
         northPane.add(jcb, BorderLayout.CENTER);
         UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name_From"));
-        label.setPreferredSize(new Dimension(82, 20));
+        label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, 20));
         northPane.add(label, BorderLayout.WEST);
         this.add(northPane, BorderLayout.NORTH);
         this.add(cardPane, BorderLayout.CENTER);
@@ -134,7 +135,7 @@ public class ExtendedCustomFieldComboBoxPane extends UIComboBoxPane<AbstractData
             };
 
             double p = TableLayout.PREFERRED;
-            double[] columnSize = {76, 120};
+            double[] columnSize = {78, 122};
             double[] rowSize = {p, p, p};
 
             JPanel panel = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);

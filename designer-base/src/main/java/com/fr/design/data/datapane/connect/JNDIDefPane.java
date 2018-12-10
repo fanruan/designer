@@ -125,7 +125,7 @@ public class JNDIDefPane extends JPanel {
 		}
 
 		// Properties.
-		Hashtable<String, String> contextHashtable = jndiDatabase.getContextHashtable();
+		Map<String, String> contextHashtable = jndiDatabase.getContextHashtable();
 		Object INITIAL_CONTEXT_FACTORY = contextHashtable.get(Context.INITIAL_CONTEXT_FACTORY);
 
 		this.JNDIFactoryComboBox.setSelectedItem(INITIAL_CONTEXT_FACTORY == null ? "" : INITIAL_CONTEXT_FACTORY);
@@ -148,7 +148,7 @@ public class JNDIDefPane extends JPanel {
 		populateContextAttributes(contextHashtable, this.APPLET_TF, Context.APPLET);
 	}
 
-	private void populateContextAttributes(Hashtable<String, String> properties, UITextField textField, String contextAttr) {
+	private void populateContextAttributes(Map<String, String> properties, UITextField textField, String contextAttr) {
 		String PROVIDER_URL = properties.get(contextAttr);
 		if (PROVIDER_URL != null) {
 			textField.setText(PROVIDER_URL);
@@ -160,7 +160,7 @@ public class JNDIDefPane extends JPanel {
 
 		jndiDatabase.setJNDIName(this.jndiNameTextField.getText());
 
-		Hashtable<String, String> contextHashtable = jndiDatabase.getContextHashtable();
+		Map<String, String> contextHashtable = jndiDatabase.getContextHashtable();
 
 		String factoryString = (String)this.JNDIFactoryComboBox.getEditor().getItem();
 		if (factoryString != null && factoryString.trim().length() > 0) {
@@ -186,7 +186,7 @@ public class JNDIDefPane extends JPanel {
 		return jndiDatabase;
 	}
 
-	private void updateContextAttributes(Hashtable<String, String> contextHashtable, UITextField textField, String contextAttr) {
+	private void updateContextAttributes(Map<String, String> contextHashtable, UITextField textField, String contextAttr) {
 		String tValue = textField.getText();
 		if (tValue != null && tValue.trim().length() > 0) {
 			contextHashtable.put(contextAttr, tValue);

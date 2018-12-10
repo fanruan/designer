@@ -10,6 +10,7 @@ import java.awt.event.ContainerEvent;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRScaleLayoutAdapter;
 import com.fr.design.form.layout.FRScaleLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
@@ -165,5 +166,17 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 	public void firePropertyChange(){
 		XCreator child = getXCreator(INDEX);
 		child.firePropertyChange();
+	}
+
+	/**
+	 * 获取被包装的XCreator扩展的属性tab
+	 * @return
+	 */
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		if (this.getXCreatorCount() > 0) {
+			return this.getXCreator(0).getWidgetPropertyUIProviders();
+		}
+		return super.getWidgetPropertyUIProviders();
 	}
 }
