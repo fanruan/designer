@@ -607,7 +607,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
                 } else {
                     liteCondition = new FormulaCondition(formulaTextArea.getText());
                 }
-                //修改的时候加入判断条件类型 REPORT-13441
+                //修改的时候加入判断条件重复 REPORT-13441
                 boolean result = isExistedInParentTreeNode(parentTreeNode, liteCondition, true);
                 if (result) {
                     JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
