@@ -24,6 +24,7 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class SliderStyleDefinePane extends MobileTemplateStyleDefinePane {
     private NewColorSelectBox initDotColor;
@@ -131,6 +132,7 @@ public class SliderStyleDefinePane extends MobileTemplateStyleDefinePane {
             Dimension dimension = this.getSize();
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             FRFont frFont = this.getTabFontConfig().getFont();
             g2d.setFont(frFont);
             g2d.setColor(frFont.getForeground());
