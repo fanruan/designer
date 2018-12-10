@@ -3,6 +3,7 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.BaseUtils;
 import com.fr.design.icon.LockIcon;
 import com.fr.file.filetree.FileNode;
+import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
 
@@ -125,8 +126,16 @@ public class FileTreeIcon {
         return FOLDER_HALF_IMAGE_ICON;
     }
 
+    /**
+     * 获取文件节点对应的图标
+     *
+     * @param node 文件节点
+     * @return 文件节点的图标
+     */
     public static Icon getIcon(FileNode node) {
-        return getIcon(node, node.getLock() != null);
+        // 如果文件节点锁不为空且不是当前用户锁定的该模板，那么模板ICON 提示用户当前文件节点被锁
+        boolean showLock = node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock());
+        return getIcon(node, showLock);
     }
 
     public static Icon getIcon(FileNode node, boolean isShowLock) {
