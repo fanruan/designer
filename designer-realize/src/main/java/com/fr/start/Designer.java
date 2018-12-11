@@ -100,9 +100,7 @@ public class Designer extends BaseDesigner {
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
-            String message = "Designer port not available.";
-            JOptionPane.showMessageDialog(null, message, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
-            FineLoggerFactory.getLogger().error(message);
+            FineLoggerFactory.getLogger().error("Designer port not available.");
             System.exit(0);
             return;
         }
