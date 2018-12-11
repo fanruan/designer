@@ -102,11 +102,18 @@ public final class FunctionConstants {
 	}
 
 	private static boolean isCustomFormulaPath(String classFilePath) {
-		// 除非是代码启动，否则不读取 WEB-INF/classes/com/fr/function 目录下的类
-		return !classFilePath.contains("!/") && GeneralUtils.readBuildNO().contains("-");
+		return !isJarPath(classFilePath) && isDebugMode();
 	}
 
-	/**
+    private static boolean isDebugMode() {
+        return !GeneralUtils.readBuildNO().contains("-");
+    }
+
+    private static boolean isJarPath(String classFilePath) {
+        return classFilePath.contains("!/");
+    }
+
+    /**
 	 * 将函数分组插件中的函数添加到对应的列表中
 	 * @param listModel
 	 */
@@ -152,7 +159,7 @@ public final class FunctionConstants {
 		 * alex:如果是jar包中的class文件
 		 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
 		 */
-		if (filePath.contains("!/")) {
+		if (isJarPath(filePath)) {
 			String[] arr = filePath.split("!/");
 			String jarPath = arr[0].substring(6); // alex:substring(6)去掉前面的file:/这六个字符
 			String classPath = arr[1];
