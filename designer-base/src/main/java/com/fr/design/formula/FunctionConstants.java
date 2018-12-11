@@ -13,6 +13,7 @@ import com.fr.function.SUM;
 import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.EncodeConstants;
@@ -66,7 +67,6 @@ public final class FunctionConstants {
 		while (urlEnumeration.hasMoreElements()) {
 			URL url = urlEnumeration.nextElement();
 			String classFilePath = url.getFile();
-
 			/*
 			 * alex:url.getFile获取的地址中,如果有空格或中文会被URLEncoder.encode处理
 			 * 会变成%20这种%打头的东西,但是new File的时候%20是无法解析成空格,所以在此需要做URLDecoder.decode处理
@@ -77,10 +77,9 @@ public final class FunctionConstants {
 				FRContext.getLogger().error(e1.getMessage(), e1);
 			}
 			FRContext.getLogger().info("ClassFilePath:" + classFilePath);
-			/*
-			 * alex:如果是jar包中的class文件
-			 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
-			 */
+			if (isCustomFormulaPath(classFilePath)) {
+				continue;
+			}
 			for (String fileName : findClassNamesUnderFilePath(classFilePath)) {
 				try {
 					Class<?> cls = Class.forName(pkgName + "." + fileName.substring(0, fileName.length() - 6));
@@ -94,9 +93,17 @@ public final class FunctionConstants {
 						}
 					}
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException ignore) {
+				} catch (Throwable e) {
+					// 不要因为个别公式加载失败，而导致整个函数面板无法启动
+					FineLoggerFactory.getLogger().error(e.getMessage());
 				}
 			}
 		}
+	}
+
+	private static boolean isCustomFormulaPath(String classFilePath) {
+		// 除非是代码启动，否则不读取 WEB-INF/classes/com/fr/function 目录下的类
+		return !classFilePath.contains("!/") && GeneralUtils.readBuildNO().contains("-");
 	}
 
 	/**
