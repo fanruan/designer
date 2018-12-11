@@ -102,11 +102,11 @@ public final class FunctionConstants {
 	}
 
 	private static boolean isCustomFormulaPath(String classFilePath) {
-		return !isJarPath(classFilePath) && isDebugMode();
+		return !isJarPath(classFilePath) && isNotDebugMode();
 	}
 
-    private static boolean isDebugMode() {
-        return !GeneralUtils.readBuildNO().contains("-");
+    private static boolean isNotDebugMode() {
+        return GeneralUtils.readBuildNO().contains("-");
     }
 
     private static boolean isJarPath(String classFilePath) {
