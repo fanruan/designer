@@ -667,18 +667,10 @@ public class UIBasicMenuItemUI extends MenuItemUI {
     }
 
     private void installFont(final String prefix, final JComponent menuItem) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (menuItem == null) {
-                    return;
-                }
-                LookAndFeel.installColorsAndFont(menuItem, prefix + ".background", prefix + ".foreground", prefix + ".font");
-            }
-        });
-        thread.setName("UIBasicMenuItemUI");
-        thread.setDaemon(true);
-        thread.start();
+        if (menuItem == null) {
+            return;
+        }
+        LookAndFeel.installColorsAndFont(menuItem, prefix + ".background", prefix + ".foreground", prefix + ".font");
     }
 
     protected Dimension getPreferredMenuItemSize(JComponent c, Icon checkIcon,

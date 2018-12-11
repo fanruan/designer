@@ -10,6 +10,7 @@ import com.fr.design.mainframe.widget.MobileTabFontConfPane;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
+import com.fr.general.cardtag.mobile.TabFontConfig;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -97,7 +98,10 @@ public abstract class StyleDefinePaneWithSelectConf extends MobileTemplateStyleD
     public MobileTemplateStyle updateSubStyle() {
         MobileTemplateStyle mobileTemplateStyle = updateStyleWithSelectConf();
         mobileTemplateStyle.setSelectColor(selectColorBox.getSelectObject());
-        mobileTemplateStyle.getTabFontConfig().setSelectColor(selectFontColor.getColor());
+        TabFontConfig config = new TabFontConfig();
+        config.setFont(mobileTemplateStyle.getTabFontConfig().getFont());
+        config.setSelectColor(selectFontColor.getColor());
+        mobileTemplateStyle.setTabFontConfig(config);
         return mobileTemplateStyle;
     }
 

@@ -206,8 +206,7 @@ public class MutilTempalteTabPane extends JComponent {
                             openedTemplate.remove(jTemplate);
                             closeFormat(jTemplate);
                             HistoryTemplateListCache.getInstance().closeSelectedReport(jTemplate);
-                            // release lock
-                            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(jTemplate.getPath());
+                            closeAndFreeLock(jTemplate);
                         }
                     }
                     JTemplate<?, ?> currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
@@ -221,7 +220,6 @@ public class MutilTempalteTabPane extends JComponent {
         if (openedTemplate.size() == 1) {
             closeOther.setEnabled(false);
         }
-
         return closeOther;
     }
 
@@ -698,9 +696,17 @@ public class MutilTempalteTabPane extends JComponent {
 
     private void closeTpl(@Nonnull JTemplate<?, ?> specifiedTemplate, @Nonnull String fileName) {
         HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
-        // release lock
-        WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(specifiedTemplate.getPath());
+        closeAndFreeLock(specifiedTemplate);
         activeTemplate(fileName);
+    }
+
+    private void closeAndFreeLock(@Nonnull JTemplate<?, ?> template) {
+        FILE file = template.getEditingFILE();
+        // 只有是环境内的文件，才执行释放锁
+        if (file != null && file.isEnvFile()) {
+            // release lock
+            WorkContext.getCurrent().get(TplOperator.class).closeAndFreeFile(file.getPath());
+        }
     }
 
     /**
