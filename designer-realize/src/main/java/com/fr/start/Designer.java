@@ -57,6 +57,7 @@ import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 import java.awt.Component;
@@ -92,14 +93,16 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-    
+
         //启动运行时
         FineRuntime.start();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         if (DesignUtils.isStarted()) {
             DesignUtils.clientSend(args);
-            FineLoggerFactory.getLogger().error("Designer port not available.");
+            String message = "Designer port not available.";
+            JOptionPane.showMessageDialog(null, message, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().error(message);
             System.exit(0);
             return;
         }
@@ -115,7 +118,10 @@ public class Designer extends BaseDesigner {
         try {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
+            SplashContext.getInstance().hide();
+            JOptionPane.showMessageDialog(null, fatal.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
+            System.exit(0);
         }
 
         if (WorkContext.getCurrent().isLocal()) {
