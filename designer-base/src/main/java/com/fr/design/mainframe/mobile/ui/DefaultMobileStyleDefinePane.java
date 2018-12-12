@@ -95,9 +95,9 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int ascentHeight = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
-                String widgetName = cardSwitchButton.getText();
-                int width = fm.stringWidth(widgetName);
-                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
+                String displayName = calculateDisplayName(cardSwitchButton.getText(), fm, eachWidth);
+                int width = fm.stringWidth(displayName);
+                g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
                 if (i == 0) {
                     g2d.setStroke(new BasicStroke(2.0f));
                     g2d.drawLine(0, panelHeight - 1, eachWidth, panelHeight - 1);
