@@ -66,9 +66,11 @@ import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.StringUtils;
+import com.fr.third.javax.annotation.Nonnull;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import java.awt.Container;
+import java.awt.Dimension;
 
 /**
  * XCreator的相关处理
@@ -284,7 +286,7 @@ public class XCreatorUtils {
      * @param creator 组件
      * @return 返回顶层容器
      */
-    public static XLayoutContainer getHotspotContainer(XCreator creator) {
+    public static XLayoutContainer getHotspotContainer(@Nonnull XCreator creator) {
         if (creator.isDedicateContainer()) {
             return (XLayoutContainer) creator.getParent();
         }

@@ -1,6 +1,7 @@
 package com.fr.design.file;
 
 import com.fr.base.chart.chartdata.CallbackEvent;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
@@ -60,6 +61,10 @@ public class HistoryTemplateListPane implements CallbackEvent {
         return instead().getCurrentEditingTemplate();
     }
 
+    /**
+     * @param jt jt
+     * @see DesignerFrameFileDealerPane#setCurrentEditingTemplate(JTemplate)
+     */
     public void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
         instead().setCurrentEditingTemplate(jt);
 
