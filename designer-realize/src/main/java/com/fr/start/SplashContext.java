@@ -24,7 +24,7 @@ public class SplashContext {
 
     public static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
     public static final String SPLASH_CACHE_NAME = "splash_10.gif";
-    private static final int FETCH_ONLINE_MAX_TIMES = 10;
+    private static final int FETCH_ONLINE_MAX_TIMES = 50;
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
 
