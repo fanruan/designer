@@ -170,7 +170,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
-	private byte[] getJSONContentAsByte(){
+	private JSONObject getJSONContentAsByte(){
 		JSONObject content = new JSONObject();
 
 		JSONArray startStopArray = new JSONArray();
@@ -192,13 +192,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				FRContext.getLogger().error(e.getMessage(), e);
 			}
 		}
-
-		try {
-			return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
-			return ArrayUtils.EMPTY_BYTE_ARRAY;
-		}
+		return content;
 	}
 
 	private void sendUserInfo(){
@@ -208,19 +202,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		if (currentTime - lastTime <= DELTA) {
 			return;
 		}
-		byte[] content = getJSONContentAsByte();
-		HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("user.info"));
-		hc.setContent(content);
-		if (!hc.isServerAlive()) {
-			return;
-		}
-		String res = hc.getResponseText();
-		//服务器返回true，说明已经取得成功，清空当前记录的信息
+		JSONObject content = getJSONContentAsByte();
+		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
 		try {
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", content);
+			String res = HttpToolbox.post(url, para);
 			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-		} catch (JSONException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		if (success){
 			this.reset();
@@ -236,7 +228,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
 		JSONArray content = null;
 		try {
-			content = getFunctionsContent(current, new Date(lastTime));
+			content = getFunctionsContent(currentTime, lastTime);
 		} catch (JSONException e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
@@ -451,7 +443,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static JSONArray getFunctionsContent(Date current, Date last) throws JSONException{
+	public static JSONArray getFunctionsContent(long current, long last) throws JSONException{
 		//记录当前条数，达到200条合并成一个请求
 		int count = 0;
 		JSONArray functionArray = new JSONArray();
