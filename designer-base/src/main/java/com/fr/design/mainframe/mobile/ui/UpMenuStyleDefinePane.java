@@ -188,15 +188,15 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
-                String widgetName = cardSwitchButton.getText();
-                int width = fm.stringWidth(widgetName);
+                String displayName = calculateDisplayName(cardSwitchButton.getText(), fm, eachWidth);
+                int width = fm.stringWidth(displayName);
                 if(i == 0){
                     Color oldColor = g2d.getColor();
                     g2d.setColor(this.getSelectColor());
                     g2d.fillRect(0, 0 ,eachWidth, panelHeight - 2);
                     g2d.setColor(oldColor);
                 }
-                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
+                g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
                 Stroke oldStroke = g2d.getStroke();
                 if (i == 0) {
                     g2d.setColor(this.underLine.getColor());

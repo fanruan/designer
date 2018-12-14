@@ -163,8 +163,8 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
                 g2d.setColor(i == 0 ? selectFontColor : frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
-                String widgetName = cardSwitchButton.getText();
-                int width = fm.stringWidth(widgetName);
+                String displayName = calculateDisplayName(cardSwitchButton.getText(), fm, eachWidth);
+                int width = fm.stringWidth(displayName);
                 if(i == 0){
                     Color oldColor = g2d.getColor();
                     g2d.setColor(this.getSelectColor());
@@ -173,7 +173,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                 }
                 Icon icon = new Icon(PAINT_ICON, ICON_PATH);
                 g2d.drawImage(IconManager.getIconManager().getDefaultIconImage(icon), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
-                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight + ICON_OFFSET + GAP - fontHeight) / 2  + ascent);
+                g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight + ICON_OFFSET + GAP - fontHeight) / 2  + ascent);
                 Stroke oldStroke = g2d.getStroke();
                 if (splitLine.getLineStyle() != 0) {
                     g2d.setColor(splitLine.getColor());
