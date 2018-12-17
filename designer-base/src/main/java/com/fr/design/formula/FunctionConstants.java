@@ -13,6 +13,7 @@ import com.fr.function.SUM;
 import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.stable.EncodeConstants;
@@ -66,7 +67,6 @@ public final class FunctionConstants {
 		while (urlEnumeration.hasMoreElements()) {
 			URL url = urlEnumeration.nextElement();
 			String classFilePath = url.getFile();
-
 			/*
 			 * alex:url.getFile获取的地址中,如果有空格或中文会被URLEncoder.encode处理
 			 * 会变成%20这种%打头的东西,但是new File的时候%20是无法解析成空格,所以在此需要做URLDecoder.decode处理
@@ -77,10 +77,9 @@ public final class FunctionConstants {
 				FRContext.getLogger().error(e1.getMessage(), e1);
 			}
 			FRContext.getLogger().info("ClassFilePath:" + classFilePath);
-			/*
-			 * alex:如果是jar包中的class文件
-			 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
-			 */
+			if (isCustomFormulaPath(classFilePath)) {
+				continue;
+			}
 			for (String fileName : findClassNamesUnderFilePath(classFilePath)) {
 				try {
 					Class<?> cls = Class.forName(pkgName + "." + fileName.substring(0, fileName.length() - 6));
@@ -94,12 +93,27 @@ public final class FunctionConstants {
 						}
 					}
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException ignore) {
+				} catch (Throwable e) {
+					// 不要因为个别公式加载失败，而导致整个函数面板无法启动
+					FineLoggerFactory.getLogger().error(e.getMessage());
 				}
 			}
 		}
 	}
 
-	/**
+	private static boolean isCustomFormulaPath(String classFilePath) {
+		return !isJarPath(classFilePath) && isNotDebugMode();
+	}
+
+    private static boolean isNotDebugMode() {
+        return GeneralUtils.readBuildNO().contains("-");
+    }
+
+    private static boolean isJarPath(String classFilePath) {
+        return classFilePath.contains("!/");
+    }
+
+    /**
 	 * 将函数分组插件中的函数添加到对应的列表中
 	 * @param listModel
 	 */
@@ -145,7 +159,7 @@ public final class FunctionConstants {
 		 * alex:如果是jar包中的class文件
 		 * file:/D:/opt/FineReport6.5/WebReport/WEB-INF/lib/fr-server-6.5.jar!/com/fr/rpt/script/function
 		 */
-		if (filePath.contains("!/")) {
+		if (isJarPath(filePath)) {
 			String[] arr = filePath.split("!/");
 			String jarPath = arr[0].substring(6); // alex:substring(6)去掉前面的file:/这六个字符
 			String classPath = arr[1];

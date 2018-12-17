@@ -75,7 +75,7 @@ import java.util.regex.Pattern;
 /**
  * 报表设计和表单设计的编辑区域(设计器编辑的IO文件)
  */
-public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> extends TargetComponent<T> implements ToolBarMenuDockPlus, JTemplateProvider, DesignerProxy {
+public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> extends TargetComponent<T> implements ToolBarMenuDockPlus, DesignerProxy {
     // TODO ALEX_SEP editingFILE这个属性一定要吗?如果非要不可,有没有可能保证不为null
     private static final int PREFIX_NUM = 3000;
     private FILE editingFILE = null;

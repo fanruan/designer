@@ -104,6 +104,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     private static final String ATTR_TITLE = "title";
     private static final String ATTR_USER_NAME = "username";
     private static final String ATTR_UUID = "uuid";
+	private static final String ATTR_FUNCTION_ARRAY = "functionArray";
+	private static final int MAX_EACH_REQUEST_RECORD_COUNT = 200;
 
 	private static InformationCollector collector;
 
@@ -168,7 +170,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
-	private byte[] getJSONContentAsByte(){
+	private JSONObject getJSONContentAsByte(){
 		JSONObject content = new JSONObject();
 
 		JSONArray startStopArray = new JSONArray();
@@ -190,13 +192,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				FRContext.getLogger().error(e.getMessage(), e);
 			}
 		}
-
-		try {
-			return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
-			return ArrayUtils.EMPTY_BYTE_ARRAY;
-		}
+		return content;
 	}
 
 	private void sendUserInfo(){
@@ -206,19 +202,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		if (currentTime - lastTime <= DELTA) {
 			return;
 		}
-		byte[] content = getJSONContentAsByte();
-		HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("user.info"));
-		hc.setContent(content);
-		if (!hc.isServerAlive()) {
-			return;
-		}
-		String res = hc.getResponseText();
-		//服务器返回true，说明已经取得成功，清空当前记录的信息
+		JSONObject content = getJSONContentAsByte();
+		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
 		try {
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", content);
+			String res = HttpToolbox.post(url, para);
 			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-		} catch (JSONException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		if (success){
 			this.reset();
@@ -232,21 +226,31 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         if (currentTime - lastTime <= DELTA) {
             return;
         }
-		ArrayList<Map<String, Object>> content = null;
-		content = getFunctionsContent(current, new Date(lastTime));
+		JSONArray content = null;
+		try {
+			content = getFunctionsContent(currentTime, lastTime);
+		} catch (JSONException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
 		boolean success = false;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
 		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-		if(content.size() > 0){
-			for(int i=0; i<content.size(); i++){
-				success = sendFunctionRecord(url, content.get(i));
+		try {
+			for(int i=0;i<content.length();i++){
+				JSONArray functionArray = content.getJSONArray(i);
+				if(functionArray.length() > 0){
+					success = sendFunctionRecord(url, functionArray);
+				}
 			}
 			//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
 			if (success) {
 				this.lastTime = dateToString();
+				FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
 			}
+		}catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
+
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
 //		try {
@@ -265,12 +269,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 //		}
     }
 
-    private boolean sendFunctionRecord(String url, Map<String,Object> record) {
+    private boolean sendFunctionRecord(String url, JSONArray record) {
         boolean success = false;
         try {
-            String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+URLEncoder.encode(new JSONObject(record).toString(), EncodeConstants.ENCODING_UTF_8);
-            String res = HttpToolbox.get(recordUrl);
-            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", record);
+			String res = HttpToolbox.post(url, para);
+			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -437,33 +443,51 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static ArrayList getFunctionsContent(Date current, Date last){
-		ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
+	public static JSONArray getFunctionsContent(long current, long last) throws JSONException{
+		//记录当前条数，达到200条合并成一个请求
+		int count = 0;
+		JSONArray functionArray = new JSONArray();
 		QueryCondition condition = QueryFactory.create()
 				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
 				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
 		try {
 			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
-			String uuid = envManager.getUUID();
+			JSONArray temp = new JSONArray();
 			if(!focusPoints.isEmpty()){
-				for(FocusPoint focusPoint : focusPoints.getList()){
-					Map<String,Object> record = new HashMap<>();
-					record.put(ATTR_ID, focusPoint.getId());
-					record.put(ATTR_TEXT, focusPoint.getText());
-					record.put(ATTR_SOURCE, focusPoint.getSource());
-					record.put(ATTR_TIME, focusPoint.getTime().getTime());
-					record.put(ATTR_TITLE, focusPoint.getTitle());
-					record.put(ATTR_USER_NAME, bbsUserName);
-					record.put(ATTR_UUID, uuid);
-					records.add(record);
+				for(int i=0;i<  focusPoints.getList().size();i++){
+					FocusPoint focusPoint = focusPoints.getList().get(i);
+					if(focusPoint != null){
+						if((++count <= MAX_EACH_REQUEST_RECORD_COUNT)){
+							temp.put(getOneRecord(focusPoint));
+						} else {
+							count = 0;
+							functionArray.put(temp);
+							temp = new JSONArray();
+							temp.put(getOneRecord(focusPoint));
+						}
+						if(i == (focusPoints.getList().size() -1)){
+							functionArray.put(temp);
+						}
+					}
 				}
 			}
-		} catch (MetricException e) {
+
+		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		return records;
+		return functionArray;
+	}
+
+	private static JSONObject getOneRecord(FocusPoint focusPoint) throws JSONException{
+		com.fr.json.JSONObject record = new com.fr.json.JSONObject();
+		record.put(ATTR_ID, focusPoint.getId());
+		record.put(ATTR_TEXT, focusPoint.getText());
+		record.put(ATTR_SOURCE, focusPoint.getSource());
+		record.put(ATTR_TIME, focusPoint.getTime().getTime());
+		record.put(ATTR_TITLE, focusPoint.getTitle());
+		record.put(ATTR_USER_NAME, MarketConfig.getInstance().getBbsUsername());
+		record.put(ATTR_UUID, DesignerEnvManager.getEnvManager().getUUID());
+		return record;
 	}
 
 	private class StartStopTime implements XMLReadable, XMLWriter {

@@ -65,6 +65,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.third.javax.annotation.Nullable;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -918,7 +919,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 是则返回true
      */
     public boolean isRoot(XCreator comp) {
-        return comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class);
+        return comp != null && (comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class));
     }
 
     // 计算鼠标事件e所发生的位置相对根组件的位置关系
@@ -980,6 +981,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         return getComponentAt(x, y, null);
     }
 
+    @Nullable
     public XCreator getComponentAt(int x, int y, XCreator[] except) {
         XLayoutContainer container = y < paraHeight - formArea.getVerticalValue() ? paraComponent : rootComponent;
         XCreator comp = xCreatorAt(x + formArea.getHorizontalValue(), y + formArea.getVerticalValue(), container,
@@ -1191,8 +1193,10 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         }
         return designerActions.toArray(new UpdateAction[designerActions.size()]);
     }
+
     /**
      * 扩展菜单项
+     *
      * @param actions
      */
     public void dmlActions(List<UpdateAction> actions) {
@@ -1200,7 +1204,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             Set<RightSelectionHandlerProvider> selectionHandlerProviders = ExtraDesignClassManager.getInstance().getArray(RightSelectionHandlerProvider.XML_TAG);
             for (RightSelectionHandlerProvider handler : selectionHandlerProviders) {
                 if (handler.accept(this)) {
-                    handler.dmlUpdateActions(this,actions);
+                    handler.dmlUpdateActions(this, actions);
                 }
             }
         } catch (Exception e) {

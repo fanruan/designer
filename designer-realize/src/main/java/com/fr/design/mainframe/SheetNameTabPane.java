@@ -335,7 +335,8 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         checkButton(showCount < widthArray.length);
 
         // richie:当linearray不为空时，说明有了鼠标拖动,下面画由于鼠标拖动产生的效果.
-        if (!lineArray.isEmpty()) {
+        //REPORT-13572 点击切换会出现重影,保证:此时鼠标点击是没有放开的,才会绘制轨迹
+        if (!lineArray.isEmpty() && !isReleased) {
             paintDragTab(g2d, textHeight, charWidth, textAscent);
         }
 
@@ -568,6 +569,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      * @param evt 鼠标事件
      */
     public void mousePressed(MouseEvent evt) {
+        isReleased = false;
         int reportcount = reportComposite.getEditingWorkBook().getReportCount();
         if (scrollIndex < 0 || scrollIndex >= reportcount) {
             return;
@@ -749,7 +751,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     /**
      * exchange workSheet
      *
-     * @param workBook
+     * @param
      * @param index1
      * @param index2
      * @return workBook

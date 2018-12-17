@@ -3,6 +3,7 @@ package com.fr.design.designer;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.mainframe.AuthorityEditPane;
+import com.fr.design.mainframe.JTemplateProvider;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -15,7 +16,7 @@ import javax.swing.JPanel;
 /**
  * 模板设计界面
  */
-public abstract class TargetComponent<T> extends JComponent {
+public abstract class TargetComponent<T> extends JComponent implements JTemplateProvider<T> {
     private T target;
 
     public TargetComponent(T t) {
@@ -34,6 +35,7 @@ public abstract class TargetComponent<T> extends JComponent {
 
     public abstract void stopEditing();
 
+    @Override
     public T getTarget() {
         return target;
     }
@@ -82,6 +84,7 @@ public abstract class TargetComponent<T> extends JComponent {
     /**
      * Fire template modified listeners.
      */
+    @Override
     public void fireTargetModified() {
         // Guaranteed to return a non-null array
         Object[] listeners = listenerList.getListenerList();
