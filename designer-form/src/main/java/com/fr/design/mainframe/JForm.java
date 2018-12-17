@@ -87,7 +87,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
+public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<Form> {
     private static final String FORM_CARD = "FORM";
     private static final String ELEMENTCASE_CARD = "ELEMENTCASE";
 
@@ -140,7 +140,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return DesignState.JFORM;
     }
 
-    public TemplateProcessInfo getProcessInfo() {
+    public TemplateProcessInfo<Form> getProcessInfo() {
         if (processInfo == null) {
             processInfo = new JFormProcessInfo(template);
         }
