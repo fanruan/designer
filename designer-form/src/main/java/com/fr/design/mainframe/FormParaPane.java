@@ -1,10 +1,12 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.core.UserDefinedWidgetOption;
 import com.fr.design.gui.core.WidgetOption;
+import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -25,6 +27,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -154,7 +157,7 @@ public class FormParaPane extends JPanel {
                     //预定义控件工具栏这儿不显示工具栏中没有的预定义控件
                     continue;
                 }
-                predifinedwidgeList.add(new UserDefinedWidgetOption(name));
+                predifinedwidgeList.add(new UserDefinedWidgetOption(name, widget));
             }
         }
     }

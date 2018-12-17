@@ -9,14 +9,19 @@ import com.fr.form.ui.Widget;
 public class UserDefinedWidgetOption extends WidgetOption {
 	
 	private String widgetConfigName;
+	private Widget widget;
 
-	public UserDefinedWidgetOption(String name) {
+	public UserDefinedWidgetOption(String name, Widget widget) {
 		this.widgetConfigName = name;
+		this.widget = widget;
 	}
 
 	@Override
 	public Widget createWidget() {
-		return new NameWidget(widgetConfigName);
+		Widget widget = new NameWidget(widgetConfigName);
+		widget.setEnabled(this.widget.isEnabled());
+		widget.setVisible(this.widget.isVisible());
+		return widget;
 	}
 
 	@Override
