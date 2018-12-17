@@ -3,25 +3,25 @@
  */
 package com.fr.design.actions.report;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.SwingUtilities;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.actions.JWorkBookAction;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.parameter.ParameterArrayPane;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
+
+import javax.swing.SwingUtilities;
+import java.awt.event.ActionEvent;
 
 /**
  * Report Parameter
  */
-public class ReportParameterAction extends JWorkBookAction{
+public class ReportParameterAction extends JWorkBookAction {
 
     public ReportParameterAction(JWorkBook jwb) {
         super(jwb);
@@ -37,7 +37,7 @@ public class ReportParameterAction extends JWorkBookAction{
      * @return 是否执行成功
      */
     public void actionPerformed(ActionEvent evt) {
-        final JWorkBook jwb = getEditingComponent();
+        JWorkBook jwb = getEditingComponent();
         if (jwb == null) {
             return;
         }
@@ -59,10 +59,8 @@ public class ReportParameterAction extends JWorkBookAction{
                 for (int i = 0; i < parameters.length; i++) {
                     copyReportParameterAttr.addParameter(parameters[i]);
                 }
-                jwb.fireTargetModified();
-                jwb.updateReportParameterAttr();
-                jwb.populateReportParameterAttr();
-
+                DesignModelAdapter.getCurrentModelAdapter().fireTargetModified();
+                DesignModelAdapter.getCurrentModelAdapter().parameterChanged();
             }
         });
         parameterArrayDialog.setVisible(true);

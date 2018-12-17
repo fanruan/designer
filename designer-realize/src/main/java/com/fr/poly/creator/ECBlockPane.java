@@ -4,17 +4,19 @@
 package com.fr.poly.creator;
 
 import com.fr.base.vcs.DesignerMode;
-import com.fr.design.actions.edit.HyperlinkAction;
-import com.fr.design.menu.KeySetUtils;
-
-import com.fr.page.ReportSettingsProvider;
+import com.fr.design.DesignState;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.actions.cell.*;
-import com.fr.design.actions.core.ActionFactory;
-import com.fr.design.actions.edit.merge.MergeCellAction;
-import com.fr.design.actions.edit.merge.UnmergeCellAction;
+import com.fr.design.actions.cell.CellAttributeAction;
+import com.fr.design.actions.cell.CellExpandAttrAction;
+import com.fr.design.actions.cell.CellWidgetAttrAction;
+import com.fr.design.actions.cell.ConditionAttributesAction;
+import com.fr.design.actions.cell.GlobalStyleMenuDef;
 import com.fr.design.actions.columnrow.InsertColumnAction;
 import com.fr.design.actions.columnrow.InsertRowAction;
+import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.actions.edit.HyperlinkAction;
+import com.fr.design.actions.edit.merge.MergeCellAction;
+import com.fr.design.actions.edit.merge.UnmergeCellAction;
 import com.fr.design.actions.utils.DeprecatedActionManager;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
@@ -22,18 +24,19 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.AuthorityPropertyPane;
 import com.fr.design.mainframe.CellElementPropertyPane;
 import com.fr.design.mainframe.EastRegionContainerPane;
-import com.fr.design.DesignState;
+import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.mainframe.NoSupportAuthorityEdit;
+import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
-import com.fr.design.mainframe.ElementCasePane;
-import com.fr.poly.PolyDesigner;
-import com.fr.report.poly.PolyECBlock;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
+import com.fr.page.ReportSettingsProvider;
+import com.fr.poly.PolyDesigner;
+import com.fr.report.poly.PolyECBlock;
 import com.fr.stable.ArrayUtils;
-import com.fr.design.mainframe.NoSupportAuthorityEdit;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * @author richer
@@ -77,10 +80,10 @@ public class ECBlockPane extends PolyElementCasePane {
             @Override
             public void targetModified(TargetModifiedEvent e) {
                 // kunsnat: 没有找到相关作用,bug 35286 在图表聚合触发重新populate, 导致界面又回到第一层. 故屏蔽.
-//				ECBlockPane.this.be.resetSelectionAndChooseState();
-            	// bug65880
-            	// 聚合报表单元格设置拓展的时候没有触发，普通报表有触发
-            	CellElementPropertyPane.getInstance().populate(ECBlockPane.this);
+                // ECBlockPane.this.be.resetSelectionAndChooseState();
+                // bug65880
+                // 聚合报表单元格设置拓展的时候没有触发，普通报表有触发
+                CellElementPropertyPane.getInstance().populate(ECBlockPane.this);
             }
         });
     }
@@ -109,7 +112,7 @@ public class ECBlockPane extends PolyElementCasePane {
         if (DesignerMode.isAuthorityEditing()) {
             return super.menus4Target();
         }
-        return (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), new MenuDef[]{createInsertMenuDef(), createCellMenuDef()});
+        return ArrayUtils.addAll(super.menus4Target(), new MenuDef[]{createInsertMenuDef(), createCellMenuDef()});
     }
 
     public int getMenuState() {

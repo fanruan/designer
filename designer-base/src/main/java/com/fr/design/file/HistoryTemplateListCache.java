@@ -5,6 +5,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
@@ -99,6 +100,10 @@ public class HistoryTemplateListCache implements CallbackEvent {
         return this.editingTemplate;
     }
 
+    /**
+     * @param jt jt
+     * @see DesignerFrameFileDealerPane#setCurrentEditingTemplate(JTemplate)
+     */
     public void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
         this.editingTemplate = jt;
         //如果当前历史面板中没有

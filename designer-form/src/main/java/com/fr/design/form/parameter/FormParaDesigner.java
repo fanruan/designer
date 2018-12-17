@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -324,10 +325,11 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      */
     public UpdateAction[] getActions() {
         if (designerActions == null) {
-            designerActions = new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
-                    new FormDeleteAction(this)};
+            designerActions = new ArrayList<UpdateAction>(Arrays.asList(new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+                    new FormDeleteAction(this)}));
+            dmlActions(designerActions);
         }
-        return designerActions;
+        return designerActions.toArray(new UpdateAction[designerActions.size()]);
     }
 
     private boolean searchQueryCreators(XLayoutContainer rootContainer) {

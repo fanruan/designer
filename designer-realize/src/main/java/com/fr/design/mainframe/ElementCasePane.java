@@ -48,6 +48,7 @@ import com.fr.design.actions.edit.CutAction;
 import com.fr.design.actions.edit.PasteAction;
 import com.fr.design.actions.edit.merge.MergeCellAction;
 import com.fr.design.actions.edit.merge.UnmergeCellAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.bar.DynamicScrollBar;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
@@ -81,7 +82,6 @@ import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
 import com.fr.grid.GridCorner;
@@ -141,7 +141,7 @@ import static com.fr.design.gui.syntax.ui.rtextarea.RTADefaultInputMap.DEFAULT_M
  */
 public abstract class ElementCasePane<T extends TemplateElementCase> extends TargetComponent<T> implements Selectedable<Selection>, PageAttributeGetter {
 
-    public static enum Clear {
+    public enum Clear {
         ALL, FORMATS, CONTENTS, WIDGETS
     }
 
@@ -174,7 +174,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     private CellSelection formatReferencedCell = null;
     private CellSelection cellNeedTOFormat = null;
     private FormatBrushAction formatBrushAction;
-    ActionListener keyListener = new ActionListener() {
+    private ActionListener keyListener = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             if (!formatBrush.isSelected()) {
                 DesignerContext.setFormatState(DesignerContext.FORMAT_STATE_ONCE);
@@ -188,7 +188,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             }
         }
     };
-    ActionListener escKey = new ActionListener() {
+    private ActionListener escKey = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             cancelFormatBrush();
         }
@@ -519,10 +519,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     }
 
     @Override
-    /**
-     *  加下面的判断是因为聚合报表>>添加报表聚合块>>选中B1单元格>>再选中该聚合块>>再选中B1单元格，发现属性表右下侧还是现实的聚合块的属性
-     *  因为这边判断selection是一个selection，所以不会触发fireSelectionChanged
-     */
     public void setSelection(Selection selection) {
         if (!ComparatorUtils.equals(this.selection, selection) ||
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
@@ -566,7 +562,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                     }
                     Style style = cellElement.getStyle();
                     if (style == null) {
-                        style = style.DEFAULT_STYLE;
+                        style = Style.DEFAULT_STYLE;
                     }
 
                     referencedStyle[i][j] = style;
@@ -583,9 +579,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
 
     @Override
-    /**
-     *
-     */
     public Selection getSelection() {
         return selection;
     }
@@ -596,7 +589,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 是则返回true
      */
     public boolean isSelectedOneCell() {
-        return (selection == null) ? false : selection.isSelectedOneCell(this);
+        return (selection != null) && selection.isSelectedOneCell(this);
     }
 
     /**
@@ -612,6 +605,11 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * @return 成功返回true
      */
     public boolean cut() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            FineLoggerFactory.getLogger().debug("Prohibit Cut");
+            return false;
+        }
+
         this.copy();
 
         return this.clearAll();
@@ -621,6 +619,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      * 复制
      */
     public void copy() {
+        if (DesignModeContext.isBanCopyAndCut()) {
+            return;
+        }
         // p:Elements Transferable.
         ElementsTransferable elementsTransferable = this.transferSelection();
 
@@ -662,7 +663,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     }
 
-    private Object getClipObject() {
+    public Object getClipObject() {
         // 需要检查是否可以编辑。
         Clipboard clipboard = DesignerContext.getClipboard(this.getGrid());
         Transferable clipData = clipboard.getContents(this);
@@ -861,6 +862,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * 响应目标变动.
      */
+    @Override
     public void fireTargetModified() {
         // marks:自动计算
         TemplateElementCase report = this.getEditingElementCase();
@@ -884,20 +886,22 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         // clearReportPage old values.
         inputMapAncestor.clear();
         actionMap.clear();
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), "cut");
-        actionMap.put("cut", new AbstractAction() {
-            public void actionPerformed(ActionEvent evt) {
-                if (cut()) {
-                    fireTargetModified();
+        if (!DesignModeContext.isBanCopyAndCut()) {
+            inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER), "cut");
+            actionMap.put("cut", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    if (cut()) {
+                        fireTargetModified();
+                    }
                 }
-            }
-        });
-        inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
-        actionMap.put("copy", new AbstractAction() {
-            public void actionPerformed(ActionEvent evt) {
-                copy();
-            }
-        });
+            });
+            inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, DEFAULT_MODIFIER), "copy");
+            actionMap.put("copy", new AbstractAction() {
+                public void actionPerformed(ActionEvent evt) {
+                    copy();
+                }
+            });
+        }
         inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, DEFAULT_MODIFIER), "paste");
         actionMap.put("paste", new AbstractAction() {
             public void actionPerformed(ActionEvent evt) {

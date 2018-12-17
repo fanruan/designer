@@ -5,7 +5,10 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
+import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.actions.CopyAction;
@@ -31,9 +34,6 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPaneNoPop;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.actions.EmbeddedFormExportExportAction;
-import com.fr.design.mainframe.actions.FormMobileAttrAction;
-import com.fr.design.mainframe.actions.TemplateParameterAction;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.templateinfo.JFormProcessInfo;
@@ -47,6 +47,7 @@ import com.fr.design.menu.ToolBarDef;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.preview.FormPreview;
 import com.fr.design.preview.MobilePreview;
+import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
@@ -85,7 +86,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
+public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<Form> {
     private static final String FORM_CARD = "FORM";
     private static final String ELEMENTCASE_CARD = "ELEMENTCASE";
 
@@ -118,7 +119,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public void refreshEastPropertiesPane() {
         // 暂时用不到，遇到的时候再加刷新右侧tab面板的代码
-        return;
     }
 
     @Override
@@ -139,7 +139,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return DesignState.JFORM;
     }
 
-    public TemplateProcessInfo getProcessInfo() {
+    public TemplateProcessInfo<Form> getProcessInfo() {
         if (processInfo == null) {
             processInfo = new JFormProcessInfo(template);
         }
@@ -152,7 +152,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     @Override
     public void setJTemplateResolution(int resolution) {
-        return;
     }
 
     @Override
@@ -161,7 +160,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    protected boolean accept(Object o) {
+    public boolean accept(Object o) {
         return !(o instanceof FloatElementsProvider);
     }
 
@@ -195,7 +194,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     public void setAuthorityMode(boolean isUpMode) {
-        return;
     }
 
     public int getToolBarHeight() {
@@ -208,7 +206,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * @return 菜单数组
      */
     public ShortCut[] shortcut4FileMenu() {
-        return (ShortCut[]) ArrayUtils.addAll(
+        return ArrayUtils.addAll(
                 super.shortcut4FileMenu(),
                 DesignerMode.isVcsMode() ? new ShortCut[0] : new ShortCut[]{this.createWorkBookExportMenu()}
         );
@@ -226,7 +224,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * 取消格式
      */
     public void cancelFormat() {
-        return;
     }
 
     /**
@@ -292,30 +289,25 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      * 去除选择
      */
     public void removeTemplateSelection() {
-        return;
     }
 
     public void setSheetCovered(boolean isCovered) {
-        return;
     }
 
     /**
      * 刷新容器
      */
     public void refreshContainer() {
-        return;
     }
 
     /**
      * 去除参数面板选择
      */
     public void removeParameterPaneSelection() {
-        return;
     }
 
     @Override
     public void setScale(int resolution) {
-        return;
     }
 
     @Override
@@ -436,7 +428,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public void copy() {
-        this.formDesign.copy();
+        DesignModeContext.doCopy(this.formDesign);
     }
 
 
@@ -447,7 +439,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public boolean paste() {
-        return this.formDesign.paste();
+        return DesignModeContext.doPaste(this.formDesign);
     }
 
 
@@ -458,7 +450,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
      */
     @Override
     public boolean cut() {
-        return this.formDesign.cut();
+        return DesignModeContext.doCut(this.formDesign);
     }
 
     // ////////////////////////////////////////////////////////////////////
@@ -469,6 +461,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     public void setPictureElem(Elem elem, CellImage cellImage) {
         elem.setValue(cellImage.getImage());
     }
+
     /**
      * 目标菜单
      *
@@ -477,8 +470,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public MenuDef[] menus4Target() {
         return this.index == FORM_TAB ?
-                (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.formDesign.menus4Target()) :
-                (MenuDef[]) ArrayUtils.addAll(super.menus4Target(), this.elementCaseDesign.menus4Target());
+                ArrayUtils.addAll(super.menus4Target(), this.formDesign.menus4Target()) :
+                ArrayUtils.addAll(super.menus4Target(), this.elementCaseDesign.menus4Target());
     }
 
 
@@ -503,9 +496,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, new ShortCut[0]);
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
-            return (ShortCut[]) ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
@@ -932,6 +925,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
 
     /**
      * 支持的预览模式
+     *
      * @return 预览模式
      */
     @Override

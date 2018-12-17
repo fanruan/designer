@@ -49,7 +49,7 @@ public class FineEmbedServerActivator extends Activator {
             stopSpring();
             stopServerActivator();
             stopTomcat();
-        } catch (LifecycleException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
