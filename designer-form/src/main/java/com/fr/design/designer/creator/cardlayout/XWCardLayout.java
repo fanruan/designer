@@ -106,6 +106,16 @@ public class XWCardLayout extends XLayoutContainer {
         return new Dimension(500, 300);
     }
 
+    /**
+     * 重置组件的名称
+     * @param name 名称
+     */
+    public void resetCreatorName(String name) {
+        super.resetCreatorName(name);
+        changeRelateSwitchCardName(name);
+    }
+
+
     @Override
     protected void initLayoutManager() {
         cardLayout = new FRCardLayout(toData().getHgap(), toData().getVgap());
