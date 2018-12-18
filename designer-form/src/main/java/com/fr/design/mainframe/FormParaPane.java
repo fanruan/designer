@@ -157,7 +157,7 @@ public class FormParaPane extends JPanel {
                     //预定义控件工具栏这儿不显示工具栏中没有的预定义控件
                     continue;
                 }
-                predifinedwidgeList.add(new UserDefinedWidgetOption(name, widget));
+                predifinedwidgeList.add(new UserDefinedWidgetOption(name));
             }
         }
     }
