@@ -5,6 +5,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.actions.FormMobileAttrAction;
 import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
@@ -496,9 +497,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
-            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 
