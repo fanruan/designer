@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
-public interface JTemplateProvider {
+public interface JTemplateProvider<T> {
 
-	public void fireTargetModified();
+    void fireTargetModified();
+
+    T getTarget();
 }
