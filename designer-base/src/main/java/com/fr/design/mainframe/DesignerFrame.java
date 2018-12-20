@@ -10,6 +10,7 @@ import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.core.ActionFactory;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
@@ -17,6 +18,7 @@ import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.NewTemplatePane;
@@ -224,16 +226,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
 
         public void mouseReleased(MouseEvent e) {
-            if (DesignerMode.isAuthorityEditing()) {
-                DesignerMode.setMode(DesignerMode.NORMAL);
-                WestRegionContainerPane.getInstance().replaceDownPane(
-                        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
-                DesignerContext.getDesignerFrame().resetToolkitByPlus(
-                        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getToolBarMenuDockPlus());
-                needToAddAuhtorityPaint();
-                refreshDottedLine();
-                fireAuthorityStateToNomal();
+            if (DesignModeContext.isAuthorityEditing()) {
+                closeAuthorityEditing();
             }
         }
 
@@ -330,6 +324,18 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         closeMode = UIConstants.CLOSE_OF_AUTHORITY;
         initMenuPane();
         this.progressDialog = new ProgressDialog(this);
+    }
+
+    public void closeAuthorityEditing(){
+        DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
+        WestRegionContainerPane.getInstance().replaceDownPane(
+                TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
+        DesignerContext.getDesignerFrame().resetToolkitByPlus(
+                HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getToolBarMenuDockPlus());
+        needToAddAuhtorityPaint();
+        refreshDottedLine();
+        fireAuthorityStateToNomal();
     }
 
     /**
