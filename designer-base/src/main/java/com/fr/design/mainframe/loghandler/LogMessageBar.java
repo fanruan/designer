@@ -73,5 +73,6 @@ public class LogMessageBar extends JPanel {
 		if (dlg != null) {
 			dlg.dispose();
 		}
+		THIS = null;
 	}
 }
