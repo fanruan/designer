@@ -10,8 +10,11 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
 
+import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
+import com.fr.transaction.WorkerCallBack;
+import com.fr.transaction.WorkerFacade;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,16 +24,17 @@ import java.awt.event.ActionEvent;
  * StyleList Action
  */
 public class StyleListAction extends UpdateAction {
-	public StyleListAction() {
+    public StyleListAction() {
         this.setMenuKeySet(PREDEFINED_STYLES);
-        this.setName(getMenuKeySet().getMenuKeySetName()+ "...");
+        this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-		this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/style.png"));
-		this.generateAndSetSearchText(StyleManagerPane.class.getName());
-	}
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_web/style.png"));
+        this.generateAndSetSearchText(StyleManagerPane.class.getName());
+    }
 
     /**
      * 动作
+     *
      * @param evt 事件
      */
 	public void actionPerformed(ActionEvent evt) {
@@ -40,45 +44,44 @@ public class StyleListAction extends UpdateAction {
 		styleListDialog.addDialogActionListener(new DialogActionAdapter() {
 			@Override
 			public void doOk() {
-				Configurations.update(new Worker() {
+				Configurations.modify(new WorkerFacade(ServerPreferenceConfig.class) {
 					@Override
 					public void run() {
 						styleListPane.update(ServerPreferenceConfig.getInstance());
 					}
+				}.addCallBack(new CallBackAdaptor(){
+				    @Override
+                    public void afterCommit() {
+                        DesignerContext.getDesignerBean("predefinedStyle").refreshBeanElement();
+                    }
+                }));
 
-					@Override
-					public Class<? extends Configuration>[] targets() {
-						return new Class[]{ServerPreferenceConfig.class};
-					}
-				});
-
-			}                
+            }
         });
-		ServerPreferenceConfig mirror = ServerPreferenceConfig.getInstance().mirror();
-		styleListPane.populate(mirror);
-		styleListDialog.setVisible(true);
-	
-	}
-	
-	@Override
-	public void update() {
-		this.setEnabled(true);
-	}
+        ServerPreferenceConfig mirror = ServerPreferenceConfig.getInstance().mirror();
+        styleListPane.populate(mirror);
+        styleListDialog.setVisible(true);
+    }
 
-	public static final MenuKeySet PREDEFINED_STYLES = new MenuKeySet() {
-		@Override
-		public char getMnemonic() {
-			return 'K';
-		}
+    @Override
+    public void update() {
+        this.setEnabled(true);
+    }
 
-		@Override
-		public String getMenuName() {
-			return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
-		}
+    public static final MenuKeySet PREDEFINED_STYLES = new MenuKeySet() {
+        @Override
+        public char getMnemonic() {
+            return 'K';
+        }
 
-		@Override
-		public KeyStroke getKeyStroke() {
-			return null;
-		}
-	};
+        @Override
+        public String getMenuName() {
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ServerM_Predefined_Styles");
+        }
+
+        @Override
+        public KeyStroke getKeyStroke() {
+            return null;
+        }
+    };
 }
