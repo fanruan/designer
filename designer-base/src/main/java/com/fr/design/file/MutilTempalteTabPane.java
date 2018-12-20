@@ -18,7 +18,6 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.ProductConstants;
 import com.fr.third.javax.annotation.Nonnull;
-import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
 
@@ -674,9 +673,6 @@ public class MutilTempalteTabPane extends JComponent {
             return;
         }
 
-        //当前激活的模板
-        String filename = openedTemplate.get(selectedIndex).getPath();
-        filename = FilenameUtils.standard(filename);
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
             int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
@@ -684,20 +680,20 @@ public class MutilTempalteTabPane extends JComponent {
             if (returnVal == JOptionPane.YES_OPTION) {
                 specifiedTemplate.saveTemplate();
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
-                closeTpl(specifiedTemplate, filename);
+                closeTpl(specifiedTemplate);
             } else if (returnVal == JOptionPane.NO_OPTION) {
-                closeTpl(specifiedTemplate, filename);
+                closeTpl(specifiedTemplate);
             }
         } else {
-            closeTpl(specifiedTemplate, filename);
+            closeTpl(specifiedTemplate);
         }
 
     }
 
-    private void closeTpl(@Nonnull JTemplate<?, ?> specifiedTemplate, @Nonnull String fileName) {
+    private void closeTpl(@Nonnull JTemplate<?, ?> specifiedTemplate) {
         HistoryTemplateListCache.getInstance().closeSelectedReport(specifiedTemplate);
         closeAndFreeLock(specifiedTemplate);
-        activeTemplate(fileName);
+        activePrevTemplateAfterClose();
     }
 
     private void closeAndFreeLock(@Nonnull JTemplate<?, ?> template) {
@@ -729,11 +725,9 @@ public class MutilTempalteTabPane extends JComponent {
     }
 
     /**
-     * 关闭掉一个模板之后该激活的Tab
-     *
-     * @param fileName 关闭掉一个模板之后该激活的Tab的文件名，绝对路径
+     * 关闭掉一个模板之后激活新的待显示模板
      */
-    private void activeTemplate(String fileName) {
+    private void activePrevTemplateAfterClose() {
         if (openedTemplate.isEmpty()) {
             //新建并激活模板
             DesignerContext.getDesignerFrame().addAndActivateJTemplate();
@@ -742,23 +736,20 @@ public class MutilTempalteTabPane extends JComponent {
             temTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
 
         } else {
-            //如果关闭的模板是当前选中的模板，则重新激活
-            if (closeIconIndex == selectedIndex) {
-                if (closeIconIndex == maxPaintIndex) {
+            // 如果关闭的模板是当前选中的模板，则重新激活当前 selectIndex 的模板；
+            // selectIndex 没有变化，但是对应的模板已经变成了前一张模板
+            if (closeIconIndex == selectedIndex || isCloseCurrent) {
+                // 如果 closeIconIndex 是最后一个被渲染画出的，那么预览上一个，防止数组越界
+                if (closeIconIndex >= maxPaintIndex) {
+                    // selectIndex 不会 <0 因为如果关闭的是打开的最后一个模板，那么关闭之后 openedTemplate.isEmpty() = true
                     selectedIndex--;
                 }
-            } else if (isCloseCurrent) {
-                //不是通过关闭按钮，而是通过文件关闭菜单关闭的当前模板的，也重新激活
-                if (selectedIndex > openedTemplate.size() - 1) {
-                    selectedIndex -= 1;
-                    if (selectedIndex < 0) {
-                        selectedIndex = 0;
-                    }
-                    isCloseCurrent = false;
-                }
-            } else {
-                //如果关闭的模板不是当前选中的模板，则激活的模板不变
-                selectedIndex = HistoryTemplateListCache.getInstance().contains(fileName);
+                isCloseCurrent = false;
+            }
+            // 如果关闭的模板不是当前选中的模板，那么重新获取一下当前模板的 index,激活该 index
+            else {
+                JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+                selectedIndex = HistoryTemplateListCache.getInstance().contains(template);
             }
             //如果是已后台关闭的模板，则重新打开文件
             openedTemplate.get(selectedIndex).activeOldJTemplate();
