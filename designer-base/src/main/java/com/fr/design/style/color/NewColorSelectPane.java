@@ -8,11 +8,16 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -92,11 +97,15 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane.add(Box.createVerticalStrut(1));
 
         // mod by anchore 16/11/16
-        UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
+        final UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
 
-        customButton.addActionListener(new ActionListener() {
+        // 不能使用 ActionListener，否则设计器工具栏中的"更多颜色"按钮会有问题（REPORT-13654）
+        customButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mousePressed(MouseEvent e) {
+                if (!customButton.isEnabled()) {
+                    return;
+                }
                 customButtonPressed();
             }
         });

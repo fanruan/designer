@@ -7,7 +7,10 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.DefaultMobileTemplateStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
+import com.fr.general.cardtag.mobile.TabFontConfig;
+
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -41,17 +44,17 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
 
     @Override
     public MobileTemplateStyle updateBean() {
-        return new DefaultMobileTemplateStyle();
+        return getDefaultTemplateStyle();
     }
 
     public MobileTemplateStyle updateConfig(){
-        return new DefaultMobileTemplateStyle();
+        return getDefaultTemplateStyle();
     }
 
 
     @Override
     protected MobileTemplateStyle getDefaultTemplateStyle() {
-        return new DefaultMobileTemplateStyle();
+        return new DefaultMobileTemplateStyle(new TabFontConfig(getTagLayout().getTitleFont()));
     }
 
     @Override
@@ -74,6 +77,10 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             this.setBackground(DefaultMobileTemplateStyle.DEFAULT_INITIAL_COLOR);
         }
 
+        public Color getInitialColor() {
+            return DefaultMobileTemplateStyle.DEFAULT_INITIAL_COLOR;
+        }
+
         public void repaint() {
             super.repaint();
         }
@@ -94,11 +101,13 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int fontHeight = fm.getHeight();
             int ascentHeight = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
+                g2d.setColor(frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
                 String displayName = calculateDisplayName(cardSwitchButton.getText(), fm, eachWidth);
                 int width = fm.stringWidth(displayName);
                 g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
                 if (i == 0) {
+                    g2d.setColor(Color.BLACK);
                     g2d.setStroke(new BasicStroke(2.0f));
                     g2d.drawLine(0, panelHeight - 1, eachWidth, panelHeight - 1);
                 }
