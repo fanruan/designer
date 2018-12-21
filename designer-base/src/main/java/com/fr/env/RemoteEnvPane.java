@@ -540,7 +540,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     }
 
                     if (result == TestConnectionResult.Partly_Sucess) {
-                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistency"));
+                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistence_Test"));
                         uiLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
                     }
 
