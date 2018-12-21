@@ -13,11 +13,10 @@ import com.fr.third.javax.xml.stream.XMLStreamException;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-public class AbstractTableDatasourceTest extends TestCase {
+public class TableDatasourceTest extends TestCase {
 
     public void testAbstractTableDataSourceReadAndWrite() throws XMLStreamException, TableDataException, UnsupportedEncodingException {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
