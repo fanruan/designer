@@ -5,11 +5,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
-import com.fr.data.core.db.DBUtils;
-import com.fr.data.core.db.dialect.DialectFactory;
-import com.fr.data.core.db.dml.Delete;
-import com.fr.data.core.db.dml.Select;
-import com.fr.data.core.db.dml.Table;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
@@ -19,18 +14,13 @@ import com.fr.general.DateUtils;
 import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
 import com.fr.intelli.record.FocusPoint;
-import com.fr.intelli.record.MetricException;
 import com.fr.intelli.record.MetricRegistry;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.log.message.ParameterMessage;
-import com.fr.record.DBRecordXManager;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -58,17 +48,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author neil
@@ -79,7 +67,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	// 24小时上传一次
 	private static final long DELTA = 24 * 3600 * 1000L;
-	private static final long SEND_DELAY = 30 * 1000L;
+	private static final long SEND_DELAY = 300 * 1000L;
 	private static final String FILE_NAME = "fr.info";
 	private static final String XML_START_STOP_LIST = "StartStopList";
 	private static final String XML_START_STOP = "StartStop";
@@ -226,12 +214,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         if (currentTime - lastTime <= DELTA) {
             return;
         }
-		JSONArray content = null;
-		try {
-			content = getFunctionsContent(currentTime, lastTime);
-		} catch (JSONException e) {
-			FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		}
+		JSONArray content = getFunctionsContent(currentTime, lastTime);
 		boolean success = false;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
 		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
@@ -443,7 +426,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static JSONArray getFunctionsContent(long current, long last) throws JSONException{
+	public JSONArray getFunctionsContent(long current, long last) {
 		//记录当前条数，达到200条合并成一个请求
 		int count = 0;
 		JSONArray functionArray = new JSONArray();
@@ -452,21 +435,20 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
 		try {
 			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-			JSONArray temp = new JSONArray();
+			TreeSet<FunctionRecord> focusPointsList = new TreeSet<>();
 			if(!focusPoints.isEmpty()){
 				for(int i=0;i<  focusPoints.getList().size();i++){
 					FocusPoint focusPoint = focusPoints.getList().get(i);
 					if(focusPoint != null){
 						if((++count <= MAX_EACH_REQUEST_RECORD_COUNT)){
-							temp.put(getOneRecord(focusPoint));
+							focusPointsList.add(getOneRecord(focusPoint));
 						} else {
 							count = 0;
-							functionArray.put(temp);
-							temp = new JSONArray();
-							temp.put(getOneRecord(focusPoint));
+							functionArray.put(setToJSONArray(focusPointsList));
+							focusPointsList.add(getOneRecord(focusPoint));
 						}
 						if(i == (focusPoints.getList().size() -1)){
-							functionArray.put(temp);
+							functionArray.put(setToJSONArray(focusPointsList));
 						}
 					}
 				}
@@ -478,16 +460,33 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		return functionArray;
 	}
 
-	private static JSONObject getOneRecord(FocusPoint focusPoint) throws JSONException{
-		com.fr.json.JSONObject record = new com.fr.json.JSONObject();
-		record.put(ATTR_ID, focusPoint.getId());
-		record.put(ATTR_TEXT, focusPoint.getText());
-		record.put(ATTR_SOURCE, focusPoint.getSource());
-		record.put(ATTR_TIME, focusPoint.getTime().getTime());
-		record.put(ATTR_TITLE, focusPoint.getTitle());
-		record.put(ATTR_USER_NAME, MarketConfig.getInstance().getBbsUsername());
-		record.put(ATTR_UUID, DesignerEnvManager.getEnvManager().getUUID());
-		return record;
+	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
+		FunctionRecord functionRecord = new FunctionRecord();
+		functionRecord.setId(focusPoint.getId() == null?StringUtils.EMPTY : focusPoint.getId());
+		functionRecord.setText(focusPoint.getText() == null?StringUtils.EMPTY : focusPoint.getText());
+		functionRecord.setSource(focusPoint.getSource());
+		functionRecord.setTime(focusPoint.getTime().getTime());
+		functionRecord.setTitle(focusPoint.getTitle() == null?StringUtils.EMPTY : focusPoint.getTitle());
+		functionRecord.setUsername(MarketConfig.getInstance().getBbsUsername() == null?StringUtils.EMPTY : MarketConfig.getInstance().getBbsUsername());
+		functionRecord.setUuid(DesignerEnvManager.getEnvManager().getUUID() == null?StringUtils.EMPTY : DesignerEnvManager.getEnvManager().getUUID());
+		return functionRecord;
+	}
+
+	private JSONArray setToJSONArray(Set set) throws JSONException {
+		JSONArray jsonArray = new JSONArray();
+		for(Iterator iter = set.iterator(); iter.hasNext(); ) {
+			FunctionRecord functionRecord = (FunctionRecord)iter.next();
+			com.fr.json.JSONObject record = new com.fr.json.JSONObject();
+			record.put(ATTR_ID, functionRecord.getId());
+			record.put(ATTR_TEXT, functionRecord.getText());
+			record.put(ATTR_SOURCE, functionRecord.getSource());
+			record.put(ATTR_TIME, functionRecord.getTime());
+			record.put(ATTR_TITLE, functionRecord.getTitle());
+			record.put(ATTR_USER_NAME, functionRecord.getUsername());
+			record.put(ATTR_UUID, functionRecord.getUuid());
+			jsonArray.put(record);
+		}
+		return jsonArray;
 	}
 
 	private class StartStopTime implements XMLReadable, XMLWriter {
@@ -529,4 +528,84 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
+	private class FunctionRecord implements Comparable{
+		private String id;
+		private String text;
+		private int source;
+		private long time;
+		private String title;
+		private String username;
+		private String uuid;
+
+		public FunctionRecord(){
+
+		}
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
+		public int getSource() {
+			return source;
+		}
+
+		public void setSource(int source) {
+			this.source = source;
+		}
+
+		public long getTime() {
+			return time;
+		}
+
+		public void setTime(long time) {
+			this.time = time;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getUuid() {
+			return uuid;
+		}
+
+		public void setUuid(String uuid) {
+			this.uuid = uuid;
+		}
+
+		@Override
+		public int compareTo(Object o) {
+			FunctionRecord functionRecord = (FunctionRecord) o;
+			if(this.getId().equals((functionRecord.getId())) && this.getText().equals(functionRecord.getText())
+					&& this.getSource() == functionRecord.getSource() && this.getTime() == functionRecord.getTime()
+					&& this.getTitle().equals(functionRecord.getTitle()) && this.getUsername().equals(functionRecord.getUsername())
+					&& this.getUuid().equals(functionRecord.getUuid())){
+				return 0;
+			}
+			return 1;
+		}
+	}
 }
