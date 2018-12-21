@@ -604,7 +604,6 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         dialogDownPane = new JPanel();
         uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
         upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        //upPane.setLayout(new BorderLayout());
         upPane.add(uiLabel);
         upPane.add(message);
         dialogDownPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
