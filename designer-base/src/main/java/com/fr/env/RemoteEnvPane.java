@@ -541,7 +541,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
                     if (result == TestConnectionResult.Partly_Sucess) {
                         message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistency"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
                     }
 
                     if (result == TestConnectionResult.Fully_Failed) {
@@ -557,8 +557,6 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                     message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
                     uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage());
                 }
                 dialogDownPane.remove(cancelButton);
                 dialogDownPane.revalidate();
