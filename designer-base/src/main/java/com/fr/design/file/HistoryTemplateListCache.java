@@ -2,6 +2,7 @@ package com.fr.design.file;
 
 import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
@@ -59,6 +60,10 @@ public class HistoryTemplateListCache implements CallbackEvent {
     public void closeSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
+        //直接关闭模板的时候退出权限编辑
+        if (DesignModeContext.isAuthorityEditing()) {
+            DesignerContext.getDesignerFrame().closeAuthorityEditing();
+        }
         if (contains(selected) == -1) {
             return;
         }
