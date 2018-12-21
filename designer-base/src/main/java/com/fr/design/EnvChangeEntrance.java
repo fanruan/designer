@@ -98,7 +98,8 @@ public class EnvChangeEntrance {
                 return false;
             }
 
-            if (versionCheck(selectedEnv)) {
+            // 如果版本不一致，且确认 不继续 连接，这里返回 false.
+            if (!versionCheckAndConfirm(selectedEnv)) {
                 return false;
             }
 
@@ -151,37 +152,47 @@ public class EnvChangeEntrance {
     }
 
     /**
-     * 切换环境之前，进行版本检测，当版本不一致的时候，提示。
-     * 当选择 ok 时，才继续。
+     * 切换远程环境之前，进行版本检测，当版本不一致的时候，提示。
+     * 当用户确认选择 ok 时，才继续。
      *
      * @param selectedEnv 选择的环境
      * @return 是否一致
+     * 1. 非远程环境 ， 返回 true
+     * 2. 远程环境
+     * 2.1 不匹配，
+     * 2.1.1 当选择 ok ， 返回 true
+     * 2.1.2 当选择 no, 返回 false
+     * 2.2 匹配， 返回 true
      * @throws Exception 异常
      */
-    private boolean versionCheck(DesignerWorkspaceInfo selectedEnv) throws Exception {
+    private boolean versionCheckAndConfirm(DesignerWorkspaceInfo selectedEnv) throws Exception {
 
         if (selectedEnv.getType() == DesignerWorkspaceType.Remote) {
 
             WorkspaceConnectionInfo info = selectedEnv.getConnection();
             String serverVersion = new FunctionalHttpRequest(info).getServerVersion();
 
-            if (!AssistUtils.equals(serverVersion, WorkContext.getVersion())) {
-
-                final List<Integer> result = new ArrayList<>(1);
-                PopTipStrategy.NOW.showTip(new PopTip() {
-                    @Override
-                    public void show() {
-                        String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
-                        int choice = JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistency"),
-                                UIManager.getString("OptionPane.messageDialogTitle"), JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
-                        result.add(choice);
-                    }
-                });
-
-                return result.size() != 0 && result.get(0) == 1;
+            if (AssistUtils.equals(serverVersion, WorkContext.getVersion())) {
+                return true;
             }
+
+            final List<Integer> result = new ArrayList<>(1);
+            PopTipStrategy.NOW.showTip(new PopTip() {
+                @Override
+                public void show() {
+                    String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
+                    int choice = JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistency"),
+                            UIManager.getString("OptionPane.messageDialogTitle"), JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
+                    result.add(choice);
+                }
+            });
+
+            // 只有选择 yes ， 这里的值才为 0， 返回 true
+            // 否着返回 false, 将不进行下面的连接操作。
+            return result.size() != 0 && result.get(0) == 0;
         }
-        return false;
+
+        return true;
     }
 
     /**
