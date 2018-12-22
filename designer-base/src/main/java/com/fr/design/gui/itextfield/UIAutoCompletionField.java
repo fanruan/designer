@@ -2,6 +2,8 @@ package com.fr.design.gui.itextfield;
 
 import com.fr.design.gui.imenu.UIListPopup;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.OperatingSystem;
+
 import javax.swing.JList;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
@@ -82,6 +84,9 @@ public class UIAutoCompletionField extends UITextField implements DocumentListen
     }
 
     private void textChanged() {
+        if (OperatingSystem.isMacOS()) {
+            return;
+        }
         if (!popup.isVisible()) {
             showPopup();
             requestFocus();
