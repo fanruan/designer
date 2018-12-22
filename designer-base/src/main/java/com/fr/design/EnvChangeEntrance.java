@@ -5,6 +5,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.i18n.Toolkit;
@@ -15,19 +16,25 @@ import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.AuthException;
+import com.fr.workspace.connect.WorkspaceConnectionInfo;
+import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class EnvChangeEntrance {
 
@@ -90,6 +97,12 @@ public class EnvChangeEntrance {
                 });
                 return false;
             }
+
+            // 如果版本不一致，且确认 不继续 连接，这里返回 false.
+            if (!versionCheckAndConfirm(selectedEnv)) {
+                return false;
+            }
+
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
@@ -135,6 +148,50 @@ public class EnvChangeEntrance {
         if (model != null) {
             model.envChanged();
         }
+        return true;
+    }
+
+    /**
+     * 切换远程环境之前，进行版本检测，当版本不一致的时候，提示。
+     * 当用户确认选择 ok 时，才继续。
+     *
+     * @param selectedEnv 选择的环境
+     * @return 是否一致
+     * 1. 非远程环境 ， 返回 true
+     * 2. 远程环境
+     * 2.1 不匹配，
+     * 2.1.1 当选择 ok ， 返回 true
+     * 2.1.2 当选择 no, 返回 false
+     * 2.2 匹配， 返回 true
+     * @throws Exception 异常
+     */
+    private boolean versionCheckAndConfirm(DesignerWorkspaceInfo selectedEnv) throws Exception {
+
+        if (selectedEnv.getType() == DesignerWorkspaceType.Remote) {
+
+            WorkspaceConnectionInfo info = selectedEnv.getConnection();
+            String serverVersion = new FunctionalHttpRequest(info).getServerVersion();
+
+            if (AssistUtils.equals(serverVersion, WorkContext.getVersion())) {
+                return true;
+            }
+
+            final List<Integer> result = new ArrayList<>(1);
+            PopTipStrategy.NOW.showTip(new PopTip() {
+                @Override
+                public void show() {
+                    String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
+                    int choice = JOptionPane.showOptionDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistency"),
+                            UIManager.getString("OptionPane.messageDialogTitle"), JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
+                    result.add(choice);
+                }
+            });
+
+            // 只有选择 yes ， 这里的值才为 0， 返回 true
+            // 否着返回 false, 将不进行下面的连接操作。
+            return result.size() != 0 && result.get(0) == 0;
+        }
+
         return true;
     }
 
