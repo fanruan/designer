@@ -30,6 +30,8 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
 
     private int patternIndex = 0; // pattern setIndex.
     private final static int DEFAULT_DIM_HEIGHT = 210;
+    private final static Color DEFAULT_FOREGROUND = Color.lightGray;
+    private final static Color DEFAULT_BACKGROUND = Color.black;
     private ColorSelectBox foregroundColorPane;
     private ColorSelectBox backgroundColorPane;
     private PatternButton[] patternButtonArray;
@@ -52,7 +54,8 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
         }
         foregroundColorPane = new ColorSelectBox(60);
         backgroundColorPane = new ColorSelectBox(60);
-
+        foregroundColorPane.setSelectObject(DEFAULT_FOREGROUND);
+        foregroundColorPane.setSelectObject(DEFAULT_BACKGROUND);
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
@@ -219,7 +222,7 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
     @Override
     public void reset() {
         patternButtonArray[0].setSelected(true);
-        foregroundColorPane.setSelectObject(null);
-        backgroundColorPane.setSelectObject(null);
+        foregroundColorPane.setSelectObject(DEFAULT_FOREGROUND);
+        backgroundColorPane.setSelectObject(DEFAULT_BACKGROUND);
     }
 }

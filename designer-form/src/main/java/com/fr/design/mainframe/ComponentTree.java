@@ -3,19 +3,28 @@ package com.fr.design.mainframe;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
-import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.treeview.ComponentTreeCellRenderer;
 import com.fr.design.designer.treeview.ComponentTreeModel;
 import com.fr.design.gui.itree.UITreeUI;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DropMode;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -118,7 +127,9 @@ public class ComponentTree extends JTree {
 
     public void setAndScrollSelectionPath(TreePath[] treepath) {
         setSelectionPaths(treepath);
-        scrollPathToVisible(treepath[0]);
+        if (treepath.length > 0) {
+            scrollPathToVisible(treepath[0]);
+        }
     }
 
     @Override
@@ -330,8 +341,7 @@ public class ComponentTree extends JTree {
             return contentPane;
         }
 
-        private BufferedImage componentToImage(Component comp) throws IOException
-        {
+        private BufferedImage componentToImage(Component comp) throws IOException {
             BufferedImage im = new BufferedImage(comp.getWidth(), comp.getHeight(), BufferedImage.TYPE_INT_ARGB);
             comp.paint(im.getGraphics());
             return im;
@@ -341,14 +351,14 @@ public class ComponentTree extends JTree {
         private void updateSize() {
             int width = compImage.getWidth();
             int height = compImage.getHeight();
-            double aspectRatio = (double)width / height;
+            double aspectRatio = (double) width / height;
             if (width > MAX_WIDTH) {
                 width = MAX_WIDTH;
-                height = (int)(width / aspectRatio);
+                height = (int) (width / aspectRatio);
             }
             if (height > MAX_HEIGHT) {
                 height = MAX_HEIGHT;
-                width = (int)(height * aspectRatio);
+                width = (int) (height * aspectRatio);
             }
             this.setPreferredSize(new Dimension(width, height));
         }

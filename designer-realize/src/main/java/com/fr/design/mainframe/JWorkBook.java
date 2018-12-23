@@ -204,7 +204,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     }
 
     @Override
-    public TemplateProcessInfo getProcessInfo() {
+    public TemplateProcessInfo<WorkBook> getProcessInfo() {
         if (processInfo == null) {
             processInfo = new JWorkBookProcessInfo(template);
         }
@@ -309,10 +309,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         centerPane.setUpPaneHeight(hasParameterPane() ? parameterPane.getPreferredSize().height : 0);
     }
 
-    @Override
     /**
      *
      */
+    @Override
     public void setComposite() {
         super.setComposite();
         reportComposite.setComponents();
@@ -544,10 +544,11 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     // //////////////////////OLD BELOW/////////////////////////
     // ////////////////////////////////////////////////////////
 
-    @Override
+
     /**
      * set target
      */
+    @Override
     public void setTarget(WorkBook book) {
         if (book == null) {
             return;
@@ -1098,7 +1099,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         FILE newFile = createNewEmptyFile();
         //如果文件已经打开, 那么就覆盖关闭掉他
         MutilTempalteTabPane.getInstance().closeFileTemplate(newFile);
-        final TemplateWorkBook tpl = this.getTarget();
+        final WorkBook tpl = this.getTarget();
         // 弹出输入参数
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
@@ -1106,7 +1107,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
             FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
-            exporter.export(fileOutputStream, (WorkBook) tpl, parameterMap);
+            exporter.export(fileOutputStream, tpl, parameterMap);
         } catch (Exception e1) {
             FRContext.getLogger().error(e1.getMessage());
         }

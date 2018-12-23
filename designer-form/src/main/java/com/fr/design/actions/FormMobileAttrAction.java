@@ -3,11 +3,15 @@ package com.fr.design.actions;
 import com.fr.base.BaseUtils;
 import com.fr.base.iofile.attr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JTemplateAction;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.form.mobile.FormMobileAttrPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormArea;
+import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.menu.MenuKeySet;
@@ -73,11 +77,23 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
                 ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                 jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
+                //改变布局为自适应布局,只在移动端属性设置保存后改变一次
+                doChangeBodyLayout();
+
                 WidgetPropertyPane.getInstance().refreshDockingView();
                 jf.fireTargetModified();
             }
         });
         dialog.setVisible(true);
+    }
+
+    private void doChangeBodyLayout(){
+        FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
+        XLayoutContainer rootLayout = formDesigner.getRootComponent();
+        if (rootLayout.getComponentCount() == 1 && rootLayout.getXCreator(0).acceptType(XWAbsoluteBodyLayout.class)) {
+            rootLayout = (XWAbsoluteBodyLayout) rootLayout.getXCreator(0);
+        }
+        ((XWFitLayout)formDesigner.getRootComponent()).switch2FitBodyLayout(rootLayout);
     }
 
     @Focus(id = "com.fr.mobile.mobile_template_frm", text = "Fine-Design_Function_Mobile_Template_Frm", source = Original.EMBED)

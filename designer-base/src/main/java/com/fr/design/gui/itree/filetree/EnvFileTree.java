@@ -69,10 +69,8 @@ public class EnvFileTree extends RefreshableJTree {
                     if (treeNode.hasFullAuthority()) {
                         if (lock != null && !node.getUserID().equals(lock)) {
                             name = name + Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked", "(", ")");
-                            this.setIcon(FileTreeIcon.getIcon(node));
-                        } else {
-                            this.setIcon(FileTreeIcon.getIcon(node, false));
                         }
+                        this.setIcon(FileTreeIcon.getIcon(node));
                     } else {
                         this.setIcon(FileTreeIcon.getFolderHalfImageIcon());
                     }

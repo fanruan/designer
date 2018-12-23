@@ -1,6 +1,7 @@
 package com.fr.van.chart.designer.component.format;
 
 
+import com.fr.design.i18n.Toolkit;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.JPanel;
@@ -18,6 +19,7 @@ public class CategoryNameFormatPaneWithCheckBox extends VanChartFormatPaneWithCh
 
     @Override
     protected String getCheckBoxText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Format_Category_Name");
+        //"分类名" 图表（新特性）标签、提示时有用到
+        return Toolkit.i18nText("Fine-Design_Chart_Category_Use_Name");
     }
 }

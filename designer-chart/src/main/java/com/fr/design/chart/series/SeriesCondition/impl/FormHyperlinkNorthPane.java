@@ -110,12 +110,14 @@ public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider>
         }
         String editorName = formHyperlink.getRelateEditorName();
         //防止初始的时候有空白选项
-        if (editorName == null) {
-            return;
+        String[] formHyperlinkEditNames = getFormHyperlinkEditNames();
+        if (editorName == null && formHyperlinkEditNames.length > 0) {
+            editorName = formHyperlinkEditNames[0];
+            formHyperlink.setRelateEditorName(editorName);
         }
         if (targetFrameComboBox != null) {
             //noinspection unchecked
-            targetFrameComboBox.setModel(new DefaultComboBoxModel(getFormHyperlinkEditNames()));
+            targetFrameComboBox.setModel(new DefaultComboBoxModel(formHyperlinkEditNames));
             targetFrameComboBox.setSelectedItem(editorName);
         }
     }

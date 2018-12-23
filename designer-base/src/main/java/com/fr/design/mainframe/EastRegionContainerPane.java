@@ -412,6 +412,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         if (propertyItem.isVisible() && propertyItem.isEnabled() && !propertyItem.isPoppedOut()) {
             propertyCard.show(rightPane, tabName);
             propertyItem.setTabButtonSelected();
+            //从单元格菜单过来也要关闭弹出窗
+            hideCurrentPopupPane();
         }
     }
 
