@@ -240,7 +240,7 @@ public class CustomDefaultSeriesPane extends BasicPane{
             isCurve = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Curve_Smooth"));
             lineStyle = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
             markerPane = new MarkerComboBox(MarkerFactory.getMarkerArray());
-            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
+            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
             Boolean[] valueArray = {true, false};
             isNullValueBreak = new UIButtonGroup<Boolean>(nameArray, valueArray);
             double p = TableLayout.PREFERRED;
