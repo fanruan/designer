@@ -188,10 +188,13 @@ public class HistoryTemplateListCache implements CallbackEvent {
 
     /**
      * 判断是否打开过该模板
+     * 由于切换环境不会关闭模板，可能存在同名的模板，所以该方法不能准确找到所选的模板，
      *
      * @param filename 文件名
      * @return 文件位置
+     * @deprecated use HistoryTemplateListCache#contains(com.fr.design.mainframe.JTemplate) instead
      */
+    @Deprecated
     public int contains(String filename) {
         for (int i = 0; i < historyList.size(); i++) {
             String historyPath = historyList.get(i).getPath();
