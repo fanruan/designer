@@ -368,8 +368,12 @@ public class HistoryTemplateListCache implements CallbackEvent {
                         continue;
                     }
                     ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                    // todo readStream 这个行为应该上升到 BaseBook 上
-                    ((IOFile) historyList.get(i).getTarget()).readStream(inputStream);
+                    BaseBook target = historyList.get(i).getTarget();
+                    if (target != null) {
+                        // todo readStream 这个行为应该上升到 BaseBook 上
+                        ((IOFile) target).readStream(inputStream);
+                    }
+                    // 如果 target == null 那么这个模板是被模板内存优化功能处理过的，不用处理
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
