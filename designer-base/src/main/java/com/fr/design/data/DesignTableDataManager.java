@@ -3,8 +3,8 @@ package com.fr.design.data;
 import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
-import com.fr.data.AbstractTableDataSource;
 import com.fr.data.TableDataSource;
+import com.fr.data.TableDataSourceTailor;
 import com.fr.data.core.DataCoreXmlUtils;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -445,19 +445,7 @@ public abstract class DesignTableDataManager {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            //这边数据集预览不需要把整个模板都发送过去，只需要把模板中的数据集挑出来，传过去就行了。模板一大，预览数据集很变得很慢。
-            TableDataSource wrapper = null;
-            if (tableDataSource != null) {
-                wrapper = new AbstractTableDataSource(){};
-                for (Iterator<String> it = tableDataSource.getTableDataNameIterator(); it != null && it.hasNext(); ) {
-                    String name = it.next();
-                    TableData tableData = tableDataSource.getTableData(name);
-                    if (tableData != null) {
-                        wrapper.putTableData(name, tableData);
-                    }
-                }
-            }
-            return DataOperator.getInstance().previewTableData(wrapper, tabledata, parameterMap, rowCount);
+            return DataOperator.getInstance().previewTableData(TableDataSourceTailor.extractTableData(tableDataSource), tabledata, parameterMap, rowCount);
         } catch (Exception e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {
