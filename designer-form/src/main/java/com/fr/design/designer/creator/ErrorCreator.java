@@ -1,7 +1,7 @@
 package com.fr.design.designer.creator;
 
-import com.fr.form.ui.ErrorMarker;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetErrorMarker;
 import com.fr.stable.StringUtils;
 
 import java.awt.*;
@@ -18,7 +18,7 @@ public class ErrorCreator  extends NullCreator {
 
     @Override
     protected String showText() {
-        ErrorMarker marker = (ErrorMarker)toData();
+        WidgetErrorMarker marker = (WidgetErrorMarker)toData();
         String text = marker.getWidgetValue().getDisplayValue();
         if (StringUtils.isEmpty(text)) {
             return super.showText();
