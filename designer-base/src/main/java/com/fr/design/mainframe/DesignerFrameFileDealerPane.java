@@ -186,7 +186,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      * 刷新菜单
      */
     public void refreshDockingView() {
-        long start = System.currentTimeMillis();
         ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(newFolderAction, refreshTreeAction);
         if (WorkContext.getCurrent().isLocal()) {
@@ -199,12 +198,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
         toolbarDef.updateToolBar(toolBar);
         resetActionStatus();
-        long end = System.currentTimeMillis();
-        System.out.println("----------------------->refreshDockingView 菜单: " + (end - start));
-        long start1 = System.currentTimeMillis();
         refresh();
-        long end1 = System.currentTimeMillis();
-        System.out.println("-------------------------->菜单 refresh: "  + (end1 - start1));
     }
 
 
