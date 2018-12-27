@@ -38,7 +38,6 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
-import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.exception.DecryptTemplateException;
 import com.fr.file.FILE;
@@ -69,6 +68,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.MatteBorder;
@@ -102,8 +102,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
 
@@ -242,9 +240,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     };
 
     private ProgressDialog progressDialog;
-
-    private ExecutorService fixedThreadPool = Executors.newFixedThreadPool(1);
-
 
     public DesignerFrame(ToolBarMenuDock ad) {
 
@@ -418,7 +413,16 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void on(PluginEvent event) {
 
                 refreshNorthEastPane(northEastPane, ad);
-                DesignUtils.refreshDesignerFrame();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (DesignerContext.getDesignerFrame() == null) {
+                            return;
+                        }
+                        DesignerContext.getDesignerFrame().refresh();
+                        DesignerContext.getDesignerFrame().repaint();
+                    }
+                });
             }
         }, new PluginFilter() {
 
@@ -820,21 +824,23 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * 报表运行环境改变时,需要刷新某些面板
      */
     public void refreshEnv() {
+        refresh();
+        DesignerFrameFileDealerPane.getInstance().refreshDockingView();
+        TemplateTreePane.getInstance().refreshDockingView();
+    }
+
+    /**
+     * 安装设计器相关插件时的刷新
+     */
+    public void refresh() {
         this.setTitle();
-        fixedThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                DesignerFrameFileDealerPane.getInstance().refreshDockingView();
-                TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
-                TemplateTreePane.getInstance().refreshDockingView();
-                DesignTableDataManager.clearGlobalDs();
-                EastRegionContainerPane.getInstance().refreshDownPane();
-                JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-                if (template != null) {
-                    template.refreshToolArea();
-                }
-            }
-        });
+        TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());
+        DesignTableDataManager.clearGlobalDs();
+        EastRegionContainerPane.getInstance().refreshDownPane();
+        JTemplate template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        if (template != null) {
+            template.refreshToolArea();
+        }
     }
 
     /**
