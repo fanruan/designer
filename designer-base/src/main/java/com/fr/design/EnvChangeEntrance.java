@@ -97,21 +97,21 @@ public class EnvChangeEntrance {
                 });
                 return false;
             }
-
             // 如果版本不一致，且确认 不继续 连接，这里返回 false.
             if (!versionCheckAndConfirm(selectedEnv)) {
                 return false;
             }
 
+            //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
+            JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+            if (template != null) {
+                template.refreshToolArea();
+            }
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
                     DesignerEnvManager.getEnvManager().setCurEnvName(envName);
                     DesignUtils.refreshDesignerFrame();
-                    JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-                    if (template != null) {
-                        template.refreshToolArea();
-                    }
                     DesignTableDataManager.fireDSChanged(new HashMap<String, String>());
                     if (WorkContext.getCurrent().isLocal()) {
                         //初始化一下serverTray
