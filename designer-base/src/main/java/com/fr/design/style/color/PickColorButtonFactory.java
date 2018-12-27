@@ -2,28 +2,37 @@ package com.fr.design.style.color;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.SpecialUIButton;
+import com.fr.design.gui.ibutton.UIBasicButtonUI;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by plough on 2016/12/22.
  */
-public class PickColorButtonFactory {
+class PickColorButtonFactory {
     private static int iconSize;
     private static final int SIZE_16 = 16;
     private static final int SIZE_18 = 18;
     private static IconType iconType;
     private static Image iconImage;
 
-    public static SpecialUIButton getPickColorButton(ColorSelectable colorSelectable, IconType iconType) {
-        return getPickColorButton(colorSelectable, iconType, false);
-    }
-
-    public static SpecialUIButton getPickColorButton(final ColorSelectable colorSelectable, IconType iconType, final boolean setColorRealTime) {
-        SpecialUIButton pickColorButton = new SpecialUIButton(new WhiteButtonUI());
+    /**
+     * 生成取色按钮
+     * @param colorSelectable 接收取到的颜色值的对象
+     * @param iconType IconType 枚举，可选择 16px 和 18px 两个尺寸
+     * @param setColorRealTime 是否在取色过程中，实时更新颜色值
+     * @return SpecialUIButton 屏幕取色按钮
+     */
+    static JButton getPickColorButton(final ColorSelectable colorSelectable, IconType iconType, final boolean setColorRealTime) {
+        final SpecialUIButton pickColorButton = new SpecialUIButton(new WhiteButtonUI());
         PickColorButtonFactory.iconType = iconType;
 
         if (iconType == IconType.ICON16) {
@@ -37,9 +46,13 @@ public class PickColorButtonFactory {
         pickColorButton.setPreferredSize(new Dimension(iconSize, iconSize));
         pickColorButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+        // 不能使用 ActionListener，否则设计器工具栏中的取色按钮会有问题（REPORT-13654）
         pickColorButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if (!pickColorButton.isEnabled()) {
+                    return;
+                }
                 new ColorPicker(colorSelectable, setColorRealTime);
             }
         });
@@ -47,12 +60,14 @@ public class PickColorButtonFactory {
         return pickColorButton;
     }
 
-    //  取色器按钮使用的图标
+    /**
+     * 取色按钮可使用的图标尺寸
+     */
     public enum IconType {
         ICON16, ICON18
     }
 
-    private static class WhiteButtonUI extends ButtonUI {
+    private static class WhiteButtonUI extends UIBasicButtonUI {
         @Override
         public void paint(Graphics g, JComponent c) {
             super.paint(g, c);

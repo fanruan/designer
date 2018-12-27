@@ -18,6 +18,7 @@ public class MemFILE implements FILE {
      * @param name 名字
      * @return 新建目录
      */
+    @Override
     public boolean createFolder(String name) {
         return false;
     }
@@ -27,6 +28,7 @@ public class MemFILE implements FILE {
      *
      * @return 是否存在
      */
+    @Override
     public boolean exists() {
         return false;
     }
@@ -37,6 +39,7 @@ public class MemFILE implements FILE {
      * @return 是否新建成功
      * @throws Exception 异常
      */
+    @Override
     public boolean mkfile() throws Exception {
         return false;
     }
@@ -56,6 +59,7 @@ public class MemFILE implements FILE {
         return name;
     }
 
+    @Override
     public String getEnvFullName() {
         return name;
     }
@@ -65,6 +69,7 @@ public class MemFILE implements FILE {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isMemFile() {
         return true;
     }
@@ -74,6 +79,7 @@ public class MemFILE implements FILE {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isEnvFile() {
         return false;
     }
@@ -88,6 +94,7 @@ public class MemFILE implements FILE {
      *
      * @return 是则返回true
      */
+    @Override
     public boolean isDirectory() {
         return false;
     }
@@ -97,6 +104,7 @@ public class MemFILE implements FILE {
      *
      * @return 文件
      */
+    @Override
     public FILE[] listFiles() {
         return new FILE[0];
     }
@@ -106,6 +114,7 @@ public class MemFILE implements FILE {
      *
      * @return 前缀
      */
+    @Override
     public String prefix() {
         return FILEFactory.MEM_PREFIX;
     }
@@ -129,6 +138,7 @@ public class MemFILE implements FILE {
      *
      * @throws Exception 异常
      */
+    @Override
     public void closeTemplate() throws Exception {
     }
 
@@ -138,6 +148,7 @@ public class MemFILE implements FILE {
      * @return 输入流
      * @throws Exception 异常
      */
+    @Override
     public InputStream asInputStream() throws Exception {
         return null;
     }
@@ -148,6 +159,7 @@ public class MemFILE implements FILE {
      * @return 输出流
      * @throws Exception 异常
      */
+    @Override
     public OutputStream asOutputStream() throws Exception {
         return null;
     }

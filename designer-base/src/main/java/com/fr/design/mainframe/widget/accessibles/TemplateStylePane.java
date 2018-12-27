@@ -21,16 +21,17 @@ import javax.swing.ListCellRenderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
  * Created by kerry on 2017/11/23.
  */
-public class TemplateStylePane extends BasicPane {
+public class TemplateStylePane extends AbstractTemplateStylePane<TemplateStyle> {
     private DefaultListModel listModel;
     private JList styleList;
-    private TemplateStylePreviewPane previewPane = new TemplateStylePreviewPane(new DefaultTemplateStyle());
+    private TemplateStylePreviewPane previewPane = new TemplateStylePreviewPane(new DefaultTemplateStyle(), new Rectangle(0, 50, 540, 400));
 
     public TemplateStylePane(){
         init();

@@ -68,7 +68,9 @@ public class XNameWidget extends XWidgetCreator {
 			Widget widget;
 			if (wc != null && (widget= wc.toWidget()) != null) {
 				editor = XCreatorUtils.createXCreator(widget);
-				toData().setVisible(widget.isVisible());
+				Widget currentWidget = toData();
+				currentWidget.setVisible(widget.isVisible());
+				currentWidget.setEnabled(widget.isEnabled());
 				this.setBorder(null);
 			} else {
 				this.setBorder(DEFALUTBORDER);

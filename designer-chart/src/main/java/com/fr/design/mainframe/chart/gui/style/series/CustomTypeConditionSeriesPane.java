@@ -449,7 +449,7 @@ public class CustomTypeConditionSeriesPane extends BasicBeanPane<CustomAttr>{
             lineStyle.setPreferredSize(new Dimension(150,20));
             markerPane.setPreferredSize(new Dimension(150,20));
 
-            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
+            String[] nameArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Break"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Continue")};
             Boolean[] valueArray = {true, false};
             isNullValueBreak = new UIButtonGroup<Boolean>(nameArray, valueArray);
             double p = TableLayout.PREFERRED;

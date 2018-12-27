@@ -1,11 +1,11 @@
 package com.fr.design.gui.itextfield;
 
 import com.fr.design.gui.imenu.UIListPopup;
-import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.JList;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -13,10 +13,12 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-
-import java.awt.Dimension;
-import java.awt.LayoutManager;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class UIAutoCompletionField extends UITextField implements DocumentListener, MouseListener, ListSelectionListener, ActionListener, KeyListener {

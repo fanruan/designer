@@ -2,9 +2,11 @@ package com.fr.design.file;
 
 import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
@@ -58,6 +60,10 @@ public class HistoryTemplateListCache implements CallbackEvent {
     public void closeSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
+        //直接关闭模板的时候退出权限编辑
+        if (DesignModeContext.isAuthorityEditing()) {
+            DesignerContext.getDesignerFrame().closeAuthorityEditing();
+        }
         if (contains(selected) == -1) {
             return;
         }
@@ -99,6 +105,10 @@ public class HistoryTemplateListCache implements CallbackEvent {
         return this.editingTemplate;
     }
 
+    /**
+     * @param jt jt
+     * @see DesignerFrameFileDealerPane#setCurrentEditingTemplate(JTemplate)
+     */
     public void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
         this.editingTemplate = jt;
         //如果当前历史面板中没有
@@ -178,10 +188,13 @@ public class HistoryTemplateListCache implements CallbackEvent {
 
     /**
      * 判断是否打开过该模板
+     * 由于切换环境不会关闭模板，可能存在同名的模板，所以该方法不能准确找到所选的模板，
      *
      * @param filename 文件名
      * @return 文件位置
+     * @deprecated use HistoryTemplateListCache#contains(com.fr.design.mainframe.JTemplate) instead
      */
+    @Deprecated
     public int contains(String filename) {
         for (int i = 0; i < historyList.size(); i++) {
             String historyPath = historyList.get(i).getPath();

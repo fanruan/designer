@@ -3,12 +3,14 @@
  */
 package com.fr.design.mainframe;
 
-import java.awt.*;
-
-
+import com.fr.base.iofile.attr.DesignBanCopyAttrMark;
+import com.fr.design.base.mode.DesignModeContext;
+import com.fr.design.base.mode.DesignerMode;
+import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
-import com.fr.design.dialog.BasicPane;
+
+import java.awt.BorderLayout;
 
 
 /**
@@ -17,16 +19,22 @@ import com.fr.design.dialog.BasicPane;
  */
 public class DesktopCardPane extends BasicPane implements TargetModifiedListener {
 
-	private static final long serialVersionUID = 1L;
-	private JTemplate<?, ?> component;
+    private static final long serialVersionUID = 1L;
+    private JTemplate<?, ?> component;
 
-	protected DesktopCardPane() {
-		setLayout(new BorderLayout());
-	}
+    protected DesktopCardPane() {
+        setLayout(new BorderLayout());
+    }
 
-	protected void showJTemplate(final JTemplate<?, ?> jt) {
-		DesignerFrameFileDealerPane.getInstance().setCurrentEditingTemplate(jt);
-        if(component != null) {
+    protected void showJTemplate(final JTemplate<?, ?> jt) {
+        // 判断是否切换设计器状态到禁止拷贝剪切
+        if (jt.getTarget().getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
+            DesignModeContext.switchTo(DesignerMode.BAN_COPY_AND_CUT);
+        } else {
+            DesignModeContext.switchTo(DesignerMode.NORMAL);
+        }
+        DesignerFrameFileDealerPane.getInstance().setCurrentEditingTemplate(jt);
+        if (component != null) {
             remove(component);
         }
         add(component = jt, BorderLayout.CENTER);
@@ -34,18 +42,18 @@ public class DesktopCardPane extends BasicPane implements TargetModifiedListener
         repaint();
         revalidate();
         component.requestGridFocus();
-	}
+    }
 
-	protected JTemplate<?, ?> getSelectedJTemplate() {
-		return component;
-	}
+    protected JTemplate<?, ?> getSelectedJTemplate() {
+        return component;
+    }
 
-	@Override
-	protected String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Desktop");
-	}
+    @Override
+    protected String title4PopupWindow() {
+        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Desktop");
+    }
 
-	@Override
-	public void targetModified(TargetModifiedEvent e) {
-	}
+    @Override
+    public void targetModified(TargetModifiedEvent e) {
+    }
 }
