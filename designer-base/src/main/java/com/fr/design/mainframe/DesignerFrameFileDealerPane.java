@@ -30,11 +30,18 @@ import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
+import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
@@ -67,6 +74,22 @@ import java.util.Set;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
 public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarStateChangeListener, ResponseDataSourceChange {
+
+    static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+
+            @Override
+            public void on(PluginEvent event) {
+                DesignUtils.refreshDesignerFrame();
+            }
+        }, new PluginFilter() {
+
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(PluginModule.ExtraDesign, ShortCut.TEMPLATE_TREE);
+            }
+        });
+    }
 
     private static final String FILE = "file";
 
@@ -163,7 +186,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      * 刷新菜单
      */
     public void refreshDockingView() {
-
+        long start = System.currentTimeMillis();
         ToolBarDef toolbarDef = new ToolBarDef();
         toolbarDef.addShortCut(newFolderAction, refreshTreeAction);
         if (WorkContext.getCurrent().isLocal()) {
@@ -176,7 +199,12 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
         toolbarDef.updateToolBar(toolBar);
         resetActionStatus();
+        long end = System.currentTimeMillis();
+        System.out.println("----------------------->refreshDockingView 菜单: " + (end - start));
+        long start1 = System.currentTimeMillis();
         refresh();
+        long end1 = System.currentTimeMillis();
+        System.out.println("-------------------------->菜单 refresh: "  + (end1 - start1));
     }
 
 
