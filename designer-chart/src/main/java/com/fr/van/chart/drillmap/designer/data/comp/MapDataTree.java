@@ -4,8 +4,9 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.map.designer.type.GEOJSONTreeHelper;
+import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
-import com.fr.plugin.chart.map.server.GEOJSONHelper;
+import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JTree;
@@ -78,7 +79,7 @@ public class MapDataTree extends JTree {
 
         DefaultMutableTreeNode currentSel = (DefaultMutableTreeNode)this.getLastSelectedPathComponent();
 
-        return GEOJSONHelper.getInstance().getJsonUrlByPath(currentSel.getUserObject().toString());
+        return CompatibleGEOJSONHelper.getJsonUrlByPathIncludeParam(currentSel.getUserObject().toString());
     }
 
     //根据路径精确查找
@@ -96,7 +97,7 @@ public class MapDataTree extends JTree {
                 return null;
             }
             String dirPath = el.getUserObject().toString();
-            String url =  GEOJSONHelper.getInstance().getJsonUrlByPath(dirPath);
+            String url =  CompatibleGEOJSONHelper.getJsonUrlByPathIncludeParam(dirPath);
             if (GEOJSONHelper.getInstance().isValidDirPath(dirPath) && ComparatorUtils.equals(jsonUrl, url)){
                 selectTreeNode(el, m_model);
                 return el;
@@ -133,7 +134,7 @@ public class MapDataTree extends JTree {
         if(treeNode == null || treeNode.getUserObject() == null){
             return StringUtils.EMPTY;
         }
-        return GEOJSONHelper.getPresentNameWithPath(treeNode.getUserObject().toString());
+        return ChartGEOJSONHelper.getPresentNameWithPath(treeNode.getUserObject().toString());
     }
 
     //模糊搜索 深度优先.
@@ -149,7 +150,7 @@ public class MapDataTree extends JTree {
 
             DefaultMutableTreeNode el = els.nextElement();
             String path =  el.getUserObject().toString();
-            String fileName = GEOJSONHelper.getPresentNameWithPath(path);
+            String fileName = ChartGEOJSONHelper.getPresentNameWithPath(path);
             if (GEOJSONHelper.getInstance().isValidDirPath(path) && StringUtils.contains(fileName, text)) {
                 selectTreeNode(el, m_model);
                 return;

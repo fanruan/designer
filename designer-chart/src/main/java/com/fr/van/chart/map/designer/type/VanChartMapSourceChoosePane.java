@@ -18,15 +18,15 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.base.GisLayer;
 import com.fr.plugin.chart.base.ViewCenter;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.designer.type.GEOJSONTreeHelper;
 import com.fr.plugin.chart.map.layer.WMSLayer;
+import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
-import com.fr.plugin.chart.map.server.GEOJSONHelper;
+import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.plugin.chart.map.server.MapLayerConfigManager;
 import com.fr.plugin.chart.service.WMSFactory;
 import com.fr.plugin.chart.type.GISLayerType;
@@ -201,7 +201,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
                 } else if(o instanceof String){//list里面没有
                     selectTreePath = null;
                     this.tree.setSelectionPath(null);
-                    this.getModel().setSelectedItem(GEOJSONHelper.getPresentNameWithPath((String) o));
+                    this.getModel().setSelectedItem(ChartGEOJSONHelper.getPresentNameWithPath((String) o));
                 }
             }
 
@@ -209,7 +209,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             protected String pathToString(TreePath path) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
                 //不显示后缀
-                return GEOJSONHelper.getPresentNameWithPath(node.toString());
+                return ChartGEOJSONHelper.getPresentNameWithPath(node.toString());
             }
 
             @Override
@@ -533,7 +533,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
             GEOJSONTreeHelper.getInstance().updateParamRootNode(VanChartMapSourceChoosePane.this.getParams());
 
             if(selectTreePath != null){
-                mapDataTree.setSelectNodePath(GEOJSONHelper.completeJSONName(selectTreePath.getLastPathComponent().toString()));
+                mapDataTree.setSelectNodePath(CompatibleGEOJSONHelper.completeJSONName(selectTreePath.getLastPathComponent().toString()));
                 selectTreePath = mapDataTree.getSelectionPath();
             }
 
