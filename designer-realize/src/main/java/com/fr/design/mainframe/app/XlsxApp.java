@@ -2,7 +2,7 @@ package com.fr.design.mainframe.app;
 
 import com.fr.base.extension.FileExtension;
 import com.fr.design.i18n.Toolkit;
-import com.fr.exception.PermissionDeniedException;
+import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.exception.TplLockedException;
 import com.fr.file.FILE;
 import com.fr.io.importer.Excel2007ReportImporter;
@@ -27,7 +27,7 @@ class XlsxApp extends AbstractWorkBookApp {
         try {
             workbook = new Excel2007ReportImporter().generateWorkBookByStream(tplFile.asInputStream());
 
-        } catch (PermissionDeniedException exp) {
+        } catch (RemoteDesignPermissionDeniedException exp) {
             FineLoggerFactory.getLogger().error(Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + tplFile, exp);
         } catch (TplLockedException exp) {
             FineLoggerFactory.getLogger().error(tplFile + Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"), exp);

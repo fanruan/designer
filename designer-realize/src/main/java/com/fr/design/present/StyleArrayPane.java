@@ -2,6 +2,7 @@ package com.fr.design.present;
 
 import com.fr.base.Style;
 import com.fr.config.ServerPreferenceConfig;
+import com.fr.config.StyleMap;
 import com.fr.design.gui.controlpane.AbstractNameableCreator;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -13,6 +14,8 @@ import com.fr.design.style.StylePane;
 
 import com.fr.general.NameObject;
 import com.fr.stable.Nameable;
+import com.fr.transaction.Configurations;
+import com.fr.transaction.WorkerAdaptor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -90,17 +93,16 @@ public class StyleArrayPane extends JListControlPane {
 	/**
 	 * Update.
 	 */
-	public void update(ServerPreferenceConfig configManager) {
-		configManager.clearAllStyle();
+	public void update(final ServerPreferenceConfig configManager) {
+		//configManager.clearAllStyle();
 
 		// Nameable[]居然不能强转成Parameter[],一定要这么写...
 		Nameable[] nameables = this.update();
-
+		final StyleMap styleMap = new StyleMap();
 		for (int i = 0; i < nameables.length; i++) {
-			configManager.putStyle(((NameObject)nameables[i]).getName(), (Style)((NameObject)nameables[i]).getObject());
+			styleMap.put(((NameObject)nameables[i]).getName(), (Style)((NameObject)nameables[i]).getObject());
 		}
-		DesignerContext.getDesignerBean("predefinedStyle").refreshBeanElement();
-	}
-	
 
+	    configManager.setStyleMap(styleMap);
+	}
 }

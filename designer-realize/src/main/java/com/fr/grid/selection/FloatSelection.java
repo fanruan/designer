@@ -1,6 +1,5 @@
 package com.fr.grid.selection;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.cell.CleanAuthorityAction;
@@ -27,7 +26,6 @@ import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
@@ -148,6 +146,10 @@ public class FloatSelection extends Selection {
         popup.addSeparator();
 
         popup.add(new EditFloatElementNameAction(ePane).createMenuItem());
+
+        popup.addSeparator();
+
+        addExtraMenu(ePane, popup);
 
         return popup;
     }

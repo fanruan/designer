@@ -68,4 +68,11 @@ public class LogMessageBar extends JPanel {
 	public Dimension getPreferredSize() {
 		return new Dimension(width, 24);
 	}
+
+	public void disposeLogDialog() {
+		if (dlg != null) {
+			dlg.dispose();
+		}
+		THIS = null;
+	}
 }

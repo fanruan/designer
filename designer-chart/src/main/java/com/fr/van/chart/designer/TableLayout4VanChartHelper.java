@@ -37,7 +37,7 @@ public class TableLayout4VanChartHelper {
 
     public static JPanel createExpandablePaneWithTitle(String title, Component[][] components) {
         JPanel panel = createGapTableLayoutPane(components);
-        return createExpandablePaneWithTitle(title, panel);
+        return createExpandablePaneWithTitleTopGap(title, panel);
     }
 
     public static JPanel createExpandablePaneWithTitle(String title, JPanel panel) {

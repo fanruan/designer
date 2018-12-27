@@ -15,7 +15,9 @@ import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,8 +36,9 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     private UIButton cancelButton;
     private JDialog dialog;
     private UILabel uiLabel;
-    private String oirginalCharSet = null;
-    private String newCharSet = null;
+    // 编码转换.
+    private UIComboBox charSetComboBox;
+    private String originalCharSet = null;
 
     // Database pane
     public DatabaseConnectionPane() {
@@ -47,6 +50,8 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
         uiLabel = new UILabel();
         okButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
         cancelButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+        String[] defaultEncode = new String[] {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Encode_Auto")};
+        charSetComboBox = new UIComboBox(ArrayUtils.addAll(defaultEncode, EncodeConstants.ENCODING_ARRAY));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel northPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         this.add(northPane, BorderLayout.NORTH);
@@ -61,6 +66,14 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
         // Center
         northPane.add(mainPanel(), BorderLayout.CENTER);
+        // ChartSet
+        JPanel chartSetPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(2);
+        northPane.add(chartSetPane);
+        chartSetPane.setBorder(BorderFactory.createTitledBorder(
+                new ModLineBorder(ModLineBorder.TOP),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced")
+        ));
+        chartSetPane.add(GUICoreUtils.createNamedPane(charSetComboBox, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Charset") + ":"));
     }
 
     protected abstract JPanel mainPanel();
@@ -69,8 +82,12 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
 
     @Override
     public void populateBean(com.fr.data.impl.Connection ob) {
-        this.oirginalCharSet = ob.getOriginalCharsetName();
-        this.newCharSet = ob.getNewCharsetName();
+        this.originalCharSet = ob.getOriginalCharsetName();
+        if (StringUtils.isBlank(originalCharSet)) {
+            this.charSetComboBox.setSelectedItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Encode_Auto"));
+        } else {
+            this.charSetComboBox.setSelectedItem(ob.getOriginalCharsetName());
+        }
 
         populateSubDatabaseConnectionBean((E) ob);
     }
@@ -81,8 +98,15 @@ public abstract class DatabaseConnectionPane<E extends com.fr.data.impl.Connecti
     public com.fr.data.impl.Connection updateBean() {
         E ob = updateSubDatabaseConnectionBean();
 
-        ob.setOriginalCharsetName(this.oirginalCharSet);
-        ob.setNewCharsetName(this.newCharSet);
+        ob.setOriginalCharsetName(this.originalCharSet);
+        if (this.charSetComboBox.getSelectedIndex() == 0) {
+            ob.setNewCharsetName(null);
+            ob.setOriginalCharsetName(null);
+        } else {
+            ob.setNewCharsetName(EncodeConstants.ENCODING_GBK);
+            ob.setOriginalCharsetName(((String) this.charSetComboBox.getSelectedItem()));
+
+        }
 
         return ob;
     }

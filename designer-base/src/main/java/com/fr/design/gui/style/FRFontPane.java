@@ -37,9 +37,12 @@ import java.util.Vector;
  * Pane to edit Font.
  */
 public class FRFontPane extends AbstractBasicStylePane implements GlobalNameObserver {
+    public static final Integer[] FONT_SIZES = {
+            6, 8, 9, 10, 11, 12, 13, 14, 16,
+            18, 20, 22, 24, 26, 28, 30, 32, 34,
+            36, 38, 40, 48, 64, 72, 128
+    };
     private static final int MAX_FONT_SIZE = 100;
-    public static Integer[] FONT_SIZES = {new Integer(6), new Integer(8), new Integer(9), new Integer(10), new Integer(11), new Integer(12), new Integer(14), new Integer(16),
-            new Integer(18), new Integer(20), new Integer(22), new Integer(24), new Integer(26), new Integer(28), new Integer(36), new Integer(48), new Integer(72)};
     private static final Dimension BUTTON_SIZE = new Dimension(20, 18);
     private static final Dimension UNDER_LINE_SIZE = new Dimension(87, 20);
     private static final Dimension HIDE_SIZE = new Dimension(0, 0);

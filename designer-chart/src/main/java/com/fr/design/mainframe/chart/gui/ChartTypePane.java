@@ -173,9 +173,9 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 				//plot改变的话图表类型就算改变了
 
-				chart.setWrapperName(ChartTypeManager.getInstance().getWrapperName(plotID));
+				chart.setWrapperName(ChartTypeManager.getInstanceWithCheck().getWrapperName(plotID));
 
-				chart.setChartImagePath(ChartTypeManager.getInstance().getChartImagePath(plotID));
+				chart.setChartImagePath(ChartTypeManager.getInstanceWithCheck().getChartImagePath(plotID));
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 

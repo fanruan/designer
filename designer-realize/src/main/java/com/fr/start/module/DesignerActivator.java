@@ -6,6 +6,7 @@ import com.fr.base.MultiFieldParameter;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.BiasCellAction;
 import com.fr.design.actions.insert.cell.ChartCellAction;
@@ -42,7 +43,6 @@ import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.WidgetToolBarPane;
-import com.fr.design.mainframe.actions.NewFormAction;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
@@ -60,7 +60,6 @@ import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.form.ui.WidgetInfoConfig;
-import com.fr.general.ModuleContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.JavaScriptImpl;
@@ -110,8 +109,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static com.fr.stable.module.Module.ENGINE_MODULE;
-
 /**
  * Created by juhaoyu on 2018/1/31.
  * 触发原来的DesignerModule的启动
@@ -154,14 +151,13 @@ public class DesignerActivator extends Activator {
         }
     }
 
-    private static void designerModuleStart() {
+    private void designerModuleStart() {
 
         StableFactory.registerMarkedClass(ExtraDesignClassManagerProvider.XML_TAG, ExtraDesignClassManager.class);
         ActionFactory.registerCellInsertActionClass(actionsForInsertCellElement());
         ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
         DesignModuleFactory.registerCreators4Hyperlink(hyperlinkTypes());
 
-        justStartModules4Engine();
         justStartModules4Designer();
 
         CalculatorProviderContext.setValueConverter(valueConverter());
@@ -274,13 +270,6 @@ public class DesignerActivator extends Activator {
         };
     }
 
-    /**
-     * kunsnat: 一些模块信息 必须跟随设计器启动,
-     * 比如 读取CC.XML, 设计器启动之后, 马上会读取XML, 需要Chart_Module中的注册信息
-     */
-    private static void justStartModules4Engine() {
-        ModuleContext.startModule(ENGINE_MODULE);
-    }
 
     private static void justStartModules4Designer() {
         formDesignerRegister();

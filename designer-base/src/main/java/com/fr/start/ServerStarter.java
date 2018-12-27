@@ -5,18 +5,11 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.utils.BrowseUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.log.FineLoggerFactory;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.start.server.FineEmbedServer;
 import com.fr.start.server.FineEmbedServerMonitor;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.JOptionPane;
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
