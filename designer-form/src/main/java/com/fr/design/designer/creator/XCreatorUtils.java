@@ -26,7 +26,6 @@ import com.fr.form.ui.ComboCheckBox;
 import com.fr.form.ui.DateEditor;
 import com.fr.form.ui.EditorHolder;
 import com.fr.form.ui.ElementCaseEditor;
-import com.fr.form.ui.ErrorMarker;
 import com.fr.form.ui.FileEditor;
 import com.fr.form.ui.FreeButton;
 import com.fr.form.ui.IframeEditor;
@@ -42,6 +41,7 @@ import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetErrorMarker;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBorderLayout;
@@ -160,7 +160,7 @@ public class XCreatorUtils {
         objectMap.put(NameWidget.class, XNameWidget.class);
         objectMap.put(CardSwitchButton.class, XCardSwitchButton.class);
         objectMap.put(CardAddButton.class, XCardAddButton.class);
-        objectMap.put(ErrorMarker.class, ErrorCreator.class);
+        objectMap.put(WidgetErrorMarker.class, ErrorCreator.class);
     }
 
     private static void reInitExtra() {
