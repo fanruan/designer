@@ -218,18 +218,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         if (currentTime - lastTime <= DELTA) {
             return;
         }
-		boolean success;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
-		success = queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
+		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
         long page =  (totalCount/PAGE_SIZE) + 1;
         for(int i=1; i<page; i++){
-			success = queryAndSendOnePageFunctionContent(currentTime, lastTime, i);
+			queryAndSendOnePageFunctionContent(currentTime, lastTime, i);
 		}
-		//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
-		if (success) {
-			this.lastTime = dateToString();
-			FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
-		}
+
 
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
@@ -249,7 +244,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 //		}
     }
 
-	private boolean queryAndSendOnePageFunctionContent(long current, long last, int page) {
+	private void queryAndSendOnePageFunctionContent(long current, long last, int page) {
 		QueryCondition condition = QueryFactory.create()
 				.skip(page * PAGE_SIZE)
 				.count(PAGE_SIZE)
@@ -262,22 +257,20 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			if(page == 0){
 				totalCount = focusPoints.getTotalCount();
 			}
-			return sendThisPageFunctionContent(focusPoints);
+			sendThisPageFunctionContent(focusPoints);
 		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		return false;
 	}
 
-	private boolean sendThisPageFunctionContent(DataList<FocusPoint> focusPoints) {
+	private void sendThisPageFunctionContent(DataList<FocusPoint> focusPoints) {
 		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
 		try {
 			JSONObject jsonObject = dealWithSendFunctionContent(focusPoints);
-			return sendFunctionRecord(url, jsonObject);
+			sendFunctionRecord(url, jsonObject);
 		} catch (JSONException e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		return false;
 	}
 
 	private JSONObject dealWithSendFunctionContent(DataList<FocusPoint> focusPoints) throws JSONException {
@@ -319,7 +312,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		return jsonArray;
 	}
 
-	private boolean sendFunctionRecord(String url, JSONObject record) {
+	private void sendFunctionRecord(String url, JSONObject record) {
         boolean success = false;
         try {
 			HashMap<String, Object> para = new HashMap<>();
@@ -327,10 +320,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			para.put("content", record);
 			String res = HttpToolbox.post(url, para);
 			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+            if (success) {
+                this.lastTime = dateToString();
+            } else {
+                FineLoggerFactory.getLogger().error("Error occured when sent function records to the cloud center.");
+            }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-        return success;
     }
 
 	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
