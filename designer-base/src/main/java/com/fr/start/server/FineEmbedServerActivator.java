@@ -68,6 +68,7 @@ public class FineEmbedServerActivator extends Activator {
         //覆盖tomcat的WebAppClassLoader
         context.setLoader(new FRTomcatLoader());
 
+
         //直接指定initializer，tomcat就不用再扫描一遍了
         SpringServletContainerInitializer initializer = new SpringServletContainerInitializer();
         Set<Class<?>> classes = new HashSet<Class<?>>();

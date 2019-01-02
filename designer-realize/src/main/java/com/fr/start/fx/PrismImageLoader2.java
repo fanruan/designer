@@ -68,8 +68,18 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
     @Override
+    public boolean getError() {
+        return false;
+    }
+
+    @Override
     public int getFrameCount() {
         return gifCount;
+    }
+
+    @Override
+    public PlatformImage[] getFrames() {
+        return new PlatformImage[0];
     }
 
     @Override
@@ -112,7 +122,6 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         return 0;
     }
 
-    @Override
     public Exception getException() {
         return exception;
     }
