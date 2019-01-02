@@ -285,7 +285,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			for(FocusPoint focusPoint : focusPoints.getList()) {
 				FunctionRecord functionRecord = getOneRecord(focusPoint);
 				if (map.containsKey(focusPoint.getId())) {
-					functionRecord.setTimes(functionRecord.getTimes() + 1);
+					int times = ((FunctionRecord)map.get(focusPoint.getId())).getTimes() + 1;
+					functionRecord.setTimes(times);
 					map.put(focusPoint.getId(), functionRecord);
 				} else {
 					map.put(focusPoint.getId(), functionRecord);
