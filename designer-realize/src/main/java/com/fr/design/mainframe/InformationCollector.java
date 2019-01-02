@@ -89,11 +89,15 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     private static final String ATTR_TEXT = "text";
     private static final String ATTR_SOURCE = "source";
     private static final String ATTR_TIME = "time";
+	private static final String ATTR_TIMES = "times";
     private static final String ATTR_TITLE = "title";
     private static final String ATTR_USER_NAME = "username";
     private static final String ATTR_UUID = "uuid";
+	private static final String ATTR_ITEMS = "items";
 	private static final String ATTR_FUNCTION_ARRAY = "functionArray";
 	private static final int MAX_EACH_REQUEST_RECORD_COUNT = 200;
+	private static final int PAGE_SIZE = 200;
+	private long totalCount = -1;
 
 	private static InformationCollector collector;
 
@@ -214,25 +218,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         if (currentTime - lastTime <= DELTA) {
             return;
         }
-		JSONArray content = getFunctionsContent(currentTime, lastTime);
-		boolean success = false;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
-		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-		try {
-			for(int i=0;i<content.length();i++){
-				JSONArray functionArray = content.getJSONArray(i);
-				if(functionArray.length() > 0){
-					success = sendFunctionRecord(url, functionArray);
-				}
-			}
-			//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
-			if (success) {
-				this.lastTime = dateToString();
-				FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
-			}
-		}catch (Exception e) {
-			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
+        long page =  (totalCount/PAGE_SIZE) + 1;
+        for(int i=1; i<page; i++){
+			queryAndSendOnePageFunctionContent(currentTime, lastTime, i);
 		}
+
 
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
@@ -252,7 +244,75 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 //		}
     }
 
-    private boolean sendFunctionRecord(String url, JSONArray record) {
+	private void queryAndSendOnePageFunctionContent(long current, long last, int page) {
+		QueryCondition condition = QueryFactory.create()
+				.skip(page * PAGE_SIZE)
+				.count(PAGE_SIZE)
+				.addSort(COLUMN_TIME, true)
+				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
+				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
+		try {
+			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+			//第一次查询获取总记录数
+			if(page == 0){
+				totalCount = focusPoints.getTotalCount();
+			}
+			sendThisPageFunctionContent(focusPoints);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private void sendThisPageFunctionContent(DataList<FocusPoint> focusPoints) {
+		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+		try {
+			JSONObject jsonObject = dealWithSendFunctionContent(focusPoints);
+			sendFunctionRecord(url, jsonObject);
+		} catch (JSONException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private JSONObject dealWithSendFunctionContent(DataList<FocusPoint> focusPoints) throws JSONException {
+		JSONObject jsonObject = new JSONObject();
+		Map<String, Object> map = new HashMap<>();
+		if(!focusPoints.isEmpty()){
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+			String uuid = envManager.getUUID();
+			jsonObject.put(ATTR_UUID, uuid);
+			jsonObject.put(ATTR_USER_NAME, bbsUserName);
+			for(FocusPoint focusPoint : focusPoints.getList()) {
+				FunctionRecord functionRecord = getOneRecord(focusPoint);
+				if (map.containsKey(focusPoint.getId())) {
+					functionRecord.setTimes(functionRecord.getTimes() + 1);
+					map.put(focusPoint.getId(), functionRecord);
+				} else {
+					map.put(focusPoint.getId(), functionRecord);
+				}
+			}
+			jsonObject.put(ATTR_ITEMS, mapToJSONArray(map));
+		}
+		return jsonObject;
+	}
+
+	private JSONArray mapToJSONArray(Map<String,Object> map) throws JSONException {
+		JSONArray jsonArray = new JSONArray();
+		for(String keys : map.keySet()){
+			FunctionRecord functionRecord = (FunctionRecord)map.get(keys);
+			JSONObject jo = new JSONObject();
+			jo.put(ATTR_ID, functionRecord.getId());
+			jo.put(ATTR_TEXT, functionRecord.getText());
+			jo.put(ATTR_SOURCE, functionRecord.getSource());
+			jo.put(ATTR_TIME, functionRecord.getTime());
+			jo.put(ATTR_TITLE, functionRecord.getTitle());
+			jo.put(ATTR_TIMES, functionRecord.getTimes());
+			jsonArray.put(jo);
+		}
+		return jsonArray;
+	}
+
+	private void sendFunctionRecord(String url, JSONObject record) {
         boolean success = false;
         try {
 			HashMap<String, Object> para = new HashMap<>();
@@ -260,11 +320,27 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			para.put("content", record);
 			String res = HttpToolbox.post(url, para);
 			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+            if (success) {
+                this.lastTime = dateToString();
+            } else {
+                FineLoggerFactory.getLogger().error("Error occured when sent function records to the cloud center.");
+            }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-        return success;
     }
+
+	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
+		FunctionRecord functionRecord = new FunctionRecord();
+		functionRecord.setId(focusPoint.getId() == null?StringUtils.EMPTY : focusPoint.getId());
+		functionRecord.setText(focusPoint.getText() == null?StringUtils.EMPTY : focusPoint.getText());
+		functionRecord.setSource(focusPoint.getSource());
+		functionRecord.setTime(focusPoint.getTime().getTime());
+		functionRecord.setTitle(focusPoint.getTitle() == null?StringUtils.EMPTY : focusPoint.getTitle());
+		functionRecord.setUsername(MarketConfig.getInstance().getBbsUsername() == null?StringUtils.EMPTY : MarketConfig.getInstance().getBbsUsername());
+		functionRecord.setUuid(DesignerEnvManager.getEnvManager().getUUID() == null?StringUtils.EMPTY : DesignerEnvManager.getEnvManager().getUUID());
+		return functionRecord;
+	}
 
     /**
      * 收集开始使用时间，发送信息
@@ -426,69 +502,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public JSONArray getFunctionsContent(long current, long last) {
-		//记录当前条数，达到200条合并成一个请求
-		int count = 0;
-		JSONArray functionArray = new JSONArray();
-		QueryCondition condition = QueryFactory.create()
-				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
-				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
-		try {
-			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-			TreeSet<FunctionRecord> focusPointsList = new TreeSet<>();
-			if(!focusPoints.isEmpty()){
-				for(int i=0;i<  focusPoints.getList().size();i++){
-					FocusPoint focusPoint = focusPoints.getList().get(i);
-					if(focusPoint != null){
-						if((++count <= MAX_EACH_REQUEST_RECORD_COUNT)){
-							focusPointsList.add(getOneRecord(focusPoint));
-						} else {
-							count = 0;
-							functionArray.put(setToJSONArray(focusPointsList));
-							focusPointsList.add(getOneRecord(focusPoint));
-						}
-						if(i == (focusPoints.getList().size() -1)){
-							functionArray.put(setToJSONArray(focusPointsList));
-						}
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		}
-		return functionArray;
-	}
-
-	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
-		FunctionRecord functionRecord = new FunctionRecord();
-		functionRecord.setId(focusPoint.getId() == null?StringUtils.EMPTY : focusPoint.getId());
-		functionRecord.setText(focusPoint.getText() == null?StringUtils.EMPTY : focusPoint.getText());
-		functionRecord.setSource(focusPoint.getSource());
-		functionRecord.setTime(focusPoint.getTime().getTime());
-		functionRecord.setTitle(focusPoint.getTitle() == null?StringUtils.EMPTY : focusPoint.getTitle());
-		functionRecord.setUsername(MarketConfig.getInstance().getBbsUsername() == null?StringUtils.EMPTY : MarketConfig.getInstance().getBbsUsername());
-		functionRecord.setUuid(DesignerEnvManager.getEnvManager().getUUID() == null?StringUtils.EMPTY : DesignerEnvManager.getEnvManager().getUUID());
-		return functionRecord;
-	}
-
-	private JSONArray setToJSONArray(Set set) throws JSONException {
-		JSONArray jsonArray = new JSONArray();
-		for(Iterator iter = set.iterator(); iter.hasNext(); ) {
-			FunctionRecord functionRecord = (FunctionRecord)iter.next();
-			com.fr.json.JSONObject record = new com.fr.json.JSONObject();
-			record.put(ATTR_ID, functionRecord.getId());
-			record.put(ATTR_TEXT, functionRecord.getText());
-			record.put(ATTR_SOURCE, functionRecord.getSource());
-			record.put(ATTR_TIME, functionRecord.getTime());
-			record.put(ATTR_TITLE, functionRecord.getTitle());
-			record.put(ATTR_USER_NAME, functionRecord.getUsername());
-			record.put(ATTR_UUID, functionRecord.getUuid());
-			jsonArray.put(record);
-		}
-		return jsonArray;
-	}
-
 	private class StartStopTime implements XMLReadable, XMLWriter {
 
 		private String startDate;
@@ -533,6 +546,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		private String text;
 		private int source;
 		private long time;
+		private int times = 1;
 		private String title;
 		private String username;
 		private String uuid;
@@ -546,6 +560,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 		public void setId(String id) {
 			this.id = id;
+		}
+
+		public int getTimes() {
+			return times;
+		}
+
+		public void setTimes(int times) {
+			this.times = times;
 		}
 
 		public String getText() {
