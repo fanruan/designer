@@ -81,10 +81,8 @@ public class DocumentSearchManager implements AlphaFineSearchProvider {
                             }
                         }
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     FineLoggerFactory.getLogger().error("document search error: " + e.getMessage());
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error("document search get result error: " + e.getMessage());
                 }
             }
             lessModelList.clear();

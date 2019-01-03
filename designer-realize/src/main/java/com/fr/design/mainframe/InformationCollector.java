@@ -168,21 +168,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		JSONArray startStopArray = new JSONArray();
 		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
-			try {
-				jo.put(ATTR_START, startStop.get(i).getStartDate());
-				jo.put(ATTR_STOP, startStop.get(i).getStopDate());
-				startStopArray.put(jo);
-				DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-				content.put(XML_START_STOP, startStopArray);
-				content.put(XML_UUID, envManager.getUUID());
-				content.put(XML_JAR, GeneralUtils.readBuildNO());
-				content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-				content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
-				content.put(XML_KEY, envManager.getActivationKey());
-				content.put(XML_OS, System.getProperty("os.name"));
-			} catch (JSONException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
+			jo.put(ATTR_START, startStop.get(i).getStartDate());
+			jo.put(ATTR_STOP, startStop.get(i).getStopDate());
+			startStopArray.put(jo);
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			content.put(XML_START_STOP, startStopArray);
+			content.put(XML_UUID, envManager.getUUID());
+			content.put(XML_JAR, GeneralUtils.readBuildNO());
+			content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
+			content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
+			content.put(XML_KEY, envManager.getActivationKey());
+			content.put(XML_OS, System.getProperty("os.name"));
 		}
 		return content;
 	}
