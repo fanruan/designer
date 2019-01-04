@@ -428,8 +428,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String oldName = fnf.getName();
             String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
-
+            oldName = oldName.replace(suffix, StringUtils.EMPTY);
             this.setLayout(new BorderLayout());
             this.setModal(true);
 
