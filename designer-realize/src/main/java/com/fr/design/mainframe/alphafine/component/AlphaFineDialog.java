@@ -976,11 +976,7 @@ public class AlphaFineDialog extends UIDialog {
             int resultKind = cellModel.getType().getTypeValue();
             String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
             JSONObject object = JSONObject.create();
-            try {
-                object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
+            object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));
