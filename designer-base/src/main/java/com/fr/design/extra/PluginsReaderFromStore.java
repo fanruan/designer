@@ -74,7 +74,7 @@ public class PluginsReaderFromStore {
                         plugins.add(pluginView);
                     }
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Read_Plugin_List_Error"));
             }
         }
