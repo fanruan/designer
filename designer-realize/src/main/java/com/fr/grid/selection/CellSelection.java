@@ -508,6 +508,10 @@ public class CellSelection extends Selection {
         popup.add(DeprecatedActionManager.getInsertMenu(ePane));
         popup.add(DeprecatedActionManager.getDeleteMenu(ePane));
         popup.add(DeprecatedActionManager.getClearMenu(ePane));
+
+        popup.addSeparator();
+
+        addExtraMenu(ePane, popup);
         return popup;
     }
 

@@ -121,7 +121,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
             JoinCondition newJoinCondition = new JoinCondition(andRadioButton.isSelected() ? DataConstants.AND : DataConstants.OR, liteCondition);
             ExpandMutableTreeNode parentTreeNode = getParentTreeNode();
-            boolean result = isExistedInParentTreeNode(parentTreeNode, newJoinCondition);
+            boolean result = isExistedInParentTreeNode(parentTreeNode, liteCondition, false);
             if (result) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn_This_Condition_Has_Been_Existed"));
@@ -162,7 +162,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
 
         @Override
         public void mouseExited(MouseEvent evt) {
-        	GUICoreUtils.setEnabled(conditionCardPane, conditionCardPane.isEnabled());
+            GUICoreUtils.setEnabled(conditionCardPane, conditionCardPane.isEnabled());
         }
     };
 
@@ -596,6 +596,8 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             oldJoinCondition.setJoin(andRadioButton.isSelected() ? DataConstants.AND : DataConstants.OR);
 
             Condition oldLiteCondition = oldJoinCondition.getCondition();
+            DefaultTreeModel defaultTreeModel = (DefaultTreeModel) conditionsTree.getModel();
+            ExpandMutableTreeNode parentTreeNode = (ExpandMutableTreeNode) selectedTreeNode.getParent();
             // peter:如果当前选中的是ListCondition,只要改变Join为AND或者OR,直接返回.
             if (oldLiteCondition != null && !(oldLiteCondition instanceof ListCondition)) {
                 // peter:先获得当前的LiteCondition.
@@ -605,13 +607,18 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
                 } else {
                     liteCondition = new FormulaCondition(formulaTextArea.getText());
                 }
+                //修改的时候加入判断条件重复 REPORT-13441
+                boolean result = isExistedInParentTreeNode(parentTreeNode, liteCondition, true);
+                if (result) {
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn_This_Condition_Has_Been_Existed"));
+                    return;
+                }
 
                 oldJoinCondition.setCondition(liteCondition);
             }
 
             // peter:需要reload parent
-            DefaultTreeModel defaultTreeModel = (DefaultTreeModel) conditionsTree.getModel();
-            ExpandMutableTreeNode parentTreeNode = (ExpandMutableTreeNode) selectedTreeNode.getParent();
             defaultTreeModel.reload(parentTreeNode);
             parentTreeNode.expandCurrentTreeNode(conditionsTree);
             conditionsTree.setSelectionPath(GUICoreUtils.getTreePath(selectedTreeNode));
@@ -745,22 +752,31 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
         return parentTreeNode;
     }
 
-    private boolean isExistedInParentTreeNode(ExpandMutableTreeNode parentTreeNode, JoinCondition newJoinCondition) {
+    private boolean isExistedInParentTreeNode(ExpandMutableTreeNode parentTreeNode, Condition liteCondition, boolean isModify) {
 
         if (parentTreeNode == null) {
             return false;
         }
         JoinCondition parentJoinCondition = (JoinCondition) parentTreeNode.getUserObject();
         Condition parentLiteCondition = parentJoinCondition.getCondition();
+        Object oldJoinCondition = null;
+        //获取当前选中的条件用于修改判断
+        TreePath selectedTreePath = conditionsTree.getSelectionPath();
+        if (selectedTreePath != null) {
+            ExpandMutableTreeNode selectedTreeNode = (ExpandMutableTreeNode) selectedTreePath.getLastPathComponent();
+            oldJoinCondition = selectedTreeNode.getUserObject();
+        }
         if (parentLiteCondition instanceof ListCondition) {
             // peter:在添加UserObject的节点.
 
             for (int i = 0; i < parentTreeNode.getChildCount(); i++) {
                 ExpandMutableTreeNode tempTreeNode = (ExpandMutableTreeNode) parentTreeNode.getChildAt(i);
                 Object tempObject = tempTreeNode.getUserObject();
-                if (tempObject instanceof JoinCondition) {
+                //修改的时候需要排除所选条件，和其他条件比较。增加的时候全盘比较
+                if (tempObject instanceof JoinCondition && isModify ? (!tempObject.equals(oldJoinCondition)) : true) {
                     JoinCondition tempJoinCondition = (JoinCondition) tempObject;
-                    if (ComparatorUtils.equals(tempJoinCondition, newJoinCondition)) {
+                    //条件内容一样就视为相同条件,join类型无关
+                    if (ComparatorUtils.equals(tempJoinCondition.getCondition(), liteCondition)) {
                         return true;
                     }
                 }
@@ -941,7 +957,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
     @Override
     public Condition updateBean() {
         // Samuel：先按modifybutton
-        modify();
+        //modify(); REPORT-13442 需要点修改按钮才能修改
         // peter: 先删除所有的节点
         DefaultTreeModel defaultTreeModel = (DefaultTreeModel) this.conditionsTree.getModel();
         ExpandMutableTreeNode rootTreeNode = (ExpandMutableTreeNode) defaultTreeModel.getRoot();
@@ -963,9 +979,9 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             JoinCondition joinCondition = (JoinCondition) rootTreeNode.getUserObject();
             Condition newCondition = joinCondition.getCondition();
             //clone(),防止多个条件分组使用同一个condition对象
-            try{
-                newCondition = (Condition)joinCondition.getCondition().clone();
-            }catch (CloneNotSupportedException e){
+            try {
+                newCondition = (Condition) joinCondition.getCondition().clone();
+            } catch (CloneNotSupportedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             return newCondition;

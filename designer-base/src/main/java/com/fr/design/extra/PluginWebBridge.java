@@ -104,7 +104,7 @@ public class PluginWebBridge {
                 for (String key : keySet) {
                     jsonObject.put(key, config.get(key).toString());
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             return jsonObject.toString();
@@ -349,7 +349,7 @@ public class PluginWebBridge {
         try {
             Task<Void> task = new PluginTask<>(webEngine, callback, new GetPluginFromStoreExecutor(new JSONObject(info)));
             threadPoolExecutor.submit(task);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }

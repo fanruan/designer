@@ -55,7 +55,7 @@ public class RobotModel extends AlphaCellModel {
             }
             JSONObject jsonObject = new JSONObject(result);
             return jsonObject.optString("msg");
-        } catch (JSONException | IOException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error("get robotmodel content error: " + e.getMessage());
         }
         return null;
@@ -69,13 +69,9 @@ public class RobotModel extends AlphaCellModel {
     @Override
     public JSONObject modelToJson() throws JSONException {
         JSONObject object = JSONObject.create();
-        try {
-            JSONObject modelObject = JSONObject.create();
-            modelObject.put("title", getTitle()).put("content", getContent()).put("searchCount", getSearchCount());
-            object.put("result", modelObject).put("cellType", getType().getTypeValue());
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error("RobotModel: " + e.getMessage());
-        }
+        JSONObject modelObject = JSONObject.create();
+        modelObject.put("title", getTitle()).put("content", getContent()).put("searchCount", getSearchCount());
+        object.put("result", modelObject).put("cellType", getType().getTypeValue());
         return object;
     }
 

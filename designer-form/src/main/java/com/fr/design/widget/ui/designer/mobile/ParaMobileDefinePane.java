@@ -218,7 +218,7 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
                     break;
                 }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         paramLocationComboBox.setSelectedIndex(index);

@@ -68,4 +68,14 @@ public class LogMessageBar extends JPanel {
 	public Dimension getPreferredSize() {
 		return new Dimension(width, 24);
 	}
+
+	/**
+	 * 销毁内置的日志面板,外部插件会用到
+	 */
+	public void disposeLogDialog() {
+		if (dlg != null && dlg.isShowing()) {
+			dlg.dispose();
+		}
+		THIS = null;
+	}
 }

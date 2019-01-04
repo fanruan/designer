@@ -7,12 +7,22 @@ import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.location.Location;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XConnector;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.utils.ComponentUtils;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -94,8 +104,11 @@ public class StateModel {
             return;
         }
 
-        XCreator comp = designer.getComponentAt(e.getX(), e.getY(), selectionModel.getSelection().getSelectedCreators());
-        XLayoutContainer container = XCreatorUtils.getHotspotContainer(comp);
+        XLayoutContainer container = getMouseLocationContainer(e);
+        if (container == null) {
+            return;
+        }
+
         XCreator creator = selectionModel.getSelection().getSelectedCreator();
         Component creatorContainer = XCreatorUtils.getParentXLayoutContainer(creator);
         if (creatorContainer != null && creatorContainer != container
@@ -141,11 +154,8 @@ public class StateModel {
      * @param mouseReleasedY 鼠标释放位置Y
      */
     private void adding(int mouseReleasedX, int mouseReleasedY) {
-        // 当前鼠标所在的组件
-        XCreator hoveredComponent = designer.getComponentAt(mouseReleasedX, mouseReleasedY, selectionModel.getSelection().getSelectedCreators());
-
-        // 获取该组件所在的焦点容器
-        XLayoutContainer container = XCreatorUtils.getHotspotContainer(hoveredComponent);
+        // 当前鼠标所在组件的容器
+        XLayoutContainer container = getMouseLocationContainer(mouseReleasedX, mouseReleasedY);
 
         boolean success = false;
 
@@ -164,6 +174,33 @@ public class StateModel {
         }
         // 取消提示
         designer.setPainter(null);
+    }
+
+    /**
+     * 获取鼠标所在位置组件的容器
+     *
+     * @param e MouseEvent
+     * @return 鼠标所在位置的组件的容器
+     */
+    private XLayoutContainer getMouseLocationContainer(MouseEvent e) {
+        return getMouseLocationContainer(e.getX(), e.getY());
+    }
+
+    /**
+     * 获取鼠标所在位置组件的容器
+     *
+     * @param x x 鼠标所在位置x
+     * @param y y 鼠标所在位置y
+     * @return 鼠标所在位置的组件的容器
+     */
+    private XLayoutContainer getMouseLocationContainer(int x, int y) {
+        // 当前鼠标所在的组件
+        XCreator hoveredComponent = designer.getComponentAt(x, y, selectionModel.getSelection().getSelectedCreators());
+        if (hoveredComponent == null) {
+            return null;
+        }
+        // 获取该组件所在的焦点容器
+        return XCreatorUtils.getHotspotContainer(hoveredComponent);
     }
 
     /**
@@ -246,7 +283,7 @@ public class StateModel {
         if (p != null) {
             try {
                 designer.setCursor(XConnector.connectorCursor);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         } else {
             designer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -433,11 +470,11 @@ public class StateModel {
 
     // 拖拽时画依附线用到的painter
     private void setDependLinePainter(MouseEvent e) {
-        XCreator comp = designer.getComponentAt(e.getX(), e.getY(), selectionModel.getSelection().getSelectedCreators());
-        if (comp == null) {
+        XLayoutContainer container = getMouseLocationContainer(e);
+        if (container == null) {
             return;
         }
-        XLayoutContainer container = XCreatorUtils.getHotspotContainer(comp);
+
         XCreator creator = selectionModel.getSelection().getSelectedCreator();
         HoverPainter painter = AdapterBus.getContainerPainter(designer, container);
         designer.setPainter(painter);
@@ -479,9 +516,8 @@ public class StateModel {
      * @return xy值
      */
     public Point getMouseXY(MouseEvent e) {
-        Point p1 = new Point(e.getX() + designer.getArea().getHorizontalValue(), e.getY()
+        return new Point(e.getX() + designer.getArea().getHorizontalValue(), e.getY()
                 + designer.getArea().getVerticalValue());
-        return p1;
     }
 
 }

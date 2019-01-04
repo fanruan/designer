@@ -4,11 +4,15 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.ibutton.SpecialUIButton;
 import com.fr.design.gui.ibutton.UIBasicButtonUI;
 
-import javax.swing.*;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by plough on 2016/12/22.
@@ -28,7 +32,7 @@ class PickColorButtonFactory {
      * @return SpecialUIButton 屏幕取色按钮
      */
     static JButton getPickColorButton(final ColorSelectable colorSelectable, IconType iconType, final boolean setColorRealTime) {
-        SpecialUIButton pickColorButton = new SpecialUIButton(new WhiteButtonUI());
+        final SpecialUIButton pickColorButton = new SpecialUIButton(new WhiteButtonUI());
         PickColorButtonFactory.iconType = iconType;
 
         if (iconType == IconType.ICON16) {
@@ -42,9 +46,13 @@ class PickColorButtonFactory {
         pickColorButton.setPreferredSize(new Dimension(iconSize, iconSize));
         pickColorButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        pickColorButton.addActionListener(new ActionListener() {
+        // 不能使用 ActionListener，否则设计器工具栏中的取色按钮会有问题（REPORT-13654）
+        pickColorButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mousePressed(MouseEvent e) {
+                if (!pickColorButton.isEnabled()) {
+                    return;
+                }
                 new ColorPicker(colorSelectable, setColorRealTime);
             }
         });
