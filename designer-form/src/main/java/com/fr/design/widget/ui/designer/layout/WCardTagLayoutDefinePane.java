@@ -115,6 +115,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         templateStyleEditor.setValue(ob.getTemplateStyle());
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont();
         if (frFont != null) {
+            ob.setTitleFont(frFont);
             frFontPane.populateBean(frFont);
         }
     }
@@ -126,8 +127,10 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         XWCardLayout xCardLayout = ((XWCardMainBorderLayout) topLayout).getCardPart();
         LayoutBorderStyle layoutBorderStyle = xCardLayout.toData().getBorderStyle();
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont() == null ? FRFont.getInstance() : layoutBorderStyle.getTitle().getFrFont();
-        layoutBorderStyle.getTitle().setFrFont(frFontPane.update(frFont));
+        FRFont titleFont = frFontPane.update(frFont);
+        layoutBorderStyle.getTitle().setFrFont(titleFont);
         WCardTagLayout layout = (WCardTagLayout) creator.toData();
+        layout.setTitleFont(titleFont);
         boolean isHori = displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.TOP_POSITION.getType() || displayPositionGroup.getSelectedIndex() == WTabDisplayPosition.BOTTOM_POSITION.getType();
         if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tab_Style_Template"))) {
             layout.setDisplayPosition(WTabDisplayPosition.parse(displayPositionGroup.getSelectedIndex()));

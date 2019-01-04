@@ -5,11 +5,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
-import com.fr.data.core.db.DBUtils;
-import com.fr.data.core.db.dialect.DialectFactory;
-import com.fr.data.core.db.dml.Delete;
-import com.fr.data.core.db.dml.Select;
-import com.fr.data.core.db.dml.Table;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
@@ -19,18 +14,13 @@ import com.fr.general.DateUtils;
 import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
-import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
 import com.fr.intelli.record.FocusPoint;
-import com.fr.intelli.record.MetricException;
 import com.fr.intelli.record.MetricRegistry;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.log.message.ParameterMessage;
-import com.fr.record.DBRecordXManager;
-import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -58,17 +48,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author neil
@@ -79,7 +67,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	// 24小时上传一次
 	private static final long DELTA = 24 * 3600 * 1000L;
-	private static final long SEND_DELAY = 30 * 1000L;
+	private static final long SEND_DELAY = 300 * 1000L;
 	private static final String FILE_NAME = "fr.info";
 	private static final String XML_START_STOP_LIST = "StartStopList";
 	private static final String XML_START_STOP = "StartStop";
@@ -101,9 +89,15 @@ public class InformationCollector implements XMLReadable, XMLWriter {
     private static final String ATTR_TEXT = "text";
     private static final String ATTR_SOURCE = "source";
     private static final String ATTR_TIME = "time";
+	private static final String ATTR_TIMES = "times";
     private static final String ATTR_TITLE = "title";
     private static final String ATTR_USER_NAME = "username";
     private static final String ATTR_UUID = "uuid";
+	private static final String ATTR_ITEMS = "items";
+	private static final String ATTR_FUNCTION_ARRAY = "functionArray";
+	private static final int MAX_EACH_REQUEST_RECORD_COUNT = 200;
+	private static final int PAGE_SIZE = 200;
+	private long totalCount = -1;
 
 	private static InformationCollector collector;
 
@@ -168,35 +162,25 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
-	private byte[] getJSONContentAsByte(){
+	private JSONObject getJSONContentAsByte(){
 		JSONObject content = new JSONObject();
 
 		JSONArray startStopArray = new JSONArray();
 		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
-			try {
-				jo.put(ATTR_START, startStop.get(i).getStartDate());
-				jo.put(ATTR_STOP, startStop.get(i).getStopDate());
-				startStopArray.put(jo);
-				DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-				content.put(XML_START_STOP, startStopArray);
-				content.put(XML_UUID, envManager.getUUID());
-				content.put(XML_JAR, GeneralUtils.readBuildNO());
-				content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-				content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
-				content.put(XML_KEY, envManager.getActivationKey());
-				content.put(XML_OS, System.getProperty("os.name"));
-			} catch (JSONException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
+			jo.put(ATTR_START, startStop.get(i).getStartDate());
+			jo.put(ATTR_STOP, startStop.get(i).getStopDate());
+			startStopArray.put(jo);
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			content.put(XML_START_STOP, startStopArray);
+			content.put(XML_UUID, envManager.getUUID());
+			content.put(XML_JAR, GeneralUtils.readBuildNO());
+			content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
+			content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
+			content.put(XML_KEY, envManager.getActivationKey());
+			content.put(XML_OS, System.getProperty("os.name"));
 		}
-
-		try {
-			return content.toString().getBytes(EncodeConstants.ENCODING_UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
-			return ArrayUtils.EMPTY_BYTE_ARRAY;
-		}
+		return content;
 	}
 
 	private void sendUserInfo(){
@@ -206,19 +190,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		if (currentTime - lastTime <= DELTA) {
 			return;
 		}
-		byte[] content = getJSONContentAsByte();
-		HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("user.info"));
-		hc.setContent(content);
-		if (!hc.isServerAlive()) {
-			return;
-		}
-		String res = hc.getResponseText();
-		//服务器返回true，说明已经取得成功，清空当前记录的信息
+		JSONObject content = getJSONContentAsByte();
+		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
 		try {
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", content);
+			String res = HttpToolbox.post(url, para);
 			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-		} catch (JSONException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		if (success){
 			this.reset();
@@ -232,21 +214,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         if (currentTime - lastTime <= DELTA) {
             return;
         }
-		ArrayList<Map<String, Object>> content = null;
-		content = getFunctionsContent(current, new Date(lastTime));
-		boolean success = false;
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
-		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
-		if(content.size() > 0){
-			for(int i=0; i<content.size(); i++){
-				success = sendFunctionRecord(url, content.get(i));
-			}
-			//服务器返回true, 说明已经获取成功, 更新最后一次发送时间
-			if (success) {
-				this.lastTime = dateToString();
-			}
+		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
+        long page =  (totalCount/PAGE_SIZE) + 1;
+        for(int i=1; i<page; i++){
+			queryAndSendOnePageFunctionContent(currentTime, lastTime, i);
 		}
-		FineLoggerFactory.getLogger().info("Function records successfully sent to the cloud center.");
+
+
 //      //先将发送压缩文件这段代码注释，之后提任务
 		//大数据量下发送压缩zip数据不容易丢失
 //		try {
@@ -265,17 +240,104 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 //		}
     }
 
-    private boolean sendFunctionRecord(String url, Map<String,Object> record) {
+	private void queryAndSendOnePageFunctionContent(long current, long last, int page) {
+		QueryCondition condition = QueryFactory.create()
+				.skip(page * PAGE_SIZE)
+				.count(PAGE_SIZE)
+				.addSort(COLUMN_TIME, true)
+				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
+				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
+		try {
+			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+			//第一次查询获取总记录数
+			if(page == 0){
+				totalCount = focusPoints.getTotalCount();
+			}
+			sendThisPageFunctionContent(focusPoints);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private void sendThisPageFunctionContent(DataList<FocusPoint> focusPoints) {
+		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+		try {
+			JSONObject jsonObject = dealWithSendFunctionContent(focusPoints);
+			sendFunctionRecord(url, jsonObject);
+		} catch (JSONException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private JSONObject dealWithSendFunctionContent(DataList<FocusPoint> focusPoints) throws JSONException {
+		JSONObject jsonObject = new JSONObject();
+		Map<String, Object> map = new HashMap<>();
+		if(!focusPoints.isEmpty()){
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+			String uuid = envManager.getUUID();
+			jsonObject.put(ATTR_UUID, uuid);
+			jsonObject.put(ATTR_USER_NAME, bbsUserName);
+			for(FocusPoint focusPoint : focusPoints.getList()) {
+				FunctionRecord functionRecord = getOneRecord(focusPoint);
+				if (map.containsKey(focusPoint.getId())) {
+					int times = ((FunctionRecord)map.get(focusPoint.getId())).getTimes() + 1;
+					functionRecord.setTimes(times);
+					map.put(focusPoint.getId(), functionRecord);
+				} else {
+					map.put(focusPoint.getId(), functionRecord);
+				}
+			}
+			jsonObject.put(ATTR_ITEMS, mapToJSONArray(map));
+		}
+		return jsonObject;
+	}
+
+	private JSONArray mapToJSONArray(Map<String,Object> map) throws JSONException {
+		JSONArray jsonArray = new JSONArray();
+		for(String keys : map.keySet()){
+			FunctionRecord functionRecord = (FunctionRecord)map.get(keys);
+			JSONObject jo = new JSONObject();
+			jo.put(ATTR_ID, functionRecord.getId());
+			jo.put(ATTR_TEXT, functionRecord.getText());
+			jo.put(ATTR_SOURCE, functionRecord.getSource());
+			jo.put(ATTR_TIME, functionRecord.getTime());
+			jo.put(ATTR_TITLE, functionRecord.getTitle());
+			jo.put(ATTR_TIMES, functionRecord.getTimes());
+			jsonArray.put(jo);
+		}
+		return jsonArray;
+	}
+
+	private void sendFunctionRecord(String url, JSONObject record) {
         boolean success = false;
         try {
-            String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+URLEncoder.encode(new JSONObject(record).toString(), EncodeConstants.ENCODING_UTF_8);
-            String res = HttpToolbox.get(recordUrl);
-            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", record);
+			String res = HttpToolbox.post(url, para);
+			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+            if (success) {
+                this.lastTime = dateToString();
+            } else {
+                FineLoggerFactory.getLogger().error("Error occured when sent function records to the cloud center.");
+            }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-        return success;
     }
+
+	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
+		FunctionRecord functionRecord = new FunctionRecord();
+		functionRecord.setId(focusPoint.getId() == null?StringUtils.EMPTY : focusPoint.getId());
+		functionRecord.setText(focusPoint.getText() == null?StringUtils.EMPTY : focusPoint.getText());
+		functionRecord.setSource(focusPoint.getSource());
+		functionRecord.setTime(focusPoint.getTime().getTime());
+		functionRecord.setTitle(focusPoint.getTitle() == null?StringUtils.EMPTY : focusPoint.getTitle());
+		functionRecord.setUsername(MarketConfig.getInstance().getBbsUsername() == null?StringUtils.EMPTY : MarketConfig.getInstance().getBbsUsername());
+		functionRecord.setUuid(DesignerEnvManager.getEnvManager().getUUID() == null?StringUtils.EMPTY : DesignerEnvManager.getEnvManager().getUUID());
+		return functionRecord;
+	}
 
     /**
      * 收集开始使用时间，发送信息
@@ -437,35 +499,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         });
 	}
 
-	public static ArrayList getFunctionsContent(Date current, Date last){
-		ArrayList<Map<String,Object>> records = new ArrayList<Map<String,Object>>();
-		QueryCondition condition = QueryFactory.create()
-				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
-				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
-		try {
-			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
-			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
-			String uuid = envManager.getUUID();
-			if(!focusPoints.isEmpty()){
-				for(FocusPoint focusPoint : focusPoints.getList()){
-					Map<String,Object> record = new HashMap<>();
-					record.put(ATTR_ID, focusPoint.getId());
-					record.put(ATTR_TEXT, focusPoint.getText());
-					record.put(ATTR_SOURCE, focusPoint.getSource());
-					record.put(ATTR_TIME, focusPoint.getTime().getTime());
-					record.put(ATTR_TITLE, focusPoint.getTitle());
-					record.put(ATTR_USER_NAME, bbsUserName);
-					record.put(ATTR_UUID, uuid);
-					records.add(record);
-				}
-			}
-		} catch (MetricException e) {
-			FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		}
-		return records;
-	}
-
 	private class StartStopTime implements XMLReadable, XMLWriter {
 
 		private String startDate;
@@ -505,4 +538,93 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
+	private class FunctionRecord implements Comparable{
+		private String id;
+		private String text;
+		private int source;
+		private long time;
+		private int times = 1;
+		private String title;
+		private String username;
+		private String uuid;
+
+		public FunctionRecord(){
+
+		}
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public int getTimes() {
+			return times;
+		}
+
+		public void setTimes(int times) {
+			this.times = times;
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
+		public int getSource() {
+			return source;
+		}
+
+		public void setSource(int source) {
+			this.source = source;
+		}
+
+		public long getTime() {
+			return time;
+		}
+
+		public void setTime(long time) {
+			this.time = time;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getUuid() {
+			return uuid;
+		}
+
+		public void setUuid(String uuid) {
+			this.uuid = uuid;
+		}
+
+		@Override
+		public int compareTo(Object o) {
+			FunctionRecord functionRecord = (FunctionRecord) o;
+			if(this.getId().equals((functionRecord.getId())) && this.getText().equals(functionRecord.getText())
+					&& this.getSource() == functionRecord.getSource() && this.getTime() == functionRecord.getTime()
+					&& this.getTitle().equals(functionRecord.getTitle()) && this.getUsername().equals(functionRecord.getUsername())
+					&& this.getUuid().equals(functionRecord.getUuid())){
+				return 0;
+			}
+			return 1;
+		}
+	}
 }

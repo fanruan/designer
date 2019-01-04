@@ -67,7 +67,7 @@ public class CellElementPropertyPane extends DockingView {
     }
 
 
-    public synchronized static CellElementPropertyPane getInstance() {
+    public static CellElementPropertyPane getInstance() {
         if (singleton == null) {
             synchronized (CellElementPropertyPane.class) {
                 if (singleton == null) {

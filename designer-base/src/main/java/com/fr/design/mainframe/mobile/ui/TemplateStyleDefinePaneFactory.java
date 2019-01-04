@@ -24,9 +24,10 @@ public class TemplateStyleDefinePaneFactory {
 
     public static BasicBeanPane<MobileTemplateStyle> createDefinePane(String style, WCardTagLayout tagLayout) {
         StyleDefinePaneUI styleDefinePaneUI = defineMap.get(style);
-        Class<? extends BasicBeanPane<MobileTemplateStyle>> clazz = styleDefinePaneUI.getaClass();
-        if (clazz == null) {
+        if(styleDefinePaneUI == null){
+            styleDefinePaneUI = defineMap.get(DefaultMobileTemplateStyle.STYLE_NAME);
         }
+        Class<? extends BasicBeanPane<MobileTemplateStyle>> clazz = styleDefinePaneUI.getaClass();
         BasicBeanPane<MobileTemplateStyle> quickPane = null;
         try {
             quickPane = Reflect.on(clazz).create(tagLayout).get();

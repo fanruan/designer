@@ -1,9 +1,11 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.TargetComponent;
@@ -39,6 +41,7 @@ import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.RightSelectionHandlerProvider;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.ShortCut;
@@ -62,6 +65,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.third.javax.annotation.Nullable;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -89,6 +93,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 设计界面组件。该组件是界面设计工具的核心，主要负责的是被设计界面的显示，界面设计操作状态的 显示，编辑状态的显示等等。
@@ -132,7 +137,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     private int resolution = ScreenResolution.getScreenResolution();
     // 编辑状态的事件表
     private CreatorEventListenerTable edit;
-    protected UpdateAction[] designerActions;
+    protected List<UpdateAction> designerActions;
     private FormDesignerModeForSpecial<?> desigerMode;
     private Action switchAction;
     private FormElementCaseContainerProvider elementCaseContainer;
@@ -914,7 +919,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      * @return 是则返回true
      */
     public boolean isRoot(XCreator comp) {
-        return comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class);
+        return comp != null && (comp == rootComponent || comp.acceptType(XWAbsoluteBodyLayout.class));
     }
 
     // 计算鼠标事件e所发生的位置相对根组件的位置关系
@@ -976,6 +981,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         return getComponentAt(x, y, null);
     }
 
+    @Nullable
     public XCreator getComponentAt(int x, int y, XCreator[] except) {
         XLayoutContainer container = y < paraHeight - formArea.getVerticalValue() ? paraComponent : rootComponent;
         XCreator comp = xCreatorAt(x + formArea.getHorizontalValue(), y + formArea.getVerticalValue(), container,
@@ -1180,11 +1186,30 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
      */
     public UpdateAction[] getActions() {
         if (designerActions == null) {
-            designerActions = new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
+            designerActions = new ArrayList<UpdateAction>(Arrays.asList(new UpdateAction[]{new CutAction(this), new CopyAction(this), new PasteAction(this),
                     new FormDeleteAction(this), new MoveToTopAction(this), new MoveToBottomAction(this),
-                    new MoveUpAction(this), new MoveDownAction(this)};
+                    new MoveUpAction(this), new MoveDownAction(this)}));
+            dmlActions(designerActions);
         }
-        return designerActions;
+        return designerActions.toArray(new UpdateAction[designerActions.size()]);
+    }
+
+    /**
+     * 扩展菜单项
+     *
+     * @param actions
+     */
+    public void dmlActions(List<UpdateAction> actions) {
+        try {
+            Set<RightSelectionHandlerProvider> selectionHandlerProviders = ExtraDesignClassManager.getInstance().getArray(RightSelectionHandlerProvider.XML_TAG);
+            for (RightSelectionHandlerProvider handler : selectionHandlerProviders) {
+                if (handler.accept(this)) {
+                    handler.dmlUpdateActions(this, actions);
+                }
+            }
+        } catch (Exception e) {
+            FRContext.getLogger().error(e.getMessage(), e);
+        }
     }
 
     // 当前选中控件可以上移一层吗？

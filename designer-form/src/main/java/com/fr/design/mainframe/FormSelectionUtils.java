@@ -14,12 +14,11 @@ import com.fr.design.designer.creator.XWScaleLayout;
 import com.fr.design.designer.creator.XWTitleLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.utils.ComponentUtils;
+import com.fr.form.main.Form;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-
-
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -97,8 +96,7 @@ public class FormSelectionUtils {
         Rectangle rec = clipboard.getSelctionBounds();
         for (XCreator creator : clipboard.getSelectedCreators()) {
             try {
-                Widget copied = copyWidget(designer, creator);
-                XCreator copiedCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+                XCreator copiedCreator = copyXcreator(designer.getTarget(), creator);
                 // 获取位置
                 Point point = getPasteLocation((AbstractLayoutAdapter) adapter,
                         copiedCreator,
@@ -181,8 +179,7 @@ public class FormSelectionUtils {
 
     private static void relativePasteXCreator(FormDesigner designer, XCreator creator, LayoutAdapter adapter, Rectangle tabContainerRect, int x, int y) {
         try {
-            Widget copied = copyWidget(designer, creator);
-            XCreator copiedXCreator = XCreatorUtils.createXCreator(copied, creator.getSize());
+            XCreator copiedXCreator = copyXcreator(designer.getTarget(), creator);
             if (adapter.getClass().equals(FRTabFitLayoutAdapter.class)) {
                 if (!adapter.accept(copiedXCreator, x - tabContainerRect.x, y - tabContainerRect.y)) {
                     designer.showMessageDialog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Too_Small_To_Paste"));
@@ -235,33 +232,52 @@ public class FormSelectionUtils {
         return new Point(x, y);
     }
 
+    /**
+     * 拷贝组件
+     * @param form 当前表单
+     * @param xCreator 待拷贝的组件
+     * @return XCreator 拷贝的组件
+     */
+    public static XCreator copyXcreator(Form form, XCreator xCreator) throws CloneNotSupportedException{
+        Widget copied = (Widget) xCreator.toData().clone();
+        XCreator copiedCreator = XCreatorUtils.createXCreator(copied, xCreator.getSize());
+        ArrayList<String> nameSpace = new ArrayList<>();
+        copyWidgetName(form, nameSpace, copiedCreator);
+        return copiedCreator;
+    }
 
     /**
      * 拷贝组件
+     * @param form 当前表单
+     * @param nameSpace 命名空间
+     * @param xCreator 拷贝的组件
      */
-    private static Widget copyWidget(FormDesigner formDesigner, XCreator xCreator) throws
-            CloneNotSupportedException {
-        ArrayList<String> nameSpace = new ArrayList<>();
-        Widget copied = (Widget) xCreator.toData().clone();
-        //重命名拷贝的组件
-        String name = getCopiedName(formDesigner, copied, nameSpace);
-        if (copied instanceof WTitleLayout) {
-            XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) copied, xCreator.getSize());
-            xwTitleLayout.resetCreatorName(name);
-        } else {
-            copied.setWidgetName(name);
+    private static void copyWidgetName(Form form, ArrayList<String> nameSpace, XCreator xCreator){
+        String copyName = FormSelectionUtils.getCopiedName(form, xCreator.toData(), nameSpace);
+        if (xCreator.toData() instanceof WTitleLayout) {
+            XWTitleLayout xwTitleLayout = new XWTitleLayout((WTitleLayout) xCreator.toData(), xCreator.getSize());
+            xwTitleLayout.resetCreatorName(copyName);
+            return;
         }
-        return copied;
+        xCreator.resetCreatorName(copyName);
+        int count = xCreator.getComponentCount();
+        for(int a = 0; a <count; a++){
+            if(xCreator.getComponent(a) instanceof XCreator){
+                XCreator child = (XCreator)xCreator.getComponent(a);
+                copyWidgetName(form, nameSpace, child);
+            }
+
+        }
     }
 
     /**
      * 组件拷贝命名规则
      */
-    private static String getCopiedName(FormDesigner formDesigner, Widget copied, ArrayList<String> nameSpace) {
+    private static String getCopiedName(Form form, Widget copied, ArrayList<String> nameSpace) {
         StringBuilder name = new StringBuilder(copied.getWidgetName());
         do {
             name.append(POSTFIX);
-        } while (formDesigner.getTarget().isNameExist(name.toString()) || nameSpace.contains(name.toString()));
+        } while (form.isNameExist(name.toString()) || nameSpace.contains(name.toString()));
         nameSpace.add(name.toString());
         return name.toString();
     }

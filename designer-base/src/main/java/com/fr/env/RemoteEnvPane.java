@@ -511,14 +511,14 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     }
 
     private void tryConnectRemoteEnv() {
+        final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
+        final WorkspaceConnectionInfo connection = remoteEnv.getConnection();
+
         final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
 
             @Override
             protected Boolean doInBackground() throws Exception {
 
-                final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
-
-                WorkspaceConnectionInfo connection = remoteEnv.getConnection();
                 DesignerEnvManager.getEnvManager().setCertificatePath(connection.getCertPath());
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
                 try {
@@ -532,18 +532,26 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             protected void done() {
                 okButton.setEnabled(true);
                 try {
-                    Boolean result = get();
-                    if (result == null) {
+
+                    TestConnectionResult result = TestConnectionResult.parse(get(), connection);
+                    if (result == TestConnectionResult.Fully_Success) {
+                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Successful"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                    }
+
+                    if (result == TestConnectionResult.Partly_Sucess) {
+                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistence_Test"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+                    }
+
+                    if (result == TestConnectionResult.Fully_Failed) {
+                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
+                        uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                    }
+
+                    if (result == TestConnectionResult.Auth_Failed) {
                         message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed"));
                         uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                    } else {
-                        if (result) {
-                            message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Successful"));
-                            uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
-                        } else {
-                            message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
-                            uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                        }
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
@@ -589,7 +597,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), UIManager.getString("OptionPane.messageDialogTitle"), true);
 
-        dialog.setSize(new Dimension(268, 118));
+        dialog.setSize(new Dimension(308, 132));
         okButton.setEnabled(false);
         JPanel jp = new JPanel();
         JPanel upPane = new JPanel();

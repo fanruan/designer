@@ -208,8 +208,10 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
         MobileTemplateStyle ob = updateSubStyle();
         ob.setCustom(custom.getSelectedIndex() == 1);
         ob.setInitialColor(initialColorBox.getSelectObject());
-        TabFontConfig config = ob.getTabFontConfig();
+        TabFontConfig config = new TabFontConfig();
+        config.setSelectColor(ob.getTabFontConfig().getSelectColor());
         config.setFont(fontConfPane.update());
+        ob.setTabFontConfig(config);
         return ob;
     }
 

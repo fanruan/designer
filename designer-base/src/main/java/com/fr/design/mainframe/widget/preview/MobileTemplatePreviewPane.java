@@ -5,6 +5,7 @@ import com.fr.general.cardtag.mobile.TabFontConfig;
 
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.FontMetrics;
 
 public abstract class MobileTemplatePreviewPane extends JPanel {
     private Color initialColor;
@@ -35,18 +36,32 @@ public abstract class MobileTemplatePreviewPane extends JPanel {
         this.tabFontConfig = tabFontConfig;
     }
 
-    public MobileTemplatePreviewPane(){
+    public MobileTemplatePreviewPane() {
 
     }
 
-    public void populateConfig(MobileTemplateStyle templateStyle){
+    public void populateConfig(MobileTemplateStyle templateStyle) {
         this.setInitialColor(templateStyle.getInitialColor());
         this.setBackground(templateStyle.getInitialColor());
         this.setSelectColor(templateStyle.getSelectColor());
         this.setTabFontConfig(templateStyle.getTabFontConfig());
     }
 
-    public void repaint (){
+    protected String calculateDisplayName(String widgetName, FontMetrics fm, int eachWidth) {
+        StringBuffer buffer = new StringBuffer();
+        String result;
+        for (int i = 0; i < widgetName.length(); i++) {
+            result = buffer.toString();
+            buffer.append(widgetName.charAt(i));
+            if (fm.stringWidth(buffer.toString()) > eachWidth) {
+                return result;
+            }
+        }
+        return buffer.toString();
+
+    }
+
+    public void repaint() {
         super.repaint();
     }
 

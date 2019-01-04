@@ -59,6 +59,7 @@ import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 import java.awt.Component;
@@ -121,6 +122,9 @@ public class Designer extends BaseDesigner {
         try {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
+            SplashContext.getInstance().hide();
+            JOptionPane.showMessageDialog(null, fatal.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
             System.exit(0);
         }
 

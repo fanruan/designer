@@ -100,10 +100,9 @@ public class CheckBoxTreeCellRenderer extends NullPanel implements TreeCellRende
             Border border = treeCellRendererComponent.getBorder();
             setBorder(border);
             treeCellRendererComponent.setBorder(BorderFactory.createEmptyBorder());
-            //todo 可能会发生数组越界，需要处理一下
-            if (getComponentCount() == 2) {
-                remove(1);
-            }
+
+            remove((Component) this._actualTreeRenderer);
+
             add(treeCellRendererComponent);
         }
 

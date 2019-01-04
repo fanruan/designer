@@ -1,8 +1,8 @@
 package com.fr.design.mainframe;
 
-import javax.swing.JComponent;
-
 import com.fr.form.FormElementCaseContainerProvider;
+
+import javax.swing.JComponent;
 
 
 /**
@@ -10,7 +10,7 @@ import com.fr.form.FormElementCaseContainerProvider;
  * Date: 13-7-15
  * Time: 上午10:28
  */
-public interface BaseJForm extends JTemplateProvider {
+public interface BaseJForm<T> extends JTemplateProvider<T> {
 
     String XML_TAG = "JForm";
     int FORM_TAB = 0;
@@ -31,11 +31,6 @@ public interface BaseJForm extends JTemplateProvider {
      * 刷新选中的控件
      */
     void refreshSelectedWidget();
-
-    /**
-     * 获取当前的Target
-     */
-    Object getTarget();
 
     /**
      * 执行撤销

@@ -4,6 +4,7 @@ import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.TableDataSourceTailor;
 import com.fr.data.core.DataCoreXmlUtils;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -444,7 +445,7 @@ public abstract class DesignTableDataManager {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            return DataOperator.getInstance().previewTableData(tableDataSource, tabledata, parameterMap, rowCount);
+            return DataOperator.getInstance().previewTableData(TableDataSourceTailor.extractTableData(tableDataSource), tabledata, parameterMap, rowCount);
         } catch (Exception e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {

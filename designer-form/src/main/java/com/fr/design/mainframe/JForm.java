@@ -5,6 +5,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.actions.FormMobileAttrAction;
 import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
@@ -86,7 +87,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
+public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<Form> {
     private static final String FORM_CARD = "FORM";
     private static final String ELEMENTCASE_CARD = "ELEMENTCASE";
 
@@ -139,7 +140,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
         return DesignState.JFORM;
     }
 
-    public TemplateProcessInfo getProcessInfo() {
+    public TemplateProcessInfo<Form> getProcessInfo() {
         if (processInfo == null) {
             processInfo = new JFormProcessInfo(template);
         }
@@ -160,7 +161,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     }
 
     @Override
-    protected boolean accept(Object o) {
+    public boolean accept(Object o) {
         return !(o instanceof FloatElementsProvider);
     }
 
@@ -496,9 +497,9 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm {
     @Override
     public ShortCut[] shortcut4TemplateMenu() {
         if (this.index == FORM_TAB) {
-            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this), new ReportFitAttrAction(this)}, new ShortCut[0]);
         } else {
-            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
+            return ArrayUtils.addAll(new ShortCut[]{new TemplateParameterAction(this), new FormMobileAttrAction(this), new ReportFitAttrAction(this)}, this.elementCaseDesign.shortcut4TemplateMenu());
         }
     }
 

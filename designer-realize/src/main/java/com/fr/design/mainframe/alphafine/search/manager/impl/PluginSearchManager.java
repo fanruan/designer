@@ -126,12 +126,8 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                             }
                         }
                     }
-                } catch (JSONException e) {
-                    FineLoggerFactory.getLogger().error("plugin search json error :" + e.getMessage());
-                } catch (UnsupportedEncodingException e) {
-                    FineLoggerFactory.getLogger().error("plugin search encode error :" + e.getMessage());
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error("plugin search get result error :" + e.getMessage());
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().error("plugin search error :" + e.getMessage());
                 }
             }
             if (searchResult.isEmpty()) {

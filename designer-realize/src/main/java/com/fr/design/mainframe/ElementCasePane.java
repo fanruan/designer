@@ -663,7 +663,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     }
 
-    private Object getClipObject() {
+    public Object getClipObject() {
         // 需要检查是否可以编辑。
         Clipboard clipboard = DesignerContext.getClipboard(this.getGrid());
         Transferable clipData = clipboard.getContents(this);
@@ -862,6 +862,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * 响应目标变动.
      */
+    @Override
     public void fireTargetModified() {
         // marks:自动计算
         TemplateElementCase report = this.getEditingElementCase();

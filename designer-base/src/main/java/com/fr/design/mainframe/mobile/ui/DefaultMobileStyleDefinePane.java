@@ -7,11 +7,15 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.DefaultMobileTemplateStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
+import com.fr.general.cardtag.mobile.TabFontConfig;
+
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane {
 
@@ -40,17 +44,17 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
 
     @Override
     public MobileTemplateStyle updateBean() {
-        return new DefaultMobileTemplateStyle();
+        return getDefaultTemplateStyle();
     }
 
     public MobileTemplateStyle updateConfig(){
-        return new DefaultMobileTemplateStyle();
+        return getDefaultTemplateStyle();
     }
 
 
     @Override
     protected MobileTemplateStyle getDefaultTemplateStyle() {
-        return new DefaultMobileTemplateStyle();
+        return new DefaultMobileTemplateStyle(new TabFontConfig(getTagLayout().getTitleFont()));
     }
 
     @Override
@@ -73,6 +77,10 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             this.setBackground(DefaultMobileTemplateStyle.DEFAULT_INITIAL_COLOR);
         }
 
+        public Color getInitialColor() {
+            return DefaultMobileTemplateStyle.DEFAULT_INITIAL_COLOR;
+        }
+
         public void repaint() {
             super.repaint();
         }
@@ -84,7 +92,8 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int panelWidth = dimension.width;
             int panelHeight = dimension.height;
             Graphics2D g2d = (Graphics2D) g.create();
-            FRFont frFont = DefaultMobileTemplateStyle.DEFAULT_TAB_FONT.getFont();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            FRFont frFont = this.getTabFontConfig().getFont();
             FontMetrics fm = GraphHelper.getFontMetrics(frFont);
             WCardTagLayout cardTagLayout = DefaultMobileStyleDefinePane.this.getTagLayout();
             int eachWidth = panelWidth / cardTagLayout.getWidgetCount();
@@ -92,11 +101,13 @@ public class DefaultMobileStyleDefinePane extends MobileTemplateStyleDefinePane 
             int fontHeight = fm.getHeight();
             int ascentHeight = fm.getAscent();
             for (int i = 0; i < cardTagLayout.getWidgetCount(); i++) {
+                g2d.setColor(frFont.getForeground());
                 CardSwitchButton cardSwitchButton = cardTagLayout.getSwitchButton(i);
-                String widgetName = cardSwitchButton.getText();
-                int width = fm.stringWidth(widgetName);
-                g2d.drawString(widgetName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
+                String displayName = calculateDisplayName(cardSwitchButton.getText(), fm, eachWidth);
+                int width = fm.stringWidth(displayName);
+                g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight - fontHeight) / 2 + ascentHeight);
                 if (i == 0) {
+                    g2d.setColor(Color.BLACK);
                     g2d.setStroke(new BasicStroke(2.0f));
                     g2d.drawLine(0, panelHeight - 1, eachWidth, panelHeight - 1);
                 }
