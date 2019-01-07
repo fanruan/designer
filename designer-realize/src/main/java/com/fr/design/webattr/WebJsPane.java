@@ -96,6 +96,7 @@ public class WebJsPane extends BasicPane {
 		northPane.add(chooseFile);
 		firstnorth.add(northPane,BorderLayout.NORTH);
 		infor1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
+		infor1.setLineWrap();
 		infor1.setForeground(new Color(207, 42, 39));
 		firstnorth.add(infor1,BorderLayout.CENTER);
 
