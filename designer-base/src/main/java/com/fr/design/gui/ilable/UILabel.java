@@ -64,6 +64,18 @@ public class UILabel extends JLabel {
 		return preferredSize;
 	}
 
+	/**
+	 * 指定最大宽度，文字内容到达最大宽度后，自动换行
+	 */
+	public void setLineWrapWithMaximumWidth(int width) {
+		String text = this.getText();
+		if (StringUtils.isEmpty(text)) {
+			return;
+		}
+		String htmlText = "<html><body style='width: " + width + "px'>" + text;
+		this.setText(htmlText);
+	}
+
 
 	public static void main(String[] args) {
 //        UILabel label =  new UILabel("shishi",SwingConstants.LEFT);
