@@ -473,7 +473,7 @@ public class PreferencePane extends BasicPane {
         JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template"));
         UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Max_Caching_Template"));
         UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template_Tip"));
-        memoryTipLabel.setLineWrapWithMaximumWidth(MEMORY_TIP_LABEL_MAX_WIDTH);
+        memoryTipLabel.setLineWrap(MEMORY_TIP_LABEL_MAX_WIDTH);
         memoryTipLabel.setBorder(BorderFactory.createEmptyBorder(0, CACHING_GAP, 0, 0));
         cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());

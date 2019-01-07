@@ -65,15 +65,25 @@ public class UILabel extends JLabel {
 	}
 
 	/**
-	 * 指定最大宽度，文字内容到达最大宽度后，自动换行
+	 * 到达指定宽度后换行
 	 */
-	public void setLineWrapWithMaximumWidth(int width) {
+	public void setLineWrap(int width) {
+		insertPrefixToText("<html><body style='width: " + width + "px'>");
+	}
+
+	/**
+	 * 自动换行
+	 */
+	public void setLineWrap() {
+		insertPrefixToText("<html><body>");
+	}
+
+	private void insertPrefixToText(String prefix) {
 		String text = this.getText();
 		if (StringUtils.isEmpty(text)) {
 			return;
 		}
-		String htmlText = "<html><body style='width: " + width + "px'>" + text;
-		this.setText(htmlText);
+		this.setText(prefix + text);
 	}
 
 
