@@ -8,6 +8,7 @@ import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpResponseType;
 import com.fr.general.http.HttpToolbox;
+import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.log.FineLoggerFactory;
@@ -21,7 +22,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/24 0024.
@@ -34,6 +37,9 @@ public class ErrorInfoUploader {
     private static ErrorInfoUploader collector;
     // 在一台不能上网的电脑里发现了10w个errorinfo...
     private static final int MAX_ERROR_SIZE = 2000;
+
+    //单次发送的错误信息最大条数
+    private static final int MAX_ITEMS = 200;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -142,21 +148,28 @@ public class ErrorInfoUploader {
 
         try {
             if (ArrayUtils.isNotEmpty(files)) {
+                JSONArray jsonArray = new JSONArray();
+                List<File> tempFiles = new ArrayList<>();
+                int count = 0;
                 for (File file : files) {
+                    count++;
                     String filePath = file.getPath();
                     String suffix = filePath.substring(filePath.lastIndexOf("."));
 
                     if (suffix.endsWith(SUFFIX)) {
-                        Thread.sleep(1000L);
                         String content = IOUtils.inputStream2String(new FileInputStream(file));
                         if (content.length() > MAX_ERROR_SIZE) {
                             CommonIOUtils.deleteFile(file);
                             continue;
                         }
-
-                        String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
-                        if (sendErrorInfo(url, content)) {
-                            CommonIOUtils.deleteFile(file);
+                        jsonArray.put(new JSONObject(content));
+                        tempFiles.add(file);
+                        if( jsonArray.length() == MAX_ITEMS || count == files.length){
+                            String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
+                            if(sendErrorInfo(url, jsonArray)){
+                                deleteFiles(tempFiles);
+                            }
+                            jsonArray = new JSONArray();
                         }
                     }
                 }
@@ -166,7 +179,13 @@ public class ErrorInfoUploader {
         }
     }
 
-    private boolean sendErrorInfo(String url, String content) {
+    private void deleteFiles(List<File> files) {
+        for(File file : files) {
+            CommonIOUtils.deleteFile(file);
+        }
+    }
+
+    private boolean sendErrorInfo(String url, JSONArray content) {
         HashMap<String, Object> para = new HashMap<>();
         para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
