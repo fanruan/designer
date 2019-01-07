@@ -61,6 +61,7 @@ public class PreferencePane extends BasicPane {
     private static final int CACHING_MAX = 10;
     private static final int CACHING_DEFAULT = 5;
     private static final int CACHING_GAP = 5;
+    private static final int MEMORY_TIP_LABEL_MAX_WIDTH = 230;
 
     private static final String TYPE = "pressed";
     private static final String DISPLAY_TYPE = "+";
@@ -472,6 +473,7 @@ public class PreferencePane extends BasicPane {
         JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template"));
         UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Max_Caching_Template"));
         UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template_Tip"));
+        memoryTipLabel.setLineWrap(MEMORY_TIP_LABEL_MAX_WIDTH);
         memoryTipLabel.setBorder(BorderFactory.createEmptyBorder(0, CACHING_GAP, 0, 0));
         cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());

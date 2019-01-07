@@ -1,24 +1,22 @@
 package com.fr.design.style.background.gradient;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ButtonGroup;
-
+import com.fr.base.background.GradientBackground;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.style.background.BackgroundDetailPane;
+import com.fr.general.Background;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.fr.base.background.GradientBackground;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.Background;
-
-import com.fr.design.style.background.BackgroundDetailPane;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * 渐变色的面板，不是很pp，面板应用显得繁琐，有写可以写成控件类型，比如色彩选择的。。，可以做得花哨点
@@ -44,6 +42,8 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		gradientBar = new GradientBar(4, 254);
 		blankJp.add(gradientBar);
 		UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Drag_To_Select_Gradient"));
+		jl.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+		jl.setLineWrap();
 		jl.setHorizontalAlignment(SwingConstants.CENTER);
 		gradientPanel.add(jl, BorderLayout.NORTH);
 		gradientPanel.add(blankJp, BorderLayout.SOUTH);

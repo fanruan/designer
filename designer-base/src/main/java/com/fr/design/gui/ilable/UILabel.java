@@ -64,6 +64,28 @@ public class UILabel extends JLabel {
 		return preferredSize;
 	}
 
+	/**
+	 * 到达指定宽度后换行
+	 */
+	public void setLineWrap(int width) {
+		insertPrefixToText("<html><body style='width: " + width + "px'>");
+	}
+
+	/**
+	 * 自动换行
+	 */
+	public void setLineWrap() {
+		insertPrefixToText("<html><body>");
+	}
+
+	private void insertPrefixToText(String prefix) {
+		String text = this.getText();
+		if (StringUtils.isEmpty(text)) {
+			return;
+		}
+		this.setText(prefix + text);
+	}
+
 
 	public static void main(String[] args) {
 //        UILabel label =  new UILabel("shishi",SwingConstants.LEFT);

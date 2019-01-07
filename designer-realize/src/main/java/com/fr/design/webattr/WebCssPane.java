@@ -46,6 +46,7 @@ public class WebCssPane extends BasicPane {
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
 		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
+		infor.setLineWrap();
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);
