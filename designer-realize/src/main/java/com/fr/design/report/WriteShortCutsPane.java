@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -21,8 +22,8 @@ import java.awt.event.ActionListener;
 
 
 public class WriteShortCutsPane extends JPanel{
-	private static final int H_GAP = 60;
 	private static final int V_GAP = 20;
+	private static final int MAX_LABEL_WIDTH = 100;
 
 	private String nextColString = "Tab";
 	private String nextRowString = "Enter";
@@ -62,34 +63,49 @@ public class WriteShortCutsPane extends JPanel{
 	
 	private JPanel getFeatureNamePane(){
 		JPanel featureNamePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Shortcut_Set"));
+		featureNamePane.setLayout(new BorderLayout());
 
 		UILabel name = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Feature_Name"), SwingConstants.CENTER);
 		UILabel nextCol = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Column"), SwingConstants.CENTER);
 		UILabel nextRow = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Row"), SwingConstants.CENTER);
 		UILabel shortName = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Current_Keys"), SwingConstants.CENTER);
+		shortName.setLineWrap(MAX_LABEL_WIDTH);
 		nextColHK = new UILabel(nextColString, SwingConstants.CENTER);
-		UIButton switchbt = new UIButton(BaseUtils.readIcon("com/fr/design/images/buttonicon/switchShortCuts.png"));
-		switchbt.addActionListener(getListener());
-		switchbt.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exchange_Key"));
+		JPanel switchBtnPane = getSwitchBtnPane();
 		nextRowHK = new UILabel(nextRowString, SwingConstants.CENTER);
 
-		JPanel centerPane = new JPanel(new GridLayout(2, 4, H_GAP, V_GAP));
+		JPanel centerPane = new JPanel(new GridLayout(2, 4, 0, 0));
+		centerPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 		centerPane.add(name);
 		centerPane.add(nextCol);
 		centerPane.add(new JPanel());
 		centerPane.add(nextRow);
 		centerPane.add(shortName);
 		centerPane.add(nextColHK);
-		centerPane.add(switchbt);
+		centerPane.add(switchBtnPane);
 		centerPane.add(nextRowHK);
 
-		featureNamePane.add(centerPane);
+		featureNamePane.add(centerPane, BorderLayout.CENTER);
 		
 		return featureNamePane;
 	}
-	
+
+	private JPanel getSwitchBtnPane() {
+		UIButton switchbt = new UIButton(BaseUtils.readIcon("com/fr/design/images/buttonicon/switchShortCuts.png")) {
+			public Dimension getPreferredSize() {
+				return new Dimension(40, 30);
+			}
+		};
+		switchbt.addActionListener(getListener());
+		switchbt.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exchange_Key"));
+		JPanel switchBtnPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
+		switchBtnPane.add(switchbt);
+		return switchBtnPane;
+	}
+
 	private JPanel getHintsPane(){
 		JPanel hintsPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"));
+		hintsPane.setLayout(new BorderLayout());
 
 		UILabel systemDefault = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_System_Default"), SwingConstants.CENTER);
 		UILabel preColText = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Previous_Column"), SwingConstants.CENTER);
@@ -97,7 +113,8 @@ public class WriteShortCutsPane extends JPanel{
 		preCol = new UILabel("Shift+" + nextColString, SwingConstants.CENTER);
 		preRow = new UILabel("Shift+" + nextRowString, SwingConstants.CENTER);
 
-		JPanel centerPane = new JPanel(new GridLayout(2, 3, H_GAP, V_GAP));
+		JPanel centerPane = new JPanel(new GridLayout(2, 3, 0, V_GAP));
+		centerPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 100));
 
 		centerPane.add(systemDefault);
 		centerPane.add(preColText);
@@ -107,7 +124,7 @@ public class WriteShortCutsPane extends JPanel{
 		centerPane.add(preRowText);
 		centerPane.add(preRow);
 
-		hintsPane.add(centerPane);
+		hintsPane.add(centerPane, BorderLayout.CENTER);
 		
 		return hintsPane;
 	}
