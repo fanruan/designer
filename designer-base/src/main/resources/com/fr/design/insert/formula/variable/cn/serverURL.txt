@@ -1,1 +1,1 @@
-serverURL是指访问服务的URL假如访问：http://localhost:8080/WebReport/ReportServer?reportlet=WorkBook1.cpt，serverURL就是http://localhost:8080
+serverURL是指访问服务的URL假如访问：http://localhost:8075/webroot/decision/view/report?viewlet=workbook1.cpt，serverURL就是http://localhost:8075
