@@ -6,22 +6,35 @@ import com.fr.base.GraphHelper;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
-import com.fr.design.utils.gui.GUICoreUtils;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 import javax.swing.plaf.ButtonUI;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
 public class UIButton extends JButton implements UIObserver {
 
+	private static final int TOOLTIP_INIT_DELAY = 300;  // 延迟 0.3s 显示提示文字
 	public static final int OTHER_BORDER = 1;
 	public static final int NORMAL_BORDER = 2;
-	private static final int HEIGH = 20;
+	private static final int HEIGHT = 20;
+
 	private boolean isExtraPainted = true;
 	private boolean isRoundBorder = true;
 	private int rectDirection = Constants.NULL;
@@ -36,7 +49,7 @@ public class UIButton extends JButton implements UIObserver {
 	private CellBorderStyle border = null;
 
 	protected UIObserverListener uiObserverListener;
-	private static final int TOOLTIP_INIT_DELAY = 300;  // 延迟 0.3s 显示提示文字
+	private boolean fixedHeight = true;  // 是否将按钮的高度固定为 HEIGHT
 
 	public UIButton() {
 		this(StringUtils.EMPTY);
@@ -112,7 +125,7 @@ public class UIButton extends JButton implements UIObserver {
 	public void set4ToolbarButton() {
 		setNormalPainted(false);
 		Dimension dim = getPreferredSize();
-		dim.height = HEIGH;
+		dim.height = HEIGHT;
 		setBackground(null);
 		setOpaque(false);
 		setSize(dim);
@@ -170,7 +183,11 @@ public class UIButton extends JButton implements UIObserver {
 
 	//@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(super.getPreferredSize().width, 20);
+		Dimension dim = super.getPreferredSize();
+		if (isFixedHeight() || dim.height < HEIGHT) {
+			dim.height = HEIGHT;
+		}
+		return dim;
 	}
 
 
@@ -323,7 +340,39 @@ public class UIButton extends JButton implements UIObserver {
 		this.isBorderPaintedOnlyWhenPressed = value;
 	}
 
-    /**
+	/**
+	 * 到达指定宽度后换行
+	 */
+	public void setLineWrap(int width) {
+		insertPrefixToText("<html><body style='width: " + width + "px'>");
+	}
+
+	/**
+	 * 自动换行
+	 */
+	public void setLineWrap() {
+		insertPrefixToText("<html><body>");
+	}
+
+	private void insertPrefixToText(String prefix) {
+		String text = this.getText();
+		if (StringUtils.isEmpty(text)) {
+			return;
+		}
+		this.setText(prefix + text);
+		// 如果文本过长，且允许换行的话，需要放开按钮高度的限制
+		this.setFixedHeight(false);
+	}
+
+	private boolean isFixedHeight() {
+		return fixedHeight;
+	}
+
+	private void setFixedHeight(boolean fixedHeight) {
+		this.fixedHeight = fixedHeight;
+	}
+
+	/**
      * 主函数
      * @param args 入口参数
      */
