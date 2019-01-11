@@ -8,14 +8,23 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 public class WriteShortCutsPane extends JPanel{
-	
+	private static final int V_GAP = 20;
+	private static final int MAX_LABEL_WIDTH = 100;
+
 	private String nextColString = "Tab";
 	private String nextRowString = "Enter";
 	private UILabel nextColHK;
@@ -24,9 +33,8 @@ public class WriteShortCutsPane extends JPanel{
 	private UILabel preRow;
 	
 	public WriteShortCutsPane(){
-		this.setLayout(null);
-		this.add(getFeatureNamePane());
-		this.add(getHintsPane());
+		this.setLayout(new BorderLayout());
+		this.add(createContentPane(), BorderLayout.NORTH);
 		
 		if(!ServerPreferenceConfig.getInstance().isWriteShortCuts()){
 			nextColString = "Enter";
@@ -34,64 +42,91 @@ public class WriteShortCutsPane extends JPanel{
 			switchColRow();
 		}
 	}
-	
-	//todo:布局不要用绝对定位
-	public JPanel getFeatureNamePane(){
-		JPanel panel1 = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		panel1.setBounds(20, 20, 600, 140);
-		panel1.setLayout(null);
-		panel1.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Shortcut_Set")));
-		UILabel name = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Feature_Name"), SwingConstants.CENTER);
-		name.setBounds(40, 30, 80, 50);
-		UILabel nextCol = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Column"), SwingConstants.CENTER);
-		nextCol.setBounds(140, 30, 180, 50);
-		UILabel nextRow = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Row"), SwingConstants.CENTER);
-		nextRow.setBounds(390, 30, 180, 50);
-		UILabel shortName = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Current_Keys"), SwingConstants.CENTER);
-		shortName.setBounds(40, 80, 80, 50);
-		nextColHK = new UILabel(nextColString, SwingConstants.CENTER);
-		nextColHK.setBounds(140, 80, 180, 50);
-		UIButton switchbt = new UIButton(BaseUtils.readIcon("com/fr/design/images/buttonicon/switchShortCuts.png"));
-		switchbt.addActionListener(getListener());
-		switchbt.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exchange_Key"));
-		switchbt.setBounds(337, 90, 36, 29);
-		nextRowHK = new UILabel(nextRowString, SwingConstants.CENTER);
-		nextRowHK.setBounds(390, 80, 180, 50);
-		
-		panel1.add(name);
-		panel1.add(nextCol);
-		panel1.add(nextRow);
-		panel1.add(shortName);
-		panel1.add(nextColHK);
-		panel1.add(switchbt);
-		panel1.add(nextRowHK);
-		
-		return panel1;
+
+	private JPanel createContentPane() {
+		JPanel contentPane = new JPanel();
+		contentPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+
+		// 纵向布局，横向自适应
+		contentPane.setLayout(new GridBagLayout());
+		GridBagConstraints cons = new GridBagConstraints();
+		cons.fill = GridBagConstraints.HORIZONTAL;
+		cons.weightx = 1;
+		cons.gridx = 0;
+		cons.insets = new Insets(20, 0, 0, 0);
+
+		contentPane.add(getFeatureNamePane(), cons);
+		contentPane.add(getHintsPane(), cons);
+
+		return contentPane;
 	}
 	
-	public JPanel getHintsPane(){
-		JPanel panel2 =FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		panel2.setBounds(20, 170, 600, 150);
-		panel2.setLayout(null);
-		panel2.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips")));
+	private JPanel getFeatureNamePane(){
+		JPanel featureNamePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Shortcut_Set"));
+		featureNamePane.setLayout(new BorderLayout());
+
+		UILabel name = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Feature_Name"), SwingConstants.CENTER);
+		UILabel nextCol = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Column"), SwingConstants.CENTER);
+		UILabel nextRow = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Row"), SwingConstants.CENTER);
+		UILabel shortName = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Current_Keys"), SwingConstants.CENTER);
+		shortName.setLineWrap(MAX_LABEL_WIDTH);
+		nextColHK = new UILabel(nextColString, SwingConstants.CENTER);
+		JPanel switchBtnPane = getSwitchBtnPane();
+		nextRowHK = new UILabel(nextRowString, SwingConstants.CENTER);
+
+		JPanel centerPane = new JPanel(new GridLayout(2, 4, 0, 0));
+		centerPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+		centerPane.add(name);
+		centerPane.add(nextCol);
+		centerPane.add(new JPanel());
+		centerPane.add(nextRow);
+		centerPane.add(shortName);
+		centerPane.add(nextColHK);
+		centerPane.add(switchBtnPane);
+		centerPane.add(nextRowHK);
+
+		featureNamePane.add(centerPane, BorderLayout.CENTER);
+		
+		return featureNamePane;
+	}
+
+	private JPanel getSwitchBtnPane() {
+		UIButton switchbt = new UIButton(BaseUtils.readIcon("com/fr/design/images/buttonicon/switchShortCuts.png")) {
+			public Dimension getPreferredSize() {
+				return new Dimension(40, 30);
+			}
+		};
+		switchbt.addActionListener(getListener());
+		switchbt.setToolTipText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Exchange_Key"));
+		JPanel switchBtnPane = FRGUIPaneFactory.createCenterFlowInnerContainer_S_Pane();
+		switchBtnPane.add(switchbt);
+		return switchBtnPane;
+	}
+
+	private JPanel getHintsPane(){
+		JPanel hintsPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"));
+		hintsPane.setLayout(new BorderLayout());
+
 		UILabel systemDefault = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_System_Default"), SwingConstants.CENTER);
-		systemDefault.setBounds(38, 30, 84, 50);
 		UILabel preColText = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Previous_Column"), SwingConstants.CENTER);
-		preColText.setBounds(140, 30, 190, 50);
 		UILabel preRowText = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Previous_Row"), SwingConstants.CENTER);
-		preRowText.setBounds(140, 80, 190, 50);
 		preCol = new UILabel("Shift+" + nextColString, SwingConstants.CENTER);
-		preCol.setBounds(370, 30, 100, 50);
 		preRow = new UILabel("Shift+" + nextRowString, SwingConstants.CENTER);
-		preRow.setBounds(370, 80, 100, 50);
+
+		JPanel centerPane = new JPanel(new GridLayout(2, 3, 0, V_GAP));
+		centerPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 100));
+
+		centerPane.add(systemDefault);
+		centerPane.add(preColText);
+		centerPane.add(preCol);
+
+		centerPane.add(new JPanel());
+		centerPane.add(preRowText);
+		centerPane.add(preRow);
+
+		hintsPane.add(centerPane, BorderLayout.CENTER);
 		
-		panel2.add(systemDefault);
-		panel2.add(preColText);
-		panel2.add(preRowText);
-		panel2.add(preCol);
-		panel2.add(preRow);
-		
-		return panel2;
+		return hintsPane;
 	}
 	
 	public ActionListener getListener(){
