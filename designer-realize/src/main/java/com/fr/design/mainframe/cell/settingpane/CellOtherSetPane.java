@@ -84,7 +84,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     private ValueEditorPane valueEditor;
     private CardLayout insertRowLayout;
     private JPanel insertRowPane;
-    private JPanel southContentPane;
+    private JPanel insertRowPolicyPane;
     private JPanel defaultValuePane;
 
     /**
@@ -136,6 +136,15 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     }
 
     private JPanel seniorPane() {
+        initInsertRowPolicyPane();
+        JPanel seniorPane = new JPanel(new BorderLayout());
+        seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
+        seniorPane.add(insertRowPolicyPane, BorderLayout.CENTER);
+        insertRowPolicyPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        return seniorPane;
+    }
+
+    private void initInsertRowPolicyPane() {
         // 插入行策略
         insertRowPolicy = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_NULL"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Estate_Default_Text"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_COPY")});
@@ -168,16 +177,40 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
                 new Component[]{null, insertRowPane},
         };
-        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        JPanel seniorPane = new JPanel(new BorderLayout());
-        seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
-        seniorPane.add(southContentPane, BorderLayout.CENTER);
-        southContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        return seniorPane;
+        insertRowPolicyPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
     }
 
     private JPanel seniorUpPane() {
+        JPanel pane = new JPanel(new BorderLayout());
+        // TODO: 方法之间的耦合还比较严重。现在必须先执行 createShowContentPane，再执行 createSeniorCheckPane。否则出现 npe。
+        pane.add(createShowContentPane(), BorderLayout.CENTER);
+        pane.add(createSeniorCheckPane(), BorderLayout.NORTH);
+        return pane;
+    }
+
+    private JPanel createShowContentPane() {
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p};
+        double[] colSize = {f, COMBO_WIDTH};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+
         JPanel fileNamePane = createNormal();
+        fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContent},
+                new Component[]{fileNamePane, null},  // 选择"用下载连接显示二进制内容"时，会显示这一行的面板
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextField}
+        };
+
+        JPanel showContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, colSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+        showContentPane.setBorder(BorderFactory.createEmptyBorder(6, 0, 12, 0));
+
+        return showContentPane;
+    }
+
+    private JPanel createSeniorCheckPane() {
         previewCellContent.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         printAndExportContent.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         printAndExportBackground.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
@@ -192,26 +225,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 new Component[]{printAndExportContent, null},
                 new Component[]{printAndExportBackground, null},
         };
-        JPanel upPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
-
-        double[] downRowSize = {p, p, p};
-        double[] downColumnSize = {f, COMBO_WIDTH};
-        int[][] downRowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-
-        fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-
-        Component[][] downComponent = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContent},
-                new Component[]{fileNamePane, null},  // 选择"用下载连接显示二进制内容"时，会显示这一行的面板
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextField}
-        };
-        JPanel downPane = TableLayoutHelper.createGapTableLayoutPane(downComponent, downRowSize, downColumnSize, downRowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        downPane.setBorder(BorderFactory.createEmptyBorder(6, 0, 12, 0));
-
-        JPanel pane = new JPanel(new BorderLayout());
-        pane.add(upPane, BorderLayout.NORTH);
-        pane.add(downPane, BorderLayout.CENTER);
-        return pane;
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
     }
 
     private JPanel pagePane() {
@@ -390,10 +404,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             insertRowLayout.show(insertRowPane, "none");
             insertRowPane.setPreferredSize(new Dimension(0, 0));
         }
-        southContentPane.setVisible(true);
+        insertRowPolicyPane.setVisible(true);
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (!jTemplate.isJWorkBook()) { //表单中报表块编辑屏蔽掉  插入行策略
-            southContentPane.setVisible(false);
+            insertRowPolicyPane.setVisible(false);
         }
     }
 
