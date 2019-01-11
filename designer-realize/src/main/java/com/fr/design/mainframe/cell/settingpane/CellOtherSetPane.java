@@ -12,12 +12,12 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.*;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellGUIAttr;
@@ -26,10 +26,18 @@ import com.fr.report.cell.cellattr.CellPageAttr;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -41,8 +49,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private static final int HEAD_WDITH = 290;
     private static final int HEAD_HEIGTH = 24;
-    private static final Dimension NORMAL_DIMENSION = new Dimension(155, 20);
-    private static final Dimension SMALL_DIMENSION = new Dimension(150, 20);
+    private static final int COMBO_WIDTH = 154;
     // normal
     private UIButtonGroup autoshrik;
 
@@ -187,28 +194,20 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         };
         JPanel upPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
 
-        double[] downRowSize = {p, p, p, p, p, p};
-        double[] downColumnSize = {p, f};
+        double[] downRowSize = {p, p, p};
+        double[] downColumnSize = {f, COMBO_WIDTH};
         int[][] downRowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
 
-        JPanel showContentPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
-        showContent.setPreferredSize(SMALL_DIMENSION);
-        showContentPane.add(showContent);
         fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
-        JPanel tooltipTextFieldPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
-        tooltipTextField.setPreferredSize(NORMAL_DIMENSION);
-        tooltipTextFieldPane.add(tooltipTextField);
-
         Component[][] downComponent = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContentPane},
-                new Component[]{fileNamePane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextFieldPane},
-                new Component[]{null, null},
-                new Component[]{null, null},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContent},
+                new Component[]{fileNamePane, null},  // 选择"用下载连接显示二进制内容"时，会显示这一行的面板
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextField}
         };
         JPanel downPane = TableLayoutHelper.createGapTableLayoutPane(downComponent, downRowSize, downColumnSize, downRowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+        downPane.setBorder(BorderFactory.createEmptyBorder(6, 0, 12, 0));
+
         JPanel pane = new JPanel(new BorderLayout());
         pane.add(upPane, BorderLayout.NORTH);
         pane.add(downPane, BorderLayout.CENTER);
