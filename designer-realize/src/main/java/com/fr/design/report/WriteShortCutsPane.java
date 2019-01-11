@@ -6,6 +6,7 @@ import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.general.ComparatorUtils;
 
 import javax.swing.BorderFactory;
@@ -69,7 +70,7 @@ public class WriteShortCutsPane extends JPanel{
 		UILabel nextCol = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Column"), SwingConstants.CENTER);
 		UILabel nextRow = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cursor_To_Next_Row"), SwingConstants.CENTER);
 		UILabel shortName = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Current_Keys"), SwingConstants.CENTER);
-		shortName.setLineWrap(MAX_LABEL_WIDTH);
+		UIComponentUtils.setLineWrap(shortName, MAX_LABEL_WIDTH);
 		nextColHK = new UILabel(nextColString, SwingConstants.CENTER);
 		JPanel switchBtnPane = getSwitchBtnPane();
 		nextRowHK = new UILabel(nextRowString, SwingConstants.CENTER);

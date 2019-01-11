@@ -8,6 +8,7 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
@@ -96,7 +97,7 @@ public class WebJsPane extends BasicPane {
 		northPane.add(chooseFile);
 		firstnorth.add(northPane,BorderLayout.NORTH);
 		infor1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
-		infor1.setLineWrap();
+		UIComponentUtils.setLineWrap(infor1);
 		infor1.setForeground(new Color(207, 42, 39));
 		firstnorth.add(infor1,BorderLayout.CENTER);
 
