@@ -198,10 +198,17 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         JPanel fileNamePane = createNormal();
         fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
+        UILabel showContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT);
+        UILabel toolTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"));
+        toolTipLabel.setLineWrap();
+
+        JPanel toolTipTextFieldWrapper = new JPanel(new BorderLayout());
+        toolTipTextFieldWrapper.add(tooltipTextField, BorderLayout.NORTH);
+
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContent},
+                new Component[]{showContentLabel, showContent},
                 new Component[]{fileNamePane, null},  // 选择"用下载连接显示二进制内容"时，会显示这一行的面板
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextField}
+                new Component[]{toolTipLabel, toolTipTextFieldWrapper}
         };
 
         JPanel showContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, colSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
