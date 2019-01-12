@@ -5,6 +5,7 @@ import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.core.UITextComponent;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.stable.Constants;
 import sun.swing.SwingUtilities2;
@@ -29,7 +30,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObserver {
+public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObserver, UITextComponent {
     private UIObserverListener uiObserverListener;
     private GlobalNameListener globalNameListener = null;
     private String checkboxName = "";

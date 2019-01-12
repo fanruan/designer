@@ -6,7 +6,13 @@ package com.fr.design.utils.gui;
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.background.ColorBackground;
-import com.fr.data.util.function.*;
+import com.fr.data.util.function.AverageFunction;
+import com.fr.data.util.function.CountFunction;
+import com.fr.data.util.function.DataFunction;
+import com.fr.data.util.function.MaxFunction;
+import com.fr.data.util.function.MinFunction;
+import com.fr.data.util.function.NoneFunction;
+import com.fr.data.util.function.SumFunction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.border.UITitledBorder;
@@ -25,20 +31,48 @@ import com.fr.design.style.color.ColorFactory;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.style.color.ColorSelectable;
 import com.fr.general.FRFont;
-
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTree;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -48,16 +82,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class GUICoreUtils{
+// Noninstantiable utility class
+public final class GUICoreUtils {
 
 	private static final int WINDOW_GAP = 20;
 	private static final int HEIGHT_GAP = 28;
 	private static final int WIN_LOCATION_Y=23;
 	private static final int CASE_FOUR = 4;
-	
-	
 
+	// 覆盖缺省构造器，不可实例化
 	private GUICoreUtils() {
+		throw new AssertionError();
 	}
 
 	/**

@@ -5,6 +5,7 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.BackgroundDetailPane;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.general.Background;
 
 import javax.swing.BorderFactory;
@@ -43,7 +44,7 @@ public class GradientBackgroundPane extends BackgroundDetailPane {
 		blankJp.add(gradientBar);
 		UILabel jl = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Drag_To_Select_Gradient"));
 		jl.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-		jl.setLineWrap();
+		UIComponentUtils.setLineWrap(jl);
 		jl.setHorizontalAlignment(SwingConstants.CENTER);
 		gradientPanel.add(jl, BorderLayout.NORTH);
 		gradientPanel.add(blankJp, BorderLayout.SOUTH);

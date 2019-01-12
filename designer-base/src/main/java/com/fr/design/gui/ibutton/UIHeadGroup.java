@@ -3,6 +3,7 @@ package com.fr.design.gui.ibutton;
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
 
 import javax.swing.Icon;
 import javax.swing.JFrame;
@@ -139,7 +140,7 @@ public class UIHeadGroup extends JPanel {
         labelButton.setRoundBorder(false);
         labelButton.setBorderPainted(false);
         labelButton.setPressedPainted(false);
-        labelButton.setLineWrap();
+        UIComponentUtils.setLineWrap(labelButton);
         labelButtonList.add(labelButton);
         this.add(labelButton);
     }
