@@ -10,16 +10,26 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.Widget;
-
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import javax.swing.table.TableColumnModel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,6 +44,7 @@ import java.awt.image.ImageObserver;
 
 public class ToolBarDragPane extends WidgetToolBarPane {
 	private static final int COLUMN = 4;
+	private static final int MIN_COLUMN_WIDTH = 15;
 	private int row = 7;
 	private DefaultTableModel toolbarButtonTableModel;
 	private JTable layoutTable;
@@ -169,10 +180,6 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		layoutTable.setColumnSelectionAllowed(false);
 		layoutTable.setRowSelectionAllowed(false);
 		layoutTable.setBackground(Color.WHITE);
-		int columnWidth = Integer.parseInt(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Layout_Table_Column_Width"));
-		for (int i = 0; i < layoutTable.getColumnModel().getColumnCount(); i++) {
-			layoutTable.getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
-		}
 		layoutTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() > 1 && !(SwingUtilities.isRightMouseButton(e)) && isEnabled) {
@@ -186,6 +193,23 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 				}
 			}
 		});
+	}
+
+	// 根据控件名称长度，设置合适的列宽
+	private static void resizeColumnWidth(JTable table) {
+		final TableColumnModel columnModel = table.getColumnModel();
+		for (int column = 0; column < table.getColumnCount(); column++) {
+			int width = MIN_COLUMN_WIDTH; // Min width
+			for (int row = 0; row < table.getRowCount(); row++) {
+				WidgetOption widgetOption = (WidgetOption) table.getValueAt(row, column);
+				if (widgetOption == null) {
+					continue;
+				}
+				String optionName = widgetOption.optionName();
+				width = Math.max(GraphDrawHelper.getWidth(optionName), width);
+			}
+			columnModel.getColumn(column).setPreferredWidth(width);
+		}
 	}
 
 
@@ -229,6 +253,7 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 				toolbarButtonTableModel.setValueAt(buttonArray[i], i % row, i / row);
 			}
 		}
+		resizeColumnWidth(layoutTable);
 
 	}
 

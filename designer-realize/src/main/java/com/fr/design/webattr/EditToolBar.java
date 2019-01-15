@@ -513,6 +513,12 @@ public class EditToolBar extends BasicPane {
 				javaScriptPane.setPreferredSize(new Dimension(750, 500));
 				BasicDialog dialog = javaScriptPane.showWindow(SwingUtilities.getWindowAncestor(ButtonPane.this));
 				dialog.addDialogActionListener(new DialogActionAdapter() {
+
+					@Override
+					public void doCancel() {
+						javaScriptPane.populateBean(((CustomToolBarButton) widget).getJSImpl());
+					}
+
 					@Override
 					public void doOk() {
 						((CustomToolBarButton) widget).setJSImpl(javaScriptPane.updateBean());
@@ -619,7 +625,7 @@ public class EditToolBar extends BasicPane {
 			} else if (widget instanceof Submit) {
 				updateSubmit();
 			} else if (widget instanceof CustomToolBarButton) {
-				((CustomToolBarButton) widget).setJSImpl(this.javaScriptPane.updateBean());
+				updateCustomToolBarButton();
 			} else if (widget instanceof Email) {
 				updateEmail();
 			}
@@ -669,6 +675,16 @@ public class EditToolBar extends BasicPane {
 			email.setCustomConsignee(this.customConsignee.isSelected());
 			email.setConsigneeByDepartment(this.consigneeByDepartment.isSelected());
 			email.setConsigneeByRole(this.consigneeByRole.isSelected());
+		}
+
+		private void updateCustomToolBarButton() {
+			CustomToolBarButton customToolBarButton = (CustomToolBarButton) widget;
+			if (customToolBarButton.getJSImpl() != null) {
+				customToolBarButton.setJSImpl(this.javaScriptPane.updateBean());
+			} else {
+				customToolBarButton.setJSImpl(JavaScriptActionPane.createDefault().updateBean());
+			}
+
 		}
 	}
 
