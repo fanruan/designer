@@ -20,8 +20,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
-
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.type.AxisTickLineType;
@@ -138,7 +138,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{null,titleUseHtml},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),titleAlignPane},
                 new Component[]{titleTextAttrPane,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")),titleTextRotation},
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(titleTextRotation)
+                },
         };
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
@@ -170,7 +173,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         labelGapStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed")});
         labelGapValue = new UITextField();
         Component[][] gapComponents = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")), labelTextRotation},
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(labelTextRotation)
+                },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Interval")), labelGapStyle},
         };
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(gapComponents, row, col);
@@ -252,7 +258,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         reversed = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Position")),position},
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label_Position")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(position)
+                },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AxisReversed")),reversed},
         } ;
 
