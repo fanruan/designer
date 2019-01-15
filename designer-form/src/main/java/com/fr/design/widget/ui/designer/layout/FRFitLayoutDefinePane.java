@@ -24,9 +24,9 @@ import com.fr.design.mainframe.FormSelectionUtils;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
-import com.fr.form.main.Form;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
@@ -35,7 +35,6 @@ import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
@@ -49,6 +48,7 @@ import java.awt.Dimension;
  * Created by ibm on 2017/8/2.
  */
 public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
+    private static final int ADAPT_LABEL_MAX_WIDTH = 80;
     private XWFitLayout xWFitLayout;
     private WFitLayout wFitLayout;
     private UIComboBox layoutComboBox;
@@ -95,19 +95,31 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         layoutComboBox = initUIComboBox(FRLayoutTypeItems.ITEMS);
         adaptComboBox = initUIComboBox(FRFitConstraintsItems.ITEMS);
+        JPanel adaptComboBoxPane = UIComponentUtils.wrapWithBorderLayoutPane(adaptComboBox);
         componentIntervel = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
+        JPanel componentIntervelPane = UIComponentUtils.wrapWithBorderLayoutPane(componentIntervel);
+
+        UILabel adaptLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale"));
+        UIComponentUtils.setLineWrap(adaptLabel);
+
+        UILabel intervalLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval"));
+        UIComponentUtils.setLineWrap(intervalLabel);
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
+        double adaptLabelColumnWidth = adaptLabel.getPreferredSize().width > ADAPT_LABEL_MAX_WIDTH ? ADAPT_LABEL_MAX_WIDTH : p;
+        double[] columnSize = {adaptLabelColumnWidth, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
         JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type")), layoutComboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         northPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, 0, 0));
 
+
+
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale")), adaptComboBox},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval")), componentIntervel}
+                new Component[]{adaptLabel, adaptComboBoxPane},
+                new Component[]{intervalLabel, componentIntervelPane}
         };
         JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
