@@ -1,9 +1,9 @@
 package com.fr.design.gui.ilable;
 
+import com.fr.design.gui.core.UITextComponent;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StringUtils;
 
-import com.fr.stable.StringUtils;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +19,7 @@ import java.awt.Dimension;
  * Date: 13-1-23
  * Time: 下午3:15
  */
-public class UILabel extends JLabel {
+public class UILabel extends JLabel implements UITextComponent {
 	private static final int HTML_SHIFT_HEIGHT = 3;
 
 	public UILabel(String text, Icon image, int horizontalAlignment) {
@@ -63,7 +63,6 @@ public class UILabel extends JLabel {
 		}
 		return preferredSize;
 	}
-
 
 	public static void main(String[] args) {
 //        UILabel label =  new UILabel("shishi",SwingConstants.LEFT);
