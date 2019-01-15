@@ -496,8 +496,8 @@ public abstract class ToolBarMenuDock {
         if (WorkContext.getCurrent().isLocal()) {
             shortCuts.add(new SoftwareUpdateAction());
         }
-
-        if (AlphaFineConfigManager.isALPHALicAvailable()) {
+        // 日文不显示AlphaFine
+        if (AlphaFineConfigManager.isALPHALicAvailable() && !GeneralContext.getLocale().equals(Locale.JAPAN)) {
             shortCuts.add(new AlphaFineAction());
         }
         shortCuts.add(SeparatorDef.DEFAULT);
