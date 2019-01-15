@@ -16,8 +16,8 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
-
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.cellquick.layout.CellElementBarLayout;
 import com.fr.report.cell.TemplateCellElement;
@@ -209,8 +209,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
         double[] columnSize = {60, f};
         double[] rowSize = {p, p};
         UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"));
-        UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
-        UIComponentUtils.setLineWrap(insertContentLabel);
+        UILabel insertContentLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
         initCellElementEditComboBox();
         Component[][] components = new Component[][]{
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},

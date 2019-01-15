@@ -27,6 +27,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.AbstractDSCellEditorPane;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.IOUtils;
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.CellElement;
@@ -251,8 +252,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             groupPane.setListener(groupListener);
 
             double[] rowSize = {P}, columnSize = {P, F};
-            UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter_Conditions"));
-            UIComponentUtils.setLineWrap(uiLabel);
+            UILabel uiLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter_Conditions"));
             condition = new DSColumnConditionAction();
             if (tc != null) {
                 condition.setEditingComponent(tc);

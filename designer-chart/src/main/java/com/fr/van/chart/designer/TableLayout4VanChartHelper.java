@@ -6,6 +6,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -58,9 +59,8 @@ public class TableLayout4VanChartHelper {
         double f = TableLayout.FILL;
         double[] columnSize = {f, componentWidth};
         double[] rowSize = {p, p};
-        UILabel label = new UILabel(title);
+        UILabel label = FRWidgetFactory.createLineWrapLabel(title);
         label.setVerticalAlignment(SwingConstants.TOP);
-        UIComponentUtils.setLineWrap(label);
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{label, UIComponentUtils.wrapWithBorderLayoutPane(component)},

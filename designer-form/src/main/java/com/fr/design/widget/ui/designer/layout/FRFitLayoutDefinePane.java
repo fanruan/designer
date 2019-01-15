@@ -25,6 +25,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.LayoutBorderStyle;
@@ -99,11 +100,8 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
         componentIntervel = new UISpinner(0, Integer.MAX_VALUE, 1, 0);
         JPanel componentIntervelPane = UIComponentUtils.wrapWithBorderLayoutPane(componentIntervel);
 
-        UILabel adaptLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale"));
-        UIComponentUtils.setLineWrap(adaptLabel);
-
-        UILabel intervalLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval"));
-        UIComponentUtils.setLineWrap(intervalLabel);
+        UILabel adaptLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Scale"));
+        UILabel intervalLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval"));
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;

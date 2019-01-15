@@ -8,15 +8,22 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
-import com.fr.report.cell.cellattr.core.group.*;
+import com.fr.report.cell.cellattr.core.group.CustomGrouper;
+import com.fr.report.cell.cellattr.core.group.DSColumn;
+import com.fr.report.cell.cellattr.core.group.FunctionGrouper;
+import com.fr.report.cell.cellattr.core.group.RecordGrouper;
+import com.fr.report.cell.cellattr.core.group.SummaryGrouper;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -57,9 +64,8 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private JPanel layoutPane() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        UILabel dataSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"));
+        UILabel dataSetLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"));
         dataSetLabel.setPreferredSize(new Dimension(60, 20));
-        UIComponentUtils.setLineWrap(dataSetLabel);
         Component[][] components = new Component[][]
                 {
                         new Component[]{dataSetLabel, UIComponentUtils.wrapWithBorderLayoutPane(goBox)},

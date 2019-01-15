@@ -10,6 +10,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -157,8 +158,7 @@ abstract class UIControlPane extends JControlPane {
     }
 
     protected JPanel getLeftTopPane(UIToolbar topToolBar) {
-        UILabel addItemLabel = new UILabel(getAddItemText());
-        UIComponentUtils.setLineWrap(addItemLabel);
+        UILabel addItemLabel = FRWidgetFactory.createLineWrapLabel(getAddItemText());
 
         topToolBar.setPreferredSize(
                 new Dimension(
