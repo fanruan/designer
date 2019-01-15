@@ -21,6 +21,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.type.AxisTickLineType;
@@ -123,6 +124,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         titleAlignPane.setSelectedItem(Constants.CENTER);
         titleContent = new TinyFormulaPane();
         titleUseHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Html"));
+        UIComponentUtils.setLineWrap(titleUseHtml);
         titleTextAttrPane = new ChartTextAttrPane();
         titleTextRotation = new UINumberDragPane(-ROTATION_MAX,ROTATION_MAX);
         if(isXAxis){
