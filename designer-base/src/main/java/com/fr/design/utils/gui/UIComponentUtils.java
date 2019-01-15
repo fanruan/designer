@@ -7,6 +7,7 @@ import com.fr.stable.StringUtils;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 
 /**
@@ -61,7 +62,7 @@ public class UIComponentUtils {
      * @param layoutConstraint，添加的方向，如 BorderLayout.NORTH
      * @return 包装好的 JPanel
      */
-    public static JPanel wrapWithBorderLayoutPane(JComponent comp, String layoutConstraint) {
+    public static JPanel wrapWithBorderLayoutPane(Component comp, String layoutConstraint) {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.add(comp, layoutConstraint);
         return panel;
@@ -72,7 +73,7 @@ public class UIComponentUtils {
      * @param comp，待包装的组件
      * @return 包装好的 JPanel（布局方向为 BorderLayout.NORTH）
      */
-    public static JPanel wrapWithBorderLayoutPane(JComponent comp) {
+    public static JPanel wrapWithBorderLayoutPane(Component comp) {
         return wrapWithBorderLayoutPane(comp, BorderLayout.NORTH);
     }
 

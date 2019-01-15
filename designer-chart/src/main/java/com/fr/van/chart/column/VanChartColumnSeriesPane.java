@@ -12,6 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.backgroundpane.ImageBackgroundQuickPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.base.AttrSeriesImageBackground;
 import com.fr.plugin.chart.column.VanChartColumnPlot;
 import com.fr.stable.Constants;
@@ -91,8 +92,10 @@ public class VanChartColumnSeriesPane extends VanChartAbstractPlotSeriesPane {
         };
         JPanel panel2 = TableLayout4VanChartHelper.createGapTableLayoutPane(components2, row, col);
 
+        UILabel fillImageLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image"));
+        UIComponentUtils.setLineWrap(fillImageLabel);
         Component[][] components3 = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Filled_With_Image")),isFillWithImage},
+                new Component[]{fillImageLabel, UIComponentUtils.wrapWithBorderLayoutPane(isFillWithImage)},
         };
         JPanel panel3 = TableLayout4VanChartHelper.createGapTableLayoutPane(components3, row, col);
 

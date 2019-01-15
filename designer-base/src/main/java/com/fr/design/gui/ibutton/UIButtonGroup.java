@@ -3,6 +3,7 @@ package com.fr.design.gui.ibutton;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.event.GlobalNameListener;
 import com.fr.design.event.GlobalNameObserver;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import sun.swing.SwingUtilities2;
@@ -213,6 +214,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 
     protected void initButton(UIToggleButton labelButton) {
         labelButton.setBorderPainted(false);
+        UIComponentUtils.setLineWrap(labelButton);
         labelButtonList.add(labelButton);
         this.add(labelButton);
     }

@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.style.color.ColorSelectBox;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -41,10 +42,15 @@ public class VanChartBorderPane extends BasicPane {
     }
 
     protected Component[][] getUseComponent() {
+        UILabel lineStyleLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style"));
+        UIComponentUtils.setLineWrap(lineStyleLabel);
+        UILabel colorLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color"));
+        UIComponentUtils.setLineWrap(colorLabel);
+
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),currentLineCombo},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),currentLineColorPane},
+                new Component[]{lineStyleLabel, currentLineCombo},
+                new Component[]{colorLabel, currentLineColorPane},
         };
     }
 
