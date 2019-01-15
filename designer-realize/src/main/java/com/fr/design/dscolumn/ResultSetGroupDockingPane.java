@@ -9,6 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellExpandAttr;
 import com.fr.report.cell.cellattr.core.group.*;
@@ -58,9 +59,10 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         double f = TableLayout.FILL;
         UILabel dataSetLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"));
         dataSetLabel.setPreferredSize(new Dimension(60, 20));
+        UIComponentUtils.setLineWrap(dataSetLabel);
         Component[][] components = new Component[][]
                 {
-                        new Component[]{dataSetLabel, goBox},
+                        new Component[]{dataSetLabel, UIComponentUtils.wrapWithBorderLayoutPane(goBox)},
                         new Component[]{null, cardPane}
                 };
         goBox.addItemListener(new ItemListener() {
@@ -85,7 +87,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             }
         });
 
-        double[] columnSize = {p, f};
+        double[] columnSize = {60, f};
         double[] rowSize = {p, p};
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 8, 10);
     }

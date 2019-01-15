@@ -7,6 +7,7 @@ import com.fr.stable.StringUtils;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 /**
  * 包含 UI 组件相关的工具方法
@@ -73,5 +74,11 @@ public class UIComponentUtils {
      */
     public static JPanel wrapWithBorderLayoutPane(JComponent comp) {
         return wrapWithBorderLayoutPane(comp, BorderLayout.NORTH);
+    }
+
+    public static void setPreferedWidth(JComponent comp, int width) {
+        Dimension dim = comp.getPreferredSize();
+        dim.setSize(width, dim.getHeight());
+        comp.setPreferredSize(dim);
     }
 }

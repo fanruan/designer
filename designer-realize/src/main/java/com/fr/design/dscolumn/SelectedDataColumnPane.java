@@ -19,6 +19,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.general.data.TableDataColumn;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -196,16 +197,18 @@ public class SelectedDataColumnPane extends BasicPane {
         UILabel dsLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_TableData"));
         UILabel dpLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Dynamic_Parameter"));
         UILabel dcLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Data_Column"));
-        dsLabel.setPreferredSize(new Dimension(60, 20));
-        dpLabel.setPreferredSize(new Dimension(60, 20));
-        dcLabel.setPreferredSize(new Dimension(60, 20));
+        UIComponentUtils.setLineWrap(dsLabel);
+        UIComponentUtils.setLineWrap(dpLabel);
+        UIComponentUtils.setLineWrap(dcLabel);
+        double[] rowSize = new double[]{p, p, p};
+        double[] colSize = new double[]{60, f};
         Component[][] components = {
-                {dsLabel, tableNameComboBox},
-                {dpLabel, paramButton},
-                {dcLabel, columnNameComboBox}
+                {dsLabel, UIComponentUtils.wrapWithBorderLayoutPane(tableNameComboBox)},
+                {dpLabel, UIComponentUtils.wrapWithBorderLayoutPane(paramButton)},
+                {dcLabel, UIComponentUtils.wrapWithBorderLayoutPane(columnNameComboBox)}
         };
         this.setLayout(new BorderLayout());
-        this.add(TableLayoutHelper.createGapTableLayoutPane(components, new double[]{p, p, p}, new double[]{p, f}, 8, 10));
+        this.add(TableLayoutHelper.createGapTableLayoutPane(components, rowSize, colSize, 8, 10));
 
     }
 

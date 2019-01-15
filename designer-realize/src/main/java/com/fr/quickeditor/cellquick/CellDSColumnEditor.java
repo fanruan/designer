@@ -26,8 +26,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.cell.AbstractDSCellEditorPane;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.general.IOUtils;
-
 import com.fr.quickeditor.CellQuickEditor;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -252,7 +252,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
 
             double[] rowSize = {P}, columnSize = {P, F};
             UILabel uiLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Filter_Conditions"));
-            uiLabel.setPreferredSize(LABEL_DIMENSION);
+            UIComponentUtils.setLineWrap(uiLabel);
             condition = new DSColumnConditionAction();
             if (tc != null) {
                 condition.setEditingComponent(tc);
@@ -262,7 +262,7 @@ public class CellDSColumnEditor extends CellQuickEditor {
             condition.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
             conditionUIButton = new UIButton(condition);
             Component[][] components = new Component[][]{
-                    new Component[]{uiLabel, conditionUIButton}
+                    new Component[]{uiLabel, UIComponentUtils.wrapWithBorderLayoutPane(conditionUIButton)}
             };
             conditionPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
             this.createScrollPane();
