@@ -16,7 +16,8 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.selection.QuickEditor;
-
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.grid.selection.CellSelection;
 import com.fr.quickeditor.cellquick.layout.CellElementBarLayout;
 import com.fr.report.cell.TemplateCellElement;
@@ -46,19 +47,9 @@ import java.util.ArrayList;
  */
 public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
-
-    /**
-     * 面板配置
-     */
-    protected UITextField columnRowTextField;
-    protected TemplateCellElement cellElement;
-    /**
-     * 占位label
-     */
-    protected final Dimension LABEL_DIMENSION = new Dimension(60, 20);
-    protected final UILabel EMPTY_LABEL = new UILabel();
+    protected static final Dimension LABEL_DIMENSION = new Dimension(60, 20);
     protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
-
+    private static final int INSERT_CONTENT_LABEL_WIDTH = 60;
 
     /**
      * 滚动条相关配置
@@ -69,6 +60,15 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     private static final int SCROLLBAR_WIDTH = 7;
     private int maxHeight = 280;
     private static final int TITLE_HEIGHT = 50;
+
+    /**
+     * 面板配置
+     */
+    protected UITextField columnRowTextField;
+    protected TemplateCellElement cellElement;
+
+    // 占位label
+    protected final UILabel EMPTY_LABEL = new UILabel();
 
     private UIComboBox comboBox;
     private UpdateAction[] cellInsertActions;
@@ -207,16 +207,14 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     private JPanel initTopContent() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {p, f};
+        double[] columnSize = {INSERT_CONTENT_LABEL_WIDTH, f};
         double[] rowSize = {p, p};
         UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"));
-        cellLabel.setPreferredSize(LABEL_DIMENSION);
-        UILabel insertContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
-        insertContentLabel.setPreferredSize(LABEL_DIMENSION);
+        UILabel insertContentLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));
         initCellElementEditComboBox();
         Component[][] components = new Component[][]{
                 new Component[]{cellLabel, columnRowTextField = initColumnRowTextField()},
-                new Component[]{insertContentLabel, comboBox},
+                new Component[]{insertContentLabel, UIComponentUtils.wrapWithBorderLayoutPane(comboBox)},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, HGAP, VGAP);
     }

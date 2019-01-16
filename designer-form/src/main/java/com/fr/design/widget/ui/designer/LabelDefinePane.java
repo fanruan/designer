@@ -11,6 +11,7 @@ import com.fr.design.gui.style.FRFontPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.design.widget.ui.designer.component.FormWidgetValuePane;
 import com.fr.form.ui.Label;
 
@@ -24,6 +25,7 @@ import java.awt.*;
  * Created by ibm on 2017/8/3.
  */
 public class LabelDefinePane extends AbstractDataModify<Label> {
+    private static final int WIDGET_VALUE_PANE_WIDTH = 145;
     private FormWidgetValuePane formWidgetValuePane;
     private UICheckBox isPageSetupVertically;
     private UICheckBox isStyleAlignmentWrapText;
@@ -60,20 +62,20 @@ public class LabelDefinePane extends AbstractDataModify<Label> {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p, p, p};
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, WIDGET_VALUE_PANE_WIDTH};
         int[][] rowCount = {{1, 3}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        UILabel widgetValueLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
+        UILabel widgetValueLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Estate_Widget_Value"));
         widgetValueLabel.setVerticalAlignment(SwingConstants.TOP);
-        UILabel fontLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size"));
+        UILabel fontLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Font_Size"));
         fontLabel.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
                 new Component[]{widgetValueLabel, formWidgetValuePane},
                 new Component[]{isStyleAlignmentWrapText, null},
                 new Component[]{isPageSetupVertically, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Display_Position_Similar")), hAlignmentPane},
+                new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Display_Position_Similar")), hAlignmentPane},
                 new Component[]{fontLabel, frFontPane},
         };
-        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W4, IntervalConstants.INTERVAL_L1);
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         boundsPane.add(panel);

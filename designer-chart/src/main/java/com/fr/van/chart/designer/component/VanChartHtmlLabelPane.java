@@ -14,6 +14,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.base.VanChartHtmlLabel;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -56,6 +57,7 @@ public class VanChartHtmlLabelPane extends JPanel{
 
     public VanChartHtmlLabelPane() {
         useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Html"));
+        UIComponentUtils.setLineWrap(useHtml);
         JPanel widthAndHeightPane = createWidthAndHeightPane();
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;

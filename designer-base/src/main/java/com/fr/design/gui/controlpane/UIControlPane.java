@@ -6,11 +6,11 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
-import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -23,7 +23,6 @@ import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -159,14 +158,21 @@ abstract class UIControlPane extends JControlPane {
     }
 
     protected JPanel getLeftTopPane(UIToolbar topToolBar) {
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double[] columnSize = {p, f, isNewStyle() ? TOP_TOOLBAR_WIDTH : TOP_TOOLBAR_WIDTH_SHORT};
-        double[] rowSize = {TOP_TOOLBAR_HEIGHT};
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(getAddItemText()), new JPanel(), topToolBar},
-        };
-        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        UILabel addItemLabel = FRWidgetFactory.createLineWrapLabel(getAddItemText());
+
+        topToolBar.setPreferredSize(
+                new Dimension(
+                        isNewStyle() ? TOP_TOOLBAR_WIDTH : TOP_TOOLBAR_WIDTH_SHORT,
+                        TOP_TOOLBAR_HEIGHT
+                ));
+        JPanel toolBarPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        toolBarPane.add(topToolBar, BorderLayout.NORTH);
+
+        JPanel leftTopPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        leftTopPane.add(toolBarPane, BorderLayout.EAST);
+        leftTopPane.add(addItemLabel, BorderLayout.CENTER);
+
+        return leftTopPane;
     }
 
     /**

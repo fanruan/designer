@@ -13,6 +13,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.plugin.chart.base.TrendLineType;
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -65,7 +67,10 @@ public class VanChartTrendLinePane extends BasicPane{
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Name")), trendLineName},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")), trendLineStyle},
+                new Component[]{
+                    FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),
+                    UIComponentUtils.wrapWithBorderLayoutPane(trendLineStyle)
+                },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), trendLineColor},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Type")), trendLineType},
                 new Component[]{label, periodPane}
