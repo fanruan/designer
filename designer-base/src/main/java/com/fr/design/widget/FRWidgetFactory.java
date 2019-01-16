@@ -35,4 +35,17 @@ public class FRWidgetFactory {
         UIComponentUtils.setLineWrap(label, lineWidth);
         return label;
     }
+
+    /**
+     * 创建一个可换行可调整水平对齐的 UILabel
+     * @param text
+     * @param lineWidth
+     * @param horizontalAlignment
+     * @return com.fr.design.gui.ilable.UILabel
+     */
+    public static UILabel createLineWrapLabel(String text, int lineWidth, int horizontalAlignment) {
+        UILabel label = new UILabel(text, horizontalAlignment);
+        UIComponentUtils.setLineWrap(label, lineWidth);
+        return label;
+    }
 }
