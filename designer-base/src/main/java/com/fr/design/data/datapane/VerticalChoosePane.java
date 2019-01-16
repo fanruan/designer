@@ -9,6 +9,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerBean;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 
 
 import javax.swing.*;
@@ -16,6 +18,7 @@ import java.awt.*;
 
 public class VerticalChoosePane extends ChoosePane implements DesignerBean {
     private static final int RIGHTBORDER = 5;
+    private static final int MAX_WIDTH = 60;
 
     public VerticalChoosePane(Previewable previewable) {
         this(previewable, -1);
@@ -40,8 +43,7 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
         rs.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, -RIGHTBORDER));
         UILabel l1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database"), UILabel.LEFT);
         UILabel l2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Model"), UILabel.LEFT);
-        UILabel l3 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Select_Table"), UILabel.LEFT);
-
+        UILabel l3 = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Select_Table"), MAX_WIDTH, UILabel.LEFT);
         if (labelSize > 0) {
             Dimension pSize = new Dimension(labelSize, 20);
             l1.setPreferredSize(pSize);
@@ -52,7 +54,7 @@ public class VerticalChoosePane extends ChoosePane implements DesignerBean {
         Component[][] components = new Component[][]{
                 new Component[]{l1, dsNameComboBox},
                 new Component[]{l2, schemaBox},
-                new Component[]{l3, rs}
+                new Component[]{l3, UIComponentUtils.wrapWithBorderLayoutPane(rs)}
         };
 
         JPanel content = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_HUGER, LayoutConstants.VGAP_LARGE);
