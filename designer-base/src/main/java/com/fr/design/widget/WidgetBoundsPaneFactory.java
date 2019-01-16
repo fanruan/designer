@@ -8,7 +8,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -19,19 +18,20 @@ import java.awt.Component;
  * Created by plough on 2017/8/7.
  */
 public class WidgetBoundsPaneFactory {
+    private static final int RIGHT_PANE_WIDTH = 145;
 
     public static UIExpandablePane createBoundsPane(UISpinner width, UISpinner height) {
         JPanel boundsPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Size")), createRightPane(width, height)},
+                new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Size")), createRightPane(width, height)},
                 new Component[]{null, createRightPane(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Width"), SwingConstants.CENTER), new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tree_Height"), SwingConstants.CENTER))},
         };
         double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
+        double[] columnSize = {f, RIGHT_PANE_WIDTH};
         int[][] rowCount = {{1, 1}, {1, 1}};
-        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L6);
+        final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W5, IntervalConstants.INTERVAL_L6);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         boundsPane.add(panel);
         return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"), 280, 24, boundsPane);
