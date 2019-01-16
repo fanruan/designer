@@ -6,7 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
@@ -46,8 +46,7 @@ public class WebCssPane extends BasicPane {
 		northPane.add(localText, FlowLayout.CENTER);
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
-		UILabel infor = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
-		UIComponentUtils.setLineWrap(infor);
+		UILabel infor = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);
