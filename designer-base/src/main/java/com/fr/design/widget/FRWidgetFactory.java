@@ -44,8 +44,8 @@ public class FRWidgetFactory {
      * @return com.fr.design.gui.ilable.UILabel
      */
     public static UILabel createLineWrapLabel(String text, int lineWidth, int horizontalAlignment) {
-        UILabel label = new UILabel(text, horizontalAlignment);
-        UIComponentUtils.setLineWrap(label, lineWidth);
+        UILabel label = createLineWrapLabel(text, lineWidth);
+        label.setHorizontalAlignment(horizontalAlignment);
         return label;
     }
 }
