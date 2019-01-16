@@ -49,6 +49,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
 
     protected static final Dimension LABEL_DIMENSION = new Dimension(60, 20);
     protected static final int VGAP = 10, HGAP = 8, VGAP_INNER = 3;
+    private static final int INSERT_CONTENT_LABEL_WIDTH = 60;
 
     /**
      * 滚动条相关配置
@@ -206,7 +207,7 @@ public abstract class CellQuickEditor extends QuickEditor<ElementCasePane> {
     private JPanel initTopContent() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] columnSize = {60, f};
+        double[] columnSize = {INSERT_CONTENT_LABEL_WIDTH, f};
         double[] rowSize = {p, p};
         UILabel cellLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell"));
         UILabel insertContentLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert_Cell_Element"));

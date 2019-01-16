@@ -38,6 +38,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
     private static final int BIND_GROUP = 0;
     private static final int BIND_SELECTED = 1;
     private static final int BIND_SUMMARY = 2;
+    private static final int DATA_SET_LABEL_WIDTH = 60;
 
     private UIButton advancedButton;
     private FunctionComboBox functionComboBox;
@@ -65,7 +66,6 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         UILabel dataSetLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Setting"));
-        dataSetLabel.setPreferredSize(new Dimension(60, 20));
         Component[][] components = new Component[][]
                 {
                         new Component[]{dataSetLabel, UIComponentUtils.wrapWithBorderLayoutPane(goBox)},
@@ -93,7 +93,7 @@ public class ResultSetGroupDockingPane extends ResultSetGroupPane {
             }
         });
 
-        double[] columnSize = {60, f};
+        double[] columnSize = {DATA_SET_LABEL_WIDTH, f};
         double[] rowSize = {p, p};
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 8, 10);
     }

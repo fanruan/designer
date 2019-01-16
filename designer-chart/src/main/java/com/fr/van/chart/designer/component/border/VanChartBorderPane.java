@@ -8,6 +8,7 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -46,7 +47,7 @@ public class VanChartBorderPane extends BasicPane {
 
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{lineStyleLabel, currentLineCombo},
+                new Component[]{lineStyleLabel, UIComponentUtils.wrapWithBorderLayoutPane(currentLineCombo)},
                 new Component[]{colorLabel, currentLineColorPane},
         };
     }
