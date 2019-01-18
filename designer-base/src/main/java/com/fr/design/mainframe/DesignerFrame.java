@@ -51,7 +51,6 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.stable.CoreConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
@@ -115,11 +114,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private static final int MENU_HEIGHT = 26;
 
-    private static final Integer SECOND_LAYER = new Integer(100);
+    private static final Integer SECOND_LAYER = 100;
 
-    private static final Integer TOP_LAYER = new Integer((200));
-
-    private static java.util.List<App<?>> appList = new java.util.ArrayList<App<?>>();
+    private static final Integer TOP_LAYER = 200;
 
     private List<DesignerOpenedListener> designerOpenedListenerList = new ArrayList<>();
 
@@ -326,7 +323,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.progressDialog = new ProgressDialog(this);
     }
 
-    public void closeAuthorityEditing(){
+    public void closeAuthorityEditing() {
         DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         WestRegionContainerPane.getInstance().replaceDownPane(
                 TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()));
@@ -342,19 +339,22 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      * 注册app.
      *
      * @param app 注册app.
+     * @deprecated use {@link JTemplateFactory#register(App)} instead
      */
+    @Deprecated
     public static void registApp(App<?> app) {
-
-        if (app != null) {
-            appList.add(app);
-        }
+        JTemplateFactory.register(app);
     }
 
+    /**
+     * 移除app
+     *
+     * @param app app
+     * @deprecated use {@link JTemplateFactory#remove(App)} instead
+     */
+    @Deprecated
     public static void removeApp(App<?> app) {
-
-        if (app != null) {
-            appList.remove(app);
-        }
+        JTemplateFactory.remove(app);
     }
 
     /**
@@ -1027,39 +1027,17 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void openFile(FILE tplFile) {
 
-        String fileName = tplFile.getName();
-        int indexOfLastDot = fileName.lastIndexOf(CoreConstants.DOT);
-        if (indexOfLastDot < 0) {
+        JTemplate jt = JTemplateFactory.createJTemplate(tplFile);
+        if (jt == null) {
             return;
         }
-        String fileExtention = fileName.substring(indexOfLastDot + 1);
-        for (int i = 0, len = appList.size(); i < len; i++) {
-            App<?> app = appList.get(i);
-            String[] defaultAppExtentions = app.defaultExtensions();
-            boolean opened = false;
-            for (int j = 0; j < defaultAppExtentions.length; j++) {
-                if (defaultAppExtentions[j].equalsIgnoreCase(fileExtention)) {
-                    // 不要catch
-                    JTemplate jt = app.openTemplate(tplFile);
-
-                    if (jt == null) {
-                        return;
-                    }
-                    // 新的form不往前兼容
-                    if (inValidDesigner(jt)) {
-                        this.addAndActivateJTemplate();
-                        MutilTempalteTabPane.getInstance().setTemTemplate(
-                                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
-                    } else {
-                        activeTemplate(jt);
-                    }
-                    opened = true;
-                    break;
-                }
-            }
-            if (opened) {
-                break;
-            }
+        // 新的form不往前兼容
+        if (inValidDesigner(jt)) {
+            this.addAndActivateJTemplate();
+            MutilTempalteTabPane.getInstance().setTemTemplate(
+                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+        } else {
+            activeTemplate(jt);
         }
     }
 
