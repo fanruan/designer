@@ -83,7 +83,7 @@ public class DesignerStartup extends Activator {
     private void registerEnvListener() {
 
         /*切换环境前，关闭所有相关模块，最后执行*/
-        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(WorkspaceEventPriority.MIN) {
+        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(Integer.MIN_VALUE) {
 
             @Override
             public void on(Event event, Workspace current) {
@@ -91,7 +91,7 @@ public class DesignerStartup extends Activator {
             }
         });
         /*切换环境后，重新启动所有相关模块，最先执行*/
-        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(WorkspaceEventPriority.MAX) {
+        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(Integer.MAX_VALUE) {
 
             @Override
             public void on(Event event, Workspace current) {
@@ -110,7 +110,7 @@ public class DesignerStartup extends Activator {
             }
         });
         /*切换环境前，存储一下打开的所有文件对象，要先于 关闭相关模块部分 被触发*/
-        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(WorkspaceEventPriority.MAX) {
+        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(Integer.MAX_VALUE) {
             @Override
             public void on(Event event, Workspace workspace) {
                 HistoryTemplateListCache.getInstance().stash();
@@ -118,7 +118,7 @@ public class DesignerStartup extends Activator {
         });
 
         /*切换环境后，装载一下打开的所有文件对象，优先级低于默认优先级，要后于 启动相关模块部分 被触发*/
-        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(WorkspaceEventPriority.MIN) {
+        listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(Integer.MIN_VALUE) {
             @Override
             public void on(Event event, Workspace workspace) {
                 HistoryTemplateListCache.getInstance().load();
