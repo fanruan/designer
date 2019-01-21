@@ -71,6 +71,7 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
@@ -692,19 +693,24 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
         getEditListenerTable().addListener(new DesignerEditListener() {
 
             @Override
-            public void fireCreatorModified(DesignerEvent evt) {
-                // 只有选择组件时不触发模版更新，其他都要触发
-                if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
-                    FormDesigner.this.fireTargetModified();
-                    if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
-                        setParameterArray(getNoRepeatParas(getTarget().getParameters()));
-                        refreshParameter();
+            public void fireCreatorModified(final DesignerEvent evt) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 只有选择组件时不触发模版更新，其他都要触发
+                        if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
+                            FormDesigner.this.fireTargetModified();
+                            if (evt.getCreatorEventID() == DesignerEvent.CREATOR_DELETED) {
+                                setParameterArray(getNoRepeatParas(getTarget().getParameters()));
+                                refreshParameter();
+                            }
+                        } else {
+                            for (UpdateAction action : getActions()) {
+                                action.update();
+                            }
+                        }
                     }
-                } else {
-                    for (UpdateAction action : getActions()) {
-                        action.update();
-                    }
-                }
+                });
             }
 
         });
