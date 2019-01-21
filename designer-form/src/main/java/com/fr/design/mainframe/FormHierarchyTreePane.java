@@ -23,7 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -103,12 +102,7 @@ public class FormHierarchyTreePane extends FormDockView implements HierarchyTree
         formDesigner.addDesignerEditListener(new DesignerEditListener() {
             @Override
             public void fireCreatorModified(DesignerEvent evt) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshComponentTree();
-                    }
-                });
+                refreshComponentTree();
             }
         });
 

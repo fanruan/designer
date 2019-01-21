@@ -51,7 +51,6 @@ import com.fr.stable.ArrayUtils;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -179,16 +178,11 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
 
             @Override
             public void fireCreatorModified(final DesignerEvent evt) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
-                            paraDefinitePane.setParameterArray(
-                                    paraDefinitePane.getNoRepeatParas(DesignModelAdapter.getCurrentModelAdapter().getParameters()));
-                            paraDefinitePane.refreshParameter();
-                        }
-                    }
-                });
+                if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
+                    paraDefinitePane.setParameterArray(
+                            paraDefinitePane.getNoRepeatParas(DesignModelAdapter.getCurrentModelAdapter().getParameters()));
+                    paraDefinitePane.refreshParameter();
+                }
             }
         });
     }

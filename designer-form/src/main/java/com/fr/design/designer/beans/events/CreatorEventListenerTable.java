@@ -1,9 +1,10 @@
 package com.fr.design.designer.beans.events;
 
-import java.util.ArrayList;
-
 import com.fr.design.designer.creator.XComponent;
 import com.fr.general.ComparatorUtils;
+
+import javax.swing.SwingUtilities;
+import java.util.ArrayList;
 
 public class CreatorEventListenerTable {
 
@@ -18,7 +19,7 @@ public class CreatorEventListenerTable {
             return;
         }
         for (int i = 0; i < listeners.size(); i++) {
-            if (ComparatorUtils.equals(listener,listeners.get(i))) {
+            if (ComparatorUtils.equals(listener, listeners.get(i))) {
                 listeners.set(i, listener);
                 return;
             }
@@ -26,10 +27,15 @@ public class CreatorEventListenerTable {
         listeners.add(listener);
     }
 
-    private void fireCreatorModified(DesignerEvent evt) {
+    private void fireCreatorModified(final DesignerEvent evt) {
         for (int i = 0; i < listeners.size(); i++) {
-            DesignerEditListener listener = listeners.get(i);
-            listener.fireCreatorModified(evt);
+            final DesignerEditListener listener = listeners.get(i);
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    listener.fireCreatorModified(evt);
+                }
+            });
         }
     }
 
