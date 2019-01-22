@@ -8,12 +8,12 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.stable.ColumnRow;
 import com.fr.stable.ParameterProvider;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,6 +53,10 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
 
+        if (needAnimatePane()) {
+            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
+        }
+
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
@@ -74,6 +78,8 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
             colRowPane.populate(ColumnRow.valueOf("A1"));
         }
 
+        populateAnimateType(ob.getAnimateType());
+
         List parameterList = this.parameterViewPane.update();
         parameterList.clear();
 
@@ -88,6 +94,7 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         if (itemNameTextField != null) {
             chartLink.setItemName(this.itemNameTextField.getText());
         }
+        chartLink.setAnimateType(updateAnimateType());
         return chartLink;
     }
 
@@ -117,8 +124,31 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
     }
 
     public static class ChartNoRename extends ChartHyperRelateCellLinkPane {
+        public ChartNoRename() {
+            super();
+        }
+
+        public ChartNoRename(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
         protected boolean needRenamePane() {
             return false;
+        }
+    }
+
+    public static class ChartHasAnimateType extends ChartNoRename {
+
+        public ChartHasAnimateType() {
+            super();
+        }
+
+        public ChartHasAnimateType(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
+        protected boolean needAnimatePane() {
+            return true;
         }
     }
 
