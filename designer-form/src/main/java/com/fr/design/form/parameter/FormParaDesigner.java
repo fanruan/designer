@@ -3,21 +3,6 @@
  */
 package com.fr.design.form.parameter;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
@@ -39,7 +24,17 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.mainframe.*;
+import com.fr.design.mainframe.AuthorityEditPane;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.EastRegionContainerPane;
+import com.fr.design.mainframe.FormArea;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.FormDesignerModeForSpecial;
+import com.fr.design.mainframe.FormParaPane;
+import com.fr.design.mainframe.FormWidgetDetailPane;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.WidgetToolBarPane;
 import com.fr.design.parameter.ParaDefinitePane;
 import com.fr.design.parameter.ParameterDesignerProvider;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -51,8 +46,21 @@ import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WParameterLayout;
-
 import com.fr.stable.ArrayUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -169,7 +177,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
         this.getEditListenerTable().addListener(new DesignerEditListener() {
 
             @Override
-            public void fireCreatorModified(DesignerEvent evt) {
+            public void fireCreatorModified(final DesignerEvent evt) {
                 if (evt.getCreatorEventID() != DesignerEvent.CREATOR_SELECTED) {
                     paraDefinitePane.setParameterArray(
                             paraDefinitePane.getNoRepeatParas(DesignModelAdapter.getCurrentModelAdapter().getParameters()));
@@ -220,7 +228,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
     /**
      * 刷新参数
      *
-     * @param p 参数面板
+     * @param p  参数面板
      * @param jt 当前模版
      */
     public void refreshParameter(ParaDefinitePane p, JTemplate jt) {

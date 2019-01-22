@@ -224,6 +224,7 @@ public class EnvChangeEntrance {
             @Override
             public void doCancel() {
                 envListDialog.dispose();
+                // todo 断开了但是没选择新的环境，那么尝试重连旧环境，等接口
             }
         });
         envListDialog.setVisible(true);
