@@ -1,6 +1,7 @@
 package com.fr.design.file;
 
 import com.fr.base.chart.chartdata.CallbackEvent;
+import com.fr.base.io.BaseBook;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.data.DesignTableDataManager;
@@ -8,20 +9,25 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JTemplateFactory;
 import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
+import com.fr.file.StashedFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * 历史模板缓存
@@ -304,5 +310,77 @@ public class HistoryTemplateListCache implements CallbackEvent {
 
         }
         return true;
+    }
+
+    /**
+     * 切换环境时暂存打开的模板内容，key 是在历史中的index，value 是模板xml 内容byte[]
+     */
+    private Map<Integer, FILE> stashFILEMap;
+
+    /**
+     * 切换环境前将正在编辑的模板暂存起来，并且在新环境中重新读取一遍，暂存的不是模板文件的内容而是模板对象的内容
+     * <p>
+     * 防止新环境加载到的同名 Class 和模板对象中的 Class 不一致，在新环境存储失败
+     *
+     * @see HistoryTemplateListCache#load()
+     */
+    public void stash() {
+        FineLoggerFactory.getLogger().info("Env Change Template Stashing...");
+        if (stashFILEMap == null) {
+            stashFILEMap = new HashMap<Integer, FILE>();
+        } else {
+            stashFILEMap.clear();
+        }
+        int size = historyList.size();
+        for (int i = 0; i < size; i++) {
+            JTemplate<?, ?> template = historyList.get(i);
+            FILE file = template.getEditingFILE();
+            try {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                BaseBook target = template.getTarget();
+                if (target != null) {
+                    target.export(outputStream);
+                    stashFILEMap.put(i, new StashedFILE(file, outputStream.toByteArray()));
+                }
+                // 如果 target == null 那么这个模板是被模板内存优化功能处理过的，不用处理
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+        }
+        FineLoggerFactory.getLogger().info("Env Change Template Stashed.");
+    }
+
+    /**
+     * 切换环境前将正在编辑的模板暂存起来后，在新环境重新读取一遍
+     * <p>
+     * 防止新环境加载到的同名 Class 和模板对象中的 Class 不一致，在新环境存储失败
+     *
+     * @see HistoryTemplateListCache#stash()
+     */
+    public void load() {
+        FineLoggerFactory.getLogger().info("Env Change Template Loading...");
+        if (stashFILEMap != null && stashFILEMap.size() != 0) {
+            int size = historyList.size();
+            for (int i = 0; i < size; i++) {
+                try {
+                    FILE stashedFile = stashFILEMap.get(i);
+                    // 可能有模板 stash 失败的情况，在 load 的时候不更新它
+                    // 或者这个模板是被模板内存优化功能处理过的，不用处理
+                    if (stashedFile == null) {
+                        continue;
+                    }
+                    JTemplate<?, ?> template = JTemplateFactory.createJTemplate(stashedFile);
+                    if (template != null) {
+                        historyList.set(i, template);
+                    }
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
+            stashFILEMap.clear();
+            MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
+            MutilTempalteTabPane.getInstance().repaint();
+        }
+        FineLoggerFactory.getLogger().info("Env Change Template Loaded.");
     }
 }
