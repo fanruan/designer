@@ -137,7 +137,7 @@ public class TableViewList extends UIList {
         searchFilter = searchFilter.toLowerCase();
         boolean isOracle = DataOperator.getInstance().isOracle(datasource);
         boolean isOracleSystemSpace = DesignerEnvManager.getEnvManager().isOracleSystemSpace();
-        // oracleb不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
+        // oracle不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
         if (isOracle && !isOracleSystemSpace) {
             String[] userSchemas = DataOperator.getInstance().getOracleConnectionSchemas(datasource);
             if (userSchemas.length > 0) {
