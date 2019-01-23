@@ -82,16 +82,15 @@ public class DesignerStartup extends Activator {
      */
     private void registerEnvListener() {
 
-
-        /*切换环境前，关闭所有相关模块*/
-        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>() {
+        /*切换环境前，关闭所有相关模块，最后执行*/
+        listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(Integer.MIN_VALUE) {
 
             @Override
             public void on(Event event, Workspace current) {
                 getSub(EnvBasedModule.class).stop();
             }
         });
-        /*切换环境后，重新启动所有相关模块*/
+        /*切换环境后，重新启动所有相关模块，最先执行*/
         listenEvent(WorkspaceEvent.AfterSwitch, new Listener<Workspace>(Integer.MAX_VALUE) {
 
             @Override
@@ -110,7 +109,7 @@ public class DesignerStartup extends Activator {
                 }
             }
         });
-        /*切换环境前，存储一下打开的所有文件对象，优先级高于默认优先级，要先于 关闭相关模块部分 被触发*/
+        /*切换环境前，存储一下打开的所有文件对象，要先于 关闭相关模块部分 被触发*/
         listenEvent(WorkspaceEvent.BeforeSwitch, new Listener<Workspace>(Integer.MAX_VALUE) {
             @Override
             public void on(Event event, Workspace workspace) {

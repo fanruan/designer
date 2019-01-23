@@ -1,7 +1,7 @@
 package com.fr.design.mainframe.app;
 
 import com.fr.design.mainframe.App;
-import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.JTemplateFactory;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
 
@@ -17,7 +17,7 @@ public class DesignerAppActivator extends Activator implements Prepare {
 
         List<App> appList = rightCollectMutable(App.KEY);
         for (App app : appList) {
-            DesignerFrame.registApp(app);
+            JTemplateFactory.register(app);
         }
     }
 
@@ -26,7 +26,7 @@ public class DesignerAppActivator extends Activator implements Prepare {
 
         List<App> appList = rightCollectMutable(App.KEY);
         for (App app : appList) {
-            DesignerFrame.removeApp(app);
+            JTemplateFactory.remove(app);
         }
     }
 
