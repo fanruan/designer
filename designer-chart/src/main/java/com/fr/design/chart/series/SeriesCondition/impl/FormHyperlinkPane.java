@@ -35,18 +35,16 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH));
         northPane = new FormHyperlinkNorthPane(needRenamePane());
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(northPane, BorderLayout.NORTH);
-        addPaneInNorth(panel);
 
-        this.add(panel, BorderLayout.NORTH);
+        addNorthPane(northPane);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
     }
 
-    protected void addPaneInNorth(JPanel northPane) {
+    protected void addNorthPane(JPanel northPane) {
+        this.add(northPane, BorderLayout.NORTH);
     }
 
     @Override
@@ -122,10 +120,15 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         }
 
         @Override
-        protected void addPaneInNorth(JPanel northPane) {
+        protected void addNorthPane(JPanel northPane) {
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.add(northPane, BorderLayout.NORTH);
+
             JPanel animatePane = createAnimateTypeUIButtonGroup();
             animatePane.setBorder(BorderFactory.createEmptyBorder(0, 8, 10, 10));
-            northPane.add(animatePane, BorderLayout.CENTER);
+            panel.add(animatePane, BorderLayout.CENTER);
+
+            this.add(panel, BorderLayout.NORTH);
         }
 
         @Override
