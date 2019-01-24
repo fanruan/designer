@@ -53,14 +53,16 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
 
-        if (needAnimatePane()) {
-            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
-        }
+        addPaneInCenter(centerPane);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
+    }
+
+    protected void addPaneInCenter(JPanel centerPane) {
+
     }
 
     @Override
@@ -78,8 +80,6 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
             colRowPane.populate(ColumnRow.valueOf("A1"));
         }
 
-        populateAnimateType(ob.getAnimateType());
-
         List parameterList = this.parameterViewPane.update();
         parameterList.clear();
 
@@ -94,7 +94,6 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         if (itemNameTextField != null) {
             chartLink.setItemName(this.itemNameTextField.getText());
         }
-        chartLink.setAnimateType(updateAnimateType());
         return chartLink;
     }
 
@@ -147,8 +146,21 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
             super(hyperLinkEditorMap, needRenamePane);
         }
 
-        protected boolean needAnimatePane() {
-            return true;
+        @Override
+        protected void addPaneInCenter(JPanel centerPane) {
+            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
+        }
+
+        @Override
+        public void populateBean(ChartHyperRelateCellLink ob) {
+            super.populateBean(ob);
+            populateAnimateType(ob.getAnimateType());
+        }
+
+        @Override
+        public void updateBean(ChartHyperRelateCellLink chartLink) {
+            super.updateBean(chartLink);
+            chartLink.setAnimateType(updateAnimateType());
         }
     }
 

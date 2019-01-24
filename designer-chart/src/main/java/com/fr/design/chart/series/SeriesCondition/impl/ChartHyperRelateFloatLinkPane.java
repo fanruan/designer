@@ -71,14 +71,15 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         centerPane.setBorder(border);
 
         centerPane.add(pane, BorderLayout.NORTH);
-        if (needAnimatePane()) {
-            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
-        }
+        addPaneInCenter(centerPane);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
+    }
+
+    protected void addPaneInCenter(JPanel centerPane) {
     }
 
     private String[] getFloatNames() {
@@ -110,8 +111,6 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
             floatNameBox.setSelectedItem(ob.getRelateCCName());
         }
 
-        populateAnimateType(ob.getAnimateType());
-
         List parameterList = this.parameterViewPane.update();
         parameterList.clear();
 
@@ -126,7 +125,6 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         if (itemNameTextField != null) {
             chartLink.setItemName(this.itemNameTextField.getText());
         }
-        chartLink.setAnimateType(updateAnimateType());
         return chartLink;
     }
 
@@ -177,8 +175,20 @@ public class ChartHyperRelateFloatLinkPane extends AbstractHyperLinkPane<ChartHy
         }
 
         @Override
-        protected boolean needAnimatePane() {
-            return true;
+        protected void addPaneInCenter(JPanel centerPane) {
+            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
+        }
+
+        @Override
+        public void populateBean(ChartHyperRelateFloatLink ob) {
+            super.populateBean(ob);
+            populateAnimateType(ob.getAnimateType());
+        }
+
+        @Override
+        public void updateBean(ChartHyperRelateFloatLink chartLink) {
+            super.updateBean(chartLink);
+            chartLink.setAnimateType(updateAnimateType());
         }
     }
 }

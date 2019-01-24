@@ -48,10 +48,6 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
     public void reset() {
     }
 
-    protected boolean needAnimatePane() {
-        return false;
-    }
-
     protected JPanel createAnimateTypeUIButtonGroup() {
         animateTypeUIButtonGroup = new UIButtonGroup<LinkAnimateType>(
                 new String[]{LinkAnimateType.RELOAD.toLocaleString(), LinkAnimateType.INCREMENT.toLocaleString()},

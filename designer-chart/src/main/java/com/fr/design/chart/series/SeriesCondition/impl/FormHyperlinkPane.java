@@ -37,17 +37,16 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         northPane = new FormHyperlinkNorthPane(needRenamePane());
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(northPane, BorderLayout.NORTH);
-        if (needAnimatePane()) {
-            JPanel animatePane = createAnimateTypeUIButtonGroup();
-            animatePane.setBorder(BorderFactory.createEmptyBorder(0, 8, 10, 10));
-            panel.add(animatePane, BorderLayout.CENTER);
-        }
+        addPaneInNorth(panel);
 
         this.add(panel, BorderLayout.NORTH);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
+    }
+
+    protected void addPaneInNorth(JPanel northPane) {
     }
 
     @Override
@@ -71,7 +70,6 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
 
         ParameterProvider[] parameters = formHyperlink.getParameters();
         parameterViewPane.populate(parameters);
-        populateAnimateType(formHyperlink.getAnimateType());
     }
 
     @Override
@@ -79,9 +77,6 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         formHyperlink.setType(getHyperlinkType());
         updateBean(formHyperlink);
-
-        formHyperlink.setAnimateType(updateAnimateType());
-
         return formHyperlink;
     }
 
@@ -127,8 +122,22 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         }
 
         @Override
-        protected boolean needAnimatePane() {
-            return true;
+        protected void addPaneInNorth(JPanel northPane) {
+            JPanel animatePane = createAnimateTypeUIButtonGroup();
+            animatePane.setBorder(BorderFactory.createEmptyBorder(0, 8, 10, 10));
+            northPane.add(animatePane, BorderLayout.CENTER);
+        }
+
+        @Override
+        public void populateBean(FormHyperlinkProvider formHyperlink) {
+            super.populateBean(formHyperlink);
+            populateAnimateType(formHyperlink.getAnimateType());
+        }
+
+        @Override
+        public void updateBean(FormHyperlinkProvider formHyperlink) {
+            super.updateBean(formHyperlink);
+            formHyperlink.setAnimateType(updateAnimateType());
         }
     }
 }
