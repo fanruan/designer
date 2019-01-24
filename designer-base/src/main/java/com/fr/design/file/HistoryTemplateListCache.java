@@ -372,6 +372,12 @@ public class HistoryTemplateListCache implements CallbackEvent {
                     JTemplate<?, ?> template = JTemplateFactory.createJTemplate(stashedFile);
                     if (template != null) {
                         historyList.set(i, template);
+                        // 替换当前正在编辑的模板，使用添加并激活的方式，以便使用统一的入口来处理监听事件
+                        if (isCurrentEditingFile(template.getPath())) {
+                            DesignerContext.getDesignerFrame().addAndActivateJTemplate(template);
+                            setCurrentEditingTemplate(template);
+                            FineLoggerFactory.getLogger().info("Env Change Current Editing Template.");
+                        }
                     }
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
