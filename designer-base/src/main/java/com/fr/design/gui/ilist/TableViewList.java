@@ -4,6 +4,8 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
+import com.fr.data.core.db.dialect.base.key.check.DataBaseDetail;
+import com.fr.data.core.db.dialect.base.key.check.isoracle.DataBaseType;
 import com.fr.data.impl.Connection;
 import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignerEnvManager;
@@ -11,6 +13,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -135,19 +138,16 @@ public class TableViewList extends UIList {
         String[] schemas = DataCoreUtils.getDatabaseSchema(datasource);
 
         searchFilter = searchFilter.toLowerCase();
-        boolean isOracle = DataOperator.getInstance().isOracle(datasource);
         boolean isOracleSystemSpace = DesignerEnvManager.getEnvManager().isOracleSystemSpace();
         // oracle不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
-        if (isOracle && !isOracleSystemSpace) {
-            String[] userSchemas = DataOperator.getInstance().getOracleConnectionSchemas(datasource);
-            if (userSchemas.length > 0) {
-                schemas = userSchemas;
-            }
+        DataBaseDetail detail = DataOperator.getInstance().getDataBaseDetail(datasource, isOracleSystemSpace);
+        if (ArrayUtils.isNotEmpty(detail.getSchemas())) {
+            schemas = detail.getSchemas();
         }
         if (typesFilter.length == 1 && ComparatorUtils.equals(typesFilter[0], TableProcedure.PROCEDURE)) {
-            return processStoreProcedure(defaultListModel, schemas, datasource, isOracle, searchFilter);
+            return processStoreProcedure(defaultListModel, schemas, datasource, DataBaseType.ORACLE.equals(detail.getType()), searchFilter);
         } else {
-            return processTableAndView(defaultListModel, schemas, datasource, searchFilter, isOracle, typesFilter);
+            return processTableAndView(defaultListModel, schemas, datasource, searchFilter, DataBaseType.ORACLE.equals(detail.getType()), typesFilter);
         }
     }
 
