@@ -5,7 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.core.db.dialect.base.key.check.DataBaseDetail;
-import com.fr.data.core.db.dialect.base.key.check.isoracle.DataBaseType;
+import com.fr.data.core.db.dialect.base.key.check.DataBaseType;
 import com.fr.data.impl.Connection;
 import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignerEnvManager;
