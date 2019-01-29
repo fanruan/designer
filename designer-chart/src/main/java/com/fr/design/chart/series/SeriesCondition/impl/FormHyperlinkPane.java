@@ -7,13 +7,13 @@ import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.ElementCaseEditorProvider;
-
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.util.HashMap;
 
 public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvider> {
@@ -35,11 +35,16 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH));
         northPane = new FormHyperlinkNorthPane(needRenamePane());
-        this.add(northPane, BorderLayout.NORTH);
+
+        addNorthPane(northPane);
 
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         this.add(parameterViewPane, BorderLayout.CENTER);
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameters"), null));
+    }
+
+    protected void addNorthPane(JPanel northPane) {
+        this.add(northPane, BorderLayout.NORTH);
     }
 
     @Override
@@ -70,7 +75,6 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
         FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         formHyperlink.setType(getHyperlinkType());
         updateBean(formHyperlink);
-
         return formHyperlink;
     }
 
@@ -91,12 +95,52 @@ public class FormHyperlinkPane extends AbstractHyperLinkPane<FormHyperlinkProvid
     }
 
     public static class ChartNoRename extends FormHyperlinkPane {
+        public ChartNoRename(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
+        public ChartNoRename() {
+        }
+
         protected boolean needRenamePane() {
             return false;
         }
 
         protected int getChartParaType() {
             return ParameterTableModel.CHART_NORMAL_USE;
+        }
+    }
+
+    public static class ChartHasAnimateType extends ChartNoRename {
+        public ChartHasAnimateType(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
+        public ChartHasAnimateType() {
+        }
+
+        @Override
+        protected void addNorthPane(JPanel northPane) {
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.add(northPane, BorderLayout.NORTH);
+
+            JPanel animatePane = createAnimateTypeUIButtonGroup();
+            animatePane.setBorder(BorderFactory.createEmptyBorder(0, 8, 10, 10));
+            panel.add(animatePane, BorderLayout.CENTER);
+
+            this.add(panel, BorderLayout.NORTH);
+        }
+
+        @Override
+        public void populateBean(FormHyperlinkProvider formHyperlink) {
+            super.populateBean(formHyperlink);
+            populateAnimateType(formHyperlink.getAnimateType());
+        }
+
+        @Override
+        public void updateBean(FormHyperlinkProvider formHyperlink) {
+            super.updateBean(formHyperlink);
+            formHyperlink.setAnimateType(updateAnimateType());
         }
     }
 }
