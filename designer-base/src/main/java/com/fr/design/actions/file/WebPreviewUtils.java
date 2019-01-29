@@ -88,13 +88,6 @@ public final class WebPreviewUtils {
             java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
             java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
 
-//            // 暂时屏蔽cptx直接访问
-//            if (path.endsWith(FileExtension.CPTX.getSuffix())) {
-//                path = path.substring(0, path.length() - 1);
-//                parameterNameList.add(AbstractWebletCreator.FORMAT);
-//                parameterValueList.add(AbstractWebletCreator.X);
-//            }
-
             parameterNameList.add(actionType);
             parameterValueList.add(path);
             if (map != null) {
