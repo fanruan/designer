@@ -2,7 +2,6 @@ package com.fr.design.file;
 
 import com.fr.base.chart.chartdata.CallbackEvent;
 import com.fr.base.io.BaseBook;
-import com.fr.base.io.IOFile;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.data.DesignTableDataManager;
@@ -10,17 +9,18 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JTemplateFactory;
 import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
+import com.fr.file.StashedFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -315,7 +315,7 @@ public class HistoryTemplateListCache implements CallbackEvent {
     /**
      * 切换环境时暂存打开的模板内容，key 是在历史中的index，value 是模板xml 内容byte[]
      */
-    private Map<Integer, byte[]> bytesMap;
+    private Map<Integer, FILE> stashFILEMap;
 
     /**
      * 切换环境前将正在编辑的模板暂存起来，并且在新环境中重新读取一遍，暂存的不是模板文件的内容而是模板对象的内容
@@ -326,20 +326,21 @@ public class HistoryTemplateListCache implements CallbackEvent {
      */
     public void stash() {
         FineLoggerFactory.getLogger().info("Env Change Template Stashing...");
-        if (bytesMap == null) {
-            bytesMap = new HashMap<Integer, byte[]>();
+        if (stashFILEMap == null) {
+            stashFILEMap = new HashMap<Integer, FILE>();
         } else {
-            bytesMap.clear();
+            stashFILEMap.clear();
         }
         int size = historyList.size();
         for (int i = 0; i < size; i++) {
             JTemplate<?, ?> template = historyList.get(i);
+            FILE file = template.getEditingFILE();
             try {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 BaseBook target = template.getTarget();
                 if (target != null) {
                     target.export(outputStream);
-                    bytesMap.put(i, outputStream.toByteArray());
+                    stashFILEMap.put(i, new StashedFILE(file, outputStream.toByteArray()));
                 }
                 // 如果 target == null 那么这个模板是被模板内存优化功能处理过的，不用处理
             } catch (Exception e) {
@@ -358,27 +359,31 @@ public class HistoryTemplateListCache implements CallbackEvent {
      */
     public void load() {
         FineLoggerFactory.getLogger().info("Env Change Template Loading...");
-        if (bytesMap != null && bytesMap.size() != 0) {
+        if (stashFILEMap != null && stashFILEMap.size() != 0) {
             int size = historyList.size();
             for (int i = 0; i < size; i++) {
                 try {
-                    byte[] bytes = bytesMap.get(i);
+                    FILE stashedFile = stashFILEMap.get(i);
                     // 可能有模板 stash 失败的情况，在 load 的时候不更新它
-                    if (bytes == null) {
+                    // 或者这个模板是被模板内存优化功能处理过的，不用处理
+                    if (stashedFile == null) {
                         continue;
                     }
-                    ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                    BaseBook target = historyList.get(i).getTarget();
-                    if (target != null) {
-                        // todo readStream 这个行为应该上升到 BaseBook 上
-                        ((IOFile) target).readStream(inputStream);
+                    JTemplate<?, ?> template = JTemplateFactory.createJTemplate(stashedFile);
+                    if (template != null) {
+                        historyList.set(i, template);
+                        // 替换当前正在编辑的模板，使用添加并激活的方式，以便使用统一的入口来处理监听事件
+                        if (isCurrentEditingFile(template.getPath())) {
+                            DesignerContext.getDesignerFrame().addAndActivateJTemplate(template);
+                            setCurrentEditingTemplate(template);
+                            FineLoggerFactory.getLogger().info("Env Change Current Editing Template.");
+                        }
                     }
-                    // 如果 target == null 那么这个模板是被模板内存优化功能处理过的，不用处理
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
-            bytesMap.clear();
+            stashFILEMap.clear();
             MutilTempalteTabPane.getInstance().refreshOpenedTemplate(historyList);
             MutilTempalteTabPane.getInstance().repaint();
         }

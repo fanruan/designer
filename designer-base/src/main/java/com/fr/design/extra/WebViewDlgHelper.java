@@ -16,6 +16,7 @@ import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
 import com.fr.plugin.PluginVerifyException;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -280,7 +281,11 @@ public class WebViewDlgHelper {
 
                 try {
                     if (get()) {
-                        IOUtils.unzip(new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE)), installHome);
+                        File scriptZip = new File(StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE));
+                        if(scriptZip.exists()){
+                            IOUtils.unzip(scriptZip, installHome);
+                            CommonUtils.deleteFile(scriptZip);
+                        }
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
                     }

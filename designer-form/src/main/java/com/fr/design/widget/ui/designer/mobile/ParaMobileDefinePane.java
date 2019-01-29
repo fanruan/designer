@@ -21,7 +21,6 @@ import com.fr.form.ui.container.WParameterLayout;
 import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
-import com.fr.json.JSONException;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.ExtraReportClassManager;
 import com.fr.report.fun.MobileParamStyleProvider;
@@ -109,9 +108,9 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         Item[] items = new Item[pluginCreators.size() + 1];
         MobileParamStyleProvider provider = new DefaultMobileParamStyle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Default"));
         items[0] = new Item(provider.descriptor(), provider);
-        for (int i = 0; i < pluginCreators.size(); i++) {
-            provider = pluginCreators.iterator().next();
-            items[i + 1] = new Item(provider.descriptor(), provider);
+        int i = 1;
+        for (MobileParamStyleProvider mobileParamStyleProvider : pluginCreators) {
+            items[i++] = new Item(mobileParamStyleProvider.descriptor(), mobileParamStyleProvider);
         }
         return items;
     }
@@ -161,6 +160,7 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
 
     private UIComboBox getParamLocationComboBox() {
         items = getItems();
+
         UIComboBox paramLocationComoBox = new UIComboBox(items);
         paramLocationComoBox.addItemListener(new ItemListener() {
             @Override
