@@ -6,10 +6,10 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
 import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.map.data.VanMapDefinition;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
 
@@ -127,6 +127,11 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
      */
     protected void cloneHotHyperLink(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
 
+    }
+
+    @Override
+    protected void resetFilterDefinition(Chart chart) {
+        chart.setFilterDefinition(new VanMapDefinition());
     }
 
     protected void resetAttr(Plot plot) {
