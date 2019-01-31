@@ -109,6 +109,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
         resetTitleAttr(chart);
         //重置监控刷新选项
         resetRefreshMoreLabelAttr((VanChart)chart);
+        resetFilterDefinition(chart);
 
     }
 
@@ -118,6 +119,10 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
         chart.setTitle(vanChartPlot.getDefaultTitle());
     }
 
+    //重置数据配置
+    protected void resetFilterDefinition(Chart chart){
+
+    }
 
     //重置监控刷新面板
     protected void resetRefreshMoreLabelAttr(VanChart chart){
