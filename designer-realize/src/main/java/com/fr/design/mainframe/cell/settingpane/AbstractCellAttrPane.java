@@ -4,6 +4,7 @@ import com.fr.design.mainframe.AbstractAttrPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
+import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 
@@ -44,8 +45,17 @@ public abstract class AbstractCellAttrPane extends AbstractAttrPane {
 	 * 分成两个方法的意义在于，这个面板如果是个对话框，那么可以传cellElement进来update， 方便重复使用面板 为了对话框做准备
 	 */
 	public void updateBean() {
-		updateBean(this.cellElement);
+		if (elementCasePane == null) {
+			return;
+		}
+		cs = (CellSelection) elementCasePane.getSelection();
 		TemplateElementCase elementCase = elementCasePane.getEditingElementCase();
-		elementCase.addCellElement(cellElement);
+		TemplateCellElement cellElement = elementCase.getTemplateCellElement(cs.getColumn(), cs.getRow());
+		if (cellElement == null) {
+			cellElement = new DefaultTemplateCellElement(cs.getColumn(), cs.getRow());
+		}
+		this.cellElement = cellElement;
+		elementCase.addCellElement(this.cellElement);
+		updateBean(this.cellElement);
 	}
 }
