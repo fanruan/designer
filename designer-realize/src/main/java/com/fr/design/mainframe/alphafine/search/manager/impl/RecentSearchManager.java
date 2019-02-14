@@ -57,7 +57,7 @@ public class RecentSearchManager implements AlphaFineSearchProvider {
     private Directory directory = null;
     private IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, analyzer);
     private IndexWriter indexWriter = null;
-    private SearchResult recentModelList;
+    private SearchResult recentModelList = new SearchResult();
     
     public static RecentSearchManager getInstance() {
         
