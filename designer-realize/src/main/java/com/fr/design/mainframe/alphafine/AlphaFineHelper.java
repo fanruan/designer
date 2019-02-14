@@ -104,8 +104,10 @@ public class AlphaFineHelper {
         List<AlphaCellModel> recentList = RecentSearchManager.getInstance().getRecentModelList();
         List<AlphaCellModel> recommendList = RecommendSearchManager.getInstance().getRecommendModelList();
         SearchResult filterResult = new SearchResult();
-        filterResult.addAll(recentList);
-        filterResult.addAll(recommendList);
+        if(recentList != null && recommendList != null){
+            filterResult.addAll(recentList);
+            filterResult.addAll(recommendList);
+        }
         return filterResult;
     }
 

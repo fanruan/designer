@@ -187,9 +187,11 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
 
     public List<AlphaCellModel> getRecommendModelList() {
         SearchResult result = new SearchResult();
-        result.addAll(recommendModelList);
-        result.addAll(modelList);
-        result.addAll(moreModelList);
+        if(recommendModelList != null){
+            result.addAll(recommendModelList);
+            result.addAll(modelList);
+            result.addAll(moreModelList);
+        }
         return result;
     }
 
