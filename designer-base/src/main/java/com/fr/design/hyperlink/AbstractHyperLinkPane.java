@@ -13,6 +13,7 @@ import com.fr.js.JavaScript;
 import com.fr.js.LinkAnimateType;
 
 import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.util.HashMap;
 
 /**
@@ -52,8 +53,9 @@ public abstract class AbstractHyperLinkPane<T> extends FurtherBasicBeanPane<T> {
         animateTypeUIButtonGroup = new UIButtonGroup<LinkAnimateType>(
                 new String[]{LinkAnimateType.RELOAD.toLocaleString(), LinkAnimateType.INCREMENT.toLocaleString()},
                 new LinkAnimateType[]{LinkAnimateType.RELOAD, LinkAnimateType.INCREMENT});
+        animateTypeUIButtonGroup.setPreferredSize(new Dimension(120,20));
+        animateTypeUIButtonGroup.setSelectedIndex(1);
 
-        animateTypeUIButtonGroup.setSelectedIndex(0);
         JPanel jp = FRGUIPaneFactory.createBoxFlowInnerContainer_S_Pane();
 
         jp.add(new UILabel(Toolkit.i18nText("Fine-Design_Chart_Link_Animate_Type")));
