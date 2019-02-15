@@ -26,6 +26,9 @@ import java.util.List;
 
 public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
     private static final long serialVersionUID = 1L;
+    private static final int TEXT_LENGTH = 3;
+    private static final int BUTTON_SIZE = 2;
+    private int currentButtonSize = 0;
     protected List<UIToggleButton> labelButtonList;
     protected int selectedIndex = -1;
     private List<T> objectList;// 起到一个render的作用
@@ -154,6 +157,7 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
         if (!ArrayUtils.isEmpty(objects) && textArray.length == objects.length) {
             this.objectList = Arrays.asList(objects);
         }
+        currentButtonSize = textArray.length;
         labelButtonList = new ArrayList<UIToggleButton>(textArray.length);
         this.setLayout(getGridLayout(textArray.length));
         this.setBorder(getGroupBorder());
@@ -214,9 +218,18 @@ public class UIButtonGroup<T> extends JPanel implements GlobalNameObserver {
 
     protected void initButton(UIToggleButton labelButton) {
         labelButton.setBorderPainted(false);
+        adjustButton(labelButton);
         UIComponentUtils.setLineWrap(labelButton);
         labelButtonList.add(labelButton);
         this.add(labelButton);
+    }
+
+    private void adjustButton(UIToggleButton labelButton) {
+        if (labelButton.getText().length() > TEXT_LENGTH && currentButtonSize > BUTTON_SIZE) {
+            Dimension dimension = labelButton.getPreferredSize();
+            dimension.height <<= 1;
+            labelButton.setPreferredSize(dimension);
+        }
     }
 
     protected Border getGroupBorder() {
