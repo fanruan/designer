@@ -1,6 +1,5 @@
 package com.fr.grid.selection;
 
-import com.fr.base.FRContext;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
@@ -34,7 +33,7 @@ public abstract class Selection implements FCloneable, Serializable , Selectable
 		try {
 			floatElementClip = (FloatElementsClip) (feClip).clone();
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			return false;
 		}
 

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.base.Style;
 import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.designer.TargetComponent;
@@ -17,7 +16,7 @@ import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.Constants;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Created by plough on 2017/7/26.
@@ -89,7 +88,7 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
                         editCellElement.setNameHyperlinkGroup((NameJavaScriptGroup) updateNameHyperlinks.clone());
                     } catch (CloneNotSupportedException e) {
                         // this shouldn't happen, since NameJavaScriptGroup are FCloneable
-                        FRContext.getLogger().error("InternalError: " + e.getMessage());
+                        FineLoggerFactory.getLogger().error("InternalError: " + e.getMessage());
                     }
                 }
             });

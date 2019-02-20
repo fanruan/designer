@@ -1,6 +1,5 @@
 package com.fr.van.chart.designer.style.axis;
 
-import com.fr.base.FRContext;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
 import com.fr.plugin.chart.column.VanChartColumnPlot;
@@ -64,7 +63,7 @@ public class AxisPaneFactory {
         try {
             return paneClass.newInstance();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return null;
         }
     }

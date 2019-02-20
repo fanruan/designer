@@ -1,9 +1,8 @@
 package com.fr.design.gui.core;
 
-import javax.swing.Icon;
-
-import com.fr.base.FRContext;
 import com.fr.form.ui.Widget;
+
+import javax.swing.Icon;
 
 public class CustomWidgetOption extends WidgetOption {
 	private static final long serialVersionUID = -8144214820100962842L;
@@ -23,9 +22,9 @@ public class CustomWidgetOption extends WidgetOption {
 			Widget ins = cls.newInstance();
 			return ins ;
 		} catch (InstantiationException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 		return null;

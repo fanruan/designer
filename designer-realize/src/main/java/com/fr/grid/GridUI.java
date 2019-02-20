@@ -1,9 +1,7 @@
 package com.fr.grid;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.Margin;
 import com.fr.base.PaperSize;
@@ -276,7 +274,7 @@ public class GridUI extends ComponentUI {
                 this.drawFlowRect.exit();
             }
         } catch (Throwable e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

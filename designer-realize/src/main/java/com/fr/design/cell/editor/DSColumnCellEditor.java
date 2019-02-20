@@ -1,15 +1,9 @@
 package com.fr.design.cell.editor;
 
-import java.awt.Component;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
-import com.fr.base.FRContext;
 import com.fr.design.data.DesignTableDataManager;
-import com.fr.design.dscolumn.DSColumnPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dscolumn.DSColumnPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.Grid;
 import com.fr.report.cell.TemplateCellElement;
@@ -18,6 +12,10 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyECBlock;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ProductConstants;
+
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Component;
 
 /**
  * CellEditor used to edit BindValuePainter object.
@@ -74,7 +72,7 @@ public class DSColumnCellEditor extends AbstractCellEditor implements DialogActi
 		} catch (Exception exp) {
 			JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(grid), exp.getMessage(),
 					ProductConstants.APP_NAME, JOptionPane.ERROR_MESSAGE);
-			FRContext.getLogger().error(exp.getMessage(), exp);
+            FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
 		}
 
 		return dsColumnDialog;

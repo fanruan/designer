@@ -1,11 +1,15 @@
 package com.fr.design.chart;
 
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.CategoryAxis;
 import com.fr.chart.chartattr.RadarAxis;
 import com.fr.chart.chartattr.ValueAxis;
-import com.fr.design.mainframe.chart.gui.style.axis.*;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartAxisUsePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartCategoryPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartPercentValuePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartRadarPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValuePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartValuePane;
 import com.fr.general.ComparatorUtils;
 
 import java.util.HashMap;
@@ -46,9 +50,9 @@ public class ChartAxisFactory {
         try {
             return cls.newInstance();
         } catch (InstantiationException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new ChartCategoryPane();
     }

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.EditingState;
@@ -9,16 +8,19 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 import com.fr.grid.Grid;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.report.TemplateReport;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 
 /**
@@ -106,7 +108,7 @@ public class ReportComponentComposite extends JComponent {
     protected void doAfterChange(int newIndex) {
         WorkBook workbook = getEditingWorkBook();
         if (workbook == null) {
-            FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Read_Failure") + "!");
+            FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Read_Failure") + "!");
             //AUGUST:加个报错,不然测试总是SB的认为打不开一个坏的excel文件就是BUG，也不知道去检查下源文件。
             return;
         }

@@ -1,29 +1,26 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.SpinnerNumberModel;
-
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.chart.base.ChartEquationType;
 import com.fr.chart.base.ConditionTrendLine;
-import com.fr.design.chart.comp.BorderAttriPane;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chart.comp.BorderAttriPane;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SpinnerNumberModel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
 	private static final long serialVersionUID = 3867164332100351117L;
@@ -197,7 +194,7 @@ public class ConditionTrendLinePane extends BasicBeanPane<ConditionTrendLine> {
     	try {
 			maSpinner.commitEdit();
 		} catch (ParseException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 		trendLine.getLine().setTrendLineName(nameLabel.getText());

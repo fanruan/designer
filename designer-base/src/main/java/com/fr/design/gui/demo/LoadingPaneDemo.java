@@ -3,16 +3,14 @@
  */
 package com.fr.design.gui.demo;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-
-import com.fr.base.FRContext;
+import com.fr.design.dialog.BasicDialog;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicDialog;
+
+import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,7 +33,7 @@ public class LoadingPaneDemo extends JPanel {
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException e) {
-                                FRContext.getLogger().error(e.getMessage(), e);
+                                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                             }
                             container.add(new UIButton(i + "adfadwdadawdwad"));
                         }

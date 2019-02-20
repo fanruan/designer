@@ -4,7 +4,6 @@
 package com.fr.design.report;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.FRContext;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
@@ -150,7 +149,7 @@ public class RichTextEditingPane extends UITextPane{
 						doc.remove(formulaStart, formulaContent.length() + WRAPPER_LEN);
 						doc.insertString(formulaStart, content, attrs);
 					} catch (BadLocationException e) {
-						FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
 					}
 				}
 			}).setVisible(true);
@@ -190,7 +189,7 @@ public class RichTextEditingPane extends UITextPane{
 					//弹出公式编辑窗口
 					popUpFormulaEditPane(formulaContent, formulaStart, attrs);
 				} catch (BadLocationException e1) {
-					FRContext.getLogger().error(e1.getMessage());
+                    FineLoggerFactory.getLogger().error(e1.getMessage());
 				}
 			}
 		}

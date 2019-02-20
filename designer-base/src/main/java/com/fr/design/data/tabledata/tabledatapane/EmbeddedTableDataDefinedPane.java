@@ -1,11 +1,11 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Date;
+import com.fr.data.impl.EmbeddedTableData;
+import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.ComparatorUtils;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JPanel;
@@ -15,14 +15,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
-
-import com.fr.base.FRContext;
-import com.fr.data.impl.EmbeddedTableData;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.dialog.BasicPane;
-import com.fr.general.ComparatorUtils;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 
 
 public class EmbeddedTableDataDefinedPane extends BasicPane{
@@ -180,7 +178,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 			localDefaultModel.fireTableDataChanged();
 			checkEnabled();
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 	}
 	
@@ -193,7 +191,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
 		try {
 			tableData = (EmbeddedTableData)(localDefaultModel.getEditableTableData().clone());
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		
 		return tableData;

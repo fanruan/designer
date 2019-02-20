@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.chart.gui;
 
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
@@ -160,7 +159,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
                     chart = newDefaultChart;
                 }
             }catch (CloneNotSupportedException e){
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
 			//这一步会替换plot

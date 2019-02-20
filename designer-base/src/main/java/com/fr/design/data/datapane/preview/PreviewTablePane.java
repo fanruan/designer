@@ -4,7 +4,6 @@
 package com.fr.design.data.datapane.preview;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.DBTableData;
@@ -308,7 +307,7 @@ public class PreviewTablePane extends BasicPane {
             int tatalColumn = Integer.parseInt(tatolColumnErrMessage.trim());
             columnErrMessage = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tabledata_Preview_Warn_Text", choiceColumn + 1, tatalColumn);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return;
         }
         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
@@ -402,7 +401,7 @@ public class PreviewTablePane extends BasicPane {
                     fireLoadedListener();
                 } catch (Exception e) {
                     if (!(e instanceof CancellationException)) {
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(),
                                 null, 0, UIManager.getIcon("OptionPane.errorIcon"));
                     }
@@ -447,7 +446,7 @@ public class PreviewTablePane extends BasicPane {
             }
 
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         previewTablePane.fireLoadedListener();
         previewTablePane.showWindow(DesignerContext.getDesignerFrame()).setVisible(true);
@@ -468,7 +467,7 @@ public class PreviewTablePane extends BasicPane {
             try {
                 previewTablePane.populateStoreDataSQL();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             tabPreviewpane.addTab(storeProcedureDataModels[i].getName(), previewTablePane);
         }

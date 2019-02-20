@@ -1,7 +1,6 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
@@ -22,8 +21,11 @@ import com.fr.stable.StringUtils;
 import com.fr.start.ServerStarter;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import java.awt.Desktop;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -95,13 +97,13 @@ public class DesignUtils {
 
             writer.flush();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
             try {
                 writer.close();
                 socket.close();
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }
@@ -237,7 +239,7 @@ public class DesignUtils {
                 //比如想在中文或英文系统里用韩文设计器
                 guiFRFont = getNamedFont("Dialog");
                 if (!guiFRFont.canDisplay(displayChar)) {
-                    FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_SimSun_Not_Found"));
+                    FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_SimSun_Not_Found"));
                 }
             }
         }
@@ -284,7 +286,7 @@ public class DesignUtils {
                 String value = values[i].replaceAll("\\\\", "/");
                 segs[i] = URLEncoder.encode(CodeUtils.cjkEncode(names[i]), EncodeConstants.ENCODING_UTF_8) + "=" + URLEncoder.encode(CodeUtils.cjkEncode(value), "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         String postfixOfUri = (segs.length > 0 ? "?" + StableUtils.join(segs, "&") : StringUtils.EMPTY);
@@ -294,7 +296,7 @@ public class DesignUtils {
                 String urlPath = getWebBrowserPath();
                 Desktop.getDesktop().browse(new URI(urlPath + baseRoute + postfixOfUri));
             } catch (Exception e) {
-                FRContext.getLogger().error("cannot open the url Successful", e);
+                FineLoggerFactory.getLogger().error("cannot open the url Successful", e);
             }
         } else {
             try {

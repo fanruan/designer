@@ -1,6 +1,5 @@
 package com.fr.design.widget.ui.btn;
 
-import com.fr.base.FRContext;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.widget.btn.ButtonDetailPane;
 import com.fr.form.ui.Button;
@@ -44,7 +43,7 @@ public class ButtonDetailPaneFactory {
                 detailPane = (ButtonDetailPane) cls.newInstance();
                 detailPane.populate(button);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return detailPane;
@@ -61,7 +60,7 @@ public class ButtonDetailPaneFactory {
                 detailPane = (ButtonDetailPane) aa.newInstance();
                 detailPane.populate(button == null ? detailPane.createButton() : button);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return detailPane;

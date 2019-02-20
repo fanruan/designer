@@ -1,22 +1,20 @@
 package com.fr.design.mainframe;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.datatransfer.DataFlavor;
-
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
-import javax.swing.tree.TreePath;
-
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.utils.gui.LayoutUtils;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import javax.swing.tree.TreePath;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.datatransfer.DataFlavor;
 
 public class TreeTransferHandler extends TransferHandler {
 
@@ -59,7 +57,7 @@ public class TreeTransferHandler extends TransferHandler {
                     return canPathAccept(tree, newpath, draggedComponent, p);
                 }
             } catch (Exception ex) {
-                FRContext.getLogger().error(ex.getMessage(), ex);
+                FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -131,7 +129,7 @@ public class TreeTransferHandler extends TransferHandler {
 
                 return true;
             } catch (Exception ex) {
-                FRContext.getLogger().error(ex.getMessage(), ex);
+                FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
 
                 return false;
             }

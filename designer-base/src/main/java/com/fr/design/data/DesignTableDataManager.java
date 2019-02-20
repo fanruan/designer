@@ -1,6 +1,5 @@
 package com.fr.design.data;
 
-import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
@@ -489,7 +488,7 @@ public abstract class DesignTableDataManager {
                 }
                 rs.release();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         }

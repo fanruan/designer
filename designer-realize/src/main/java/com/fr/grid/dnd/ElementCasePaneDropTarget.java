@@ -1,6 +1,5 @@
 package com.fr.grid.dnd;
 
-import com.fr.base.FRContext;
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.gui.ibutton.UIToggleButton;
@@ -100,7 +99,7 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             dtde.rejectDrop();
         } catch (Exception e) {
             // dtde.rejectDrop();
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

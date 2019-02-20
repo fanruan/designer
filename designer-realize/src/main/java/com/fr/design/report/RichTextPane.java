@@ -1,7 +1,6 @@
 package com.fr.design.report;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.FRContext;
 import com.fr.base.Style;
 import com.fr.design.cell.editor.RichTextToolBar;
 import com.fr.design.dialog.BasicPane;
@@ -9,7 +8,6 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.cell.cellattr.core.RichChar;
@@ -20,14 +18,16 @@ import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.math.BigDecimal;
 import java.util.Iterator;
 
@@ -164,7 +164,7 @@ public class RichTextPane extends BasicPane {
 	    		lastChar = new RichChar(charStr, style);
 	    		richText.addContent(lastChar);
 	    	}catch (Exception e) {
-	    		FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 		}
     }
@@ -214,7 +214,7 @@ public class RichTextPane extends BasicPane {
 				doc.insertString(doc.getLength(), charStr, attrs);
 				toolBar.addInputListener();
 			} catch (BadLocationException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 		}
     }

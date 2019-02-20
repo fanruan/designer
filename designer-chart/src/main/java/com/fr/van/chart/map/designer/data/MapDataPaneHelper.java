@@ -1,6 +1,5 @@
 package com.fr.van.chart.map.designer.data;
 
-import com.fr.base.FRContext;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -33,7 +32,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -54,7 +53,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -76,7 +75,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -99,7 +98,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -126,7 +125,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }

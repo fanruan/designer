@@ -1,6 +1,5 @@
 package com.fr.design.gui.xtable;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
@@ -47,7 +46,7 @@ public class ReportAppPropertyGroupModel extends PropertyGroupModel {
             properties[row].firePropertyChanged();
             return true;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }

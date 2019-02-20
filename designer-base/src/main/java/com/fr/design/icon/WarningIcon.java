@@ -1,16 +1,14 @@
 package com.fr.design.icon;
 
+import com.fr.base.BaseUtils;
+
+import javax.swing.GrayFilter;
+import javax.swing.ImageIcon;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
-
-import javax.swing.GrayFilter;
-import javax.swing.ImageIcon;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 
 /**
  * 警告图片
@@ -59,7 +57,7 @@ public class WarningIcon extends ImageIcon {
 			try {
 				tracker.waitForID(0, 0);
 			} catch (InterruptedException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 
 			tracker.statusID(0, false);

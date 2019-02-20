@@ -1,18 +1,18 @@
 package com.fr.design.designer.properties.mobile;
 
-import java.awt.event.MouseEvent;
-import java.beans.IntrospectionException;
-import java.util.ArrayList;
-
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.events.DesignerEvent;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.XCreator;
 import com.fr.design.gui.itable.AbstractPropertyTable;
 import com.fr.design.gui.itable.PropertyGroup;
 import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
+
+import java.awt.event.MouseEvent;
+import java.beans.IntrospectionException;
+import java.util.ArrayList;
 
 
 /**
@@ -50,7 +50,7 @@ public class BodyAppRelayoutTable extends AbstractPropertyTable {
 		try {
 			propertyTableEditor = supportedDescriptor();
 		}catch (IntrospectionException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 		groups.add(new PropertyGroup(new ReportAppPropertyGroupModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Properties_Mobile"), xCreator, propertyTableEditor, designer)));

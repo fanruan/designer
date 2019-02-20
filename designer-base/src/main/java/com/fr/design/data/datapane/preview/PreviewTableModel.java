@@ -1,12 +1,10 @@
 package com.fr.design.data.datapane.preview;
 
-import com.fr.base.FRContext;
 import com.fr.cache.list.IntList;
 import com.fr.data.AbstractDataModel;
 import com.fr.data.impl.EmbeddedTableData.EmbeddedTDDataModel;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.design.utils.DesignUtils;
-
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
 import com.fr.stable.StringUtils;
@@ -35,7 +33,7 @@ public class PreviewTableModel extends AbstractTableModel {
                 this.dataModel = createRowDataModel(rs, maxRowCount);
             } catch (TableDataException e) {
                 // TODO Auto-generated catch block
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
             this.dataModel = sourceResultSet;
@@ -98,7 +96,7 @@ public class PreviewTableModel extends AbstractTableModel {
         try {
             return Integer.toString(column + 1) + ". " + dataModel.getColumnName(column) + checkType(column);
         } catch (TableDataException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             DesignUtils.errorMessage(e.getMessage());
             return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error");
         }
@@ -108,7 +106,7 @@ public class PreviewTableModel extends AbstractTableModel {
         try {
             return this.dataModel.getRowCount();
         } catch (TableDataException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return 0;
         }
     }
@@ -120,7 +118,7 @@ public class PreviewTableModel extends AbstractTableModel {
             }
             return dataModel.getColumnCount();
         } catch (TableDataException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             DesignUtils.errorMessage(e.getMessage());
             return 0;
         }
@@ -130,7 +128,7 @@ public class PreviewTableModel extends AbstractTableModel {
         try {
             return dataModel.getValueAt(row, column);
         } catch (TableDataException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             DesignUtils.errorMessage(e.getMessage());
             return "";
         }

@@ -3,7 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.form.layout.FRLayoutManager;
 import com.fr.design.form.util.XCreatorConstants;
@@ -18,8 +17,10 @@ import com.fr.general.Background;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
 import java.beans.IntrospectionException;
@@ -298,7 +299,7 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         if (layout instanceof FRLayoutManager) {
             return (FRLayoutManager) layout;
         }
-        FRContext.getLogger().error("FRLayoutManager isn't exsit!");
+        FineLoggerFactory.getLogger().error("FRLayoutManager isn't exsit!");
         return null;
     }
 

@@ -1,13 +1,16 @@
 package com.fr.start.server;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.ListenerAdaptor;
 
-
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -61,7 +64,7 @@ public class ServerTray {
                 try {
                     FineEmbedServer.start();
                 } catch (Exception exp) {
-                    FRContext.getLogger().error(exp.getMessage(), exp);
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 }
             }
         };
@@ -72,7 +75,7 @@ public class ServerTray {
                 try {
                     FineEmbedServer.stop();
                 } catch (Throwable exp) {
-                    FRContext.getLogger().error(exp.getMessage(), exp);
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 }
             }
         };
@@ -168,7 +171,7 @@ public class ServerTray {
                 serverManageFrame.repaint();
             }
         } catch (Exception exp) {
-            FRContext.getLogger().error(exp.getMessage(), exp);
+            FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         }
     }
 

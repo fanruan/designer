@@ -2,7 +2,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
@@ -1109,7 +1108,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, tpl, parameterMap);
         } catch (Exception e1) {
-            FRContext.getLogger().error(e1.getMessage());
+            FineLoggerFactory.getLogger().error(e1.getMessage());
         }
 
         //打开导出的内置模板

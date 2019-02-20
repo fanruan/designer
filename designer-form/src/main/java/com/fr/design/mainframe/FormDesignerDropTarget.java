@@ -1,5 +1,13 @@
 package com.fr.design.mainframe;
 
+import com.fr.design.designer.creator.XCreator;
+import com.fr.form.data.DataBinding;
+import com.fr.form.ui.DataControl;
+import com.fr.form.ui.IframeEditor;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.WidgetValue;
+import com.fr.general.ComparatorUtils;
+
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -10,15 +18,6 @@ import java.awt.dnd.DropTargetContext;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
-
-import com.fr.base.FRContext;
-import com.fr.design.designer.creator.XCreator;
-import com.fr.form.data.DataBinding;
-import com.fr.form.ui.DataControl;
-import com.fr.form.ui.IframeEditor;
-import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetValue;
-import com.fr.general.ComparatorUtils;
 
 public class FormDesignerDropTarget extends DropTargetAdapter {
 
@@ -84,9 +83,9 @@ public class FormDesignerDropTarget extends DropTargetAdapter {
             creator.rebuid();
             designer.getSelectionModel().setSelectedCreator(creator);
         } catch (UnsupportedFlavorException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

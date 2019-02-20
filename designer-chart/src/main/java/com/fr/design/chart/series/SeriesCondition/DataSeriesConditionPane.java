@@ -1,6 +1,5 @@
 package com.fr.design.chart.series.SeriesCondition;
 
-import com.fr.base.FRContext;
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBackground;
 import com.fr.chart.base.AttrContents;
@@ -13,9 +12,10 @@ import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.Iterator;
 
 /**
@@ -114,9 +114,9 @@ public class DataSeriesConditionPane extends ConditionAttributesPane<ConditionAt
         try {
             return clazz.newInstance();
         } catch (InstantiationException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

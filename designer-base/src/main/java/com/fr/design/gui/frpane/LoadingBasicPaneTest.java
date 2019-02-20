@@ -3,11 +3,10 @@
  */
 package com.fr.design.gui.frpane;
 
-import javax.swing.JPanel;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.dialog.BasicDialog;
+import com.fr.design.gui.ibutton.UIButton;
+
+import javax.swing.JPanel;
 
 
 /**
@@ -23,7 +22,7 @@ public class LoadingBasicPaneTest {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
 					}
 					container.add(new UIButton(i + "adfadwdadawdwad"));
 				}

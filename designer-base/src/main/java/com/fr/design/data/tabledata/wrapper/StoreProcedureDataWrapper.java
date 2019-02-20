@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.wrapper;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
@@ -15,8 +14,9 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
 
-
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -146,7 +146,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             }
             return true;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return false;
     }
@@ -217,7 +217,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                     }
                 } catch (Exception e) {
                     if (!(e instanceof CancellationException)) {
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
                     }
                     loadingBar.close();

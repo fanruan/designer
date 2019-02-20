@@ -3,8 +3,6 @@ package com.fr.grid;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import com.fr.base.FRContext;
-
 /**
  * 画动态虚线
  * @author Daniel~
@@ -49,7 +47,7 @@ public class DrawFlowRect implements Runnable {
 			try {
 				Thread.sleep(25);
 			} catch (InterruptedException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 		}
 	}

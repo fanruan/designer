@@ -1,9 +1,16 @@
 package com.fr.design.mainframe.chart.gui.data.table;
 
-import com.fr.base.FRContext;
-import com.fr.chart.chartattr.*;
+import com.fr.chart.chartattr.BubblePlot;
+import com.fr.chart.chartattr.GanttPlot;
+import com.fr.chart.chartattr.MeterBluePlot;
+import com.fr.chart.chartattr.MeterPlot;
+import com.fr.chart.chartattr.Pie3DPlot;
+import com.fr.chart.chartattr.PiePlot;
+import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.SimpleMeterPlot;
+import com.fr.chart.chartattr.StockPlot;
+import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.design.mainframe.chart.gui.style.axis.*;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -51,9 +58,9 @@ public class Factory4TableDataContentPane {
                 return new CategoryPlotTableDataContentPane(parentPane);
             }
         } catch (InstantiationException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new CategoryPlotTableDataContentPane(parentPane);
     }

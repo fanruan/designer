@@ -3,23 +3,7 @@
  */
 package com.fr.design.style;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import com.fr.base.CellBorderStyle;
-import com.fr.base.FRContext;
 import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
@@ -27,8 +11,9 @@ import com.fr.base.core.StyleUtils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.style.background.BackgroundPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
@@ -38,8 +23,20 @@ import com.fr.report.cell.FloatElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
-import com.fr.design.style.background.BackgroundPane;
-import com.fr.design.utils.gui.GUICoreUtils;
+
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * Style Pane.
@@ -221,7 +218,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 				try {
 					style = (Style) editCellElement.getStyle().clone();
 				} catch (CloneNotSupportedException e) {
-					FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.chart.gui.type;
 
-import com.fr.base.FRContext;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.ChartEnumDefinitions;
 import com.fr.chart.chartattr.Chart;
@@ -12,9 +11,8 @@ import com.fr.design.chart.series.PlotSeries.MapGroupExtensionPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 public class MapPlotPane extends AbstractChartTypePane {
 
@@ -88,7 +86,7 @@ public class MapPlotPane extends AbstractChartTypePane {
             try{
                 plot = (MapPlot)chart.getPlot().clone();
             } catch (CloneNotSupportedException e){
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 		plot.setMapName(groupExtensionPane.updateBean(plot));// 名字问题

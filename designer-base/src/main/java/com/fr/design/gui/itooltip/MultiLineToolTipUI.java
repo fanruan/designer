@@ -1,5 +1,11 @@
 package com.fr.design.gui.itooltip;
 
+import com.fr.base.GraphHelper;
+
+import javax.swing.JComponent;
+import javax.swing.JToolTip;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ToolTipUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -12,14 +18,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Enumeration;
 import java.util.Vector;
-
-import javax.swing.JComponent;
-import javax.swing.JToolTip;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.ToolTipUI;
-
-import com.fr.base.FRContext;
-import com.fr.base.GraphHelper;
 
 public class MultiLineToolTipUI extends ToolTipUI {
 
@@ -65,7 +63,7 @@ public class MultiLineToolTipUI extends ToolTipUI {
                 v.addElement(line);
             }
         } catch (IOException ex) {
-            FRContext.getLogger().error(ex.getMessage(), ex);
+            FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
         }
         int lines = v.size();
         if (lines < 1) {

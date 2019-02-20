@@ -3,7 +3,6 @@
  */
 package com.fr.design.mainframe.form;
 
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -138,7 +137,7 @@ public class FormElementCaseDesigner
             this.elementCasePane.paintComponents(g);
 
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         return image;

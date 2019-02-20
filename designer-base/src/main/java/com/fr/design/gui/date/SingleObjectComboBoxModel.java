@@ -1,12 +1,9 @@
 package com.fr.design.gui.date;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
-
-import com.fr.base.FRContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SingleObjectComboBoxModel extends AbstractListModel implements ComboBoxModel {
     private SimpleDateFormat dateFormat;
@@ -35,7 +32,7 @@ public class SingleObjectComboBoxModel extends AbstractListModel implements Comb
             try {
                 selectedDate = this.dateFormat.format((Date) anItem);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
             try {

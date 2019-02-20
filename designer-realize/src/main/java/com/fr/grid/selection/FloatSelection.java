@@ -1,6 +1,5 @@
 package com.fr.grid.selection;
 
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
@@ -68,7 +67,7 @@ public class FloatSelection extends Selection {
 
                 transferable.addObject(new FloatElementsClip(transEl));
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }

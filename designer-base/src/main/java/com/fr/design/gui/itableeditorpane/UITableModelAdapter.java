@@ -1,7 +1,6 @@
 package com.fr.design.gui.itableeditorpane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.DesignerContext;
 
 import javax.swing.JOptionPane;
@@ -166,7 +165,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 			try {
 				table.getCellEditor().stopCellEditing();
 			} catch (Exception ee) {
-				FRContext.getLogger().error(ee.getMessage(), ee);
+                FineLoggerFactory.getLogger().error(ee.getMessage(), ee);
 			}
 		}
 	}
@@ -241,7 +240,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 				try {
 					table.getCellEditor().stopCellEditing();
 				} catch (Exception ee) {
-					FRContext.getLogger().error(ee.getMessage(), ee);
+                    FineLoggerFactory.getLogger().error(ee.getMessage(), ee);
 				}
 			}
 			if (getRowCount() < 1 || selectedRow.length < 0) {

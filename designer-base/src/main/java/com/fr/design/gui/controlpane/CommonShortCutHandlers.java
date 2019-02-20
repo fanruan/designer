@@ -1,7 +1,6 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -71,7 +70,7 @@ public class CommonShortCutHandlers {
 
             listControlPane.addNameable(newNameable, listControlPane.getSelectedIndex() + 1);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

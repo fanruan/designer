@@ -2,7 +2,6 @@ package com.fr.grid;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
@@ -107,21 +106,21 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             try {
                 method = ElementCase.class.getMethod(methodName(), int.class, UNIT.class);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (between(evt, tmpSize1, tmpSize2)) {
                 if (index >= dragIndex) {
                     try {
                         method.invoke(report, dragIndex, FU.valueOfPix(evtOffset(evt, oldEndValueSize), resolution));
                     } catch (Exception e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                     //sizeList.set(dragIndex, FU.valueOfPix(evtOffset(evt, oldEndValueSize), resolution));
                 } else {
                     try {
                         method.invoke(report, index, FU.valueOfPix(evtOffset(evt, (int) tmpSize1), resolution));
                     } catch (Exception e) {
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                     //sizeList.set(index, FU.valueOfPix(evtOffset(evt, (int)tmpSize1), resolution));
                     // from all to do.
@@ -129,7 +128,7 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
                         try {
                             method.invoke(report, h, UNIT.ZERO);
                         } catch (Exception e) {
-                            FRContext.getLogger().error(e.getMessage(), e);
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
                         //sizeList.set(h, UNIT.ZERO);
                     }

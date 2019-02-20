@@ -3,18 +3,16 @@
  */
 package com.fr.design.gui.xtable;
 
-import java.beans.PropertyEditor;
+import com.fr.design.beans.GroupModel;
+import com.fr.design.designer.creator.CRPropertyDescriptor;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
+import com.fr.design.mainframe.widget.renderer.PropertyCellRenderer;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
-import com.fr.base.FRContext;
-import com.fr.design.beans.GroupModel;
-import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
-import com.fr.design.mainframe.widget.renderer.PropertyCellRenderer;
-import com.fr.design.designer.creator.CRPropertyDescriptor;
-import com.fr.design.designer.creator.XCreator;
+import java.beans.PropertyEditor;
 
 /**
  * @author richer
@@ -53,7 +51,7 @@ public abstract class AbstractPropertyGroupModel implements GroupModel, Comparab
             try {
                 initRenderer(row);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return renderers[row];
@@ -65,7 +63,7 @@ public abstract class AbstractPropertyGroupModel implements GroupModel, Comparab
             try {
                 initEditor(row);
             } catch (Exception ex) {
-                FRContext.getLogger().error(ex.getMessage(), ex);
+                FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
         }
         return editors[row];

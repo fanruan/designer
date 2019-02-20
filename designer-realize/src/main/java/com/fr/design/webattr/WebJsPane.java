@@ -1,6 +1,5 @@
 package com.fr.design.webattr;
 
-import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.EditingStringListPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -196,7 +195,7 @@ public class WebJsPane extends BasicPane {
 				URLConnection connection = url.openConnection();
 				in = connection.getInputStream();
 			} catch (Throwable e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 			if (in == null) {
 				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));

@@ -1,6 +1,5 @@
 package com.fr.design.gui.xtable;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
@@ -8,7 +7,6 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.report.stable.FormConstants;
 
 import java.beans.PropertyChangeEvent;
@@ -35,7 +33,7 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
             Method m = properties[row].getReadMethod();
             return m.invoke(dealCreatorData());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return null;
         }
     }
@@ -59,7 +57,7 @@ public class PropertyGroupModel extends AbstractPropertyGroupModel {
             properties[row].firePropertyChanged();
             return true;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return false;
         }
     }

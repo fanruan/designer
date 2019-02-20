@@ -1,6 +1,5 @@
 package com.fr.design.designer.treeview;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
@@ -142,7 +141,7 @@ public class ComponentTreeModel implements TreeModel {
                 m.invoke(listener, evt);
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

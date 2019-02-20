@@ -1,12 +1,21 @@
 package com.fr.design.gui.itooltip;
 
-import com.fr.base.FRContext;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.general.ComparatorUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JToolTip;
+import javax.swing.ToolTipManager;
+import java.awt.AWTException;
+import java.awt.Container;
+import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,7 +48,7 @@ public class UIToolTip extends JToolTip{
                 }
             });
         } catch (AWTException e) {
-            FRContext.getLogger().error(e.getMessage(),e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         this.addMouseWheelListener(new MouseWheelListener() {

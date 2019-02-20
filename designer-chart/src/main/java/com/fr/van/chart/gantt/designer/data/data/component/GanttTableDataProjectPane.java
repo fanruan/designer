@@ -1,13 +1,11 @@
 package com.fr.van.chart.gantt.designer.data.data.component;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-
 import com.fr.plugin.chart.gantt.data.VanGanttTableDefinition;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -247,7 +245,7 @@ public class GanttTableDataProjectPane extends AbstractTableDataContentPane impl
             try {
                 comboBoxList.add(StableUtils.cloneObject(columnNameList.get(i)));
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().info(e.getMessage());
+                FineLoggerFactory.getLogger().info(e.getMessage());
             }
         }
     }

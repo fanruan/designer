@@ -1,7 +1,6 @@
 package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
@@ -38,11 +37,11 @@ public class TutorialAction extends UpdateAction {
     private void nativeExcuteMacInstallHomePrograms(String appName) {
         String installHome = StableUtils.getInstallHome();
         if(installHome == null) {
-            FRContext.getLogger().error("Can not find the install home, please check it.");
+            FineLoggerFactory.getLogger().error("Can not find the install home, please check it.");
         } else {
             String appPath = StableUtils.pathJoin(new String[]{installHome, "bin", appName});
             if(!(new File(appPath)).exists()) {
-                FRContext.getLogger().error(appPath + " can not be found.");
+                FineLoggerFactory.getLogger().error(appPath + " can not be found.");
             }
 
             String cmd = "open " + appPath;
@@ -51,7 +50,7 @@ public class TutorialAction extends UpdateAction {
             try {
                 runtime.exec(cmd);
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         }

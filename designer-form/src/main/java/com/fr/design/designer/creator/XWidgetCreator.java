@@ -4,16 +4,26 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
-
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Transparency;
 import java.beans.IntrospectionException;
 
 /**
@@ -139,7 +149,7 @@ public abstract class XWidgetCreator extends XCreator {
                 this.setRolloverIcon(new ImageIcon(image1));
                 this.setPressedIcon(new ImageIcon(image));//按下去的图标
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 

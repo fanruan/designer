@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterHelper;
 import com.fr.base.Utils;
@@ -229,7 +228,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             try {
                 in = url.getSourceStream(params);
             } catch (Throwable e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
@@ -907,7 +906,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             if (localFileRadioButton.isSelected()) {
                 String localTextString = StringUtils.trimToNull(localText.getText());
                 if(StringUtils.isEmpty(localTextString)){
-                    FRContext.getLogger().info("The file path is empty.");
+                    FineLoggerFactory.getLogger().info("The file path is empty.");
                     loadedTreeModel();
                     return;
                 }
@@ -915,7 +914,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             } else {
                 String urlTextString = StringUtils.trimToNull(urlText.getText());
                 if (StringUtils.isEmpty(urlTextString)){
-                    FRContext.getLogger().info("The url path is empty.");
+                    FineLoggerFactory.getLogger().info("The url path is empty.");
                     loadedTreeModel();
                     return;
                 }
@@ -932,13 +931,13 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                     if (xmlReader != null) {
                         xmlReader.readXMLObject(new XMLLayerReader(0));
                     } else {
-                        FRContext.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
+                        FineLoggerFactory.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
                         loadedTreeModel();
                     }
                     reader.close();
                 }
             } catch (Throwable e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 loadedTreeModel();
             }
             if(treeModel.getChildCount(treeModel.getRoot()) == 1){

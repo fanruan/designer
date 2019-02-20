@@ -1,11 +1,20 @@
 package com.fr.design.gui.itooltip;
 
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JToolTip;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.ToolTipUI;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,7 +107,7 @@ public class UIToolTipUI extends ToolTipUI {
                 v.addElement(line);
             }
         } catch (IOException ex) {
-            FRContext.getLogger().error(ex.getMessage(), ex);
+            FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
         }
         int lines = v.size();
         if (lines < 1) {

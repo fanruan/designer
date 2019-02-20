@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
@@ -1208,7 +1207,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 }
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

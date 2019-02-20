@@ -1,7 +1,6 @@
 package com.fr.start;
 
 
-import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 
@@ -11,7 +10,7 @@ public class Demo {
     public static void main(String[] args) {
         String installHome = StableUtils.getInstallHome();
         if (installHome == null) {
-            FRContext.getLogger().error("Can not find the install home, please check it.");
+            FineLoggerFactory.getLogger().error("Can not find the install home, please check it.");
             return;
         }
 
@@ -29,7 +28,7 @@ public class Demo {
             try {
                 builder.start();
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
             // ProcessBuilder这种方式在window下报错：系统找不到指定文件
@@ -37,7 +36,7 @@ public class Demo {
             try {
                 rt.exec(executorPath);
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 

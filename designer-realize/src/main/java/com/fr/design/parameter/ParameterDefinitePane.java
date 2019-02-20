@@ -1,7 +1,6 @@
 package com.fr.design.parameter;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
 import com.fr.base.vcs.DesignerMode;
@@ -23,18 +22,28 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.AuthorityToolBarPane;
 import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.menu.*;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.design.menu.MenuDef;
+import com.fr.design.menu.NameSeparator;
+import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.style.background.BackgroundPane;
-
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.main.parameter.TemplateParameterAttr;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -234,7 +243,7 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
                 parameterUI = StableFactory.getMarkedInstanceObjectFromClass(ParameterUI.FORM_XML_TAG, ParameterUI.class);
                 parameterUI.setDefaultSize();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 

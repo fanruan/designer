@@ -3,9 +3,6 @@
  */
 package com.fr.design.cell.clipboard;
 
-import java.util.Iterator;
-
-import com.fr.base.FRContext;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.FloatSelection;
@@ -14,6 +11,8 @@ import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
+
+import java.util.Iterator;
 
 /**
  * The clip of Float Element.
@@ -39,7 +38,7 @@ public class FloatElementsClip implements Cloneable, java.io.Serializable,FloatE
 		try {
 			ret = (FloatElement)this.floatEl.clone();
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			return null;
 		}
 		

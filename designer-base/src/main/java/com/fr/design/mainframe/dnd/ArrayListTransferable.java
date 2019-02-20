@@ -6,8 +6,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fr.base.FRContext;
-
 public class ArrayListTransferable implements Transferable {
     private DataFlavor localArrayListFlavor;
     private DataFlavor serialArrayListFlavor;
@@ -21,7 +19,7 @@ public class ArrayListTransferable implements Transferable {
         try {
             localArrayListFlavor = new DataFlavor(localArrayListType);
         } catch (ClassNotFoundException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         
         serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");

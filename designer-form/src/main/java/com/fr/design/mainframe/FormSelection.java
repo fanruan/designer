@@ -1,10 +1,5 @@
 package com.fr.design.mainframe;
 
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
@@ -16,9 +11,13 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
-import com.fr.form.ui.Widget;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.Widget;
+
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class FormSelection {
 
@@ -322,7 +321,7 @@ public class FormSelection {
                 creator.setBounds(root.getBounds());
                 clipBoard.selection.add(creator);
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }

@@ -1,11 +1,47 @@
 package com.fr.design.widget;
 
-import com.fr.base.FRContext;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.core.WidgetConstants;
-import com.fr.design.widget.ui.*;
-import com.fr.form.ui.*;
+import com.fr.design.widget.ui.ButtonDefinePane;
+import com.fr.design.widget.ui.CheckBoxDefinePane;
+import com.fr.design.widget.ui.CheckBoxGroupDefinePane;
+import com.fr.design.widget.ui.ComboBoxDefinePane;
+import com.fr.design.widget.ui.ComboCheckBoxDefinePane;
+import com.fr.design.widget.ui.DateEditorDefinePane;
+import com.fr.design.widget.ui.IframeEditorDefinePane;
+import com.fr.design.widget.ui.ListEditorDefinePane;
+import com.fr.design.widget.ui.MultiFileEditorPane;
+import com.fr.design.widget.ui.NoneWidgetDefinePane;
+import com.fr.design.widget.ui.NumberEditorDefinePane;
+import com.fr.design.widget.ui.PasswordDefinePane;
+import com.fr.design.widget.ui.RadioDefinePane;
+import com.fr.design.widget.ui.RadioGroupDefinePane;
+import com.fr.design.widget.ui.TextAreaDefinePane;
+import com.fr.design.widget.ui.TextFieldEditorDefinePane;
+import com.fr.design.widget.ui.TreeComboBoxEditorDefinePane;
+import com.fr.design.widget.ui.TreeEditorDefinePane;
+import com.fr.design.widget.ui.UserEditorDefinePane;
+import com.fr.form.ui.Button;
+import com.fr.form.ui.CheckBox;
+import com.fr.form.ui.CheckBoxGroup;
+import com.fr.form.ui.ComboBox;
+import com.fr.form.ui.ComboCheckBox;
+import com.fr.form.ui.DateEditor;
+import com.fr.form.ui.FreeButton;
+import com.fr.form.ui.IframeEditor;
+import com.fr.form.ui.ListEditor;
+import com.fr.form.ui.MultiFileEditor;
+import com.fr.form.ui.NameWidget;
+import com.fr.form.ui.NoneWidget;
+import com.fr.form.ui.NumberEditor;
+import com.fr.form.ui.Password;
+import com.fr.form.ui.Radio;
+import com.fr.form.ui.RadioGroup;
+import com.fr.form.ui.TextArea;
+import com.fr.form.ui.TextEditor;
+import com.fr.form.ui.TreeComboBoxEditor;
+import com.fr.form.ui.TreeEditor;
+import com.fr.form.ui.Widget;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;
@@ -69,7 +105,7 @@ public class WidgetDefinePaneFactory {
             definePane.populateBean(widget);
             operator.did(definePane.dataUI(), dn.getDisplayName());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new RN(definePane, dn.getDisplayName());
     }

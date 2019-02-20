@@ -21,7 +21,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
-
 import com.fr.general.http.HttpClient;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
@@ -96,7 +95,7 @@ public class UserInfoLabel extends UILabel {
                                 String loginUrl = CloudCenter.getInstance().acquireUrlByKind("bbs.default");
                                 Desktop.getDesktop().browse(new URI(loginUrl));
                             } catch (Exception exp) {
-                                FRContext.getLogger().info(exp.getMessage());
+                                FineLoggerFactory.getLogger().info(exp.getMessage());
                             }
                         }
                     }
@@ -149,7 +148,7 @@ public class UserInfoLabel extends UILabel {
                     }
                     Thread.sleep(DELAY_TIME);
                 } catch (InterruptedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
                 HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("bbs.popup"));
                 if (!hc.isServerAlive()) {
@@ -222,7 +221,7 @@ public class UserInfoLabel extends UILabel {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

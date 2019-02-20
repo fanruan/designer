@@ -1,7 +1,5 @@
 package com.fr.start.fx;
 
-import com.bulenkov.iconloader.util.JBUI;
-import com.fr.base.FRContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashFxActionListener;
@@ -60,7 +58,7 @@ public class SplashFxWindow extends Application {
         try {
             LATCH.await();
         } catch (InterruptedException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return app;
     }
@@ -126,7 +124,7 @@ public class SplashFxWindow extends Application {
                     image.destroy();
                     fireSplashClose();
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         });

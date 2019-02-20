@@ -1,13 +1,12 @@
 package com.fr.start.jni;
 
-import com.fr.base.FRContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,7 +39,7 @@ public class SplashMac implements SplashStrategy {
         File tempLib = null;
         try (InputStream inputStream = SplashContext.class.getResourceAsStream(SplashContext.SPLASH_PATH)) {
             if (inputStream == null) {
-                FRContext.getLogger().error("Unable to copy " + SplashContext.SPLASH_PATH + " from jar file.");
+                FineLoggerFactory.getLogger().error("Unable to copy " + SplashContext.SPLASH_PATH + " from jar file.");
                 return StringUtils.EMPTY;
             }
             tempLib = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), SplashContext.SPLASH_CACHE_NAME));

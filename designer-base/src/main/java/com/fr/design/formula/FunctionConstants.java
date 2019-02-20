@@ -1,6 +1,5 @@
 package com.fr.design.formula;
 
-import com.fr.base.FRContext;
 import com.fr.file.FunctionConfig;
 import com.fr.function.AVERAGE;
 import com.fr.function.CHAR;
@@ -78,9 +77,9 @@ public final class FunctionConstants {
 			try {
 				classFilePath = URLDecoder.decode(classFilePath, EncodeConstants.ENCODING_UTF_8);
 			} catch (UnsupportedEncodingException e1) {
-				FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 			}
-			FRContext.getLogger().info("ClassFilePath:" + classFilePath);
+            FineLoggerFactory.getLogger().info("ClassFilePath:" + classFilePath);
 			if (isCustomFormulaPath(classFilePath)) {
 				continue;
 			}
@@ -193,7 +192,7 @@ public final class FunctionConstants {
 					classNameList.add(entryName.substring(classPath.length() + 1));
 				}
 			} catch (IOException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 		} else {
 			File dir = new File(filePath);

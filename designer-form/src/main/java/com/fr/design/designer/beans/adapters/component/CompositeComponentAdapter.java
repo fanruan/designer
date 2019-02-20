@@ -1,6 +1,5 @@
 package com.fr.design.designer.beans.adapters.component;
 
-import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.beans.ComponentAdapter;
@@ -20,8 +19,14 @@ import com.fr.form.ui.Widget;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import java.awt.AlphaComposite;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
@@ -176,7 +181,7 @@ public class CompositeComponentAdapter implements ComponentAdapter {
 		try {
 			return xCreator.getPropertyDescriptorCreator().supportedDescriptor();
 		} catch (IntrospectionException ex) {
-			FRContext.getLogger().error(ex.getMessage(), ex);
+            FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
 			return new CRPropertyDescriptor[0];
 		}
 	}
