@@ -4,9 +4,9 @@ import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-
 import com.fr.plugin.chart.range.SectionLegend;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -22,6 +22,10 @@ public class SectionLegendPane extends JPanel{
     public SectionLegendPane(AbstractAttrNoScrollPane parent) {
         this.parent = parent;
         initComponents();
+    }
+
+    public void setParentPane(VanChartStylePane parent){
+        labelFormPane.setParentPane(parent);
     }
 
     private void initComponents() {

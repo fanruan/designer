@@ -8,9 +8,16 @@ import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -18,6 +25,7 @@ import java.util.List;
 
 public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 	private static final long serialVersionUID = 2298609199400393886L;
+	private static final int MIN_TAB_HEIGHT = 25;
 	protected UIButtonGroup tabPane;
 	protected String[] nameArray;
 	public JPanel centerPane;
@@ -49,7 +57,12 @@ public abstract class ThirdTabPane<T> extends BasicBeanPane<T>{
 		if (!paneList.isEmpty()) {
 			tabPane = new UIButtonGroup(nameArray);
 			tabPane.setSelectedIndex(0);
-			tabPane.setPreferredSize(new Dimension(60 * nameArray.length, 25));
+			int prefHeight = tabPane.getPreferredSize().height;
+			int prefWidth = tabPane.getPreferredSize().width + 20;  // 暂且加一个偏移量
+			int minWidth = 60 * nameArray.length;
+			tabPane.setPreferredSize(
+					new Dimension(prefWidth > minWidth ? prefWidth : minWidth,
+							prefHeight > MIN_TAB_HEIGHT ? prefHeight : MIN_TAB_HEIGHT));
 			tabPane.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {

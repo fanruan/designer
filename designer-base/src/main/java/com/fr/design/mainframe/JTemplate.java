@@ -610,7 +610,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         } else {
             JOptionPane.showMessageDialog(
                     DesignerContext.getDesignerFrame(),
-                    Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"),
+                    Toolkit.i18nText("Fine-Design-Basic_Save_Failure"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
                     JOptionPane.WARNING_MESSAGE);
             return false;
