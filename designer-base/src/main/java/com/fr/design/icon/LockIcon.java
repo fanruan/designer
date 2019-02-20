@@ -1,16 +1,15 @@
 package com.fr.design.icon;
 
+import com.fr.base.BaseUtils;
+import com.fr.log.FineLoggerFactory;
+
+import javax.swing.GrayFilter;
+import javax.swing.ImageIcon;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.image.ImageObserver;
-
-import javax.swing.GrayFilter;
-import javax.swing.ImageIcon;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 
 public class LockIcon extends ImageIcon {
     private final static Image lockImage = BaseUtils.readImage("/com/fr/design/images/gui/locked.gif");
@@ -55,7 +54,7 @@ public class LockIcon extends ImageIcon {
             try {
                 tracker.waitForID(0, 0);
             } catch (InterruptedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
             loadStatus = tracker.statusID(0, false);

@@ -8,7 +8,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.JavaCompileInfo;
@@ -17,8 +16,13 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
@@ -51,7 +55,7 @@ public class JavaEditorPane extends BasicPane {
                         try {
                             return StableUtils.inputStream2String(in, EncodeConstants.ENCODING_UTF_8);
                         } catch (IOException e) {
-                            FRContext.getLogger().error(e.getMessage(), e);
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
                     }
                     return null;
@@ -115,7 +119,7 @@ public class JavaEditorPane extends BasicPane {
         try {
             return new ByteArrayInputStream(WorkContext.getWorkResource().readFully(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, javaPath)));
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

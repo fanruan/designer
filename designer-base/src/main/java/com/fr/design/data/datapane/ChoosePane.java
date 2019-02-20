@@ -1,7 +1,6 @@
 package com.fr.design.data.datapane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.DBUtils;
@@ -33,12 +32,15 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.PopupMenuEvent;
@@ -49,7 +51,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -432,7 +436,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                 tree.expandPath(path);
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -473,7 +477,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                         DesignerEnvManager.getEnvManager().getMaxNumberOrPreviewRow());
             } catch (Exception e) {
                 failedToFindTable();
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 
@@ -530,7 +534,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             // daniel:增加参数
             colNames = DataOperator.getInstance().getColumns(selectedDSName, paras.getSchemaName(), selectedTableObject);
         } catch (Exception e2) {
-            FRContext.getLogger().error(e2.getMessage(), e2);
+            FineLoggerFactory.getLogger().error(e2.getMessage(), e2);
         }
 
         if (colNames == null) {

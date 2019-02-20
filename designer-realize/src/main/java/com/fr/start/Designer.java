@@ -1,7 +1,6 @@
 package com.fr.start;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
@@ -185,7 +184,7 @@ public class Designer extends BaseDesigner {
                 shortCuts.add((ShortCut) DesignModuleFactory.getNewFormAction().newInstance());
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
@@ -523,7 +522,7 @@ public class Designer extends BaseDesigner {
         try {
             XMLTools.readFileXML(temp, envFile);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return temp.getActivationKey();
     }

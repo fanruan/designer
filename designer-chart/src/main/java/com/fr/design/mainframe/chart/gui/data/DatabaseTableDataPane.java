@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.NameTableData;
 import com.fr.design.constants.LayoutConstants;
@@ -13,6 +12,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -106,7 +106,7 @@ public class DatabaseTableDataPane extends BasicPane{
 					try {
 						tableDataWrappe.previewData();
 					} catch (Exception e1) {
-						FRContext.getLogger().error(e1.getMessage(), e1);
+                        FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 					}
 				}
 				super.mouseReleased(e);

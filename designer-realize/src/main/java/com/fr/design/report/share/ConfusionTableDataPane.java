@@ -1,6 +1,6 @@
 package com.fr.design.report.share;
+
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
@@ -18,6 +18,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
@@ -193,7 +194,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 			InputStream in = IOUtils.readResource("/com/fr/design/report/share/shareToolTip.html");
 			return IOUtils.inputStream2String(in);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		
 		return StringUtils.EMPTY;
@@ -228,7 +229,7 @@ public class ConfusionTableDataPane extends BasicBeanPane<ConfusionInfo>{
 				new ConfuseTabledataAction().confuse(info, tabledata);
                 new TemplateTableDataWrapper(tabledata).previewData();
 			} catch (CloneNotSupportedException e1) {
-				FRContext.getLogger().error(e1.getMessage());
+                FineLoggerFactory.getLogger().error(e1.getMessage());
 			}
 		}
 	};

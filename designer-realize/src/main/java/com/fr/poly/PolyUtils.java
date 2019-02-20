@@ -3,16 +3,11 @@
  */
 package com.fr.poly;
 
-import java.awt.Point;
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BasePlot;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.ChartBlockCreator;
 import com.fr.poly.creator.ECBlockCreator;
@@ -21,6 +16,11 @@ import com.fr.report.poly.PolyChartBlock;
 import com.fr.report.poly.PolyECBlock;
 import com.fr.report.poly.TemplateBlock;
 import com.fr.stable.bridge.StableFactory;
+
+import java.awt.Point;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author richer
@@ -45,7 +45,7 @@ public class PolyUtils {
 			c = clazz.getConstructor(cls);
 			return (BlockCreator) c.newInstance(block);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -76,9 +76,9 @@ public class PolyUtils {
 				
 				block = new PolyChartBlock(cc);
 			} catch (InstantiationException e1) {
-				FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 			} catch (IllegalAccessException e1) {
-				FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 			}
 		}
 		return block;

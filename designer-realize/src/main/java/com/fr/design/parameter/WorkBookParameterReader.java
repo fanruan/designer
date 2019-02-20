@@ -1,8 +1,8 @@
 package com.fr.design.parameter;
 
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.io.TemplateWorkBookIO;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 
 /**
@@ -20,7 +20,7 @@ public class WorkBookParameterReader extends AbstractParameterReader {
                 TemplateWorkBook template = TemplateWorkBookIO.readTemplateWorkBook(tplPath);
                 return template.getParameters();
             } catch (Exception e1) {
-                FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
             }
             return new Parameter[0];
         }

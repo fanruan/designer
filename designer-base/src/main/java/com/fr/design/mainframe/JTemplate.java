@@ -636,7 +636,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             file.mkfile();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -666,7 +666,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             this.getTarget().export(editingFILE.asOutputStream());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

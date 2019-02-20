@@ -1,6 +1,5 @@
 package com.fr.design.chart.series.PlotSeries;
 
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.base.Utils;
 import com.fr.chart.base.MapSvgAttr;
@@ -16,13 +15,17 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
-
 import com.fr.general.data.DataModel;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import org.apache.batik.swing.svg.SVGFileFilter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -143,7 +146,7 @@ refreshAreaNameBox();
 		try {
 			embeddedTableData = DesignTableDataManager.previewTableDataNotNeedInputParameters(tableDataWrappe.getTableData(), TableData.RESULT_ALL, false);
 		} catch (Exception ee) {
-			FRContext.getLogger().error(ee.getMessage(), ee);
+            FineLoggerFactory.getLogger().error(ee.getMessage(), ee);
 		}
 
 		if(embeddedTableData == null){
