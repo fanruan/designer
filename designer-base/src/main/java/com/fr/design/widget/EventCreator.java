@@ -6,6 +6,7 @@ import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.form.event.Listener;
 import com.fr.general.NameObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.web.util.ReportEngineEventMapping;
 import com.fr.stable.Nameable;
 

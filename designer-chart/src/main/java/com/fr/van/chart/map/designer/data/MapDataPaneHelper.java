@@ -4,6 +4,7 @@ import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.map.VanChartMapPlot;

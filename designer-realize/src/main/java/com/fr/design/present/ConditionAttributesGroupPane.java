@@ -10,6 +10,7 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.NameObject;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;

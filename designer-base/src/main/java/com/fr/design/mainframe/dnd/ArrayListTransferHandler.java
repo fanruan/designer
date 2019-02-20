@@ -3,6 +3,8 @@
  */
 package com.fr.design.mainframe.dnd;
 
+import com.fr.log.FineLoggerFactory;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;

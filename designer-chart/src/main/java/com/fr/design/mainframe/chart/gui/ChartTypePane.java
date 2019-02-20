@@ -17,6 +17,7 @@ import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
 import com.fr.design.mainframe.chart.gui.item.ItemEventType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;

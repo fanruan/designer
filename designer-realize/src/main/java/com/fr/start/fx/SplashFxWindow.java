@@ -1,5 +1,6 @@
 package com.fr.start.fx;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashFxActionListener;

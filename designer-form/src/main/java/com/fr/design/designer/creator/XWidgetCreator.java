@@ -8,6 +8,7 @@ import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.core.PropertyChangeAdapter;
 
 import javax.swing.ImageIcon;

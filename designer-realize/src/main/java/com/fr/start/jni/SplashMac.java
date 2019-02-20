@@ -1,5 +1,6 @@
 package com.fr.start.jni;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;

@@ -8,6 +8,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.TableDataConfig;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 
 import java.awt.BorderLayout;

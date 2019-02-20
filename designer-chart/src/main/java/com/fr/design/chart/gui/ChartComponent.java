@@ -14,6 +14,7 @@ import com.fr.design.chart.gui.active.ActiveGlyph;
 import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeListener;
 

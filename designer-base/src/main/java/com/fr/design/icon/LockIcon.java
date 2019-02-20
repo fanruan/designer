@@ -1,6 +1,7 @@
 package com.fr.design.icon;
 
 import com.fr.base.BaseUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;

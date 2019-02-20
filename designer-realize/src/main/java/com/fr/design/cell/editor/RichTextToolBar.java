@@ -19,6 +19,7 @@ import com.fr.design.report.RichTextEditingPane;
 import com.fr.design.report.RichTextPane;
 import com.fr.design.style.color.UIToolbarColorButton;
 import com.fr.general.FRFont;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.cellattr.core.RichTextConverter;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;

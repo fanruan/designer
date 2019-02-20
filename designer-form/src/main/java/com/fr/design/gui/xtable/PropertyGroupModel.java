@@ -7,6 +7,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.stable.FormConstants;
 
 import java.beans.PropertyChangeEvent;

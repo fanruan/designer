@@ -7,6 +7,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
 import com.fr.general.http.HttpToolbox;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;

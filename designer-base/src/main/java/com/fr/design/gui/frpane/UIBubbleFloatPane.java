@@ -2,6 +2,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.UIDialog;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.sun.awt.AWTUtilities;
 

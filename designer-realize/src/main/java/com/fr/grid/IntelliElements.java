@@ -7,6 +7,7 @@ import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.script.FunctionHelper;
 import com.fr.grid.selection.CellSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;

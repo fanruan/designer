@@ -5,6 +5,7 @@ import com.fr.design.widget.btn.ButtonDetailPane;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;

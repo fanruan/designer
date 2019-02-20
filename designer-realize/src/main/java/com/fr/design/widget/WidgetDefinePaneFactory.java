@@ -42,6 +42,7 @@ import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;

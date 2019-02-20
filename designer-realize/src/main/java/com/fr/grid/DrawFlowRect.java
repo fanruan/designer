@@ -1,5 +1,7 @@
 package com.fr.grid;
 
+import com.fr.log.FineLoggerFactory;
+
 import java.awt.Color;
 import java.awt.Graphics;
 

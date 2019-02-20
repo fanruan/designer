@@ -16,6 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;

@@ -5,6 +5,7 @@ package com.fr.design.gui.icombobox;
 
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.log.FineLoggerFactory;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.JFrame;

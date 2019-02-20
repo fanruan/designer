@@ -2,6 +2,7 @@ package com.fr.design.gui.itooltip;
 
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

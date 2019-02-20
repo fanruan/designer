@@ -19,6 +19,7 @@ import com.fr.file.FILE;
 import com.fr.general.CloudCenter;
 import com.fr.general.NameObject;
 import com.fr.io.exporter.ImageExporter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.workbook.ResultWorkBook;
 import com.fr.stable.ActorConstants;

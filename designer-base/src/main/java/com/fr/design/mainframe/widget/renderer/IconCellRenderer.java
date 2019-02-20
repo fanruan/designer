@@ -3,6 +3,7 @@ package com.fr.design.mainframe.widget.renderer;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.form.ui.WidgetInfoConfig;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

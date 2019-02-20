@@ -11,6 +11,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;

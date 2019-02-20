@@ -15,6 +15,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 

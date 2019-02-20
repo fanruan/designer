@@ -10,6 +10,7 @@ import com.fr.chart.charttypes.MapIndependentChart;
 import com.fr.design.chart.series.PlotSeries.MapGroupExtensionPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;

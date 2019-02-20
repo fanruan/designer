@@ -14,6 +14,7 @@ import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.parameter.ParameterDesignerProvider;
 import com.fr.design.parameter.ParameterReader;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 
 import java.awt.Dialog;

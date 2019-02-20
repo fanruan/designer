@@ -8,6 +8,7 @@ import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;

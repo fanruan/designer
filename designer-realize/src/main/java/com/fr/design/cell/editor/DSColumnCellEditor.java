@@ -6,6 +6,7 @@ import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dscolumn.DSColumnPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.Grid;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.core.SheetUtils;
 import com.fr.report.elementcase.TemplateElementCase;

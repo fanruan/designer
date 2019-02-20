@@ -6,6 +6,7 @@ package com.fr.design.cell.clipboard;
 import com.fr.design.cell.FloatElementsProvider;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.FloatSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;

@@ -11,6 +11,7 @@ import com.fr.chart.chartattr.SimpleMeterPlot;
 import com.fr.chart.chartattr.StockPlot;
 import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.log.FineLoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -57,8 +58,6 @@ public class Factory4TableDataContentPane {
             }else{
                 return new CategoryPlotTableDataContentPane(parentPane);
             }
-        } catch (InstantiationException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }

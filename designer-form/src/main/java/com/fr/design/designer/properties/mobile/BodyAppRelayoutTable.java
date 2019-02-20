@@ -9,6 +9,7 @@ import com.fr.design.gui.xtable.ReportAppPropertyGroupModel;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.event.MouseEvent;
 import java.beans.IntrospectionException;

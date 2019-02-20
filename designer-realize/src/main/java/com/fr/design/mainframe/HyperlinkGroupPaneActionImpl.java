@@ -11,6 +11,7 @@ import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;

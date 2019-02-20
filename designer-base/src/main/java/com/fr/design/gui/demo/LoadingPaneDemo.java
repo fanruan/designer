@@ -7,6 +7,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.gui.frpane.LoadingBasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;

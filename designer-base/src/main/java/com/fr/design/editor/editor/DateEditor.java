@@ -6,6 +6,7 @@ package com.fr.design.editor.editor;
 import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JComponent;
 import java.awt.BorderLayout;

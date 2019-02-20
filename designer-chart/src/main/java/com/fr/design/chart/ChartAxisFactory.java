@@ -11,6 +11,7 @@ import com.fr.design.mainframe.chart.gui.style.axis.ChartRadarPane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValuePane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartValuePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,9 +50,7 @@ public class ChartAxisFactory {
         Class<? extends ChartAxisUsePane> cls = map.get(clsName);
         try {
             return cls.newInstance();
-        } catch (InstantiationException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new ChartCategoryPane();

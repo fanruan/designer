@@ -1,6 +1,7 @@
 package com.fr.design.gui.core;
 
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.Icon;
 

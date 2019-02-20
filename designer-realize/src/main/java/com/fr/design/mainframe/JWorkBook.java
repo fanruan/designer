@@ -72,6 +72,7 @@ import com.fr.general.ModuleContext;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.io.exporter.EmbeddedTableDataExporter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.impl.WorkBook;
 import com.fr.main.impl.WorkBookAdapter;

@@ -8,6 +8,7 @@ import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.widget.editors.PropertyCellEditor;
 import com.fr.design.mainframe.widget.renderer.PropertyCellRenderer;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellEditor;

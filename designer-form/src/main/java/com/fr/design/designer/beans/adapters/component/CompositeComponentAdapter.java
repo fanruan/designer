@@ -16,6 +16,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 

@@ -1,6 +1,7 @@
 package com.fr.design.gui.itooltip;
 
 import com.fr.base.GraphHelper;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JComponent;
 import javax.swing.JToolTip;

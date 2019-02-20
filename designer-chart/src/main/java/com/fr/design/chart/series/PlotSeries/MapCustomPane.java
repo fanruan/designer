@@ -16,6 +16,7 @@ import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import org.apache.batik.swing.svg.SVGFileFilter;
 

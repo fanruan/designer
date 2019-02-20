@@ -21,6 +21,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;

@@ -13,6 +13,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.design.mainframe.widget.editors.RefinedDoubleEditor;
 import com.fr.form.ui.ElementCaseEditor;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.table.TableModel;
 import java.beans.IntrospectionException;

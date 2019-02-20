@@ -12,6 +12,7 @@ import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.StringEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

@@ -5,6 +5,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
 

@@ -5,6 +5,7 @@ import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.Icon;
 

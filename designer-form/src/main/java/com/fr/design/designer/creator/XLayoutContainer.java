@@ -14,6 +14,7 @@ import com.fr.design.parameter.ParameterBridge;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.Background;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 

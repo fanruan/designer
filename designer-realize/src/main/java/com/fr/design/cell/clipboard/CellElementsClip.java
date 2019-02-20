@@ -4,6 +4,7 @@
 package com.fr.design.cell.clipboard;
 
 import com.fr.grid.selection.CellSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.CellElementComparator;
 import com.fr.report.cell.TemplateCellElement;

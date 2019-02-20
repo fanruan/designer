@@ -1,5 +1,6 @@
 package com.fr.van.chart.designer.style.axis;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
 import com.fr.plugin.chart.column.VanChartColumnPlot;

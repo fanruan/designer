@@ -22,6 +22,7 @@ import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
 import com.fr.general.http.HttpClient;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;

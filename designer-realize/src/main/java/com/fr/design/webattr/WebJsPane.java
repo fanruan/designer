@@ -11,6 +11,7 @@ import com.fr.design.widget.FRWidgetFactory;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.web.attr.ReportWebAttr;

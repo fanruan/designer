@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 
 import java.awt.Desktop;

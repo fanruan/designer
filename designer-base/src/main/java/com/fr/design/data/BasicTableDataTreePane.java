@@ -27,6 +27,7 @@ import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 

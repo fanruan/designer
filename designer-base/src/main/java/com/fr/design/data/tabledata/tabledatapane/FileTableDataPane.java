@@ -37,6 +37,7 @@ import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.data.DataSource;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ParameterProvider;

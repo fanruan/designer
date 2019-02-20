@@ -1,5 +1,7 @@
 package com.fr.design.gui.icombobox;
 
+import com.fr.log.FineLoggerFactory;
+
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import java.awt.BorderLayout;

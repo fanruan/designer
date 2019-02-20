@@ -5,6 +5,7 @@ import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;

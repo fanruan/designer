@@ -29,6 +29,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.style.background.BackgroundPane;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.main.parameter.TemplateParameterAttr;
 import com.fr.stable.ArrayUtils;

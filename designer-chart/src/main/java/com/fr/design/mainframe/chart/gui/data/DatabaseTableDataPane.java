@@ -12,6 +12,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

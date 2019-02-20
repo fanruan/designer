@@ -3,6 +3,7 @@ package com.fr.design.dialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;

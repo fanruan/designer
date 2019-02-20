@@ -4,6 +4,7 @@ import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.stable.FormConstants;
 
 import javax.swing.JOptionPane;

@@ -11,6 +11,7 @@ import com.fr.data.condition.ListCondition;
 import com.fr.design.condition.ConditionAttrSingleConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

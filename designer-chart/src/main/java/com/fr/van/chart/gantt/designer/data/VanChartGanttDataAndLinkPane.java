@@ -10,6 +10,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ReportDataPane;
 import com.fr.design.mainframe.chart.gui.data.TableDataPane;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.gantt.data.VanGanttDefinition;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkReportDataPane;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkTableDataPane;

@@ -8,6 +8,7 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.cellattr.CellGUIAttr;
 import com.fr.report.cell.cellattr.core.RichChar;

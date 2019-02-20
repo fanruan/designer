@@ -21,6 +21,7 @@ import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.PolyConstants;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyDesigner.SelectionType;

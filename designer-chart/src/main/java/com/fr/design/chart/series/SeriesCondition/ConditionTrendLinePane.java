@@ -11,6 +11,7 @@ import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;

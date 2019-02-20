@@ -8,6 +8,7 @@ import com.fr.base.chart.BaseChart;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.grid.Grid;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyUtils;
 import com.fr.poly.creator.BlockCreator;

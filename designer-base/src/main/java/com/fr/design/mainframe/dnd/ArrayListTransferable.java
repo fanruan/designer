@@ -1,5 +1,7 @@
 package com.fr.design.mainframe.dnd;
 
+import com.fr.log.FineLoggerFactory;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;

@@ -7,6 +7,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BasePlot;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.ChartBlockCreator;
 import com.fr.poly.creator.ECBlockCreator;

@@ -10,6 +10,7 @@ import com.fr.design.formula.UIFormula;
 import com.fr.design.gui.frpane.UITextPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.cellattr.core.RichText;
 import com.fr.report.cell.cellattr.core.RichTextConverter;
 

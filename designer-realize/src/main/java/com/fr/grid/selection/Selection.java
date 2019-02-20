@@ -8,6 +8,7 @@ import com.fr.design.fun.RightSelectionHandlerProvider;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.selection.SelectableElement;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.FCloneable;

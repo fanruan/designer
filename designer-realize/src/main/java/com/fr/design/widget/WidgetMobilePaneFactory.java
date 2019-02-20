@@ -7,6 +7,7 @@ import com.fr.design.widget.ui.mobile.ScanCodeMobilePane;
 import com.fr.form.ui.MultiFileEditor;
 import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;

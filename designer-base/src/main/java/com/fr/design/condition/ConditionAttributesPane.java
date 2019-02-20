@@ -7,6 +7,7 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;

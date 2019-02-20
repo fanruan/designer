@@ -1,5 +1,7 @@
 package com.fr.design.gui.date;
 
+import com.fr.log.FineLoggerFactory;
+
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 import java.text.SimpleDateFormat;

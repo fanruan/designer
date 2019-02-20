@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;

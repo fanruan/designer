@@ -44,6 +44,7 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.actions.DeleteBlockAction;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.BlockEditor;

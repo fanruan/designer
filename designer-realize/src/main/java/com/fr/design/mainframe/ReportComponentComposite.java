@@ -9,6 +9,7 @@ import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.grid.Grid;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.report.TemplateReport;
 

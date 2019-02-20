@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.ListenerAdaptor;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.AWTException;
 import java.awt.Image;

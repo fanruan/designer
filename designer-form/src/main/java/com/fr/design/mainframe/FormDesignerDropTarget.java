@@ -7,6 +7,7 @@ import com.fr.form.ui.IframeEditor;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetValue;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;

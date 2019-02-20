@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JPanel;

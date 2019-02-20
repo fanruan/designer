@@ -6,6 +6,7 @@ import com.fr.chart.chartdata.TopDefinition;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.gantt.data.VanGanttTableDefinition;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;

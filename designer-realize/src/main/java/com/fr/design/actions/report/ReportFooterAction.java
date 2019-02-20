@@ -9,6 +9,7 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.headerfooter.EditFooterPane;
 import com.fr.design.mainframe.ReportComponent;
 import com.fr.design.menu.KeySetUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.report.core.ReportHF;
 import com.fr.report.core.ReportUtils;

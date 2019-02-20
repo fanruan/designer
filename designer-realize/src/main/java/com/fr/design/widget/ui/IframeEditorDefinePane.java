@@ -13,6 +13,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.IframeEditor;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ParameterProvider;
 
 import javax.swing.BorderFactory;

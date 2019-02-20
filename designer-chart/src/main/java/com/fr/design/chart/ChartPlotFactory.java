@@ -49,6 +49,7 @@ import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValueNoFormulaPan
 import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValuePane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartValueNoFormulaPane;
 import com.fr.design.mainframe.chart.gui.style.axis.ChartValuePane;
+import com.fr.log.FineLoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

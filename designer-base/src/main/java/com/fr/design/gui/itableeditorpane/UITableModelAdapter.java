@@ -2,6 +2,7 @@ package com.fr.design.gui.itableeditorpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;

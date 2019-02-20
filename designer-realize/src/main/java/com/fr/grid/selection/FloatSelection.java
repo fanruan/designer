@@ -25,6 +25,7 @@ import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;

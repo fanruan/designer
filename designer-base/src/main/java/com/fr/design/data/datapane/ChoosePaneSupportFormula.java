@@ -14,6 +14,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 
 import javax.swing.JTree;
