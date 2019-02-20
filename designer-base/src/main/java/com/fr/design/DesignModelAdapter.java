@@ -134,7 +134,7 @@ public abstract class DesignModelAdapter<T extends BaseBook, S extends JTemplate
      */
     @Deprecated
     public Parameter[] getReportParameters() {
-        return getTableDataParameters();
+        return getTemplateParameters();
     }
 
     /**

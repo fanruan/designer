@@ -17,7 +17,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -200,8 +200,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
 
         UILabel showContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT);
-        UILabel toolTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"));
-        UIComponentUtils.setLineWrap(toolTipLabel);
+        UILabel toolTipLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"));
 
         JPanel toolTipTextFieldWrapper = new JPanel(new BorderLayout());
         toolTipTextFieldWrapper.add(tooltipTextField, BorderLayout.NORTH);
