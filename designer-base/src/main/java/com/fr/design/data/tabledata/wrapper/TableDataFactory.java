@@ -1,6 +1,5 @@
 package com.fr.design.data.tabledata.wrapper;
 
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.ClassTableData;
@@ -123,7 +122,7 @@ public abstract class TableDataFactory {
                 }
                 datapane.populateBean(tabledata); // August:不管tabledata是刚刚新建的还是原来的，一律populate进去，如果出错就是代码写的不好
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return datapane;

@@ -1,6 +1,5 @@
 package com.fr.design.actions.core;
 
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -215,7 +214,7 @@ public class ActionFactory {
             c.setAccessible(true);
             return c.newInstance();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }
@@ -281,7 +280,7 @@ public class ActionFactory {
                     Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor(cls);
                     actions.add(c.newInstance(obj));
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }
@@ -301,7 +300,7 @@ public class ActionFactory {
                     Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor();
                     actionNames.add(c.newInstance().getMenuKeySet());
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }
@@ -336,7 +335,7 @@ public class ActionFactory {
                 Constructor<? extends UpdateAction> c = (Constructor<? extends UpdateAction>) clazz.getConstructor(cls);
                 actions.add(c.newInstance(obj));
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return actions.toArray(new UpdateAction[actions.size()]);
@@ -355,7 +354,7 @@ public class ActionFactory {
                 constructor.setAccessible(true);
                 return constructor.newInstance();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             return null;
         }

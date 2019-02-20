@@ -4,7 +4,6 @@
 
 package com.fr.design.actions.help;
 
-import com.fr.base.FRContext;
 import com.fr.base.FeedBackInfo;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicDialog;
@@ -23,7 +22,12 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -31,7 +35,12 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -299,7 +308,7 @@ public class FeedBackPane extends BasicPane {
                 } catch (Exception e) {
                     isSendSuccessful = false;
                     if (!(e instanceof CancellationException)) {
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                 }
             }

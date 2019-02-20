@@ -4,7 +4,6 @@
 package com.fr.design.report.share;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.data.TableDataSource;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.design.dialog.BasicDialog;
@@ -18,9 +17,9 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.FILE;
 import com.fr.general.CloudCenter;
-
 import com.fr.general.NameObject;
 import com.fr.io.exporter.ImageExporter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.TemplateWorkBook;
 import com.fr.main.workbook.ResultWorkBook;
 import com.fr.stable.ActorConstants;
@@ -32,7 +31,7 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -68,7 +67,7 @@ public class ShareButton extends UIButton{
 		try {
 			Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.share")));
 		} catch (Exception e1) {
-			FRContext.getLogger().error(e1.getMessage());
+            FineLoggerFactory.getLogger().error(e1.getMessage());
 		}
 	}
 	
@@ -85,7 +84,7 @@ public class ShareButton extends UIButton{
 		try {
 			exporter.export(new FileOutputStream(imageFile), res);
 		} catch (Exception e2) {
-			FRContext.getLogger().error(e2.getMessage());
+            FineLoggerFactory.getLogger().error(e2.getMessage());
 		}
 		
 		return imageFile.getParent();

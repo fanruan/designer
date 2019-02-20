@@ -1,6 +1,5 @@
 package com.fr.design.designer.creator;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -13,6 +12,8 @@ import com.fr.design.mainframe.widget.editors.ExtendedPropertyEditor;
 import com.fr.design.mainframe.widget.editors.StringEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.Component;
@@ -103,7 +104,7 @@ public class CRPropertyDescriptorPane {
                 }
             });
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return component;
     }
@@ -115,7 +116,7 @@ public class CRPropertyDescriptorPane {
             propertyEditor.setValue(value);
             isPopulate = false;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
     }
@@ -126,7 +127,7 @@ public class CRPropertyDescriptorPane {
             Object value = m.invoke(widget);
             return value;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return null;
         }
     }

@@ -4,7 +4,6 @@
 package com.fr.poly.creator;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
@@ -22,21 +21,26 @@ import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.PolyConstants;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyDesigner.SelectionType;
 import com.fr.poly.hanlder.ColumnOperationMouseHandler;
 import com.fr.poly.hanlder.RowOperationMouseHandler;
 import com.fr.report.poly.PolyChartBlock;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
  * @author richer
@@ -219,7 +223,7 @@ public class ChartBlockEditor extends BlockEditor<MiddleChartComponent, PolyChar
 					try {
 						chart = (BaseChart) ChartButton.this.chart.clone();
 					} catch (CloneNotSupportedException ex) {
-						FRContext.getLogger().error(ex.getMessage(), ex);
+                        FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
 						return;
 					}
 					BaseChartCollection cc = creator.getValue().getChartCollection();

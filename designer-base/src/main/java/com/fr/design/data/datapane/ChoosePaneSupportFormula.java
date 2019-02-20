@@ -1,7 +1,6 @@
 package com.fr.design.data.datapane;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterHelper;
 import com.fr.base.ParameterMapNameSpace;
@@ -15,9 +14,10 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 
-import javax.swing.*;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.ItemEvent;
@@ -113,7 +113,7 @@ public class ChoosePaneSupportFormula extends ChoosePane {
                 selectedDSName = Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(item)));
 //				selectedDSName = ParameterHelper.analyzeCurrentContextTableData4Templatee(item, parameters);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } else {
             selectedDSName = item;
@@ -156,7 +156,7 @@ public class ChoosePaneSupportFormula extends ChoosePane {
             dsName = dsItem.startsWith("=") ? Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(dsItem))) : dsItem;
             tableName = tableItem.startsWith("=") ? Utils.objectToString(ca.eval(BaseFormula.createFormulaBuilder().build(tableItem))) : tableItem;
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         ori_ds_name = dsName;
         ori_table_name = tableName;

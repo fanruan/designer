@@ -1,6 +1,5 @@
 package com.fr.design.module;
 
-import com.fr.base.FRContext;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
@@ -15,9 +14,12 @@ import com.fr.design.parameter.HierarchyTreePane;
 import com.fr.design.parameter.ParameterDesignerProvider;
 import com.fr.design.parameter.ParameterReader;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 
-import java.awt.*;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Window;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
@@ -122,7 +124,7 @@ public class DesignModuleFactory {
             try {
                 return instance.paraPropertyPane.newInstance();
             } catch (Exception e) {
-                FRContext.getLogger().error("Error in Para PropertyPane");
+                FineLoggerFactory.getLogger().error("Error in Para PropertyPane");
             }
         }
         return null;
@@ -137,7 +139,7 @@ public class DesignModuleFactory {
             try {
                 return (ParameterDesignerProvider) instance.formParaDesigner.newInstance();
             } catch (Exception e) {
-                FRContext.getLogger().error("error in form para designer");
+                FineLoggerFactory.getLogger().error("error in form para designer");
             }
         }
         return null;
@@ -172,9 +174,9 @@ public class DesignModuleFactory {
                 bcc = instance.chartComponentClass.newInstance();
                 bcc.populate(collection);
             } catch (InstantiationException e) {
-                FRContext.getLogger().error("Error in ChartComponent instant", e);
+                FineLoggerFactory.getLogger().error("Error in ChartComponent instant", e);
             } catch (IllegalAccessException e) {
-                FRContext.getLogger().error("Error in Access", e);
+                FineLoggerFactory.getLogger().error("Error in Access", e);
             }
         }
         return bcc;
@@ -195,7 +197,7 @@ public class DesignModuleFactory {
             }
             return c.newInstance(window);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

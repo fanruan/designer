@@ -3,18 +3,17 @@
  */
 package com.fr.design.mainframe.dnd;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.ArrayList;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.TransferHandler;
-
-import com.fr.base.FRContext;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Used for JList.
@@ -33,7 +32,7 @@ public class ArrayListTransferHandler extends TransferHandler {
         try {
             localArrayListFlavor = new DataFlavor(localArrayListType);
         } catch (ClassNotFoundException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");
@@ -55,10 +54,10 @@ public class ArrayListTransferHandler extends TransferHandler {
                 return false;
             }
         } catch (UnsupportedFlavorException ufe) {
-            FRContext.getLogger().error(ufe.getMessage(), ufe);
+            FineLoggerFactory.getLogger().error(ufe.getMessage(), ufe);
             return false;
         } catch (IOException ioe) {
-            FRContext.getLogger().error(ioe.getMessage(), ioe);
+            FineLoggerFactory.getLogger().error(ioe.getMessage(), ioe);
             return false;
         }
 

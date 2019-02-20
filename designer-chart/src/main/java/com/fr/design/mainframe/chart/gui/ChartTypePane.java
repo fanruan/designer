@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.chart.gui;
 
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
@@ -18,6 +17,7 @@ import com.fr.design.mainframe.chart.gui.item.FlexibleComboBox;
 import com.fr.design.mainframe.chart.gui.item.ItemEventType;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
@@ -160,7 +160,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
                     chart = newDefaultChart;
                 }
             }catch (CloneNotSupportedException e){
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
 			//这一步会替换plot

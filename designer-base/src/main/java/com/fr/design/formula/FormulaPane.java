@@ -19,7 +19,6 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.log.FineLoggerFactory;
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
@@ -28,7 +27,17 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Expression;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -38,7 +47,10 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -566,7 +578,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                 try {
                     expression = parser.parse();
                 } catch (Exception e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     // alex:继续往下面走,expression为null时告知不合法公式
                 }
 
@@ -1035,6 +1047,6 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
             buffer.append("|");
             buffer.append("\n");
         }
-        FRContext.getLogger().debug(buffer.toString());
+        FineLoggerFactory.getLogger().debug(buffer.toString());
     }
 }

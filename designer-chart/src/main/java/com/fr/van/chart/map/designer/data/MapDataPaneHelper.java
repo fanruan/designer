@@ -1,10 +1,10 @@
 package com.fr.van.chart.map.designer.data;
 
-import com.fr.base.FRContext;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -33,7 +33,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -54,7 +54,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -76,7 +76,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -99,7 +99,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
@@ -126,7 +126,7 @@ public class MapDataPaneHelper {
             }
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }

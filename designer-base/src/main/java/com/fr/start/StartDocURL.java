@@ -1,10 +1,10 @@
 package com.fr.start;
 
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StableUtils;
+
 import java.awt.Desktop;
 import java.net.URI;
-
-import com.fr.base.FRContext;
-import com.fr.stable.StableUtils;
 
 
 /**
@@ -20,7 +20,7 @@ public class StartDocURL {
 	public static void main(String[] args) {
 		//p:必须有路径的URL存在
 		if(args == null || args.length < 1) {
-    		FRContext.getLogger().error(
+            FineLoggerFactory.getLogger().error(
 			"Can not find the install home, please check it.");
     		return;			
 		}
@@ -33,7 +33,7 @@ public class StartDocURL {
 			} else {
 	    		String iHome = StableUtils.getInstallHome();
 	        	if (iHome == null) {
-	        		FRContext.getLogger().error(
+                    FineLoggerFactory.getLogger().error(
 	        				"Can not find the install home, please check it.");
 	        		return;
 	        	}
@@ -42,7 +42,7 @@ public class StartDocURL {
 	    		Desktop.getDesktop().open(new java.io.File(iHome + args[0]));
 			}    		
     	} catch (Exception e) {
-    		FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
     	}
 	}
 }
