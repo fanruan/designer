@@ -3,7 +3,6 @@
  */
 package com.fr.design.mainframe.form;
 
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
@@ -33,6 +32,7 @@ import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.worksheet.FormElementCase;
@@ -138,7 +138,7 @@ public class FormElementCaseDesigner
             this.elementCasePane.paintComponents(g);
 
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
         return image;

@@ -1,5 +1,25 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
+import com.fr.data.impl.EmbeddedTableData;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.gui.date.UIDatePicker;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.DateUtils;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -11,29 +31,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
-
-import com.fr.design.gui.date.UIDatePicker;
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-
-import com.fr.base.FRContext;
-import com.fr.data.impl.EmbeddedTableData;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.general.DateUtils;
-
-import com.fr.stable.StringUtils;
 
 
 public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableData> {
@@ -214,7 +211,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 		try {
 			return (EmbeddedTableData) localDefaultModel.getEditableTableData().clone();
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			return new EmbeddedTableData();
 		}
 	}

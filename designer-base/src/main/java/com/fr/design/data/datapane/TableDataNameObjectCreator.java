@@ -1,21 +1,21 @@
 package com.fr.design.data.datapane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.data.impl.DBTableData;
 import com.fr.design.actions.tabledata.TableDataAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.icon.WarningIcon;
 import com.fr.general.ComparatorUtils;
-
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import java.awt.Image;
 import java.text.Collator;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -138,10 +138,10 @@ public class TableDataNameObjectCreator extends NameObjectCreator {
             try {
                 return clazzOfInitCase.newInstance();
             } catch (InstantiationException | IllegalAccessException e1) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         } catch (IllegalAccessException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

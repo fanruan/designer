@@ -3,13 +3,13 @@
  */
 package com.fr.design.editor.editor;
 
-import com.fr.base.FRContext;
 import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JComponent;
+import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
@@ -113,7 +113,7 @@ public class DateEditor extends Editor<Date> {
 		try {
 			return this.uiDatePicker.getSelectedDate();
 		} catch (ParseException parseException) {
-			FRContext.getLogger().error(parseException.getMessage(), parseException);
+            FineLoggerFactory.getLogger().error(parseException.getMessage(), parseException);
 			return new Date();
 		}
 	}
@@ -132,7 +132,7 @@ public class DateEditor extends Editor<Date> {
 		try {
 			this.uiDatePicker.setSelectedDate(value);
 		} catch (ParseException parseException) {
-			FRContext.getLogger().error(parseException.getMessage(), parseException);
+            FineLoggerFactory.getLogger().error(parseException.getMessage(), parseException);
 		}
 	}
 

@@ -1,6 +1,5 @@
 package com.fr.design.present;
 
-import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -10,16 +9,15 @@ import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 
 public class CellWriteAttrPane extends BasicPane {
 
@@ -79,7 +77,7 @@ public class CellWriteAttrPane extends BasicPane {
             try {
                 cellWidget = (Widget) cellWidget.clone();
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         cellEditorDefPane.populate(cellWidget);

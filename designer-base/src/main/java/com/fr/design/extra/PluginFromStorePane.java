@@ -1,11 +1,9 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
-
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
@@ -15,7 +13,11 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -206,7 +208,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
                 PluginMarker toPluginMarker = PluginMarker.create(id, latestPluginVersion);
                 PluginManager.getController().download(pluginMarker, new UpdateOnlineCallback(pluginMarker, toPluginMarker, pane));
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         }

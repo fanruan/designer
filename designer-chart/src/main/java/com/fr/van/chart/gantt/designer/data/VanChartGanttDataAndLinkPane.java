@@ -1,6 +1,5 @@
 package com.fr.van.chart.gantt.designer.data;
 
-import com.fr.base.FRContext;
 import com.fr.base.chart.chartdata.TopDefinitionProvider;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -11,7 +10,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ReportDataPane;
 import com.fr.design.mainframe.chart.gui.data.TableDataPane;
-
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.gantt.data.VanGanttDefinition;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkReportDataPane;
 import com.fr.van.chart.gantt.designer.data.link.GanttLinkTableDataPane;
@@ -116,7 +115,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
 
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return collection;
         }
     }
@@ -133,7 +132,7 @@ public class VanChartGanttDataAndLinkPane extends MultiTabPane<ChartCollection> 
 
             return cloneCollection;
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return collection;
         }
     }
