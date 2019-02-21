@@ -1,11 +1,11 @@
 package com.fr.design.widget.ui.btn;
 
-import com.fr.base.FRContext;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.widget.btn.ButtonDetailPane;
 import com.fr.form.ui.Button;
 import com.fr.form.ui.FreeButton;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;
@@ -44,7 +44,7 @@ public class ButtonDetailPaneFactory {
                 detailPane = (ButtonDetailPane) cls.newInstance();
                 detailPane.populate(button);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return detailPane;
@@ -61,7 +61,7 @@ public class ButtonDetailPaneFactory {
                 detailPane = (ButtonDetailPane) aa.newInstance();
                 detailPane.populate(button == null ? detailPane.createButton() : button);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return detailPane;

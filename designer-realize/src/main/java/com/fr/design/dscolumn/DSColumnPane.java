@@ -1,12 +1,11 @@
 package com.fr.design.dscolumn;
 
-import com.fr.base.FRContext;
 import com.fr.data.TableDataSource;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
-
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -60,7 +59,7 @@ public class DSColumnPane extends BasicPane {
                 // 切换标签的时候就，确认是否有没有添加到列表中的条件
                 lastSelectedComponent = selectTabComponent;
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         }

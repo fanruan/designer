@@ -1,11 +1,11 @@
 package com.fr.design.chart.gui;
 
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.Icon;
 
@@ -42,11 +42,11 @@ public class ChartWidgetOption extends WidgetOption {
 			widget.addChart((Chart) chart.clone());
 			return widget;
 		} catch (InstantiationException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 		return null;

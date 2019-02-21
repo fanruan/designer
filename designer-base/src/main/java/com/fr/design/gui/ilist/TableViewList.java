@@ -1,7 +1,6 @@
 package com.fr.design.gui.ilist;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
 import com.fr.data.core.db.dialect.base.key.check.DataBaseDetail;
@@ -13,11 +12,17 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
+import java.awt.Component;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
@@ -111,7 +116,7 @@ public class TableViewList extends UIList {
                 } catch (Exception e) {
                     if (!(e instanceof InterruptedException) && !(e instanceof CancellationException)) {
                         TableViewList.this.setModel(failed);
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                 }
             }

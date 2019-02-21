@@ -52,11 +52,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author neil
@@ -134,11 +131,11 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
 			xmlInputStream.close();
 		} catch (FileNotFoundException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IOException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (XMLStreamException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 	}
@@ -361,7 +358,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 					//读取XML的5分钟后开始发请求连接服务器.
 					Thread.sleep(SEND_DELAY);
 				} catch (InterruptedException e) {
-					FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
 				}
                 sendUserInfo();
 				sendFunctionsInfo();
@@ -407,7 +404,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			String encodeCotent = DesUtils.getEncString(fileContent);
 			writeEncodeContentToFile(encodeCotent, xmlFile);
     	}catch (Exception e) {
-    		FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
     }
 
@@ -423,7 +420,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			bw = new BufferedWriter(osw);
 			bw.write(fileContent);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} finally {
 			if(bw != null){
 				try {

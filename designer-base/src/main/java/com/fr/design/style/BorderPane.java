@@ -5,7 +5,6 @@ package com.fr.design.style;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.CellBorderStyle;
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.Style;
 import com.fr.design.dialog.BasicPane;
@@ -16,6 +15,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
 
@@ -243,7 +243,7 @@ public class BorderPane extends BasicPane {
 				this.cellBorderStyle = (CellBorderStyle)cellBorderStyle.clone();
 			}
 		} catch (CloneNotSupportedException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		this.insideMode = insideMode;
 		// ben 这里也有问题，CellBorderStyle的 linestyle和color很可能不止一种

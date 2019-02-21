@@ -1,6 +1,5 @@
 package com.fr.design.chart.gui;
 
-import com.fr.base.FRContext;
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
@@ -15,10 +14,19 @@ import com.fr.design.chart.gui.active.ActiveGlyph;
 import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.core.PropertyChangeListener;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -122,7 +130,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     		this.chartCollection4Design = (ChartCollection)cc;
 //    		this.chartCollection4Design = (ChartCollection)cc.clone();
 		} catch (Exception e) {
-			FRContext.getLogger().error("ChartCollection clone is Error");
+            FineLoggerFactory.getLogger().error("ChartCollection clone is Error");
 		}
         reset();
     }

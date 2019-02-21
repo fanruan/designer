@@ -1,7 +1,8 @@
 package com.fr.design.extra;
 
-import com.fr.base.FRContext;
-import com.fr.general.*;
+import com.fr.general.CloudCenter;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -25,12 +26,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
-import javafx.stage.*;
+import javafx.stage.Modality;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import netscape.javascript.JSObject;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Toolkit;
 
 /**
  * Created by zhaohehe on 16/7/28.
@@ -79,7 +85,7 @@ public class QQLoginWebPane extends JFXPanel {
                     primaryStage.setY(Screen.getPrimary().getBounds().getHeight() + DEFAULT_PRIMARYSTAGE_HEIGHT);
                     primaryStage.show();
                 } catch (Exception e) {
-                    FRContext.getLogger().info(e.getMessage());
+                    FineLoggerFactory.getLogger().info(e.getMessage());
                 }
                 webEngine.setConfirmHandler(new Callback<String, Boolean>() {
                     @Override
