@@ -29,6 +29,7 @@ import com.fr.design.gui.itableeditorpane.UITableEditorPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.gui.syntax.ui.rtextarea.RTextScrollPane;
+import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
@@ -211,10 +212,13 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
         isShareCheckBox.setBackground(Color.WHITE);
         maxPanel = new MaxMemRowCountPanel();
         maxPanel.setBorder(null);
+        JPanel wrapMaxPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        wrapMaxPanel.add(maxPanel);
+        wrapMaxPanel.setPreferredSize(new Dimension(200, 20));
         UIToolbar editToolBar = ToolBarDef.createJToolBar();
         toolBarDef.updateToolBar(editToolBar);
         editToolBar.add(isShareCheckBox);
-        editToolBar.add(maxPanel);
+        editToolBar.add(wrapMaxPanel);
         return editToolBar;
     }
 
