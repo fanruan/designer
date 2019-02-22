@@ -93,17 +93,40 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
         if (chart.getFilterDefinition() instanceof ExtendedTableDataSet) {
             ExtendedTableDataSet dataSet = (ExtendedTableDataSet) chart.getFilterDefinition();
 
-            AbstractDataConfig dataConfig = dataSet.getDataConfig();
-            if (dataConfig != null) {
-                populate((T) dataConfig);
-
-                if (customFieldComboBoxPane != null) {
-                    customFieldComboBoxPane.populateBean(dataConfig);
-                }
-            }
+            populateDataSet(dataSet);
 
         }
 
+    }
+
+    public void populateDataSet(DataSet dataSet) {
+
+        if (dataSet == null) {
+            return;
+        }
+
+        AbstractDataConfig dataConfig = dataSet.getDataConfig();
+
+        if (dataConfig != null) {
+            populate((T) dataConfig);
+
+            if (customFieldComboBoxPane != null) {
+                customFieldComboBoxPane.populateBean(dataConfig);
+            }
+        }
+    }
+
+    public ExtendedTableDataSet updateDataSet() {
+
+        ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
+
+        dataSet.setDataConfig(update());
+
+        if (customFieldComboBoxPane != null) {
+            customFieldComboBoxPane.updateBean(dataSet.getDataConfig());
+        }
+
+        return dataSet;
     }
 
 
@@ -113,14 +136,7 @@ public abstract class AbstractExtendedChartTableDataPane<T extends AbstractDataC
             Chart chart = ob.getSelectedChart();
             if (chart != null) {
 
-                ExtendedTableDataSet dataSet = new ExtendedTableDataSet();
-                dataSet.setDataConfig(update());
-
-                if (customFieldComboBoxPane != null) {
-                    customFieldComboBoxPane.updateBean(dataSet.getDataConfig());
-                }
-
-                chart.setFilterDefinition(dataSet);
+                chart.setFilterDefinition(updateDataSet());
             }
         }
     }
