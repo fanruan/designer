@@ -1,7 +1,7 @@
 package com.fr.design.actions.file.export;
 
-import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.JTemplateAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.gui.iprogressbar.FRProgressBar;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
@@ -9,6 +9,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.exception.RemoteDesignPermissionDeniedException;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
+import com.fr.file.RenameExportFILE;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.io.exporter.DesignExportType;
 import com.fr.io.exporter.ExporterKey;
@@ -92,12 +93,17 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
         int saveValue = fileChooserPane.showSaveDialog(DesignerContext.getDesignerFrame(), "." + this.getDefaultExtension());
         if (saveValue == FILEChooserPane.JOPTIONPANE_OK_OPTION || saveValue == FILEChooserPane.OK_OPTION) {
             FILE target = fileChooserPane.getSelectedFILE();
+            //rename 方式导出
+            target = RenameExportFILE.create(target);
             try {
                 target.mkfile();
             } catch (Exception exp) {
                 FineLoggerFactory.getLogger().error("Error In Make New File", exp);
             }
-            FineLoggerFactory.getLogger().info("\"" + target.getName() + "\"" + Toolkit.i18nText("Fine-Design_Report_Prepare_Export") + "!");
+            FineLoggerFactory.getLogger().info(
+                    "\"" + RenameExportFILE.recoverFileName(target.getName()) + "\"" +
+                            Toolkit.i18nText("Fine-Design_Report_Prepare_Export") + "!"
+            );
 
             progressbar = new FRProgressBar(
                     createExportWork(getSource(), target, para),
@@ -124,7 +130,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
     private boolean processNotSaved() {
         //当前编辑的模板
         E e = getEditingComponent();
-        if (!e.isALLSaved() && !DesignerMode.isVcsMode()) {
+        if (!e.isALLSaved() && !DesignModeContext.isVcsMode()) {
             e.stopEditing();
             int returnVal = JOptionPane.showConfirmDialog(
                     DesignerContext.getDesignerFrame(),
@@ -149,7 +155,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
 
     private SwingWorker createExportWork(final FILE source, final FILE target, final Map<String, Object> parameterMap) {
         final String path = source.getPath();
-        final String name = target.getName();
+        final String name = RenameExportFILE.recoverFileName(target.getName());
 
         return new SwingWorker<Void, Void>() {
 
@@ -162,7 +168,6 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     dealExporter(outputStream, path, parameterMap);
                     this.setProgress(80);
                     outputStream.flush();
-                    outputStream.close();
                     this.setProgress(100);
 
                     FineLoggerFactory.getLogger().info("\"" + name + "\"" + Toolkit.i18nText("Fine-Design_Report_Finish_Export") + "!");
