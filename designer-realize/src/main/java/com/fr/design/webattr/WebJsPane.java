@@ -1,6 +1,5 @@
 package com.fr.design.webattr;
 
-import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.EditingStringListPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -8,9 +7,11 @@ import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
 import com.fr.web.attr.ReportWebAttr;
@@ -95,7 +96,7 @@ public class WebJsPane extends BasicPane {
 		northPane.add(localText);
 		northPane.add(chooseFile);
 		firstnorth.add(northPane,BorderLayout.NORTH);
-		infor1 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
+		infor1 = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
 		infor1.setForeground(new Color(207, 42, 39));
 		firstnorth.add(infor1,BorderLayout.CENTER);
 
@@ -195,7 +196,7 @@ public class WebJsPane extends BasicPane {
 				URLConnection connection = url.openConnection();
 				in = connection.getInputStream();
 			} catch (Throwable e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 			if (in == null) {
 				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));

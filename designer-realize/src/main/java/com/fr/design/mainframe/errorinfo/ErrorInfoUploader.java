@@ -1,17 +1,18 @@
 package com.fr.design.mainframe.errorinfo;
 
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
+import com.fr.general.CommonIOUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.http.HttpClient;
-import com.fr.json.JSONException;
+import com.fr.general.http.HttpResponseType;
+import com.fr.general.http.HttpToolbox;
+import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.license.function.VT4FR;
 import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -20,7 +21,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/7/24 0024.
@@ -33,6 +36,9 @@ public class ErrorInfoUploader {
     private static ErrorInfoUploader collector;
     // 在一台不能上网的电脑里发现了10w个errorinfo...
     private static final int MAX_ERROR_SIZE = 2000;
+
+    //单次发送的错误信息最大条数
+    private static final int MAX_ITEMS = 200;
 
     static {
         GeneralContext.addEnvChangedListener(new EnvChangedListener() {
@@ -93,9 +99,7 @@ public class ErrorInfoUploader {
         try {
             String downloadURL = CloudCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
             downloadURL = String.format("%s?token=%s", downloadURL, SiteCenterToken.generateToken());
-            HttpClient hc = new HttpClient(downloadURL);
-            hc.asGet();
-            InputStream in = hc.getResponseStream();
+            InputStream in = HttpToolbox.post(downloadURL, new HashMap<String, Object>(), HttpResponseType.STREAM);
             StableUtils.makesureFileExist(localCacheZip);
             FileOutputStream out = new FileOutputStream(localCacheZip);
             IOUtils.copyBinaryTo(in, out);
@@ -104,7 +108,7 @@ public class ErrorInfoUploader {
 
             IOUtils.unzip(localCacheZip, localCacheZip.getParent());
         } catch (Exception e) {
-            FRContext.getLogger().debug(e.getMessage());
+            FineLoggerFactory.getLogger().debug(e.getMessage());
         }
 
     }
@@ -114,15 +118,11 @@ public class ErrorInfoUploader {
             // 判断本地文件大小.
             String checkURL = CloudCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/solution/cache/check");
             checkURL = String.format("%s?token=%s", checkURL, SiteCenterToken.generateToken());
-            HttpClient client = new HttpClient(checkURL);
-            client.asGet();
-            if (client.isServerAlive()) {
-                try {
-                    JSONObject res = new JSONObject(client.getResponseText());
-                    // 简单粗暴, 直接判断文件大小.
-                    return res.optLong("version") != localCacheZip.length();
-                } catch (JSONException ignore) {
-                }
+            try {
+                JSONObject res = new JSONObject(HttpToolbox.get(checkURL));
+                // 简单粗暴, 直接判断文件大小.
+                return res.optLong("version") != localCacheZip.length();
+            } catch (Exception ignore) {
             }
             return false;
         }
@@ -140,27 +140,36 @@ public class ErrorInfoUploader {
         }
 
         File[] files = folder.listFiles();
-        if (files.length > MAX_ERROR_SIZE) {
-            StableUtils.deleteFile(folder);
+        if (ArrayUtils.getLength(files) > MAX_ERROR_SIZE) {
+            CommonIOUtils.deleteFile(folder);
             return;
         }
 
         try {
-            for (File file : files) {
-                String filePath = file.getPath();
-                String suffix = filePath.substring(filePath.lastIndexOf("."));
+            if (ArrayUtils.isNotEmpty(files)) {
+                JSONArray jsonArray = new JSONArray();
+                List<File> tempFiles = new ArrayList<>();
+                int count = 0;
+                for (File file : files) {
+                    count++;
+                    String filePath = file.getPath();
+                    String suffix = filePath.substring(filePath.lastIndexOf("."));
 
-                if (suffix.endsWith(SUFFIX)) {
-                    Thread.sleep(1000L);
-                    String content = IOUtils.inputStream2String(new FileInputStream(file));
-                    if (content.length() > MAX_ERROR_SIZE) {
-                        file.delete();
-                        continue;
-                    }
-
-                    String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
-                    if (sendErroInfo(url, content)) {
-                        file.delete();
+                    if (suffix.endsWith(SUFFIX)) {
+                        String content = IOUtils.inputStream2String(new FileInputStream(file));
+                        if (content.length() > MAX_ERROR_SIZE) {
+                            CommonIOUtils.deleteFile(file);
+                            continue;
+                        }
+                        jsonArray.put(new JSONObject(content));
+                        tempFiles.add(file);
+                        if( jsonArray.length() == MAX_ITEMS || count == files.length){
+                            String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
+                            if(sendErrorInfo(url, jsonArray)){
+                                deleteFiles(tempFiles);
+                            }
+                            jsonArray = new JSONArray();
+                        }
                     }
                 }
             }
@@ -169,25 +178,24 @@ public class ErrorInfoUploader {
         }
     }
 
-    private boolean sendErroInfo(String url, String content) {
-        HashMap<String, String> para = new HashMap<>();
+    private void deleteFiles(List<File> files) {
+        for(File file : files) {
+            CommonIOUtils.deleteFile(file);
+        }
+    }
+
+    private boolean sendErrorInfo(String url, JSONArray content) {
+        HashMap<String, Object> para = new HashMap<>();
         para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
-        HttpClient httpClient = new HttpClient(url, para, true);
-        httpClient.asGet();
 
-        if (!httpClient.isServerAlive()) {
-            return false;
-        }
-
-        String res = httpClient.getResponseText();
-        boolean success;
         try {
-            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-        } catch (Exception ex) {
-            success = true;
+            String responseText = HttpToolbox.post(url, para);
+            return "success".equals(new JSONObject(responseText).get("status"));
+        } catch (Exception ignore) {
+
         }
-        return success;
+        return false;
     }
 
 

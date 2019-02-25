@@ -17,6 +17,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartTitle;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.Constants;
@@ -129,6 +130,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     private JPanel createTitleContentPane(double[] row, double[] col){
         titleContent = new TinyFormulaPane();
         useHtml = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Html"));
+        UIComponentUtils.setLineWrap(useHtml);
         Component[][] components = new Component[][]{
                 new Component[]{null ,null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text"), SwingConstants.LEFT), titleContent},
@@ -146,6 +148,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
         alignmentPane = new UIButtonGroup<Integer>(alignmentIconArray, alignment);
         customFloatPositionButton = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Float_Position"));
+        UIComponentUtils.setLineWrap(customFloatPositionButton);
         customFloatPositionButton.setEventBannded(true);
 
         Component[][] components = new Component[][]{

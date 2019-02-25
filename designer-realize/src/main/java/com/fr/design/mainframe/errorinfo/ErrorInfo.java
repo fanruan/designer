@@ -100,17 +100,13 @@ public class ErrorInfo {
      */
     public void saveAsJSON(){
         JSONObject jo = JSONObject.create();
-        try {
-            jo.put("username", username);
-            jo.put("uuid", uuid);
-            jo.put("activekey", activekey);
-            jo.put("templateid", templateid);
-            jo.put("uploadtime", uploadtime);
-            jo.put("logid", logid);
-            jo.put("log", log);
-        } catch (JSONException ignore) {
-        }
-
+        jo.put("username", username);
+        jo.put("uuid", uuid);
+        jo.put("activekey", activekey);
+        jo.put("templateid", templateid);
+        jo.put("uploadtime", uploadtime);
+        jo.put("logid", logid);
+        jo.put("log", log);
         saveFileToCache(jo);
     }
 

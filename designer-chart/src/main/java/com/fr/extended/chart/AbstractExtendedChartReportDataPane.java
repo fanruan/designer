@@ -12,8 +12,8 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.Component;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,17 +92,43 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
 
         if (chart.getFilterDefinition() instanceof ExtendedReportDataSet) {
             ExtendedReportDataSet dataSet = (ExtendedReportDataSet) chart.getFilterDefinition();
-            AbstractDataConfig dataConfig = dataSet.getDataConfig();
 
-            if (dataConfig != null) {
-                populate((T) dataConfig);
+            populateDataSet(dataSet);
+        }
+    }
 
-                if (hasCustomFieldPane() && dataConfig.getCustomFields().size() == 2) {
-                    populateField(seriesPane, dataConfig.getCustomFields().get(0));
-                    populateField(valuePane, dataConfig.getCustomFields().get(1));
-                }
+    public void populateDataSet(DataSet dataSet) {
+
+        if (dataSet == null) {
+            return;
+        }
+
+        AbstractDataConfig dataConfig = dataSet.getDataConfig();
+
+        if (dataConfig != null) {
+            populate((T) dataConfig);
+
+            if (hasCustomFieldPane() && dataConfig.getCustomFields().size() == 2) {
+                populateField(seriesPane, dataConfig.getCustomFields().get(0));
+                populateField(valuePane, dataConfig.getCustomFields().get(1));
             }
         }
+    }
+
+    public ExtendedReportDataSet updateDataSet() {
+        ExtendedReportDataSet dataSet = new ExtendedReportDataSet();
+
+        AbstractDataConfig dataConfig = update();
+        dataSet.setDataConfig(dataConfig);
+
+        List<ExtendedField> fieldList = new ArrayList<ExtendedField>();
+        if (hasCustomFieldPane()) {
+            fieldList.add(new ExtendedField(seriesPane.updateBean()));
+            fieldList.add(new ExtendedField(valuePane.updateBean()));
+        }
+        dataConfig.setCustomFields(fieldList);
+
+        return dataSet;
     }
 
 
@@ -111,19 +137,8 @@ public abstract class AbstractExtendedChartReportDataPane<T extends AbstractData
         if (ob != null) {
             Chart chart = ob.getSelectedChart();
             if (chart != null) {
-                ExtendedReportDataSet dataSet = new ExtendedReportDataSet();
 
-                AbstractDataConfig dataConfig = update();
-                dataSet.setDataConfig(dataConfig);
-
-                List<ExtendedField> fieldList = new ArrayList<ExtendedField>();
-                if (hasCustomFieldPane()) {
-                    fieldList.add(new ExtendedField(seriesPane.updateBean()));
-                    fieldList.add(new ExtendedField(valuePane.updateBean()));
-                }
-                dataConfig.setCustomFields(fieldList);
-
-                chart.setFilterDefinition(dataSet);
+                chart.setFilterDefinition(updateDataSet());
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.fr.grid.selection;
 
-import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.cell.CleanAuthorityAction;
 import com.fr.design.actions.cell.FloatStyleAction;
@@ -26,6 +25,7 @@ import com.fr.design.mainframe.ElementCasePane.Clear;
 import com.fr.design.selection.QuickEditor;
 import com.fr.design.utils.DesignUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
@@ -68,7 +68,7 @@ public class FloatSelection extends Selection {
 
                 transferable.addObject(new FloatElementsClip(transEl));
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }

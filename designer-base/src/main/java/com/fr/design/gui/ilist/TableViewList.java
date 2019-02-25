@@ -1,11 +1,10 @@
 package com.fr.design.gui.ilist;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.data.core.DataCoreUtils;
 import com.fr.data.core.db.TableProcedure;
-import com.fr.data.core.db.dialect.DialectFactory;
-import com.fr.data.core.db.dialect.OracleDialect;
+import com.fr.data.core.db.dialect.base.key.check.DataBaseDetail;
+import com.fr.data.core.db.dialect.base.key.check.DataBaseType;
 import com.fr.data.impl.Connection;
 import com.fr.data.operator.DataOperator;
 import com.fr.design.DesignerEnvManager;
@@ -13,11 +12,17 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
-
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
+import java.awt.Component;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
@@ -111,7 +116,7 @@ public class TableViewList extends UIList {
                 } catch (Exception e) {
                     if (!(e instanceof InterruptedException) && !(e instanceof CancellationException)) {
                         TableViewList.this.setModel(failed);
-                        FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                 }
             }
@@ -138,21 +143,16 @@ public class TableViewList extends UIList {
         String[] schemas = DataCoreUtils.getDatabaseSchema(datasource);
 
         searchFilter = searchFilter.toLowerCase();
-    
-    
-        boolean isOracle = DataOperator.getInstance().isOracle(datasource);
         boolean isOracleSystemSpace = DesignerEnvManager.getEnvManager().isOracleSystemSpace();
-        // oracleb不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
-        if (isOracle && !isOracleSystemSpace) {
-        	java.sql.Connection connection = datasource.createConnection();
-        	OracleDialect orcDialect = (OracleDialect)DialectFactory.generateDialect(connection);
-        	schemas = new String[]{orcDialect.getOracleCurrentUserSchema(connection)};
+        // oracle不勾选显示所有表，则只显示用户下的(包括存储过程和table表)
+        DataBaseDetail detail = DataOperator.getInstance().getDataBaseDetail(datasource, isOracleSystemSpace);
+        if (ArrayUtils.isNotEmpty(detail.getSchemas())) {
+            schemas = detail.getSchemas();
         }
-        
         if (typesFilter.length == 1 && ComparatorUtils.equals(typesFilter[0], TableProcedure.PROCEDURE)) {
-            return processStoreProcedure(defaultListModel, schemas, datasource, isOracle, searchFilter);
+            return processStoreProcedure(defaultListModel, schemas, datasource, DataBaseType.ORACLE.equals(detail.getType()), searchFilter);
         } else {
-            return processTableAndView(defaultListModel, schemas, datasource, searchFilter, isOracle, typesFilter);
+            return processTableAndView(defaultListModel, schemas, datasource, searchFilter, DataBaseType.ORACLE.equals(detail.getType()), typesFilter);
         }
     }
 
@@ -182,7 +182,7 @@ public class TableViewList extends UIList {
         if (!isOracle) {
             String schema = null;
             for (String type : typesFilter) {
-            	//非oracle数据库，默认都是显示所有表的，参数为true
+                //非oracle数据库，默认都是显示所有表的，参数为true
                 TableProcedure[] sqlTables = DataCoreUtils.getTables(datasource, type, schema, true);
                 for (int i = 0; i < sqlTables.length; i++) {
                     if (isBlank || sqlTables[i].getName().toLowerCase().indexOf(searchFilter) != -1) {
@@ -192,17 +192,17 @@ public class TableViewList extends UIList {
             }
         } else {
             for (String type : typesFilter) {
-            	for (String schema : schemas) {
-        			TableProcedure[] sqlTables = DataCoreUtils.getTables(datasource, type, schema, isOracleSystemSpace);
-        			// oracle的表名加上模式
-        			for (int i = 0; i < sqlTables.length; i++) {
-        				TableProcedure ta = sqlTables[i];
-        				String name = ta.getSchema() + '.' + ta.getName();
-        				if (isBlank || name.toLowerCase().indexOf(searchFilter) != -1) {
-        					defaultListModel.addElement(sqlTables[i]);
-        				}
-        			}
-        		}
+                for (String schema : schemas) {
+                    TableProcedure[] sqlTables = DataCoreUtils.getTables(datasource, type, schema, isOracleSystemSpace);
+                    // oracle的表名加上模式
+                    for (int i = 0; i < sqlTables.length; i++) {
+                        TableProcedure ta = sqlTables[i];
+                        String name = ta.getSchema() + '.' + ta.getName();
+                        if (isBlank || name.toLowerCase().indexOf(searchFilter) != -1) {
+                            defaultListModel.addElement(sqlTables[i]);
+                        }
+                    }
+                }
             }
         }
         return defaultListModel;

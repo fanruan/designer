@@ -496,7 +496,6 @@ public abstract class ToolBarMenuDock {
         if (WorkContext.getCurrent().isLocal()) {
             shortCuts.add(new SoftwareUpdateAction());
         }
-
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }

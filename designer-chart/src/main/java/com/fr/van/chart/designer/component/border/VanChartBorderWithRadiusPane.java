@@ -4,6 +4,8 @@ import com.fr.chart.base.AttrBorder;
 import com.fr.chart.chartglyph.GeneralInfo;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 
 
 import javax.swing.JSeparator;
@@ -28,7 +30,10 @@ public class VanChartBorderWithRadiusPane extends VanChartBorderPane {
     protected Component[][] getUseComponent() {
         return new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),currentLineCombo},
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(currentLineCombo)
+                },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),currentLineColorPane},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Radius")),radius}
         } ;

@@ -8,12 +8,12 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.stable.ColumnRow;
 import com.fr.stable.ParameterProvider;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,10 +53,16 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
         colRowPane = new ColumnRowVerticalPane();
         centerPane.add(colRowPane, BorderLayout.NORTH);
 
+        addPaneInCenter(centerPane);
+
         parameterViewPane = new ReportletParameterViewPane(getChartParaType(), getValueEditorPane(), getValueEditorPane());
         parameterViewPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter")));
         parameterViewPane.setPreferredSize(new Dimension(500, 200));
         this.add(parameterViewPane, BorderLayout.SOUTH);
+    }
+
+    protected void addPaneInCenter(JPanel centerPane) {
+
     }
 
     @Override
@@ -117,8 +123,44 @@ public class ChartHyperRelateCellLinkPane extends AbstractHyperLinkPane<ChartHyp
     }
 
     public static class ChartNoRename extends ChartHyperRelateCellLinkPane {
+        public ChartNoRename() {
+            super();
+        }
+
+        public ChartNoRename(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
         protected boolean needRenamePane() {
             return false;
+        }
+    }
+
+    public static class ChartHasAnimateType extends ChartNoRename {
+
+        public ChartHasAnimateType() {
+            super();
+        }
+
+        public ChartHasAnimateType(HashMap hyperLinkEditorMap, boolean needRenamePane) {
+            super(hyperLinkEditorMap, needRenamePane);
+        }
+
+        @Override
+        protected void addPaneInCenter(JPanel centerPane) {
+            centerPane.add(createAnimateTypeUIButtonGroup(), BorderLayout.CENTER);
+        }
+
+        @Override
+        public void populateBean(ChartHyperRelateCellLink ob) {
+            super.populateBean(ob);
+            populateAnimateType(ob.getAnimateType());
+        }
+
+        @Override
+        public void updateBean(ChartHyperRelateCellLink chartLink) {
+            super.updateBean(chartLink);
+            chartLink.setAnimateType(updateAnimateType());
         }
     }
 

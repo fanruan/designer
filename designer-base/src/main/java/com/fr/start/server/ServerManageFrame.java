@@ -1,17 +1,20 @@
 package com.fr.start.server;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,7 +35,7 @@ public class ServerManageFrame extends JFrame {
 		try {
 			serverManageFrame.checkButtonEnabled();
 		} catch(Exception exp) {
-            FRContext.getLogger().error(exp.getMessage());
+            FineLoggerFactory.getLogger().error(exp.getMessage());
 		}
 		
 		return serverManageFrame;
@@ -77,7 +80,7 @@ public class ServerManageFrame extends JFrame {
 					FineEmbedServer.start();
 					checkButtonEnabled();
 				} catch(Exception exp) {
-                    FRContext.getLogger().error(exp.getMessage());
+                    FineLoggerFactory.getLogger().error(exp.getMessage());
 				}
 			}
 		});
@@ -94,7 +97,7 @@ public class ServerManageFrame extends JFrame {
 					FineEmbedServer.stop();
 					checkButtonEnabled();
 				} catch(Exception exp) {
-                    FRContext.getLogger().error(exp.getMessage());
+                    FineLoggerFactory.getLogger().error(exp.getMessage());
 				}
 			}
 		});
@@ -120,7 +123,7 @@ public class ServerManageFrame extends JFrame {
 //				try {
 //					desktop.open();
 //				} catch(Exception exp) {
-//                    FRContext.getLogger().error(exp.getMessage());
+//                    FineLoggerFactory.getLogger().error(exp.getMessage());
 //				}
 //			}
 //		});

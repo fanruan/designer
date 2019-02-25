@@ -3,8 +3,8 @@
  */
 package com.fr.design.cell.clipboard;
 
-import com.fr.base.FRContext;
 import com.fr.grid.selection.CellSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.CellElementComparator;
 import com.fr.report.cell.TemplateCellElement;
@@ -126,7 +126,7 @@ public class CellElementsClip implements Cloneable, java.io.Serializable {
     		try {
     			cellElement = (TemplateCellElement) clips[i].clone();
     		} catch (CloneNotSupportedException e) {
-    			FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
     			return null;
     		}
 

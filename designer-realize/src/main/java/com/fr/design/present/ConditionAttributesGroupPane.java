@@ -1,20 +1,16 @@
 package com.fr.design.present;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fr.base.FRContext;
 import com.fr.design.actions.utils.ReportActionUtils;
+import com.fr.design.condition.HighLightConditionAttributesPane;
+import com.fr.design.gui.controlpane.NameObjectCreator;
+import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.NameObject;
-import com.fr.design.condition.HighLightConditionAttributesPane;
-import com.fr.design.gui.controlpane.NameObjectCreator;
-import com.fr.design.gui.controlpane.NameableCreator;
-
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -24,6 +20,9 @@ import com.fr.report.cell.cellattr.highlight.HighlightGroup;
 import com.fr.report.core.SheetUtils;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.Nameable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConditionAttributesGroupPane extends UIListControlPane {
 	private static ConditionAttributesGroupPane singleton;
@@ -59,7 +58,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 				try {
 					((TemplateCellElement)editCellElement).setHighlightGroup((HighlightGroup) highlightGroup.clone());
 				} catch (CloneNotSupportedException e) {
-					FRContext.getLogger().error("InternalError: " + e.getMessage());
+                    FineLoggerFactory.getLogger().error("InternalError: " + e.getMessage());
 				}
 			}
 		});
@@ -122,7 +121,7 @@ public class ConditionAttributesGroupPane extends UIListControlPane {
 			try {
 				highlight = (Highlight)highlight.clone();
 			} catch (CloneNotSupportedException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 			res_array[i] = highlight;
 		}

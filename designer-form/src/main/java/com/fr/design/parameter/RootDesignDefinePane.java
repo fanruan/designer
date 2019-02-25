@@ -22,6 +22,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
@@ -104,6 +105,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         labelNameTextField = new UITextField();
         displayReport = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Display_Nothing_Before_Query"));
+        UIComponentUtils.setLineWrap(displayReport);
         useParamsTemplate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Use_Params_Template"));
         background = new AccessibleBackgroundEditor();
         Icon[] hAlignmentIconArray = {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"),

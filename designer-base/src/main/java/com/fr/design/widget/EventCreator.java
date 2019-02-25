@@ -1,12 +1,12 @@
 package com.fr.design.widget;
 
-import com.fr.base.FRContext;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.controlpane.NameableSelfCreator;
 import com.fr.design.gui.controlpane.UnrepeatedNameHelper;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.form.event.Listener;
 import com.fr.general.NameObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.web.util.ReportEngineEventMapping;
 import com.fr.stable.Nameable;
 
@@ -43,7 +43,7 @@ public class EventCreator extends NameableSelfCreator {
             String localeKey = ReportEngineEventMapping.getLocaleName(eventName);
             return com.fr.design.i18n.Toolkit.i18nText(localeKey);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			return eventName;
 		}
 	}

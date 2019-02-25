@@ -24,6 +24,7 @@ import java.util.List;
 public class MenuDef extends ShortCut {
 
     private static final int MENU_DEFAULTWDITH = 156;
+    private static final int BLANK_WIDTH = 30;
     protected String name;
     //右侧属性表弹出框重绘
     protected Boolean isEastAttr = false;
@@ -410,7 +411,7 @@ public class MenuDef extends ShortCut {
                 popupMenu = new UIPopupEastAttrMenu();
                 popupMenu.setInvoker(button);
                 MenuDef.this.updateEastPopupMenu(popupMenu);
-                popupMenu.setPopupSize(new Dimension(MENU_DEFAULTWDITH, popupMenu.getPreferredSize().height));
+                updatePopupMenuSize();
                 GUICoreUtils.showPopupMenu(popupMenu, button, 0, button.getSize().height);
             } else {
                 popupMenu = new UIPopupMenu();
@@ -420,6 +421,12 @@ public class MenuDef extends ShortCut {
             }
         }
     };
+
+    private void updatePopupMenuSize() {
+        int preferredWidth = popupMenu.getPreferredSize().width - BLANK_WIDTH;  // 减少行尾的空白部分
+        int popupMenuWidth = preferredWidth > MENU_DEFAULTWDITH ? preferredWidth : MENU_DEFAULTWDITH;
+        popupMenu.setPopupSize(new Dimension(popupMenuWidth, popupMenu.getPreferredSize().height));
+    }
 
 
     //ben: for ui test

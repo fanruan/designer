@@ -5,27 +5,25 @@ import com.fr.base.iofile.attr.WatermarkAttr;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
-import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.properties.items.FRLayoutTypeItems;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.report.core.ReportUtils;
 
 import javax.swing.BorderFactory;
@@ -33,14 +31,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created by ibm on 2017/8/2.
  */
 public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
-    private static final int EACH_ROW_COUNT = 4;
+    private static final int MAX_LABEL_WIDTH = 80;
 
     private AccessibleWLayoutBorderStyleEditor borderStyleEditor;
     private AccessibleBodyWatermarkEditor watermarkEditor;
@@ -77,10 +73,22 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
     public JPanel createThirdPane() {
         initLayoutComboBox();
         JPanel jPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type")), layoutCombox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode")), comboBox}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double[] rowSize = {p};
+        double[] colSize = {MAX_LABEL_WIDTH, f};
+
+        UILabel layoutTypeLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout_Type"));
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(
+                new Component[][]{
+                        new Component[]{layoutTypeLabel, UIComponentUtils.wrapWithBorderLayoutPane(layoutCombox)}},
+                rowSize, colSize, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+
+        UILabel scaleModeLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Scaling_Mode"));
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(
+                new Component[][]{
+                        new Component[]{scaleModeLabel, UIComponentUtils.wrapWithBorderLayoutPane(comboBox)}},
+                rowSize, colSize, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
         jPanel.add(northPane, BorderLayout.NORTH);
         jPanel.add(centerPane, BorderLayout.CENTER);
         centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));

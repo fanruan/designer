@@ -1,24 +1,34 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.SharableWidgetBindInfo;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.general.CloudCenter;
+import com.fr.log.FineLoggerFactory;
 import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -35,27 +45,19 @@ import java.net.URISyntaxException;
  * Time: 下午8:18
  */
 public class FormWidgetDetailPane extends FormDockView{
+    private static final int LOCAL_WIDGET_LABEL_WIDTH = 90;
 
-    private JPanel tabbedPane;
     private UIScrollPane downPane;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
     private SharableWidgetBindInfo[] elCaseBindInfoList;
     private UIButton deleteButton;
-    private UIButton resetButton;
     private JPanel editPanel;
     private JPanel resetPanel;
-    private JPanel menutPanel;
     private JPanel menutPanelNorthPane;
-    private static final int OFFSET_X = 140;
-    private static final int OFFSET_Y = 26;
     private SwingWorker sw;
     //组件面板是否可以编辑
     private boolean isEdit;
-    private CardLayout card;
-
-    private static final String REPORT_TAB = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Engine_Report");
-    private static final String CHART_TAB = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ToolBar_Chart");
 
     public static FormWidgetDetailPane getInstance() {
         if (HOLDER.singleton == null) {
@@ -135,14 +137,15 @@ public class FormWidgetDetailPane extends FormDockView{
      * 初始化菜单栏面板
      */
     private void initMenuPanel() {
-        menutPanel = new JPanel();
+        JPanel menutPanel = new JPanel();
         menutPanel.setLayout(FRGUIPaneFactory.createBorderLayout());
         menutPanel.setBorder(BorderFactory.createEmptyBorder(3, 10, 10, 15));
-//        menutPanel.setPreferredSize(new Dimension(240, 48));
 
         menutPanelNorthPane = new JPanel(new BorderLayout());
-        menutPanelNorthPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Local_Widget"),
-                SwingConstants.HORIZONTAL), BorderLayout.WEST);
+        UILabel localWidgetLabel = FRWidgetFactory.createLineWrapLabel(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Local_Widget"),
+                LOCAL_WIDGET_LABEL_WIDTH);
+        menutPanelNorthPane.add(localWidgetLabel, BorderLayout.WEST);
         menutPanelNorthPane.add(initEditButtonPane(), BorderLayout.EAST);
         menutPanelNorthPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
@@ -174,7 +177,7 @@ public class FormWidgetDetailPane extends FormDockView{
      */
     private JPanel initResetButtonPane() {
         resetPanel = new JPanel();
-        resetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Reset"));
+        UIButton resetButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Reset"));
         resetPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         resetButton.setBackground(Color.white);
         resetButton.setForeground(new Color(0x333334));
@@ -300,7 +303,7 @@ public class FormWidgetDetailPane extends FormDockView{
             public void actionPerformed(ActionEvent e) {
                 String url = CloudCenter.getInstance().acquireUrlByKind("reuse.url");
                 if (StringUtils.isEmpty(url)) {
-                    FRContext.getLogger().info("The URL is empty!");
+                    FineLoggerFactory.getLogger().info("The URL is empty!");
                     return;
                 }
                 try {

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
@@ -63,6 +62,7 @@ import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.third.javax.annotation.Nullable;
@@ -1208,7 +1208,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                 }
             }
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

@@ -9,6 +9,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -149,7 +151,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
         double[] rowSize = { p,p,p};
         Component[][] components = new Component[3][2];
         components[0] = new Component[]{null,null};
-        components[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Prompt_Box")),followMouse};
+        components[1] = new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Prompt_Box")), UIComponentUtils.wrapWithBorderLayoutPane(followMouse)};
 
         if(plot.isSupportTooltipSeriesType() && hasTooltipSeriesType()){
             components[2] = new Component[]{showAllSeries,null};

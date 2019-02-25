@@ -10,6 +10,7 @@ import com.fr.general.IOUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.DownloadSourcesEvent;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
 
@@ -140,6 +141,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
                     if (result) {
                         //安装文件
                         IOUtils.unZipFilesGBK(temp, StableUtils.pathJoin(WorkContext.getCurrent().getPath(), siteInfo.localDir));
+                        CommonUtils.deleteFile(file);
                     }
                 } else {
                     result = false;

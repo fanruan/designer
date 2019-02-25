@@ -52,11 +52,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @author neil
@@ -134,11 +131,11 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
 			xmlInputStream.close();
 		} catch (FileNotFoundException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IOException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (XMLStreamException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 	}
@@ -168,21 +165,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		JSONArray startStopArray = new JSONArray();
 		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
-			try {
-				jo.put(ATTR_START, startStop.get(i).getStartDate());
-				jo.put(ATTR_STOP, startStop.get(i).getStopDate());
-				startStopArray.put(jo);
-				DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-				content.put(XML_START_STOP, startStopArray);
-				content.put(XML_UUID, envManager.getUUID());
-				content.put(XML_JAR, GeneralUtils.readBuildNO());
-				content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-				content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
-				content.put(XML_KEY, envManager.getActivationKey());
-				content.put(XML_OS, System.getProperty("os.name"));
-			} catch (JSONException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
-			}
+			jo.put(ATTR_START, startStop.get(i).getStartDate());
+			jo.put(ATTR_STOP, startStop.get(i).getStopDate());
+			startStopArray.put(jo);
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			content.put(XML_START_STOP, startStopArray);
+			content.put(XML_UUID, envManager.getUUID());
+			content.put(XML_JAR, GeneralUtils.readBuildNO());
+			content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
+			content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
+			content.put(XML_KEY, envManager.getActivationKey());
+			content.put(XML_OS, System.getProperty("os.name"));
 		}
 		return content;
 	}
@@ -365,7 +358,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 					//读取XML的5分钟后开始发请求连接服务器.
 					Thread.sleep(SEND_DELAY);
 				} catch (InterruptedException e) {
-					FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
 				}
                 sendUserInfo();
 				sendFunctionsInfo();
@@ -411,7 +404,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			String encodeCotent = DesUtils.getEncString(fileContent);
 			writeEncodeContentToFile(encodeCotent, xmlFile);
     	}catch (Exception e) {
-    		FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
     }
 
@@ -427,7 +420,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			bw = new BufferedWriter(osw);
 			bw.write(fileContent);
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} finally {
 			if(bw != null){
 				try {

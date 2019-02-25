@@ -1,1 +1,1 @@
-表单名字假如访问：http://localhost:8080/WebReport/ReportServer?formlet=Form1.frm，formName就是Form1.frm
+表单名字假如访问：http://localhost:8075/webroot/decision/view/form?viewlet=Form1.frm，formName就是Form1.frm

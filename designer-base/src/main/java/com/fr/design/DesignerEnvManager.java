@@ -4,7 +4,6 @@
 package com.fr.design;
 
 import com.fr.base.BaseXMLUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
@@ -179,7 +178,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
             // james：如果没有env定义，要设置一个默认的
@@ -282,11 +281,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 Handler handler = new FileHandler(fileName, true);
 
                 handler.setFormatter(new FRLogFormatter());
-                FRContext.getLogger().addLogHandler(handler);
+                FineLoggerFactory.getLogger().addLogHandler(handler);
             } catch (SecurityException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }
@@ -323,7 +322,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
             fileWriter.close();
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -345,7 +344,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         try {
             XMLTools.readFileXML(designerEnvManager, prevEnvFile);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         // 清空前一个版本中的工作目录和最近打开
         nameEnvMap = new ListMap<String, DesignerWorkspaceInfo>();
@@ -626,7 +625,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             fout.flush();
             fout.close();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

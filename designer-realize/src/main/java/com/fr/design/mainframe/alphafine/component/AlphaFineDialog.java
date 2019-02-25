@@ -489,21 +489,24 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void dealWithSearchText(String searchText) {
+        SearchListModel searchListModelTemp = new SearchListModel(new SearchResult());
+        searchResultList.setModel(searchListModelTemp);
         if (searchText.startsWith(ACTION_MARK_SHORT) || searchText.startsWith(ACTION_MARK)) {
-            buildActionList(new String[]{getStoreText(searchText)});
+            buildActionList(new String[]{getStoreText(searchText)}, searchListModelTemp);
         } else if (searchText.startsWith(DOCUMENT_MARK_SHORT) || searchText.startsWith(DOCUMENT_MARK)) {
-            buildDocumentList(new String[]{getStoreText(searchText)});
+            buildDocumentList(new String[]{getStoreText(searchText)}, searchListModelTemp);
         } else if (searchText.startsWith(FILE_MARK_SHORT) || searchText.startsWith(FILE_MARK)) {
-            buildFileList(getStoreText(searchText), new String[]{getStoreText(searchText)});
+            buildFileList(getStoreText(searchText), new String[]{getStoreText(searchText)}, searchListModelTemp);
         } else if (searchText.startsWith(CPT_MARK) || searchText.startsWith(FRM_MARK)) {
-            buildFileList(getStoreText(searchText), new String[]{searchText});
+            buildFileList(getStoreText(searchText), new String[]{searchText}, searchListModelTemp);
         } else if (searchText.startsWith(DS_MARK)) {
-            buildFileList(getStoreText(searchText), new String[]{DS_NAME + getStoreText(searchText)});
+            buildFileList(getStoreText(searchText), new String[]{DS_NAME + getStoreText(searchText)}, searchListModelTemp);
         } else if (searchText.startsWith(PLUGIN_MARK_SHORT) || searchText.startsWith(PLUGIN_MARK)) {
-            buildPluginList(new String[]{getStoreText(searchText)});
+            buildPluginList(new String[]{getStoreText(searchText)}, searchListModelTemp);
         } else if (searchText.startsWith(SIMILAR_MARK)) {
-            buildSimilarList(new String[]{getStoreText(searchText)});
+            buildSimilarList(new String[]{getStoreText(searchText)}, searchListModelTemp);
         }
+        searchListModel = searchListModelTemp;
     }
 
     /**
@@ -535,51 +538,54 @@ public class AlphaFineDialog extends UIDialog {
      * @param searchText
      */
     private void doNormalSearch(String searchText) {
+        SearchListModel searchListModelTemp = new SearchListModel(new SearchResult());
+        searchResultList.setModel(searchListModelTemp);
         if (segmentationResult != null) {
-            buildRecentList(segmentationResult);
-            buildRecommendList(segmentationResult);
-            buildActionList(segmentationResult);
-            buildFileList(searchText, segmentationResult);
-            buildDocumentList(segmentationResult);
-            buildPluginList(segmentationResult);
-            buildSimilarList(segmentationResult);
+            buildRecentList(segmentationResult, searchListModelTemp);
+            buildRecommendList(segmentationResult, searchListModelTemp);
+            buildActionList(segmentationResult, searchListModelTemp);
+            buildFileList(searchText, segmentationResult, searchListModelTemp);
+            buildDocumentList(segmentationResult, searchListModelTemp);
+            buildPluginList(segmentationResult, searchListModelTemp);
+            buildSimilarList(segmentationResult, searchListModelTemp);
         }
-        searchListModel.addElement(new BottomModel());
+        searchListModelTemp.addElement(new BottomModel());
+        searchListModel = searchListModelTemp;
     }
 
-    private void buildDocumentList(final String[] searchText) {
-        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildDocumentList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(DocumentSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
     }
 
-    private void buildFileList(String searchStr, final String[] searchText) {
-        addSearchResult(FileSearchManager.getInstance().getLessSearchResult(searchStr, searchText));
+    private void buildFileList(String searchStr, final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(FileSearchManager.getInstance().getLessSearchResult(searchStr, searchText), searchListModelTemp);
     }
 
-    private void buildActionList(final String[] searchText) {
-        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildActionList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(ActionSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
     }
 
-    private void buildPluginList(final String[] searchText) {
-        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildPluginList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(PluginSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
     }
 
-    private void buildRecommendList(final String[] searchText) {
-        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildRecommendList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(RecommendSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
     }
 
-    private void buildRecentList(final String[] searchText) {
-        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildRecentList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(RecentSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
 
     }
 
-    private void buildSimilarList(final String[] searchText) {
-        addSearchResult(SimilarSearchManager.getInstance().getLessSearchResult(searchText));
+    private void buildSimilarList(final String[] searchText, SearchListModel searchListModelTemp) {
+        addSearchResult(SimilarSearchManager.getInstance().getLessSearchResult(searchText), searchListModelTemp);
     }
 
-    private synchronized void addSearchResult(SearchResult searchResult) {
+    private synchronized void addSearchResult(SearchResult searchResult, SearchListModel searchListModelTemp) {
         for (AlphaCellModel object : searchResult) {
             AlphaFineHelper.checkCancel();
-            searchListModel.addElement(object);
+            searchListModelTemp.addElement(object);
         }
     }
 
@@ -976,11 +982,7 @@ public class AlphaFineDialog extends UIDialog {
             int resultKind = cellModel.getType().getTypeValue();
             String resultValue = CellModelHelper.getResultValueFromModel(cellModel);
             JSONObject object = JSONObject.create();
-            try {
-                object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
-            } catch (JSONException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
+            object.put("uuid", uuid).put("activityKey", activityKey).put("username", username).put("createTime", createTime).put("key", key).put("resultKind", resultKind).put("resultValue", resultValue);
             final HashMap<String, String> para = new HashMap<>();
             String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
             para.put("token", CodeUtils.md5Encode(date, StringUtils.EMPTY, "MD5"));

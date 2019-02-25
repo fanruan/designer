@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -22,8 +23,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class SplashContext {
 
-    public static final String SPLASH_PATH = "/com/fr/design/images/splash_10.gif";
-    public static final String SPLASH_CACHE_NAME = "splash_10.gif";
+    public static final String SPLASH_PATH = getSplashPath();
+    public static final String SPLASH_CACHE_NAME = getSplashCacheName();
     private static final int FETCH_ONLINE_MAX_TIMES = 50;
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
@@ -164,4 +165,19 @@ public class SplashContext {
         return false;
     }
 
+    private static String getSplashPath() {
+        if (DesignerEnvManager.getEnvManager().getLanguage().equals(Locale.JAPAN)) {
+            return "/com/fr/design/images/splash_10_jp.gif";
+        }  else {
+            return "/com/fr/design/images/splash_10.gif";
+        }
+    }
+
+    private static String getSplashCacheName() {
+        if (DesignerEnvManager.getEnvManager().getLanguage().equals(Locale.JAPAN)) {
+            return "splash_10_jp.gif";
+        }  else {
+            return "splash_10.gif";
+        }
+    }
 }
