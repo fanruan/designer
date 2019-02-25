@@ -679,12 +679,10 @@ public class EditToolBar extends BasicPane {
 
 		private void updateCustomToolBarButton() {
 			CustomToolBarButton customToolBarButton = (CustomToolBarButton) widget;
-			if (customToolBarButton.getJSImpl() != null) {
-				customToolBarButton.setJSImpl(this.javaScriptPane.updateBean());
-			} else {
-				customToolBarButton.setJSImpl(JavaScriptActionPane.createDefault().updateBean());
+			if (customToolBarButton.getJSImpl() == null) {
+				this.javaScriptPane = JavaScriptActionPane.createDefault();
 			}
-
+			customToolBarButton.setJSImpl(this.javaScriptPane.updateBean());
 		}
 	}
 
