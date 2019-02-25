@@ -201,7 +201,7 @@ public class FileFILE implements FILE {
         OutputStream out;
         try {
             StableUtils.makesureFileExist(file);
-            out = new FileOutputStream(file, true);
+            out = new FileOutputStream(file, false);
         } catch (Exception e) {
             throw SessionLocalManager.createLogPackedException(e);
         }
