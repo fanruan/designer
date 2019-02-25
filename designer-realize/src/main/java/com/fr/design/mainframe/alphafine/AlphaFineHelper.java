@@ -17,10 +17,11 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchMana
 import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
 import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpToolbox;
+import com.fr.json.JSON;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
+import com.fr.json.JSONFactory;
 import com.fr.json.JSONObject;
-import com.fr.json.JSONUtils;
 import com.fr.stable.StringUtils;
 
 import java.util.List;
@@ -110,7 +111,7 @@ public class AlphaFineHelper {
 
     public static SearchResult getModelListFromJSONArray(String result, String keyword) throws ClassCastException, JSONException {
         SearchResult allModelList = new SearchResult();
-        JSONArray jsonArray = (JSONArray) JSONUtils.jsonDecode(result);
+        JSONArray jsonArray = JSONFactory.createJSON(JSON.ARRAY, result);
         for (int i = 0; i < jsonArray.length(); i++) {
             AlphaFineHelper.checkCancel();
             JSONObject jsonObject = jsonArray.optJSONObject(i);
@@ -128,11 +129,12 @@ public class AlphaFineHelper {
 
     /**
      * 网络异常时的处理
+     *
      * @param object
      * @return
      */
     public static SearchResult getNoConnectList(Object object) {
-        if (isNetworkOk()){
+        if (isNetworkOk()) {
             return null;
         }
         SearchResult result = new SearchResult();
@@ -153,9 +155,10 @@ public class AlphaFineHelper {
 
     /**
      * 判断网络是否异常
+     *
      * @return
      */
-    public static boolean isNetworkOk(){
+    public static boolean isNetworkOk() {
         try {
             HttpToolbox.get(URL_FOR_TEST_NETWORK);
             return true;

@@ -23,6 +23,8 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.Inter;
@@ -32,8 +34,17 @@ import com.fr.third.apache.log4j.Level;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -61,6 +72,7 @@ public class PreferencePane extends BasicPane {
     private static final int CACHING_MAX = 10;
     private static final int CACHING_DEFAULT = 5;
     private static final int CACHING_GAP = 5;
+    private static final int MEMORY_TIP_LABEL_MAX_WIDTH = 230;
 
     private static final String TYPE = "pressed";
     private static final String DISPLAY_TYPE = "+";
@@ -471,7 +483,8 @@ public class PreferencePane extends BasicPane {
     private JPanel createMemoryPane() {
         JPanel memoryPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template"));
         UILabel memoryLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Max_Caching_Template"));
-        UILabel memoryTipLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template_Tip"));
+        UILabel memoryTipLabel = FRWidgetFactory.createLineWrapLabel(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Caching_Template_Tip"), MEMORY_TIP_LABEL_MAX_WIDTH);
         memoryTipLabel.setBorder(BorderFactory.createEmptyBorder(0, CACHING_GAP, 0, 0));
         cachingTemplateSpinner = new UISpinner(0, CACHING_MAX, 1, CACHING_DEFAULT);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());

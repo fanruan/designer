@@ -5,7 +5,6 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
 import com.fr.base.Formula;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
@@ -526,7 +525,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 //旧选中内容编辑器释放模板对象
                 this.getCurrentEditor().release();
             } catch (UnsupportedOperationException e) {
-                FRContext.getLogger().info("Nothing to release");
+                FineLoggerFactory.getLogger().info("Nothing to release");
             }
             this.selection = selection;
             fireSelectionChanged();
@@ -679,7 +678,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             try {
                 clipObject = clipData.getTransferData(DataFlavor.stringFlavor);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 return null;
             }
         }

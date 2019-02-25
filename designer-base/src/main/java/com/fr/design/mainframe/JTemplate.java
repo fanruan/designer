@@ -522,19 +522,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         if (editingFILE == null) {
             return false;
         }
-//        //检查一下连接是否成功
-//        try {
-//            if (FRContext.getCommonOperator() != null && !FRContext.getCommonOperator().testServerConnectionWithOutShowMessagePane()) {
-//                //连接不成功，提示
-//                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-//                        com.fr.design.i18n.Toolkit.i18nText(new String[]{"server_disconnected", "template_unsaved"}, new String[]{",", "!"})
-//                        , com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Error"), JOptionPane.ERROR_MESSAGE);
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-//        }
-
 
         // 检查一下editingFILE是不是已存在的文件,如果不存在则用saveAs
         if (!editingFILE.exists()) {
@@ -623,7 +610,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         } else {
             JOptionPane.showMessageDialog(
                     DesignerContext.getDesignerFrame(),
-                    Toolkit.i18nText("Fine-Design_Basic_Template_Status_Locked"),
+                    Toolkit.i18nText("Fine-Design-Basic_Save_Failure"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
                     JOptionPane.WARNING_MESSAGE);
             return false;
@@ -649,7 +636,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             file.mkfile();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -679,7 +666,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         try {
             this.getTarget().export(editingFILE.asOutputStream());
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }

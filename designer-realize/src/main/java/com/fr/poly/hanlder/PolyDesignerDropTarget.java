@@ -3,6 +3,19 @@
  */
 package com.fr.poly.hanlder;
 
+import com.fr.base.ScreenResolution;
+import com.fr.base.chart.BaseChart;
+import com.fr.base.vcs.DesignerMode;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.grid.Grid;
+import com.fr.log.FineLoggerFactory;
+import com.fr.poly.PolyDesigner;
+import com.fr.poly.PolyUtils;
+import com.fr.poly.creator.BlockCreator;
+import com.fr.poly.model.AddingData;
+import com.fr.stable.unit.UnitRectangle;
+
+import javax.swing.JScrollBar;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
@@ -12,21 +25,6 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
-
-import javax.swing.JScrollBar;
-
-import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.base.ScreenResolution;
-import com.fr.base.chart.BaseChart;
-import com.fr.base.vcs.DesignerMode;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.grid.Grid;
-import com.fr.poly.PolyDesigner;
-import com.fr.poly.PolyUtils;
-import com.fr.poly.creator.BlockCreator;
-import com.fr.poly.model.AddingData;
-import com.fr.stable.unit.UnitRectangle;
 
 /**
  * @author richer
@@ -86,7 +84,7 @@ public class PolyDesignerDropTarget extends DropTargetAdapter {
 				designer.setAddingData(addingData);
 			}
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		Point loc = dtde.getLocation();
 		addingData.moveTo(loc);

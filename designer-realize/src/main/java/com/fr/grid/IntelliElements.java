@@ -2,12 +2,12 @@ package com.fr.grid;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.cell.clipboard.CellElementsClip;
 import com.fr.design.cell.clipboard.ElementsTransferable;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.script.FunctionHelper;
 import com.fr.grid.selection.CellSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
@@ -15,7 +15,7 @@ import com.fr.report.cell.cellattr.core.group.DSColumn;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.ColumnRow;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -208,7 +208,7 @@ public class IntelliElements {
                             //richer:不改变原单元格
                             newCellElement.setValue(BaseUtils.cloneObject(sourceCellElement.getValue()));
                         } catch (CloneNotSupportedException e) {
-                            FRContext.getLogger().error(e.getMessage(), e);
+                            FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }
                     }
 
@@ -237,7 +237,7 @@ public class IntelliElements {
                 newFormula = formula.clone();
             } catch (CloneNotSupportedException e) {
                 newFormula = BaseFormula.createFormulaBuilder().build();
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             String formulaContent = formula.getContent();
             StringBuffer newFormulaContent = new StringBuffer();

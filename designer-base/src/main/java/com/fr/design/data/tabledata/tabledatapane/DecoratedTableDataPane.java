@@ -1,18 +1,17 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import com.fr.base.FRContext;
 import com.fr.data.impl.DecoratedTableData;
 import com.fr.design.condition.DSColumnLiteConditionPane;
 import com.fr.design.gui.ilist.CheckBoxList;
 import com.fr.design.gui.ilist.CheckBoxList.CheckBoxListSelectionChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.TableDataConfig;
-
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 
 public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTableData> implements CheckBoxListSelectionChangeListener {
 	private CheckBoxList availableTableDataNameList;
@@ -85,7 +84,7 @@ public class DecoratedTableDataPane extends AbstractTableDataPane<DecoratedTable
 				columnList.add(model.getColumnName(i));
 			}
 		} catch (TableDataException e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			return;
 		}
 		

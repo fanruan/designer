@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.wrapper;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
 import com.fr.data.impl.storeproc.StoreProcedure;
@@ -11,7 +10,7 @@ import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.log.FineLoggerFactory;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.Icon;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +76,7 @@ public final class StoreProcedureNameWrapper implements TableDataWrapper {
         try {
             procedureDataModel = DesignTableDataManager.createLazyDataModel(storeProcedure, needLoadingBar)[0];
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

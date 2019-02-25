@@ -12,12 +12,14 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.*;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.cell.cellattr.CellGUIAttr;
@@ -26,10 +28,18 @@ import com.fr.report.cell.cellattr.CellPageAttr;
 import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -41,8 +51,8 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
 
     private static final int HEAD_WDITH = 290;
     private static final int HEAD_HEIGTH = 24;
-    private static final Dimension NORMAL_DIMENSION = new Dimension(155, 20);
-    private static final Dimension SMALL_DIMENSION = new Dimension(150, 20);
+    private static final int COMBO_WIDTH = 154;
+    private static final int BUTTON_GROUP_WIDTH = 140;
     // normal
     private UIButtonGroup autoshrik;
 
@@ -73,11 +83,11 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     private UIRadioButton[] adjustRadioButtons;
 
     // 插入行策略
-    private UIButtonGroup insertRowPolicy;
+    private UIButtonGroup insertRowPolicyButtonGroup;
     private ValueEditorPane valueEditor;
     private CardLayout insertRowLayout;
     private JPanel insertRowPane;
-    private JPanel southContentPane;
+    private JPanel insertRowPolicyPane;
     private JPanel defaultValuePane;
 
     /**
@@ -129,8 +139,17 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
     }
 
     private JPanel seniorPane() {
+        initInsertRowPolicyPane();
+        JPanel seniorPane = new JPanel(new BorderLayout());
+        seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
+        seniorPane.add(insertRowPolicyPane, BorderLayout.CENTER);
+        insertRowPolicyPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        return seniorPane;
+    }
+
+    private void initInsertRowPolicyPane() {
         // 插入行策略
-        insertRowPolicy = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_NULL"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Estate_Default_Text"),
+        insertRowPolicyButtonGroup = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_NULL"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Estate_Default_Text"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_COPY")});
         defaultValuePane = new JPanel(new BorderLayout(4, 0));
         valueEditor = ValueEditorPaneFactory.createBasicValueEditorPane();
@@ -140,10 +159,10 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         insertRowPane.add(new JPanel(), "none");
         insertRowPane.add(defaultValuePane, "content");
         insertRowPane.setPreferredSize(new Dimension(0, 0));
-        insertRowPolicy.addChangeListener(new ChangeListener() {
+        insertRowPolicyButtonGroup.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (insertRowPolicy.getSelectedIndex() == 1) {
+                if (insertRowPolicyButtonGroup.getSelectedIndex() == 1) {
                     insertRowPane.setPreferredSize(new Dimension(100, 20));
                     insertRowLayout.show(insertRowPane, "content");
                 } else {
@@ -152,25 +171,73 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 }
             }
         });
+
+
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize1 = {p, p};
-        double[] columnSize1 = {p, f};
-        int[][] rowCount1 = {{1, 1}, {1, 1}};
-        Component[][] components1 = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy"), SwingConstants.LEFT), insertRowPolicy},
-                new Component[]{null, insertRowPane},
-        };
-        southContentPane = TableLayoutHelper.createGapTableLayoutPane(components1, rowSize1, columnSize1, rowCount1, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        JPanel seniorPane = new JPanel(new BorderLayout());
-        seniorPane.add(seniorUpPane(), BorderLayout.NORTH);
-        seniorPane.add(southContentPane, BorderLayout.CENTER);
-        southContentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        return seniorPane;
+        UILabel insertRowPolicyLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy", SwingConstants.LEFT));
+        UIComponentUtils.setLineWrap(insertRowPolicyLabel);
+
+        // 如果右侧需要很宽的空间，就用3行1列的布局
+        if (insertRowPolicyButtonGroup.getPreferredSize().getWidth() > BUTTON_GROUP_WIDTH) {
+            double[] rowSize = {p, p, p};
+            double[] columnSize = {f};
+
+            Component[][] components = new Component[][] {
+                    new Component[]{insertRowPolicyLabel},
+                    new Component[]{insertRowPolicyButtonGroup},
+                    new Component[]{insertRowPane},
+            };
+            insertRowPolicyPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+        } else {
+            double[] rowSize = {p, p};
+            double[] columnSize = {f, BUTTON_GROUP_WIDTH};
+            Component[][] components = new Component[][] {
+                    new Component[]{insertRowPolicyLabel, insertRowPolicyButtonGroup},
+                    new Component[]{null, insertRowPane},
+            };
+            insertRowPolicyPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+        }
     }
 
     private JPanel seniorUpPane() {
+        JPanel pane = new JPanel(new BorderLayout());
+        // TODO: 方法之间的耦合还比较严重。现在必须先执行 createShowContentPane，再执行 createSeniorCheckPane。否则出现 npe。
+        pane.add(createShowContentPane(), BorderLayout.CENTER);
+        pane.add(createSeniorCheckPane(), BorderLayout.NORTH);
+        return pane;
+    }
+
+    private JPanel createShowContentPane() {
+        double f = TableLayout.FILL;
+        double p = TableLayout.PREFERRED;
+        double[] rowSize = {p, p, p};
+        double[] colSize = {f, COMBO_WIDTH};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+
         JPanel fileNamePane = createNormal();
+        fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+
+        UILabel showContentLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT);
+        UIComponentUtils.setLineWrap(showContentLabel);
+        UILabel toolTipLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"));
+
+        JPanel toolTipTextFieldWrapper = new JPanel(new BorderLayout());
+        toolTipTextFieldWrapper.add(tooltipTextField, BorderLayout.NORTH);
+
+        Component[][] components = new Component[][]{
+                new Component[]{showContentLabel, UIComponentUtils.wrapWithBorderLayoutPane(showContent)},
+                new Component[]{fileNamePane, null},  // 选择"用下载连接显示二进制内容"时，会显示这一行的面板
+                new Component[]{toolTipLabel, toolTipTextFieldWrapper}
+        };
+
+        JPanel showContentPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, colSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
+        showContentPane.setBorder(BorderFactory.createEmptyBorder(6, 0, 12, 0));
+
+        return showContentPane;
+    }
+
+    private JPanel createSeniorCheckPane() {
         previewCellContent.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         printAndExportContent.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
         printAndExportBackground.setBorder(UIConstants.CELL_ATTR_ZEROBORDER);
@@ -185,34 +252,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
                 new Component[]{printAndExportContent, null},
                 new Component[]{printAndExportBackground, null},
         };
-        JPanel upPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
-
-        double[] downRowSize = {p, p, p, p, p, p};
-        double[] downColumnSize = {p, f};
-        int[][] downRowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-
-        JPanel showContentPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
-        showContent.setPreferredSize(SMALL_DIMENSION);
-        showContentPane.add(showContent);
-        fileNamePane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-
-        JPanel tooltipTextFieldPane = new JPanel(FRGUIPaneFactory.createRightZeroLayout());
-        tooltipTextField.setPreferredSize(NORMAL_DIMENSION);
-        tooltipTextFieldPane.add(tooltipTextField);
-
-        Component[][] downComponent = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Show_Content"), SwingConstants.LEFT), showContentPane},
-                new Component[]{fileNamePane, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_ToolTip"), SwingConstants.LEFT), tooltipTextFieldPane},
-                new Component[]{null, null},
-                new Component[]{null, null},
-        };
-        JPanel downPane = TableLayoutHelper.createGapTableLayoutPane(downComponent, downRowSize, downColumnSize, downRowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_MEDIUM);
-        JPanel pane = new JPanel(new BorderLayout());
-        pane.add(upPane, BorderLayout.NORTH);
-        pane.add(downPane, BorderLayout.CENTER);
-        return pane;
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_LARGE);
     }
 
     private JPanel pagePane() {
@@ -303,7 +343,7 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
         pageAfterColumnCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_Page_After_Column"));
         canBreakOnPaginateCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellPage_Can_Break_On_Paginate"));
         repeatCheckBox.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellPage_Repeat_Content_When_Paging"));
-        insertRowPolicy.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy"));
+        insertRowPolicyButtonGroup.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy"));
         valueEditor.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CellWrite_InsertRow_Policy"));
     }
 
@@ -375,26 +415,26 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             cellInsertPolicyAttr = new CellInsertPolicyAttr();
         }
         if (ComparatorUtils.equals(CellInsertPolicyAttr.INSERT_POLICY_COPY, cellInsertPolicyAttr.getInsertPolicy())) {
-            insertRowPolicy.setSelectedIndex(2);
+            insertRowPolicyButtonGroup.setSelectedIndex(2);
         } else if (ComparatorUtils.equals(CellInsertPolicyAttr.INSERT_POLICY_DEFAULT, cellInsertPolicyAttr.getInsertPolicy())) {
-            insertRowPolicy.setSelectedIndex(1);
+            insertRowPolicyButtonGroup.setSelectedIndex(1);
             Object defaultValue = cellInsertPolicyAttr.getDefaultInsertValue();
             this.valueEditor.populate(defaultValue);
         } else {
-            insertRowPolicy.setSelectedIndex(0);
+            insertRowPolicyButtonGroup.setSelectedIndex(0);
             this.valueEditor.populate(StringUtils.EMPTY);
         }
-        if (insertRowPolicy.getSelectedIndex() == 1) {
+        if (insertRowPolicyButtonGroup.getSelectedIndex() == 1) {
             insertRowPane.setPreferredSize(new Dimension(100, 20));
             insertRowLayout.show(insertRowPane, "content");
         } else {
             insertRowLayout.show(insertRowPane, "none");
             insertRowPane.setPreferredSize(new Dimension(0, 0));
         }
-        southContentPane.setVisible(true);
+        insertRowPolicyPane.setVisible(true);
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         if (!jTemplate.isJWorkBook()) { //表单中报表块编辑屏蔽掉  插入行策略
-            southContentPane.setVisible(false);
+            insertRowPolicyPane.setVisible(false);
         }
     }
 
@@ -501,9 +541,9 @@ public class CellOtherSetPane extends AbstractCellAttrPane {
             // 插入
             CellInsertPolicyAttr cellInsertPolicyAttr = new CellInsertPolicyAttr();
 
-            if (insertRowPolicy.getSelectedIndex() == 2) {
+            if (insertRowPolicyButtonGroup.getSelectedIndex() == 2) {
                 cellInsertPolicyAttr.setInsertPolicy(CellInsertPolicyAttr.INSERT_POLICY_COPY);
-            } else if (insertRowPolicy.getSelectedIndex() == 1) {
+            } else if (insertRowPolicyButtonGroup.getSelectedIndex() == 1) {
                 cellInsertPolicyAttr.setInsertPolicy(CellInsertPolicyAttr.INSERT_POLICY_DEFAULT);
                 Object value = valueEditor.update();
                 cellInsertPolicyAttr.setDefaultInsertValue(value);

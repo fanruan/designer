@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 public class LogMessageBar extends JPanel {
 	private UILabel messageLabel;
     private int width = 600;
-	public static volatile LogMessageBar THIS;
+	private static volatile LogMessageBar THIS;
 	private JFrame dlg = new LogDetailPane().showDialog();
 
 	public static LogMessageBar getInstance() {
@@ -69,8 +69,11 @@ public class LogMessageBar extends JPanel {
 		return new Dimension(width, 24);
 	}
 
+	/**
+	 * 销毁内置的日志面板,外部插件会用到
+	 */
 	public void disposeLogDialog() {
-		if (dlg != null) {
+		if (dlg != null && dlg.isShowing()) {
 			dlg.dispose();
 		}
 		THIS = null;

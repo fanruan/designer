@@ -97,7 +97,6 @@ public class EnvChangeEntrance {
                 });
                 return false;
             }
-
             // 如果版本不一致，且确认 不继续 连接，这里返回 false.
             if (!versionCheckAndConfirm(selectedEnv)) {
                 return false;
@@ -225,6 +224,7 @@ public class EnvChangeEntrance {
             @Override
             public void doCancel() {
                 envListDialog.dispose();
+                // todo 断开了但是没选择新的环境，那么尝试重连旧环境，等接口
             }
         });
         envListDialog.setVisible(true);

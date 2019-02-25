@@ -1,15 +1,13 @@
 package com.fr.file;
 
 import javax.swing.Icon;
-import javax.transaction.NotSupportedException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * 切换环境用于暂存的文件类型
  */
-public class StashedFILE implements FILE {
+public class StashedFILE extends AbstractFILE {
 
     private FILE file;
     private byte[] content;
@@ -45,31 +43,6 @@ public class StashedFILE implements FILE {
     }
 
     @Override
-    public void setPath(String path) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public FILE getParent() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public FILE[] listFiles() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean createFolder(String name) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean mkfile() throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean exists() {
         return false;
     }
@@ -82,11 +55,6 @@ public class StashedFILE implements FILE {
     @Override
     public InputStream asInputStream() throws Exception {
         return new ByteArrayInputStream(content);
-    }
-
-    @Override
-    public OutputStream asOutputStream() throws Exception {
-        throw new NotSupportedException();
     }
 
     @Override
