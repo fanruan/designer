@@ -42,6 +42,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private void initDataPane() {
 		UILabel label = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Table_Data"));
 		UIComponentUtils.setLineWrap(label, TABLE_DATA_LABEL_LINE_WRAP_WIDTH);
+		UIComponentUtils.setPreferedWidth(label, ChartDataPane.LABEL_WIDTH);
 
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
