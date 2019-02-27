@@ -12,6 +12,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.DateUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -165,7 +166,7 @@ public class UserInfoPane extends BasicPane {
                     }
 
                 } catch (InterruptedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
 
                 String userName = MarketConfig.getInstance().getBbsUsername();

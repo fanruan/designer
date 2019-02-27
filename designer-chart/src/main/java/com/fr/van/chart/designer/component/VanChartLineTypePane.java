@@ -6,6 +6,8 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.type.LineStyle;
 import com.fr.stable.Constants;
@@ -52,7 +54,10 @@ public class VanChartLineTypePane extends BasicPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),lineWidth},
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(lineWidth)
+                },
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present")),lineStyle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break")),nullValueBreak},
         };

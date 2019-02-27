@@ -2,7 +2,6 @@ package com.fr.design.mainframe.chart.gui.type;
 
 import com.fr.base.ChartColorMatching;
 import com.fr.base.ChartPreStyleConfig;
-import com.fr.base.FRContext;
 import com.fr.base.background.ColorBackground;
 import com.fr.chart.base.AttrContents;
 import com.fr.chart.base.AttrFillStyle;
@@ -26,7 +25,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
@@ -309,7 +307,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
                 try {
                     newPlot.setHotHyperLink((NameJavaScriptGroup)hotHyper.clone());
                 } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error("Error in Hyperlink, Please Check it.", e);
+                    FineLoggerFactory.getLogger().error("Error in Hyperlink, Please Check it.", e);
                 }
             }
             newPlot.setConditionCollection(oldPlot.getConditionCollection());

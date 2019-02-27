@@ -3,19 +3,18 @@
  */
 package com.fr.design.gui.icombobox;
 
-import java.awt.BorderLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.log.FineLoggerFactory;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import com.fr.base.FRContext;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * @author richer
@@ -26,7 +25,7 @@ public class LazyComboBoxTest {
 		try {
 			UIManager.setLookAndFeel(new WindowsLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e1) {
-			FRContext.getLogger().error(e1.getMessage(), e1);
+            FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 		}
 		JFrame f = new JFrame();
 		JPanel p = (JPanel) f.getContentPane();
@@ -40,7 +39,7 @@ public class LazyComboBoxTest {
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
-					FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
 				}
 				return m;
 			}

@@ -1,6 +1,5 @@
 package com.fr.design.utils;
 
-import com.fr.base.FRContext;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
@@ -43,7 +42,7 @@ public class BrowseUtils {
     public static void browser(String url) {
 
         if (StringUtils.isEmpty(url)) {
-            FRContext.getLogger().info("The URL is empty!");
+            FineLoggerFactory.getLogger().info("The URL is empty!");
             return;
         }
         try {

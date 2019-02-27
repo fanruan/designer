@@ -82,6 +82,10 @@ public class DesignerSocketIO {
             socketIO.get().on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
+                    /*
+                     * todo 远程心跳断开不一定 socketio 断开 和远程紧密相关的业务都绑定在心跳上，切换成心跳断开之后进行提醒，
+                     * socketio 只用推日志和通知配置变更
+                     */
                     if (status != Status.Disconnecting) {
                         try {
                             SwingUtilities.invokeAndWait(new Runnable() {
@@ -114,7 +118,7 @@ public class DesignerSocketIO {
         Integer[] ports = WorkContext.getCurrent().get(SocketInfoOperator.class).getPort();
         WorkspaceConnection connection = WorkContext.getCurrent().getConnection();
         String[] result = new String[ports.length];
-        for (int i = 0; i < ports.length; i++ ) {
+        for (int i = 0; i < ports.length; i++) {
             result[i] = String.format("%s://%s:%s%s?%s=%s&%s=%s",
                     url.getProtocol(),
                     url.getHost(),

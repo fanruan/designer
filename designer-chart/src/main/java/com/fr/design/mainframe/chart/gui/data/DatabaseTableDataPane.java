@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui.data;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.impl.NameTableData;
 import com.fr.design.constants.LayoutConstants;
@@ -12,10 +11,13 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -29,19 +31,24 @@ public class DatabaseTableDataPane extends BasicPane{
 	private Object lastSelectObject;
 
 	public DatabaseTableDataPane(UILabel label) {
+		initComponents(label);
+	}
+
+	private void initComponents(UILabel label) {
 		initTableCombox();
 		initReviewButton();
+
 		this.setLayout(new BorderLayout(0,0));
-		if(label != null) {
+		if (label != null) {
 			this.add(label, BorderLayout.WEST);
 		}
 
-        JPanel pane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE,0));
-        pane.add(tableNameCombox,BorderLayout.CENTER);
+		JPanel pane = new JPanel(new BorderLayout(LayoutConstants.HGAP_LARGE,0));
+		pane.add(tableNameCombox,BorderLayout.CENTER);
+		pane.add(reviewButton,BorderLayout.EAST);
 
-        pane.add(reviewButton,BorderLayout.EAST);
-        this.add(pane,BorderLayout.CENTER);
-		setBorder ();
+		this.add(UIComponentUtils.wrapWithBorderLayoutPane(pane),BorderLayout.CENTER);
+		setBorder();
 	}
 
 	protected void setBorder () {
@@ -99,7 +106,7 @@ public class DatabaseTableDataPane extends BasicPane{
 					try {
 						tableDataWrappe.previewData();
 					} catch (Exception e1) {
-						FRContext.getLogger().error(e1.getMessage(), e1);
+                        FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 					}
 				}
 				super.mouseReleased(e);

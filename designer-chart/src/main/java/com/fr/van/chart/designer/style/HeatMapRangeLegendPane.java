@@ -1,12 +1,16 @@
 package com.fr.van.chart.designer.style;
 
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
+import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.BoldFontTextLabel;
+import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
-
 import com.fr.plugin.chart.type.LegendType;
+import com.fr.van.chart.designer.style.axis.component.MinMaxValuePaneWithOutTick;
 import com.fr.van.chart.range.component.GradualIntervalConfigPane;
 import com.fr.van.chart.range.component.GradualLegendPane;
+import com.fr.van.chart.range.component.LegendGradientBar;
 import com.fr.van.chart.range.component.SectionIntervalConfigPaneWithOutNum;
 import com.fr.van.chart.range.component.SectionLegendPane;
 
@@ -46,8 +50,12 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
             protected GradualIntervalConfigPane createGradualIntervalConfigPane() {
                 return new GradualIntervalConfigPane(){
                     @Override
-                    protected Component[][] getPaneComponents() {
-                        return super.getPaneComponentsWithOutTheme();
+                    protected Component[][] getPaneComponents(MinMaxValuePaneWithOutTick minMaxValuePane, ColorSelectBoxWithOutTransparent colorSelectBox, UINumberDragPane numberDragPane, LegendGradientBar legendGradientBar) {
+                        return new Component[][]{
+                                new Component[]{minMaxValuePane, null},
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
+                                new Component[]{null, legendGradientBar}
+                        };
                     }
                 };
             }

@@ -1,18 +1,17 @@
 package com.fr.design.gui.icombobox;
 
-import java.awt.BorderLayout;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
-
-import com.fr.base.FRContext;
+import java.awt.BorderLayout;
 
 public class ExtendedComboBoxTest {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 		final ExtendedComboBox cb = new ExtendedComboBox(

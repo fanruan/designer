@@ -1,6 +1,5 @@
 package com.fr.design.widget.ui;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -14,11 +13,13 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.IframeEditor;
-
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ParameterProvider;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class IframeEditorDefinePane extends AbstractDataModify<IframeEditor> {
                 try {
                     pr = (ParameterProvider) parameterProvider.clone();
                 } catch (CloneNotSupportedException e1) {
-                    FRContext.getLogger().error(e1.getMessage(), e1);
+                    FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                 }
                 list.add(pr);
             }

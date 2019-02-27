@@ -1,23 +1,21 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.WidgetPane;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.privilege.finegrain.WidgetPrivilegeControl;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
 import com.fr.report.elementcase.TemplateElementCase;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 
 /**
  * Created by ibm on 2017/7/20.
@@ -72,7 +70,7 @@ public class CellWidgetPropertyPane extends BasicPane {
             try {
                 cellWidget = (Widget) cellWidget.clone();
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 
@@ -111,6 +109,8 @@ public class CellWidgetPropertyPane extends BasicPane {
         if (finalCS.isSelectedOneCell(ePane)) {
             if (tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow()) == null) {//cellElement未加入到report中时要添加进去
                 tplEC.addCellElement(cellElement);
+            } else {
+                cellElement = tplEC.getTemplateCellElement(finalCS.getColumn(), finalCS.getRow());
             }
             setCellWidget(cellWidget, cellElement);
         } else {
@@ -121,7 +121,7 @@ public class CellWidgetPropertyPane extends BasicPane {
                     try {
                         setCellWidget((Widget) cellWidget.clone(), templateCellElement);
                     } catch (CloneNotSupportedException e) {
-                        FRContext.getLogger().error("InternalError: " + e.getMessage());
+                        FineLoggerFactory.getLogger().error("InternalError: " + e.getMessage());
                     }
                 }
             });
@@ -141,6 +141,8 @@ public class CellWidgetPropertyPane extends BasicPane {
         if(finalCS.isSelectedOneCell(ePane)){
             if(tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow())== null){//cellElement未加入到report中时要添加进去
                 tplEC.addCellElement(cellElement);
+            } else {
+                cellElement = tplEC.getTemplateCellElement(finalCS.getColumn(), finalCS.getRow());
             }
             setCellWidget(cellWidget, cellElement);
         }else{
@@ -151,7 +153,7 @@ public class CellWidgetPropertyPane extends BasicPane {
                     try {
                         setCellWidget((Widget)cellWidget.clone(), templateCellElement);
                     } catch (CloneNotSupportedException e) {
-                        FRContext.getLogger().error("InternalError: " + e.getMessage());
+                        FineLoggerFactory.getLogger().error("InternalError: " + e.getMessage());
                     }
                 }
             });

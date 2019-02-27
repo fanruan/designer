@@ -4,7 +4,6 @@ package com.fr.design.chart;
  *
  */
 
-import com.fr.base.FRContext;
 import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -17,6 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -51,7 +51,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
                         charts4Icon[i][j].getPlot().setLegend(null);
                     }
                 } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }
@@ -172,7 +172,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
                 try {
                     oldChart.changePlotInNewType((Plot) chart.getPlot().clone());
                 } catch (CloneNotSupportedException e) {
-                    FRContext.getLogger().error(e.getMessage(), e);
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }
@@ -195,7 +195,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
                 chart4Update = (Chart)chart.clone();
                 cc.addChart(chart4Update);
             }catch (CloneNotSupportedException ex){
-                FRContext.getLogger().error(ex.getMessage(), ex);
+                FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
         }
 
