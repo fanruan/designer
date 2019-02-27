@@ -1,7 +1,6 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ParameterHelper;
 import com.fr.base.Utils;
@@ -32,12 +31,13 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.data.DataSource;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ParameterProvider;
@@ -45,13 +45,24 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLableReader;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -99,7 +110,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     private UIRadioButton commaDismenberRadioButton;// 逗号
     private UIRadioButton otherDismenberRadioButton;// 其他
     private UITextField otherDismenberTextField;// 其他分隔符编辑
-    private UICheckBox igoreOneMoreDelimiterCheckBox;// 连续分隔符是否作为单一
+    private UICheckBox ignoreOneMoreDelimiterCheckBox;// 连续分隔符是否作为单一
     private UIComboBox charsetComboBox;
     private UILabel encodeLabel;
     private UILabel dismenberLabel;
@@ -218,7 +229,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             try {
                 in = url.getSourceStream(params);
             } catch (Throwable e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
@@ -374,7 +385,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         bg2.add(spaceDismenberRadioButton);
         bg2.add(commaDismenberRadioButton);
         bg2.add(otherDismenberRadioButton);
-        igoreOneMoreDelimiterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Series_Dismenber_As_Single"), true);
+        ignoreOneMoreDelimiterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Series_Dismenber_As_Single"), true);
+        UIComponentUtils.setLineWrap(ignoreOneMoreDelimiterCheckBox);
         encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Encoding_Type") + ":");
         charsetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         Component[][] comps = {
@@ -384,7 +396,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 {null,spaceDismenberRadioButton,null},
                 {null,commaDismenberRadioButton,null},
                 {null,otherDismenberRadioButton,otherDismenberTextField},
-                {igoreOneMoreDelimiterCheckBox,null,null}
+                {ignoreOneMoreDelimiterCheckBox,null,null}
         };
         northPane.add(TableLayoutHelper.createTableLayoutPane(comps, rowSize, columnSize),BorderLayout.EAST);
     }
@@ -586,7 +598,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
         editorPane.populate(ttd.getParams());
         needColumnNameCheckBox.setSelected(ttd.needColumnName());
-        igoreOneMoreDelimiterCheckBox.setSelected(ttd.isIgnoreOneMoreDelimiter());
+        ignoreOneMoreDelimiterCheckBox.setSelected(ttd.isIgnoreOneMoreDelimiter());
         charsetComboBox.setSelectedItem(ttd.getCharset());
     }
 
@@ -624,7 +636,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         ttd.setFilePath(filePath);
         ttd.setParams(this.params);
         ttd.setDelimiter(this.showDelimiter());
-        ttd.setIgnoreOneMoreDelimiter(igoreOneMoreDelimiterCheckBox.isSelected());
+        ttd.setIgnoreOneMoreDelimiter(ignoreOneMoreDelimiterCheckBox.isSelected());
         ttd.setNeedColumnName(needColumnNameCheckBox.isSelected());
         ttd.setCharset((String)charsetComboBox.getSelectedItem());
         fileTableData = ttd;
@@ -895,7 +907,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             if (localFileRadioButton.isSelected()) {
                 String localTextString = StringUtils.trimToNull(localText.getText());
                 if(StringUtils.isEmpty(localTextString)){
-                    FRContext.getLogger().info("The file path is empty.");
+                    FineLoggerFactory.getLogger().info("The file path is empty.");
                     loadedTreeModel();
                     return;
                 }
@@ -903,7 +915,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             } else {
                 String urlTextString = StringUtils.trimToNull(urlText.getText());
                 if (StringUtils.isEmpty(urlTextString)){
-                    FRContext.getLogger().info("The url path is empty.");
+                    FineLoggerFactory.getLogger().info("The url path is empty.");
                     loadedTreeModel();
                     return;
                 }
@@ -920,13 +932,13 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                     if (xmlReader != null) {
                         xmlReader.readXMLObject(new XMLLayerReader(0));
                     } else {
-                        FRContext.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
+                        FineLoggerFactory.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
                         loadedTreeModel();
                     }
                     reader.close();
                 }
             } catch (Throwable e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 loadedTreeModel();
             }
             if(treeModel.getChildCount(treeModel.getRoot()) == 1){

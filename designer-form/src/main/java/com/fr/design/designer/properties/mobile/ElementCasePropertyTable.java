@@ -1,6 +1,5 @@
 package com.fr.design.designer.properties.mobile;
 
-import com.fr.base.FRContext;
 import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.CRPropertyDescriptor;
@@ -14,7 +13,7 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.InChangeBooleanEditor;
 import com.fr.design.mainframe.widget.editors.RefinedDoubleEditor;
 import com.fr.form.ui.ElementCaseEditor;
-
+import com.fr.log.FineLoggerFactory;
 
 import javax.swing.table.TableModel;
 import java.beans.IntrospectionException;
@@ -92,7 +91,7 @@ public class ElementCasePropertyTable extends AbstractPropertyTable{
         try {
             propertyTableEditor = supportedDescriptor();
         } catch (IntrospectionException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
 
 

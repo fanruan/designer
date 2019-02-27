@@ -11,7 +11,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.bridge.StableFactory;
 
@@ -51,7 +50,7 @@ public class FormHyperlinkNorthPane extends BasicBeanPane<FormHyperlinkProvider>
         targetFrameComboBox = formHyperlinkEditors == null ? new UIComboBox() : new UIComboBox(getFormHyperlinkEditNames());
         targetFrameComboBox.setRenderer(new DefaultListCellRenderer());
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p};
+        double[] rowSize = {p, p};
         double[] columnSize = {p, TableLayout.FILL};
         Component[][] components;
         if (!this.needRenamePane) {

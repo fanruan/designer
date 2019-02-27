@@ -291,7 +291,7 @@ public class CustomIconPane extends BasicPane {
         Configurations.update(new WorkerFacade(WidgetInfoConfig.class) {
             @Override
             public void run() {
-                WidgetInfoConfig.getInstance().setIconManager(IconManager.getIconManager());
+                WidgetInfoConfig.getInstance().setIconManager(iconManager);
             }
         });
 

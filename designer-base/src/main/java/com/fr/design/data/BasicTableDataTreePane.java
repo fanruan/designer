@@ -1,7 +1,6 @@
 package com.fr.design.data;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.api.StoreProcedureAssist;
@@ -28,14 +27,17 @@ import com.fr.design.menu.LineSeparator;
 import com.fr.design.menu.MenuDef;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.NameObject;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.Icon;
+import javax.swing.JTree;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.tree.TreeCellEditor;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -413,7 +415,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
                 }
 
             } catch (Exception ex) {
-                FRContext.getLogger().error(ex.getMessage(), ex);
+                FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
 
         }

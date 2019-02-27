@@ -5,6 +5,8 @@ import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.design.widget.FRWidgetFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -57,11 +59,11 @@ public class TableLayout4VanChartHelper {
         double f = TableLayout.FILL;
         double[] columnSize = {f, componentWidth};
         double[] rowSize = {p, p};
-        UILabel label = new UILabel(title);
+        UILabel label = FRWidgetFactory.createLineWrapLabel(title);
         label.setVerticalAlignment(SwingConstants.TOP);
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{label, component},
+                new Component[]{label, UIComponentUtils.wrapWithBorderLayoutPane(component)},
         };
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, COMPONENT_INTERVAL, LayoutConstants.VGAP_LARGE);
     }

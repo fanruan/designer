@@ -1,11 +1,13 @@
 package com.fr.design.mainframe.widget.renderer;
 
-import java.awt.*;
-
-import com.fr.base.FRContext;
 import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.form.ui.WidgetInfoConfig;
+import com.fr.log.FineLoggerFactory;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class IconCellRenderer extends GenericCellRenderer {
 	private Image img;
@@ -22,7 +24,7 @@ public class IconCellRenderer extends GenericCellRenderer {
 			this.setImage(icon == null ? null : icon.getImage());
 		} catch (CloneNotSupportedException e) {
 			this.setImage(null);
-			FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 	}
 

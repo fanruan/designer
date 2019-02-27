@@ -42,13 +42,9 @@ public class DocumentModel extends AlphaCellModel {
     @Override
     public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
-        try {
-            JSONObject modelObject = JSONObject.create();
-            modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId()).put("searchCount", getSearchCount());
-            object.put("result", modelObject).put("cellType", getType().getTypeValue());
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error("DocumentModel: " + e.getMessage());
-        }
+        JSONObject modelObject = JSONObject.create();
+        modelObject.put("title", getName()).put("summary", getContent()).put("did", getDocumentId()).put("searchCount", getSearchCount());
+        object.put("result", modelObject).put("cellType", getType().getTypeValue());
         return object;
     }
 

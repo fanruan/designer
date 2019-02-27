@@ -14,6 +14,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -165,6 +166,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         location.setAllToolTips(textArray);
 
         customFloatPositionButton = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Float_Position"));
+        UIComponentUtils.setLineWrap(customFloatPositionButton);
         customFloatPositionButton.setEventBannded(true);
 
         Component[][] components = new Component[][]{

@@ -4,7 +4,6 @@ package com.fr.van.chart.designer.style;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.range.VanChartRangeLegend;
 import com.fr.plugin.chart.type.LegendType;
@@ -53,6 +52,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
         gradualLegendPane.setParentPane(parent);
         //区域段图例面板
         sectionLegendPane = createSectionLegendPane();
+        sectionLegendPane.setParentPane(parent);
 
         JPanel panel = new JPanel(new CardLayout()){
             @Override

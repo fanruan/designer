@@ -1,6 +1,5 @@
 package com.fr.design.formula;
 
-import com.fr.base.FRContext;
 import com.fr.file.FunctionConfig;
 import com.fr.function.AVERAGE;
 import com.fr.function.CHAR;
@@ -12,7 +11,6 @@ import com.fr.function.RANGE;
 import com.fr.function.SUM;
 import com.fr.function.TIME;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.ExtraClassManager;
@@ -25,23 +23,28 @@ import com.fr.stable.fun.mark.Mutable;
 import com.fr.stable.script.Function;
 import com.fr.stable.script.FunctionDef;
 
+import javax.swing.DefaultListModel;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import javax.swing.DefaultListModel;
 
 public final class FunctionConstants {
 
 	public static FunctionGroup PLUGIN = getPluginFunctionGroup();
 	public static FunctionGroup CUSTOM = getCustomFunctionGroup();
-	static NameAndFunctionList COMMON = getCommonFunctionList();
-	static NameAndTypeAndFunctionList[] EMBFUNCTIONS = getEmbededFunctionListArray();
+	public static NameAndFunctionList COMMON = getCommonFunctionList();
+	public static NameAndTypeAndFunctionList[] EMBFUNCTIONS = getEmbededFunctionListArray();
 	public static FunctionGroup ALL = getAllFunctionGroup();
 
 	static {
@@ -74,9 +77,9 @@ public final class FunctionConstants {
 			try {
 				classFilePath = URLDecoder.decode(classFilePath, EncodeConstants.ENCODING_UTF_8);
 			} catch (UnsupportedEncodingException e1) {
-				FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
 			}
-			FRContext.getLogger().info("ClassFilePath:" + classFilePath);
+            FineLoggerFactory.getLogger().info("ClassFilePath:" + classFilePath);
 			if (isCustomFormulaPath(classFilePath)) {
 				continue;
 			}
@@ -117,7 +120,7 @@ public final class FunctionConstants {
 	 * 将函数分组插件中的函数添加到对应的列表中
 	 * @param listModel
 	 */
-	static void addFunctionGroupFromPlugins(DefaultListModel listModel){
+	public static void addFunctionGroupFromPlugins(DefaultListModel listModel){
 		//hugh:自定义函数分组
         Set<Mutable> containers = ExtraClassManager.getInstance().getArray(FunctionDefContainer.MARK_STRING);
         if(!containers.isEmpty()){
@@ -189,7 +192,7 @@ public final class FunctionConstants {
 					classNameList.add(entryName.substring(classPath.length() + 1));
 				}
 			} catch (IOException e) {
-				FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 		} else {
 			File dir = new File(filePath);

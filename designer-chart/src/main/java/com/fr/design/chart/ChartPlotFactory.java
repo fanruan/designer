@@ -1,10 +1,55 @@
 package com.fr.design.chart;
 
-import com.fr.base.FRContext;
-import com.fr.chart.chartattr.*;
-import com.fr.design.chart.axis.*;
-import com.fr.design.chart.series.SeriesCondition.dlp.*;
-import com.fr.design.mainframe.chart.gui.style.axis.*;
+import com.fr.chart.chartattr.Area3DPlot;
+import com.fr.chart.chartattr.AreaPlot;
+import com.fr.chart.chartattr.Bar2DPlot;
+import com.fr.chart.chartattr.Bar3DPlot;
+import com.fr.chart.chartattr.BubblePlot;
+import com.fr.chart.chartattr.CustomPlot;
+import com.fr.chart.chartattr.FunnelPlot;
+import com.fr.chart.chartattr.GanttPlot;
+import com.fr.chart.chartattr.LinePlot;
+import com.fr.chart.chartattr.MapPlot;
+import com.fr.chart.chartattr.MeterBluePlot;
+import com.fr.chart.chartattr.MeterPlot;
+import com.fr.chart.chartattr.Pie3DPlot;
+import com.fr.chart.chartattr.PiePlot;
+import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartattr.RadarPlot;
+import com.fr.chart.chartattr.RangePlot;
+import com.fr.chart.chartattr.StockPlot;
+import com.fr.chart.chartattr.XYScatterPlot;
+import com.fr.design.chart.axis.BinaryChartStyleAxisPane;
+import com.fr.design.chart.axis.ChartStyleAxisPane;
+import com.fr.design.chart.axis.CustomChartStyleAxisPane;
+import com.fr.design.chart.axis.GanntChartStyleAxisPane;
+import com.fr.design.chart.axis.RadarChartStyleAxisPane;
+import com.fr.design.chart.axis.TernaryChartStyleAxisPane;
+import com.fr.design.chart.axis.ValueChartStyleAxisPane;
+import com.fr.design.chart.axis.XYChartStyleAxisPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.AreaDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.Bar2DDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.BubbleDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.DataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.FunnelDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.LineDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.MapDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.MeterDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.PieDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.RadarDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.RangeDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.StockDataLabelPane;
+import com.fr.design.chart.series.SeriesCondition.dlp.XYDataLabelPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartAxisUsePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartCategoryNoFormulaPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartCategoryPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartPercentValueNoFormulaPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartPercentValuePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValueNoFormulaPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartSecondValuePane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartValueNoFormulaPane;
+import com.fr.design.mainframe.chart.gui.style.axis.ChartValuePane;
+import com.fr.log.FineLoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -91,7 +136,7 @@ public class ChartPlotFactory {
                 Constructor<? extends ChartStyleAxisPane> c = factoryObject.getAxisPaneClass().getConstructor(Plot.class);
                 return c.newInstance(plot);
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new BinaryChartStyleAxisPane(plot);
@@ -109,7 +154,7 @@ public class ChartPlotFactory {
                 Constructor c = factoryObject.getDataLabelPaneClass().getConstructor();
                 return (DataLabelPane) c.newInstance();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new DataLabelPane();
@@ -122,7 +167,7 @@ public class ChartPlotFactory {
                 Constructor c = aClass.getConstructor();
                 return (ChartAxisUsePane) c.newInstance();
             }catch (Exception e){
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
 

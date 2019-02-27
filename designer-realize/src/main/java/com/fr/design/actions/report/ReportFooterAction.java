@@ -3,23 +3,22 @@
  */
 package com.fr.design.actions.report;
 
-import java.util.Hashtable;
-
-import javax.swing.SwingUtilities;
-
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
-import com.fr.design.menu.KeySetUtils;
-import com.fr.page.ReportSettingsProvider;
 import com.fr.design.actions.ReportComponentAction;
+import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.headerfooter.EditFooterPane;
 import com.fr.design.mainframe.ReportComponent;
-import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.menu.KeySetUtils;
+import com.fr.log.FineLoggerFactory;
+import com.fr.page.ReportSettingsProvider;
 import com.fr.report.core.ReportHF;
 import com.fr.report.core.ReportUtils;
 import com.fr.report.report.Report;
 import com.fr.report.report.TemplateReport;
 import com.fr.report.stable.ReportConstants;
+
+import javax.swing.SwingUtilities;
+import java.util.Hashtable;
 
 /**
  * Footer action.
@@ -85,7 +84,7 @@ public class ReportFooterAction extends ReportComponentAction<ReportComponent> {
             try {
                 reportHFHash.put(new Integer(reportHFType), report.getFooter(reportHFType).clone());
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }

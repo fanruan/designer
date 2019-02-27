@@ -11,8 +11,10 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.utils.gui.UIComponentUtils;
 
 import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
@@ -21,6 +23,8 @@ import java.awt.Dimension;
 public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	private static final long serialVersionUID = 4740461028440155147L;
 	private static final int TOP = -5;
+	private static final int TABLE_DATA_LABEL_LINE_WRAP_WIDTH = 65;
+	private static final int TABLE_DATA_PANE_WIDTH = 246;
 	private DatabaseTableDataPane tableDataPane;
 	private AbstractTableDataContentPane dataContentPane;
 
@@ -36,8 +40,10 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	}
 
 	private void initDataPane() {
-		UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData")) ;
-		label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH,ChartDataPane.LABEL_HEIGHT));
+		UILabel label = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Table_Data"));
+		UIComponentUtils.setLineWrap(label, TABLE_DATA_LABEL_LINE_WRAP_WIDTH);
+		UIComponentUtils.setPreferedWidth(label, ChartDataPane.LABEL_WIDTH);
+
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
 			protected void userEvent() {
@@ -46,7 +52,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			}
 		};
 
-		tableDataPane.setPreferredSize(new Dimension(246 , 20));
+		tableDataPane.setPreferredSize(new Dimension(TABLE_DATA_PANE_WIDTH , tableDataPane.getPreferredSize().height));
 		this.setBorder(BorderFactory.createEmptyBorder(TOP,0,0,0));
 		this.add(tableDataPane, BorderLayout.NORTH);
 	}
@@ -81,7 +87,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @return 返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData");
+		return Toolkit.i18nText("Fine-Design_Chart_TableData");
 	}
 
 

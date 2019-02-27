@@ -1,9 +1,9 @@
 package com.fr.design.data;
 
-import com.fr.base.FRContext;
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
+import com.fr.data.TableDataSourceTailor;
 import com.fr.data.core.DataCoreXmlUtils;
 import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.storeproc.ProcedureDataModel;
@@ -29,6 +29,7 @@ import com.fr.file.TableDataConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
@@ -444,7 +445,7 @@ public abstract class DesignTableDataManager {
                     parameter.setValue(parameterMap.get(parameter.getName()));
                 }
             }
-            return DataOperator.getInstance().previewTableData(tableDataSource, tabledata, parameterMap, rowCount);
+            return DataOperator.getInstance().previewTableData(TableDataSourceTailor.extractTableData(tableDataSource), tabledata, parameterMap, rowCount);
         } catch (Exception e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {
@@ -488,7 +489,7 @@ public abstract class DesignTableDataManager {
                 }
                 rs.release();
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
         }

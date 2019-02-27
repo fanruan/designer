@@ -37,13 +37,9 @@ public class FileModel extends AlphaCellModel {
     @Override
     public JSONObject modelToJson() {
         JSONObject object = JSONObject.create();
-        try {
-            JSONObject modelObject = JSONObject.create();
-            modelObject.put("filePath", getFilePath()).put("searchCount", getSearchCount());
-            object.put("result", modelObject).put("cellType", getType().getTypeValue());
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        JSONObject modelObject = JSONObject.create();
+        modelObject.put("filePath", getFilePath()).put("searchCount", getSearchCount());
+        object.put("result", modelObject).put("cellType", getType().getTypeValue());
         return object;
     }
 

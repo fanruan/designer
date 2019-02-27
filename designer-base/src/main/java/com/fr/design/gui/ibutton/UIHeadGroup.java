@@ -3,9 +3,15 @@ package com.fr.design.gui.ibutton;
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -13,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UIHeadGroup extends JPanel {
+    private static final int MIN_HEIGHT = 25;
     protected List<UIToggleButton> labelButtonList;
     private boolean isNeedLeftRightOutLine = true;
     protected int selectedIndex = -1;
@@ -25,7 +32,6 @@ public class UIHeadGroup extends JPanel {
         labelButtonList = new ArrayList<UIToggleButton>(textArray.length);
         this.setBackground(UIConstants.TREE_BACKGROUND);
         this.setLayout(new GridLayout(0, textArray.length, 0, 0));
-//		this.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         for (int i = 0; i < textArray.length; i++) {
             final int index = i;
             String text = textArray[i];
@@ -50,7 +56,6 @@ public class UIHeadGroup extends JPanel {
         labelButtonList = new ArrayList<UIToggleButton>(iconArray.length);
         this.setBackground(UIConstants.NORMAL_BACKGROUND);
         this.setLayout(new GridLayout(0, iconArray.length, 1, 0));
-//		this.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         for (int i = 0; i < iconArray.length; i++) {
             final int index = i;
             Icon icon = iconArray[i];
@@ -99,7 +104,9 @@ public class UIHeadGroup extends JPanel {
     @Override
     public Dimension getPreferredSize() {
         Dimension dim = super.getPreferredSize();
-        dim.height = 25;
+        if (dim.height < MIN_HEIGHT) {
+            dim.height = MIN_HEIGHT;
+        }
         return dim;
     }
 
@@ -133,6 +140,7 @@ public class UIHeadGroup extends JPanel {
         labelButton.setRoundBorder(false);
         labelButton.setBorderPainted(false);
         labelButton.setPressedPainted(false);
+        UIComponentUtils.setLineWrap(labelButton);
         labelButtonList.add(labelButton);
         this.add(labelButton);
     }

@@ -6,8 +6,10 @@ import com.fr.design.mainframe.alphafine.cell.model.MoreModel;
 import com.fr.design.mainframe.alphafine.cell.model.RobotModel;
 import com.fr.design.mainframe.alphafine.model.SearchResult;
 import com.fr.general.http.HttpToolbox;
+import com.fr.json.JSON;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
+import com.fr.json.JSONFactory;
 import com.fr.json.JSONObject;
 import com.fr.json.JSONUtils;
 import com.fr.log.FineLoggerFactory;
@@ -73,7 +75,7 @@ public class HotIssuesManager {
 
         try {
             String result = HttpToolbox.get(AlphaFineConstants.ALPHA_HOT_SEARCH);
-            JSONArray jsonArray = (JSONArray)JSONUtils.jsonDecode(result);
+            JSONArray jsonArray = JSONFactory.createJSON(JSON.ARRAY, result);
             if(jsonArray != null){
                 for (int i = 0; i < HOT_ITEM_NUM; i++) {
                     AlphaFineHelper.checkCancel();

@@ -8,11 +8,14 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.form.ui.MultiFileEditor;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> {
     private DictionaryComboBox acceptType;
@@ -34,6 +37,7 @@ public class MultiFileEditorPane extends FieldEditorDefinePane<MultiFileEditor> 
         JPanel contenter = new JPanel(new BorderLayout());
 
         singleFileCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Single_File_Upload"));
+        UIComponentUtils.setLineWrap(singleFileCheckBox);
         singleFileCheckBox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         acceptType = new DictionaryComboBox(DictionaryConstants.acceptTypes, DictionaryConstants.fileTypeDisplays);
 //		acceptType.setPreferredSize(new Dimension(100, 20));

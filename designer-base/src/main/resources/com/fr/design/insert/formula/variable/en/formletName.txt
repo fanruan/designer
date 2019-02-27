@@ -1,1 +1,1 @@
-form namehttp://localhost:8080/WebReport/ReportServer?formlet=Form1.frm，formName is Form1.frm
+form name http://localhost:8075/webroot/decision/view/form?viewlet=Form1.frm，formName is Form1.frm

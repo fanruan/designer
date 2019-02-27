@@ -597,7 +597,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(RemoteEnvPane.this), UIManager.getString("OptionPane.messageDialogTitle"), true);
 
-        dialog.setSize(new Dimension(268, 118));
+        dialog.setSize(new Dimension(308, 132));
         okButton.setEnabled(false);
         JPanel jp = new JPanel();
         JPanel upPane = new JPanel();
