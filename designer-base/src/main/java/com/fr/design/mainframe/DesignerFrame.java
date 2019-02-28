@@ -39,6 +39,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
@@ -333,6 +334,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         needToAddAuhtorityPaint();
         refreshDottedLine();
         fireAuthorityStateToNomal();
+        EventDispatcher.fire(DesignAuthorityEventType.StopEdit, DesignerFrame.this);
     }
 
     /**
