@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript">
-        window.MyNS = window.MyNS || {};
-        MyNS.update = function () {
-            MyNS.data.setAge(111.11);
-            return MyNS.data;
+        Pool.update = function () {
+            Pool.data.setAge(parseInt(document.getElementById("age").value));
+            Pool.data.setName(document.getElementById("name").value);
+            return Pool.data;
         };
     </script>
 </head>
 <body>
 <div>测试页面，请点击最下面的按钮</div>
+<input id="name" type="text" placeholder="请输入名字"/>
+<input id="age" type="number" placeholder="请输入年龄"/>
 </body>
 </html>

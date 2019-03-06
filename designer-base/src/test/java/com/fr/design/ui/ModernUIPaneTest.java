@@ -16,13 +16,13 @@ import java.awt.event.ActionListener;
 public class ModernUIPaneTest {
 
     public static void main(String... args) {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setSize(1200, 800);
         JPanel contentPane = (JPanel) frame.getContentPane();
         // 是否需要开启调试窗口
         DesignerEnvManager.getEnvManager().setOpenDebug(true);
         final ModernUIPane<Model> pane = new ModernUIPane.Builder<Model>()
-                .withHTML(IOUtils.readResourceAsString("/com/fr/design/ui/demo.html")).namespace("MyNS").build();
+                .withHTML(IOUtils.readResourceAsString("/com/fr/design/ui/demo.html")).namespace("Pool").build();
         contentPane.add(pane, BorderLayout.CENTER);
 
         Model model = new Model();
@@ -32,14 +32,14 @@ public class ModernUIPaneTest {
 
         JPanel panel = new JPanel(new FlowLayout());
         contentPane.add(panel, BorderLayout.SOUTH);
-        JButton button = new JButton("点击我可以看到JAVA控制台输出的新值:99");
+        JButton button = new JButton("点击我可以看到Swing的弹框，输出填写的信息");
         panel.add(button);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Model returnValue = pane.update();
                 if (returnValue != null) {
-                    System.out.println(returnValue.getAge());
+                    JOptionPane.showMessageDialog(frame, String.format("姓名为:%s,年龄为:%d", returnValue.getName(), returnValue.getAge()));
                 }
             }
         });

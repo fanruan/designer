@@ -7,6 +7,8 @@ import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
+import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
+import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
@@ -21,7 +23,7 @@ import java.awt.*;
 public class ModernUIPane<T> extends BasicPane {
 
     private Browser browser;
-    private String namespace = "NS";
+    private String namespace = "Pool";
     private String variable = "data";
     private String expression = "update()";
 
@@ -54,6 +56,13 @@ public class ModernUIPane<T> extends BasicPane {
 
     private void initializeBrowser() {
         browser = new Browser();
+        // 初始化的时候，就把命名空间对象初始化好，确保window.a.b.c（"a.b.c"为命名空间）对象都是初始化过的
+        browser.addScriptContextListener(new ScriptContextAdapter() {
+            @Override
+            public void onScriptContextCreated(ScriptContextEvent event) {
+                event.getBrowser().executeJavaScript(String.format(ModernUI.SCRIPT_STRING, namespace));
+            }
+        });
     }
 
     @Override
@@ -67,7 +76,6 @@ public class ModernUIPane<T> extends BasicPane {
             @Override
             public void onFinishLoadingFrame(FinishLoadingEvent event) {
                 if (event.isMainFrame()) {
-                    event.getBrowser().executeJavaScript(String.format(ModernUI.SCRIPT_STRING, namespace));
                     JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
                     ns.asObject().setProperty(variable, t);
                 }
