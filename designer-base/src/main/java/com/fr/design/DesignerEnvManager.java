@@ -164,6 +164,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
     private boolean imageCompress = false;//图片压缩
+    // 开启内嵌web页面的调试窗口
+    private boolean openDebug = false;
 
     /**
      * DesignerEnvManager.
@@ -1383,6 +1385,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(this.configManager);
     }
 
+    private void readOpenDebug(XMLableReader reader) {
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.openDebug = Boolean.parseBoolean(tmpVal);
+        }
+    }
+
     public String getUUID() {
         return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
     }
@@ -1409,6 +1418,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     public void setImageCompress(boolean imageCompress) {
         this.imageCompress = imageCompress;
+    }
+
+    public boolean isOpenDebug() {
+        return openDebug;
+    }
+
+    public void setOpenDebug(boolean openDebug) {
+        this.openDebug = openDebug;
     }
 
     /**
@@ -1458,12 +1475,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readUUID(reader);
             } else if ("status".equals(name)) {
                 readActiveStatus(reader);
-            } else if (ComparatorUtils.equals(CAS_PARAS, name)) {
+            } else if (CAS_PARAS.equals(name)) {
                 readHttpsParas(reader);
-            } else if (name.equals("AlphaFineConfigManager")) {
+            } else if ("AlphaFineConfigManager".equals(name)) {
                 readAlphaFineAttr(reader);
-            } else if (name.equals("RecentColors")) {
+            } else if ("RecentColors".equals(name)) {
                 readRecentColor(reader);
+            } else if ("OpenDebug".equals(name)) {
+                readOpenDebug(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1680,6 +1699,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private void writeRecentColor(XMLPrintWriter writer) {
         if (this.configManager != null) {
             this.configManager.writeXML(writer);
+        }
+    }
+
+    private void writeOpenDebug(XMLPrintWriter writer) {
+        if (this.openDebug) {
+            writer.startTAG("OpenDebug");
+            writer.textNode(String.valueOf(openDebug));
+            writer.end();
         }
     }
 
