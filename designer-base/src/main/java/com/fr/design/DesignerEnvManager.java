@@ -1687,6 +1687,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeHttpsParas(writer);
         writeAlphaFineAttr(writer);
         writeRecentColor(writer);
+        writeOpenDebug(writer);
         writer.end();
     }
 

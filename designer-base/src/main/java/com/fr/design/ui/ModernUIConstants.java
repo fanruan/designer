@@ -5,7 +5,7 @@ package com.fr.design.ui;
  * @version 10.0
  * Created by richie on 2019-03-05
  */
-class ModernUI {
+class ModernUIConstants {
 
     static final String SCRIPT_STRING = "var arr = \"%s\".split(\".\").reverse();\n" +
             "var create = function(obj, names) {\n" +

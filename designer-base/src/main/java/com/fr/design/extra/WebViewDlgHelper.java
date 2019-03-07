@@ -214,7 +214,8 @@ public class WebViewDlgHelper {
 
     private static void showPluginDlg() {
         try {
-            Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
+            Class<?> clazz = Class.forName("com.fr.design.extra.modern.PluginModernPane");
+            //Class<?> clazz = Class.forName("com.fr.design.extra.PluginWebPane");
             Constructor constructor = clazz.getConstructor(String.class, String.class);
             Component webPane = (Component) constructor.newInstance(installHome, MAIN_JS_PATH);
 

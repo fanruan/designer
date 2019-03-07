@@ -22,7 +22,7 @@ public class ModernUIPaneTest {
         // 是否需要开启调试窗口
         DesignerEnvManager.getEnvManager().setOpenDebug(true);
         final ModernUIPane<Model> pane = new ModernUIPane.Builder<Model>()
-                .withHTML(IOUtils.readResourceAsString("/com/fr/design/ui/demo.html")).namespace("Pool").build();
+                .withEMB("/com/fr/design/ui/demo.html").namespace("Pool").build();
         contentPane.add(pane, BorderLayout.CENTER);
 
         Model model = new Model();

@@ -2,17 +2,27 @@ package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
+import com.fr.general.IOUtils;
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.JSValue;
+import com.teamdev.jxbrowser.chromium.ProtocolHandler;
+import com.teamdev.jxbrowser.chromium.ProtocolService;
+import com.teamdev.jxbrowser.chromium.URLRequest;
+import com.teamdev.jxbrowser.chromium.URLResponse;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
+import com.teamdev.jxbrowser.chromium.events.LoadListener;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
+import com.teamdev.jxbrowser.chromium.events.ScriptContextListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * @author richie
@@ -56,11 +66,42 @@ public class ModernUIPane<T> extends BasicPane {
 
     private void initializeBrowser() {
         browser = new Browser();
+        BrowserContext browserContext = browser.getContext();
+        ProtocolService protocolService = browserContext.getProtocolService();
+        // 支持从jar中读取资源文件
+        protocolService.setProtocolHandler("jar", new ProtocolHandler() {
+            @Override
+            public URLResponse onRequest(URLRequest request) {
+                try {
+                    String path = request.getURL();
+                    URL url = new URL(path);
+                    InputStream inputStream = url.openStream();
+                    return ModernUIAssist.inputStream2Response(inputStream, path);
+                } catch (Exception ignored) {
+                }
+                return null;
+            }
+        });
+        // 支持读取jar包中文件的自定义协议————emb:/com/fr/design/images/bbs.png
+        protocolService.setProtocolHandler("emb", new ProtocolHandler() {
+            @Override
+            public URLResponse onRequest(URLRequest req) {
+                try {
+                    String path = req.getURL();
+                    path = path.substring(4);
+                    InputStream inputStream = IOUtils.readResource(path);
+                    return ModernUIAssist.inputStream2Response(inputStream, path);
+                } catch (Exception ignore) {
+
+                }
+                return null;
+            }
+        });
         // 初始化的时候，就把命名空间对象初始化好，确保window.a.b.c（"a.b.c"为命名空间）对象都是初始化过的
         browser.addScriptContextListener(new ScriptContextAdapter() {
             @Override
             public void onScriptContextCreated(ScriptContextEvent event) {
-                event.getBrowser().executeJavaScript(String.format(ModernUI.SCRIPT_STRING, namespace));
+                event.getBrowser().executeJavaScript(String.format(ModernUIConstants.SCRIPT_STRING, namespace));
             }
         });
     }
@@ -95,26 +136,65 @@ public class ModernUIPane<T> extends BasicPane {
 
         private ModernUIPane<T> pane = new ModernUIPane<>();
 
+        public Builder<T> prepare(ScriptContextListener contextListener) {
+            pane.browser.addScriptContextListener(contextListener);
+            return this;
+        }
+
+        public Builder<T> prepare(LoadListener loadListener) {
+            pane.browser.addLoadListener(loadListener);
+            return this;
+        }
+
+        /**
+         * 加载jar包中的资源
+         * @param path 资源路径
+         */
+        public Builder<T> withEMB(String path) {
+            pane.browser.loadURL("emb:" + path);
+            return this;
+        }
+
+        /**
+         * 加载url指向的资源
+         * @param url 文件的地址
+         */
         public Builder<T> withURL(String url) {
             pane.browser.loadURL(url);
             return this;
         }
 
+        /**
+         * 加载html文本内容
+         * @param html 要加载html文本内容
+         */
         public Builder<T> withHTML(String html) {
             pane.browser.loadHTML(html);
             return this;
         }
 
+        /**
+         * 设置该前端页面做数据交换所使用的对象
+         * @param namespace 对象名
+         */
         public Builder<T> namespace(String namespace) {
             pane.namespace = namespace;
             return this;
         }
 
+        /**
+         * java端往js端传数据时使用的变量名字
+         * @param name 变量的名字
+         */
         public Builder<T> variable(String name) {
             pane.variable = name;
             return this;
         }
 
+        /**
+         * js端往java端传数据时执行的函数表达式
+         * @param expression 函数表达式
+         */
         public Builder<T> expression(String expression) {
             pane.expression = expression;
             return this;
