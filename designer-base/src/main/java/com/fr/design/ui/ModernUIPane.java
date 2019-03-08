@@ -2,15 +2,10 @@ package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
-import com.fr.general.IOUtils;
+import com.fr.web.struct.AssembleComponent;
 import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.ProtocolHandler;
-import com.teamdev.jxbrowser.chromium.ProtocolService;
-import com.teamdev.jxbrowser.chromium.URLRequest;
-import com.teamdev.jxbrowser.chromium.URLResponse;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.events.LoadListener;
@@ -21,8 +16,6 @@ import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * @author richie
@@ -66,42 +59,11 @@ public class ModernUIPane<T> extends BasicPane {
 
     private void initializeBrowser() {
         browser = new Browser();
-        BrowserContext browserContext = browser.getContext();
-        ProtocolService protocolService = browserContext.getProtocolService();
-        // 支持从jar中读取资源文件
-        protocolService.setProtocolHandler("jar", new ProtocolHandler() {
-            @Override
-            public URLResponse onRequest(URLRequest request) {
-                try {
-                    String path = request.getURL();
-                    URL url = new URL(path);
-                    InputStream inputStream = url.openStream();
-                    return ModernUIAssist.inputStream2Response(inputStream, path);
-                } catch (Exception ignored) {
-                }
-                return null;
-            }
-        });
-        // 支持读取jar包中文件的自定义协议————emb:/com/fr/design/images/bbs.png
-        protocolService.setProtocolHandler("emb", new ProtocolHandler() {
-            @Override
-            public URLResponse onRequest(URLRequest req) {
-                try {
-                    String path = req.getURL();
-                    path = path.substring(4);
-                    InputStream inputStream = IOUtils.readResource(path);
-                    return ModernUIAssist.inputStream2Response(inputStream, path);
-                } catch (Exception ignore) {
-
-                }
-                return null;
-            }
-        });
         // 初始化的时候，就把命名空间对象初始化好，确保window.a.b.c（"a.b.c"为命名空间）对象都是初始化过的
         browser.addScriptContextListener(new ScriptContextAdapter() {
             @Override
             public void onScriptContextCreated(ScriptContextEvent event) {
-                event.getBrowser().executeJavaScript(String.format(ModernUIConstants.SCRIPT_STRING, namespace));
+                event.getBrowser().executeJavaScript(String.format(ModernUIConstants.SCRIPT_INIT_NAME_SPACE, namespace));
             }
         });
     }
@@ -150,7 +112,8 @@ public class ModernUIPane<T> extends BasicPane {
          * 加载jar包中的资源
          * @param path 资源路径
          */
-        public Builder<T> withEMB(String path) {
+        public Builder<T> withEMB(final String path) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
             pane.browser.loadURL("emb:" + path);
             return this;
         }
@@ -159,8 +122,19 @@ public class ModernUIPane<T> extends BasicPane {
          * 加载url指向的资源
          * @param url 文件的地址
          */
-        public Builder<T> withURL(String url) {
+        public Builder<T> withURL(final String url) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
             pane.browser.loadURL(url);
+            return this;
+        }
+
+        /**
+         * 加载Atom组件
+         * @param component Atom组件
+         */
+        public Builder<T> withComponent(AssembleComponent component) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(component));
+            pane.browser.loadURL("emb:dynamic");
             return this;
         }
 
@@ -169,6 +143,7 @@ public class ModernUIPane<T> extends BasicPane {
          * @param html 要加载html文本内容
          */
         public Builder<T> withHTML(String html) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
             pane.browser.loadHTML(html);
             return this;
         }

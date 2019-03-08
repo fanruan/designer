@@ -1,7 +1,6 @@
 package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.*;
