@@ -20,7 +20,7 @@ public class FineUIDemo {
         DesignerEnvManager.getEnvManager().setOpenDebug(true);
 
         final ModernUIPane<ModernUIPaneTest.Model> pane = new ModernUIPane.Builder<ModernUIPaneTest.Model>()
-                .withComponent(StartComponent.KEY).namespace("Pool").build();
+                .withComponent(StartComponent.KEY).build();
         contentPane.add(pane, BorderLayout.CENTER);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
