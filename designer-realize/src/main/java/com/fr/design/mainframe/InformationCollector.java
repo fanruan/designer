@@ -184,12 +184,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
 	private void sendUserInfo(){
-		long currentTime = new Date().getTime();
-		long lastTime = getLastTimeMillis();
-
-		if (currentTime - lastTime <= DELTA) {
-			return;
-		}
 		JSONObject content = getJSONContentAsByte();
 		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
@@ -207,13 +201,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 	}
 
-    private void sendFunctionsInfo(){
-		Date current = new Date();
-		long lastTime = getLastTimeMillis();
-		long currentTime = current.getTime();
-        if (currentTime - lastTime <= DELTA) {
-            return;
-        }
+    private void sendFunctionsInfo(long currentTime, long lastTime){
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
 		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
         long page =  (totalCount/PAGE_SIZE) + 1;
@@ -363,8 +351,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				} catch (InterruptedException e) {
 					FRContext.getLogger().error(e.getMessage(), e);
 				}
-                sendUserInfo();
-				sendFunctionsInfo();
+
+				long currentTime = new Date().getTime();
+				long lastTime = getLastTimeMillis();
+				if (currentTime - lastTime > DELTA) {
+					sendUserInfo();
+					sendFunctionsInfo(currentTime, lastTime);
+				}
+
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
