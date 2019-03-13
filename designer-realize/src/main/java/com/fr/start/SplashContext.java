@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class SplashContext {
 
     public static final String SPLASH_PATH = getSplashPath();
-    public static final String SPLASH_CACHE_NAME = getSplashCacheName();
+    public static final String SPLASH_CACHE_NAME = SPLASH_PATH.substring(SPLASH_PATH.lastIndexOf("/") + 1);
     private static final int FETCH_ONLINE_MAX_TIMES = 50;
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
@@ -166,18 +166,13 @@ public class SplashContext {
     }
 
     private static String getSplashPath() {
-        if (DesignerEnvManager.getEnvManager().getLanguage().equals(Locale.JAPAN)) {
+        Locale locale = DesignerEnvManager.getEnvManager().getLanguage();
+        if (Locale.US.equals(locale) || Locale.KOREA.equals(locale)) {
+            return "/com/fr/design/images/splash_10_en.gif";
+        } else if (Locale.JAPAN.equals(locale)) {
             return "/com/fr/design/images/splash_10_jp.gif";
-        }  else {
+        } else {
             return "/com/fr/design/images/splash_10.gif";
-        }
-    }
-
-    private static String getSplashCacheName() {
-        if (DesignerEnvManager.getEnvManager().getLanguage().equals(Locale.JAPAN)) {
-            return "splash_10_jp.gif";
-        }  else {
-            return "splash_10.gif";
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.FRContext;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.AbstractLayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRTabFitLayoutAdapter;
@@ -19,6 +18,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -112,7 +112,7 @@ public class FormSelectionUtils {
                     designer.getSelectionModel().getSelection().addSelectedCreator(copiedCreator);
                 }
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         rebuildSelection(designer);

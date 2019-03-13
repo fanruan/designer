@@ -4,7 +4,6 @@
 package com.fr.design;
 
 import com.fr.base.BaseXMLUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
@@ -165,6 +164,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
     private boolean imageCompress = false;//图片压缩
+    // 开启内嵌web页面的调试窗口
+    private boolean openDebug = false;
 
     /**
      * DesignerEnvManager.
@@ -179,7 +180,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
 
             // james：如果没有env定义，要设置一个默认的
@@ -282,11 +283,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 Handler handler = new FileHandler(fileName, true);
 
                 handler.setFormatter(new FRLogFormatter());
-                FRContext.getLogger().addLogHandler(handler);
+                FineLoggerFactory.getLogger().addLogHandler(handler);
             } catch (SecurityException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             } catch (IOException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
     }
@@ -323,7 +324,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             }
             fileWriter.close();
         } catch (IOException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -345,7 +346,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         try {
             XMLTools.readFileXML(designerEnvManager, prevEnvFile);
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         // 清空前一个版本中的工作目录和最近打开
         nameEnvMap = new ListMap<String, DesignerWorkspaceInfo>();
@@ -626,7 +627,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             fout.flush();
             fout.close();
         } catch (Exception e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
@@ -1384,6 +1385,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(this.configManager);
     }
 
+    private void readOpenDebug(XMLableReader reader) {
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.openDebug = Boolean.parseBoolean(tmpVal);
+        }
+    }
+
     public String getUUID() {
         return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
     }
@@ -1410,6 +1418,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     public void setImageCompress(boolean imageCompress) {
         this.imageCompress = imageCompress;
+    }
+
+    public boolean isOpenDebug() {
+        return openDebug;
+    }
+
+    public void setOpenDebug(boolean openDebug) {
+        this.openDebug = openDebug;
     }
 
     /**
@@ -1459,12 +1475,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readUUID(reader);
             } else if ("status".equals(name)) {
                 readActiveStatus(reader);
-            } else if (ComparatorUtils.equals(CAS_PARAS, name)) {
+            } else if (CAS_PARAS.equals(name)) {
                 readHttpsParas(reader);
-            } else if (name.equals("AlphaFineConfigManager")) {
+            } else if ("AlphaFineConfigManager".equals(name)) {
                 readAlphaFineAttr(reader);
-            } else if (name.equals("RecentColors")) {
+            } else if ("RecentColors".equals(name)) {
                 readRecentColor(reader);
+            } else if ("OpenDebug".equals(name)) {
+                readOpenDebug(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1669,6 +1687,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeHttpsParas(writer);
         writeAlphaFineAttr(writer);
         writeRecentColor(writer);
+        writeOpenDebug(writer);
         writer.end();
     }
 
@@ -1681,6 +1700,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private void writeRecentColor(XMLPrintWriter writer) {
         if (this.configManager != null) {
             this.configManager.writeXML(writer);
+        }
+    }
+
+    private void writeOpenDebug(XMLPrintWriter writer) {
+        if (this.openDebug) {
+            writer.startTAG("OpenDebug");
+            writer.textNode(String.valueOf(openDebug));
+            writer.end();
         }
     }
 

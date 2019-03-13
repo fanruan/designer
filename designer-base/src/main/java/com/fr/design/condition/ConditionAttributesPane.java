@@ -1,16 +1,18 @@
 package com.fr.design.condition;
 
 
-import com.fr.base.FRContext;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 
-
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -88,9 +90,9 @@ public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
         try {
             return clazz.newInstance();
         } catch (InstantiationException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return null;
     }

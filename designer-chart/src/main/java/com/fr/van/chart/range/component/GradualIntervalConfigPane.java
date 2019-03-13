@@ -4,7 +4,6 @@ import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
-
 import com.fr.plugin.chart.range.GradualIntervalConfig;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.axis.component.MinMaxValuePaneWithOutTick;
@@ -23,7 +22,7 @@ public class GradualIntervalConfigPane extends JPanel{
     //主题颜色
     private ColorSelectBoxWithOutTransparent colorSelectBox;
     //划分阶段
-    UINumberDragPane numberDragPane;
+    private UINumberDragPane numberDragPane;
     //渐变色编辑器
     private LegendGradientBar legendGradientBar;
 
@@ -58,7 +57,7 @@ public class GradualIntervalConfigPane extends JPanel{
         double[] col = new double[]{f, e};
         double[] row = new double[]{p, p, p, p};
 
-        Component[][] components = getPaneComponents();
+        Component[][] components = getPaneComponents(minMaxValuePane, colorSelectBox, numberDragPane, legendGradientBar);
 
         //控件承载面板
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
@@ -70,18 +69,13 @@ public class GradualIntervalConfigPane extends JPanel{
         return new LegendGradientBar();
     }
 
-    protected Component[][] getPaneComponents(){
+    protected Component[][] getPaneComponents(MinMaxValuePaneWithOutTick minMaxValuePane,
+                                              ColorSelectBoxWithOutTransparent colorSelectBox,
+                                              UINumberDragPane numberDragPane,
+                                              LegendGradientBar legendGradientBar) {
         return new Component[][]{
                 new Component[]{minMaxValuePane, null},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Subject_Color")), colorSelectBox},
-                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
-                new Component[]{null, legendGradientBar},
-        };
-    }
-
-    protected Component[][] getPaneComponentsWithOutTheme(){
-        return new Component[][]{
-                new Component[]{minMaxValuePane, null},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
                 new Component[]{null, legendGradientBar},
         };

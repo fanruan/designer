@@ -1,9 +1,9 @@
 package com.fr.design.parameter;
 
-import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
+import com.fr.log.FineLoggerFactory;
 
 /**
  * @author richie
@@ -20,7 +20,7 @@ public class FormParameterReader extends AbstractParameterReader {
                 Form form = FormIO.readForm(tplPath);
                 return form.getParameters();
             } catch (Exception e1) {
-                FRContext.getLogger().error(e1.getMessage(), e1);
+                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
             }
             return new Parameter[0];
         }

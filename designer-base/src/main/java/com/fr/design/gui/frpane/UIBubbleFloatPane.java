@@ -1,18 +1,31 @@
 package com.fr.design.gui.frpane;
 
-import java.awt.*;
-import java.awt.event.AWTEventListener;
-import java.awt.event.MouseEvent;
+import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.UIDialog;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.Constants;
+import com.sun.awt.AWTUtilities;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import com.fr.base.FRContext;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.dialog.UIDialog;
-import com.fr.stable.Constants;
-import com.sun.awt.AWTUtilities;
+import java.awt.AWTEvent;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.AWTEventListener;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Jerry
@@ -300,7 +313,7 @@ public abstract class UIBubbleFloatPane<T> extends BasicBeanPane<T> {
 			try {
 				AWTUtilities.setWindowShape(CustomShapedDialog.this, this.getCustomShap());
 			} catch (UnsupportedOperationException e) {
-				FRContext.getLogger().info("Not support");
+                FineLoggerFactory.getLogger().info("Not support");
 			}
 			final JPanel contentPane = (JPanel) this.getContentPane();
 			this.setLayout(null);

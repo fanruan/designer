@@ -1,6 +1,5 @@
 package com.fr.van.chart.map.designer.type;
 
-import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
@@ -67,7 +66,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         try {
             sourceChoosePane = createSourceChoosePane();
         } catch (Exception e){
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new Component[][]{
                 new Component[]{typePane},

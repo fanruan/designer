@@ -143,7 +143,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
         JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
+        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout"), panel);
     }
 
 

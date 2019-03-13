@@ -1,12 +1,12 @@
 package com.fr.design.mainframe.dnd;
 
+import com.fr.log.FineLoggerFactory;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fr.base.FRContext;
 
 public class ArrayListTransferable implements Transferable {
     private DataFlavor localArrayListFlavor;
@@ -21,7 +21,7 @@ public class ArrayListTransferable implements Transferable {
         try {
             localArrayListFlavor = new DataFlavor(localArrayListType);
         } catch (ClassNotFoundException e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         
         serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");

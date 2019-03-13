@@ -18,6 +18,7 @@ import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -131,6 +132,7 @@ public class PreferencePane extends BasicPane {
     private UITextField jdkHomeTextField;
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
+    private UICheckBox openDebugComboBox;
     private UICheckBox joinProductImprove;
 
     public PreferencePane() {
@@ -170,6 +172,12 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
+
+        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
+        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
+        advancePane.add(debuggerPane);
+
 
         JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -550,6 +558,8 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
+        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
@@ -608,6 +618,8 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setReportLengthUnit((short) reportLengthComboBox.getSelectedIndex());
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
+
+        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());

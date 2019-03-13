@@ -3,7 +3,6 @@
  */
 package com.fr.poly;
 
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.ScreenResolution;
 import com.fr.base.vcs.DesignerMode;
@@ -45,6 +44,7 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.poly.actions.DeleteBlockAction;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.BlockEditor;
@@ -509,7 +509,7 @@ public class PolyDesigner extends ReportComponent<PolyWorkSheet, PolyElementCase
                 block.setBlockName(blockName);
                 clip_board.set(0, block);
             } catch (CloneNotSupportedException e) {
-                FRContext.getLogger().error(e.getMessage(), e);
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 return false;
             }
             UnitRectangle bounds = block.getBounds();

@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.errorinfo;
 
-import com.fr.base.FRContext;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.CloudCenter;
 import com.fr.general.CommonIOUtils;
@@ -109,7 +108,7 @@ public class ErrorInfoUploader {
 
             IOUtils.unzip(localCacheZip, localCacheZip.getParent());
         } catch (Exception e) {
-            FRContext.getLogger().debug(e.getMessage());
+            FineLoggerFactory.getLogger().debug(e.getMessage());
         }
 
     }

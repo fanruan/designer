@@ -1,19 +1,26 @@
 package com.fr.design.gui.date;
 
-import com.fr.base.FRContext;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIComboBoxUI;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.ComparatorUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
+import com.fr.log.FineLoggerFactory;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -213,7 +220,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
                             calendarPanel.updateHMS();
                         }
 					} catch (Exception e) {
-						FRContext.getLogger().error(e.getMessage(), e);
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
 					}
 				} else if (ComparatorUtils.equals(oldValue, Boolean.TRUE)
 						&& ComparatorUtils.equals(newValue, Boolean.FALSE)) { //HIDE

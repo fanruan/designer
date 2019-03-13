@@ -1,7 +1,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -304,7 +303,7 @@ public class FormWidgetDetailPane extends FormDockView{
             public void actionPerformed(ActionEvent e) {
                 String url = CloudCenter.getInstance().acquireUrlByKind("reuse.url");
                 if (StringUtils.isEmpty(url)) {
-                    FRContext.getLogger().info("The URL is empty!");
+                    FineLoggerFactory.getLogger().info("The URL is empty!");
                     return;
                 }
                 try {

@@ -1,9 +1,7 @@
 package com.fr.grid;
 
 import com.fr.base.BaseFormula;
-import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
-import com.fr.base.FRContext;
 import com.fr.base.GraphHelper;
 import com.fr.base.Margin;
 import com.fr.base.PaperSize;
@@ -23,6 +21,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
@@ -276,7 +275,7 @@ public class GridUI extends ComponentUI {
                 this.drawFlowRect.exit();
             }
         } catch (Throwable e) {
-            FRContext.getLogger().error(e.getMessage(), e);
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

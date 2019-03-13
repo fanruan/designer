@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.app;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.FRContext;
 import com.fr.base.Style;
 import com.fr.base.TempNameStyle;
 import com.fr.base.extension.FileExtension;
@@ -47,7 +46,7 @@ class CptApp extends AbstractWorkBookApp {
         if (XMLEncryptUtils.isCptEncoded() &&
                 !XMLEncryptUtils.checkVaild(DesignerEnvManager.getEnvManager().getEncryptionKey())) {
             if (!new DecodeDialog(file).isPwdRight()) {
-                FRContext.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ECP_Error_Pwd"));
+                FineLoggerFactory.getLogger().error(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ECP_Error_Pwd"));
                 return new WorkBook();
             }
         }
