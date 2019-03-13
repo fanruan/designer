@@ -7,6 +7,9 @@ import com.fr.design.file.NodeAuthProcessor;
 import com.fr.design.gui.itree.filetree.FileNodeComparator;
 import com.fr.design.gui.itree.filetree.FileTreeIcon;
 import com.fr.design.i18n.Toolkit;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.io.EncryptUtils;
@@ -15,6 +18,8 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.Workspace;
+import com.fr.workspace.WorkspaceEvent;
 import com.fr.workspace.resource.WorkResourceTempRenameStream;
 import com.fr.workspace.server.lock.TplOperator;
 
@@ -25,6 +30,21 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 public class FileNodeFILE implements FILE {
+
+
+    private static String webRootPath = FRContext.getCommonOperator().getWebRootPath();
+    private static String[] supportTypes = FRContext.getFileNodes().getSupportedTypes();
+
+    static {
+        EventDispatcher.listen(WorkspaceEvent.AfterSwitch, new Listener<Workspace>() {
+            @Override
+            public void on(Event event, Workspace workspace) {
+                webRootPath = FRContext.getCommonOperator().getWebRootPath();
+                supportTypes = FRContext.getFileNodes().getSupportedTypes();
+            }
+        });
+    }
+
 
     private FileNode node;
 
@@ -95,7 +115,7 @@ public class FileNodeFILE implements FILE {
     @Override
     public String prefix() {
 
-        if (ComparatorUtils.equals(getEnvPath(), FRContext.getCommonOperator().getWebRootPath())) {
+        if (ComparatorUtils.equals(getEnvPath(), webRootPath)) {
             return FILEFactory.WEBREPORT_PREFIX;
         }
         return FILEFactory.ENV_PREFIX;
@@ -212,7 +232,7 @@ public class FileNodeFILE implements FILE {
         try {
             FileNode[] nodeArray;
             nodeArray = listFile(node.getEnvPath());
-            Arrays.sort(nodeArray, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
+            Arrays.sort(nodeArray, new FileNodeComparator(supportTypes));
 
             return fileNodeArray2FILEArray(nodeArray, envPath);
         } catch (Exception e) {
@@ -235,7 +255,7 @@ public class FileNodeFILE implements FILE {
     private FileNode[] listFile(String rootFilePath) {
 
         try {
-            if (ComparatorUtils.equals(envPath, FRContext.getCommonOperator().getWebRootPath())) {
+            if (ComparatorUtils.equals(envPath, webRootPath)) {
                 return FRContext.getFileNodes().listWebRootFile(rootFilePath);
             } else {
                 return FRContext.getFileNodes().list(rootFilePath);
