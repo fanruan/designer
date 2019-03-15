@@ -3,19 +3,19 @@ package com.fr.design.widget.ui.designer.mobile;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WSortLayout;
-
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.lang.reflect.Method;
 
 /**
  * Created by plough on 2018/2/1.
@@ -31,6 +31,22 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         this.bodyCreator = xCreator;
     }
 
+    public XCreator getBodyCreator() {
+        return bodyCreator;
+    }
+
+    public void setBodyCreator(XCreator bodyCreator) {
+        this.bodyCreator = bodyCreator;
+    }
+
+    public FormDesigner getDesigner() {
+        return designer;
+    }
+
+    public void setDesigner(FormDesigner designer) {
+        this.designer = designer;
+    }
+
     @Override
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -41,7 +57,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     }
 
     // 手机属性
-    private UIExpandablePane getMobilePropertyPane() {
+    public UIExpandablePane getMobilePropertyPane() {
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         appRelayoutCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_App_ReLayout"), true);
         appRelayoutCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -55,7 +71,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     }
 
     // 控件顺序
-    private UIExpandablePane getMobileWidgetListPane() {
+    public UIExpandablePane getMobileWidgetListPane() {
         mobileWidgetListPane = new MobileWidgetListPane(designer, (WSortLayout) bodyCreator.toData());
         mobileWidgetListPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
         JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -81,25 +97,13 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         initListener(this);
     }
 
-    // body是否开启手机重布局
-    private boolean isAppRelayout() {
-        boolean result = false;
-        try {
-            Method m = bodyCreator.toData().getClass().getMethod("isAppRelayout");
-            result = (boolean)m.invoke(bodyCreator.toData());
-        } catch (Exception e) {
-            // do nothing
-        }
-        return result;
-    }
 
     private void setAppRelayout(boolean appRelayoutSeleted) {
-        if (appRelayoutSeleted == isAppRelayout()) {
+        if (appRelayoutSeleted == FormDesignerUtils.isAppRelayout(designer)) {
             return;
         }
         try {
-            Method m = bodyCreator.toData().getClass().getMethod("setAppRelayout", boolean.class);
-            m.invoke(bodyCreator.toData(), appRelayoutSeleted);
+            ((WFitLayout) designer.getRootComponent().toData()).setAppRelayout(appRelayoutSeleted);
         } catch (Exception e) {
             // do nothing
         }
@@ -108,7 +112,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     @Override
     public void populate(FormDesigner designer) {
         this.designer = designer;
-        appRelayoutCheck.setSelected(isAppRelayout());
+        appRelayoutCheck.setSelected(FormDesignerUtils.isAppRelayout(designer));
 
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();

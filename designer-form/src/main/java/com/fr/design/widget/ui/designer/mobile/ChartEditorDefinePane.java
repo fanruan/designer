@@ -9,6 +9,7 @@ import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
 import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -20,11 +21,14 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.BaseChartEditor;
-import com.fr.form.ui.container.WFitLayout;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -56,7 +60,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         JPanel mobileSettingsPane;
         if (isInAbsoluteLayout()) {
             mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tip_Chart_Adaptivity_Unavailable_In_Absolute_Layout"));
-        } else if (!isAppRelayout()) {
+        } else if (!FormDesignerUtils.isAppRelayout(designer)) {
             mobileSettingsPane = getUnavailableTipPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Tip_Chart_Adaptivity_Unavailable"));
         } else {
             mobileSettingsPane = getMobileSettingsPane();
@@ -74,11 +78,6 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
             parent = parent.getParent();
         }
         return false;
-    }
-
-    // body是否开启手机重布局
-    private boolean isAppRelayout() {
-        return ((WFitLayout)designer.getRootComponent().toData()).isAppRelayout();
     }
 
     private JPanel getUnavailableTipPane(String tipText) {
@@ -158,7 +157,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
 
-        if (!isAppRelayout() || isInAbsoluteLayout()) {
+        if (!FormDesignerUtils.isAppRelayout(designer) || isInAbsoluteLayout()) {
             return;
         }
 

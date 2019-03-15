@@ -1,5 +1,29 @@
 package com.fr.design.designer.creator;
 
+import com.fr.design.designer.beans.LayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
+import com.fr.design.designer.beans.location.Direction;
+import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
+import com.fr.design.designer.properties.mobile.BodyFitMobilePropertyUI;
+import com.fr.design.form.layout.FRFitLayout;
+import com.fr.design.fun.WidgetPropertyUIProvider;
+import com.fr.design.mainframe.FormArea;
+import com.fr.design.mainframe.FormDesigner;
+import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.utils.gui.LayoutUtils;
+import com.fr.form.ui.PaddingMargin;
+import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
+import com.fr.form.ui.container.WBodyLayoutType;
+import com.fr.form.ui.container.WFitLayout;
+import com.fr.form.ui.container.WLayout;
+import com.fr.general.FRLogger;
+import com.fr.general.FRScreen;
+import com.fr.stable.ArrayUtils;
+import edu.emory.mathcs.backport.java.util.Arrays;
+
+import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -9,32 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import com.fr.design.designer.beans.LayoutAdapter;
-import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
-import com.fr.design.designer.beans.location.Direction;
-import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
-import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
-import com.fr.design.designer.properties.mobile.BodyMobilePropertyUI;
-import com.fr.design.form.layout.FRFitLayout;
-import com.fr.design.fun.WidgetPropertyUIProvider;
-import com.fr.design.mainframe.FormArea;
-import com.fr.design.mainframe.FormDesigner;
-import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.design.utils.gui.LayoutUtils;
-import com.fr.form.ui.PaddingMargin;
-import com.fr.form.ui.Widget;
-import com.fr.form.ui.container.WBodyLayoutType;
-import com.fr.form.ui.container.WFitLayout;
-import com.fr.form.ui.container.WLayout;
-import com.fr.general.FRLogger;
-import com.fr.general.FRScreen;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-
-import com.fr.stable.ArrayUtils;
-import edu.emory.mathcs.backport.java.util.Arrays;
-
-import javax.swing.JOptionPane;
 
 
 /**
@@ -1209,7 +1207,7 @@ public class XWFitLayout extends XLayoutContainer {
 
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		return new WidgetPropertyUIProvider[]{ new BodyMobilePropertyUI(this)};
+		return new WidgetPropertyUIProvider[]{ new BodyFitMobilePropertyUI(this)};
 	}
 
 	@Override
