@@ -4,7 +4,6 @@ import com.fr.base.iofile.attr.FormTabPaddingAttrMark;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
-import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -16,8 +15,6 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleTemplateStyleEditor;
 import com.fr.design.mainframe.widget.accessibles.MobileTemplateStylePane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentAdvancePane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentLayoutIntervalPane;
-import com.fr.form.ui.container.WBodyLayoutType;
-import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 
@@ -63,7 +60,7 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{label, templateStyleEditor}, {new UILabel()}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_LARGE);
         JPanel holder = FRGUIPaneFactory.createBorderLayout_S_Pane();
         holder.add(jPanel, BorderLayout.NORTH);
-        if (!shouldHidePadding()) {
+        if (!shouldHidePadding(designer)) {
             advancePane = new MobileComponentAdvancePane(FormTabPaddingAttrMark.XML_TAG);
             intervalPane = new MobileComponentLayoutIntervalPane(FormTabPaddingAttrMark.XML_TAG);
             //高级
@@ -99,20 +96,5 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         if (intervalPane != null) {
             intervalPane.update((WCardTagLayout) xCreator.toData());
         }
-    }
-
-    // body是否是绝对布局
-    private boolean isBodyAbsoluteRelayout() {
-        WFitLayout root = ((WFitLayout) designer.getRootComponent().toData());
-        return root.getBodyLayoutType() == WBodyLayoutType.ABSOLUTE;
-    }
-
-    /**
-     * 绝对布局且不勾选手机重布局 的时候不支持边距设置
-     *
-     * @return
-     */
-    private boolean shouldHidePadding() {
-        return !FormDesignerUtils.isAppRelayout(designer) && isBodyAbsoluteRelayout();
     }
 }
