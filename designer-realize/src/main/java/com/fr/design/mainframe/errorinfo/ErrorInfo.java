@@ -25,6 +25,7 @@ public class ErrorInfo {
     private String templateid;
     private String logid;
     private String log;
+    private String stackTrace;
 
     public ErrorInfo(String username, String uuid, String activekey) {
         this.username = username;
@@ -89,6 +90,14 @@ public class ErrorInfo {
         this.log = log;
     }
 
+    public String getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
+
     private String dateToString(){
         DateFormat df = FRContext.getDefaultValues().getDateTimeFormat();
         return df.format(new Date());
@@ -107,6 +116,7 @@ public class ErrorInfo {
         jo.put("uploadtime", uploadtime);
         jo.put("logid", logid);
         jo.put("log", log);
+        jo.put("stackTrace", stackTrace);
         saveFileToCache(jo);
     }
 
