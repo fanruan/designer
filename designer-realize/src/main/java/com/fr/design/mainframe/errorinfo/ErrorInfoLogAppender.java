@@ -30,6 +30,7 @@ import java.io.InputStream;
 public class ErrorInfoLogAppender extends AppenderSkeleton {
 
     private static final int ERROR_LEN = 8;
+    private static final int ERROR_STACK_TRACE = 15;
 
     // 缓存下不变的, 没必要频繁取.
     private String username;
@@ -73,8 +74,23 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
             errorInfo.setTemplateid(templateid);
             errorInfo.setLog(msg);
             errorInfo.setLogid(logid);
+            errorInfo.setStackTrace(readStackTrace(event));
             errorInfo.saveAsJSON();
         }
+    }
+
+    private String readStackTrace(LoggingEvent event) {
+        String[] s = event.getThrowableStrRep();
+        StringBuilder sb = new StringBuilder();
+        if(s != null){
+            int len = s.length;
+            for (int i = 0; i < len; i++) {
+                if(i < ERROR_STACK_TRACE){
+                    sb.append(s[i]).append("\n");
+                }
+            }
+        }
+        return sb.toString();
     }
 
     private String readLogID(String log) {
