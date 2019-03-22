@@ -25,7 +25,7 @@ public class ChartMapEditorAction extends UpdateAction {
         int port = DesignerEnvManager.getEnvManager().getEmbedServerPort();
         String web = GeneralContext.getCurrentAppNameOfEnv();
         String serverlet = ServerConfig.getInstance().getServletName();
-        ServerStarter.browserURLWithLocalEnv(WorkContext.getCurrent().isLocal() ? String.format("http://localhost:%d/%s/%s/view/report?op=map", port, web, serverlet) : WorkContext.getCurrent().getPath() + "/view/report?op=map");
+        ServerStarter.browserURLWithLocalEnv(WorkContext.getCurrent().isLocal() ? String.format("http://localhost:%d/%s/%s/map/edit", port, web, serverlet) : WorkContext.getCurrent().getPath() + "/map/edit");
     }
 
 }
