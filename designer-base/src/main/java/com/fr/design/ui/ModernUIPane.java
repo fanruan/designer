@@ -2,6 +2,10 @@ package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.i18n.Toolkit;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.web.struct.AssembleComponent;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
@@ -16,6 +20,8 @@ import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author richie
@@ -39,22 +45,46 @@ public class ModernUIPane<T> extends BasicPane {
             setLayout(new BorderLayout());
             BrowserPreferences.setChromiumSwitches("--disable-google-traffic");
             if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
-                JSplitPane splitPane = new JSplitPane();
-                add(splitPane, BorderLayout.CENTER);
-                splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-                splitPane.setDividerLocation(500);
+                UIToolbar toolbar = new UIToolbar();
+                add(toolbar, BorderLayout.NORTH);
+                UIButton openDebugButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+                toolbar.add(openDebugButton);
+                UIButton reloadButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Reload"));
+                toolbar.add(reloadButton);
+
+                openDebugButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        showDebuggerDialog();
+                    }
+                });
+
+                reloadButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        browser.reloadIgnoringCache();
+                    }
+                });
                 BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
                 initializeBrowser();
-                splitPane.setLeftComponent(new BrowserView(browser));
-                Browser debugger = new Browser();
-                debugger.loadURL(browser.getRemoteDebuggingURL());
-                BrowserView debuggerView = new BrowserView(debugger);
-                splitPane.setRightComponent(debuggerView);
+                add(new BrowserView(browser), BorderLayout.CENTER);
             } else {
                 initializeBrowser();
                 add(new BrowserView(browser), BorderLayout.CENTER);
             }
         }
+    }
+
+    private void showDebuggerDialog() {
+        JDialog dialog = new JDialog(SwingUtilities.getWindowAncestor(this));
+        Browser debugger = new Browser();
+        BrowserView debuggerView = new BrowserView(debugger);
+        dialog.add(debuggerView, BorderLayout.CENTER);
+        dialog.setSize(new Dimension(800, 400));
+        GUICoreUtils.centerWindow(dialog);
+        dialog.setVisible(true);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        debugger.loadURL(browser.getRemoteDebuggingURL());
     }
 
     private void initializeBrowser() {
