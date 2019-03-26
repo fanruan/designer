@@ -1,0 +1,12 @@
+.bi-setting-tab .tab-group {
+  background-color: #F2F4F7;
+  font-size: 12px;
+}
+.bi-setting-tab .tab-group .tab-item:hover {
+  color: #3685f2;
+}
+.bi-setting-tab .tab-group .tab-item.active {
+  background-color: #ffffff;
+  color: #3685f2;
+  border-top: 3px solid #3685f2;
+}
