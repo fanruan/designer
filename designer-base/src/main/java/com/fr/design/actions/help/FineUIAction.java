@@ -11,9 +11,6 @@ import com.fr.web.struct.Atom;
 import com.fr.web.struct.browser.RequestClient;
 import com.fr.web.struct.category.ScriptPath;
 import com.fr.web.struct.impl.FineUI;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 
 import java.awt.event.ActionEvent;
 
@@ -31,13 +28,13 @@ public class FineUIAction extends UpdateAction {
     @Override
     public void actionPerformed(final ActionEvent e) {
         ModernUIPane<?> pane = new ModernUIPane.Builder<>()
-                .prepare(new ScriptContextAdapter() {
-                    @Override
-                    public void onScriptContextCreated(ScriptContextEvent event) {
-                        JSValue pool = event.getBrowser().executeJavaScriptAndReturnValue("window.Pool");
-                        pool.asObject().setProperty("i18n", new I18n());
-                    }
-                })
+//                .prepare(new ScriptContextAdapter() {
+//                    @Override
+//                    public void onScriptContextCreated(ScriptContextEvent event) {
+//                        JSValue pool = event.getBrowser().executeJavaScriptAndReturnValue("window.Pool");
+//                        pool.asObject().setProperty("i18n", new I18n());
+//                    }
+//                })
                 .withComponent(new AssembleComponent() {
 
                     @Override
