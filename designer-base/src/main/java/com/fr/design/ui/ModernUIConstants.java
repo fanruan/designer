@@ -1,5 +1,7 @@
 package com.fr.design.ui;
 
+import com.fr.general.IOUtils;
+
 /**
  * @author richie
  * @version 10.0
@@ -7,12 +9,7 @@ package com.fr.design.ui;
  */
 class ModernUIConstants {
 
-    static final String SCRIPT_STRING = "var arr = \"%s\".split(\".\").reverse();\n" +
-            "var create = function(obj, names) {\n" +
-            "var name = names.pop();\n" +
-            "if (!name) {return;}\n" +
-            "if (!obj[name]) {obj[name] = {};}\n" +
-            "    create(obj[name], names);\n" +
-            "}\n" +
-            "create(window, arr);";
+    static final String SCRIPT_INIT_NAME_SPACE = IOUtils.readResourceAsString("/com/fr/design/ui/InitNameSpace.js");
+
+    static final String HTML_TPL = IOUtils.readResourceAsString("/com/fr/design/ui/tpl.html");
 }
