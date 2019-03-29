@@ -370,6 +370,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
             selectedOperation.deleteFile();
             stateChange();
+            DesignerContext.getDesignerFrame().setTitle();
         }
     }
 

@@ -6,6 +6,7 @@ package com.fr.design.mainframe.toolbar;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
@@ -24,6 +25,7 @@ import com.fr.design.actions.file.OpenTemplateAction;
 import com.fr.design.actions.file.PreferenceAction;
 import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.FineUIAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.help.alphafine.AlphaFineAction;
@@ -499,9 +501,14 @@ public abstract class ToolBarMenuDock {
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }
+
         shortCuts.add(SeparatorDef.DEFAULT);
+        if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
+            shortCuts.add(new FineUIAction());
+        }
         shortCuts.add(new AboutAction());
-        return shortCuts.toArray(new ShortCut[shortCuts.size()]);
+
+        return shortCuts.toArray(new ShortCut[0]);
     }
 
     /**

@@ -54,6 +54,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author neil
@@ -181,12 +184,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
 	private void sendUserInfo(){
-		long currentTime = new Date().getTime();
-		long lastTime = getLastTimeMillis();
-
-		if (currentTime - lastTime <= DELTA) {
-			return;
-		}
 		JSONObject content = getJSONContentAsByte();
 		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
@@ -204,13 +201,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 	}
 
-    private void sendFunctionsInfo(){
-		Date current = new Date();
-		long lastTime = getLastTimeMillis();
-		long currentTime = current.getTime();
-        if (currentTime - lastTime <= DELTA) {
-            return;
-        }
+    private void sendFunctionsInfo(long currentTime, long lastTime){
 		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
 		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
         long page =  (totalCount/PAGE_SIZE) + 1;
@@ -350,23 +341,22 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 
-    	Thread sendThread = new Thread(new Runnable() {
-
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		service.schedule(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					//读取XML的5分钟后开始发请求连接服务器.
-					Thread.sleep(SEND_DELAY);
-				} catch (InterruptedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+				long currentTime = new Date().getTime();
+				long lastTime = getLastTimeMillis();
+				if (currentTime - lastTime > DELTA) {
+					sendUserInfo();
+					sendFunctionsInfo(currentTime, lastTime);
 				}
-                sendUserInfo();
-				sendFunctionsInfo();
+
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
-		});
-    	sendThread.start();
+		}, SEND_DELAY, TimeUnit.SECONDS);
+
 	}
 
     /**
