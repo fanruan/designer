@@ -11,18 +11,29 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.DesignAuthorityEventType;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.DockingView;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
 
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,6 +51,15 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
     private static ReportAndFSManagePane singleton = new ReportAndFSManagePane();
 
     private static RoleTree roleTree;
+    static {
+        EventDispatcher.listen(DesignAuthorityEventType.StopEdit, new Listener<DesignerFrame>() {
+
+            public void on(Event event, DesignerFrame param) {
+                DefaultTreeSelectionModel model = roleTree.getCheckBoxTreeSelectionModel();
+                model.removeSelectionPaths(model.getSelectionPaths());
+            }
+        });
+    }
     private RefreshAction refreshAction = new RefreshAction();
     private UIHeadGroup buttonGroup;
     private RoleSourceOP op;
