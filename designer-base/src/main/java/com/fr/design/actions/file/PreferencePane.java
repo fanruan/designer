@@ -22,6 +22,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.onlineupdate.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -116,7 +117,6 @@ public class PreferencePane extends BasicPane {
     private KeyStroke shortCutKeyStore = null;
     private UIColorButton gridLineColorTBButton;
 
-
     private UIColorButton paginationLineColorTBButton;
 
     private UICheckBox supportCellEditorDefCheckBox;
@@ -131,7 +131,7 @@ public class PreferencePane extends BasicPane {
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox joinProductImprove;
-    private UICheckBox automaticPushUpdate;
+    private UICheckBox autoPushUpdate;
 
     public PreferencePane() {
         this.initComponents();
@@ -174,9 +174,9 @@ public class PreferencePane extends BasicPane {
         joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImprove);
 
-        if (DesignerEnvManager.getEnvManager().isAutomaticPushUpdateValid()) {
-            automaticPushUpdate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
-            improvePane.add(automaticPushUpdate);
+        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+            autoPushUpdate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
+            improvePane.add(autoPushUpdate);
         }
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -558,8 +558,8 @@ public class PreferencePane extends BasicPane {
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
 
-        if (designerEnvManager.isAutomaticPushUpdateValid()) {
-            this.automaticPushUpdate.setSelected(designerEnvManager.isAutomaticPushUpdate());
+        if (this.autoPushUpdate != null) {
+            this.autoPushUpdate.setSelected(designerEnvManager.isAutoPushUpdateEnabled());
         }
     }
 
@@ -620,8 +620,8 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
-        if (designerEnvManager.isAutomaticPushUpdateValid()) {
-            designerEnvManager.setAutomaticPushUpdate(this.automaticPushUpdate.isSelected());
+        if (this.autoPushUpdate != null) {
+            designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdate.isSelected());
         }
 
         designerEnvManager.setUndoLimit(maxUndoLimit.getSelectedIndex() * SELECTED_INDEX_5);

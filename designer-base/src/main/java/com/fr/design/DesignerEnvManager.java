@@ -14,6 +14,7 @@ import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.onlineupdate.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILEFactory;
@@ -139,7 +140,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     //记录当前激活码的在线激活状态.
     private int activeKeyStatus = -1;
     private boolean joinProductImprove = true;
-    private boolean automaticPushUpdate = true;
     //最近使用的颜色
     private ColorSelectConfigManager configManager = new ColorSelectConfigManager();
     /**
@@ -147,6 +147,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
 
+    private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
 
     public static final String CAS_CERTIFICATE_PATH = "certificatePath";
 
@@ -690,28 +691,12 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.joinProductImprove = joinProductImprove;
     }
 
-    /**
-     * 是否开启自动更新推送
-     *
-     * @return 是否开启自动更新推送
-     */
-    public boolean isAutomaticPushUpdate() {
-        return automaticPushUpdate;
+    public boolean isAutoPushUpdateEnabled() {
+        return designerPushUpdateConfigManager.isAutoPushUpdateEnabled();
     }
 
-    /**
-     * 设置开启/关闭自动更新推送
-     */
-    public void setAutomaticPushUpdate(boolean automaticPushUpdate) {
-        this.automaticPushUpdate = automaticPushUpdate;
-    }
-
-    /**
-     * @return "自动更新推送"选项是否生效
-     */
-    public boolean isAutomaticPushUpdateValid() {
-        // 远程设计和非中文环境，都不生效
-        return WorkContext.getCurrent().isLocal() && GeneralContext.isChineseEnv();
+    public void setAutoPushUpdateEnabled(boolean autoPushUpdateEnabled) {
+        designerPushUpdateConfigManager.setAutoPushUpdateEnabled(autoPushUpdateEnabled);
     }
 
     /**
@@ -1489,6 +1474,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readAlphaFineAttr(reader);
             } else if (name.equals("RecentColors")) {
                 readRecentColor(reader);
+            } else if (name.equals(DesignerPushUpdateConfigManager.XML_TAG)) {
+                readDesignerPushUpdateAttr(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1559,7 +1546,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
         this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
-        this.setAutomaticPushUpdate(reader.getAttrAsBoolean("automaticPushUpdate", true));
         this.setImageCompress(reader.getAttrAsBoolean("imageCompress", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
@@ -1672,6 +1658,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         checkRecentOpenedFileNum();
     }
 
+    private void readDesignerPushUpdateAttr(XMLableReader reader) {
+        reader.readXMLObject(designerPushUpdateConfigManager);
+    }
+
     /**
      * Write XML.<br>
      * The method will be invoked when save data to XML file.<br>
@@ -1694,6 +1684,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeHttpsParas(writer);
         writeAlphaFineAttr(writer);
         writeRecentColor(writer);
+        writeDesignerPushUpdateAttr(writer);
         writer.end();
     }
 
@@ -1796,9 +1787,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
         if (!this.isJoinProductImprove()) {
             writer.attr("joinProductImprove", this.isJoinProductImprove());
-        }
-        if (!this.isAutomaticPushUpdate()) {
-            writer.attr("automaticPushUpdate", this.isAutomaticPushUpdate());
         }
         if (!this.isImageCompress()) {
             writer.attr("imageCompress", this.isImageCompress());
@@ -1926,5 +1914,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .attr("paginationLineColor", this.getPaginationLineColor().getRGB())
                 .attr("undoLimit", this.getUndoLimit())
                 .end();
+    }
+
+    private void writeDesignerPushUpdateAttr(XMLPrintWriter writer) {
+        this.designerPushUpdateConfigManager.writeXML(writer);
     }
 }
