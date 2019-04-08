@@ -2,6 +2,7 @@ package com.fr.design.mainframe.messagecollect.impl;
 
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.messagecollect.entity.FileEntity;
 import com.fr.design.mainframe.messagecollect.utils.MessageCollectUtils;
 import com.fr.intelli.record.FocusPoint;
 import com.fr.json.JSONObject;
@@ -23,7 +24,7 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
 
     private static final String TAG = "FocusPointMessageTag";
     private static final String SEPARATOR = "_";
-    private static final String FOCUS_POINT_VERSION = "FocusPoint1003_";
+    private static final String FOCUS_POINT = "FocusPoint";
     private static volatile FocusPointMessageUploader instance;
 
     public static FocusPointMessageUploader getInstance() {
@@ -49,11 +50,11 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         long lastTIme = MessageCollectUtils.getLastTimeMillis(lastTime);
         try {
             generatePath();
-            getData(currentTime, lastTIme, FocusPoint.class);
+            queryData(currentTime, lastTIme, FocusPoint.class);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
-        sendZipFile(getFolderName());
+        sendZipFile(getFileEntity().getFolderName());
         saveLastTime();
     }
 
@@ -71,16 +72,20 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         writer.end();
     }
 
-    private void generatePath(){
+    private void generatePath() {
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         String bbsUserName = MarketConfig.getInstance().getBbsUsername();
         String uuid = envManager.getUUID();
-        //文件夹名称的格式是: "FocusPoint1003_" + uuid_bbsUserName_randomUuid，均以下划线分隔
+        //文件夹名称的格式是: "FocusPoint" + 大版本号 + 小版本号 + uuid + bbsUserName + randomUuid，均以下划线分隔
         StringBuilder sb = new StringBuilder();
-        sb.append(FOCUS_POINT_VERSION).append(uuid).append(SEPARATOR).append(bbsUserName).append(SEPARATOR).append(UUID.randomUUID());
-
-        setFileName(String.valueOf(UUID.randomUUID()));
-        setPathName(StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString(), getFileName()));
-        setFolderName(StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString()));
+        sb.append(FOCUS_POINT).append(SEPARATOR).
+                append(ProductConstants.MAIN_VERSION).append(SEPARATOR).
+                append(ProductConstants.MINOR_VERSION).append(SEPARATOR).
+                append(uuid).append(SEPARATOR).append(bbsUserName).append(SEPARATOR).
+                append(UUID.randomUUID());
+        String fileName = String.valueOf(UUID.randomUUID());
+        String pathName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString(), fileName);
+        String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString());
+        setFileEntity(new FileEntity(fileName, pathName, folderName));
     }
 }

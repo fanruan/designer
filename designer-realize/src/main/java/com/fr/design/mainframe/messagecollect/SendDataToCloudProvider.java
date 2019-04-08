@@ -15,7 +15,7 @@ public interface SendDataToCloudProvider {
      * @param tClass 埋点对象类型
      * @throws Exception 取数过程中可能的异常
      */
-    <T> void getData(long currentTime, long lastTime, Class<T> tClass) throws Exception;
+    <T> void queryData(long currentTime, long lastTime, Class<T> tClass) throws Exception;
 
     /**
      * @param points 从swift获取的埋点数据

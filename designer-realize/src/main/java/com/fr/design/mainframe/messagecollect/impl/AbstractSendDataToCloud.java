@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.messagecollect.impl;
 
 import com.fr.design.mainframe.messagecollect.SendDataToCloudProvider;
+import com.fr.design.mainframe.messagecollect.entity.FileEntity;
+import com.fr.design.mainframe.messagecollect.utils.MessageCollectUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpRequestType;
@@ -13,6 +15,7 @@ import com.fr.stable.CommonUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.query.QueryFactory;
 import com.fr.stable.query.condition.QueryCondition;
 import com.fr.stable.query.data.DataList;
@@ -49,32 +52,14 @@ public abstract class AbstractSendDataToCloud implements SendDataToCloudProvider
     protected String lastTime;
     private static final int PAGE_SIZE = 200;
     private long totalCount = -1;
-    protected String fileName;
-    protected String pathName;
-    protected String folderName;
+    private FileEntity fileEntity;
 
-    public String getFolderName() {
-        return folderName;
+    public FileEntity getFileEntity() {
+        return fileEntity;
     }
 
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getPathName() {
-        return pathName;
-    }
-
-    public void setPathName(String pathName) {
-        this.pathName = pathName;
+    public void setFileEntity(FileEntity fileEntity) {
+        this.fileEntity = fileEntity;
     }
 
     public String getLastTime() {
@@ -99,7 +84,7 @@ public abstract class AbstractSendDataToCloud implements SendDataToCloudProvider
     }
 
     @Override
-    public <T> void getData(long currentTime, long lastTime, Class<T> tClass) {
+    public <T> void queryData(long currentTime, long lastTime, Class<T> tClass) {
         queryAndSendOnePageFunctionContent(currentTime, lastTime, 0, tClass);
         long page = (totalCount / PAGE_SIZE) + 1;
         for (int i = 1; i < page; i++) {
@@ -200,7 +185,7 @@ public abstract class AbstractSendDataToCloud implements SendDataToCloudProvider
     private void generateFile(JSONObject jsonObject) {
         try {
             String content = jsonObject.toString();
-            File file = new File(pathName + ".json");
+            File file = new File(getFileEntity().getPathName() + ".json");
             StableUtils.makesureFileExist(file);
             FileOutputStream out = new FileOutputStream(file);
             InputStream in = new ByteArrayInputStream(content.getBytes(EncodeConstants.ENCODING_UTF_8));
@@ -213,18 +198,20 @@ public abstract class AbstractSendDataToCloud implements SendDataToCloudProvider
 
     private static void uploadFile(File file, String keyFileName) throws IOException {
         String url = generateSignedUploadUrl(keyFileName);
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-                .addPart("file", new FileBody(file));
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("Content-Type", "application/zip");
-        HttpToolbox.upload(url, builder, Charset.forName("utf-8"), headers, HttpRequestType.PUT);
+        if(StringUtils.isEmpty(url)){
+            FineLoggerFactory.getLogger().error("url is null.");
+        }else {
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
+                    .addPart("file", new FileBody(file));
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("Content-Type", "application/zip");
+            HttpToolbox.upload(url, builder, Charset.forName("utf-8"), headers, HttpRequestType.PUT);
+        }
     }
-
-
 
     private void deleteFileAndZipFile(File zipFile, String pathName) {
         File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), pathName));
-        CommonUtils.deleteFile(file);
+        MessageCollectUtils.deleteDir(file);
         CommonUtils.deleteFile(zipFile);
     }
 
