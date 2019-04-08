@@ -23,7 +23,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
@@ -132,6 +131,7 @@ public class PreferencePane extends BasicPane {
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox joinProductImprove;
+    private UICheckBox automaticPushUpdate;
 
     public PreferencePane() {
         this.initComponents();
@@ -148,7 +148,6 @@ public class PreferencePane extends BasicPane {
         JPanel advancePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), advancePane);
         contentPane.add(jtabPane, BorderLayout.NORTH);
-
 
         createFunctionPane(generalPane);
         createEditPane(generalPane);
@@ -171,9 +170,14 @@ public class PreferencePane extends BasicPane {
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-        JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
+        JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImprove);
+
+        if (DesignerEnvManager.getEnvManager().isAutomaticPushUpdateValid()) {
+            automaticPushUpdate = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
+            improvePane.add(automaticPushUpdate);
+        }
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
@@ -553,6 +557,10 @@ public class PreferencePane extends BasicPane {
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
+
+        if (designerEnvManager.isAutomaticPushUpdateValid()) {
+            this.automaticPushUpdate.setSelected(designerEnvManager.isAutomaticPushUpdate());
+        }
     }
 
     private int chooseCase(int sign) {
@@ -612,6 +620,9 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
+        if (designerEnvManager.isAutomaticPushUpdateValid()) {
+            designerEnvManager.setAutomaticPushUpdate(this.automaticPushUpdate.isSelected());
+        }
 
         designerEnvManager.setUndoLimit(maxUndoLimit.getSelectedIndex() * SELECTED_INDEX_5);
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {

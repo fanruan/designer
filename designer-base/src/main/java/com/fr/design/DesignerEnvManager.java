@@ -139,6 +139,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     //记录当前激活码的在线激活状态.
     private int activeKeyStatus = -1;
     private boolean joinProductImprove = true;
+    private boolean automaticPushUpdate = true;
     //最近使用的颜色
     private ColorSelectConfigManager configManager = new ColorSelectConfigManager();
     /**
@@ -687,6 +688,30 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void setJoinProductImprove(boolean joinProductImprove) {
         this.joinProductImprove = joinProductImprove;
+    }
+
+    /**
+     * 是否开启自动更新推送
+     *
+     * @return 是否开启自动更新推送
+     */
+    public boolean isAutomaticPushUpdate() {
+        return automaticPushUpdate;
+    }
+
+    /**
+     * 设置开启/关闭自动更新推送
+     */
+    public void setAutomaticPushUpdate(boolean automaticPushUpdate) {
+        this.automaticPushUpdate = automaticPushUpdate;
+    }
+
+    /**
+     * @return "自动更新推送"选项是否生效
+     */
+    public boolean isAutomaticPushUpdateValid() {
+        // 远程设计和非中文环境，都不生效
+        return WorkContext.getCurrent().isLocal() && GeneralContext.isChineseEnv();
     }
 
     /**
@@ -1534,6 +1559,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setOracleSystemSpace(reader.getAttrAsBoolean("useOracleSystemSpace", true));
         this.setCachingTemplateLimit(reader.getAttrAsInt("cachingTemplateLimit", CACHINGTEMPLATE_LIMIT));
         this.setJoinProductImprove(reader.getAttrAsBoolean("joinProductImprove", true));
+        this.setAutomaticPushUpdate(reader.getAttrAsBoolean("automaticPushUpdate", true));
         this.setImageCompress(reader.getAttrAsBoolean("imageCompress", true));
         this.setAutoBackUp(reader.getAttrAsBoolean("autoBackUp", true));
         this.setTemplateTreePaneExpanded(reader.getAttrAsBoolean("templateTreePaneExpanded", false));
@@ -1771,6 +1797,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (!this.isJoinProductImprove()) {
             writer.attr("joinProductImprove", this.isJoinProductImprove());
         }
+        if (!this.isAutomaticPushUpdate()) {
+            writer.attr("automaticPushUpdate", this.isAutomaticPushUpdate());
+        }
         if (!this.isImageCompress()) {
             writer.attr("imageCompress", this.isImageCompress());
         }
@@ -1898,5 +1927,4 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .attr("undoLimit", this.getUndoLimit())
                 .end();
     }
-
 }
