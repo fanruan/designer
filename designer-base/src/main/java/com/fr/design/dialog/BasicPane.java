@@ -298,13 +298,13 @@ public abstract class BasicPane extends JPanel {
     public void checkValid() throws Exception {
     }
 
-    public static final class NamePane extends BasicPane {
+    public static class NamePane extends BasicPane {
         private UITextField nameTextField;
         private BasicPane centerPane;
         private UILabel showfield;
         private PropertyChangeAdapter changeListener;
 
-        private NamePane(BasicPane bPane) {
+        public NamePane(BasicPane bPane) {
             this.setLayout(new BorderLayout(4, 4));
 
             nameTextField = new UITextField(30);
