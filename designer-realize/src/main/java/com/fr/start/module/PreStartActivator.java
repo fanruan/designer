@@ -70,8 +70,6 @@ public class PreStartActivator extends Activator {
     private void checkDebugStart() {
         if (isDebug()) {
             setDebugEnv();
-        } else {
-            DesignUtils.setPort(DesignUtils.getPort());
         }
     }
 
