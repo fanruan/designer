@@ -166,6 +166,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private static List<SwingWorker> mapWorkerList = new ArrayList<SwingWorker>();
     private boolean imageCompress = false;//图片压缩
+    // 开启内嵌web页面的调试窗口
+    private boolean openDebug = false;
 
     /**
      * DesignerEnvManager.
@@ -1393,6 +1395,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(this.configManager);
     }
 
+    private void readOpenDebug(XMLableReader reader) {
+        String tmpVal;
+        if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
+            this.openDebug = Boolean.parseBoolean(tmpVal);
+        }
+    }
+
     public String getUUID() {
         return StringUtils.isEmpty(uuid) ? UUID.randomUUID().toString() : uuid;
     }
@@ -1419,6 +1428,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     public void setImageCompress(boolean imageCompress) {
         this.imageCompress = imageCompress;
+    }
+
+    public boolean isOpenDebug() {
+        return openDebug;
+    }
+
+    public void setOpenDebug(boolean openDebug) {
+        this.openDebug = openDebug;
     }
 
     /**
@@ -1474,6 +1491,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readAlphaFineAttr(reader);
             } else if (name.equals("RecentColors")) {
                 readRecentColor(reader);
+            } else if ("OpenDebug".equals(name)) {
+                readOpenDebug(reader);
             } else if (name.equals(DesignerPushUpdateConfigManager.XML_TAG)) {
                 readDesignerPushUpdateAttr(reader);
             } else {
@@ -1684,6 +1703,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeHttpsParas(writer);
         writeAlphaFineAttr(writer);
         writeRecentColor(writer);
+        writeOpenDebug(writer);
         writeDesignerPushUpdateAttr(writer);
         writer.end();
     }
@@ -1700,6 +1720,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
+    private void writeOpenDebug(XMLPrintWriter writer) {
+        if (this.openDebug) {
+            writer.startTAG("OpenDebug");
+            writer.textNode(String.valueOf(openDebug));
+            writer.end();
+        }
+    }
 
     //写入uuid
     private void writeUUID(XMLPrintWriter writer) {
