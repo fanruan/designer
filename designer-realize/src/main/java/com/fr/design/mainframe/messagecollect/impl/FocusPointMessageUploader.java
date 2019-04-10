@@ -2,9 +2,10 @@ package com.fr.design.mainframe.messagecollect.impl;
 
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.mainframe.messagecollect.entity.FileEntity;
+import com.fr.design.mainframe.messagecollect.entity.FileEntityBuilder;
 import com.fr.design.mainframe.messagecollect.utils.MessageCollectUtils;
 import com.fr.intelli.record.FocusPoint;
+import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
@@ -39,11 +40,24 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
     }
 
     @Override
-    public <T> JSONObject dealWithSendFunctionContent(DataList<T> focusPoints) {
-        return new JSONObject();
+    public <T> JSONArray dealWithSendFunctionContent(DataList<T> focusPoints) {
+        JSONArray ja = new JSONArray();
+        for(T t:focusPoints.getList()){
+            FocusPoint focusPoint = (FocusPoint)t;
+            JSONObject jo = new JSONObject();
+            jo.put("id",focusPoint.getId());
+            jo.put("text",focusPoint.getId());
+            jo.put("source",focusPoint.getId());
+            jo.put("time",focusPoint.getId());
+            jo.put("username",focusPoint.getId());
+            jo.put("ip",focusPoint.getId());
+            jo.put("title",focusPoint.getId());
+            jo.put("body",focusPoint.getId());
+            ja.put(jo);
+        }
+        return ja;
     }
 
-    @Override
     public void sendToCloudCenter() {
         MessageCollectUtils.readXMLFile(instance, getLastTimeFile());
         long currentTime = new Date().getTime();
@@ -54,7 +68,7 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
-        sendZipFile(getFileEntity().getFolderName());
+        sendZipFile(getFileEntityBuilder().getFolderName());
         saveLastTime();
     }
 
@@ -86,6 +100,6 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         String fileName = String.valueOf(UUID.randomUUID());
         String pathName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString(), fileName);
         String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString());
-        setFileEntity(new FileEntity(fileName, pathName, folderName));
+        setFileEntityBuilder(new FileEntityBuilder(fileName, pathName, folderName));
     }
 }

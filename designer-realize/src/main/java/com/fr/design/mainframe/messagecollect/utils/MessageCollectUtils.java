@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.messagecollect.utils;
 
+import com.fr.base.FRContext;
 import com.fr.general.DateUtils;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
@@ -15,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * @author alex sung
@@ -53,16 +56,8 @@ public class MessageCollectUtils {
         }
     }
 
-    public static boolean deleteDir(File dir) {
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        return dir.delete();
+    public static String dateToString(){
+        DateFormat df = FRContext.getDefaultValues().getDateTimeFormat();
+        return df.format(new Date());
     }
 }
