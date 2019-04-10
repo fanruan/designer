@@ -18,14 +18,12 @@ import com.fr.third.org.apache.http.entity.mime.content.FileBody;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
 
 /**
  * @author alex sung
@@ -83,24 +81,9 @@ public class FileEntityBuilder {
     public File generateZipFile(String pathName) {
         File zipFile = null;
         try {
-            File file = new File(pathName);
             zipFile = new File(pathName + ".zip");
-            InputStream input = null;
-            java.util.zip.ZipOutputStream zipOut = null;
-            zipOut = new java.util.zip.ZipOutputStream(new FileOutputStream(zipFile));
-            int temp = 0;
-            if (file.isDirectory()) {
-                File lists[] = file.listFiles();
-                for (int i = 0; i < lists.length; i++) {
-                    input = new FileInputStream(lists[i]);
-                    zipOut.putNextEntry(new ZipEntry(file.getName()
-                            + File.separator + lists[i].getName()));
-                    while ((temp = input.read()) != -1) {
-                        zipOut.write(temp);
-                    }
-                    input.close();
-                }
-            }
+            java.util.zip.ZipOutputStream zipOut = new java.util.zip.ZipOutputStream(new FileOutputStream(zipFile));
+            IOUtils.zip(zipOut, new File(pathName));
             zipOut.close();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -159,7 +142,7 @@ public class FileEntityBuilder {
                 return data.optString("url");
             }
         } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error("Illegal response text.");
+            FineLoggerFactory.getLogger().error("Illegal response text."+e, e.getMessage());
         }
         return null;
     }
