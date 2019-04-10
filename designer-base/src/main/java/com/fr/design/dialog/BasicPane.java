@@ -2,13 +2,18 @@ package com.fr.design.dialog;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Window;
 
 /*
  * _denny: 这里的BasicPane通常会有populate & update方法
@@ -300,6 +305,7 @@ public abstract class BasicPane extends JPanel {
 
     public static class NamePane extends BasicPane {
         private UITextField nameTextField;
+        private UILabel Name;
         private BasicPane centerPane;
         private UILabel showfield;
         private PropertyChangeAdapter changeListener;
@@ -308,8 +314,9 @@ public abstract class BasicPane extends JPanel {
             this.setLayout(new BorderLayout(4, 4));
 
             nameTextField = new UITextField(30);
+            Name = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Name") + ":");
             JPanel northPane = new JPanel(new BorderLayout(4, 4));
-            northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), BorderLayout.WEST);
+            northPane.add(Name, BorderLayout.WEST);
             northPane.add(nameTextField, BorderLayout.CENTER);
             northPane.add(showfield = new UILabel(" "), BorderLayout.EAST);
             showfield.setForeground(new Color(204, 0, 1));
@@ -341,6 +348,11 @@ public abstract class BasicPane extends JPanel {
             if (changeListener != null) {
                 changeListener.propertyChange();
             }
+        }
+
+        public void setVisible(boolean isVisible) {
+            this.nameTextField.setVisible(isVisible);
+            this.Name.setVisible(isVisible);
         }
 
         public String getObjectName() {
