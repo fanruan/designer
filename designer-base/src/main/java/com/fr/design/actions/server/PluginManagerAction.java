@@ -9,6 +9,8 @@ import com.fr.design.extra.ShopDialog;
 import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.design.upm.UPM;
+import com.fr.design.upm.UPMDialog;
 import com.fr.design.upm.UPMPane;
 import com.fr.general.IOUtils;
 
@@ -35,9 +37,7 @@ public class PluginManagerAction extends UpdateAction {
         // 可以启用新版本的插件商店（使用JxBrowser作为容器）
         if (DesignerEnvManager.getEnvManager().isOpenDebug()
                 ||ServerPreferenceConfig.getInstance().isUseOptimizedUPM()) {
-            UPMPane upmPane = new UPMPane();
-            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), upmPane);
-            dlg.setVisible(true);
+            UPM.showUPMDialog();
         } else {
             WebViewDlgHelper.createPluginDialog();
         }

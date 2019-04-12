@@ -98,6 +98,14 @@ public class ModernUIPane<T> extends BasicPane {
         });
     }
 
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     */
+    public void redirect(String url) {
+        browser.loadURL(url);
+    }
+
     @Override
     protected String title4PopupWindow() {
         return "Modern";
