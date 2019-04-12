@@ -1,9 +1,16 @@
 package com.fr.design.actions.server;
 
 import com.fr.base.BaseUtils;
+import com.fr.config.ServerPreferenceConfig;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.UIDialog;
+import com.fr.design.extra.ShopDialog;
 import com.fr.design.extra.WebViewDlgHelper;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.design.upm.UPMPane;
+import com.fr.general.IOUtils;
 
 
 import javax.swing.*;
@@ -20,12 +27,20 @@ public class PluginManagerAction extends UpdateAction {
         this.setMenuKeySet(PLUGIN_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/server/plugin.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/server/plugin.png"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        WebViewDlgHelper.createPluginDialog();
+        // 可以启用新版本的插件商店（使用JxBrowser作为容器）
+        if (DesignerEnvManager.getEnvManager().isOpenDebug()
+                ||ServerPreferenceConfig.getInstance().isUseOptimizedUPM()) {
+            UPMPane upmPane = new UPMPane();
+            UIDialog dlg = new ShopDialog(DesignerContext.getDesignerFrame(), upmPane);
+            dlg.setVisible(true);
+        } else {
+            WebViewDlgHelper.createPluginDialog();
+        }
     }
 
     public static final MenuKeySet PLUGIN_MANAGER = new MenuKeySet() {
