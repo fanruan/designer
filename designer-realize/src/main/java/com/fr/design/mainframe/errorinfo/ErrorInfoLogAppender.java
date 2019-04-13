@@ -82,12 +82,10 @@ public class ErrorInfoLogAppender extends AppenderSkeleton {
     private String readStackTrace(LoggingEvent event) {
         String[] s = event.getThrowableStrRep();
         StringBuilder sb = new StringBuilder();
-        if(s != null){
-            int len = s.length;
+        if (s != null) {
+            int len = Math.min(s.length, ERROR_STACK_TRACE);
             for (int i = 0; i < len; i++) {
-                if(i < ERROR_STACK_TRACE){
-                    sb.append(s[i]).append("\n");
-                }
+                sb.append(s[i]).append("\n");
             }
         }
         return sb.toString();
