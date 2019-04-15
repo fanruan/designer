@@ -55,7 +55,7 @@ import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.onlineupdate.push.DesignerPushUpdateManager;
+import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
