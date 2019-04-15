@@ -120,6 +120,10 @@ class DesignerPushUpdateDialog extends UIDialog {
             exit();
         }
 
+        public String i18nText(String key) {
+            return com.fr.design.i18n.Toolkit.i18nText(key);
+        }
+
         private void exit() {
             DesignerPushUpdateDialog.this.dialogExit();
         }

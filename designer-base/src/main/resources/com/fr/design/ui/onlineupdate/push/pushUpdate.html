@@ -30,148 +30,104 @@
 </head>
 <body>
     <script>
-        // var EVENT_POPULATE = "EVENT_POPULATE";
-
-        // var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-        //
-        // var observer = new MutationObserver(function(mutations) {
-        //     mutations.forEach(function(mutation) {
-        //         if (mutation.type === "attributes" && window.Pool) {
-        //             console.log("attributes changed");
-        //             window.fireEvent(EVENT_POPULATE);
-        //         }
-        //     });
-        // });
-        //
-        // observer.observe(window, {
-        //     attributes: true //configure it to listen to attribute changes
-        // });
-
-
-
+        function i18nText(key) {
+            return Pool.data.i18nText(key);
+        }
 
         window.addEventListener("load", function (ev) {
-            // alert(window.Pool.data);
-            // todo: 开发临时方案
-            // setTimeout(function () {
+            var title = BI.createWidget({
+                type: "bi.vertical",
+                items: [
+                    {
+                        type: "bi.label",
+                        text: i18nText("Fine-Design_Find_New_Version"),
+                        cls: "title",
+                        textAlign: "left"
+                    },
+                    {
+                        type: "bi.label",
+                        text: Pool.data.getVersion(),
+                        textAlign: "left"
+                    }
+                ]
+            });
 
-                console.log(window.Pool.data);
-                var title = BI.createWidget({
-                    type: "bi.vertical",
-                    items: [
-                        {
-                            type: "bi.label",
-                            text: "发现新版本",
-                            cls: "title",
-                            textAlign: "left"
-                        },
-                        {
-                            type: "bi.label",
-                            text: Pool.data.getVersion(),
-                            textAlign: "left"
+            var desc = BI.createWidget({
+                type: "bi.vertical",
+                cls: "desc",
+                items: [
+                    {
+                        type: "bi.label",
+                        text: Pool.data.getContent(),
+                        textAlign: "left"
+                    }
+                ]
+            });
+
+            var moreInfo = BI.createWidget({
+                type: "bi.text_button",
+                text: i18nText("Fine-Design_Basic_More_Information"),
+                cls: "moreInfo",
+                textAlign: "left"
+            });
+
+            var buttonGroup = BI.createWidget({
+                type: 'bi.left',
+                cls: "buttonGroup",
+                items: [
+                    {
+                        type: 'bi.button',
+                        text: i18nText("Fine-Design_Update_Now"),
+                        level: 'common',
+                        height: 30,
+                        handler: function() {
+                            Pool.data.updateNow();
                         }
-                    ]
-                });
-
-                var desc = BI.createWidget({
-                    type: "bi.vertical",
-                    cls: "desc",
-                    items: [
-                        {
-                            type: "bi.label",
-                            // text: "1) xxx",
-                            text: Pool.data.getContent(),
-                            textAlign: "left"
-                        }
-                        // {
-                        //     type: "bi.label",
-                        //     text: "2) ldsnvls df",
-                        //     textAlign: "left"
-                        // }
-                    ]
-                });
-
-                var moreInfo = BI.createWidget({
-                    type: "bi.text_button",
-                    text: "更多信息",
-                    cls: "moreInfo",
-                    textAlign: "left"
-                });
-
-                var buttonGroup = BI.createWidget({
-                    type: 'bi.left',
-                    cls: "buttonGroup",
-                    items: [
-                        {
+                    },
+                    {
+                        el: {
                             type: 'bi.button',
-                            text: '立即更新',
-                            level: 'common',
+                            text: i18nText("Fine-Design_Remind_Me_Next_Time"),
+                            level: 'ignore',
                             height: 30,
                             handler: function() {
-                                Pool.data.updateNow();
+                                Pool.data.remindNextTime();
                             }
                         },
-                        {
-                            el: {
-                                type: 'bi.button',
-                                text: '下次启动提醒我',
-                                level: 'ignore',
-                                height: 30,
-                                handler: function() {
-                                    Pool.data.remindNextTime();
-                                }
-                            },
-                            lgap: 10
+                        lgap: 10
+                    },
+                    {
+                        el: {
+                            type: 'bi.button',
+                            text: i18nText("Fine-Design_Skip_This_Version"),
+                            level: 'ignore',
+                            height: 30,
+                            handler: function() {
+                                Pool.data.skipThisVersion();
+                            }
                         },
-                        {
-                            el: {
-                                type: 'bi.button',
-                                text: '跳过此版本',
-                                level: 'ignore',
-                                height: 30,
-                                handler: function() {
-                                    Pool.data.skipThisVersion();
-                                }
-                            },
-                            lgap: 10
-                        }
-                    ]
-                });
+                        lgap: 10
+                    }
+                ]
+            });
 
-                BI.createWidget({
-                    type:"bi.vertical",
-                    element: "body",
-                    cls: "container",
-                    items: [
-                        title,
-                        desc,
-                        moreInfo,
-                        buttonGroup
-                    ]
-                });
+            BI.createWidget({
+                type:"bi.vertical",
+                element: "body",
+                cls: "container",
+                items: [
+                    title,
+                    desc,
+                    moreInfo,
+                    buttonGroup
+                ]
+            });
 
-                $(".container").css("background", "url(" + Pool.data.getBackgroundUrl() + ")");
-                $(".button-ignore").css({
-                    "background-color": "white",
-                    "border": "1px solid white"
-                });
-
-
-
-            // }, 2000);
-
-
-
-            // setTimeout(function() {
-            //     // alert(Pool.data);
-            //     alert(Pool.data.getName() + " " + Pool.data.getAge());
-            // }, 2000);
-
-            // Pool.update = function () {
-            //     Pool.data.setAge(12);
-            //     Pool.data.setName("Tom");
-            //     return Pool.data;
-            // };
+            $(".container").css("background", "url(" + Pool.data.getBackgroundUrl() + ")");
+            $(".button-ignore").css({
+                "background-color": "white",
+                "border": "1px solid white"
+            });
         });
 
     </script>
