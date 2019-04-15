@@ -2,7 +2,6 @@ package com.fr.design.mainframe.messagecollect.entity;
 
 import com.fr.general.CloudCenter;
 import com.fr.general.IOUtils;
-import com.fr.general.http.HttpRequestType;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -13,17 +12,23 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.third.org.apache.http.entity.mime.MultipartEntityBuilder;
-import com.fr.third.org.apache.http.entity.mime.content.FileBody;
+import com.fr.third.org.apache.http.HttpEntity;
+import com.fr.third.org.apache.http.HttpResponse;
+import com.fr.third.org.apache.http.client.HttpClient;
+import com.fr.third.org.apache.http.client.methods.HttpPut;
+import com.fr.third.org.apache.http.entity.FileEntity;
+import com.fr.third.org.apache.http.impl.client.DefaultHttpClient;
+import com.fr.third.org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.fr.third.org.apache.http.HttpStatus.SC_OK;
 
 /**
  * @author alex sung
@@ -35,6 +40,7 @@ public class FileEntityBuilder {
     private static final String OPERATION_URL = "https://cloud.fanruan.com/config/protect/operation";
     private static final String ATTR_SIGNATURE = "signature";
     private static final String ATTR_KEY = "key";
+    private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
     /**
      * 文件名
      */
@@ -118,15 +124,30 @@ public class FileEntityBuilder {
      * @throws IOException
      */
     public static void uploadFile(File file, String keyFileName) throws IOException {
-        String url = generateSignedUploadUrl("FocusPoint/"+keyFileName);
-        if(StringUtils.isEmpty(url)){
-            FineLoggerFactory.getLogger().error("url is null.");
-        }else {
-            MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-                    .addPart("file", new FileBody(file));
-            Map<String, String> headers = new HashMap<String, String>();
-            headers.put("Content-Type", "application/zip");
-            HttpToolbox.upload(url, builder, Charset.forName("utf-8"), headers, HttpRequestType.PUT);
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator +keyFileName);
+            if(StringUtils.isEmpty(signedUrl)){
+                FineLoggerFactory.getLogger().error("signedUrl is null.");
+                return;
+            }
+            HttpPut httpPost = new HttpPut(signedUrl);
+            httpPost.addHeader("Content-Type","application/octet-stream");
+            FileEntity fileEntity = new FileEntity(file);
+            httpPost.setEntity(fileEntity);
+            HttpResponse response = httpclient.execute(httpPost);
+
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == SC_OK) {
+                HttpEntity resEntity = response.getEntity();
+                EntityUtils.consume(resEntity);
+            } else {
+                HttpEntity entity = response.getEntity();
+                String result = EntityUtils.toString(entity, "utf-8");
+                FineLoggerFactory.getLogger().info("upload file result：" + result);
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
