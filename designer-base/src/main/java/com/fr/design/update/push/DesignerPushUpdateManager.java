@@ -1,5 +1,6 @@
 package com.fr.design.update.push;
 
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
@@ -22,6 +23,15 @@ public class DesignerPushUpdateManager {
     private static DesignerPushUpdateManager singleton;
     private DesignerUpdateInfo updateInfo;
     private DesignerPushUpdateConfigManager config;
+
+    static {
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                getInstance().checkAndPop();
+            }
+        });
+    }
 
     private DesignerPushUpdateManager() {
         config = DesignerPushUpdateConfigManager.getInstance();
