@@ -21,6 +21,7 @@ import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.bridge.DesignToolbarProvider;
+import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.parameter.FormParaDesigner;
 import com.fr.design.fun.ElementUIProvider;
@@ -35,6 +36,7 @@ import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.BaseJForm;
 import com.fr.design.mainframe.CellElementPropertyPane;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCaseThumbnail;
@@ -130,7 +132,16 @@ public class DesignerActivator extends Activator {
         loadLogAppender();
         DesignerSocketIO.update();
         UserInfoPane.getInstance().updateBBSUserInfo();
-        DesignerPushUpdateManager.getInstance().checkAndPop();
+        checkUpdateLater();
+    }
+
+    private void checkUpdateLater() {
+        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+            @Override
+            public void designerOpened() {
+                DesignerPushUpdateManager.getInstance().checkAndPop();
+            }
+        });
     }
 
     private void loadLogAppender() {

@@ -2,6 +2,7 @@ package com.fr.design.onlineupdate.push;
 
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.onlineupdate.ui.dialog.UpdateMainDialog;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
@@ -141,7 +142,14 @@ public class DesignerPushUpdateManager {
      * 跳转到更新升级窗口，并自动开始更新
      */
     void doUpdate() {
-        // todo
+        new Thread() {
+            @Override
+            public void run() {
+                UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
+                dialog.setAutoUpdateAfterInit();
+                dialog.showDialog();
+            }
+        }.start();
     }
 
     /**

@@ -59,7 +59,14 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -137,6 +144,8 @@ public class UpdateMainDialog extends UIDialog {
     private String lastUpdateCacheTime;
     private String lastUpdateCacheState = UPDATE_CACHE_STATE_FAIL;
 
+    private boolean autoUpdateAfterInit = false;  // 是否在加载结束后，自动开始更新
+
     public UpdateMainDialog(Dialog parent) {
         super(parent);
         initComponents();
@@ -146,6 +155,13 @@ public class UpdateMainDialog extends UIDialog {
         super(parent);
         setModal(true);
         initComponents();
+    }
+
+    /**
+     * 等待面板初始化结束后，点击"更新"按钮。
+     */
+    public void setAutoUpdateAfterInit() {
+        autoUpdateAfterInit = true;
     }
 
     private void initUpdateActionPane() {
@@ -428,12 +444,19 @@ public class UpdateMainDialog extends UIDialog {
                     getUpdateInfoSuccess = true;
                     //step4:update cache file,start from cacheRecordTime,end latest server jartime
                     updateCachedInfoFile(jsonArray);
+                    afterInit();
                 } catch (Exception e) {
                     getUpdateInfoSuccess = true;
                     FineLoggerFactory.getLogger().error(e.getMessage());
                 }
             }
         };
+    }
+
+    private void afterInit() {
+        if (autoUpdateAfterInit) {
+            updateButton.doClick();
+        }
     }
 
     //从文件中读取缓存的更新信息
