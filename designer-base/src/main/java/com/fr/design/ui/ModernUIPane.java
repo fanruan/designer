@@ -75,13 +75,11 @@ public class ModernUIPane<T> extends BasicPane {
 
 
     public void populate(final T t) {
-        browser.addLoadListener(new LoadAdapter() {
+        browser.addScriptContextListener(new ScriptContextAdapter() {
             @Override
-            public void onFinishLoadingFrame(FinishLoadingEvent event) {
-                if (event.isMainFrame()) {
-                    JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
-                    ns.asObject().setProperty(variable, t);
-                }
+            public void onScriptContextCreated(ScriptContextEvent event) {
+                JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
+                ns.asObject().setProperty(variable, t);
             }
         });
     }

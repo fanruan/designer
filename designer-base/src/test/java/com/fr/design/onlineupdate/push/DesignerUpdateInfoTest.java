@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class DesignerUpdateInfoTest {
     private static final String CURRENT_VERSION = "2018.09.03.xx";
     private static final String LATEST_VERSION = "2019.04.03.yy";
+    private static final String LAST_IGNORED_VERSION = "2019.02.03.yy";
     private static final String PUSH_VERSION = "2019.01.03.21.11";
     private static final String PUSH_CONTENT = "the update desc content";
     private static final String PUSH_BACKGROUND = "http://image.fr.com/123.jpg";
@@ -33,13 +34,14 @@ public class DesignerUpdateInfoTest {
         pushData.put("background", PUSH_BACKGROUND);
         pushData.put("more", PUSH_MORE);
 
-        updateInfo = new DesignerUpdateInfo(CURRENT_VERSION, LATEST_VERSION, pushData);
+        updateInfo = new DesignerUpdateInfo(CURRENT_VERSION, LATEST_VERSION, LAST_IGNORED_VERSION, pushData);
     }
 
     @Test
     public void testGetters() {
         assertEquals(CURRENT_VERSION, updateInfo.getCurrentVersion());
         assertEquals(LATEST_VERSION, updateInfo.getLatestVersion());
+        assertEquals(LAST_IGNORED_VERSION, updateInfo.getLastIgnoredVersion());
         assertEquals(PUSH_VERSION, updateInfo.getPushVersion());
         assertEquals(PUSH_CONTENT, updateInfo.getPushContent());
         assertEquals(PUSH_BACKGROUND, updateInfo.getBackgroundUrl());
@@ -79,14 +81,14 @@ public class DesignerUpdateInfoTest {
         pushData.put("content", PUSH_CONTENT);
         pushData.put("background", PUSH_BACKGROUND);
         pushData.put("more", PUSH_MORE);
-        DesignerUpdateInfo updateInfo = new DesignerUpdateInfo(Y, Z, pushData);
-        return updateInfo.hasNewPushVersion(X0);
+        DesignerUpdateInfo updateInfo = new DesignerUpdateInfo(Y, Z, X0, pushData);
+        return updateInfo.hasNewPushVersion();
     }
 
     @Test
     public void testParameterValidation() {
         try {
-            DesignerUpdateInfo updateInfo = new DesignerUpdateInfo(null, null, new JSONObject());
+            DesignerUpdateInfo updateInfo = new DesignerUpdateInfo(null, null, null, new JSONObject());
             Assert.fail("should not reach here!");
         } catch (InvalidParameterException e) {
             // do nothing

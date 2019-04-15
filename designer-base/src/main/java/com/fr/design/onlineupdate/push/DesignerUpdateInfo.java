@@ -17,15 +17,17 @@ class DesignerUpdateInfo {
 
     private final String currentVersion;  // 当前版本
     private final String latestVersion;  // 最新版本
+    private final String lastIgnoredVersion;  // 最近一次跳过的版本
 
     private final String pushVersion;  // 推送版本
     private final String pushContent;  // 推送更新内容
     private final String backgroundUrl;  // 推送背景图片 url
     private final String moreInfoUrl;  // 更多新特性
 
-    DesignerUpdateInfo(String currentVersion, String latestVersion, JSONObject pushData) {
+    DesignerUpdateInfo(String currentVersion, String latestVersion, String lastIgnoredVersion, JSONObject pushData) {
         this.currentVersion = currentVersion;
         this.latestVersion = latestVersion;
+        this.lastIgnoredVersion = lastIgnoredVersion;
 
         this.pushVersion = pushData.optString(KEY_VERSION);
         this.pushContent = pushData.optString(KEY_CONTENT);
@@ -39,6 +41,7 @@ class DesignerUpdateInfo {
     }
 
     private boolean hasEmptyField() {
+        // lastIgnoredVersion 可以为空
         return StringUtils.isEmpty(currentVersion)
                 || StringUtils.isEmpty(latestVersion)
                 || StringUtils.isEmpty(pushVersion)
@@ -51,12 +54,16 @@ class DesignerUpdateInfo {
         return currentVersion;
     }
 
-    String getPushVersion() {
-        return pushVersion;
-    }
-
     String getLatestVersion() {
         return latestVersion;
+    }
+
+    public String getLastIgnoredVersion() {
+        return lastIgnoredVersion;
+    }
+
+    String getPushVersion() {
+        return pushVersion;
     }
 
     String getPushContent() {
@@ -71,7 +78,7 @@ class DesignerUpdateInfo {
         return moreInfoUrl;
     }
 
-    boolean hasNewPushVersion(String lastIgnoredVersion) {
+    boolean hasNewPushVersion() {
         boolean result = ComparatorUtils.compare(pushVersion, currentVersion) > 0
                 && ComparatorUtils.compare(pushVersion, latestVersion) <= 0;
         if (StringUtils.isNotEmpty(lastIgnoredVersion)) {
