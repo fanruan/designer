@@ -84,7 +84,6 @@ public class DesignerPushUpdateManager {
                     FineLoggerFactory.getLogger().debug("skip push update");
                     return;
                 }
-                // todo: do pop
                 final DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
                 DesignerPushUpdateDialog.createAndShow(designerFrame, updateInfo);
             }
