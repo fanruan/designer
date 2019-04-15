@@ -1,3 +1,9 @@
+body {
+    padding-left: 30px;
+    padding-top: 30px;
+    color: white;
+}
+
 .title {
     font-size: 30px;
 }
@@ -10,11 +16,7 @@
 .buttonGroup {
     margin-top: 35px;
 }
-.button-ignore {
-
-}
-body {
-    padding-left: 30px;
-    padding-top: 30px;
-    color: white;
+.button-ignore  {
+    background-color: white !important;
+    border: 1px solid white !important;
 }

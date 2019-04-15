@@ -79,7 +79,7 @@ window.addEventListener("load", function (ev) {
         ]
     });
 
-    BI.createWidget({
+    var container = BI.createWidget({
         type:"bi.vertical",
         element: "body",
         cls: "container",
@@ -91,9 +91,5 @@ window.addEventListener("load", function (ev) {
         ]
     });
 
-    $(".container").css("background", "url(" + Pool.data.getBackgroundUrl() + ")");
-    $(".button-ignore").css({
-        "background-color": "white",
-        "border": "1px solid white"
-    });
+    container.element.css("background", "url(" + Pool.data.getBackgroundUrl() + ")");
 });
