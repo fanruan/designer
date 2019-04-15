@@ -1,0 +1,20 @@
+.title {
+    font-size: 30px;
+}
+.desc {
+    margin-top: 35px;
+}
+.moreInfo {
+    margin-top: 15px;
+}
+.buttonGroup {
+    margin-top: 35px;
+}
+.button-ignore {
+
+}
+body {
+    padding-left: 30px;
+    padding-top: 30px;
+    color: white;
+}

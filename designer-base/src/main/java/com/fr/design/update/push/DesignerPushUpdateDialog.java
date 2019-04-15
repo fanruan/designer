@@ -3,6 +3,12 @@ package com.fr.design.update.push;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.ui.ModernUIPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.web.struct.AssembleComponent;
+import com.fr.web.struct.Atom;
+import com.fr.web.struct.browser.RequestClient;
+import com.fr.web.struct.category.ScriptPath;
+import com.fr.web.struct.category.StylePath;
+import com.fr.web.struct.impl.FineUI;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -34,7 +40,22 @@ class DesignerPushUpdateDialog extends UIDialog {
         contentPane.setLayout(new BorderLayout());
 
         jsPane = new ModernUIPane.Builder<Model>()
-                .withEMB("/com/fr/design/ui/onlineupdate/push/pushUpdate.html").namespace("Pool").build();
+                .withComponent(new AssembleComponent() {
+                    @Override
+                    public ScriptPath script(RequestClient req) {
+                        return ScriptPath.build("/com/fr/design/ui/update/push/pushUpdate.js");
+                    }
+
+                    @Override
+                    public StylePath style(RequestClient req) {
+                        return StylePath.build("/com/fr/design/ui/update/push/pushUpdate.css");
+                    }
+
+                    @Override
+                    public Atom[] refer() {
+                        return new Atom[]{FineUI.KEY};
+                    }
+                }).namespace("Pool").build();
 
         contentPane.add(jsPane);
     }
