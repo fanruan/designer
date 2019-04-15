@@ -58,7 +58,7 @@ class DesignerUpdateInfo {
         return latestVersion;
     }
 
-    public String getLastIgnoredVersion() {
+    String getLastIgnoredVersion() {
         return lastIgnoredVersion;
     }
 

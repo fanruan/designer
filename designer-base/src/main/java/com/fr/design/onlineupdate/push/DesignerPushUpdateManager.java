@@ -5,11 +5,13 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
+
+import java.io.IOException;
 
 /**
  * Created by plough on 2019/4/8.
@@ -40,8 +42,13 @@ public class DesignerPushUpdateManager {
     }
 
     private String getFullLatestVersion() {
-        HttpClient hc = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("jar10.update"));
-        return new JSONObject(hc.getResponseText()).optString("buildNO");
+        try {
+            String res = HttpToolbox.get(CloudCenter.getInstance().acquireUrlByKind("jar10.update"));
+            return new JSONObject(res).optString("buildNO");
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+        return StringUtils.EMPTY;
     }
 
     private String getVersionByFullNO(String fullNO) {
