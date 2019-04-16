@@ -18,12 +18,13 @@ import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
@@ -117,7 +118,6 @@ public class PreferencePane extends BasicPane {
     private KeyStroke shortCutKeyStore = null;
     private UIColorButton gridLineColorTBButton;
 
-
     private UIColorButton paginationLineColorTBButton;
 
     private UICheckBox supportCellEditorDefCheckBox;
@@ -131,7 +131,9 @@ public class PreferencePane extends BasicPane {
     private UITextField jdkHomeTextField;
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
-    private UICheckBox joinProductImprove;
+    private UICheckBox openDebugComboBox;
+    private UICheckBox joinProductImproveCheckBox;
+    private UICheckBox autoPushUpdateCheckBox;
 
     public PreferencePane() {
         this.initComponents();
@@ -148,7 +150,6 @@ public class PreferencePane extends BasicPane {
         JPanel advancePane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane();
         jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), advancePane);
         contentPane.add(jtabPane, BorderLayout.NORTH);
-
 
         createFunctionPane(generalPane);
         createEditPane(generalPane);
@@ -171,9 +172,19 @@ public class PreferencePane extends BasicPane {
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-        JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
-        joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
-        improvePane.add(joinProductImprove);
+        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
+        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
+        advancePane.add(debuggerPane);
+
+        JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
+        joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
+        improvePane.add(joinProductImproveCheckBox);
+
+        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+            autoPushUpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
+            improvePane.add(autoPushUpdateCheckBox);
+        }
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
@@ -550,9 +561,15 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
+        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
-        this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
+        this.joinProductImproveCheckBox.setSelected(designerEnvManager.isJoinProductImprove());
+
+        if (this.autoPushUpdateCheckBox != null) {
+            this.autoPushUpdateCheckBox.setSelected(designerEnvManager.isAutoPushUpdateEnabled());
+        }
     }
 
     private int chooseCase(int sign) {
@@ -609,9 +626,14 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
 
+        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
+
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
-        designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
+        designerEnvManager.setJoinProductImprove(this.joinProductImproveCheckBox.isSelected());
+        if (this.autoPushUpdateCheckBox != null) {
+            designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
+        }
 
         designerEnvManager.setUndoLimit(maxUndoLimit.getSelectedIndex() * SELECTED_INDEX_5);
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {
