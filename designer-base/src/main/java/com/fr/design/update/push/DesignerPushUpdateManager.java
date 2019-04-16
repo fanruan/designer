@@ -94,7 +94,7 @@ public class DesignerPushUpdateManager {
     /**
      * 检查更新，如果有合适的更新版本，则弹窗
      */
-    public void checkAndPop() {
+    private void checkAndPop() {
         new Thread() {
             @Override
             public void run() {
@@ -111,11 +111,6 @@ public class DesignerPushUpdateManager {
     private boolean shouldPopUp() {
         if (updateInfo == null) {
             String fullCurrentVersion = GeneralUtils.readFullBuildNO();
-            // todo: 开发测试用
-            if (!fullCurrentVersion.contains(SPLIT_CHAR)) {
-                fullCurrentVersion = "stable-2019.01.03.17.01.05.257";
-            }
-
 
             String fullLatestVersion = getFullLatestVersion();
             boolean isValidJarVersion = isValidJarVersion(fullCurrentVersion, fullLatestVersion);
