@@ -4,6 +4,9 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.ui.ModernUIPane;
 import com.fr.design.utils.BrowseUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.intelli.record.FocusPoint;
+import com.fr.intelli.record.MetricRegistry;
+import com.fr.intelli.record.Original;
 import com.fr.stable.StringUtils;
 import com.fr.web.struct.AssembleComponent;
 import com.fr.web.struct.Atom;
@@ -133,15 +136,18 @@ class DesignerPushUpdateDialog extends UIDialog {
 
         public void updateNow() {
             DesignerPushUpdateManager.getInstance().doUpdate();
+            FocusPointManager.submit(FocusPointManager.OperateType.UPDATE);
             exit();
         }
 
         public void remindNextTime() {
+            FocusPointManager.submit(FocusPointManager.OperateType.REMIND_NEXT_TIME);
             exit();
         }
 
         public void skipThisVersion() {
             DesignerPushUpdateManager.getInstance().skipCurrentPushVersion();
+            FocusPointManager.submit(FocusPointManager.OperateType.SKIP);
             exit();
         }
 
@@ -151,6 +157,30 @@ class DesignerPushUpdateDialog extends UIDialog {
 
         private void exit() {
             DesignerPushUpdateDialog.this.dialogExit();
+        }
+    }
+
+    private static class FocusPointManager {
+
+        private static final String ID = "com.fr.update.push";
+        private static final int SOURCE = Original.EMBED.toInt();
+        private static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Push_Update_Focus_Point");
+
+        private enum OperateType {
+            UPDATE(1), REMIND_NEXT_TIME(2), SKIP(3);
+            private int index;
+            OperateType(int index) {
+                this.index = index;
+            }
+            private String toText() {
+                return String.valueOf(this.index);
+            }
+        }
+
+        private static void submit(OperateType opType) {
+            FocusPoint focusPoint = FocusPoint.create(ID, opType.toText(), SOURCE);
+            focusPoint.setTitle(TITLE);
+            MetricRegistry.getMetric().submit(focusPoint);
         }
     }
 }
