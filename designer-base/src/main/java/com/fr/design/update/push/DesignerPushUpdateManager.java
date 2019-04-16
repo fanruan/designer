@@ -166,6 +166,9 @@ public class DesignerPushUpdateManager {
      * 跳过当前的推送版本
      */
     void skipCurrentPushVersion() {
-        // todo
+        if (updateInfo == null) {
+            return;
+        }
+        config.setLastIgnoredVersion(updateInfo.getPushVersion());
     }
 }
