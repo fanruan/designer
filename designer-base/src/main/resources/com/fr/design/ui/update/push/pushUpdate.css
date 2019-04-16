@@ -5,18 +5,56 @@ body {
 }
 
 .title {
-    font-size: 30px;
+    font-family: PingFangSC-Semibold;
+    font-size: 24px;
+    letter-spacing: 1.5px;
+    line-height: 24px;
 }
+
+.version {
+    font-family: PingFangSC-Semibold;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 6px;
+}
+
 .desc {
-    margin-top: 35px;
+    margin-top: 40px;
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    width: 540px;
+    margin-left: 19px;
+    text-indent: -19px;
+    overflow: visible !important;
 }
+
+.desc .bi-label {
+    overflow: visible !important;
+}
+
 .moreInfo {
-    margin-top: 15px;
+    margin-top: 20px;
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    text-decoration: underline;
 }
+
 .buttonGroup {
-    margin-top: 35px;
+    position: absolute !important;
+    bottom: 60px;
 }
+
+.buttonGroup .bi-button {
+    font-family: PingFangSC-Medium;
+    font-size: 11px;
+    text-align: center;
+    line-height: 12px;
+    box-shadow: 0 2px 4px 0 rgba(0,82,169,0.20);
+    border-radius: 12px;
+}
+
 .button-ignore  {
     background-color: white !important;
     border: 1px solid white !important;
+    color: #51A6FF;
 }

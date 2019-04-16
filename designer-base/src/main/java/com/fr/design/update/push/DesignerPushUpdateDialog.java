@@ -2,7 +2,9 @@ package com.fr.design.update.push;
 
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.ui.ModernUIPane;
+import com.fr.design.utils.BrowseUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.StringUtils;
 import com.fr.web.struct.AssembleComponent;
 import com.fr.web.struct.Atom;
 import com.fr.web.struct.browser.RequestClient;
@@ -19,7 +21,7 @@ import java.awt.Frame;
  * Created by plough on 2019/4/10.
  */
 class DesignerPushUpdateDialog extends UIDialog {
-    public static final Dimension DEFAULT = new Dimension(640, 320);
+    public static final Dimension DEFAULT = new Dimension(640, 360);
 
     private ModernUIPane<Model> jsPane;
 
@@ -111,8 +113,10 @@ class DesignerPushUpdateDialog extends UIDialog {
             this.content = content;
         }
 
-        public String getMoreInfoUrl() {
-            return moreInfoUrl;
+        public void browseMoreInfoUrl() {
+            if (StringUtils.isNotEmpty(moreInfoUrl)) {
+                BrowseUtils.browser(moreInfoUrl);
+            }
         }
 
         public void setMoreInfoUrl(String moreInfoUrl) {

@@ -1,9 +1,33 @@
+var MAX_DESC_NUM = 5;  // 最多显示5条信息
+
 function i18nText(key) {
     return Pool.data.i18nText(key);
 }
 
-window.addEventListener("load", function (ev) {
-    var title = BI.createWidget({
+function getDescArea(descList) {
+    var descItems = [];
+    for (var i in descList) {
+        var num = parseInt(i) + 1;
+        if (num > MAX_DESC_NUM) {
+            break;
+        }
+        descItems.push({
+            type: "bi.label",
+            text: num + "）" + descList[i],
+            whiteSpace: "pre-wrap",
+            textAlign: "left"
+        })
+    }
+
+    return BI.createWidget({
+        type: "bi.vertical",
+        cls: "desc",
+        items: descItems
+    });
+}
+
+function getTitleArea() {
+    return BI.createWidget({
         type: "bi.vertical",
         items: [
             {
@@ -15,31 +39,15 @@ window.addEventListener("load", function (ev) {
             {
                 type: "bi.label",
                 text: Pool.data.getVersion(),
+                cls: "version",
                 textAlign: "left"
             }
         ]
     });
+}
 
-    var desc = BI.createWidget({
-        type: "bi.vertical",
-        cls: "desc",
-        items: [
-            {
-                type: "bi.label",
-                text: Pool.data.getContent(),
-                textAlign: "left"
-            }
-        ]
-    });
-
-    var moreInfo = BI.createWidget({
-        type: "bi.text_button",
-        text: i18nText("Fine-Design_Basic_More_Information"),
-        cls: "moreInfo",
-        textAlign: "left"
-    });
-
-    var buttonGroup = BI.createWidget({
+function getButtonGroup() {
+    return BI.createWidget({
         type: 'bi.left',
         cls: "buttonGroup",
         items: [
@@ -47,8 +55,8 @@ window.addEventListener("load", function (ev) {
                 type: 'bi.button',
                 text: i18nText("Fine-Design_Update_Now"),
                 level: 'common',
-                height: 30,
-                handler: function() {
+                height: 24,
+                handler: function () {
                     Pool.data.updateNow();
                 }
             },
@@ -57,8 +65,8 @@ window.addEventListener("load", function (ev) {
                     type: 'bi.button',
                     text: i18nText("Fine-Design_Remind_Me_Next_Time"),
                     level: 'ignore',
-                    height: 30,
-                    handler: function() {
+                    height: 24,
+                    handler: function () {
                         Pool.data.remindNextTime();
                     }
                 },
@@ -69,8 +77,8 @@ window.addEventListener("load", function (ev) {
                     type: 'bi.button',
                     text: i18nText("Fine-Design_Skip_This_Version"),
                     level: 'ignore',
-                    height: 30,
-                    handler: function() {
+                    height: 24,
+                    handler: function () {
                         Pool.data.skipThisVersion();
                     }
                 },
@@ -78,17 +86,48 @@ window.addEventListener("load", function (ev) {
             }
         ]
     });
+}
+
+function getMoreInfo() {
+    return BI.createWidget({
+        type: "bi.text_button",
+        text: i18nText("Fine-Design_See_More_New_Features"),
+        cls: "moreInfo",
+        textAlign: "left",
+        handler: function () {
+            // 为了使用系统的浏览器，只能从 Java 那边打开网页
+            Pool.data.browseMoreInfoUrl();
+        }
+    });
+}
+
+function getShowItems() {
+    var title = getTitleArea();
+
+    var descList = Pool.data.getContent().split("\n");
+    var descArea = getDescArea(descList);
+
+    var moreInfo = getMoreInfo();
+
+    var buttonGroup = getButtonGroup();
+
+    var showItems = [title, descArea];
+    if (descList.length > MAX_DESC_NUM) {
+        showItems.push(moreInfo);
+    }
+    showItems.push(buttonGroup);
+
+    return showItems;
+}
+
+window.addEventListener("load", function (ev) {
+    var showItems = getShowItems();
 
     var container = BI.createWidget({
         type:"bi.vertical",
         element: "body",
         cls: "container",
-        items: [
-            title,
-            desc,
-            moreInfo,
-            buttonGroup
-        ]
+        items: showItems
     });
 
     container.element.css("background", "url(" + Pool.data.getBackgroundUrl() + ")");
