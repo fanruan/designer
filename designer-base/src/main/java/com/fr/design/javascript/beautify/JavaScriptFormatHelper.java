@@ -5,17 +5,11 @@ import com.eclipsesource.v8.V8;
 import com.eclipsesource.v8.V8Array;
 import com.eclipsesource.v8.V8Object;
 import com.eclipsesource.v8.utils.V8ObjectUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.general.IOUtils;
-import com.fr.script.ScriptFactory;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 
 public class JavaScriptFormatHelper {
