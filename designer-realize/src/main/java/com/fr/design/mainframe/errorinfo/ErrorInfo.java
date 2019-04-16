@@ -116,7 +116,7 @@ public class ErrorInfo {
         jo.put("uploadtime", uploadtime);
         jo.put("logid", logid);
         jo.put("log", log);
-        jo.put("stackTrace", stackTrace);
+        jo.put("stacktrace", stackTrace);
         saveFileToCache(jo);
     }
 
