@@ -151,6 +151,11 @@ class DesignerPushUpdateDialog extends UIDialog {
             exit();
         }
 
+        public void closeWindow() {
+            FocusPointManager.submit(FocusPointManager.OperateType.CLOSE_WINDOW);
+            exit();
+        }
+
         public String i18nText(String key) {
             return com.fr.design.i18n.Toolkit.i18nText(key);
         }
@@ -167,7 +172,7 @@ class DesignerPushUpdateDialog extends UIDialog {
         private static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Push_Update_Focus_Point");
 
         private enum OperateType {
-            UPDATE(1), REMIND_NEXT_TIME(2), SKIP(3);
+            CLOSE_WINDOW(0), UPDATE(1), REMIND_NEXT_TIME(2), SKIP(3);
             private int index;
             OperateType(int index) {
                 this.index = index;
