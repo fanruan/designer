@@ -2,6 +2,26 @@ body {
     padding-left: 30px;
     padding-top: 30px;
     color: white;
+    background-size: 100% 100% !important;
+    -moz-background-size: 100% 100% !important;
+}
+
+.close-btn {
+    position: fixed !important;
+    font-size: 15px !important;
+    color: white !important;
+    top: 8px;
+    right: 10px;
+    width: 19px;
+}
+
+.close-btn .b-font {
+    height: 19px !important;
+    line-height: 19px !important;
+}
+
+.close-btn .b-font:before {
+    color: white !important;
 }
 
 .title {
@@ -53,8 +73,14 @@ body {
     border-radius: 12px;
 }
 
-.button-ignore  {
+.buttonGroup .button-ignore  {
     background-color: white !important;
     border: 1px solid white !important;
     color: #51A6FF;
 }
+
+.buttonGroup .button-common {
+    background-color: #51A6FF !important;
+    border: 1px solid #51A6FF !important;
+}
+

@@ -101,8 +101,23 @@ function getMoreInfo() {
     });
 }
 
+function getCloseButton() {
+    return BI.createWidget({
+        type: "bi.button",
+        text: "",
+        iconCls: "close-font",
+        cls: "close-btn",
+        clear: true,
+        handler: function () {
+            Pool.data.closeWindow();
+        }
+    });
+}
+
 function getShowItems() {
     var title = getTitleArea();
+
+    var closeButton = getCloseButton();
 
     var descList = Pool.data.getContent().split("\n");
     var descArea = getDescArea(descList);
@@ -111,7 +126,7 @@ function getShowItems() {
 
     var buttonGroup = getButtonGroup();
 
-    var showItems = [title, descArea];
+    var showItems = [title, closeButton, descArea];
     if (descList.length > MAX_DESC_NUM) {
         showItems.push(moreInfo);
     }
