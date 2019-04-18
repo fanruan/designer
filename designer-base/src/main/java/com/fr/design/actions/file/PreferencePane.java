@@ -2,6 +2,7 @@ package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -24,7 +25,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
@@ -133,6 +133,7 @@ public class PreferencePane extends BasicPane {
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
+    private UICheckBox useOptimizedUPMCheckbox;
     private UICheckBox joinProductImprove;
 
     public PreferencePane() {
@@ -177,6 +178,11 @@ public class PreferencePane extends BasicPane {
         openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
         debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
         advancePane.add(debuggerPane);
+
+        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+        upmSelectorPane.add(useOptimizedUPMCheckbox);
+        advancePane.add(upmSelectorPane);
 
 
         JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
@@ -560,6 +566,8 @@ public class PreferencePane extends BasicPane {
 
         openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
 
+        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
@@ -639,6 +647,17 @@ public class PreferencePane extends BasicPane {
             @Override
             public Class<? extends Configuration>[] targets() {
                 return new Class[]{Log4jConfig.class};
+            }
+        });
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[] {ServerPreferenceConfig.class};
             }
         });
 

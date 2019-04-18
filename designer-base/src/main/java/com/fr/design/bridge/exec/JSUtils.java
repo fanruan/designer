@@ -1,46 +1,20 @@
-package com.fr.design.extra.exe.callback;
+package com.fr.design.bridge.exec;
 
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-import javafx.application.Platform;
-import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by ibm on 2017/5/27.
+ * @author richie
+ * @version 10.0
+ * Created by richie on 2019-04-18
  */
-public class JSCallback {
-
-    private JSExecutor executeScript;
-
-    public JSCallback(final WebEngine webEngine, final JSObject callback) {
-        init(webEngine, callback);
-    }
-
-    public void init(final WebEngine webEngine, final JSObject callback){
-        executeScript = new JSExecutor() {
-            @Override
-            public void executor(final String newValue) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        String fun = "(" + callback + ")(\"" + trimText(newValue) + "\")";
-                        try {
-                            webEngine.executeScript(fun);
-                        } catch (Exception e) {
-                            webEngine.executeScript("alert(\"" + e.getMessage() + "\")");
-                        }
-                    }
-                });
-            }
-        };
-    }
-
-    public void execute(String newValue) {
-        executeScript.executor(newValue);
-    }
+public class JSUtils {
 
 
     /**
@@ -60,7 +34,7 @@ public class JSCallback {
      * @param old 原始字符串
      * @return 处理之后的字符串
      */
-    private String trimText(String old) {
+    public static String trimText(String old) {
         if (StringUtils.isNotBlank(old)) {
             String b = filterHtmlTag(old);
             return b.replaceAll("\\\\n", StringUtils.EMPTY).replaceAll("\\\\t", StringUtils.EMPTY).replaceAll("\"", "\\\\\"").replaceAll("\'", "\\\\\'").replaceAll("\\\\\\\\", "\\\\\\\\\\\\");
@@ -73,7 +47,7 @@ public class JSCallback {
      * @param origin 原始字符串
      * @return 处理之后的字符串
      */
-    private String filterHtmlTag(String origin) {
+    public static String filterHtmlTag(String origin) {
         String regHtml = "<[^>]+>";
         Pattern patternHtml = Pattern.compile(regHtml, Pattern.CASE_INSENSITIVE);
         Matcher matchHtml = patternHtml.matcher(origin);
@@ -81,5 +55,15 @@ public class JSCallback {
         return origin;
     }
 
+    public String[] jsObjectToStringArray(JSObject obj) {
+        if (obj == null) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+        int len = (int) obj.getMember("length");
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < len; i++) {
+            list.add(obj.getSlot(i).toString());
+        }
+        return list.toArray(new String[len]);
+    }
 }
-

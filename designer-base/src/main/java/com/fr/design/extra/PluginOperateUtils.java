@@ -3,7 +3,7 @@ package com.fr.design.extra;
 import com.fr.config.MarketConfig;
 import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
 import com.fr.design.extra.exe.callback.InstallOnlineCallback;
-import com.fr.design.extra.exe.callback.JSCallback;
+import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.extra.exe.callback.ModifyStatusCallback;
 import com.fr.design.extra.exe.callback.UninstallPluginCallback;
 import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;

@@ -2,7 +2,6 @@ package com.fr.design.upm;
 
 import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
-import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
 import com.fr.design.bridge.exec.JSBridge;
 import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.extra.PluginOperateUtils;
@@ -13,7 +12,6 @@ import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
-import com.fr.design.i18n.Toolkit;
 import com.fr.design.upm.event.CertificateEvent;
 import com.fr.design.upm.event.DownloadEvent;
 import com.fr.design.upm.exec.UpmBrowserExecutor;
@@ -61,18 +59,8 @@ public class UpmBridge {
     }
 
     public void startDownload() {
-        try {
-            UpmResourceLoader.INSTANCE.download();
-            UpmResourceLoader.INSTANCE.install();
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        // do something.....
         EventDispatcher.fire(DownloadEvent.FINISH, "start");
-    }
-
-    @JSBridge
-    public String i18nText(String key) {
-        return Toolkit.i18nText(key);
     }
 
     @JSBridge

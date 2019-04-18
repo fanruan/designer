@@ -1,26 +1,38 @@
 package com.fr.design.upm;
 
 import com.fr.base.FRContext;
+import com.fr.base.TemplateUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
+import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author richie
  * @version 10.0
  * Created by richie on 2019-04-12
  */
-public class UPM {
+public class UpmFinder {
 
-    private static final String MAIN_RESOURCE_PATH = "/upm/plugin.html";
+    private static final String UPM_DIR = "/upm";
+    private static final String MAIN_RESOURCE_PATH = UPM_DIR + "/plugin_design.html";
 
     public static String installHome = FRContext.getCommonOperator().getWebRootPath();
 
@@ -45,10 +57,14 @@ public class UPM {
         return "file:///" + StableUtils.pathJoin(installHome, MAIN_RESOURCE_PATH);
     }
 
+    public static UIDialog getDialog() {
+        return dialog;
+    }
+
     public static void showUPMDialog() {
-        UPMPane upmPane = new UPMPane();
+        UpmPane upmPane = new UpmPane();
         if (dialog == null) {
-            dialog = new UPMDialog(DesignerContext.getDesignerFrame(), upmPane);
+            dialog = new UpmDialog(DesignerContext.getDesignerFrame(), upmPane);
         }
         dialog.setVisible(true);
     }
