@@ -22,11 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,14 +37,12 @@ import java.util.Map;
  * 做模板的过程和耗时收集，辅助类
  * Created by plough on 2017/2/21.
  */
-public class TemplateInfoCollector implements Serializable, XMLReadable, XMLWriter {
+public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     private static final String XML_TAG = "TplInfo";
     private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
 
-    static final long serialVersionUID = 2007L;
     private static final String XML_FILE_NAME = "tpl.info";
-    private static final String OBJECT_FILE_NAME = "tplInfo.ser";
 
     private static final int ONE_THOUSAND = 1000;
 
@@ -56,46 +53,35 @@ public class TemplateInfoCollector implements Serializable, XMLReadable, XMLWrit
 
     @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
-        templateInfoMap = new HashMap<>();
         setDesignerOpenDate();
+
+        loadTemplateInfoMap();
     }
 
-    /**
-     * 获取缓存文件存放路径
-     */
-    private static File getInfoFile(String fileName) {
-        return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), fileName));
+    private void loadTemplateInfoMap() {
+        templateInfoMap = new HashMap<>();
+        try {
+            XMLableReader xmlReader = XMLableReader.createXMLableReader(new FileReader(getInfoFile()));
+            xmlReader.readXMLObject(this);
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 获取缓存文件存放路径
      */
     private static File getInfoFile() {
-        return getInfoFile(XML_FILE_NAME);
+        return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), XML_FILE_NAME));
     }
 
     public static TemplateInfoCollector getInstance() {
         if (instance == null) {
             instance = new TemplateInfoCollector();
-
-            File xmlFile = getInfoFile();
-            File objFile = getInfoFile(OBJECT_FILE_NAME);
-            if (xmlFile.exists()) {
-                readXMLFile(instance, xmlFile);
-            } else if (objFile.exists()) {
-                readFromObjectFile(objFile);
-            }
         }
         return instance;
-    }
-
-    private static void readFromObjectFile(File objFile) {
-        try {
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream(objFile));
-            instance = (TemplateInfoCollector) is.readObject();
-        } catch (Exception ex) {
-            // 什么也不做，instance 使用新值
-        }
     }
 
     /**
@@ -105,13 +91,10 @@ public class TemplateInfoCollector implements Serializable, XMLReadable, XMLWrit
         return StringUtils.isNotEmpty(templateID) && templateInfoMap.containsKey(templateID);
     }
 
-
-
     /**
      * 收集模板信息。如果之前没有记录，则新增；如果已有记录，则更新。
      * 同时将最新数据保存到文件中。
      */
-    @SuppressWarnings("unchecked")
     public void collectInfo(String templateID, TemplateProcessInfo processInfo, long openTime, long saveTime) {
         if (!shouldCollectInfo()) {
             return;
@@ -158,28 +141,6 @@ public class TemplateInfoCollector implements Serializable, XMLReadable, XMLWrit
         }
 
         saveInfo();
-    }
-
-    private static void readXMLFile(XMLReadable xmlReadable, File xmlFile) {
-        String charset = EncodeConstants.ENCODING_UTF_8;
-        try {
-            String fileContent = getFileContent(xmlFile);
-            InputStream xmlInputStream = new ByteArrayInputStream(fileContent.getBytes(charset));
-            InputStreamReader inputStreamReader = new InputStreamReader(xmlInputStream, charset);
-            XMLableReader xmlReader = XMLableReader.createXMLableReader(inputStreamReader);
-
-            if (xmlReader != null) {
-                xmlReader.readXMLObject(xmlReadable);
-            }
-            xmlInputStream.close();
-        } catch (FileNotFoundException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        } catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        } catch (XMLStreamException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-
     }
 
     private static String getFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException {
