@@ -44,9 +44,9 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
 
-
     private int idleDayCount;  // 到现在为止，模版闲置（上次保存后没有再编辑过）的天数
     private String templateID;
+    // todo: processMap 和 consumingMap 还可以再拆解为小类，以后继续重构
     private HashMap<String, Object> processMap = new HashMap<>();
     private HashMap<String, Object> consumingMap = new HashMap<>();
 
@@ -220,8 +220,8 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         this.processMap = processMap;
     }
 
-    void setIdleDayCount(int idleDayCount) {
-        this.idleDayCount = idleDayCount;
+    void resetIdleDayCount() {
+        this.idleDayCount = 0;
     }
 
     void addIdleDayCountByOne() {

@@ -72,7 +72,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         // 收集模版基本信息
         templateInfo.updateProcessMap(processInfo);
         // 刷新闲置日计数器
-        templateInfo.setIdleDayCount(0);
+        templateInfo.resetIdleDayCount();
 
         // 每次更新之后，都同步到暂存文件中
         saveInfo();
@@ -82,7 +82,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
      * 发送本地模板信息到服务器，并清空已发送模版的本地记录
      */
     public void sendTemplateInfo() {
-        addDayCount();
+        addIdleDayCount();
 
         removeTestTemplates();
 
@@ -140,7 +140,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     }
 
     /**
-     * 判断今天是否第一次打开设计器，为了防止同一天内，多次 addDayCount
+     * 判断今天是否第一次打开设计器，为了防止同一天内，多次 addIdleDayCount
      */
     private boolean designerOpenFirstTime() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
@@ -170,7 +170,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     /**
      * 更新 day_count：打开设计器却未编辑模板的连续日子
      */
-    private void addDayCount() {
+    private void addIdleDayCount() {
         if (designerOpenFirstTime()) {
             for (TemplateInfo templateInfo : templateInfoMap.values()) {
                 templateInfo.addIdleDayCountByOne();
@@ -179,8 +179,8 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         }
     }
 
+    // 删除所有已完成的测试模版
     private void removeTestTemplates() {
-        // 删除所有已完成的测试模版
         ArrayList<String> testTemplateKeys = new ArrayList<>();  // 保存测试模板的key
         for (String key : templateInfoMap.keySet()) {
             if (templateInfoMap.get(key).isTestTemplate()) {
