@@ -22,6 +22,6 @@ public class UpmDesignResourceLoader extends BaseResourceLoader {
 
     @Override
     public String getDownloadPath() throws Exception {
-        return "http://fanruan-market.oss-cn-shanghai.aliyuncs.com/upm/upm-10.0.zip";
+        return "http://fanruan-market.oss-cn-shanghai.aliyuncs.com/upm/1.0/upm-10.0.zip";
     }
 }
