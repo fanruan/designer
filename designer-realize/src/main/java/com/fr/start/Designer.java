@@ -28,7 +28,7 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
