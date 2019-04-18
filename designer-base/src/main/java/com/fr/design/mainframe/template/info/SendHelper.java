@@ -3,9 +3,10 @@ package com.fr.design.mainframe.template.info;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -32,21 +33,12 @@ class SendHelper {
         HashMap<String, String> para = new HashMap<>();
         para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
-        HttpClient httpClient = new HttpClient(url, para, true);
-        httpClient.setTimeout(5000);
-        httpClient.asGet();
 
-        if (!httpClient.isServerAlive()) {
-            return false;
-        }
-
-        String res = httpClient.getResponseText();
-        boolean success;
         try {
-            success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
-        } catch (Exception ex) {
-            success = false;
+            String res = HttpToolbox.get(url, para);
+            return ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+        } catch (IOException ignore) {
         }
-        return success;
+        return false;
     }
 }
