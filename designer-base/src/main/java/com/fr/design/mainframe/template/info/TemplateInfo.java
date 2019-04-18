@@ -53,13 +53,13 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     private TemplateInfo() {
     }
 
-    static TemplateInfo newInstance(XMLableReader reader) {
+    static TemplateInfo newInstanceByRead(XMLableReader reader) {
         TemplateInfo templateInfo = new TemplateInfo();
         reader.readXMLObject(templateInfo);
         return templateInfo;
     }
 
-    static TemplateInfo newInstance(String templateID, long timeConsume) {
+    static TemplateInfo newInstance(String templateID) {
         HashMap<String, Object> consumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
@@ -73,7 +73,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         consumingMap.put(ATTR_ACTIVITYKEY, activitykey);
         consumingMap.put(ATTR_TEMPLATE_ID, templateID);
         consumingMap.put(ATTR_CREATE_TIME, createTime);
-        consumingMap.put(ATTR_TIME_CONSUME, timeConsume);
+        consumingMap.put(ATTR_TIME_CONSUME, 0);
         consumingMap.put(ATTR_JAR_TIME, jarTime);
         consumingMap.put(ATTR_VERSION, version);
 

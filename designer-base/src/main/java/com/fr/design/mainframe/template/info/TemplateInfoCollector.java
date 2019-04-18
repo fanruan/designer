@@ -3,9 +3,7 @@ package com.fr.design.mainframe.template.info;
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -17,16 +15,10 @@ import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
 import com.fr.workspace.WorkContext;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,40 +33,13 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     private static final String XML_TAG = "TplInfo";
     private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
-
     private static final String XML_FILE_NAME = "tpl.info";
-
-    private static final int ONE_THOUSAND = 1000;
-
     private static TemplateInfoCollector instance;
     private Map<String, TemplateInfo> templateInfoMap;
     private String designerOpenDate;  //设计器最近一次打开日期
 
-
-    @SuppressWarnings("unchecked")
     private TemplateInfoCollector() {
-        setDesignerOpenDate();
-
-        loadTemplateInfoMap();
-    }
-
-    private void loadTemplateInfoMap() {
-        templateInfoMap = new HashMap<>();
-        try {
-            XMLableReader xmlReader = XMLableReader.createXMLableReader(new FileReader(getInfoFile()));
-            xmlReader.readXMLObject(this);
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 获取缓存文件存放路径
-     */
-    private static File getInfoFile() {
-        return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), XML_FILE_NAME));
+        init();
     }
 
     public static TemplateInfoCollector getInstance() {
@@ -94,32 +59,23 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     /**
      * 收集模板信息。如果之前没有记录，则新增；如果已有记录，则更新。
      * 同时将最新数据保存到文件中。
+     * @param timeConsume 本次制作耗时，单位为 s
      */
-    public void collectInfo(String templateID, TemplateProcessInfo processInfo, long openTime, long saveTime) {
+    public void collectInfo(String templateID, TemplateProcessInfo processInfo, long timeConsume) {
         if (!shouldCollectInfo()) {
             return;
         }
 
-        long timeConsume = ((saveTime - openTime) / ONE_THOUSAND);  // 制作模板耗时（单位：s）
-
-
-        TemplateInfo templateInfo;
-
-        if (templateInfoMap.containsKey(templateID)) { // 已有记录
-            templateInfo = templateInfoMap.get(templateID);
-            templateInfo.addTimeConsume(timeConsume);
-        } else {  // 新增
-            templateInfo = TemplateInfo.newInstance(templateID, timeConsume);
-        }
-
+        TemplateInfo templateInfo = getOrCreateTemplateInfoByID(templateID);
+        // 收集制作耗时
+        templateInfo.addTimeConsume(timeConsume);
+        // 收集模版基本信息
         templateInfo.updateProcessMap(processInfo);
-
-        // 保存模板时，让 day_count 归零
+        // 刷新闲置日计数器
         templateInfo.setIdleDayCount(0);
 
-        templateInfoMap.put(templateID, templateInfo);
-
-        saveInfo();  // 每次更新之后，都同步到暂存文件中
+        // 每次更新之后，都同步到暂存文件中
+        saveInfo();
     }
 
     /**
@@ -143,9 +99,37 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         saveInfo();
     }
 
-    private static String getFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException {
-        InputStream is = new FileInputStream(xmlFile);
-        return IOUtils.inputStream2String(is);
+    /**
+     * 获取缓存文件存放路径
+     */
+    private static File getInfoFile() {
+        return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), XML_FILE_NAME));
+    }
+
+    private void init() {
+        templateInfoMap = new HashMap<>();
+        setDesignerOpenDate();
+
+        if (!getInfoFile().exists()) {
+            return;
+        }
+        try {
+            XMLableReader xmlReader = XMLableReader.createXMLableReader(new FileReader(getInfoFile()));
+            xmlReader.readXMLObject(this);
+        } catch (XMLStreamException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } catch (FileNotFoundException e) {
+            // do nothing
+        }
+    }
+
+    private TemplateInfo getOrCreateTemplateInfoByID(String templateID) {
+        if (templateInfoMap.containsKey(templateID)) {
+            return templateInfoMap.get(templateID);
+        }
+        TemplateInfo templateInfo = TemplateInfo.newInstance(templateID);
+        templateInfoMap.put(templateID, templateInfo);
+        return templateInfo;
     }
 
     /**
@@ -156,7 +140,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     }
 
     /**
-     * 判断今天是否第一次打开设计器
+     * 判断今天是否第一次打开设计器，为了防止同一天内，多次 addDayCount
      */
     private boolean designerOpenFirstTime() {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
@@ -195,7 +179,6 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         }
     }
 
-
     private void removeTestTemplates() {
         // 删除所有已完成的测试模版
         ArrayList<String> testTemplateKeys = new ArrayList<>();  // 保存测试模板的key
@@ -221,24 +204,14 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
                 String name = reader.getTagName();
                 if (XML_DESIGNER_OPEN_DATE.equals(name)) {
                     this.designerOpenDate = reader.getElementValue();
-                } else if (XML_TEMPLATE_INFO_LIST.equals(name)) {
-                    readTemplateInfoList(reader);
+                } else if (TemplateInfo.XML_TAG.equals(name)) {
+                    TemplateInfo templateInfo = TemplateInfo.newInstanceByRead(reader);
+                    templateInfoMap.put(templateInfo.getTemplateID(), templateInfo);
                 }
             } catch (Exception ex) {
                 // 什么也不做，使用默认值
             }
         }
-    }
-
-    private void readTemplateInfoList(XMLableReader reader) {
-        reader.readXMLObject(new XMLReadable() {
-            public void readXML(XMLableReader reader) {
-                if (TemplateInfo.XML_TAG.equals(reader.getTagName())) {
-                    TemplateInfo templateInfo = TemplateInfo.newInstance(reader);
-                    templateInfoMap.put(templateInfo.getTemplateID(), templateInfo);
-                }
-            }
-        });
     }
 
     @Override
