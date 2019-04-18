@@ -1,25 +1,16 @@
 package com.fr.design.upm;
 
-import com.fr.base.TemplateUtils;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.ui.ModernUIPane;
 import com.fr.design.upm.event.DownloadEvent;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
-import com.fr.general.GeneralContext;
-import com.fr.general.IOUtils;
-import com.fr.stable.StringUtils;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author richie
