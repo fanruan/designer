@@ -168,7 +168,6 @@ class DesignerPushUpdateDialog extends UIDialog {
     private static class FocusPointManager {
 
         private static final String ID = "com.fr.update.push";
-        private static final int SOURCE = Original.EMBED.toInt();
         private static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Push_Update_Focus_Point");
 
         private enum OperateType {
@@ -183,7 +182,7 @@ class DesignerPushUpdateDialog extends UIDialog {
         }
 
         private static void submit(OperateType opType) {
-            FocusPoint focusPoint = FocusPoint.create(ID, opType.toText(), SOURCE);
+            FocusPoint focusPoint = FocusPoint.create(ID, opType.toText(), Original.EMBED);
             focusPoint.setTitle(TITLE);
             MetricRegistry.getMetric().submit(focusPoint);
         }
