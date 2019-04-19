@@ -50,7 +50,7 @@ public class UpmPane extends BasicPane {
                             window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
                         }
                     }).build();
-            EventDispatcher.listen(DownloadEvent.FINISH, new Listener<String>() {
+            EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
                 @Override
                 public void on(Event event, String param) {
                     modernUIPane.redirect(UpmFinder.getMainResourcePath());

@@ -48,15 +48,15 @@ import java.util.concurrent.RunnableFuture;
  * Created by richie on 2019-04-12
  * 桥接Java和JavaScript的类
  */
-public class UpmJSBridge {
+public class UpmBridge {
 
-    public static UpmJSBridge getBridge(Browser browser) {
-        return new UpmJSBridge(browser);
+    public static UpmBridge getBridge(Browser browser) {
+        return new UpmBridge(browser);
     }
 
     private JSObject window;
 
-    private UpmJSBridge(Browser browser) {
+    private UpmBridge(Browser browser) {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 

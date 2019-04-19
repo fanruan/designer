@@ -51,7 +51,7 @@ public class UpmFinder {
     }
 
     public static void showUPMDialog() {
-        UpmModernPane upmPane = new UpmModernPane();
+        UpmPane upmPane = new UpmPane();
         if (dialog == null) {
             dialog = new UpmDialog(DesignerContext.getDesignerFrame(), upmPane);
         }
