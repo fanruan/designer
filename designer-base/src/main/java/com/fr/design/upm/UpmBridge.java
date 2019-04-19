@@ -18,6 +18,7 @@ import com.fr.design.upm.event.CertificateEvent;
 import com.fr.design.upm.event.DownloadEvent;
 import com.fr.design.upm.exec.UpmBrowserExecutor;
 import com.fr.design.upm.task.UpmTaskWorker;
+import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralUtils;
@@ -60,14 +61,30 @@ public class UpmBridge {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
-    public void startDownload() {
-        try {
-            UpmResourceLoader.INSTANCE.download();
-            UpmResourceLoader.INSTANCE.install();
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-        EventDispatcher.fire(DownloadEvent.FINISH, "start");
+    public void startDownload(final JSFunction callback) {
+
+        new SwingWorker<Void, Void>(){
+            @Override
+            protected Void doInBackground() throws Exception {
+                callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
+                UpmResourceLoader.INSTANCE.download();
+                UpmResourceLoader.INSTANCE.install();
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+                    EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
+                } catch (Exception e) {
+                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    EventDispatcher.fire(DownloadEvent.ERROR, "error");
+                }
+            }
+        }.execute();
     }
 
     @JSBridge
