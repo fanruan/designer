@@ -14,6 +14,7 @@ import com.fr.stable.xml.XMLableReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 对应一张模版的记录
@@ -26,6 +27,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     private static final String XML_CONSUMING_MAP = "consumingMap";
     private static final String ATTR_DAY_COUNT = "day_count";
     private static final String ATTR_TEMPLATE_ID = "templateID";
+    private static final String ATTR_ORIGIN_ID = "originID";
     private static final String ATTR_PROCESS = "process";
     private static final String ATTR_FLOAT_COUNT = "float_count";
     private static final String ATTR_WIDGET_COUNT = "widget_count";
@@ -37,6 +39,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     private static final String ATTR_CREATE_TIME = "create_time";
     private static final String ATTR_UUID = "uuid";
     private static final String ATTR_TIME_CONSUME = "time_consume";
+    private static final String ATTR_ORIGIN_TIME = "originTime";
     private static final String ATTR_VERSION = "version";
     private static final String ATTR_USERNAME = "username";
 
@@ -45,12 +48,18 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
 
     private int idleDayCount;  // 到现在为止，模版闲置（上次保存后没有再编辑过）的天数
-    private String templateID;
+    private String templateID = StringUtils.EMPTY;
+    private String originID = StringUtils.EMPTY;
     // todo: processMap 和 consumingMap 还可以再拆解为小类，以后继续重构
-    private HashMap<String, Object> processMap = new HashMap<>();
-    private HashMap<String, Object> consumingMap = new HashMap<>();
+    private Map<String, Object> processMap = new HashMap<>();
+    private Map<String, Object> consumingMap = new HashMap<>();
 
     private TemplateInfo() {
+    }
+
+    private TemplateInfo(String templateID, String originID) {
+        this.templateID = templateID;
+        this.originID = originID;
     }
 
     static TemplateInfo newInstanceByRead(XMLableReader reader) {
@@ -60,6 +69,10 @@ class TemplateInfo implements XMLReadable, XMLWriter {
     }
 
     static TemplateInfo newInstance(String templateID) {
+        return newInstance(templateID, StringUtils.EMPTY, 0);
+    }
+
+    static TemplateInfo newInstance(String templateID, String originID, int originTime) {
         HashMap<String, Object> consumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
@@ -72,12 +85,14 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         consumingMap.put(ATTR_UUID, uuid);
         consumingMap.put(ATTR_ACTIVITYKEY, activitykey);
         consumingMap.put(ATTR_TEMPLATE_ID, templateID);
+        consumingMap.put(ATTR_ORIGIN_ID, originID);
         consumingMap.put(ATTR_CREATE_TIME, createTime);
-        consumingMap.put(ATTR_TIME_CONSUME, 0);
+        consumingMap.put(ATTR_TIME_CONSUME, originTime);  // timeConsume 在原来模版的基础上累加
+        consumingMap.put(ATTR_ORIGIN_TIME, originTime);
         consumingMap.put(ATTR_JAR_TIME, jarTime);
         consumingMap.put(ATTR_VERSION, version);
 
-        TemplateInfo templateInfo = new TemplateInfo();
+        TemplateInfo templateInfo = new TemplateInfo(templateID, originID);
         templateInfo.consumingMap = consumingMap;
 
         return templateInfo;
@@ -87,18 +102,17 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         return templateID;
     }
 
-    HashMap<String, Object> getTemplateInfo() {
-        HashMap<String, Object> templateInfo = new HashMap<>();
-        templateInfo.put(XML_PROCESS_MAP, processMap);
-        templateInfo.put(XML_CONSUMING_MAP, consumingMap);
-        templateInfo.put(ATTR_DAY_COUNT, idleDayCount);
-        return templateInfo;
+    int getTimeConsume() {
+        return (int)consumingMap.get(ATTR_TIME_CONSUME);
     }
 
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG(XML_TAG);
         if (StringUtils.isNotEmpty(templateID)) {
             writer.attr(ATTR_TEMPLATE_ID, this.templateID);
+        }
+        if (StringUtils.isNotEmpty(originID)) {
+            writer.attr(ATTR_ORIGIN_ID, this.originID);
         }
         if (idleDayCount >= 0) {
             writer.attr(ATTR_DAY_COUNT, this.idleDayCount);
@@ -126,7 +140,8 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         writer.attr(ATTR_JAR_TIME, (String) consumingMap.get(ATTR_JAR_TIME));
         writer.attr(ATTR_CREATE_TIME, (String) consumingMap.get(ATTR_CREATE_TIME));
         writer.attr(ATTR_UUID, (String) consumingMap.get(ATTR_UUID));
-        writer.attr(ATTR_TIME_CONSUME, (long) consumingMap.get(ATTR_TIME_CONSUME));
+        writer.attr(ATTR_TIME_CONSUME, (int)consumingMap.get(ATTR_TIME_CONSUME));
+        writer.attr(ATTR_ORIGIN_TIME, (int)consumingMap.get(ATTR_ORIGIN_TIME));
         writer.attr(ATTR_VERSION, (String) consumingMap.get(ATTR_VERSION));
         writer.attr(ATTR_USERNAME, (String) consumingMap.get(ATTR_USERNAME));
         writer.end();
@@ -136,6 +151,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         if (!reader.isChildNode()) {
             idleDayCount = reader.getAttrAsInt(ATTR_DAY_COUNT, 0);
             templateID = reader.getAttrAsString(ATTR_TEMPLATE_ID, StringUtils.EMPTY);
+            originID = reader.getAttrAsString(ATTR_ORIGIN_ID, StringUtils.EMPTY);
         } else {
             try {
                 String name = reader.getTagName();
@@ -152,8 +168,10 @@ class TemplateInfo implements XMLReadable, XMLWriter {
                     consumingMap.put(ATTR_JAR_TIME, reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
                     consumingMap.put(ATTR_CREATE_TIME, reader.getAttrAsString(ATTR_CREATE_TIME, StringUtils.EMPTY));
                     consumingMap.put(ATTR_TEMPLATE_ID, templateID);
+                    consumingMap.put(ATTR_ORIGIN_ID, originID);
                     consumingMap.put(ATTR_UUID, reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
-                    consumingMap.put(ATTR_TIME_CONSUME, reader.getAttrAsLong(ATTR_TIME_CONSUME, 0));
+                    consumingMap.put(ATTR_TIME_CONSUME, reader.getAttrAsInt(ATTR_TIME_CONSUME, 0));
+                    consumingMap.put(ATTR_ORIGIN_TIME, reader.getAttrAsInt(ATTR_ORIGIN_TIME, 0));
                     consumingMap.put(ATTR_VERSION, reader.getAttrAsString(ATTR_VERSION, "8.0"));
                     consumingMap.put(ATTR_USERNAME, reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
                 }
@@ -173,7 +191,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         int floatCount = (int) processMap.get(ATTR_FLOAT_COUNT);
         int blockCount = (int) processMap.get(ATTR_BLOCK_COUNT);
         int widgetCount = (int) processMap.get(ATTR_WIDGET_COUNT);
-        boolean isTestTemplate = false;
+        boolean isTestTemplate;
         if (reportType == 0) {  // 普通报表
             isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
         } else if (reportType == 1) {  // 聚合报表
@@ -200,8 +218,8 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         return isComplete() && !isTestTemplate();
     }
 
-    void addTimeConsume(long timeConsume) {
-        timeConsume += (long) consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间
+    void addTimeConsume(int timeConsume) {
+        timeConsume += (int)consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间
         consumingMap.put(ATTR_TIME_CONSUME, timeConsume);
     }
 
