@@ -1,11 +1,11 @@
 window.onload = function () {
     let button = BI.createWidget({
         type : "bi.button",
-        text : "点击我跳转到插件商店",
+        text : PluginHelper.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Resource_Warn"),
         level: 'common',
         height: 30,
         handler : function () {
-            PluginBridgeTest.startDownload();
+            PluginHelper.startDownload();
         }
     });
     BI.createWidget({
