@@ -2,6 +2,7 @@ package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
@@ -123,7 +124,14 @@ public class PreStartActivator extends Activator {
         service.shutdown();
     }
 
-    private static SplashStrategy createSplash() {
+    private SplashStrategy createSplash() {
+        OemProcessor oemProcessor = getSingleton(OemProcessor.class);
+        if (oemProcessor != null) {
+            SplashStrategy splashStrategy = oemProcessor.createSplashStrategy();
+            if (splashStrategy != null) {
+                return splashStrategy;
+            }
+        }
         // 这里可以开接口加载自定义启动画面
         if (OperatingSystem.isWindows()) {
             return new SplashFx();

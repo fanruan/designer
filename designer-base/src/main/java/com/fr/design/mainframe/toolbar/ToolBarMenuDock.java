@@ -38,6 +38,7 @@ import com.fr.design.actions.server.PlatformManagerAction;
 import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -64,6 +65,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -200,6 +202,11 @@ public abstract class ToolBarMenuDock {
         };
 
         this.menus = menus(plus);
+        OemProcessor oemProcessor = OemHandler.findOem();
+        if (oemProcessor != null) {
+            this.menus = oemProcessor.dealWithMenuDef(this.menus);
+        }
+
         for (int i = 0; i < menus.length; i++) {
             menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
