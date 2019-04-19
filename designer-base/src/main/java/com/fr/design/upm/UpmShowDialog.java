@@ -13,11 +13,11 @@ import java.awt.*;
  * @version 10.0
  * Created by richie on 2019-04-12
  */
-public class UpmDialog extends UIDialog {
+public class UpmShowDialog extends UIDialog {
 
     private static final Dimension DEFAULT_SHOP = new Dimension(900, 700);
 
-    public UpmDialog(Frame frame, BasicPane pane) {
+    public UpmShowDialog(Frame frame, BasicPane pane) {
         super(frame);
         setUndecorated(true);
         JPanel panel = (JPanel) getContentPane();

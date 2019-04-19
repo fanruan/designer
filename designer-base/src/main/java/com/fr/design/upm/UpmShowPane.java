@@ -18,7 +18,7 @@ import java.awt.*;
  * Created by richie on 2019-04-12
  * Update Plugin Manager容器
  */
-public class UpmPane extends BasicPane {
+public class UpmShowPane extends BasicPane {
 
     private ModernUIPane<Object> modernUIPane;
 
@@ -27,7 +27,7 @@ public class UpmPane extends BasicPane {
         return "UPM";
     }
 
-    public UpmPane() {
+    public UpmShowPane() {
         setLayout(new BorderLayout());
         if (UpmFinder.checkUPMResourcesExist()) {
             modernUIPane = new ModernUIPane.Builder<>()
