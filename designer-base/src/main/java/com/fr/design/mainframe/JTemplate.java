@@ -145,13 +145,17 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo() {  // 执行收集操作
+        collectInfo(StringUtils.EMPTY);
+    }
+
+    private void collectInfo(String originID) {  // 执行收集操作
         if (openTime == 0) {  // 旧模板，不收集数据
             return;
         }
         long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         try {
             long timeConsume = ((saveTime - openTime) / ONE_THOUSAND);  // 制作模板耗时（单位：s）
-            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), getProcessInfo(), timeConsume);
+            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), (int)timeConsume);
         } catch (Throwable th) {  // 不管收集过程中出现任何异常，都不应该影响模版保存
         }
         openTime = saveTime;  // 更新 openTime，准备下一次计算
@@ -605,15 +609,20 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
     }
 
+    // 保存新模板时会进入此方法（新建模板直接保存，或者另存为）
     protected boolean saveNewFile(FILE editingFILE, String oldName) {
+        String originID = StringUtils.EMPTY;
+        if (StringUtils.isNotEmpty(this.template.getTemplateID())) {
+            originID = this.template.getTemplateID();
+        }
         // 在保存之前，初始化 templateID
-        initForCollect();  // 如果保存新模板（新建模板直接保存，或者另存为），则添加 templateID
+        initForCollect();
 
         this.editingFILE = editingFILE;
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
-            collectInfo();
+            collectInfo(originID);
         }
         //更换最近打开
         DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());

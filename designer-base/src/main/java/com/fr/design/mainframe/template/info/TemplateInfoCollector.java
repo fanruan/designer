@@ -59,14 +59,28 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     /**
      * 收集模板信息。如果之前没有记录，则新增；如果已有记录，则更新。
      * 同时将最新数据保存到文件中。
+     * @param templateID 模版id
+     * @param originID 模版的原始id，仅对另存为的模版有效，对于非另存为的模版，值总是为空
+     * @param processInfo 包含模版的一些基本信息（如模版类型、包含控件数量等）
      * @param timeConsume 本次制作耗时，单位为 s
      */
-    public void collectInfo(String templateID, TemplateProcessInfo processInfo, long timeConsume) {
+    public void collectInfo(String templateID, String originID, TemplateProcessInfo processInfo, int timeConsume) {
         if (!shouldCollectInfo()) {
             return;
         }
 
-        TemplateInfo templateInfo = getOrCreateTemplateInfoByID(templateID);
+        TemplateInfo templateInfo;
+        if (this.contains(templateID)) {
+            templateInfo = templateInfoMap.get(templateID);
+        } else if (!this.contains(originID)) {
+            templateInfo = TemplateInfo.newInstance(templateID);
+            templateInfoMap.put(templateID, templateInfo);
+        } else {
+            int originTime = templateInfoMap.get(originID).getTimeConsume();
+            templateInfo = TemplateInfo.newInstance(templateID, originID, originTime);
+            templateInfoMap.put(templateID, templateInfo);
+        }
+
         // 收集制作耗时
         templateInfo.addTimeConsume(timeConsume);
         // 收集模版基本信息
@@ -110,6 +124,10 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         templateInfoMap = new HashMap<>();
         setDesignerOpenDate();
 
+        loadFromFile();
+    }
+
+    void loadFromFile() {
         if (!getInfoFile().exists()) {
             return;
         }
@@ -123,7 +141,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         }
     }
 
-    private TemplateInfo getOrCreateTemplateInfoByID(String templateID) {
+    TemplateInfo getOrCreateTemplateInfoByID(String templateID) {
         if (templateInfoMap.containsKey(templateID)) {
             return templateInfoMap.get(templateID);
         }
