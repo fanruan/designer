@@ -48,26 +48,42 @@ import java.util.concurrent.RunnableFuture;
  * Created by richie on 2019-04-12
  * 桥接Java和JavaScript的类
  */
-public class UpmBridge {
+public class UpmJSBridge {
 
-    public static UpmBridge getBridge(Browser browser) {
-        return new UpmBridge(browser);
+    public static UpmJSBridge getBridge(Browser browser) {
+        return new UpmJSBridge(browser);
     }
 
     private JSObject window;
 
-    private UpmBridge(Browser browser) {
+    private UpmJSBridge(Browser browser) {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
-    public void startDownload() {
-        try {
-            UpmResourceLoader.INSTANCE.download();
-            UpmResourceLoader.INSTANCE.install();
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-        EventDispatcher.fire(DownloadEvent.FINISH, "start");
+    public void startDownload(final JSFunction callback) {
+
+        new SwingWorker<Void, Void>(){
+            @Override
+            protected Void doInBackground() throws Exception {
+                callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
+                UpmResourceLoader.INSTANCE.download();
+                UpmResourceLoader.INSTANCE.install();
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+                    EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
+                } catch (Exception e) {
+                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    EventDispatcher.fire(DownloadEvent.ERROR, "error");
+                }
+            }
+        }.execute();
     }
 
     @JSBridge
