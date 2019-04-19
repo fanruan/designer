@@ -8,7 +8,7 @@ import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.messagecollect.impl.FocusPointMessageUploader;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;

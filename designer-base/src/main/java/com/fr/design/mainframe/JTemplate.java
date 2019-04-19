@@ -34,8 +34,8 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
-import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
+import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
@@ -78,6 +78,7 @@ import java.util.regex.Pattern;
 public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> extends TargetComponent<T> implements ToolBarMenuDockPlus, DesignerProxy {
     // TODO ALEX_SEP editingFILE这个属性一定要吗?如果非要不可,有没有可能保证不为null
     private static final int PREFIX_NUM = 3000;
+    private static final int ONE_THOUSAND = 1000;
     private FILE editingFILE = null;
     // alex:初始状态为saved,这样不管是新建模板,还是打开模板,如果未做任何操作直接关闭,不提示保存
     private boolean saved = true;
@@ -92,8 +93,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
     private long openTime = 0L; // 打开模板的时间点（包括新建模板）
-    private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
-    private StringBuilder process = new StringBuilder("");  // 制作模板的过程
     public int resolution = ScreenResolution.getScreenResolution();
 
     public JTemplate() {
@@ -125,11 +124,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.undoState = createUndoState();
         designModel = createDesignModel();
         // 如果不是新建模板，并且在收集列表中
-        if (!isNewFile && tic.inList(t)) {
+        if (!isNewFile && TemplateInfoCollector.getInstance().contains(t.getTemplateID())) {
             openTime = System.currentTimeMillis();
-            process.append(tic.loadProcess(t));
         }
-
     }
 
     // 刷新右侧属性面板
@@ -153,23 +150,14 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
         long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         try {
-            tic.collectInfo(template, this, openTime, saveTime);
+            long timeConsume = ((saveTime - openTime) / ONE_THOUSAND);  // 制作模板耗时（单位：s）
+            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), getProcessInfo(), timeConsume);
         } catch (Throwable th) {  // 不管收集过程中出现任何异常，都不应该影响模版保存
         }
         openTime = saveTime;  // 更新 openTime，准备下一次计算
     }
 
     public abstract TemplateProcessInfo<T> getProcessInfo();
-
-    // 追加过程记录
-    public void appendProcess(String s) {
-        process.append(s);
-    }
-
-    // 获取过程记录
-    public String getProcess() {
-        return process.toString();
-    }
 
     public U getUndoState() {
         return undoState;
