@@ -18,7 +18,7 @@ import java.awt.*;
  * Created by richie on 2019-04-12
  * Update Plugin Manager容器
  */
-public class UpmPane extends BasicPane {
+public class UpmModernPane extends BasicPane {
 
     private ModernUIPane<Object> modernUIPane;
 
@@ -27,7 +27,7 @@ public class UpmPane extends BasicPane {
         return "UPM";
     }
 
-    public UpmPane() {
+    public UpmModernPane() {
         setLayout(new BorderLayout());
         if (UpmFinder.checkUPMResourcesExist()) {
             modernUIPane = new ModernUIPane.Builder<>()
@@ -35,7 +35,7 @@ public class UpmPane extends BasicPane {
                         @Override
                         public void onScriptContextCreated(ScriptContextEvent event) {
                             JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
+                            window.asObject().setProperty("PluginHelper", UpmJSBridge.getBridge(event.getBrowser()));
                         }
                     })
                     .withURL(UpmFinder.getMainResourcePath())
@@ -47,7 +47,7 @@ public class UpmPane extends BasicPane {
                         @Override
                         public void onScriptContextCreated(ScriptContextEvent event) {
                             JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
+                            window.asObject().setProperty("PluginHelper", UpmJSBridge.getBridge(event.getBrowser()));
                         }
                     }).build();
             EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
