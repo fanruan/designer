@@ -1,10 +1,14 @@
-package com.fr.design.mainframe.templateinfo;
+package com.fr.design.mainframe.template.info;
 
 import com.fr.base.io.BaseBook;
 
 /**
  * Created by plough on 2017/3/17.
  */
+// todo: 重构
+// 1. 命名不好，表意不清晰。
+// 2. 逻辑混乱，到底是一个 Info 类，还是一个 InfoCollector 类？
+// 3. 耦合太强，用组合替代继承
 public abstract class TemplateProcessInfo<T extends BaseBook> {
 
     protected T template;

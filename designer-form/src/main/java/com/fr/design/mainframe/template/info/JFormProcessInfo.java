@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.templateinfo;
+package com.fr.design.mainframe.template.info;
 
 import com.fr.form.main.Form;
 import com.fr.form.ui.container.WLayout;

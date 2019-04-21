@@ -1,4 +1,4 @@
-package com.fr.design.mainframe.templateinfo;
+package com.fr.design.mainframe.template.info;
 
 import com.fr.base.parameter.ParameterUI;
 import com.fr.main.impl.WorkBook;
