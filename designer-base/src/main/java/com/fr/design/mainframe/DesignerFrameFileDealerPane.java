@@ -26,6 +26,8 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.toolbar.VcsConfig;
+import com.fr.design.mainframe.vcs.ui.FileVersionsPanel;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
@@ -43,9 +45,13 @@ import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.CoreConstants;
+import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
+import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.common.Constants;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -110,6 +116,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private RenameAction renameAction = new RenameAction();
 
     private DelFileAction delFileAction = new DelFileAction();
+
+    private VcsAction vcsAction = new VcsAction();
 
 
     /**
@@ -191,7 +199,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         if (WorkContext.getCurrent().isLocal()) {
             toolbarDef.addShortCut(showInExplorerAction);
         }
-        toolbarDef.addShortCut(renameAction, delFileAction);
+        toolbarDef.addShortCut(renameAction, delFileAction, vcsAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
@@ -209,6 +217,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         showInExplorerAction.setEnabled(false);
         renameAction.setEnabled(false);
         delFileAction.setEnabled(false);
+        vcsAction.setEnabled(false);
         this.repaint();
     }
 
@@ -271,6 +280,63 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             stateChange();
         }
 
+    }
+
+    /**
+     * 版本管理
+     */
+    private class VcsAction extends UpdateAction {
+        public VcsAction() {
+            this.setName(Toolkit.i18nText("Plugin-VCS_Title"));
+            this.setSmallIcon(Constants.VCS_LIST_PNG);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+            path = StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, path);
+
+            boolean isCurrentEditing = isCurrentEditing(path);
+
+            // 如果模板正在编辑，保存后再打开版本管理
+            if (isCurrentEditing) {
+                saveCurrentEditingTemplate();
+            }
+
+            // 如果模板已经打开了，关掉，避免出现2个同名tab（1个是模板，1个是版本）
+            closeOpendTemplate(path, isCurrentEditing);
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
+            FileVersionsPanel fileVersionTablePanel = context.getBean(FileVersionsPanel.class);
+            fileVersionTablePanel.showFileVersionsPane();
+        }
+
+        private void closeOpendTemplate(String path, boolean isCurrentEditing) {
+            for (JTemplate<?, ?> jTemplate : HistoryTemplateListCache.getInstance().getHistoryList()) {
+                if (ComparatorUtils.equals(jTemplate.getEditingFILE().getPath(), path)) {
+                    if (isCurrentEditing) {
+                        MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);
+                    }
+                    MutilTempalteTabPane.getInstance().closeFormat(jTemplate);
+                    MutilTempalteTabPane.getInstance().closeSpecifiedTemplate(jTemplate);
+                    return;
+                }
+            }
+        }
+
+
+    }
+
+    private void saveCurrentEditingTemplate() {
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        jt.stopEditing();
+        jt.saveTemplate();
+        jt.requestFocus();
+    }
+
+    private boolean isCurrentEditing(String path) {
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        String editing = jt.getEditingFILE().getPath();
+        return ComparatorUtils.equals(editing, path);
     }
 
     /**
@@ -386,11 +452,11 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         newFolderAction.setEnabled(singleSelected);
         renameAction.setEnabled(singleSelected);
         showInExplorerAction.setEnabled(singleSelected);
+        vcsAction.setEnabled(singleSelected);
 
         // 删除操作在至少选中一个时可用
         boolean selected = selectedPathNum > 0;
         delFileAction.setEnabled(selected);
-
         // 刷新操作始终可用
         refreshTreeAction.setEnabled(true);
 

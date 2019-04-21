@@ -1,0 +1,148 @@
+package com.fr.design.mainframe.vcs.ui;
+
+import com.fr.design.gui.frpane.UITextPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
+import com.fr.design.mainframe.toolbar.VcsConfig;
+import com.fr.log.FineLoggerFactory;
+import com.fr.report.entity.VcsEntity;
+import com.fr.stable.StringUtils;
+import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.fr.workspace.server.vcs.VcsOperator;
+import com.fr.workspace.server.vcs.common.Constants;
+
+import javax.swing.Box;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+public class FileVersionRowPanel extends JPanel {
+
+    private final VcsOperator<VcsEntity> vcs;
+    private VcsEntity fileVersion;
+    private UILabel versionLabel = new UILabel();
+    private UILabel usernameLabel = new UILabel("", Constants.VCS_USER_PNG, SwingConstants.LEFT);
+    private UITextPane timeAndMsgLabel = new UITextPane();
+    private UILabel timeLabel = new UILabel();
+
+
+    @SuppressWarnings("unchecked")
+    public FileVersionRowPanel(final VcsOperator vcsOperator) {
+        this.vcs = vcsOperator;
+        setLayout(new BorderLayout());
+
+        // version + username
+        Box upPane = Box.createHorizontalBox();
+        upPane.setBorder(Constants.EMPTY_BORDER);
+        upPane.add(versionLabel);
+        upPane.add(Box.createHorizontalGlue());
+
+
+        // msg
+        timeAndMsgLabel.setBorder(Constants.EMPTY_BORDER);
+        timeAndMsgLabel.setOpaque(false);
+        timeAndMsgLabel.setBackground(new Color(0, 0, 0, 0));
+        timeAndMsgLabel.setEditable(false);
+
+        // confirm + delete
+        UIButton confirmBtn = new UIButton(Constants.VCS_REVERT);
+        confirmBtn.set4ToolbarButton();
+        confirmBtn.setToolTipText(Toolkit.i18nText("Plugin-VCS_Version_Revert"));
+        confirmBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Plugin-VCS_Version_Revert_Confirm"), Toolkit.i18nText("Plugin-VCS_Version_Revert_Title"),
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    try {
+                        vcs.rollbackTo(fileVersion);
+                    } catch (Exception e) {
+                        FineLoggerFactory.getLogger().error(e.getMessage());
+                    }
+                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
+                    context.getBean(FileVersionsPanel.class).exitVcs(fileVersion.getFilename());
+                }
+            }
+        });
+        UIButton deleteBtn = new UIButton(Constants.VCS_DELETE_PNG);
+        deleteBtn.set4ToolbarButton();
+        deleteBtn.setToolTipText(Toolkit.i18nText("Plugin-VCS_Version_Delete"));
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Plugin-VCS_Version_Delete_Confirm"), Toolkit.i18nText("FR-Designer_Remove"),
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    //TODO refactor
+                    try {
+                        vcs.deleteVersion(fileVersion.getFilename(), fileVersion.getVersion());
+                    } catch (Exception e) {
+                        FineLoggerFactory.getLogger().error(e.getMessage());
+                    }
+                    FileVersionTablePanel table = (FileVersionTablePanel) (FileVersionRowPanel.this.getParent());
+                    table.updateModel(table.getSelectedRow() - 1);
+                }
+            }
+        });
+        UIButton editBtn = new UIButton(Constants.VCS_EDIT_PNG);
+        editBtn.set4ToolbarButton();
+        editBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEditDialog();
+
+            }
+        });
+        upPane.add(editBtn);
+        upPane.add(confirmBtn);
+        upPane.add(deleteBtn);
+        Box downPane = Box.createHorizontalBox();
+        downPane.add(usernameLabel);
+        downPane.setBorder(Constants.EMPTY_BORDER_BOTTOM);
+        downPane.add(Box.createHorizontalGlue());
+        downPane.add(timeLabel);
+        add(upPane, BorderLayout.NORTH);
+        add(timeAndMsgLabel, BorderLayout.CENTER);
+        add(downPane, BorderLayout.SOUTH);
+    }
+
+    private void showEditDialog() {
+
+    }
+
+
+    public void update(final VcsEntity fileVersion) {
+        this.fileVersion = fileVersion;
+        versionLabel.setText(String.format("V.%s", fileVersion.getVersion()));
+        usernameLabel.setText(fileVersion.getUsername());
+        timeAndMsgLabel.setText(StringUtils.EMPTY);
+        timeLabel.setText(timeStr(fileVersion.getTime()));
+        try {
+            StyledDocument doc = timeAndMsgLabel.getStyledDocument();
+            Style style = timeAndMsgLabel.getLogicalStyle();
+            StyleConstants.setForeground(style, Color.BLACK);
+            doc.insertString(doc.getLength(), " " + fileVersion.getCommitMsg(), style);
+        } catch (BadLocationException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
+        }
+    }
+
+    private String timeStr(Date time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(time);
+    }
+
+    public VcsEntity getFileVersion() {
+        return fileVersion;
+    }
+}

@@ -12,6 +12,7 @@ import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.fun.MenuHandler;
@@ -30,6 +31,9 @@ import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.toolbar.VcsConfig;
+import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFileProxy;
+import com.fr.design.mainframe.vcs.ui.FileVersionTablePanel;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -49,13 +53,17 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.LifecycleFatalError;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
+import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
+import com.fr.workspace.server.vcs.common.Constants;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -107,7 +115,6 @@ public class Designer extends BaseDesigner {
             System.exit(0);
             return;
         }
-
         RestartHelper.deleteRecordFilesWhenStart();
 
         preloadResource();
@@ -259,7 +266,7 @@ public class Designer extends BaseDesigner {
      */
     @Override
     public UIButton[] createUp() {
-        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
+        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton(), };
     }
 
 
@@ -274,9 +281,50 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
+                String fileName = getEditingFilename();
+                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
+                VcsOperator vcsOperator = context.getBean(VcsOperator.class);
+                int latestFileVersion = 0;
+                try {
+                    latestFileVersion = vcsOperator.getLatestFileVersion(fileName);
+
+                } catch (Exception e1) {
+                    FineLoggerFactory.getLogger().error(e1.getMessage());
+                }
+
+                try {
+                    if (jt.getEditingFILE() instanceof VcsCacheFileNodeFileProxy) {
+                        vcsOperator.saveVersionFromCache(Constants.CURRENT_USERSNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                        context.getBean(FileVersionTablePanel.class).updateModel(1);
+                    } else {
+                        vcsOperator.saveVersion(Constants.CURRENT_USERSNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                    }
+                } catch (Exception e1) {
+                    FineLoggerFactory.getLogger().error(e1.getMessage());
+                }
+
+
+
+
             }
         });
         return saveButton;
+    }
+
+    public static String getEditingFilename() {
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        String editingFilePath = jt.getEditingFILE().getPath();
+        //TODO    如果是cache里的文件，也会走到这里，这里是找到reportlets去掉的。万一刚好cache/reportlets会出问题
+        if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
+            editingFilePath = editingFilePath.replaceFirst(ProjectConstants.REPORTLETS_NAME, StringUtils.EMPTY);
+        } else if (editingFilePath.startsWith(Constants.VCS_CACHE_DIR)) {
+            editingFilePath = editingFilePath.replaceFirst(Constants.VCS_CACHE_DIR, StringUtils.EMPTY);
+        }
+        //TODO refactor 考虑直接用reportlets/xxx/x/x/x/x/x//  or /xx/x/x/x/x/x
+        if (editingFilePath.startsWith("/")) {
+            editingFilePath = editingFilePath.substring(1);
+        }
+        return editingFilePath;
     }
 
     private UIButton createUndoButton() {
