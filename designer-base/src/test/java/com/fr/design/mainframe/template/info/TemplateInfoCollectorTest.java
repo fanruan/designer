@@ -152,7 +152,7 @@ public class TemplateInfoCollectorTest {
     }
 
     @Test
-    public void addIdleDateCount() {
+    public void testAddIdleDateCount() {
         String templateID = "16a988ce-8529-42f5-b17c-2ee849355071";
         TemplateInfoCollector collecter = TemplateInfoCollector.getInstance();
         TemplateInfo templateInfo = collecter.getOrCreateTemplateInfoByID(templateID);
