@@ -44,9 +44,6 @@ public class TimeConsumeTimer {
         startMS = 0;
         stopMS = 0;
         state = State.STOPPED;
-
-
-        System.out.println("timeConsume now: " + timeConsume);
     }
 
     public int popTime() {
