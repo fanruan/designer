@@ -36,6 +36,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
+import com.fr.design.mainframe.template.info.TimeConsumeTimer;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
@@ -78,7 +79,6 @@ import java.util.regex.Pattern;
 public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> extends TargetComponent<T> implements ToolBarMenuDockPlus, DesignerProxy {
     // TODO ALEX_SEP editingFILE这个属性一定要吗?如果非要不可,有没有可能保证不为null
     private static final int PREFIX_NUM = 3000;
-    private static final int ONE_THOUSAND = 1000;
     private FILE editingFILE = null;
     // alex:初始状态为saved,这样不管是新建模板,还是打开模板,如果未做任何操作直接关闭,不提示保存
     private boolean saved = true;
@@ -92,7 +92,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
-    private long openTime = 0L; // 打开模板的时间点（包括新建模板）
+    private TimeConsumeTimer consumeTimer = new TimeConsumeTimer();
     public int resolution = ScreenResolution.getScreenResolution();
 
     public JTemplate() {
@@ -100,7 +100,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
-        openTime = System.currentTimeMillis();
     }
 
     public JTemplate(T t, FILE file) {
@@ -123,10 +122,24 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.add(createCenterPane(), BorderLayout.CENTER);
         this.undoState = createUndoState();
         designModel = createDesignModel();
-        // 如果不是新建模板，并且在收集列表中
-        if (!isNewFile && TemplateInfoCollector.getInstance().contains(t.getTemplateID())) {
-            openTime = System.currentTimeMillis();
+
+        consumeTimer.setEnabled(shouldInitForCollectInfo(isNewFile));
+    }
+
+    void onGetFocus() {
+        consumeTimer.start();
+    }
+
+    void onLostFocus() {
+        consumeTimer.stop();
+    }
+
+    private boolean shouldInitForCollectInfo(boolean isNewFile) {
+        if (isNewFile) {
+            return true;
         }
+        // 不是新建模板，但是已经在收集列表中
+        return TemplateInfoCollector.getInstance().contains(template.getTemplateID());
     }
 
     // 刷新右侧属性面板
@@ -139,9 +152,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     // 为收集模版信息作准备
     private void initForCollect() {
         generateTemplateId();
-        if (openTime == 0) {
-            openTime = System.currentTimeMillis();
-        }
+        consumeTimer.setEnabled(true);
+        consumeTimer.start();
     }
 
     private void collectInfo() {  // 执行收集操作
@@ -149,16 +161,15 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo(String originID) {  // 执行收集操作
-        if (openTime == 0) {  // 旧模板，不收集数据
+        if (!consumeTimer.isEnabled()) {
             return;
         }
-        long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         try {
-            long timeConsume = ((saveTime - openTime) / ONE_THOUSAND);  // 制作模板耗时（单位：s）
-            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), (int)timeConsume);
+            int timeConsume = consumeTimer.popTime();
+            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), timeConsume);
         } catch (Throwable th) {  // 不管收集过程中出现任何异常，都不应该影响模版保存
         }
-        openTime = saveTime;  // 更新 openTime，准备下一次计算
+        consumeTimer.start();  // 准备下一次计算
     }
 
     public abstract TemplateProcessInfo<T> getProcessInfo();
