@@ -40,13 +40,13 @@ public class VcsHelper {
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
 
 
-    public final static Icon VCS_LIST_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_list.png");
-    public final static Icon VCS_BACK_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_back.png");
-    public final static Icon VCS_FILTER_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_filter@1x.png");
-    public final static Icon VCS_EDIT_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_edit.png");
-    public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_delete.png");
-    public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_user@1x.png");
-    public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_revert.png");
+    public final static Icon VCS_LIST_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_list.png");
+    public final static Icon VCS_BACK_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_back.png");
+    public final static Icon VCS_FILTER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_filter@1x.png");
+    public final static Icon VCS_EDIT_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_edit.png");
+    public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_delete.png");
+    public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
+    public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
 
     private static int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
