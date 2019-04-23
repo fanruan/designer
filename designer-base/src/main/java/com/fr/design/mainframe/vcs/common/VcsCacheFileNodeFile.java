@@ -1,7 +1,6 @@
-package com.fr.design.mainframe.vcs.proxy;
+package com.fr.design.mainframe.vcs.common;
 
 import com.fr.base.io.XMLEncryptUtils;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -30,7 +29,7 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
      * @throws Exception
      */
     @Override
-    public InputStream asInputStream() throws Exception {
+    public InputStream asInputStream() {
         if (node == null) {
             return null;
         }
@@ -56,13 +55,13 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
      * @throws Exception
      */
     @Override
-    public OutputStream asOutputStream() throws Exception {
+    public OutputStream asOutputStream() {
         if (ComparatorUtils.equals(node, null)) {
             return null;
         }
 
         String envPath = node.getEnvPath();
-        // envPath必须以reportlets开头
+        // envPath必须以reportLets开头
         if (!envPath.startsWith(VcsHelper.VCS_CACHE_DIR)) {
             return null;
         }

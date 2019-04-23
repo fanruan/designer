@@ -1,11 +1,13 @@
 package com.fr.design.mainframe.vcs.common;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
@@ -13,14 +15,19 @@ import com.fr.workspace.WorkContext;
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.util.Date;
 
 import static com.fr.stable.StableUtils.pathJoin;
 
-
+/**
+ * Created by XiaXiang on 2019/4/17.
+ */
 public class VcsHelper {
 
-    public final static String VCS_DIR = "vcs";
+    private final static String VCS_DIR = "vcs";
     public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
+    private static final int MINUTE = 60 * 1000;
+
 
     public final static String CURRENT_USERNAME = WorkContext.getCurrent().isLocal()
             ? Toolkit.i18nText("Fine-Design_Vcs_Local_User")
@@ -51,7 +58,7 @@ public class VcsHelper {
         if (fileTree.getSelectionPaths().length == 0) {
             return 0;
         }
-        //所有的num减去模板的num，得到文件夹的num
+        //所有的num减去模板的count，得到文件夹的count
         return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
     }
 
@@ -80,6 +87,13 @@ public class VcsHelper {
             editingFilePath = editingFilePath.substring(1);
         }
         return editingFilePath;
+    }
+
+    public static boolean needSaveVersion(VcsEntity entity) {
+        if (entity == null) {
+            return true;
+        }
+        return new Date().getTime() - entity.getTime().getTime() > DesignerEnvManager.getEnvManager().getSaveInterval() * MINUTE || StringUtils.isNotBlank(entity.getCommitMsg());
     }
 
 
