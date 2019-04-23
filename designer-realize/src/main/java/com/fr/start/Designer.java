@@ -46,6 +46,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.report.entity.VcsEntity;
 import com.fr.runtime.FineRuntime;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
@@ -293,7 +294,8 @@ public class Designer extends BaseDesigner {
      */
     private void dealWithVcs(JTemplate jt) {
         String fileName = VcsHelper.getEditingFilename();
-        int latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
+        VcsEntity entity = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
+        int latestFileVersion = entity == null ? 0 : entity.getVersion();
         if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
             WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
             String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
