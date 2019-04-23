@@ -72,7 +72,7 @@ public class VcsHelper {
     }
 
     public static boolean isUnSelectedTemplate() {
-        return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() > 1;
+        return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() != 1;
     }
 
     public static String getEditingFilename() {
