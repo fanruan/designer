@@ -5,13 +5,14 @@ import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFileProxy;
+import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFile;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.workspace.server.vcs.common.Constants;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JPanel;
@@ -21,16 +22,15 @@ import java.awt.Component;
 
 
 public class FileVersionCellEditor extends AbstractCellEditor implements TableCellEditor {
-    private final VcsOperator vcs;
+    private static final long serialVersionUID = -7299526575184810693L;
     //第一行
     private final JPanel firstRowPanel;
     //其余行
     private final FileVersionRowPanel renderAndEditor;
 
-    public FileVersionCellEditor(FileVersionFirstRowPanel firstRowPanel, FileVersionRowPanel renderAndEditor, VcsOperator vcs) {
-        this.vcs = vcs;
-        this.firstRowPanel = firstRowPanel;
-        this.renderAndEditor = renderAndEditor;
+    public FileVersionCellEditor() {
+        this.firstRowPanel = new FileVersionFirstRowPanel();
+        this.renderAndEditor = new FileVersionRowPanel();
     }
 
     @Override
@@ -40,17 +40,16 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
         if (isSelected) {
             return editor;
         } else if (row == 0) {
-            //TODO path "/"
             String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
             try {
-                fileOfVersion = vcs.getFileOfCurrent(path.replaceFirst("/", ""));
+                fileOfVersion = WorkContext.getCurrent().get(VcsOperator.class).getFileOfCurrent(path.replaceFirst("/", ""));
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
             }
         } else {
             renderAndEditor.update((VcsEntity) value);
             try {
-                fileOfVersion = vcs.getFileOfFileVersion(((VcsEntity) value).getFilename(), ((VcsEntity) value).getVersion());
+                fileOfVersion = WorkContext.getCurrent().get(VcsOperator.class).getFileOfFileVersion(((VcsEntity) value).getFilename(), ((VcsEntity) value).getVersion());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
             }
@@ -65,7 +64,7 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
             MutilTempalteTabPane.getInstance().closeFormat(jt);
             MutilTempalteTabPane.getInstance().closeSpecifiedTemplate(jt);
             //再打开cache中的模板
-            DesignerContext.getDesignerFrame().openTemplate(new VcsCacheFileNodeFileProxy(new FileNode(fileOfVersion, false)));
+            DesignerContext.getDesignerFrame().openTemplate(new VcsCacheFileNodeFile(new FileNode(fileOfVersion, false)));
 
         }
 
@@ -78,6 +77,6 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
 
     @Override
     public Object getCellEditorValue() {
-        return renderAndEditor.getFileVersion();
+        return renderAndEditor.getVcsEntity();
     }
 }

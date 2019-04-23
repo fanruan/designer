@@ -4,13 +4,14 @@ import com.fr.design.gui.frpane.UITextPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
-import com.fr.design.mainframe.toolbar.VcsConfig;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
+import com.fr.design.mainframe.vcs.common.Constants;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
-import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.workspace.server.vcs.common.Constants;
+import com.fr.workspace.server.vcs.git.FineGit;
 
 import javax.swing.Box;
 import javax.swing.JOptionPane;
@@ -30,17 +31,15 @@ import java.util.Date;
 
 public class FileVersionRowPanel extends JPanel {
 
-    private final VcsOperator<VcsEntity> vcs;
-    private VcsEntity fileVersion;
+    private VcsEntity vcsEntity;
     private UILabel versionLabel = new UILabel();
     private UILabel usernameLabel = new UILabel("", Constants.VCS_USER_PNG, SwingConstants.LEFT);
     private UITextPane timeAndMsgLabel = new UITextPane();
     private UILabel timeLabel = new UILabel();
+    private EditFileVersionDialog editDialog;
 
 
-    @SuppressWarnings("unchecked")
-    public FileVersionRowPanel(final VcsOperator vcsOperator) {
-        this.vcs = vcsOperator;
+    public FileVersionRowPanel() {
         setLayout(new BorderLayout());
 
         // version + username
@@ -59,38 +58,41 @@ public class FileVersionRowPanel extends JPanel {
         // confirm + delete
         UIButton confirmBtn = new UIButton(Constants.VCS_REVERT);
         confirmBtn.set4ToolbarButton();
-        confirmBtn.setToolTipText(Toolkit.i18nText("Plugin-VCS_Version_Revert"));
+        confirmBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Revert"));
         confirmBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Plugin-VCS_Version_Revert_Confirm"), Toolkit.i18nText("Plugin-VCS_Version_Revert_Title"),
+                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Title"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     try {
-                        vcs.rollbackTo(fileVersion);
+                        WorkContext.getCurrent().get(VcsOperator.class).rollbackTo(vcsEntity);
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage());
                     }
-                    AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
-                    context.getBean(FileVersionsPanel.class).exitVcs(fileVersion.getFilename());
+                    FileVersionsPanel.getInstance().exitVcs(vcsEntity.getFilename());
                 }
             }
         });
         UIButton deleteBtn = new UIButton(Constants.VCS_DELETE_PNG);
         deleteBtn.set4ToolbarButton();
-        deleteBtn.setToolTipText(Toolkit.i18nText("Plugin-VCS_Version_Delete"));
+        deleteBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Delete"));
         deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Plugin-VCS_Version_Delete_Confirm"), Toolkit.i18nText("FR-Designer_Remove"),
+                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Delete_Confirm"), Toolkit.i18nText("FR-Designer_Remove"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    //TODO refactor
                     try {
-                        vcs.deleteVersion(fileVersion.getFilename(), fileVersion.getVersion());
+                        WorkContext.getCurrent().get(VcsOperator.class).deleteVersion(vcsEntity.getFilename(), vcsEntity.getVersion());
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage());
                     }
-                    FileVersionTablePanel table = (FileVersionTablePanel) (FileVersionRowPanel.this.getParent());
-                    table.updateModel(table.getSelectedRow() - 1);
+                    FileVersionTable table = (FileVersionTable) (FileVersionRowPanel.this.getParent());
+                    String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                    try {
+                        table.updateModel(table.getSelectedRow() - 1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+                    } catch (Exception e) {
+                        FineLoggerFactory.getLogger().error(e.getMessage());
+                    }
                 }
             }
         });
@@ -117,12 +119,15 @@ public class FileVersionRowPanel extends JPanel {
     }
 
     private void showEditDialog() {
+        this.editDialog = new EditFileVersionDialog(vcsEntity);
 
+        editDialog.setVisible(true);
+        update(vcsEntity);
     }
 
 
     public void update(final VcsEntity fileVersion) {
-        this.fileVersion = fileVersion;
+        this.vcsEntity = fileVersion;
         versionLabel.setText(String.format("V.%s", fileVersion.getVersion()));
         usernameLabel.setText(fileVersion.getUsername());
         timeAndMsgLabel.setText(StringUtils.EMPTY);
@@ -142,7 +147,7 @@ public class FileVersionRowPanel extends JPanel {
         return simpleDateFormat.format(time);
     }
 
-    public VcsEntity getFileVersion() {
-        return fileVersion;
+    public VcsEntity getVcsEntity() {
+        return vcsEntity;
     }
 }

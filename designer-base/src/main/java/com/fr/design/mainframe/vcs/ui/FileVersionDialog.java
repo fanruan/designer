@@ -6,6 +6,8 @@ import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.report.ReportContext;
+import com.fr.report.entity.VcsEntity;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
@@ -17,14 +19,18 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 
-import static com.fr.workspace.server.vcs.common.Constants.EMPTY_BORDER;
-import static com.fr.workspace.server.vcs.common.Constants.EMPTY_BORDER_BOTTOM;
+import static com.fr.design.mainframe.vcs.common.Constants.EMPTY_BORDER;
+import static com.fr.design.mainframe.vcs.common.Constants.EMPTY_BORDER_BOTTOM;
 
 
 public class FileVersionDialog extends UIDialog {
     private UIButton okBtn = new UIButton("确定");
     private UIButton cancelBtn = new UIButton("取消");
+    private DateEditor dateEditor;
+    private UITextField textField;
+    public static final long DELAY = 24 * 60 * 60 * 1000;
 
 
     public FileVersionDialog(Frame frame) {
@@ -35,11 +41,13 @@ public class FileVersionDialog extends UIDialog {
         box0.setBorder(EMPTY_BORDER_BOTTOM);
         box0.add(new UILabel("生成日期"));
         box0.add(Box.createHorizontalGlue());
-        box0.add(new DateEditor(new Date(), true, "生成日期", UIDatePicker.STYLE_CN_DATE1));
+        dateEditor = new DateEditor(new Date(), true, "生成日期", UIDatePicker.STYLE_CN_DATE1);
+        box0.add(dateEditor);
         Box box1 = Box.createHorizontalBox();
         box1.setBorder(EMPTY_BORDER_BOTTOM);
         box1.add(new UILabel("备注关键词 "));
-        box1.add(new UITextField());
+        textField = new UITextField();
+        box1.add(textField);
         Box box2 = Box.createHorizontalBox();
         box2.add(Box.createHorizontalGlue());
         box2.setBorder(EMPTY_BORDER);
@@ -49,6 +57,10 @@ public class FileVersionDialog extends UIDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileVersionDialog.this.setVisible(false);
+                Date date = dateEditor.getValue();
+                List<VcsEntity> vcsEntities = ReportContext.getInstance().getVcsController().queryFilterFileVersions(date, new Date(date.getTime() + DELAY), textField.getText());
+                FileVersionTable.getInstance().updateModel(1, vcsEntities);
+
             }
         });
         cancelBtn.addActionListener(new AbstractAction() {

@@ -23,6 +23,7 @@ import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JWorkBook;
@@ -31,9 +32,8 @@ import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.mainframe.toolbar.VcsConfig;
-import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFileProxy;
-import com.fr.design.mainframe.vcs.ui.FileVersionTablePanel;
+import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFile;
+import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -60,10 +60,9 @@ import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
-import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.workspace.server.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.Constants;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -277,34 +276,31 @@ public class Designer extends BaseDesigner {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
                 String fileName = getEditingFilename();
-                AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
-                VcsOperator vcsOperator = context.getBean(VcsOperator.class);
                 int latestFileVersion = 0;
                 try {
-                    latestFileVersion = vcsOperator.getLatestFileVersion(fileName);
+                    latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
 
                 } catch (Exception e1) {
                     FineLoggerFactory.getLogger().error(e1.getMessage());
                 }
 
                 try {
-                    if (jt.getEditingFILE() instanceof VcsCacheFileNodeFileProxy) {
-                        vcsOperator.saveVersionFromCache(Constants.CURRENT_USERSNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                        context.getBean(FileVersionTablePanel.class).updateModel(1);
+                    if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
+                        WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(Constants.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                        String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                        FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+
                     } else {
-                        vcsOperator.saveVersion(Constants.CURRENT_USERSNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                        WorkContext.getCurrent().get(VcsOperator.class).saveVersion(Constants.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
                     }
                 } catch (Exception e1) {
                     FineLoggerFactory.getLogger().error(e1.getMessage());
                 }
-
-
-
 
             }
         });

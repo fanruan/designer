@@ -26,7 +26,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.toolbar.VcsConfig;
+import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.design.mainframe.vcs.ui.FileVersionsPanel;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
@@ -49,9 +49,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
-import com.fr.third.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.Constants;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -287,7 +286,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      */
     private class VcsAction extends UpdateAction {
         public VcsAction() {
-            this.setName(Toolkit.i18nText("Plugin-VCS_Title"));
+            this.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
             this.setSmallIcon(Constants.VCS_LIST_PNG);
         }
 
@@ -305,8 +304,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             // 如果模板已经打开了，关掉，避免出现2个同名tab（1个是模板，1个是版本）
             closeOpendTemplate(path, isCurrentEditing);
-            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(VcsConfig.class);
-            FileVersionsPanel fileVersionTablePanel = context.getBean(FileVersionsPanel.class);
+            FileVersionsPanel fileVersionTablePanel = FileVersionsPanel.getInstance();
             fileVersionTablePanel.showFileVersionsPane();
         }
 

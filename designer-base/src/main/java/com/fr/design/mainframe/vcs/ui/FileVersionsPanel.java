@@ -4,7 +4,6 @@ import com.fr.base.GraphHelper;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.file.HistoryTemplateListCache;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -15,12 +14,15 @@ import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.mainframe.WestRegionContainerPane;
+import com.fr.design.mainframe.vcs.common.Constants;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.server.vcs.common.Constants;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -33,17 +35,26 @@ import java.awt.event.ActionListener;
 
 public class FileVersionsPanel extends BasicPane {
     private static final String ELLIPSIS = "...";
+    private static volatile FileVersionsPanel instance;
 
-    private final FileVersionTablePanel fileVersionsTablePane;
     private UILabel titleLabel;
     private String templatePath;
     private UIButton filterBtn;
     private FileVersionDialog versionDialog;
 
 
-    public FileVersionsPanel(FileVersionTablePanel fileVersionTablePanel) {
-        this.fileVersionsTablePane = fileVersionTablePanel;
+    private FileVersionsPanel() {
         initComponents();
+    }
+
+    public static FileVersionsPanel getInstance() {
+        if (instance == null) {
+            synchronized (FileVersionsPanel.class) {
+                instance = new FileVersionsPanel();
+
+            }
+        }
+        return instance;
     }
 
     private void initComponents() {
@@ -83,7 +94,7 @@ public class FileVersionsPanel extends BasicPane {
         toolbar.add(upPane);
         add(toolbar, BorderLayout.NORTH);
 
-        UIScrollPane jScrollPane = new UIScrollPane(fileVersionsTablePane);
+        UIScrollPane jScrollPane = new UIScrollPane(FileVersionTable.getInstance());
         add(jScrollPane, BorderLayout.CENTER);
     }
 
@@ -106,7 +117,7 @@ public class FileVersionsPanel extends BasicPane {
         MutilTempalteTabPane.getInstance().closeFormat(jt);
         MutilTempalteTabPane.getInstance().closeSpecifiedTemplate(jt);
 
-        udpateDesignerFrame(true);
+        updateDesignerFrame(true);
 
         final String selectedFilePath = StableUtils.pathJoin(ProjectConstants.REPORTLETS_NAME, path);
         DesignerContext.getDesignerFrame().openTemplate(new FileNodeFILE(new FileNode(selectedFilePath, false)));
@@ -116,16 +127,21 @@ public class FileVersionsPanel extends BasicPane {
         templatePath = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
         String[] paths = StableUtils.pathSplit(templatePath);
         String filename = paths[paths.length - 1];
-        int width = fileVersionsTablePane.getWidth() - 40;
+        int width = FileVersionTable.getInstance().getWidth() - 40;
         if (getStringWidth(filename) > width) {
             filename = getEllipsisName(filename, width);
         }
         titleLabel.setText(filename);
-        fileVersionsTablePane.updateModel(1);
+        String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+        try {
+            FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
+        }
     }
 
     public void showFileVersionsPane() {
-        udpateDesignerFrame(false);
+        updateDesignerFrame(false);
         refreshVersionTablePane();
     }
 
@@ -135,7 +151,7 @@ public class FileVersionsPanel extends BasicPane {
     }
 
 
-    private void udpateDesignerFrame(boolean isExit) {
+    private void updateDesignerFrame(boolean isExit) {
         // 左上侧面板
         WestRegionContainerPane.getInstance().replaceUpPane(
                 isExit ? DesignerFrameFileDealerPane.getInstance() : this);
@@ -144,7 +160,7 @@ public class FileVersionsPanel extends BasicPane {
         // MutilTempalteTabPane & NewTemplatePane 是否可点
         ToolBarNewTemplatePane.getInstance().setButtonGray(!isExit);
 
-        JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (currentEditingTemplate.isJWorkBook()) {
             DesignerContext.getDesignerFrame().resetToolkitByPlus(currentEditingTemplate);
         }

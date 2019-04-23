@@ -1,5 +1,6 @@
 package com.fr.design.actions.file;
 
+import com.apple.laf.AquaProgressBarUI;
 import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
 import com.fr.design.DesignerEnvManager;
@@ -41,6 +42,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -135,6 +138,12 @@ public class PreferencePane extends BasicPane {
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
+    private UICheckBox vcsEnableCheckBox;
+    private UICheckBox saveCommitCheckBox;
+    private IntegerEditor saveIntervalEditor;
+
+
+
     public PreferencePane() {
         this.initComponents();
     }
@@ -155,6 +164,7 @@ public class PreferencePane extends BasicPane {
         createEditPane(generalPane);
         createGuiOfGridPane(generalPane);
         createColorSettingPane(generalPane);
+        createVcsSettingPane(generalPane);
 
         // ConfPane
         JPanel confLocationPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
@@ -191,6 +201,36 @@ public class PreferencePane extends BasicPane {
         spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
+    }
+
+    private void createVcsSettingPane(JPanel generalPane) {
+        JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("版本控制"));
+        generalPane.add(vcsPane);
+        vcsEnableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("保存自动生成版本"));
+        saveCommitCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("备注版本不会自动清理"));
+        saveIntervalEditor = new IntegerEditor(30);
+        JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
+        UILabel label1 = new UILabel(" 每 ");
+        UILabel label2 = new UILabel(" 分钟每个用户同个模板最多保留一个模板");
+        memorySpace.add(label1);
+        memorySpace.add(saveIntervalEditor);
+        memorySpace.add(label2);
+        vcsEnableCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                boolean selected = vcsEnableCheckBox.isSelected();
+                if (selected) {
+                    saveCommitCheckBox.setEnabled(true);
+                    saveIntervalEditor.setEnabled(true);
+                } else {
+                    saveCommitCheckBox.setEnabled(false);
+                    saveIntervalEditor.setEnabled(false);
+                }
+            }
+        });
+        vcsPane.add(vcsEnableCheckBox);
+        vcsPane.add(memorySpace);
+        vcsPane.add(saveCommitCheckBox);
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -542,6 +582,13 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setEnabled(false);
             defaultStringToFormulaBox.setSelected(false);
         }
+        vcsEnableCheckBox.setSelected(designerEnvManager.isVcsEnable());
+        if (!vcsEnableCheckBox.isSelected()) {
+            saveIntervalEditor.setEnabled(false);
+            saveCommitCheckBox.setEnabled(false);
+        }
+        saveIntervalEditor.setValue(designerEnvManager.getSaveInterval());
+        saveCommitCheckBox.setSelected(designerEnvManager.isSaveCommit());
 
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
@@ -631,6 +678,9 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImproveCheckBox.isSelected());
+        designerEnvManager.setSaveInterval(this.saveIntervalEditor.getValue());
+        designerEnvManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
+        designerEnvManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
         if (this.autoPushUpdateCheckBox != null) {
             designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
         }

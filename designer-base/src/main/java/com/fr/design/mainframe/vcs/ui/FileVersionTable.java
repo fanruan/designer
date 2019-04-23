@@ -3,52 +3,53 @@ package com.fr.design.mainframe.vcs.ui;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FileVersionTablePanel extends JTable {
+public class FileVersionTable extends JTable {
+    private static volatile FileVersionTable instance;
 
-    private final VcsOperator vcs;
+    private FileVersionTable() {
+        super(new CellModel(new ArrayList<VcsEntity>()));
 
-    public FileVersionTablePanel(VcsOperator vcs, TableCellEditor tableCellEditor, TableCellRenderer tableCellRenderer) {
-        super(new Model(new ArrayList<VcsEntity>()));
-        this.vcs = vcs;
-        setDefaultRenderer(VcsEntity.class, tableCellRenderer);
-        setDefaultEditor(VcsEntity.class, tableCellEditor);
+        setDefaultRenderer(VcsEntity.class, new FileVersionCellRender());
+        setDefaultEditor(VcsEntity.class, new FileVersionCellEditor());
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setTableHeader(null);
         setRowHeight(30);
     }
 
-    public void updateModel(int selectedRow) {
-        String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-        List<VcsEntity> vcsEntities = null;
-        try {
-            vcsEntities = vcs.getVersions(path.replaceFirst("/", ""));
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
+    public static FileVersionTable getInstance() {
+        if (instance == null) {
+            synchronized (FileVersionTable.class) {
+                instance = new FileVersionTable();
+            }
         }
-        if (selectedRow > vcsEntities.size()) {
-            selectedRow = vcsEntities.size();
+        return instance;
+    }
+
+    public void updateModel(int selectedRow, List<VcsEntity> entities) {
+        if (selectedRow > entities.size()) {
+            selectedRow = entities.size();
         }
-        setModel(new Model(vcsEntities));
+        setModel(new CellModel(entities));
         editCellAt(selectedRow, 0);
         setRowSelectionInterval(selectedRow, selectedRow);
     }
 
-    private static class Model extends AbstractTableModel {
+    private static class CellModel extends AbstractTableModel {
+        private static final long serialVersionUID = -6078568799037607690L;
         private List<VcsEntity> vcsEntities;
 
 
-        Model(List<VcsEntity> vcsEntities) {
+        CellModel(List<VcsEntity> vcsEntities) {
             this.vcsEntities = vcsEntities;
         }
 
@@ -73,11 +74,6 @@ public class FileVersionTablePanel extends JTable {
 
         public boolean isCellEditable(int columnIndex, int rowIndex) {
             return true;
-        }
-
-
-        public List<VcsEntity> getVcsEntities() {
-            return vcsEntities;
         }
 
 

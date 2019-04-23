@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.vcs.ui;
 
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -14,7 +15,7 @@ public class FileVersionFirstRowPanel extends JPanel {
         super(new BorderLayout());
         Box upPane = Box.createVerticalBox();
         upPane.setBorder(new EmptyBorder(5, 10, 5, 10));
-        upPane.add(new UILabel("本地用户"));
+        upPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Local_User")));
         add(upPane, BorderLayout.CENTER);
     }
 }

@@ -130,6 +130,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int westRegionContainerWidth = 240;
     private String encryptionKey;
     private String jdkHome;
+    private boolean vcsEnable;
+    private boolean saveCommit;
+    private int saveInterval;
+
+
 
     //上一次登录弹窗的时间, 为了控制一天只弹一次窗口
     private String lastShowBBSTime;
@@ -1341,6 +1346,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
+
     private void readJettyPort(XMLableReader reader) {
         String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
@@ -1601,6 +1607,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setDragPermited(reader.getAttrAsBoolean("isDragPermited", false));
         this.setUndoLimit(reader.getAttrAsInt("undoLimit", 5));
         this.setDefaultStringToFormula(reader.getAttrAsBoolean("defaultStringToFormula", false));
+        this.setVcsEnable(reader.getAttrAsBoolean("supportVcs", false));
+        this.setSaveCommit(reader.getAttrAsBoolean("saveCommit", false));
+        this.setSaveInterval(reader.getAttrAsInt("saveInterval", 60));
         if ((tmpVal = reader.getAttrAsString("gridLineColor", null)) != null) {
             this.setGridLineColor(new Color(Integer.parseInt(tmpVal)));
         }
@@ -1936,6 +1945,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .attr("verticalScrollBarVisible", this.isVerticalScrollBarVisible())
                 .attr("horizontalScrollBarVisible", this.isHorizontalScrollBarVisible())
                 .attr("supportCellEditorDef", this.isSupportCellEditorDef())
+                .attr("supportVcs", this.isVcsEnable())
+                .attr("saveInterval", this.getSaveInterval())
+                .attr("saveCommit", this.isSaveCommit())
                 .attr("isDragPermited", this.isDragPermited())
                 .attr("gridLineColor", this.getGridLineColor().getRGB())
                 .attr("paginationLineColor", this.getPaginationLineColor().getRGB())
@@ -1945,5 +1957,29 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     private void writeDesignerPushUpdateAttr(XMLPrintWriter writer) {
         this.designerPushUpdateConfigManager.writeXML(writer);
+    }
+
+    public boolean isVcsEnable() {
+        return vcsEnable;
+    }
+
+    public void setVcsEnable(boolean vcsEnable) {
+        this.vcsEnable = vcsEnable;
+    }
+
+    public boolean isSaveCommit() {
+        return saveCommit;
+    }
+
+    public void setSaveCommit(boolean saveCommit) {
+        this.saveCommit = saveCommit;
+    }
+
+    public int getSaveInterval() {
+        return saveInterval;
+    }
+
+    public void setSaveInterval(int saveInterval) {
+        this.saveInterval = saveInterval;
     }
 }

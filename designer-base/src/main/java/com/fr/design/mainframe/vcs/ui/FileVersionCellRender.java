@@ -8,7 +8,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.Component;
 
 import static com.fr.design.constants.UIConstants.TREE_BACKGROUND;
-import static com.fr.workspace.server.vcs.common.Constants.TABLE_SELECT_BACKGROUND;
+import static com.fr.design.mainframe.vcs.common.Constants.TABLE_SELECT_BACKGROUND;
 
 
 public class FileVersionCellRender implements TableCellRenderer {
@@ -18,9 +18,9 @@ public class FileVersionCellRender implements TableCellRenderer {
     //其余行
     private final FileVersionRowPanel render;
 
-    public FileVersionCellRender(FileVersionFirstRowPanel firstRowPanel, FileVersionRowPanel render) {
-        this.render = render;
-        this.firstRowPanel = firstRowPanel;
+    public FileVersionCellRender() {
+        this.render = new FileVersionRowPanel();
+        this.firstRowPanel = new FileVersionFirstRowPanel();
     }
 
     @Override

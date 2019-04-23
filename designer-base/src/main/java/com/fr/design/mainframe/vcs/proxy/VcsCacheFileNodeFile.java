@@ -14,11 +14,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-public class VcsCacheFileNodeFileProxy extends FileNodeFILE {
+public class VcsCacheFileNodeFile extends FileNodeFILE {
 
     private final FileNode node;
 
-    public VcsCacheFileNodeFileProxy(FileNode node) {
+    public VcsCacheFileNodeFile(FileNode node) {
         super(node);
         this.node = node;
     }
