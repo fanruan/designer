@@ -26,11 +26,11 @@ import static com.fr.design.mainframe.vcs.common.Constants.EMPTY_BORDER_BOTTOM;
 
 
 public class FileVersionDialog extends UIDialog {
+    public static final long DELAY = 24 * 60 * 60 * 1000;
     private UIButton okBtn = new UIButton("确定");
     private UIButton cancelBtn = new UIButton("取消");
     private DateEditor dateEditor;
     private UITextField textField;
-    public static final long DELAY = 24 * 60 * 60 * 1000;
 
 
     public FileVersionDialog(Frame frame) {

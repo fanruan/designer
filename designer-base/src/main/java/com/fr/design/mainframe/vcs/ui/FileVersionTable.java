@@ -1,10 +1,6 @@
 package com.fr.design.mainframe.vcs.ui;
 
-import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
-import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;

@@ -11,7 +11,6 @@ import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.workspace.server.vcs.git.FineGit;
 
 import javax.swing.Box;
 import javax.swing.JOptionPane;

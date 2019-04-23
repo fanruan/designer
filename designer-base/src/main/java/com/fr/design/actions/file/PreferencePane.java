@@ -1,6 +1,5 @@
 package com.fr.design.actions.file;
 
-import com.apple.laf.AquaProgressBarUI;
 import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
 import com.fr.design.DesignerEnvManager;
