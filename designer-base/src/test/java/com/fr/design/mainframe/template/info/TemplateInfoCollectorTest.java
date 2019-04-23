@@ -150,4 +150,20 @@ public class TemplateInfoCollectorTest {
         assertEquals(329, consumingMap.get("time_consume"));
         assertEquals(129, consumingMap.get("originTime"));
     }
+
+    @Test
+    public void testAddIdleDateCount() {
+        String templateID = "16a988ce-8529-42f5-b17c-2ee849355071";
+        TemplateInfoCollector collecter = TemplateInfoCollector.getInstance();
+        TemplateInfo templateInfo = collecter.getOrCreateTemplateInfoByID(templateID);
+
+        assertEquals(9, templateInfo.getIdleDayCount());
+
+        Reflect.on(collecter).call("addIdleDayCount");
+        assertEquals(10, templateInfo.getIdleDayCount());
+
+        // 同一天内多次调用无效
+        Reflect.on(collecter).call("addIdleDayCount");
+        assertEquals(10, templateInfo.getIdleDayCount());
+    }
 }

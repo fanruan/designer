@@ -2,7 +2,6 @@ package com.fr.design.mainframe.template.info;
 
 import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -19,9 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,15 +28,21 @@ import java.util.Map;
  */
 public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     private static final String XML_TAG = "TplInfo";
-    private static final String XML_DESIGNER_OPEN_DATE = "DesignerOpenDate";
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
     private static final String XML_FILE_NAME = "tpl.info";
     private static TemplateInfoCollector instance;
     private Map<String, TemplateInfo> templateInfoMap;
-    private String designerOpenDate;  //设计器最近一次打开日期
+    private DesignerOpenHistory designerOpenHistory;
 
     private TemplateInfoCollector() {
         init();
+    }
+
+    private void init() {
+        templateInfoMap = new HashMap<>();
+        designerOpenHistory = DesignerOpenHistory.getInstance();
+
+        loadFromFile();
     }
 
     public static TemplateInfoCollector getInstance() {
@@ -96,6 +99,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
      * 发送本地模板信息到服务器，并清空已发送模版的本地记录
      */
     public void sendTemplateInfo() {
+        // 每次启动设计器后，都会执行这个函数（被 InformationCollector 的 collectStartTime 调用）
         addIdleDayCount();
 
         removeTestTemplates();
@@ -120,13 +124,6 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), XML_FILE_NAME));
     }
 
-    private void init() {
-        templateInfoMap = new HashMap<>();
-        setDesignerOpenDate();
-
-        loadFromFile();
-    }
-
     void loadFromFile() {
         if (!getInfoFile().exists()) {
             return;
@@ -148,21 +145,6 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         TemplateInfo templateInfo = TemplateInfo.newInstance(templateID);
         templateInfoMap.put(templateID, templateInfo);
         return templateInfo;
-    }
-
-    /**
-     * 把设计器最近打开日期设定为当前日期
-     */
-    private void setDesignerOpenDate() {
-        designerOpenDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-    }
-
-    /**
-     * 判断今天是否第一次打开设计器，为了防止同一天内，多次 addIdleDayCount
-     */
-    private boolean designerOpenFirstTime() {
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-        return !ComparatorUtils.equals(today, designerOpenDate);
     }
 
     private boolean shouldCollectInfo() {
@@ -189,12 +171,14 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
      * 更新 day_count：打开设计器却未编辑模板的连续日子
      */
     private void addIdleDayCount() {
-        if (designerOpenFirstTime()) {
-            for (TemplateInfo templateInfo : templateInfoMap.values()) {
-                templateInfo.addIdleDayCountByOne();
-            }
-            setDesignerOpenDate();
+        // 判断今天是否第一次打开设计器，为了防止同一天内，多次 addIdleDayCount
+        if (designerOpenHistory.hasOpenedToday()) {
+            return;
         }
+        for (TemplateInfo templateInfo : templateInfoMap.values()) {
+            templateInfo.addIdleDayCountByOne();
+        }
+        designerOpenHistory.update();
     }
 
     // 删除所有已完成的测试模版
@@ -220,8 +204,8 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         if (reader.isChildNode()) {
             try {
                 String name = reader.getTagName();
-                if (XML_DESIGNER_OPEN_DATE.equals(name)) {
-                    this.designerOpenDate = reader.getElementValue();
+                if (DesignerOpenHistory.XML_TAG.equals(name)) {
+                    reader.readXMLObject(designerOpenHistory);
                 } else if (TemplateInfo.XML_TAG.equals(name)) {
                     TemplateInfo templateInfo = TemplateInfo.newInstanceByRead(reader);
                     templateInfoMap.put(templateInfo.getTemplateID(), templateInfo);
@@ -236,9 +220,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG(XML_TAG);
 
-        writer.startTAG(XML_DESIGNER_OPEN_DATE);
-        writer.textNode(designerOpenDate);
-        writer.end();
+        designerOpenHistory.writeXML(writer);
 
         writer.startTAG(XML_TEMPLATE_INFO_LIST);
         for (TemplateInfo templateInfo : templateInfoMap.values()) {
