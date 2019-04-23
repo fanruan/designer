@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.vcs.proxy;
 
 import com.fr.base.io.XMLEncryptUtils;
+import com.fr.design.mainframe.vcs.common.Constants;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -8,14 +9,11 @@ import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.resource.WorkResource;
 import com.fr.workspace.resource.WorkResourceOutputStream;
-import com.fr.workspace.server.vcs.common.Constants;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by hzzz on 2017/12/21.
- */
+
 public class VcsCacheFileNodeFileProxy extends FileNodeFILE {
 
     private final FileNode node;

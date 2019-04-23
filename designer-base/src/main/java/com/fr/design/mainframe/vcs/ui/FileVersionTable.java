@@ -30,7 +30,6 @@ public class FileVersionTablePanel extends JTable {
 
     public void updateModel(int selectedRow) {
         String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-        //TODO path "/"
         List<VcsEntity> vcsEntities = null;
         try {
             vcsEntities = vcs.getVersions(path.replaceFirst("/", ""));
