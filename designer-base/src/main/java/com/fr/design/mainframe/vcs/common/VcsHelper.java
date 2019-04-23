@@ -76,7 +76,7 @@ public class VcsHelper {
     }
 
     public static String getEditingFilename() {
-        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String editingFilePath = jt.getEditingFILE().getPath();
         if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFilePath = editingFilePath.replaceFirst(ProjectConstants.REPORTLETS_NAME, StringUtils.EMPTY);
