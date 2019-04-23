@@ -302,13 +302,13 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
 
             // 如果模板已经打开了，关掉，避免出现2个同名tab（1个是模板，1个是版本）
-            closeOpendTemplate(path, isCurrentEditing);
+            closeOpenedTemplate(path, isCurrentEditing);
             FileVersionsPanel fileVersionTablePanel = FileVersionsPanel.getInstance();
             fileVersionTablePanel.showFileVersionsPane();
         }
 
-        private void closeOpendTemplate(String path, boolean isCurrentEditing) {
-            for (JTemplate<?, ?> jTemplate : HistoryTemplateListCache.getInstance().getHistoryList()) {
+        private void closeOpenedTemplate(String path, boolean isCurrentEditing) {
+            for (JTemplate jTemplate : HistoryTemplateListCache.getInstance().getHistoryList()) {
                 if (ComparatorUtils.equals(jTemplate.getEditingFILE().getPath(), path)) {
                     if (isCurrentEditing) {
                         MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);

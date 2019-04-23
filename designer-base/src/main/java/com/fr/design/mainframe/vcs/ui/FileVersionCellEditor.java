@@ -50,7 +50,7 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
         editor.setBackground(VcsHelper.TABLE_SELECT_BACKGROUND);
         if (StringUtils.isNotEmpty(fileOfVersion)) {
             //先关闭当前打开的模板版本
-            JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+            JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             jt.stopEditing();
             MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);
             MutilTempalteTabPane.getInstance().closeFormat(jt);
