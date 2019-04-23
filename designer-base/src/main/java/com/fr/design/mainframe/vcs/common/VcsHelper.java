@@ -89,11 +89,11 @@ public class VcsHelper {
         return editingFilePath;
     }
 
-    public static boolean needSaveVersion(VcsEntity entity) {
+    public static boolean needDeleteVersion(VcsEntity entity) {
         if (entity == null) {
-            return true;
+            return false;
         }
-        return new Date().getTime() - entity.getTime().getTime() > DesignerEnvManager.getEnvManager().getSaveInterval() * MINUTE || StringUtils.isNotBlank(entity.getCommitMsg());
+        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
     }
 
 

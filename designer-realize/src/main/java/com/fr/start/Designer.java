@@ -292,22 +292,31 @@ public class Designer extends BaseDesigner {
      * 版本控制
      * @param jt
      */
-    private void dealWithVcs(JTemplate jt) {
-        String fileName = VcsHelper.getEditingFilename();
-        VcsEntity entity = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
-        int latestFileVersion = 0;
-        if (entity != null) {
-            latestFileVersion = entity.getVersion();
-        }
-        if (VcsHelper.needSaveVersion(entity)) {
-            if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
-                WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-                FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
-            } else {
-                WorkContext.getCurrent().get(VcsOperator.class).saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+    private void dealWithVcs(final JTemplate jt) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String fileName = VcsHelper.getEditingFilename();
+                VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
+                VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
+                int latestFileVersion = 0;
+                if (entity != null) {
+                    latestFileVersion = entity.getVersion();
+                }
+                if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
+                    operator.saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                    String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                    FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+                } else {
+                    operator.saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                }
+                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
+                if (VcsHelper.needDeleteVersion(oldEntity)) {
+                    operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
+                }
+
             }
-        }
+        }).start();
 
     }
 
