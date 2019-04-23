@@ -265,7 +265,7 @@ public class Designer extends BaseDesigner {
      */
     @Override
     public UIButton[] createUp() {
-        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton(), };
+        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
     }
 
 
