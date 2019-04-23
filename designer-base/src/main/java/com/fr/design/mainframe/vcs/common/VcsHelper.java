@@ -37,7 +37,7 @@ public class VcsHelper {
     public final static Icon VCS_USER_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_user@1x.png");
     public final static Icon VCS_REVERT = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_revert.png");
 
-    public static int containsFolderCounts() {
+    private static int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
         if (fileTree.getSelectionPaths() == null) {
             return 0;
@@ -51,13 +51,17 @@ public class VcsHelper {
         return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
     }
 
-    public static int selectedTemplateCounts() {
+    private static int selectedTemplateCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
         if (fileTree.getSelectionPaths() == null) {
             return 0;
         }
 
         return fileTree.getSelectedTemplatePaths().length;
+    }
+
+    public static boolean isUnSelectedTemplate() {
+        return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() > 1;
     }
 
 

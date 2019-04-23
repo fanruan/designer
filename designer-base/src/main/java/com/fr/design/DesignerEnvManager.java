@@ -1607,7 +1607,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setDragPermited(reader.getAttrAsBoolean("isDragPermited", false));
         this.setUndoLimit(reader.getAttrAsInt("undoLimit", 5));
         this.setDefaultStringToFormula(reader.getAttrAsBoolean("defaultStringToFormula", false));
-        this.setVcsEnable(reader.getAttrAsBoolean("supportVcs", false));
+        this.setVcsEnable(reader.getAttrAsBoolean("supportVcs", true));
         this.setSaveCommit(reader.getAttrAsBoolean("saveCommit", false));
         this.setSaveInterval(reader.getAttrAsInt("saveInterval", 60));
         if ((tmpVal = reader.getAttrAsString("gridLineColor", null)) != null) {

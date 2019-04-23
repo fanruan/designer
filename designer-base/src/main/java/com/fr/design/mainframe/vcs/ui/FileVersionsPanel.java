@@ -50,8 +50,9 @@ public class FileVersionsPanel extends BasicPane {
     public static FileVersionsPanel getInstance() {
         if (instance == null) {
             synchronized (FileVersionsPanel.class) {
-                instance = new FileVersionsPanel();
-
+                if (instance == null) {
+                    instance = new FileVersionsPanel();
+                }
             }
         }
         return instance;

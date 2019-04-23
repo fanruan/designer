@@ -25,7 +25,9 @@ public class FileVersionTable extends JTable {
     public static FileVersionTable getInstance() {
         if (instance == null) {
             synchronized (FileVersionTable.class) {
-                instance = new FileVersionTable();
+                if (instance == null) {
+                    instance = new FileVersionTable();
+                }
             }
         }
         return instance;
