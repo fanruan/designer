@@ -53,7 +53,6 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.LifecycleFatalError;
-import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
@@ -280,7 +279,7 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
-                String fileName = VcsHelper.getEdittingFilename();
+                String fileName = VcsHelper.getEditingFilename();
                 int latestFileVersion = 0;
                 try {
                     latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);

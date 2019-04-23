@@ -203,17 +203,17 @@ public class PreferencePane extends BasicPane {
     }
 
     private void createVcsSettingPane(JPanel generalPane) {
-        JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("版本控制"));
+        JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
         generalPane.add(vcsPane);
-        vcsEnableCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("保存自动生成版本"));
-        saveCommitCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("备注版本不会自动清理"));
+        vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
+        saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
         saveIntervalEditor = new IntegerEditor(30);
         JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
-        UILabel label1 = new UILabel(" 每 ");
-        UILabel label2 = new UILabel(" 分钟每个用户同个模板最多保留一个模板");
-        memorySpace.add(label1);
+        UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
+        UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
+        memorySpace.add(everyLabel);
         memorySpace.add(saveIntervalEditor);
-        memorySpace.add(label2);
+        memorySpace.add(delayLabel);
         vcsEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

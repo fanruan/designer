@@ -6,6 +6,7 @@ import com.fr.design.gui.date.UIDatePicker;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.report.ReportContext;
 import com.fr.report.entity.VcsEntity;
 
@@ -27,8 +28,8 @@ import static com.fr.design.mainframe.vcs.common.VcsHelper.EMPTY_BORDER_BOTTOM;
 
 public class FileVersionDialog extends UIDialog {
     public static final long DELAY = 24 * 60 * 60 * 1000;
-    private UIButton okBtn = new UIButton("确定");
-    private UIButton cancelBtn = new UIButton("取消");
+    private UIButton okBtn = new UIButton(Toolkit.i18nText("Fine-Design_Report_OK"));
+    private UIButton cancelBtn = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Utils_Design_Action_Cancel"));
     private DateEditor dateEditor;
     private UITextField textField;
 
@@ -37,17 +38,17 @@ public class FileVersionDialog extends UIDialog {
         super(frame);
         setUndecorated(true);
         JPanel panel = new JPanel(new BorderLayout());
-        Box box0 = Box.createHorizontalBox();
-        box0.setBorder(EMPTY_BORDER_BOTTOM);
-        box0.add(new UILabel("生成日期"));
-        box0.add(Box.createHorizontalGlue());
-        dateEditor = new DateEditor(new Date(), true, "生成日期", UIDatePicker.STYLE_CN_DATE1);
-        box0.add(dateEditor);
-        Box box1 = Box.createHorizontalBox();
-        box1.setBorder(EMPTY_BORDER_BOTTOM);
-        box1.add(new UILabel("备注关键词 "));
+        Box upBox = Box.createHorizontalBox();
+        upBox.setBorder(EMPTY_BORDER_BOTTOM);
+        upBox.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_buildTime")));
+        upBox.add(Box.createHorizontalGlue());
+        dateEditor = new DateEditor(new Date(), true, "", UIDatePicker.STYLE_CN_DATE1);
+        upBox.add(dateEditor);
+        Box downBox = Box.createHorizontalBox();
+        downBox.setBorder(EMPTY_BORDER_BOTTOM);
+        downBox.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_CommitMsg")));
         textField = new UITextField();
-        box1.add(textField);
+        downBox.add(textField);
         Box box2 = Box.createHorizontalBox();
         box2.add(Box.createHorizontalGlue());
         box2.setBorder(EMPTY_BORDER);
@@ -69,8 +70,8 @@ public class FileVersionDialog extends UIDialog {
                 FileVersionDialog.this.setVisible(false);
             }
         });
-        panel.add(box0, BorderLayout.NORTH);
-        panel.add(box1, BorderLayout.CENTER);
+        panel.add(upBox, BorderLayout.NORTH);
+        panel.add(downBox, BorderLayout.CENTER);
         panel.add(box2, BorderLayout.SOUTH);
         add(panel);
         setSize(new Dimension(220, 100));

@@ -68,7 +68,7 @@ public class VcsHelper {
         return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() > 1;
     }
 
-    public static String getEdittingFilename() {
+    public static String getEditingFilename() {
         JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String editingFilePath = jt.getEditingFILE().getPath();
         if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
