@@ -279,30 +279,32 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
-                String fileName = VcsHelper.getEditingFilename();
-                int latestFileVersion = 0;
-                try {
-                    latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
-
-                } catch (Exception e1) {
-                    FineLoggerFactory.getLogger().error(e1.getMessage());
+                if (DesignerEnvManager.getEnvManager().isVcsEnable()) {
+                    dealWithVcs(jt);
                 }
-                try {
-                    if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
-                        WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                        String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-                        FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
-
-                    } else {
-                        WorkContext.getCurrent().get(VcsOperator.class).saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                    }
-                } catch (Exception e1) {
-                    FineLoggerFactory.getLogger().error(e1.getMessage());
-                }
-
             }
         });
         return saveButton;
+    }
+
+    /**
+     * 版本控制
+     * @param jt
+     */
+    private void dealWithVcs(JTemplate jt) {
+        try {
+            String fileName = VcsHelper.getEditingFilename();
+            int latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
+            if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
+                WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+            } else {
+                WorkContext.getCurrent().get(VcsOperator.class).saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error("vcs error: {}", e.getMessage());
+        }
     }
 
     private UIButton createUndoButton() {
