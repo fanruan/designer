@@ -134,11 +134,7 @@ public class FileVersionsPanel extends BasicPane {
         }
         titleLabel.setText(filename);
         String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-        try {
-            FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage());
-        }
+        FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
     }
 
     public void showFileVersionsPane() {

@@ -7,8 +7,9 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
-import com.fr.report.ReportContext;
 import com.fr.report.entity.VcsEntity;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
@@ -59,7 +60,7 @@ public class FileVersionDialog extends UIDialog {
             public void actionPerformed(ActionEvent e) {
                 FileVersionDialog.this.setVisible(false);
                 Date date = dateEditor.getValue();
-                List<VcsEntity> vcsEntities = ReportContext.getInstance().getVcsController().queryFilterFileVersions(date, new Date(date.getTime() + DELAY), textField.getText());
+                List<VcsEntity> vcsEntities = WorkContext.getCurrent().get(VcsOperator.class).getFilterVersions(date, new Date(date.getTime() + DELAY), textField.getText());
                 FileVersionTable.getInstance().updateModel(1, vcsEntities);
 
             }
