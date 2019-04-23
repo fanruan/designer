@@ -57,7 +57,7 @@ public class FileVersionRowPanel extends JPanel {
         // confirm + delete
         UIButton confirmBtn = new UIButton(VcsHelper.VCS_REVERT);
         confirmBtn.set4ToolbarButton();
-        confirmBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Revert"));
+        confirmBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Revert"));
         confirmBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -70,7 +70,7 @@ public class FileVersionRowPanel extends JPanel {
         });
         UIButton deleteBtn = new UIButton(VcsHelper.VCS_DELETE_PNG);
         deleteBtn.set4ToolbarButton();
-        deleteBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Delete"));
+        deleteBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Delete"));
         deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -93,6 +93,7 @@ public class FileVersionRowPanel extends JPanel {
         });
         UIButton editBtn = new UIButton(VcsHelper.VCS_EDIT_PNG);
         editBtn.set4ToolbarButton();
+        editBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Edit"));
         editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
