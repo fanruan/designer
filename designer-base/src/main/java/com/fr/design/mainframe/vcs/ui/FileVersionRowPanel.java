@@ -32,7 +32,7 @@ public class FileVersionRowPanel extends JPanel {
 
     private VcsEntity vcsEntity;
     private UILabel versionLabel = new UILabel();
-    private UILabel usernameLabel = new UILabel("", VcsHelper.VCS_USER_PNG, SwingConstants.LEFT);
+    private UILabel usernameLabel = new UILabel(StringUtils.EMPTY, VcsHelper.VCS_USER_PNG, SwingConstants.LEFT);
     private UITextPane timeAndMsgLabel = new UITextPane();
     private UILabel timeLabel = new UILabel();
     private EditFileVersionDialog editDialog;
@@ -74,7 +74,7 @@ public class FileVersionRowPanel extends JPanel {
         deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Delete_Confirm"), Toolkit.i18nText("FR-Designer_Remove"),
+                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Delete-Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Remove"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     try {
                         WorkContext.getCurrent().get(VcsOperator.class).deleteVersion(vcsEntity.getFilename(), vcsEntity.getVersion());

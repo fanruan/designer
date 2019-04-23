@@ -1,12 +1,12 @@
 package com.fr.design.mainframe.vcs.common;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.general.IOUtils;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -40,13 +40,13 @@ public class VcsHelper {
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
 
 
-    public final static Icon VCS_LIST_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_list.png");
-    public final static Icon VCS_BACK_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_back.png");
-    public final static Icon VCS_FILTER_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_filter@1x.png");
-    public final static Icon VCS_EDIT_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_edit.png");
-    public final static Icon VCS_DELETE_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_delete.png");
-    public final static Icon VCS_USER_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_user@1x.png");
-    public final static Icon VCS_REVERT = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_revert.png");
+    public final static Icon VCS_LIST_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_list.png");
+    public final static Icon VCS_BACK_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/vcs_back.png");
+    public final static Icon VCS_FILTER_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_filter@1x.png");
+    public final static Icon VCS_EDIT_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_edit.png");
+    public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_delete.png");
+    public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_user@1x.png");
+    public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_revert.png");
 
     private static int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();

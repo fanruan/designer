@@ -8,6 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.report.entity.VcsEntity;
+import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 
@@ -43,7 +44,7 @@ public class FileVersionDialog extends UIDialog {
         upBox.setBorder(EMPTY_BORDER_BOTTOM);
         upBox.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_buildTime")));
         upBox.add(Box.createHorizontalGlue());
-        dateEditor = new DateEditor(new Date(), true, "", UIDatePicker.STYLE_CN_DATE1);
+        dateEditor = new DateEditor(new Date(), true, StringUtils.EMPTY, UIDatePicker.STYLE_CN_DATE1);
         upBox.add(dateEditor);
         Box downBox = Box.createHorizontalBox();
         downBox.setBorder(EMPTY_BORDER_BOTTOM);

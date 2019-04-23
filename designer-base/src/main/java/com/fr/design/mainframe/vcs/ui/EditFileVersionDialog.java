@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -42,7 +43,7 @@ public class EditFileVersionDialog extends UIDialog {
 
         initComponents();
         setModal(true);
-        setTitle(InterProviderFactory.getProvider().getLocText("Fine-Design_Vcs_Save_Version"));
+        setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Save_Version"));
         setSize(300, 220);
         setResizable(false);
         GUICoreUtils.centerWindow(this);
@@ -52,13 +53,13 @@ public class EditFileVersionDialog extends UIDialog {
     private void initComponents() {
 
         JPanel fontPane = new JPanel(new BorderLayout());
-        fontPane.add(new UILabel("   " + InterProviderFactory.getProvider().getLocText("Fine-Design_Vcs_Version_Message") + "："), BorderLayout.NORTH);
+        fontPane.add(new UILabel("   " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Version_Message") + "："), BorderLayout.NORTH);
 
         msgTestArea.setBorder(null);
         UIScrollPane scrollPane = new UIScrollPane(msgTestArea);
 
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel("   " + InterProviderFactory.getProvider().getLocText("Fine-Design_Vcs_Version_Number") + "："), versionLabel},
+                new Component[]{new UILabel("   " + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Version_Number") + "："), versionLabel},
                 new Component[]{fontPane, scrollPane}
         };
         double[] rowSizes = new double[]{25, 100};
@@ -69,8 +70,8 @@ public class EditFileVersionDialog extends UIDialog {
         JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         add(buttonPane, BorderLayout.SOUTH);
 
-        UIButton ok = new UIButton(InterProviderFactory.getProvider().getLocText("OK"));
-        UIButton cancel = new UIButton(InterProviderFactory.getProvider().getLocText("Cancel"));
+        UIButton ok = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_OK"));
+        UIButton cancel = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Design_Action_Cancel"));
 
         buttonPane.add(ok);
         buttonPane.add(cancel);
