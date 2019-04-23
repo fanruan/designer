@@ -5,7 +5,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
@@ -32,7 +32,7 @@ public class FileVersionRowPanel extends JPanel {
 
     private VcsEntity vcsEntity;
     private UILabel versionLabel = new UILabel();
-    private UILabel usernameLabel = new UILabel("", Constants.VCS_USER_PNG, SwingConstants.LEFT);
+    private UILabel usernameLabel = new UILabel("", VcsHelper.VCS_USER_PNG, SwingConstants.LEFT);
     private UITextPane timeAndMsgLabel = new UITextPane();
     private UILabel timeLabel = new UILabel();
     private EditFileVersionDialog editDialog;
@@ -43,19 +43,19 @@ public class FileVersionRowPanel extends JPanel {
 
         // version + username
         Box upPane = Box.createHorizontalBox();
-        upPane.setBorder(Constants.EMPTY_BORDER);
+        upPane.setBorder(VcsHelper.EMPTY_BORDER);
         upPane.add(versionLabel);
         upPane.add(Box.createHorizontalGlue());
 
 
         // msg
-        timeAndMsgLabel.setBorder(Constants.EMPTY_BORDER);
+        timeAndMsgLabel.setBorder(VcsHelper.EMPTY_BORDER);
         timeAndMsgLabel.setOpaque(false);
         timeAndMsgLabel.setBackground(new Color(0, 0, 0, 0));
         timeAndMsgLabel.setEditable(false);
 
         // confirm + delete
-        UIButton confirmBtn = new UIButton(Constants.VCS_REVERT);
+        UIButton confirmBtn = new UIButton(VcsHelper.VCS_REVERT);
         confirmBtn.set4ToolbarButton();
         confirmBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Revert"));
         confirmBtn.addActionListener(new ActionListener() {
@@ -72,7 +72,7 @@ public class FileVersionRowPanel extends JPanel {
                 }
             }
         });
-        UIButton deleteBtn = new UIButton(Constants.VCS_DELETE_PNG);
+        UIButton deleteBtn = new UIButton(VcsHelper.VCS_DELETE_PNG);
         deleteBtn.set4ToolbarButton();
         deleteBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Version_Delete"));
         deleteBtn.addActionListener(new ActionListener() {
@@ -95,7 +95,7 @@ public class FileVersionRowPanel extends JPanel {
                 }
             }
         });
-        UIButton editBtn = new UIButton(Constants.VCS_EDIT_PNG);
+        UIButton editBtn = new UIButton(VcsHelper.VCS_EDIT_PNG);
         editBtn.set4ToolbarButton();
         editBtn.addActionListener(new ActionListener() {
             @Override
@@ -109,7 +109,7 @@ public class FileVersionRowPanel extends JPanel {
         upPane.add(deleteBtn);
         Box downPane = Box.createHorizontalBox();
         downPane.add(usernameLabel);
-        downPane.setBorder(Constants.EMPTY_BORDER_BOTTOM);
+        downPane.setBorder(VcsHelper.EMPTY_BORDER_BOTTOM);
         downPane.add(Box.createHorizontalGlue());
         downPane.add(timeLabel);
         add(upPane, BorderLayout.NORTH);

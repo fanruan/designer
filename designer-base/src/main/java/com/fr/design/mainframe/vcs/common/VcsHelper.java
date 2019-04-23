@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.vcs.common;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.file.TemplateTreePane;
+import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.workspace.WorkContext;
 
@@ -11,7 +13,7 @@ import java.awt.Color;
 import static com.fr.stable.StableUtils.pathJoin;
 
 
-public class Constants {
+public class VcsHelper {
 
     public final static String VCS_DIR = "vcs";
     public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
@@ -34,6 +36,29 @@ public class Constants {
     public final static Icon VCS_DELETE_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_delete.png");
     public final static Icon VCS_USER_PNG = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_user@1x.png");
     public final static Icon VCS_REVERT = BaseUtils.readIcon("/com/fr/design/mainframe/vcs/images/icon_revert.png");
+
+    public static int containsFolderCounts() {
+        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
+        if (fileTree.getSelectionPaths() == null) {
+            return 0;
+        }
+
+        //选择的包含文件和文件夹的数目
+        if (fileTree.getSelectionPaths().length == 0) {
+            return 0;
+        }
+        //所有的num减去模板的num，得到文件夹的num
+        return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
+    }
+
+    public static int selectedTemplateCounts() {
+        TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
+        if (fileTree.getSelectionPaths() == null) {
+            return 0;
+        }
+
+        return fileTree.getSelectedTemplatePaths().length;
+    }
 
 
 }

@@ -14,7 +14,7 @@ import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.mainframe.WestRegionContainerPane;
-import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
@@ -63,7 +63,7 @@ public class FileVersionsPanel extends BasicPane {
         toolbar.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         toolbar.setBorderPainted(true);
         Box upPane = Box.createHorizontalBox();
-        UIButton backBtn = new UIButton(Constants.VCS_BACK_PNG);
+        UIButton backBtn = new UIButton(VcsHelper.VCS_BACK_PNG);
         backBtn.set4ToolbarButton();
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -72,7 +72,7 @@ public class FileVersionsPanel extends BasicPane {
             }
         });
         toolbar.add(backBtn);
-        filterBtn = new UIButton(Constants.VCS_FILTER_PNG);
+        filterBtn = new UIButton(VcsHelper.VCS_FILTER_PNG);
         filterBtn.set4ToolbarButton();
         filterBtn.setHorizontalAlignment(SwingConstants.RIGHT);
         filterBtn.addActionListener(new ActionListener() {

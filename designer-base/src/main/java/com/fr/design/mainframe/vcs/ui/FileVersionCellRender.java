@@ -8,7 +8,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.Component;
 
 import static com.fr.design.constants.UIConstants.TREE_BACKGROUND;
-import static com.fr.design.mainframe.vcs.common.Constants.TABLE_SELECT_BACKGROUND;
+import static com.fr.design.mainframe.vcs.common.VcsHelper.TABLE_SELECT_BACKGROUND;
 
 
 public class FileVersionCellRender implements TableCellRenderer {

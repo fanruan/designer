@@ -26,7 +26,6 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.design.mainframe.vcs.ui.FileVersionsPanel;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
@@ -50,7 +49,7 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
-import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -287,7 +286,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private class VcsAction extends UpdateAction {
         public VcsAction() {
             this.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
-            this.setSmallIcon(Constants.VCS_LIST_PNG);
+            this.setSmallIcon(VcsHelper.VCS_LIST_PNG);
         }
 
         @Override
@@ -450,17 +449,44 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         newFolderAction.setEnabled(singleSelected);
         renameAction.setEnabled(singleSelected);
         showInExplorerAction.setEnabled(singleSelected);
-        vcsAction.setEnabled(singleSelected);
-
         // 删除操作在至少选中一个时可用
         boolean selected = selectedPathNum > 0;
         delFileAction.setEnabled(selected);
         // 刷新操作始终可用
         refreshTreeAction.setEnabled(true);
+        handleVcsAction();
 
         // 其他状态
         otherStateChange();
     }
+
+    private void handleVcsAction() {
+        if (VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() > 1) {
+            vcsAction.setEnabled(false);
+            return;
+        }
+
+        if (WorkContext.getCurrent() != null) {
+            if (!WorkContext.getCurrent().isLocal()) {
+                //当前环境为远程环境时
+                FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
+                if (selectedOperation.getFilePath() != null) {
+                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
+                        vcsAction.setEnabled(false);
+                    } else {
+                        vcsAction.setEnabled(true);
+                    }
+                } else {
+                    vcsAction.setEnabled(false);
+                }
+            } else {
+                //当前环境为本地环境时
+                vcsAction.setEnabled(selectedOperation.getFilePath() != null);
+            }
+        }
+    }
+
+
 
     public FileOperations getSelectedOperation() {
         return selectedOperation;

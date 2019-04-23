@@ -21,8 +21,8 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 
-import static com.fr.design.mainframe.vcs.common.Constants.EMPTY_BORDER;
-import static com.fr.design.mainframe.vcs.common.Constants.EMPTY_BORDER_BOTTOM;
+import static com.fr.design.mainframe.vcs.common.VcsHelper.EMPTY_BORDER;
+import static com.fr.design.mainframe.vcs.common.VcsHelper.EMPTY_BORDER_BOTTOM;
 
 
 public class FileVersionDialog extends UIDialog {

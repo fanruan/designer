@@ -5,7 +5,7 @@ import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
-import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.mainframe.vcs.proxy.VcsCacheFileNodeFile;
 import com.fr.file.filetree.FileNode;
 import com.fr.log.FineLoggerFactory;
@@ -55,7 +55,7 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
             }
         }
 
-        editor.setBackground(Constants.TABLE_SELECT_BACKGROUND);
+        editor.setBackground(VcsHelper.TABLE_SELECT_BACKGROUND);
         if (StringUtils.isNotEmpty(fileOfVersion)) {
             //先关闭当前打开的模板版本
             JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
