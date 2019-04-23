@@ -1,9 +1,13 @@
 package com.fr.design.mainframe.vcs.common;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.mainframe.JTemplate;
+import com.fr.stable.StringUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.Icon;
@@ -62,6 +66,20 @@ public class VcsHelper {
 
     public static boolean isUnSelectedTemplate() {
         return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() > 1;
+    }
+
+    public static String getEdittingFilename() {
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        String editingFilePath = jt.getEditingFILE().getPath();
+        if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
+            editingFilePath = editingFilePath.replaceFirst(ProjectConstants.REPORTLETS_NAME, StringUtils.EMPTY);
+        } else if (editingFilePath.startsWith(VcsHelper.VCS_CACHE_DIR)) {
+            editingFilePath = editingFilePath.replaceFirst(VcsHelper.VCS_CACHE_DIR, StringUtils.EMPTY);
+        }
+        if (editingFilePath.startsWith("/")) {
+            editingFilePath = editingFilePath.substring(1);
+        }
+        return editingFilePath;
     }
 
 

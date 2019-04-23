@@ -62,7 +62,7 @@ import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.design.mainframe.vcs.common.Constants;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -280,7 +280,7 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
-                String fileName = getEditingFilename();
+                String fileName = VcsHelper.getEdittingFilename();
                 int latestFileVersion = 0;
                 try {
                     latestFileVersion = WorkContext.getCurrent().get(VcsOperator.class).getLatestFileVersion(fileName);
@@ -288,15 +288,14 @@ public class Designer extends BaseDesigner {
                 } catch (Exception e1) {
                     FineLoggerFactory.getLogger().error(e1.getMessage());
                 }
-
                 try {
                     if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
-                        WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(Constants.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                        WorkContext.getCurrent().get(VcsOperator.class).saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
                         String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
                         FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
 
                     } else {
-                        WorkContext.getCurrent().get(VcsOperator.class).saveVersion(Constants.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                        WorkContext.getCurrent().get(VcsOperator.class).saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
                     }
                 } catch (Exception e1) {
                     FineLoggerFactory.getLogger().error(e1.getMessage());
@@ -305,22 +304,6 @@ public class Designer extends BaseDesigner {
             }
         });
         return saveButton;
-    }
-
-    public static String getEditingFilename() {
-        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-        String editingFilePath = jt.getEditingFILE().getPath();
-        //TODO    如果是cache里的文件，也会走到这里，这里是找到reportlets去掉的。万一刚好cache/reportlets会出问题
-        if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
-            editingFilePath = editingFilePath.replaceFirst(ProjectConstants.REPORTLETS_NAME, StringUtils.EMPTY);
-        } else if (editingFilePath.startsWith(Constants.VCS_CACHE_DIR)) {
-            editingFilePath = editingFilePath.replaceFirst(Constants.VCS_CACHE_DIR, StringUtils.EMPTY);
-        }
-        //TODO refactor 考虑直接用reportlets/xxx/x/x/x/x/x//  or /xx/x/x/x/x/x
-        if (editingFilePath.startsWith("/")) {
-            editingFilePath = editingFilePath.substring(1);
-        }
-        return editingFilePath;
     }
 
     private UIButton createUndoButton() {
