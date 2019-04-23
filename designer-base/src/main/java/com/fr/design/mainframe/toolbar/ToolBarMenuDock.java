@@ -57,6 +57,7 @@ import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -202,11 +203,18 @@ public abstract class ToolBarMenuDock {
         };
 
         this.menus = menus(plus);
-        OemProcessor oemProcessor = OemHandler.findOem();
-        if (oemProcessor != null) {
-            this.menus = oemProcessor.dealWithMenuDef(this.menus);
+        try {
+            OemProcessor oemProcessor = OemHandler.findOem();
+            if (oemProcessor != null) {
+                this.menus = oemProcessor.dealWithMenuDef(this.menus);
+                if (this.menus == null) {
+                    this.menus = menus(plus);
+                }
+            }
+        } catch (Throwable e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            this.menus = menus(plus);
         }
-
         for (int i = 0; i < menus.length; i++) {
             menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();

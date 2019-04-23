@@ -461,10 +461,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             @SuppressWarnings("unchecked")
             OemProcessor oemProcessor = OemHandler.findOem();
-            List<BufferedImage> image;
-            if (oemProcessor != null && oemProcessor.createTitleIcon() != null) {
-                image = oemProcessor.createTitleIcon();
-            } else {
+            List<BufferedImage> image = null;
+            if (oemProcessor != null) {
+                try {
+                    image = oemProcessor.createTitleIcon();
+                } catch (Throwable e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
+            if (image == null) {
                 image = ICODecoder.read(DesignerFrame.class
                         .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
             }

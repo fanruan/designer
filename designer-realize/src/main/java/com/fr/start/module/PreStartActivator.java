@@ -15,6 +15,7 @@ import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.start.OemHandler;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 import com.fr.start.fx.SplashFx;
@@ -125,9 +126,14 @@ public class PreStartActivator extends Activator {
     }
 
     private SplashStrategy createSplash() {
-        OemProcessor oemProcessor = getSingleton(OemProcessor.class);
+        OemProcessor oemProcessor = OemHandler.findOem();
         if (oemProcessor != null) {
-            SplashStrategy splashStrategy = oemProcessor.createSplashStrategy();
+            SplashStrategy splashStrategy = null;
+            try {
+                splashStrategy = oemProcessor.createSplashStrategy();
+            } catch (Throwable e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
             if (splashStrategy != null) {
                 return splashStrategy;
             }
