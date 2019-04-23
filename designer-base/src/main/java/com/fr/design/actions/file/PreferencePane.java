@@ -41,6 +41,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -135,6 +137,12 @@ public class PreferencePane extends BasicPane {
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
+    private UICheckBox vcsEnableCheckBox;
+    private UICheckBox saveCommitCheckBox;
+    private IntegerEditor saveIntervalEditor;
+
+
+
     public PreferencePane() {
         this.initComponents();
     }
@@ -155,6 +163,7 @@ public class PreferencePane extends BasicPane {
         createEditPane(generalPane);
         createGuiOfGridPane(generalPane);
         createColorSettingPane(generalPane);
+        createVcsSettingPane(generalPane);
 
         // ConfPane
         JPanel confLocationPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
@@ -191,6 +200,36 @@ public class PreferencePane extends BasicPane {
         spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
+    }
+
+    private void createVcsSettingPane(JPanel generalPane) {
+        JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
+        generalPane.add(vcsPane);
+        vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
+        saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
+        saveIntervalEditor = new IntegerEditor(30);
+        JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
+        UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
+        UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
+        memorySpace.add(everyLabel);
+        memorySpace.add(saveIntervalEditor);
+        memorySpace.add(delayLabel);
+        vcsEnableCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                boolean selected = vcsEnableCheckBox.isSelected();
+                if (selected) {
+                    saveCommitCheckBox.setEnabled(true);
+                    saveIntervalEditor.setEnabled(true);
+                } else {
+                    saveCommitCheckBox.setEnabled(false);
+                    saveIntervalEditor.setEnabled(false);
+                }
+            }
+        });
+        vcsPane.add(vcsEnableCheckBox);
+        vcsPane.add(memorySpace);
+        vcsPane.add(saveCommitCheckBox);
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -542,6 +581,13 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setEnabled(false);
             defaultStringToFormulaBox.setSelected(false);
         }
+        vcsEnableCheckBox.setSelected(designerEnvManager.isVcsEnable());
+        if (!vcsEnableCheckBox.isSelected()) {
+            saveIntervalEditor.setEnabled(false);
+            saveCommitCheckBox.setEnabled(false);
+        }
+        saveIntervalEditor.setValue(designerEnvManager.getSaveInterval());
+        saveCommitCheckBox.setSelected(designerEnvManager.isSaveCommit());
 
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
@@ -631,6 +677,9 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImproveCheckBox.isSelected());
+        designerEnvManager.setSaveInterval(this.saveIntervalEditor.getValue());
+        designerEnvManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
+        designerEnvManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
         if (this.autoPushUpdateCheckBox != null) {
             designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
         }
