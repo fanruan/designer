@@ -102,6 +102,10 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         return templateID;
     }
 
+    String getOriginID() {
+        return originID;
+    }
+
     int getTimeConsume() {
         return (int)consumingMap.get(ATTR_TIME_CONSUME);
     }
