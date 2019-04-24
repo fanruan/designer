@@ -11,6 +11,7 @@ import com.fr.stable.CommonUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.third.jodd.datetime.JDateTime;
 import com.fr.third.org.apache.http.HttpEntity;
 import com.fr.third.org.apache.http.HttpResponse;
 import com.fr.third.org.apache.http.client.HttpClient;
@@ -24,8 +25,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -106,11 +105,10 @@ public class FileEntityBuilder {
      * @throws IOException
      */
     public static void uploadFile(File file, String keyFileName) throws IOException {
-        Date today=new Date();
-        SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
+        String today = new JDateTime().toString("YYYY-MM-DD");
         HttpClient httpclient = new DefaultHttpClient();
         try {
-            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator + f.format(today) + File.separator +keyFileName);
+            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator + today + File.separator +keyFileName);
             if(StringUtils.isEmpty(signedUrl)){
                 FineLoggerFactory.getLogger().error("signedUrl is null.");
                 return;
