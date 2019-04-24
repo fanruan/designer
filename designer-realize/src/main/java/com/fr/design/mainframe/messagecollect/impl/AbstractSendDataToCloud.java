@@ -102,7 +102,7 @@ public abstract class AbstractSendDataToCloud implements XMLable {
         try {
             JSONArray jsonArray = dealWithSendFunctionContent(points);
             //生成json文件
-            fileEntityBuilder.generateFile(jsonArray, getFileEntityBuilder().getPathName());
+            fileEntityBuilder.generateFile(jsonArray, getFileEntityBuilder().getFolderName());
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
