@@ -9,7 +9,6 @@ import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.EncodeConstants;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.http.HttpEntity;
@@ -25,8 +24,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.fr.third.org.apache.http.HttpStatus.SC_OK;
 
@@ -41,39 +43,14 @@ public class FileEntityBuilder {
     private static final String ATTR_SIGNATURE = "signature";
     private static final String ATTR_KEY = "key";
     private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
-    /**
-     * 文件名
-     */
-    private String fileName;
-    /**
-     * 文件的完整路径
-     */
-    private String pathName;
+
     /**
      * 文件夹路径
      */
     private String folderName;
 
-    public FileEntityBuilder(String fileName, String pathName, String folderName) {
-        this.fileName = fileName;
-        this.pathName = pathName;
+    public FileEntityBuilder(String folderName) {
         this.folderName = folderName;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getPathName() {
-        return pathName;
-    }
-
-    public void setPathName(String pathName) {
-        this.pathName = pathName;
     }
 
     public String getFolderName() {
@@ -97,14 +74,19 @@ public class FileEntityBuilder {
         return zipFile;
     }
 
-    public void generateFile(JSONArray jsonArray, String pathName) {
+    public void generateFile(JSONArray jsonArray, String folderName) {
+        if (jsonArray.size() == 0) {
+            return;
+        }
         try {
             String content = jsonArray.toString();
-            File file = new File(pathName + ".json");
+            String fileName = String.valueOf(UUID.randomUUID());
+            File file = new File(folderName + File.separator + fileName + ".json");
             StableUtils.makesureFileExist(file);
             FileOutputStream out = new FileOutputStream(file);
             InputStream in = new ByteArrayInputStream(content.getBytes(EncodeConstants.ENCODING_UTF_8));
             IOUtils.copyBinaryTo(in, out);
+            in.close();
             out.close();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -112,7 +94,7 @@ public class FileEntityBuilder {
     }
 
     public void deleteFileAndZipFile(File zipFile, String pathName) {
-        File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), pathName));
+        File file = new File(pathName);
         CommonUtils.deleteFile(file);
         CommonUtils.deleteFile(zipFile);
     }
@@ -124,9 +106,11 @@ public class FileEntityBuilder {
      * @throws IOException
      */
     public static void uploadFile(File file, String keyFileName) throws IOException {
+        Date today=new Date();
+        SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd");
         HttpClient httpclient = new DefaultHttpClient();
         try {
-            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator +keyFileName);
+            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator + f.format(today) + File.separator +keyFileName);
             if(StringUtils.isEmpty(signedUrl)){
                 FineLoggerFactory.getLogger().error("signedUrl is null.");
                 return;
