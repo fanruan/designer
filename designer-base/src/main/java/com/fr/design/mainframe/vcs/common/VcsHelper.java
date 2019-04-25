@@ -34,8 +34,10 @@ public class VcsHelper {
             : WorkContext.getCurrent().getConnection().getUserName();
 
     public final static Color TABLE_SELECT_BACKGROUND = new Color(0xD8F2FD);
+    public final static Color COPY_VERSION_BTN_COLOR = new Color(0x419BF9);
 
-    public final static EmptyBorder EMPTY_BORDER = new EmptyBorder(5, 10, 0, 10);
+
+    public final static EmptyBorder EMPTY_BORDER = new EmptyBorder(10, 10, 0, 10);
 
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
 
