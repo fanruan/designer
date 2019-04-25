@@ -66,9 +66,12 @@ public class TemplateInfoCollectorTest {
 
     @Test
     public void testReadXML() {
+        assertEquals(",,", DesignerOpenHistory.getInstance().toString());
+
         TemplateInfoCollector collector = TemplateInfoCollector.getInstance();
-        assertEquals("2019-04-18", Reflect.on(collector).field("designerOpenDate").get());
         assertEquals(7, ((Map) Reflect.on(collector).field("templateInfoMap").get()).size());
+
+        assertEquals("2019-04-08,2019-04-03,2019-03-29", DesignerOpenHistory.getInstance().toString());
     }
 
     @Test
@@ -149,6 +152,29 @@ public class TemplateInfoCollectorTest {
         assertEquals(originID, consumingMap.get("originID"));
         assertEquals(329, consumingMap.get("time_consume"));
         assertEquals(129, consumingMap.get("originTime"));
+    }
+
+    @Test
+    public void testCollectInfoWhenSaveAsWithNoTrackOriginID() throws Exception {
+        setUpMockForNewInstance();
+
+        TemplateInfoCollector collector = TemplateInfoCollector.getInstance();
+
+        String templateID = "423238d4-5223-22vj-vlsj-42jc49245iw3";
+        String originID = "3kha8jcs-31xw-42f5-h2ww-2ee84935312z";
+        int timeConsume = 200;
+
+        collector.collectInfo(templateID, originID, mockProcessInfo, timeConsume);
+
+        TemplateInfo templateInfo = collector.getOrCreateTemplateInfoByID(templateID);
+        assertEquals(templateID, templateInfo.getTemplateID());
+        assertEquals(originID, templateInfo.getOriginID());
+
+        Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
+        assertEquals(templateID, consumingMap.get("templateID"));
+        assertEquals(originID, consumingMap.get("originID"));
+        assertEquals(200, consumingMap.get("time_consume"));
+        assertEquals(0, consumingMap.get("originTime"));
     }
 
     @Test

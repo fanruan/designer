@@ -75,11 +75,8 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         TemplateInfo templateInfo;
         if (this.contains(templateID)) {
             templateInfo = templateInfoMap.get(templateID);
-        } else if (!this.contains(originID)) {
-            templateInfo = TemplateInfo.newInstance(templateID);
-            templateInfoMap.put(templateID, templateInfo);
         } else {
-            int originTime = templateInfoMap.get(originID).getTimeConsume();
+            int originTime = this.contains(originID) ? templateInfoMap.get(originID).getTimeConsume() : 0;
             templateInfo = TemplateInfo.newInstance(templateID, originID, originTime);
             templateInfoMap.put(templateID, templateInfo);
         }

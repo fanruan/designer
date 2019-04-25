@@ -26,6 +26,7 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
     private static final String TAG = "FocusPointMessageTag";
     private static final String SEPARATOR = "_";
     private static final String FOCUS_POINT = "FocusPoint";
+    private static final long DELTA = 24 * 3600 * 1000L;
     private static volatile FocusPointMessageUploader instance;
 
     public static FocusPointMessageUploader getInstance() {
@@ -46,13 +47,13 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
             FocusPoint focusPoint = (FocusPoint)t;
             JSONObject jo = new JSONObject();
             jo.put("id",focusPoint.getId());
-            jo.put("text",focusPoint.getId());
-            jo.put("source",focusPoint.getId());
-            jo.put("time",focusPoint.getId());
-            jo.put("username",focusPoint.getId());
-            jo.put("ip",focusPoint.getId());
-            jo.put("title",focusPoint.getId());
-            jo.put("body",focusPoint.getId());
+            jo.put("text",focusPoint.getText());
+            jo.put("source",focusPoint.getSource());
+            jo.put("time",focusPoint.getTime());
+            jo.put("username",focusPoint.getUsername());
+            jo.put("ip",focusPoint.getIp());
+            jo.put("title",focusPoint.getTitle());
+            jo.put("body",focusPoint.getBody());
             ja.put(jo);
         }
         return ja;
@@ -61,10 +62,13 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
     public void sendToCloudCenter() {
         MessageCollectUtils.readXMLFile(instance, getLastTimeFile());
         long currentTime = new Date().getTime();
-        long lastTIme = MessageCollectUtils.getLastTimeMillis(lastTime);
+        long lastTime = MessageCollectUtils.getLastTimeMillis(this.lastTime);
+        if (currentTime - lastTime <= DELTA) {
+            return;
+        }
         try {
             generatePath();
-            queryData(currentTime, lastTIme, FocusPoint.class);
+            queryData(currentTime, lastTime, FocusPoint.class);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage());
         }
@@ -97,9 +101,7 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
                 append(ProductConstants.MINOR_VERSION).append(SEPARATOR).
                 append(uuid).append(SEPARATOR).append(bbsUserName).append(SEPARATOR).
                 append(UUID.randomUUID());
-        String fileName = String.valueOf(UUID.randomUUID());
-        String pathName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString(), fileName);
         String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString());
-        setFileEntityBuilder(new FileEntityBuilder(fileName, pathName, folderName));
+        setFileEntityBuilder(new FileEntityBuilder(folderName));
     }
 }
