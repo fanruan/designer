@@ -8,6 +8,7 @@ import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 负责向服务器发送信息
@@ -30,7 +31,7 @@ class SendHelper {
     }
 
     private static boolean sendSingleTemplateInfo(String url, String content) {
-        HashMap<String, Object> para = new HashMap<>();
+        Map<String, Object> para = new HashMap<>();
         para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);
 
