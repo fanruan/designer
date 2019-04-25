@@ -33,7 +33,7 @@ public class FileVersionRowPanel extends JPanel {
     private VcsEntity vcsEntity;
     private UILabel versionLabel = new UILabel();
     private UILabel usernameLabel = new UILabel(StringUtils.EMPTY, VcsHelper.VCS_USER_PNG, SwingConstants.LEFT);
-    private UITextPane timeAndMsgLabel = new UITextPane();
+    private UITextPane msgLabel = new UITextPane();
     private UILabel timeLabel = new UILabel();
     private EditFileVersionDialog editDialog;
 
@@ -49,12 +49,12 @@ public class FileVersionRowPanel extends JPanel {
 
 
         // msg
-        timeAndMsgLabel.setBorder(VcsHelper.EMPTY_BORDER);
-        timeAndMsgLabel.setOpaque(false);
-        timeAndMsgLabel.setBackground(new Color(0, 0, 0, 0));
-        timeAndMsgLabel.setEditable(false);
+        msgLabel.setBorder(VcsHelper.EMPTY_BORDER);
+        msgLabel.setOpaque(false);
+        msgLabel.setBackground(new Color(0, 0, 0, 0));
+        msgLabel.setEditable(false);
 
-        // confirm + delete
+        // confirm + delete + edit
         UIButton confirmBtn = new UIButton(VcsHelper.VCS_REVERT);
         confirmBtn.set4ToolbarButton();
         confirmBtn.setToolTipText(Toolkit.i18nText("Fine-Design_Vcs_Revert"));
@@ -108,9 +108,10 @@ public class FileVersionRowPanel extends JPanel {
         downPane.add(usernameLabel);
         downPane.setBorder(VcsHelper.EMPTY_BORDER_BOTTOM);
         downPane.add(Box.createHorizontalGlue());
+        timeLabel.setForeground(VcsHelper.COPY_VERSION_BTN_COLOR);
         downPane.add(timeLabel);
         add(upPane, BorderLayout.NORTH);
-        add(timeAndMsgLabel, BorderLayout.CENTER);
+        add(msgLabel, BorderLayout.CENTER);
         add(downPane, BorderLayout.SOUTH);
     }
 
@@ -126,11 +127,11 @@ public class FileVersionRowPanel extends JPanel {
         this.vcsEntity = fileVersion;
         versionLabel.setText(String.format("V.%s", fileVersion.getVersion()));
         usernameLabel.setText(fileVersion.getUsername());
-        timeAndMsgLabel.setText(StringUtils.EMPTY);
+        msgLabel.setText(StringUtils.EMPTY);
         timeLabel.setText(timeStr(fileVersion.getTime()));
         try {
-            StyledDocument doc = timeAndMsgLabel.getStyledDocument();
-            Style style = timeAndMsgLabel.getLogicalStyle();
+            StyledDocument doc = msgLabel.getStyledDocument();
+            Style style = msgLabel.getLogicalStyle();
             StyleConstants.setForeground(style, Color.BLACK);
             doc.insertString(doc.getLength(), " " + fileVersion.getCommitMsg(), style);
         } catch (BadLocationException e) {
