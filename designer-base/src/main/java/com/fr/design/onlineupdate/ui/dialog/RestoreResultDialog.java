@@ -175,8 +175,8 @@ public class RestoreResultDialog extends JDialog {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.APP_FOLDER_NAME, ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.APP_FOLDER_NAME, ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
         }
     }
 }

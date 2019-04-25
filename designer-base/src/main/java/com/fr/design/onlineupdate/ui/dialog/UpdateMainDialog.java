@@ -683,7 +683,7 @@ public class UpdateMainDialog extends UIDialog {
         for (String file : files) {
             try {
                 IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.APP_FOLDER_NAME, ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
+                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
                         new File(StableUtils.pathJoin(todayBackupDir)));
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
@@ -724,8 +724,8 @@ public class UpdateMainDialog extends UIDialog {
     private void putNewFilesToInstallEnv(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.APP_FOLDER_NAME, ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.APP_FOLDER_NAME, ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
         }
     }
 
