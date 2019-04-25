@@ -30,13 +30,12 @@ class SendHelper {
     }
 
     private static boolean sendSingleTemplateInfo(String url, String content) {
+        HashMap<String, Object> para = new HashMap<>();
+        para.put("token", SiteCenterToken.generateToken());
+        para.put("content", content);
+
         try {
-            HashMap<String, Object> para = new HashMap<>();
-            para.put("token", SiteCenterToken.generateToken());
-            para.put("content", content);
-
             String res = HttpToolbox.post(url, para);
-
             return ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
         } catch (Throwable e) {
             // 客户不需要关心，错误等级为 debug 就行了
