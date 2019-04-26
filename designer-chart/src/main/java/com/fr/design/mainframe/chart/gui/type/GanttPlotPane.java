@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.GanttIndependentChart;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -25,8 +25,8 @@ public class GanttPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-                Inter.getLocText("Fine-Engine_Chart_Type_Gantt")
-        };
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt")
+		};
     }
 
 	@Override
@@ -48,8 +48,8 @@ public class GanttPlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Gantt");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt");
+	}
 
 	/**
 	 * 保存界面属性

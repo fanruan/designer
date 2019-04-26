@@ -4,7 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.BubbleIndependentChart;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -26,8 +26,8 @@ public class BubblePlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-                Inter.getLocText("Fine-Engine_Chart_Bubble_Chart")
-        };
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart")
+		};
     }
 
 	@Override
@@ -45,8 +45,8 @@ public class BubblePlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Bubble_Chart");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart");
+	}
 
 	/**
 	 * 保存界面属性

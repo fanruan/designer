@@ -5,7 +5,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.LinePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.LineIndependentChart;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -22,8 +22,8 @@ public class LinePlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-                Inter.getLocText("Fine-Engine_Chart_Type_Line")
-        };
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Line")
+		};
     }
 
 	@Override
@@ -84,8 +84,8 @@ public class LinePlotPane extends AbstractChartTypePane{
 	}
 
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Line");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Line");
+	}
 
 	public Chart getDefaultChart() {
         return LineIndependentChart.lineChartTypes[0];

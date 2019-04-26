@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ColumnIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -32,7 +32,7 @@ public class ColumnPlotPane extends AbstractBarPane{
 
     @Override
     protected String[] getTypeTipName() {
-        String column = Inter.getLocText("Fine-Engine_Chart_Type_Column");
+        String column = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
         String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
         String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
         String td = Toolkit.i18nText("Fine-Design_Chart_3D");
@@ -65,7 +65,7 @@ public class ColumnPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Column");
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
     }
 
     protected Plot getSelectedClonedPlot(){

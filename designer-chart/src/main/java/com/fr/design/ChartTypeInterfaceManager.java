@@ -41,7 +41,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -167,7 +167,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
-            child[index] = new ChartWidgetOption(Inter.getLocText(bean.getName()), icon, ChartEditor.class, plotID);
+            child[index] = new ChartWidgetOption(InterProviderFactory.getProvider().getLocText(bean.getName()), icon, ChartEditor.class, plotID);
             index++;
         }
 

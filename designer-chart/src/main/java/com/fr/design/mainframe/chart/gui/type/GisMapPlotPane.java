@@ -11,7 +11,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
@@ -73,8 +73,8 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-                Inter.getLocText("Fine-Engine_Chart_GIS_Map")
-        };
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map")
+		};
     }
 
 	@Override
@@ -173,8 +173,8 @@ public class GisMapPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_GIS_Map");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map");
+	}
 
     /**
      * 是否有坐标轴

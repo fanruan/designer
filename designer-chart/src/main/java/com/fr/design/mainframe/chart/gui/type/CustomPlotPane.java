@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.CustomIndependentChart;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -27,8 +27,8 @@ public class CustomPlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-                Inter.getLocText("Fine-Engine_Chart_Type_Combine")
-        };
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Combine")
+		};
     }
 
 	@Override
@@ -46,8 +46,8 @@ public class CustomPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Combine");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Combine");
+	}
 
 	/**
 	 * 更新界面内容

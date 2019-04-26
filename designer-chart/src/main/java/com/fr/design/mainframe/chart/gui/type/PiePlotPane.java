@@ -10,7 +10,7 @@ import com.fr.chart.chartattr.PiePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.PieIndependentChart;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.Constants;
 
 import java.awt.Color;
@@ -36,8 +36,8 @@ public class PiePlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-        String pie = Inter.getLocText("Fine-Engine_Chart_Type_Pie");
-        return new String[]{
+		String pie = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie");
+		return new String[]{
                 pie,
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
         };
@@ -63,8 +63,8 @@ public class PiePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Pie");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie");
+	}
 
     private void createPieCondition(Plot plot) {
         ConditionCollection collection = plot.getConditionCollection();

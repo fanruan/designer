@@ -11,7 +11,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.DonutIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.general.Inter;
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.Constants;
 
 import java.awt.Color;
@@ -36,7 +36,7 @@ public class DonutPlotPane extends AbstractChartTypePane{
 
     @Override
     protected String[] getTypeTipName() {
-        String donut = Inter.getLocText("Fine-Engine_Chart_Type_Donut");
+        String donut = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
         return new String[]{
                 donut,
                 Toolkit.i18nText("Fine-Design_Chart_3D") + donut
@@ -104,7 +104,7 @@ public class DonutPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
     public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Donut");
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
     }
 
     /**

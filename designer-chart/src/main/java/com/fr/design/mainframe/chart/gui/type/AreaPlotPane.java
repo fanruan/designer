@@ -8,7 +8,8 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.AreaIndependentChart;
-import com.fr.general.Inter;
+import com.fr.design.i18n.Toolkit;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -34,10 +35,10 @@ public class AreaPlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-        String area = Inter.getLocText("Fine-Engine_Chart_Type_Area");
-        String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-		String td = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D");
+		String area = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+		String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
+		String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+		String td = Toolkit.i18nText("Fine-Design_Chart_3D");
 		return new String[]{
 				stack + area,
 				percent + stack + area,
@@ -140,8 +141,8 @@ public class AreaPlotPane extends AbstractChartTypePane{
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-        return Inter.getLocText("Fine-Engine_Chart_Type_Area");
-    }
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+	}
 
     public Chart getDefaultChart() {
         return AreaIndependentChart.areaChartTypes[0];
