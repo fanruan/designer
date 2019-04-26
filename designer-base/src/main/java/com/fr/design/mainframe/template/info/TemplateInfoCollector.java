@@ -145,10 +145,6 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     }
 
     private boolean shouldCollectInfo() {
-        //只收集本地环境的
-        if (!WorkContext.getCurrent().isLocal()) {
-            return false;
-        }
         return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
