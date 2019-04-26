@@ -23,6 +23,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.vcs.VcsConfigManager;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
@@ -139,7 +141,9 @@ public class PreferencePane extends BasicPane {
 
     private UICheckBox vcsEnableCheckBox;
     private UICheckBox saveCommitCheckBox;
+    private UICheckBox useIntervalCheckBox;
     private IntegerEditor saveIntervalEditor;
+    private UILabel remindVcsLabel;
 
 
 
@@ -205,15 +209,22 @@ public class PreferencePane extends BasicPane {
     private void createVcsSettingPane(JPanel generalPane) {
         JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
         generalPane.add(vcsPane);
+        remindVcsLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Remind"));
+        remindVcsLabel.setVisible(!VcsHelper.needInit());
         vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
         saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
-        saveIntervalEditor = new IntegerEditor(30);
-        JPanel memorySpace = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
+        saveIntervalEditor = new IntegerEditor(60);
+        useIntervalCheckBox = new UICheckBox();
+        JPanel enableVcsPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
+        enableVcsPanel.add(vcsEnableCheckBox);
+        enableVcsPanel.add(remindVcsLabel);
+        JPanel intervalPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
         UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
         UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
-        memorySpace.add(everyLabel);
-        memorySpace.add(saveIntervalEditor);
-        memorySpace.add(delayLabel);
+        intervalPanel.add(useIntervalCheckBox);
+        intervalPanel.add(everyLabel);
+        intervalPanel.add(saveIntervalEditor);
+        intervalPanel.add(delayLabel);
         vcsEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -221,14 +232,16 @@ public class PreferencePane extends BasicPane {
                 if (selected) {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
+                    useIntervalCheckBox.setEnabled(true);
                 } else {
                     saveCommitCheckBox.setEnabled(false);
                     saveIntervalEditor.setEnabled(false);
+                    useIntervalCheckBox.setEnabled(false);
                 }
             }
         });
-        vcsPane.add(vcsEnableCheckBox);
-        vcsPane.add(memorySpace);
+        vcsPane.add(enableVcsPanel);
+        vcsPane.add(intervalPanel);
         vcsPane.add(saveCommitCheckBox);
     }
 
@@ -581,13 +594,22 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setEnabled(false);
             defaultStringToFormulaBox.setSelected(false);
         }
-        vcsEnableCheckBox.setSelected(designerEnvManager.isVcsEnable());
-        if (!vcsEnableCheckBox.isSelected()) {
-            saveIntervalEditor.setEnabled(false);
-            saveCommitCheckBox.setEnabled(false);
+        VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
+        if (VcsHelper.needInit()) {
+            vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
+        } else {
+            vcsEnableCheckBox.setEnabled(false);
+            vcsEnableCheckBox.setSelected(false);
         }
-        saveIntervalEditor.setValue(designerEnvManager.getSaveInterval());
-        saveCommitCheckBox.setSelected(designerEnvManager.isSaveCommit());
+        if (!vcsEnableCheckBox.isSelected()) {
+            saveCommitCheckBox.setEnabled(false);
+            saveIntervalEditor.setEnabled(false);
+            useIntervalCheckBox.setEnabled(false);
+        }
+
+        saveIntervalEditor.setValue(vcsConfigManager.getSaveInterval());
+        saveCommitCheckBox.setSelected(vcsConfigManager.isSaveCommit());
+        useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
 
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
@@ -677,9 +699,11 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
         designerEnvManager.setJoinProductImprove(this.joinProductImproveCheckBox.isSelected());
-        designerEnvManager.setSaveInterval(this.saveIntervalEditor.getValue());
-        designerEnvManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
-        designerEnvManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
+        VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
+        vcsConfigManager.setSaveInterval(this.saveIntervalEditor.getValue());
+        vcsConfigManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
+        vcsConfigManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
+        vcsConfigManager.setUseInterval(this.useIntervalCheckBox.isSelected());
         if (this.autoPushUpdateCheckBox != null) {
             designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
         }
