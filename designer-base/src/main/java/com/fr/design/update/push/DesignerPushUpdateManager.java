@@ -13,28 +13,29 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
-import java.io.IOException;
-
 /**
  * Created by plough on 2019/4/8.
  */
 public class DesignerPushUpdateManager {
     private static final String SPLIT_CHAR = "-";
     private static DesignerPushUpdateManager singleton;
+    private static DesignerPushUpdateConfigManager config;
+
     private DesignerUpdateInfo updateInfo;
-    private DesignerPushUpdateConfigManager config;
 
     static {
-        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
-            @Override
-            public void designerOpened() {
-                getInstance().checkAndPop();
-            }
-        });
+        config = DesignerPushUpdateConfigManager.getInstance();
+        if (config.isAutoPushUpdateEnabled()) {
+            DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+                @Override
+                public void designerOpened() {
+                    getInstance().checkAndPop();
+                }
+            });
+        }
     }
 
     private DesignerPushUpdateManager() {
-        config = DesignerPushUpdateConfigManager.getInstance();
     }
 
     public static DesignerPushUpdateManager getInstance() {
@@ -56,7 +57,7 @@ public class DesignerPushUpdateManager {
         try {
             String res = HttpToolbox.get(CloudCenter.getInstance().acquireUrlByKind("jar10.update"));
             return new JSONObject(res).optString("buildNO");
-        } catch (IOException e) {
+        } catch (Throwable e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return StringUtils.EMPTY;
