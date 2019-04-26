@@ -14,8 +14,6 @@ import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
-import com.fr.design.mainframe.vcs.VcsConfigManager;
-import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.file.FILEFactory;
@@ -148,9 +146,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
 
-    private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
-
-    private VcsConfigManager vcsConfigManager = VcsConfigManager.getInstance();
 
     public static final String CAS_CERTIFICATE_PATH = "certificatePath";
 
@@ -182,6 +177,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public static DesignerEnvManager getEnvManager(boolean needCheckEnv) {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
+            //REPORT-15332有一个国际化调用比较早,需要在这边就设置好locale,由于后台GeneralContext默认是China
+            GeneralContext.setLocale(designerEnvManager.getLanguage());
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
@@ -694,14 +691,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void setJoinProductImprove(boolean joinProductImprove) {
         this.joinProductImprove = joinProductImprove;
-    }
-
-    public boolean isAutoPushUpdateEnabled() {
-        return designerPushUpdateConfigManager.isAutoPushUpdateEnabled();
-    }
-
-    public void setAutoPushUpdateEnabled(boolean autoPushUpdateEnabled) {
-        designerPushUpdateConfigManager.setAutoPushUpdateEnabled(autoPushUpdateEnabled);
     }
 
     /**
@@ -1344,7 +1333,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         }
     }
 
-
     private void readJettyPort(XMLableReader reader) {
         String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
@@ -1489,18 +1477,14 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readUUID(reader);
             } else if ("status".equals(name)) {
                 readActiveStatus(reader);
-            } else if (ComparatorUtils.equals(CAS_PARAS, name)) {
+            } else if (CAS_PARAS.equals(name)) {
                 readHttpsParas(reader);
-            } else if (name.equals("AlphaFineConfigManager")) {
+            } else if ("AlphaFineConfigManager".equals(name)) {
                 readAlphaFineAttr(reader);
-            } else if (name.equals("RecentColors")) {
+            } else if ("RecentColors".equals(name)) {
                 readRecentColor(reader);
             } else if ("OpenDebug".equals(name)) {
                 readOpenDebug(reader);
-            } else if (name.equals(DesignerPushUpdateConfigManager.XML_TAG)) {
-                readDesignerPushUpdateAttr(reader);
-            } else if (name.equals(vcsConfigManager.XML_TAG)) {
-                readVcsAttr(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1683,14 +1667,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         checkRecentOpenedFileNum();
     }
 
-    private void readDesignerPushUpdateAttr(XMLableReader reader) {
-        reader.readXMLObject(designerPushUpdateConfigManager);
-    }
-
-    private void readVcsAttr(XMLableReader reader) {
-        reader.readXMLObject(vcsConfigManager);
-    }
-
     /**
      * Write XML.<br>
      * The method will be invoked when save data to XML file.<br>
@@ -1714,8 +1690,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeAlphaFineAttr(writer);
         writeRecentColor(writer);
         writeOpenDebug(writer);
-        writeDesignerPushUpdateAttr(writer);
-        writeVcsAttr(writer);
         writer.end();
     }
 
@@ -1738,6 +1712,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             writer.end();
         }
     }
+
 
     //写入uuid
     private void writeUUID(XMLPrintWriter writer) {
@@ -1954,20 +1929,4 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .end();
     }
 
-    private void writeDesignerPushUpdateAttr(XMLPrintWriter writer) {
-        this.designerPushUpdateConfigManager.writeXML(writer);
-    }
-
-    private void writeVcsAttr(XMLPrintWriter writer) {
-        this.vcsConfigManager.writeXML(writer);
-    }
-
-
-    public VcsConfigManager getVcsConfigManager() {
-        return vcsConfigManager;
-    }
-
-    public void setVcsConfigManager(VcsConfigManager vcsConfigManager) {
-        this.vcsConfigManager = vcsConfigManager;
-    }
 }

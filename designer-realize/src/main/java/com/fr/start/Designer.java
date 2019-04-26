@@ -3,7 +3,6 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
@@ -12,7 +11,6 @@ import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.fun.MenuHandler;
@@ -29,14 +27,12 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
-import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
@@ -44,17 +40,12 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.runtime.FineRuntime;
-import com.fr.stable.BuildContext;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
-import com.fr.start.fx.SplashFx;
-import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
-import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 
@@ -70,8 +61,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -91,10 +80,6 @@ public class Designer extends BaseDesigner {
     private UIButton redo;
     private UIPreviewButton run;
 
-    public Designer(String[] args) {
-        super(args);
-    }
-
     /**
      * 设计器启动的Main方法
      *
@@ -104,21 +89,6 @@ public class Designer extends BaseDesigner {
 
         //启动运行时
         FineRuntime.start();
-        BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
-        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
-        if (DesignUtils.isStarted()) {
-            DesignUtils.clientSend(args);
-            FineLoggerFactory.getLogger().error("Designer port not available.");
-            System.exit(0);
-            return;
-        }
-        RestartHelper.deleteRecordFilesWhenStart();
-
-        preloadResource();
-
-        SplashContext.getInstance().registerSplash(createSplash());
-
-        SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
@@ -138,34 +108,10 @@ public class Designer extends BaseDesigner {
 
     }
 
-    private static void preloadResource() {
-        ExecutorService service = Executors.newCachedThreadPool();
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                TemplateInfoCollector.getInstance();
-            }
-        });
-        service.shutdown();
+    public Designer(String[] args) {
+        super(args);
     }
 
-    private static SplashStrategy createSplash() {
-        // 这里可以开接口加载自定义启动画面
-        if (OperatingSystem.isWindows()) {
-            return new SplashFx();
-        } else if (OperatingSystem.isMacOS()) {
-            return new SplashMac();
-        }
-        return new SplashFx();
-    }
 
     /**
      * 创建新建文件的快捷方式数组。
@@ -269,7 +215,7 @@ public class Designer extends BaseDesigner {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+                JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
@@ -277,7 +223,6 @@ public class Designer extends BaseDesigner {
         });
         return saveButton;
     }
-
 
     private UIButton createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));

@@ -2,6 +2,7 @@ package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -23,9 +24,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.vcs.VcsConfigManager;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
-import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -43,8 +41,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -122,6 +118,7 @@ public class PreferencePane extends BasicPane {
     private KeyStroke shortCutKeyStore = null;
     private UIColorButton gridLineColorTBButton;
 
+
     private UIColorButton paginationLineColorTBButton;
 
     private UICheckBox supportCellEditorDefCheckBox;
@@ -136,16 +133,8 @@ public class PreferencePane extends BasicPane {
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
-    private UICheckBox joinProductImproveCheckBox;
-    private UICheckBox autoPushUpdateCheckBox;
-
-    private UICheckBox vcsEnableCheckBox;
-    private UICheckBox saveCommitCheckBox;
-    private UICheckBox useIntervalCheckBox;
-    private IntegerEditor saveIntervalEditor;
-    private UILabel remindVcsLabel;
-
-
+    private UICheckBox useOptimizedUPMCheckbox;
+    private UICheckBox joinProductImprove;
 
     public PreferencePane() {
         this.initComponents();
@@ -163,11 +152,11 @@ public class PreferencePane extends BasicPane {
         jtabPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Advanced"), advancePane);
         contentPane.add(jtabPane, BorderLayout.NORTH);
 
+
         createFunctionPane(generalPane);
         createEditPane(generalPane);
         createGuiOfGridPane(generalPane);
         createColorSettingPane(generalPane);
-        createVcsSettingPane(generalPane);
 
         // ConfPane
         JPanel confLocationPane = FRGUIPaneFactory.createX_AXISBoxInnerContainer_S_Pane();
@@ -190,59 +179,21 @@ public class PreferencePane extends BasicPane {
         debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
         advancePane.add(debuggerPane);
 
-        JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
-        joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
-        improvePane.add(joinProductImproveCheckBox);
+        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+        upmSelectorPane.add(useOptimizedUPMCheckbox);
+        advancePane.add(upmSelectorPane);
 
-        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
-            autoPushUpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
-            improvePane.add(autoPushUpdateCheckBox);
-        }
+
+        JPanel improvePane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
+        joinProductImprove = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
+        improvePane.add(joinProductImprove);
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
         spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
         spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
-    }
-
-    private void createVcsSettingPane(JPanel generalPane) {
-        JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
-        generalPane.add(vcsPane);
-        remindVcsLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Remind"));
-        remindVcsLabel.setVisible(!VcsHelper.needInit());
-        vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
-        saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
-        saveIntervalEditor = new IntegerEditor(60);
-        useIntervalCheckBox = new UICheckBox();
-        JPanel enableVcsPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
-        enableVcsPanel.add(vcsEnableCheckBox);
-        enableVcsPanel.add(remindVcsLabel);
-        JPanel intervalPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
-        UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
-        UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
-        intervalPanel.add(useIntervalCheckBox);
-        intervalPanel.add(everyLabel);
-        intervalPanel.add(saveIntervalEditor);
-        intervalPanel.add(delayLabel);
-        vcsEnableCheckBox.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                boolean selected = vcsEnableCheckBox.isSelected();
-                if (selected) {
-                    saveCommitCheckBox.setEnabled(true);
-                    saveIntervalEditor.setEnabled(true);
-                    useIntervalCheckBox.setEnabled(true);
-                } else {
-                    saveCommitCheckBox.setEnabled(false);
-                    saveIntervalEditor.setEnabled(false);
-                    useIntervalCheckBox.setEnabled(false);
-                }
-            }
-        });
-        vcsPane.add(enableVcsPanel);
-        vcsPane.add(intervalPanel);
-        vcsPane.add(saveCommitCheckBox);
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -594,22 +545,6 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setEnabled(false);
             defaultStringToFormulaBox.setSelected(false);
         }
-        VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (VcsHelper.needInit()) {
-            vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
-        } else {
-            vcsEnableCheckBox.setEnabled(false);
-            vcsEnableCheckBox.setSelected(false);
-        }
-        if (!vcsEnableCheckBox.isSelected()) {
-            saveCommitCheckBox.setEnabled(false);
-            saveIntervalEditor.setEnabled(false);
-            useIntervalCheckBox.setEnabled(false);
-        }
-
-        saveIntervalEditor.setValue(vcsConfigManager.getSaveInterval());
-        saveCommitCheckBox.setSelected(vcsConfigManager.isSaveCommit());
-        useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
 
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
@@ -631,13 +566,11 @@ public class PreferencePane extends BasicPane {
 
         openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
 
+        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
-        this.joinProductImproveCheckBox.setSelected(designerEnvManager.isJoinProductImprove());
-
-        if (this.autoPushUpdateCheckBox != null) {
-            this.autoPushUpdateCheckBox.setSelected(designerEnvManager.isAutoPushUpdateEnabled());
-        }
+        this.joinProductImprove.setSelected(designerEnvManager.isJoinProductImprove());
     }
 
     private int chooseCase(int sign) {
@@ -698,15 +631,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
-        designerEnvManager.setJoinProductImprove(this.joinProductImproveCheckBox.isSelected());
-        VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        vcsConfigManager.setSaveInterval(this.saveIntervalEditor.getValue());
-        vcsConfigManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
-        vcsConfigManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
-        vcsConfigManager.setUseInterval(this.useIntervalCheckBox.isSelected());
-        if (this.autoPushUpdateCheckBox != null) {
-            designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
-        }
+        designerEnvManager.setJoinProductImprove(this.joinProductImprove.isSelected());
 
         designerEnvManager.setUndoLimit(maxUndoLimit.getSelectedIndex() * SELECTED_INDEX_5);
         if (maxUndoLimit.getSelectedIndex() == SELECTED_INDEX_5) {
@@ -722,6 +647,17 @@ public class PreferencePane extends BasicPane {
             @Override
             public Class<? extends Configuration>[] targets() {
                 return new Class[]{Log4jConfig.class};
+            }
+        });
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[] {ServerPreferenceConfig.class};
             }
         });
 

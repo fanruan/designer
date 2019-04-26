@@ -7,8 +7,7 @@ import com.fr.base.FRContext;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
-import com.fr.design.mainframe.messagecollect.impl.FocusPointMessageUploader;
-import com.fr.design.mainframe.template.info.TemplateInfoCollector;
+import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -16,13 +15,20 @@ import com.fr.general.DesUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpToolbox;
+import com.fr.intelli.record.FocusPoint;
+import com.fr.intelli.record.MetricRegistry;
 import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.query.QueryFactory;
+import com.fr.stable.query.condition.QueryCondition;
+import com.fr.stable.query.data.DataList;
+import com.fr.stable.query.restriction.RestrictionFactory;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLTools;
@@ -47,6 +53,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author neil
  *
@@ -69,6 +80,24 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private static final String XML_UUID = "UUID";
 	private static final String XML_KEY = "ActiveKey";
 	private static final String XML_OS = "OS";
+
+    public static final String TABLE_NAME = "fr_functionrecord";
+    public static final String FUNC_COLUMNNAME = "func";
+    public static final String COLUMN_TIME = "time";
+    public static final String TABLE_FUNCTION_RECORD = "function.record";
+    private static final String ATTR_ID = "id";
+    private static final String ATTR_TEXT = "text";
+    private static final String ATTR_SOURCE = "source";
+    private static final String ATTR_TIME = "time";
+	private static final String ATTR_TIMES = "times";
+    private static final String ATTR_TITLE = "title";
+    private static final String ATTR_USER_NAME = "username";
+    private static final String ATTR_UUID = "uuid";
+	private static final String ATTR_ITEMS = "items";
+	private static final String ATTR_FUNCTION_ARRAY = "functionArray";
+	private static final int MAX_EACH_REQUEST_RECORD_COUNT = 200;
+	private static final int PAGE_SIZE = 200;
+	private long totalCount = -1;
 
 	private static InformationCollector collector;
 
@@ -155,12 +184,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	}
 
 	private void sendUserInfo(){
-		long currentTime = new Date().getTime();
-		long lastTime = getLastTimeMillis();
-
-		if (currentTime - lastTime <= DELTA) {
-			return;
-		}
 		JSONObject content = getJSONContentAsByte();
 		String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
 		boolean success = false;
@@ -178,9 +201,135 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 	}
 
-	/**
-	 * 收集开始使用时间，发送信息
-	 */
+    private void sendFunctionsInfo(long currentTime, long lastTime){
+		FineLoggerFactory.getLogger().info("Start sent function records to the cloud center...");
+		queryAndSendOnePageFunctionContent(currentTime, lastTime, 0);
+        long page =  (totalCount/PAGE_SIZE) + 1;
+        for(int i=1; i<page; i++){
+			queryAndSendOnePageFunctionContent(currentTime, lastTime, i);
+		}
+
+
+//      //先将发送压缩文件这段代码注释，之后提任务
+		//大数据量下发送压缩zip数据不容易丢失
+//		try {
+//			ObjectMapper objectMapper = new ObjectMapper();
+//			String contentStr = objectMapper.writeValueAsString(content);
+//			InputStream inputStream = new ByteArrayInputStream(contentStr.getBytes("UTF-8"));
+//			String recordUrl = url+"?token=" + SiteCenterToken.generateToken() + "&content="+ IOUtils.inputStream2Bytes(IOUtils.toZipIn(inputStream));
+//
+//			String res = HttpToolbox.get(recordUrl);
+//			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+//		} catch (Exception e) {
+//			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+//		}
+//		if (success) {
+//			deleteFunctionRecords(currentTime);
+//		}
+    }
+
+	private void queryAndSendOnePageFunctionContent(long current, long last, int page) {
+		QueryCondition condition = QueryFactory.create()
+				.skip(page * PAGE_SIZE)
+				.count(PAGE_SIZE)
+				.addSort(COLUMN_TIME, true)
+				.addRestriction(RestrictionFactory.lte(COLUMN_TIME, current))
+				.addRestriction(RestrictionFactory.gte(COLUMN_TIME, last));
+		try {
+			DataList<FocusPoint> focusPoints = MetricRegistry.getMetric().find(FocusPoint.class,condition);
+			//第一次查询获取总记录数
+			if(page == 0){
+				totalCount = focusPoints.getTotalCount();
+			}
+			sendThisPageFunctionContent(focusPoints);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private void sendThisPageFunctionContent(DataList<FocusPoint> focusPoints) {
+		String url = CloudCenter.getInstance().acquireUrlByKind(TABLE_FUNCTION_RECORD);
+		try {
+			JSONObject jsonObject = dealWithSendFunctionContent(focusPoints);
+			sendFunctionRecord(url, jsonObject);
+		} catch (JSONException e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		}
+	}
+
+	private JSONObject dealWithSendFunctionContent(DataList<FocusPoint> focusPoints) throws JSONException {
+		JSONObject jsonObject = new JSONObject();
+		Map<String, Object> map = new HashMap<>();
+		if(!focusPoints.isEmpty()){
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+			String uuid = envManager.getUUID();
+			jsonObject.put(ATTR_UUID, uuid);
+			jsonObject.put(ATTR_USER_NAME, bbsUserName);
+			for(FocusPoint focusPoint : focusPoints.getList()) {
+				FunctionRecord functionRecord = getOneRecord(focusPoint);
+				if (map.containsKey(focusPoint.getId())) {
+					int times = ((FunctionRecord)map.get(focusPoint.getId())).getTimes() + 1;
+					functionRecord.setTimes(times);
+					map.put(focusPoint.getId(), functionRecord);
+				} else {
+					map.put(focusPoint.getId(), functionRecord);
+				}
+			}
+			jsonObject.put(ATTR_ITEMS, mapToJSONArray(map));
+		}
+		return jsonObject;
+	}
+
+	private JSONArray mapToJSONArray(Map<String,Object> map) throws JSONException {
+		JSONArray jsonArray = new JSONArray();
+		for(String keys : map.keySet()){
+			FunctionRecord functionRecord = (FunctionRecord)map.get(keys);
+			JSONObject jo = new JSONObject();
+			jo.put(ATTR_ID, functionRecord.getId());
+			jo.put(ATTR_TEXT, functionRecord.getText());
+			jo.put(ATTR_SOURCE, functionRecord.getSource());
+			jo.put(ATTR_TIME, functionRecord.getTime());
+			jo.put(ATTR_TITLE, functionRecord.getTitle());
+			jo.put(ATTR_TIMES, functionRecord.getTimes());
+			jsonArray.put(jo);
+		}
+		return jsonArray;
+	}
+
+	private void sendFunctionRecord(String url, JSONObject record) {
+        boolean success = false;
+        try {
+			HashMap<String, Object> para = new HashMap<>();
+			para.put("token", SiteCenterToken.generateToken());
+			para.put("content", record);
+			String res = HttpToolbox.post(url, para);
+			success = ComparatorUtils.equals(new JSONObject(res).get("status"), "success");
+            if (success) {
+                this.lastTime = dateToString();
+            } else {
+                FineLoggerFactory.getLogger().error("Error occured when sent function records to the cloud center.");
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+    }
+
+	private FunctionRecord getOneRecord(FocusPoint focusPoint) {
+		FunctionRecord functionRecord = new FunctionRecord();
+		functionRecord.setId(focusPoint.getId() == null?StringUtils.EMPTY : focusPoint.getId());
+		functionRecord.setText(focusPoint.getText() == null?StringUtils.EMPTY : focusPoint.getText());
+		functionRecord.setSource(focusPoint.getSource());
+		functionRecord.setTime(focusPoint.getTime().getTime());
+		functionRecord.setTitle(focusPoint.getTitle() == null?StringUtils.EMPTY : focusPoint.getTitle());
+		functionRecord.setUsername(MarketConfig.getInstance().getBbsUsername() == null?StringUtils.EMPTY : MarketConfig.getInstance().getBbsUsername());
+		functionRecord.setUuid(DesignerEnvManager.getEnvManager().getUUID() == null?StringUtils.EMPTY : DesignerEnvManager.getEnvManager().getUUID());
+		return functionRecord;
+	}
+
+    /**
+     * 收集开始使用时间，发送信息
+     */
 	public void collectStartTime(){
 		this.current.setStartDate(dateToString());
 
@@ -192,23 +341,22 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 
-    	Thread sendThread = new Thread(new Runnable() {
-
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		service.schedule(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					//读取XML的5分钟后开始发请求连接服务器.
-					Thread.sleep(SEND_DELAY);
-				} catch (InterruptedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+				long currentTime = new Date().getTime();
+				long lastTime = getLastTimeMillis();
+				if (currentTime - lastTime > DELTA) {
+					sendUserInfo();
+					sendFunctionsInfo(currentTime, lastTime);
 				}
-				sendUserInfo();
-				FocusPointMessageUploader.getInstance().sendToCloudCenter();
+
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
-		});
-    	sendThread.start();
+		}, SEND_DELAY, TimeUnit.SECONDS);
+
 	}
 
     /**
@@ -375,5 +523,95 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			this.stopDate = reader.getAttrAsString(ATTR_STOP, StringUtils.EMPTY);
 		}
 
+	}
+
+	private class FunctionRecord implements Comparable{
+		private String id;
+		private String text;
+		private int source;
+		private long time;
+		private int times = 1;
+		private String title;
+		private String username;
+		private String uuid;
+
+		public FunctionRecord(){
+
+		}
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public int getTimes() {
+			return times;
+		}
+
+		public void setTimes(int times) {
+			this.times = times;
+		}
+
+		public String getText() {
+			return text;
+		}
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
+		public int getSource() {
+			return source;
+		}
+
+		public void setSource(int source) {
+			this.source = source;
+		}
+
+		public long getTime() {
+			return time;
+		}
+
+		public void setTime(long time) {
+			this.time = time;
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getUuid() {
+			return uuid;
+		}
+
+		public void setUuid(String uuid) {
+			this.uuid = uuid;
+		}
+
+		@Override
+		public int compareTo(Object o) {
+			FunctionRecord functionRecord = (FunctionRecord) o;
+			if(this.getId().equals((functionRecord.getId())) && this.getText().equals(functionRecord.getText())
+					&& this.getSource() == functionRecord.getSource() && this.getTime() == functionRecord.getTime()
+					&& this.getTitle().equals(functionRecord.getTitle()) && this.getUsername().equals(functionRecord.getUsername())
+					&& this.getUuid().equals(functionRecord.getUuid())){
+				return 0;
+			}
+			return 1;
+		}
 	}
 }
