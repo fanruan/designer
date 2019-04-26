@@ -119,7 +119,7 @@ public class VcsHelper {
             @Override
             public void run() {
 
-                String fileName = VcsHelper.getEditingFilename();
+                String fileName = getEditingFilename();
                 VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
                 VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
                 int latestFileVersion = 0;
