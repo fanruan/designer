@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.XYScatterIndependentChart;
-
+import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
 /**
@@ -28,9 +28,9 @@ public class XYScatterPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_I_XYScatterStyle_Marker")
-		};
-	}
+                Inter.getLocText("Fine-Engine_Chart_Type_XYScatter")
+        };
+    }
 
 	@Override
     protected String[] getTypeLayoutPath() {
@@ -47,8 +47,8 @@ public class XYScatterPlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_I_XYScatterStyle_Marker");
-	}
+        return Inter.getLocText("Fine-Engine_Chart_Type_XYScatter");
+    }
 
 	/**
 	 * 保存界面内容 

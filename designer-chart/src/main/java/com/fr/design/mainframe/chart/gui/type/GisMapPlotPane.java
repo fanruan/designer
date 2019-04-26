@@ -11,11 +11,12 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 
 public class GisMapPlotPane extends AbstractChartTypePane{
@@ -72,9 +73,9 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				"gis"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Map")
-		};
-	}
+                Inter.getLocText("Fine-Engine_Chart_GIS_Map")
+        };
+    }
 
 	@Override
 	protected String getPlotTypeID() {
@@ -172,8 +173,8 @@ public class GisMapPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return "gis"+com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Map");
-	}
+        return Inter.getLocText("Fine-Engine_Chart_GIS_Map");
+    }
 
     /**
      * 是否有坐标轴

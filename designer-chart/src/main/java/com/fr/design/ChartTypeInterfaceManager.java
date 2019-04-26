@@ -41,6 +41,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.general.Inter;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -99,7 +100,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.fr.chart.charttypes.ChartTypeManager.CHART_PRIORITY;
+import static com.fr.chart.charttypes.ChartTypeManager.DEFAULT_PRIORITY;
+import static com.fr.chart.charttypes.ChartTypeManager.DEPRECATED_CHART_PRIORITY;
 import static com.fr.chart.charttypes.ChartTypeManager.VAN_CHART_PRIORITY;
 
 /**
@@ -165,7 +167,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(plotID);
             Icon icon = IOUtils.readIcon(iconPath);
-            child[index] = new ChartWidgetOption(com.fr.design.i18n.Toolkit.i18nText(bean.getName()), icon, ChartEditor.class, plotID);
+            child[index] = new ChartWidgetOption(Inter.getLocText(bean.getName()), icon, ChartEditor.class, plotID);
             index++;
         }
 
@@ -198,23 +200,23 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     
     private static void readDefault() {
 
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.LINE_CHART, new LineIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.BAR_CHART, new BarIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.PIE_CHART, new PieIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.METER_CHART, new MeterIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.MAP_CHART, new MapIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
-        addChartTypeInterface(CHART_PRIORITY, ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.LINE_CHART, new LineIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.BAR_CHART, new BarIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.PIE_CHART, new PieIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.AREA_CHART, new AreaIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.SCATTER_CHART, new XYScatterIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.BUBBLE_CHART, new BubbleIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.RADAR_CHART, new RadarIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.STOCK_CHART, new StockIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.METER_CHART, new MeterIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.RANGE_CHART, new RangeIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.CUSTOM_CHART, new CustomIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.GANTT_CHART, new GanttIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.DONUT_CHART, new DonutIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.MAP_CHART, new MapIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.GIS_CHAER, new GisMapIndependentChartInterface());
+        addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.FUNNEL_CHART, new FunnelIndependentChartInterface());
     }
     
     private static void addChartTypeInterface(String priority, String plotID, IndependentChartUIProvider provider) {
@@ -462,7 +464,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public void mount(PluginSingleInjection injection) {
         
         if (isIndependentChartUIProvider(injection)) {
-            String priority = injection.getAttribute("priority", CHART_PRIORITY);
+            String priority = injection.getAttribute("priority", DEFAULT_PRIORITY);
             String plotID = injection.getAttribute("plotID");
             IndependentChartUIProvider instance = (IndependentChartUIProvider) injection.getObject();
             addChartTypeInterface(priority, plotID, instance);
@@ -474,7 +476,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public void demount(PluginSingleInjection injection) {
         
         if (isIndependentChartUIProvider(injection)) {
-            String priority = injection.getAttribute("priority", CHART_PRIORITY);
+            String priority = injection.getAttribute("priority", DEFAULT_PRIORITY);
             String plotID = injection.getAttribute("plotID");
             removeChartTypeInterface(priority, plotID);
         }

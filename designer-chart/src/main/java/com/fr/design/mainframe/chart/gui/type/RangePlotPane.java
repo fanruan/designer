@@ -4,6 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.RangePlot;
 import com.fr.chart.charttypes.RangeIndependentChart;
+import com.fr.general.Inter;
 
 
 /**
@@ -25,9 +26,9 @@ public class RangePlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Chart")
-		};
-	}
+                Inter.getLocText("Fine-Engine_Chart_Type_Range")
+        };
+    }
 
 	@Override
 	protected String getPlotTypeID() {
@@ -49,8 +50,8 @@ public class RangePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range_Chart");
-	}
+        return Inter.getLocText("Fine-Engine_Chart_Type_Range");
+    }
 
 	/**
 	 * 保存界面属性

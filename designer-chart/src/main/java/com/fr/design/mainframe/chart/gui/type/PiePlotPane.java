@@ -10,10 +10,10 @@ import com.fr.chart.chartattr.PiePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.PieIndependentChart;
-
+import com.fr.general.Inter;
 import com.fr.stable.Constants;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 /**
@@ -36,11 +36,11 @@ public class PiePlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String pie = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
-		return new String[]{
-				pie,
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
-		};
+        String pie = Inter.getLocText("Fine-Engine_Chart_Type_Pie");
+        return new String[]{
+                pie,
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
+        };
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class PiePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie");
-	}
+        return Inter.getLocText("Fine-Engine_Chart_Type_Pie");
+    }
 
     private void createPieCondition(Plot plot) {
         ConditionCollection collection = plot.getConditionCollection();

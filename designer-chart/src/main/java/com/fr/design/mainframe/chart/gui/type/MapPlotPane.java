@@ -10,6 +10,7 @@ import com.fr.chart.charttypes.MapIndependentChart;
 import com.fr.design.chart.series.PlotSeries.MapGroupExtensionPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.Inter;
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
@@ -71,8 +72,8 @@ public class MapPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Map");
-	}
+        return Inter.getLocText("Fine-Engine_Chart_SVG_MAP");
+    }
 
 	/**
 	 * 保存界面属性

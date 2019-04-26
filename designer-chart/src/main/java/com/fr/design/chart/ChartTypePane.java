@@ -14,6 +14,7 @@ import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.Inter;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
 import com.fr.log.FineLoggerFactory;
@@ -67,7 +68,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         mainTypeList = new JList(defaultListModel);
 
         for (int i = 0; i < typeName.length; i++) {
-            defaultListModel.insertElementAt(com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), i);
+            defaultListModel.insertElementAt(Inter.getLocText(typeName[i].getName()), i);
         }
         mainTypeList.addListSelectionListener(listSelectionListener);
 
