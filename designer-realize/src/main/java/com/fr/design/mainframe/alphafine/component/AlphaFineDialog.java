@@ -33,15 +33,12 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SegmentationManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
-import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.form.main.Form;
 import com.fr.form.main.FormIO;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.io.TemplateWorkBookIO;
 import com.fr.io.exporter.ImageExporter;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.main.impl.WorkBook;
@@ -958,8 +955,6 @@ public class AlphaFineDialog extends UIDialog {
                     RecentSearchManager searchManager = RecentSearchManager.getInstance();
                     searchManager.addModel(storeText, cellModel);
                     sendDataToServer(storeText, cellModel);
-                    TemplateInfoCollector.getInstance().sendTemplateInfo();
-                    ErrorInfoUploader.getInstance().sendErrorInfo();
                 }
             }
         });

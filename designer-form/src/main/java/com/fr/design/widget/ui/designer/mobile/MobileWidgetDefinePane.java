@@ -1,5 +1,6 @@
 package com.fr.design.widget.ui.designer.mobile;
 
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.mainframe.FormDesigner;
 
@@ -7,10 +8,10 @@ import javax.swing.*;
 
 /**
  * 所有移动端需要拓展的属性面板均继承此类
- *
+ * <p>
  * Created by fanglei on 2017/8/8.
  */
-public abstract class MobileWidgetDefinePane extends AbstractAttrNoScrollPane{
+public abstract class MobileWidgetDefinePane extends AbstractAttrNoScrollPane {
     //初始化panel数据再repaint
     public abstract void initPropertyGroups(Object source);
 
@@ -28,11 +29,21 @@ public abstract class MobileWidgetDefinePane extends AbstractAttrNoScrollPane{
 
     // 暂不需要此方法
     @Override
-    protected void initContentPane() {}
+    protected void initContentPane() {
+    }
 
     // 暂不需要此方法
     @Override
     protected JPanel createContentPane() {
         return new JPanel();
+    }
+
+    /**
+     * 绝对布局且不勾选手机重布局 的时候不支持边距设置
+     *
+     * @return
+     */
+    public boolean shouldHidePadding(FormDesigner designer) {
+        return !FormDesignerUtils.isAppRelayout(designer) && FormDesignerUtils.isBodyAbsolute(designer);
     }
 }

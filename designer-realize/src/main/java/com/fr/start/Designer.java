@@ -11,6 +11,7 @@ import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.fun.MenuHandler;
@@ -80,6 +81,10 @@ public class Designer extends BaseDesigner {
     private UIButton redo;
     private UIPreviewButton run;
 
+    public Designer(String[] args) {
+        super(args);
+    }
+
     /**
      * 设计器启动的Main方法
      *
@@ -107,11 +112,6 @@ public class Designer extends BaseDesigner {
         }
 
     }
-
-    public Designer(String[] args) {
-        super(args);
-    }
-
 
     /**
      * 创建新建文件的快捷方式数组。
@@ -215,7 +215,7 @@ public class Designer extends BaseDesigner {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
@@ -223,6 +223,7 @@ public class Designer extends BaseDesigner {
         });
         return saveButton;
     }
+
 
     private UIButton createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));

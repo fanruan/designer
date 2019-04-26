@@ -35,6 +35,7 @@ public class DesktopCardPane extends BasicPane implements TargetModifiedListener
         }
         DesignerFrameFileDealerPane.getInstance().setCurrentEditingTemplate(jt);
         if (component != null) {
+            component.onLostFocus();
             remove(component);
         }
         add(component = jt, BorderLayout.CENTER);
@@ -42,6 +43,7 @@ public class DesktopCardPane extends BasicPane implements TargetModifiedListener
         repaint();
         revalidate();
         component.requestGridFocus();
+        component.onGetFocus();
     }
 
     protected JTemplate<?, ?> getSelectedJTemplate() {
