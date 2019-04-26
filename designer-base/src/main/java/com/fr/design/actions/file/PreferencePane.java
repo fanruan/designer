@@ -209,11 +209,11 @@ public class PreferencePane extends BasicPane {
     private void createVcsSettingPane(JPanel generalPane) {
         JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
         generalPane.add(vcsPane);
-        remindVcsLabel = new UILabel("Fine-Design_Vcs_Remind");
-//        remindVcsLabel.setVisible(!VcsHelper.needInit());
+        remindVcsLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Remind"));
+        remindVcsLabel.setVisible(!VcsHelper.needInit());
         vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
         saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
-        saveIntervalEditor = new IntegerEditor(30);
+        saveIntervalEditor = new IntegerEditor(60);
         useIntervalCheckBox = new UICheckBox();
         JPanel enableVcsPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
         enableVcsPanel.add(vcsEnableCheckBox);
