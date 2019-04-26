@@ -126,13 +126,7 @@ function getShowItems() {
 
     var buttonGroup = getButtonGroup();
 
-    var showItems = [title, closeButton, descArea];
-    if (descList.length > MAX_DESC_NUM) {
-        showItems.push(moreInfo);
-    }
-    showItems.push(buttonGroup);
-
-    return showItems;
+    return [title, closeButton, descArea, moreInfo, buttonGroup];
 }
 
 window.addEventListener("load", function (ev) {
