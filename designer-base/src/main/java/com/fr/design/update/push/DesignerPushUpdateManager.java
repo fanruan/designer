@@ -13,28 +13,27 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 
-import java.io.IOException;
-
 /**
  * Created by plough on 2019/4/8.
  */
 public class DesignerPushUpdateManager {
     private static final String SPLIT_CHAR = "-";
     private static DesignerPushUpdateManager singleton;
+
     private DesignerUpdateInfo updateInfo;
-    private DesignerPushUpdateConfigManager config;
 
     static {
-        DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
-            @Override
-            public void designerOpened() {
-                getInstance().checkAndPop();
-            }
-        });
+        if (DesignerPushUpdateConfigManager.getInstance().isAutoPushUpdateEnabled()) {
+            DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+                @Override
+                public void designerOpened() {
+                    getInstance().checkAndPop();
+                }
+            });
+        }
     }
 
     private DesignerPushUpdateManager() {
-        config = DesignerPushUpdateConfigManager.getInstance();
     }
 
     public static DesignerPushUpdateManager getInstance() {
@@ -45,7 +44,7 @@ public class DesignerPushUpdateManager {
     }
 
     private void initUpdateInfo(String currentVersion, String latestVersion) {
-        String lastIgnoredVersion = config.getLastIgnoredVersion();
+        String lastIgnoredVersion = DesignerPushUpdateConfigManager.getInstance().getLastIgnoredVersion();
         String updatePushInfo = CloudCenter.getInstance().acquireUrlByKind("update.push");
         JSONObject pushData = new JSONObject(updatePushInfo);
 
@@ -56,7 +55,7 @@ public class DesignerPushUpdateManager {
         try {
             String res = HttpToolbox.get(CloudCenter.getInstance().acquireUrlByKind("jar10.update"));
             return new JSONObject(res).optString("buildNO");
-        } catch (IOException e) {
+        } catch (Throwable e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return StringUtils.EMPTY;
@@ -164,6 +163,6 @@ public class DesignerPushUpdateManager {
         if (updateInfo == null) {
             return;
         }
-        config.setLastIgnoredVersion(updateInfo.getPushVersion());
+        DesignerPushUpdateConfigManager.getInstance().setLastIgnoredVersion(updateInfo.getPushVersion());
     }
 }
