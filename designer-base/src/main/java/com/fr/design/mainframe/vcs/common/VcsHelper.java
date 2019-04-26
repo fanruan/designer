@@ -5,7 +5,9 @@ import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.general.IOUtils;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.manage.PluginManager;
@@ -13,6 +15,7 @@ import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
@@ -104,6 +107,38 @@ public class VcsHelper {
     public static boolean needInit() {
         PluginContext context = PluginManager.getContext(VCS_PLUGIN_ID);
         return context == null || !context.isActive();
+    }
+
+    /**
+     * 版本控制
+     * @param jt
+     */
+    public static void dealWithVcs(final JTemplate jt) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String fileName = VcsHelper.getEditingFilename();
+                VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
+                VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
+                int latestFileVersion = 0;
+                if (entity != null) {
+                    latestFileVersion = entity.getVersion();
+                }
+                if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
+                    operator.saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                    String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                    FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
+                } else {
+                    operator.saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                }
+                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
+                if (VcsHelper.needDeleteVersion(oldEntity)) {
+                    operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
+                }
+
+            }
+        }).start();
+
     }
 
 
