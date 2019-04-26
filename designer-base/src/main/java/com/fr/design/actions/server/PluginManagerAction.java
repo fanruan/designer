@@ -1,19 +1,11 @@
 package com.fr.design.actions.server;
 
-import com.fr.base.BaseUtils;
 import com.fr.config.ServerPreferenceConfig;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.dialog.UIDialog;
-import com.fr.design.extra.ShopDialog;
 import com.fr.design.extra.WebViewDlgHelper;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.upm.UPM;
-import com.fr.design.upm.UPMDialog;
-import com.fr.design.upm.UPMPane;
+import com.fr.design.upm.UpmFinder;
 import com.fr.general.IOUtils;
-
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,9 +27,8 @@ public class PluginManagerAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         // 可以启用新版本的插件商店（使用JxBrowser作为容器）
-        if (DesignerEnvManager.getEnvManager().isOpenDebug()
-                ||ServerPreferenceConfig.getInstance().isUseOptimizedUPM()) {
-            UPM.showUPMDialog();
+        if (ServerPreferenceConfig.getInstance().isUseOptimizedUPM()) {
+            UpmFinder.showUPMDialog();
         } else {
             WebViewDlgHelper.createPluginDialog();
         }

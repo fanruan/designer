@@ -1,6 +1,5 @@
 package com.fr.design.upm;
 
-import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.ui.ModernUIPane;
 import com.fr.design.upm.event.DownloadEvent;
@@ -19,7 +18,7 @@ import java.awt.*;
  * Created by richie on 2019-04-12
  * Update Plugin Manager容器
  */
-public class UPMPane extends BasicPane {
+public class UpmShowPane extends BasicPane {
 
     private ModernUIPane<Object> modernUIPane;
 
@@ -28,11 +27,18 @@ public class UPMPane extends BasicPane {
         return "UPM";
     }
 
-    public UPMPane() {
+    public UpmShowPane() {
         setLayout(new BorderLayout());
-        if (false) {
+        if (UpmFinder.checkUPMResourcesExist()) {
             modernUIPane = new ModernUIPane.Builder<>()
-                    .withURL(UPM.getMainResourcePath())
+                    .prepare(new ScriptContextAdapter() {
+                        @Override
+                        public void onScriptContextCreated(ScriptContextEvent event) {
+                            JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
+                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
+                        }
+                    })
+                    .withURL(UpmFinder.getMainResourcePath())
                     .build();
         } else {
             modernUIPane = new ModernUIPane.Builder<>()
@@ -41,13 +47,13 @@ public class UPMPane extends BasicPane {
                         @Override
                         public void onScriptContextCreated(ScriptContextEvent event) {
                             JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                            window.asObject().setProperty("PluginBridgeTest", UPMBridge.getBridge());
+                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
                         }
                     }).build();
-            EventDispatcher.listen(DownloadEvent.FINISH, new Listener<String>() {
+            EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
                 @Override
                 public void on(Event event, String param) {
-                    modernUIPane.redirect(UPM.getMainResourcePath());
+                    modernUIPane.redirect(UpmFinder.getMainResourcePath());
                 }
             });
         }

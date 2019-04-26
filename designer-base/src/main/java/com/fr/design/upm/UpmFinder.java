@@ -18,9 +18,10 @@ import java.io.File;
  * @version 10.0
  * Created by richie on 2019-04-12
  */
-public class UPM {
+public class UpmFinder {
 
-    private static final String MAIN_RESOURCE_PATH = "/upm/plugin.html";
+    private static final String UPM_DIR = "/upm";
+    private static final String MAIN_RESOURCE_PATH = UPM_DIR + "/plugin_design.html";
 
     public static String installHome = FRContext.getCommonOperator().getWebRootPath();
 
@@ -45,10 +46,14 @@ public class UPM {
         return "file:///" + StableUtils.pathJoin(installHome, MAIN_RESOURCE_PATH);
     }
 
+    public static UIDialog getDialog() {
+        return dialog;
+    }
+
     public static void showUPMDialog() {
-        UPMPane upmPane = new UPMPane();
+        UpmShowPane upmPane = new UpmShowPane();
         if (dialog == null) {
-            dialog = new UPMDialog(DesignerContext.getDesignerFrame(), upmPane);
+            dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
         }
         dialog.setVisible(true);
     }
