@@ -11,6 +11,7 @@ import com.fr.design.actions.file.newReport.NewWorkBookAction;
 import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -363,12 +364,12 @@ public class Designer extends BaseDesigner {
 
     @Override
     protected void refreshLargeToolbarState() {
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
-        saveButton.setEnabled(!jt.isSaved() && !DesignerMode.isVcsMode());
-        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListPane.getInstance().getHistoryList());
+        saveButton.setEnabled(!jt.isSaved() && !DesignModeContext.isVcsMode());
+        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListCache.getInstance().getHistoryList());
         MutilTempalteTabPane.getInstance().repaint();
         if (DesignerEnvManager.getEnvManager().isSupportUndo()) {
             undo.setEnabled(jt.canUndo());

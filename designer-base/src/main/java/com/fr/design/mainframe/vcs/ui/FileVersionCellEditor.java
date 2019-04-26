@@ -35,15 +35,16 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
         String fileOfVersion;
+        VcsOperator vcsOperator = WorkContext.getCurrent().get(VcsOperator.class);
         Component editor = row == 0 ? firstRowPanel : renderAndEditor;
         if (isSelected) {
             return editor;
         } else if (row == 0) {
             String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-            fileOfVersion = WorkContext.getCurrent().get(VcsOperator.class).getFileOfCurrent(path.replaceFirst("/", ""));
+            fileOfVersion = vcsOperator.getFileOfCurrent(path.replaceFirst("/", ""));
         } else {
             renderAndEditor.update((VcsEntity) value);
-            fileOfVersion = WorkContext.getCurrent().get(VcsOperator.class).getFileOfFileVersion(((VcsEntity) value).getFilename(), ((VcsEntity) value).getVersion());
+            fileOfVersion = vcsOperator.getFileOfFileVersion(((VcsEntity) value).getFilename(), ((VcsEntity) value).getVersion());
 
         }
 
