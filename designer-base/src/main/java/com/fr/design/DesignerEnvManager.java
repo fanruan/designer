@@ -132,6 +132,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private String jdkHome;
     private boolean vcsEnable;
     private boolean saveCommit;
+    private boolean useInterval;
     private int saveInterval;
 
 
@@ -1608,7 +1609,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setUndoLimit(reader.getAttrAsInt("undoLimit", 5));
         this.setDefaultStringToFormula(reader.getAttrAsBoolean("defaultStringToFormula", false));
         this.setVcsEnable(reader.getAttrAsBoolean("supportVcs", true));
-        this.setSaveCommit(reader.getAttrAsBoolean("saveCommit", false));
+        this.setSaveCommit(reader.getAttrAsBoolean("saveCommit", true));
+        this.setUseInterval(reader.getAttrAsBoolean("userInterval", true));
         this.setSaveInterval(reader.getAttrAsInt("saveInterval", 60));
         if ((tmpVal = reader.getAttrAsString("gridLineColor", null)) != null) {
             this.setGridLineColor(new Color(Integer.parseInt(tmpVal)));
@@ -1947,6 +1949,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .attr("supportCellEditorDef", this.isSupportCellEditorDef())
                 .attr("supportVcs", this.isVcsEnable())
                 .attr("saveInterval", this.getSaveInterval())
+                .attr("userInterval", this.isUseInterval())
                 .attr("saveCommit", this.isSaveCommit())
                 .attr("isDragPermited", this.isDragPermited())
                 .attr("gridLineColor", this.getGridLineColor().getRGB())
@@ -1981,5 +1984,13 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
     public void setSaveInterval(int saveInterval) {
         this.saveInterval = saveInterval;
+    }
+
+    public boolean isUseInterval() {
+        return useInterval;
+    }
+
+    public void setUseInterval(boolean useInterval) {
+        this.useInterval = useInterval;
     }
 }

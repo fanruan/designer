@@ -7,6 +7,8 @@ import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.IOUtils;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginManager;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
@@ -27,6 +29,7 @@ public class VcsHelper {
     private final static String VCS_DIR = "vcs";
     public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
     private static final int MINUTE = 60 * 1000;
+    private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
 
 
     public final static String CURRENT_USERNAME = WorkContext.getCurrent().isLocal()
@@ -92,10 +95,15 @@ public class VcsHelper {
     }
 
     public static boolean needDeleteVersion(VcsEntity entity) {
-        if (entity == null) {
+        if (entity == null || !DesignerEnvManager.getEnvManager().isUseInterval()) {
             return false;
         }
         return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
+    }
+
+    public static boolean needInit() {
+        PluginContext context = PluginManager.getContext(VCS_PLUGIN_ID);
+        return context == null || !context.isActive();
     }
 
 

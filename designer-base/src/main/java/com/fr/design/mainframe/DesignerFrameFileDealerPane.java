@@ -197,10 +197,13 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         if (WorkContext.getCurrent().isLocal()) {
             toolbarDef.addShortCut(showInExplorerAction);
         }
-        toolbarDef.addShortCut(renameAction, delFileAction, vcsAction);
+        toolbarDef.addShortCut(renameAction, delFileAction);
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
+        }
+        if (VcsHelper.needInit()) {
+            toolbarDef.addShortCut(vcsAction);
         }
         toolbarDef.updateToolBar(toolBar);
         resetActionStatus();
