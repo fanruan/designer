@@ -464,7 +464,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     }
 
     private void handleVcsAction() {
-        if (!DesignerEnvManager.getEnvManager().isVcsEnable() || VcsHelper.isUnSelectedTemplate()) {
+        if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.isUnSelectedTemplate()) {
             vcsAction.setEnabled(false);
             return;
         }

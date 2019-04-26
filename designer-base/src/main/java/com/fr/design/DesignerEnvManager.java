@@ -14,6 +14,7 @@ import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
@@ -130,12 +131,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private int westRegionContainerWidth = 240;
     private String encryptionKey;
     private String jdkHome;
-    private boolean vcsEnable;
-    private boolean saveCommit;
-    private boolean useInterval;
-    private int saveInterval;
-
-
 
     //上一次登录弹窗的时间, 为了控制一天只弹一次窗口
     private String lastShowBBSTime;
@@ -154,6 +149,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
 
     private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
+
+    private VcsConfigManager vcsConfigManager = VcsConfigManager.getInstance();
 
     public static final String CAS_CERTIFICATE_PATH = "certificatePath";
 
@@ -1502,6 +1499,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readOpenDebug(reader);
             } else if (name.equals(DesignerPushUpdateConfigManager.XML_TAG)) {
                 readDesignerPushUpdateAttr(reader);
+            } else if (name.equals(vcsConfigManager.XML_TAG)) {
+                readVcsAttr(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1608,10 +1607,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.setDragPermited(reader.getAttrAsBoolean("isDragPermited", false));
         this.setUndoLimit(reader.getAttrAsInt("undoLimit", 5));
         this.setDefaultStringToFormula(reader.getAttrAsBoolean("defaultStringToFormula", false));
-        this.setVcsEnable(reader.getAttrAsBoolean("supportVcs", true));
-        this.setSaveCommit(reader.getAttrAsBoolean("saveCommit", true));
-        this.setUseInterval(reader.getAttrAsBoolean("userInterval", true));
-        this.setSaveInterval(reader.getAttrAsInt("saveInterval", 60));
         if ((tmpVal = reader.getAttrAsString("gridLineColor", null)) != null) {
             this.setGridLineColor(new Color(Integer.parseInt(tmpVal)));
         }
@@ -1692,6 +1687,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(designerPushUpdateConfigManager);
     }
 
+    private void readVcsAttr(XMLableReader reader) {
+        reader.readXMLObject(vcsConfigManager);
+    }
+
     /**
      * Write XML.<br>
      * The method will be invoked when save data to XML file.<br>
@@ -1716,6 +1715,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeRecentColor(writer);
         writeOpenDebug(writer);
         writeDesignerPushUpdateAttr(writer);
+        writeVcsAttr(writer);
         writer.end();
     }
 
@@ -1947,10 +1947,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 .attr("verticalScrollBarVisible", this.isVerticalScrollBarVisible())
                 .attr("horizontalScrollBarVisible", this.isHorizontalScrollBarVisible())
                 .attr("supportCellEditorDef", this.isSupportCellEditorDef())
-                .attr("supportVcs", this.isVcsEnable())
-                .attr("saveInterval", this.getSaveInterval())
-                .attr("userInterval", this.isUseInterval())
-                .attr("saveCommit", this.isSaveCommit())
                 .attr("isDragPermited", this.isDragPermited())
                 .attr("gridLineColor", this.getGridLineColor().getRGB())
                 .attr("paginationLineColor", this.getPaginationLineColor().getRGB())
@@ -1962,35 +1958,16 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.designerPushUpdateConfigManager.writeXML(writer);
     }
 
-    public boolean isVcsEnable() {
-        return vcsEnable;
+    private void writeVcsAttr(XMLPrintWriter writer) {
+        this.vcsConfigManager.writeXML(writer);
     }
 
-    public void setVcsEnable(boolean vcsEnable) {
-        this.vcsEnable = vcsEnable;
+
+    public VcsConfigManager getVcsConfigManager() {
+        return vcsConfigManager;
     }
 
-    public boolean isSaveCommit() {
-        return saveCommit;
-    }
-
-    public void setSaveCommit(boolean saveCommit) {
-        this.saveCommit = saveCommit;
-    }
-
-    public int getSaveInterval() {
-        return saveInterval;
-    }
-
-    public void setSaveInterval(int saveInterval) {
-        this.saveInterval = saveInterval;
-    }
-
-    public boolean isUseInterval() {
-        return useInterval;
-    }
-
-    public void setUseInterval(boolean useInterval) {
-        this.useInterval = useInterval;
+    public void setVcsConfigManager(VcsConfigManager vcsConfigManager) {
+        this.vcsConfigManager = vcsConfigManager;
     }
 }

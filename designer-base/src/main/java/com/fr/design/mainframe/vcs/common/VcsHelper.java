@@ -7,6 +7,7 @@ import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.general.IOUtils;
 import com.fr.plugin.context.PluginContext;
@@ -98,10 +99,10 @@ public class VcsHelper {
     }
 
     public static boolean needDeleteVersion(VcsEntity entity) {
-        if (entity == null || !DesignerEnvManager.getEnvManager().isUseInterval()) {
+        if (entity == null || !DesignerEnvManager.getEnvManager().getVcsConfigManager().isUseInterval()) {
             return false;
         }
-        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
+        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
     }
 
     public static boolean needInit() {
@@ -117,6 +118,7 @@ public class VcsHelper {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 String fileName = VcsHelper.getEditingFilename();
                 VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
                 VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
