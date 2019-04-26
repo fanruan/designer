@@ -3,8 +3,16 @@ package com.fr.design.layout;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ilable.UILabel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 
 public class FRGUIPaneFactory {
 
@@ -140,6 +148,22 @@ public class FRGUIPaneFactory {
         UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(string);
         jp.setBorder(explainBorder);
         jp.setLayout(new FlowLayout(FlowLayout.LEFT));
+        return jp;
+    }
+
+    /**
+     * 创建一个带标题边框面板，垂直居左布局
+     *
+     * @param string 边框标题
+     * @return JPanel对象
+     */
+    public static JPanel createVerticalTitledBorderPane(String string) {
+        JPanel jp = new JPanel();
+        UITitledBorder explainBorder = UITitledBorder.createBorderWithTitle(string);
+        jp.setBorder(explainBorder);
+        VerticalFlowLayout layout = new VerticalFlowLayout();
+        layout.setAlignLeft(true);
+        jp.setLayout(layout);
         return jp;
     }
 

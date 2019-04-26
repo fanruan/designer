@@ -92,6 +92,18 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
     }
 
     public void setValue(double value) {
+        setValue(value, true);
+    }
+
+    /**
+     * 赋值但不触发保存,只是展现,一般是populate的时候用
+     * @param value
+     */
+    public void setValueWithoutEvent(double value) {
+        setValue(value, false);
+    }
+
+    public void setValue(double value, boolean fireStateChange) {
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(spinnerName);
         }
@@ -102,8 +114,9 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         }
         this.value = value;
         setTextField(value);
-
-        fireStateChanged();
+        if (fireStateChange) {
+            fireStateChanged();
+        }
     }
 
     protected void setTextField(double value){
