@@ -49,6 +49,18 @@ class DesignerOpenHistory implements XMLReadable, XMLWriter {
     }
 
     /**
+     * 设计器在 dayCount 时间内启动超过 X 次（目前定的 X = 3）
+     */
+    boolean isOpenEnoughTimesInPeriod(int dayCount) {
+        boolean enoughTimes = StringUtils.isNotEmpty(history[LENGTH - 1]);
+        if (!enoughTimes) {
+            return false;
+        }
+        return getHistorySpanDayCount() < dayCount;
+    }
+
+
+    /**
      * 获取历史记录中囊括的日子数。即最早的历史记录 history[LENGTH - 1]，到最晚的记录 history[0] 之间的时间跨度
      */
     int getHistorySpanDayCount() {
