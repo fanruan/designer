@@ -33,13 +33,13 @@ function getTitleArea() {
             {
                 type: "bi.label",
                 text: i18nText("Fine-Design_Find_New_Version"),
-                cls: "title",
+                cls: "title font-bold",
                 textAlign: "left"
             },
             {
                 type: "bi.label",
                 text: Pool.data.getVersion(),
-                cls: "version",
+                cls: "version font-bold",
                 textAlign: "left"
             }
         ]
@@ -126,13 +126,7 @@ function getShowItems() {
 
     var buttonGroup = getButtonGroup();
 
-    var showItems = [title, closeButton, descArea];
-    if (descList.length > MAX_DESC_NUM) {
-        showItems.push(moreInfo);
-    }
-    showItems.push(buttonGroup);
-
-    return showItems;
+    return [title, closeButton, descArea, moreInfo, buttonGroup];
 }
 
 window.addEventListener("load", function (ev) {
