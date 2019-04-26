@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -101,14 +102,20 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
 
         removeTestTemplates();
 
+        List<String> removeLaterList = new ArrayList<>();
+
         for (String key : templateInfoMap.keySet()) {
             TemplateInfo templateInfo = templateInfoMap.get(key);
             if (templateInfo.isReadyForSend()) {
                 if (SendHelper.sendTemplateInfo(templateInfo)) {
-                    // 清空记录
-                    removeFromTemplateInfoList(templateInfo.getTemplateID());
+                    removeLaterList.add(key);
                 }
             }
+        }
+
+        // 清空记录
+        for (String key : removeLaterList) {
+            removeFromTemplateInfoList(key);
         }
 
         saveInfo();
