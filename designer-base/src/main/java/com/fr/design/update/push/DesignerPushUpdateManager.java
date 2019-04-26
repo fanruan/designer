@@ -19,13 +19,11 @@ import com.fr.workspace.WorkContext;
 public class DesignerPushUpdateManager {
     private static final String SPLIT_CHAR = "-";
     private static DesignerPushUpdateManager singleton;
-    private static DesignerPushUpdateConfigManager config;
 
     private DesignerUpdateInfo updateInfo;
 
     static {
-        config = DesignerPushUpdateConfigManager.getInstance();
-        if (config.isAutoPushUpdateEnabled()) {
+        if (DesignerPushUpdateConfigManager.getInstance().isAutoPushUpdateEnabled()) {
             DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
                 @Override
                 public void designerOpened() {
@@ -46,7 +44,7 @@ public class DesignerPushUpdateManager {
     }
 
     private void initUpdateInfo(String currentVersion, String latestVersion) {
-        String lastIgnoredVersion = config.getLastIgnoredVersion();
+        String lastIgnoredVersion = DesignerPushUpdateConfigManager.getInstance().getLastIgnoredVersion();
         String updatePushInfo = CloudCenter.getInstance().acquireUrlByKind("update.push");
         JSONObject pushData = new JSONObject(updatePushInfo);
 
@@ -165,6 +163,6 @@ public class DesignerPushUpdateManager {
         if (updateInfo == null) {
             return;
         }
-        config.setLastIgnoredVersion(updateInfo.getPushVersion());
+        DesignerPushUpdateConfigManager.getInstance().setLastIgnoredVersion(updateInfo.getPushVersion());
     }
 }
