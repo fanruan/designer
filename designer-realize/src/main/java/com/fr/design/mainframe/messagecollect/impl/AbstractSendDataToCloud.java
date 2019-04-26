@@ -26,7 +26,7 @@ public abstract class AbstractSendDataToCloud implements XMLable {
     private static final String COLUMN_TIME = "time";
 
     protected String lastTime;
-    private static final int PAGE_SIZE = 200;
+    private static final int PAGE_SIZE = 10000;
     private long totalCount = -1;
     private FileEntityBuilder fileEntityBuilder;
 
