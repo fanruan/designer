@@ -23,7 +23,6 @@ import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JWorkBook;
@@ -32,8 +31,6 @@ import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.design.mainframe.vcs.common.VcsCacheFileNodeFile;
-import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -46,7 +43,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
-import com.fr.report.entity.VcsEntity;
 import com.fr.runtime.FineRuntime;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
@@ -61,8 +57,6 @@ import com.fr.start.module.StartupArgs;
 import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.server.vcs.VcsOperator;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -97,13 +91,17 @@ public class Designer extends BaseDesigner {
     private UIButton redo;
     private UIPreviewButton run;
 
+    public Designer(String[] args) {
+        super(args);
+    }
+
     /**
      * 设计器启动的Main方法
      *
      * @param args 参数
      */
     public static void main(String[] args) {
-    
+
         //启动运行时
         FineRuntime.start();
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
@@ -168,11 +166,6 @@ public class Designer extends BaseDesigner {
         }
         return new SplashFx();
     }
-
-    public Designer(String[] args) {
-        super(args);
-    }
-
 
     /**
      * 创建新建文件的快捷方式数组。
@@ -280,45 +273,11 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
-                if (DesignerEnvManager.getEnvManager().isVcsEnable()) {
-                    dealWithVcs(jt);
-                }
             }
         });
         return saveButton;
     }
 
-    /**
-     * 版本控制
-     * @param jt
-     */
-    private void dealWithVcs(final JTemplate jt) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String fileName = VcsHelper.getEditingFilename();
-                VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
-                VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
-                int latestFileVersion = 0;
-                if (entity != null) {
-                    latestFileVersion = entity.getVersion();
-                }
-                if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
-                    operator.saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                    String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
-                    FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
-                } else {
-                    operator.saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
-                }
-                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
-                if (VcsHelper.needDeleteVersion(oldEntity)) {
-                    operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
-                }
-
-            }
-        }).start();
-
-    }
 
     private UIButton createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));
