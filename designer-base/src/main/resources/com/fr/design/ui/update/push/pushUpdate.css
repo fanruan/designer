@@ -4,6 +4,8 @@ body {
     color: white;
     background-size: 100% 100% !important;
     -moz-background-size: 100% 100% !important;
+
+    font-family: PingFangSC-Regular, Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif !important;
 }
 
 .close-btn {
@@ -24,15 +26,17 @@ body {
     color: white !important;
 }
 
+.font-bold {
+    font-weight: bold;
+}
+
 .title {
-    font-family: PingFangSC-Semibold;
     font-size: 24px;
     letter-spacing: 1.5px;
     line-height: 24px;
 }
 
 .version {
-    font-family: PingFangSC-Semibold;
     font-size: 12px;
     line-height: 14px;
     margin-top: 6px;
@@ -40,9 +44,8 @@ body {
 
 .desc {
     margin-top: 40px;
-    font-family: PingFangSC-Regular;
     font-size: 13px;
-    width: 540px;
+    width: 82%;
     margin-left: 19px;
     text-indent: -19px;
     overflow: visible !important;
@@ -54,7 +57,6 @@ body {
 
 .moreInfo {
     margin-top: 20px;
-    font-family: PingFangSC-Regular;
     font-size: 13px;
     text-decoration: underline;
 }
@@ -65,7 +67,7 @@ body {
 }
 
 .buttonGroup .bi-button {
-    font-family: PingFangSC-Medium;
+    font-weight: 600;
     font-size: 11px;
     text-align: center;
     line-height: 12px;

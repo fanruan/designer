@@ -33,13 +33,13 @@ function getTitleArea() {
             {
                 type: "bi.label",
                 text: i18nText("Fine-Design_Find_New_Version"),
-                cls: "title",
+                cls: "title font-bold",
                 textAlign: "left"
             },
             {
                 type: "bi.label",
                 text: Pool.data.getVersion(),
-                cls: "version",
+                cls: "version font-bold",
                 textAlign: "left"
             }
         ]
