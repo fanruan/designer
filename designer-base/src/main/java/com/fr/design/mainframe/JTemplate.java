@@ -543,9 +543,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return false;
         }
         collectInfo();
-        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
-            VcsHelper.dealWithVcs(this);
-        }
         return this.saveFile();
     }
 
