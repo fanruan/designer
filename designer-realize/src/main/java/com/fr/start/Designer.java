@@ -32,6 +32,7 @@ import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -274,6 +275,9 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
+                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+                    VcsHelper.dealWithVcs(jt);
+                }
             }
         });
         return saveButton;
@@ -332,6 +336,9 @@ public class Designer extends BaseDesigner {
                     return;
                 }
                 WebPreviewUtils.preview(jt);
+                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+                    VcsHelper.dealWithVcs(jt);
+                }
             }
 
             @Override
