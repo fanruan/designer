@@ -30,20 +30,11 @@ import static com.fr.stable.StableUtils.pathJoin;
  */
 public class VcsHelper {
 
-    private final static String VCS_DIR = "vcs";
-    public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
-    private static final int MINUTE = 60 * 1000;
-    private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
-
     public final static Color TABLE_SELECT_BACKGROUND = new Color(0xD8F2FD);
     public final static Color COPY_VERSION_BTN_COLOR = new Color(0x419BF9);
-
-
     public final static EmptyBorder EMPTY_BORDER = new EmptyBorder(10, 10, 0, 10);
     public final static EmptyBorder EMPTY_BORDER_MEDIUM = new EmptyBorder(5, 10, 0, 10);
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
-
-
     public final static Icon VCS_LIST_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_list.png");
     public final static Icon VCS_BACK_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_back.png");
     public final static Icon VCS_FILTER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_filter@1x.png");
@@ -51,6 +42,10 @@ public class VcsHelper {
     public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_delete.png");
     public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
     public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
+    private final static String VCS_DIR = "vcs";
+    public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
+    private static final int MINUTE = 60 * 1000;
+    private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
 
     private static int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
@@ -67,7 +62,7 @@ public class VcsHelper {
     }
 
     public static String getCurrentUsername() {
-        return  WorkContext.getCurrent().isLocal()
+        return WorkContext.getCurrent().isLocal()
                 ? Toolkit.i18nText("Fine-Design_Vcs_Local_User")
                 : WorkContext.getCurrent().getConnection().getUserName();
     }
@@ -117,6 +112,7 @@ public class VcsHelper {
 
     /**
      * 版本控制
+     *
      * @param jt
      */
     public static void dealWithVcs(final JTemplate jt) {
