@@ -11,10 +11,10 @@ import com.fr.stable.xml.XMLableReader;
 public class VcsConfigManager implements XMLReadable, XMLWriter {
     public static final String XML_TAG = "VcsConfigManager";
     private static volatile VcsConfigManager instance = new VcsConfigManager();
-    private boolean vcsEnable;
-    private boolean saveCommit;
-    private boolean useInterval;
-    private int saveInterval;
+    private boolean vcsEnable = true;
+    private boolean saveCommit = true;
+    private boolean useInterval = true;
+    private int saveInterval = 60;
 
     public static VcsConfigManager getInstance() {
         return instance;
