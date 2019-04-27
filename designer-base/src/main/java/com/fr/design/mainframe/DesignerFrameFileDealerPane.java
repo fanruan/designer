@@ -299,11 +299,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             boolean isCurrentEditing = isCurrentEditing(path);
 
-            // 如果模板正在编辑，保存后再打开版本管理
-            if (isCurrentEditing) {
-                saveCurrentEditingTemplate();
-            }
-
             // 如果模板已经打开了，关掉，避免出现2个同名tab（1个是模板，1个是版本）
             closeOpenedTemplate(path, isCurrentEditing);
             FileVersionsPanel fileVersionTablePanel = FileVersionsPanel.getInstance();
