@@ -40,7 +40,7 @@ public class VcsHelper {
 
 
     public final static EmptyBorder EMPTY_BORDER = new EmptyBorder(10, 10, 0, 10);
-
+    public final static EmptyBorder EMPTY_BORDER_MEDIUM = new EmptyBorder(5, 10, 0, 10);
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
 
 

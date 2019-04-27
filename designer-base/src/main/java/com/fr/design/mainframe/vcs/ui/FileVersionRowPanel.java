@@ -16,6 +16,7 @@ import javax.swing.Box;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -43,13 +44,13 @@ public class FileVersionRowPanel extends JPanel {
 
         // version + username
         Box upPane = Box.createHorizontalBox();
-        upPane.setBorder(VcsHelper.EMPTY_BORDER);
+        upPane.setBorder(VcsHelper.EMPTY_BORDER_MEDIUM);
         upPane.add(versionLabel);
         upPane.add(Box.createHorizontalGlue());
 
 
         // msg
-        msgLabel.setBorder(VcsHelper.EMPTY_BORDER);
+        msgLabel.setBorder(VcsHelper.EMPTY_BORDER_MEDIUM);
         msgLabel.setOpaque(false);
         msgLabel.setBackground(new Color(0, 0, 0, 0));
         msgLabel.setEditable(false);
