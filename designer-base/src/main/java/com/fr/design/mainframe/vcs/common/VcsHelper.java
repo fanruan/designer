@@ -99,10 +99,14 @@ public class VcsHelper {
     }
 
     public static boolean needDeleteVersion(VcsEntity entity) {
-        if (entity == null || !DesignerEnvManager.getEnvManager().getVcsConfigManager().isUseInterval()) {
+        VcsConfigManager configManager = DesignerEnvManager.getEnvManager().getVcsConfigManager();
+        if (entity == null || !configManager.isUseInterval()) {
             return false;
         }
-        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
+        if (configManager.isSaveCommit() && StringUtils.isNotBlank(entity.getCommitMsg())) {
+            return false;
+        }
+        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE;
     }
 
     public static boolean needInit() {
