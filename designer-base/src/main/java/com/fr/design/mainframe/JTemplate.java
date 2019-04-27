@@ -112,7 +112,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         // 判断是否切换设计器状态到禁止拷贝剪切
         if (t.getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.BAN_COPY_AND_CUT);
-        } else {
+        } else if (!DesignModeContext.isVcsMode()) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         }
         this.template = t;
