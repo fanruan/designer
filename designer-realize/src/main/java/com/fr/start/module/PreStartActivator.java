@@ -3,7 +3,7 @@ package com.fr.start.module;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.fun.OemProcessor;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.general.CloudCenter;
