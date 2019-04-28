@@ -6,9 +6,10 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.resource.WorkResource;
 import com.fr.workspace.resource.WorkResourceOutputStream;
+import com.fr.workspace.server.lock.TplOperator;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -29,7 +30,7 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
      * @throws Exception
      */
     @Override
-    public InputStream asInputStream() {
+    public InputStream asInputStream() throws Exception {
         if (node == null) {
             return null;
         }
@@ -40,8 +41,11 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
             return null;
         }
 
-        InputStream in = WorkContext.getCurrent().get(WorkResource.class)
-                .openStream(StableUtils.pathJoin(VcsHelper.VCS_CACHE_DIR, envPath.substring(VcsHelper.VCS_CACHE_DIR.length() + 1)));
+        InputStream in = new ByteArrayInputStream(
+                WorkContext.getCurrent().get(TplOperator.class).readAndLockFile(
+                        StableUtils.pathJoin(VcsHelper.VCS_CACHE_DIR, envPath.substring(VcsHelper.VCS_CACHE_DIR.length() + 1))
+                )
+        );
 
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;
