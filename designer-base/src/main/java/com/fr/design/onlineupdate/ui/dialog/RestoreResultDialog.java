@@ -1,6 +1,5 @@
 package com.fr.design.onlineupdate.ui.dialog;
 
-import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -8,10 +7,11 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.onlineupdate.domain.UpdateConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.locale.InterProviderFactory;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -176,8 +176,8 @@ public class RestoreResultDialog extends JDialog {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
         }
     }
 }
