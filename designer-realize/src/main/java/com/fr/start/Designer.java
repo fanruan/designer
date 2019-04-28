@@ -277,19 +277,19 @@ public class Designer extends BaseDesigner {
         ) {
             @Override
             protected void upButtonClickEvent() {
-                JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (jt == null) {
                     return;
                 }
-                WebPreviewUtils.preview(jt);
-                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && saveButton.isEnabled()) {
                     VcsHelper.dealWithVcs(jt);
                 }
+                WebPreviewUtils.preview(jt);
             }
 
             @Override
             protected void downButtonClickEvent() {
-                final JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                final JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (jt == null) {
                     return;
                 }
