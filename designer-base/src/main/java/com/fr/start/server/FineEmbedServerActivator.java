@@ -6,6 +6,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.module.ModuleRole;
 import com.fr.stable.EncodeConstants;
+import com.fr.stable.ProductConstants;
 import com.fr.startup.FineWebApplicationInitializer;
 import com.fr.third.springframework.web.SpringServletContainerInitializer;
 import com.fr.third.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -62,6 +63,8 @@ public class FineEmbedServerActivator extends Activator {
         // 设置解码uri使用的字符编码
         tomcat.getConnector().setURIEncoding(EncodeConstants.ENCODING_UTF_8);
         String docBase = new File(WorkContext.getCurrent().getPath()).getParent();
+        //内置的上下文是自己定的，这里把WEB_APP_NAME一并设置了，否则下面appName是/null
+        ProductConstants.setWebAppName(ProductConstants.getAppFolderName());
         String appName = "/" + FRContext.getCommonOperator().getAppName();
         Context context = tomcat.addContext(appName, docBase);
         Tomcat.initWebappDefaults(context);
