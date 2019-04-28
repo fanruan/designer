@@ -1,6 +1,5 @@
 package com.fr.design.onlineupdate.ui.dialog;
 
-import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.UIDialog;
@@ -344,10 +343,10 @@ public class UpdateMainDialog extends UIDialog {
         add(jarVersionInfoPane, BorderLayout.NORTH);
 
         //海外版本不显示更新信息
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)){
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             add(jarUpdateInfoPane, BorderLayout.CENTER);
             add(updateActionPane, BorderLayout.SOUTH);
-        }else {
+        } else {
             add(updateActionPane, BorderLayout.CENTER);
         }
 
@@ -684,7 +683,7 @@ public class UpdateMainDialog extends UIDialog {
         for (String file : files) {
             try {
                 IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
+                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
                         new File(StableUtils.pathJoin(todayBackupDir)));
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
@@ -725,8 +724,8 @@ public class UpdateMainDialog extends UIDialog {
     private void putNewFilesToInstallEnv(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
         }
     }
 
