@@ -19,7 +19,6 @@ import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
@@ -101,7 +100,8 @@ public class FileVersionsPanel extends BasicPane {
     }
 
     private void showFilterPane() {
-        versionDialog = new FileVersionDialog(DesignerContext.getDesignerFrame(), templatePath);
+        String savePath = templatePath.startsWith("/") ? templatePath.substring(1) : templatePath;
+        versionDialog = new FileVersionDialog(DesignerContext.getDesignerFrame(), savePath);
         versionDialog.setVisible(true);
     }
 
