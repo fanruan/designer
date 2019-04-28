@@ -2,6 +2,7 @@ package com.fr.design.mainframe.vcs.ui;
 
 import com.fr.base.GraphHelper;
 import com.fr.design.base.mode.DesignModeContext;
+import com.fr.design.base.mode.DesignerMode;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.MutilTempalteTabPane;
@@ -100,7 +101,7 @@ public class FileVersionsPanel extends BasicPane {
     }
 
     private void showFilterPane() {
-        versionDialog = new FileVersionDialog(DesignerContext.getDesignerFrame());
+        versionDialog = new FileVersionDialog(DesignerContext.getDesignerFrame(), templatePath);
         versionDialog.setVisible(true);
     }
 
@@ -153,7 +154,7 @@ public class FileVersionsPanel extends BasicPane {
         WestRegionContainerPane.getInstance().replaceUpPane(
                 isExit ? DesignerFrameFileDealerPane.getInstance() : this);
 
-        DesignModeContext.switchTo(isExit ? com.fr.design.base.mode.DesignerMode.NORMAL : com.fr.design.base.mode.DesignerMode.VCS);
+        DesignModeContext.switchTo(isExit ? DesignerMode.NORMAL : DesignerMode.VCS);
         // MutilTempalteTabPane & NewTemplatePane 是否可点
         ToolBarNewTemplatePane.getInstance().setButtonGray(!isExit);
 

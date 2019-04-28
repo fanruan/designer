@@ -88,6 +88,18 @@ public class DesignerOpenHistoryTest {
     }
 
     @Test
+    public void testOpenEnoughTimesInPeriod() {
+        assertTrue(openHistory.isOpenEnoughTimesInPeriod(15));
+        assertFalse(openHistory.isOpenEnoughTimesInPeriod(3));
+
+        Reflect.on(openHistory).set("history", new String[] {"2019-05-03", "2019-05-02", ""});
+        assertFalse(openHistory.isOpenEnoughTimesInPeriod(15));
+
+        Reflect.on(openHistory).set("history", new String[] {"2019-05-03", "", ""});
+        assertFalse(openHistory.isOpenEnoughTimesInPeriod(15));
+    }
+
+    @Test
     public void testHasOpenedToday() {
         assertFalse(openHistory.hasOpenedToday());
 

@@ -8,16 +8,15 @@ import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.locale.InterProviderFactory;
-import com.fr.report.ReportContext;
 import com.fr.report.entity.VcsEntity;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -80,7 +79,7 @@ public class EditFileVersionDialog extends UIDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 entity.setCommitMsg(msgTestArea.getText());
-                ReportContext.getInstance().getVcsController().saveOrUpdateFileVersion(entity);
+                WorkContext.getCurrent().get(VcsOperator.class).updateVersion(entity);
                 setVisible(false);
             }
         });

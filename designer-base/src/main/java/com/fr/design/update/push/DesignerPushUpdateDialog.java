@@ -16,6 +16,7 @@ import com.fr.web.struct.category.StylePath;
 import com.fr.web.struct.impl.FineUI;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -34,10 +35,15 @@ class DesignerPushUpdateDialog extends UIDialog {
         initComponents();
     }
 
-    static void createAndShow(Frame parent, DesignerUpdateInfo updateInfo) {
-        DesignerPushUpdateDialog dialog = new DesignerPushUpdateDialog(parent);
-        dialog.populate(updateInfo);
-        dialog.showDialog();
+    static void createAndShow(final Frame parent, final DesignerUpdateInfo updateInfo) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                DesignerPushUpdateDialog dialog = new DesignerPushUpdateDialog(parent);
+                dialog.populate(updateInfo);
+                dialog.showDialog();
+            }
+        });
+
     }
 
     private void initComponents() {
@@ -72,7 +78,7 @@ class DesignerPushUpdateDialog extends UIDialog {
 
     private Model createModel(DesignerUpdateInfo updateInfo) {
         Model model = new Model();
-        model.setVersion(updateInfo.getPushVersion());
+        model.setVersion(updateInfo.getLatestVersion());
         model.setContent(updateInfo.getPushContent());
         model.setMoreInfoUrl(updateInfo.getMoreInfoUrl());
         model.setBackgroundUrl(updateInfo.getBackgroundUrl());

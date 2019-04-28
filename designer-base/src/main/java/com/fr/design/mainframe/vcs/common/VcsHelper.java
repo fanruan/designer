@@ -30,25 +30,11 @@ import static com.fr.stable.StableUtils.pathJoin;
  */
 public class VcsHelper {
 
-    private final static String VCS_DIR = "vcs";
-    public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
-    private static final int MINUTE = 60 * 1000;
-    private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
-
-
-    public final static String CURRENT_USERNAME = WorkContext.getCurrent().isLocal()
-            ? Toolkit.i18nText("Fine-Design_Vcs_Local_User")
-            : WorkContext.getCurrent().getConnection().getUserName();
-
     public final static Color TABLE_SELECT_BACKGROUND = new Color(0xD8F2FD);
     public final static Color COPY_VERSION_BTN_COLOR = new Color(0x419BF9);
-
-
     public final static EmptyBorder EMPTY_BORDER = new EmptyBorder(10, 10, 0, 10);
-
+    public final static EmptyBorder EMPTY_BORDER_MEDIUM = new EmptyBorder(5, 10, 0, 10);
     public final static EmptyBorder EMPTY_BORDER_BOTTOM = new EmptyBorder(10, 10, 10, 10);
-
-
     public final static Icon VCS_LIST_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_list.png");
     public final static Icon VCS_BACK_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/vcs_back.png");
     public final static Icon VCS_FILTER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_filter@1x.png");
@@ -56,6 +42,10 @@ public class VcsHelper {
     public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_delete.png");
     public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
     public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
+    private final static String VCS_DIR = "vcs";
+    public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
+    private static final int MINUTE = 60 * 1000;
+    private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
 
     private static int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
@@ -69,6 +59,12 @@ public class VcsHelper {
         }
         //所有的num减去模板的count，得到文件夹的count
         return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
+    }
+
+    public static String getCurrentUsername() {
+        return WorkContext.getCurrent().isLocal()
+                ? Toolkit.i18nText("Fine-Design_Vcs_Local_User")
+                : WorkContext.getCurrent().getConnection().getUserName();
     }
 
     private static int selectedTemplateCounts() {
@@ -99,10 +95,14 @@ public class VcsHelper {
     }
 
     public static boolean needDeleteVersion(VcsEntity entity) {
-        if (entity == null || !DesignerEnvManager.getEnvManager().getVcsConfigManager().isUseInterval()) {
+        VcsConfigManager configManager = DesignerEnvManager.getEnvManager().getVcsConfigManager();
+        if (entity == null || !configManager.isUseInterval()) {
             return false;
         }
-        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE && StringUtils.isBlank(entity.getCommitMsg());
+        if (configManager.isSaveCommit() && StringUtils.isNotBlank(entity.getCommitMsg())) {
+            return false;
+        }
+        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE;
     }
 
     public static boolean needInit() {
@@ -112,6 +112,7 @@ public class VcsHelper {
 
     /**
      * 版本控制
+     *
      * @param jt
      */
     public static void dealWithVcs(final JTemplate jt) {
@@ -119,7 +120,7 @@ public class VcsHelper {
             @Override
             public void run() {
 
-                String fileName = VcsHelper.getEditingFilename();
+                String fileName = getEditingFilename();
                 VcsOperator operator = WorkContext.getCurrent().get(VcsOperator.class);
                 VcsEntity entity = operator.getFileVersionByIndex(fileName, 0);
                 int latestFileVersion = 0;
@@ -127,11 +128,11 @@ public class VcsHelper {
                     latestFileVersion = entity.getVersion();
                 }
                 if (jt.getEditingFILE() instanceof VcsCacheFileNodeFile) {
-                    operator.saveVersionFromCache(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                    operator.saveVersionFromCache(getCurrentUsername(), fileName, StringUtils.EMPTY, latestFileVersion + 1);
                     String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
                     FileVersionTable.getInstance().updateModel(1, WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", "")));
                 } else {
-                    operator.saveVersion(VcsHelper.CURRENT_USERNAME, fileName, StringUtils.EMPTY, latestFileVersion + 1);
+                    operator.saveVersion(getCurrentUsername(), fileName, StringUtils.EMPTY, latestFileVersion + 1);
                 }
                 VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
                 if (VcsHelper.needDeleteVersion(oldEntity)) {
