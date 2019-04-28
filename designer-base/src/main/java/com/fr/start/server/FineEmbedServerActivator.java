@@ -64,7 +64,7 @@ public class FineEmbedServerActivator extends Activator {
         tomcat.getConnector().setURIEncoding(EncodeConstants.ENCODING_UTF_8);
         String docBase = new File(WorkContext.getCurrent().getPath()).getParent();
         //内置的上下文是自己定的，这里把WEB_APP_NAME一并设置了，否则下面appName是/null
-        ProductConstants.WEB_APP_NAME = ProductConstants.getAppFolderName();
+        ProductConstants.setWebAppName(ProductConstants.getAppFolderName());
         String appName = "/" + FRContext.getCommonOperator().getAppName();
         Context context = tomcat.addContext(appName, docBase);
         Tomcat.initWebappDefaults(context);
