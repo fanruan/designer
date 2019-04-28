@@ -211,7 +211,7 @@ class TemplateInfo implements XMLReadable, XMLWriter {
         // 条件 2. 设计器在这段未编辑的时间内启动超过 X 次（目前定的 X = 3）。即"设计器最近 X 次启动的时间跨度" < "未编辑时间"；
 
         return idleDayCount > COMPLETE_DAY_COUNT
-                && DesignerOpenHistory.getInstance().getHistorySpanDayCount() < idleDayCount;
+                && DesignerOpenHistory.getInstance().isOpenEnoughTimesInPeriod(idleDayCount);
     }
 
     String getConsumingMapJsonString() {

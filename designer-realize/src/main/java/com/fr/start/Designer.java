@@ -10,6 +10,7 @@ import com.fr.design.actions.file.newReport.NewWorkBookAction;
 import com.fr.design.actions.server.ServerConfigManagerAction;
 import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -29,6 +30,7 @@ import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
@@ -219,6 +221,9 @@ public class Designer extends BaseDesigner {
                 jt.stopEditing();
                 jt.saveTemplate();
                 jt.requestFocus();
+                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+                    VcsHelper.dealWithVcs(jt);
+                }
             }
         });
         return saveButton;
@@ -277,6 +282,9 @@ public class Designer extends BaseDesigner {
                     return;
                 }
                 WebPreviewUtils.preview(jt);
+                if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+                    VcsHelper.dealWithVcs(jt);
+                }
             }
 
             @Override
@@ -309,12 +317,12 @@ public class Designer extends BaseDesigner {
 
     @Override
     protected void refreshLargeToolbarState() {
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
-        saveButton.setEnabled(!jt.isSaved() && !DesignerMode.isVcsMode());
-        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListPane.getInstance().getHistoryList());
+        saveButton.setEnabled(!jt.isSaved() && !DesignModeContext.isVcsMode());
+        MutilTempalteTabPane.getInstance().refreshOpenedTemplate(HistoryTemplateListCache.getInstance().getHistoryList());
         MutilTempalteTabPane.getInstance().repaint();
         if (DesignerEnvManager.getEnvManager().isSupportUndo()) {
             undo.setEnabled(jt.canUndo());

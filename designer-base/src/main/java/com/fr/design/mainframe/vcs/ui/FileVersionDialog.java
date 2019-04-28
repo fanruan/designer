@@ -36,7 +36,7 @@ public class FileVersionDialog extends UIDialog {
     private UITextField textField;
 
 
-    public FileVersionDialog(Frame frame) {
+    public FileVersionDialog(Frame frame, final String fileName) {
         super(frame);
         setUndecorated(true);
         setModal(true);
@@ -63,7 +63,7 @@ public class FileVersionDialog extends UIDialog {
             public void actionPerformed(ActionEvent e) {
                 FileVersionDialog.this.setVisible(false);
                 Date date = dateEditor.getValue();
-                List<VcsEntity> vcsEntities = WorkContext.getCurrent().get(VcsOperator.class).getFilterVersions(date, new Date(date.getTime() + DELAY), textField.getText());
+                List<VcsEntity> vcsEntities = WorkContext.getCurrent().get(VcsOperator.class).getFilterVersions(fileName, date, new Date(date.getTime() + DELAY), textField.getText());
                 FileVersionTable.getInstance().updateModel(1, vcsEntities);
 
             }
@@ -91,4 +91,5 @@ public class FileVersionDialog extends UIDialog {
     public void checkValid() throws Exception {
 
     }
+
 }
