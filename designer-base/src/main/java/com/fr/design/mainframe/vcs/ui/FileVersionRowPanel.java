@@ -63,6 +63,7 @@ public class FileVersionRowPanel extends JPanel {
             public void actionPerformed(ActionEvent evt) {
                 if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Title"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    vcsEntity.setUsername(VcsHelper.getCurrentUsername());
                     WorkContext.getCurrent().get(VcsOperator.class).rollbackTo(vcsEntity);
                     FileVersionsPanel.getInstance().exitVcs(vcsEntity.getFilename());
                 }
