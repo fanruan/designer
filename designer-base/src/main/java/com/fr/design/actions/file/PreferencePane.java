@@ -2,6 +2,7 @@ package com.fr.design.actions.file;
 
 import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
@@ -136,6 +137,7 @@ public class PreferencePane extends BasicPane {
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
+    private UICheckBox useOptimizedUPMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
@@ -189,6 +191,11 @@ public class PreferencePane extends BasicPane {
         openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
         debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
         advancePane.add(debuggerPane);
+
+        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+        upmSelectorPane.add(useOptimizedUPMCheckbox);
+        advancePane.add(upmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -630,6 +637,7 @@ public class PreferencePane extends BasicPane {
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
         openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -722,6 +730,18 @@ public class PreferencePane extends BasicPane {
             @Override
             public Class<? extends Configuration>[] targets() {
                 return new Class[]{Log4jConfig.class};
+            }
+        });
+
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[] {ServerPreferenceConfig.class};
             }
         });
 

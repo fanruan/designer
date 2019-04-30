@@ -182,6 +182,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public static DesignerEnvManager getEnvManager(boolean needCheckEnv) {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
+            //REPORT-15332有一个国际化调用比较早,需要在这边就设置好locale,由于后台GeneralContext默认是China
+            GeneralContext.setLocale(designerEnvManager.getLanguage());
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {

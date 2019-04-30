@@ -60,7 +60,8 @@ class JControlUpdatePane extends JPanel {
         elEditing = el;
         NameableCreator[] creators = listControlPane.creators();
 
-        for (int i = 0, len = updatePanes.length; i < len; i++) {
+        //倒序的原因是为了让一些继承内置连接类的插件实现能够生效REPORT-15409
+        for (int i = updatePanes.length - 1; i > -1; i--) {
             Object ob2Populate = creators[i].acceptObject2Populate(el.wrapper);
             if (ob2Populate != null) {
                 if (updatePanes[i] == null) {

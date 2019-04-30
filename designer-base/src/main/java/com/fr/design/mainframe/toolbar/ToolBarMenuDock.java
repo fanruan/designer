@@ -6,6 +6,7 @@ package com.fr.design.mainframe.toolbar;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
@@ -24,6 +25,7 @@ import com.fr.design.actions.file.OpenTemplateAction;
 import com.fr.design.actions.file.PreferenceAction;
 import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.FineUIAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.help.alphafine.AlphaFineAction;
@@ -36,6 +38,7 @@ import com.fr.design.actions.server.PlatformManagerAction;
 import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -54,6 +57,7 @@ import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -62,6 +66,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -198,6 +203,18 @@ public abstract class ToolBarMenuDock {
         };
 
         this.menus = menus(plus);
+        try {
+            OemProcessor oemProcessor = OemHandler.findOem();
+            if (oemProcessor != null) {
+                this.menus = oemProcessor.dealWithMenuDef(this.menus);
+                if (this.menus == null) {
+                    this.menus = menus(plus);
+                }
+            }
+        } catch (Throwable e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            this.menus = menus(plus);
+        }
         for (int i = 0; i < menus.length; i++) {
             menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
@@ -499,9 +516,14 @@ public abstract class ToolBarMenuDock {
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }
+
         shortCuts.add(SeparatorDef.DEFAULT);
+        if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
+            shortCuts.add(new FineUIAction());
+        }
         shortCuts.add(new AboutAction());
-        return shortCuts.toArray(new ShortCut[shortCuts.size()]);
+
+        return shortCuts.toArray(new ShortCut[0]);
     }
 
     /**

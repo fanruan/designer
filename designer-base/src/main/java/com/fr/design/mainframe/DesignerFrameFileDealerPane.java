@@ -321,13 +321,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     }
 
-    private void saveCurrentEditingTemplate() {
-        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-        jt.stopEditing();
-        jt.saveTemplate();
-        jt.requestFocus();
-    }
-
     private boolean isCurrentEditing(String path) {
         JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String editing = jt.getEditingFILE().getPath();
@@ -431,6 +424,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
             selectedOperation.deleteFile();
             stateChange();
+            DesignerContext.getDesignerFrame().setTitle();
         }
     }
 
