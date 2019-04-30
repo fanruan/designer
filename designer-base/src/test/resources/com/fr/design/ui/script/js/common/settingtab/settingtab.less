@@ -1,0 +1,17 @@
+@import "../../index.less";
+.bi-setting-tab {
+  & .tab-group {
+    background-color: @color-bi-background-light-gray;
+    font-size: @font-size-12;
+    & .tab-item {
+      &:hover {
+        color: @color-bi-text-highlight;
+      }
+      &.active {
+        background-color: @color-bi-background-default;
+        color: @color-bi-text-highlight;
+        border-top: 3px solid @color-bi-text-highlight;
+      }
+    }
+  }
+}

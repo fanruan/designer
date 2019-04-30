@@ -78,6 +78,10 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm<Form>> 
                     list.add(new WidgetName(widget.getWidgetName()));
                 }
             }
+            @Override
+            public boolean dealWithAllCards() {
+                return true;
+            }
         });
         return list;
     }

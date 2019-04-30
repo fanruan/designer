@@ -603,7 +603,11 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             editingFILE = fileChooser.getSelectedFILE();
         }
 
-        boolean lockedTarget = WorkContext.getCurrent().get(TplOperator.class).saveAs(editingFILE.getPath());
+        boolean lockedTarget =
+                // 目标本地文件
+                !editingFILE.isEnvFile() ||
+                        // 目标远程文件
+                        WorkContext.getCurrent().get(TplOperator.class).saveAs(editingFILE.getPath());
         if (lockedTarget) {
             boolean saved = saveNewFile(editingFILE, oldName);
             // 目标文件保存成功并且源文件不一致的情况下，把源文件锁释放掉
@@ -683,7 +687,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.saved = true;
         this.authoritySaved = true;
         DesignerContext.getDesignerFrame().setTitle();
+        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+            VcsHelper.dealWithVcs(this);
 
+        }
         this.fireJTemplateSaved();
         return true;
     }

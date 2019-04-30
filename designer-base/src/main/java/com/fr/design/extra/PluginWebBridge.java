@@ -3,6 +3,7 @@ package com.fr.design.extra;
 import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
 import com.fr.design.RestartHelper;
+import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.GetInstalledPluginsExecutor;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
@@ -11,12 +12,9 @@ import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
-import com.fr.design.extra.exe.callback.JSCallback;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
-
 import com.fr.general.CloudCenter;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
@@ -172,7 +170,7 @@ public class PluginWebBridge {
      * @param callback   回调函数
      */
     public void installPluginOnline(final String pluginInfo, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);
         PluginOperateUtils.installPluginOnline(pluginMarker, jsCallback);
     }
@@ -183,7 +181,7 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void installPluginFromDisk(final String filePath, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         File file = new File(filePath);
         PluginOperateUtils.installPluginFromDisk(file, jsCallback);
     }
@@ -194,7 +192,7 @@ public class PluginWebBridge {
      * @param pluginInfo 插件信息
      */
     public void uninstallPlugin(final String pluginInfo, final boolean isForce, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         PluginOperateUtils.uninstallPlugin(pluginInfo, isForce, jsCallback);
     }
 
@@ -204,7 +202,7 @@ public class PluginWebBridge {
      * @param pluginIDs 插件集合
      */
     public void updatePluginOnline(JSObject pluginIDs, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         String[] pluginInfos = jsObjectToStringArray(pluginIDs);
         List<PluginMarker> pluginMarkerList = new ArrayList<PluginMarker>();
         for (int i = 0; i < pluginInfos.length; i++) {
@@ -219,7 +217,7 @@ public class PluginWebBridge {
      * @param filePath 插件包的路径
      */
     public void updatePluginFromDisk(String filePath, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         File file = new File(filePath);
         PluginOperateUtils.updatePluginFromDisk(file, jsCallback);
     }
@@ -230,7 +228,7 @@ public class PluginWebBridge {
      * @param pluginID 插件ID
      */
     public void setPluginActive(String pluginID, final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         PluginOperateUtils.setPluginActive(pluginID, jsCallback);
     }
 
@@ -427,7 +425,7 @@ public class PluginWebBridge {
      * @param callback
      */
     public void registerLoginInfo(final JSObject callback) {
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         PluginOperateUtils.getLoginInfo(jsCallback, uiLabel);
     }
 
@@ -559,7 +557,7 @@ public class PluginWebBridge {
     }
 
     public void getPackInfo(final JSObject callback){
-        JSCallback jsCallback = new JSCallback(webEngine, callback);
+        JSCallback jsCallback = new JSCallback(PluginJavaFxExecutor.create(webEngine, callback));
         jsCallback.execute(StringUtils.EMPTY);
     }
 

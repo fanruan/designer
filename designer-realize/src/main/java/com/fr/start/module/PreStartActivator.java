@@ -2,63 +2,99 @@ package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
+import com.fr.design.fun.OemProcessor;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.utils.DesignUtils;
+import com.fr.design.utils.DesignerPort;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
+import com.fr.stable.BuildContext;
+import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
+import com.fr.stable.StableUtils;
+import com.fr.start.OemHandler;
+import com.fr.start.SplashContext;
+import com.fr.start.SplashStrategy;
+import com.fr.start.fx.SplashFx;
+import com.fr.start.jni.SplashMac;
+import com.fr.start.preload.ImagePreLoader;
 
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2018/1/8.
  */
 public class PreStartActivator extends Activator {
 
-    private static final int MESSAGE_PORT = 51462;
-
-    private static final int DEBUG_PORT = 51463;
-
     @Override
     public void start() {
 
-        CloudCenter.getInstance();
-        if (checkMultiStart()) {
+        BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
+        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
+        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
+        // 检查是否是-Ddebug = true 启动 并切换对应的端口以及环境配置文件
+        checkDebugStart();
+        if (DesignUtils.isStarted()) {
+            DesignUtils.clientSend(args);
+            FineLoggerFactory.getLogger().info("The Designer Has Been Started");
+            System.exit(0);
             return;
         }
+
+        RestartHelper.deleteRecordFilesWhenStart();
+
+        preloadResource();
+
+        SplashContext.getInstance().registerSplash(createSplash());
+
+        SplashContext.getInstance().show();
+
+        // 完成初始化
+        //noinspection ResultOfMethodCallIgnored
+        CloudCenter.getInstance();
+
+        // 创建监听服务
+        DesignUtils.createListeningServer(DesignUtils.getPort(), startFileSuffix());
+
         initLanguage();
     }
 
-    private boolean checkMultiStart() {
+    @Override
+    public void stop() {
 
+    }
+
+    private void checkDebugStart() {
         if (isDebug()) {
             setDebugEnv();
-        } else {
-            DesignUtils.setPort(getStartPort());
         }
-
-        return false;
-    }
-
-    private int getStartPort() {
-
-        return MESSAGE_PORT;
     }
 
 
-    //在VM options里加入-Ddebug=true激活
+    /**
+     * 在VM options里加入-Ddebug=true激活
+     *
+     * @return isDebug
+     */
     private boolean isDebug() {
-
         return ComparatorUtils.equals("true", System.getProperty("debug"));
     }
 
 
     //端口改一下，环境配置文件改一下。便于启动两个设计器，进行对比调试
     private void setDebugEnv() {
-
-        DesignUtils.setPort(DEBUG_PORT);
-        DesignerEnvManager.setEnvFile(new File(ProductConstants.getEnvHome() + File.separator + ProductConstants.APP_NAME + "Env_debug.xml"));
+        DesignUtils.setPort(DesignerPort.DEBUG_MESSAGE_PORT);
+        String debugXMlFilePath = StableUtils.pathJoin(
+                ProductConstants.getEnvHome(),
+                ProductConstants.APP_NAME + "Env_debug.xml"
+        );
+        DesignerEnvManager.setEnvFile(
+                new File(debugXMlFilePath));
     }
 
     private void initLanguage() {
@@ -66,8 +102,48 @@ public class PreStartActivator extends Activator {
         GeneralContext.setLocale(DesignerEnvManager.getEnvManager(false).getLanguage());
     }
 
-    @Override
-    public void stop() {
+    private String[] startFileSuffix() {
+        return new String[]{".cpt", ".xls", ".xlsx", ".frm", ".form", ".cht", ".chart"};
+    }
 
+    private static void preloadResource() {
+        ExecutorService service = Executors.newCachedThreadPool();
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                new ImagePreLoader();
+            }
+        });
+
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                TemplateInfoCollector.getInstance();
+            }
+        });
+        service.shutdown();
+    }
+
+    private SplashStrategy createSplash() {
+        OemProcessor oemProcessor = OemHandler.findOem();
+        if (oemProcessor != null) {
+            SplashStrategy splashStrategy = null;
+            try {
+                splashStrategy = oemProcessor.createSplashStrategy();
+            } catch (Throwable e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+            if (splashStrategy != null) {
+                return splashStrategy;
+            }
+        }
+        // 这里可以开接口加载自定义启动画面
+        if (OperatingSystem.isWindows()) {
+            return new SplashFx();
+        } else if (OperatingSystem.isMacOS()) {
+            return new SplashMac();
+        }
+        return new SplashFx();
     }
 }

@@ -16,8 +16,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.upm.event.CertificateEvent;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
@@ -206,6 +210,18 @@ public class UserInfoLabel extends UILabel {
                 WebViewDlgHelper.createLoginDialog();
                 clearLoginInformation();
                 updateInfoPane();
+            }
+        });
+        EventDispatcher.listen(CertificateEvent.LOGIN, new Listener<String>() {
+            @Override
+            public void on(Event event, String text) {
+                setText(text);
+            }
+        });
+        EventDispatcher.listen(CertificateEvent.LOGOUT, new Listener<String>() {
+            @Override
+            public void on(Event event, String text) {
+                setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_UnSignIn"));
             }
         });
     }

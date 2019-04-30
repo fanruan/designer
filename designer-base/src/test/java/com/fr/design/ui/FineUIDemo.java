@@ -2,10 +2,8 @@ package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author richie
