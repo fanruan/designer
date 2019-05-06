@@ -687,7 +687,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.saved = true;
         this.authoritySaved = true;
         DesignerContext.getDesignerFrame().setTitle();
+        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
+            VcsHelper.dealWithVcs(this);
 
+        }
         this.fireJTemplateSaved();
         return true;
     }
