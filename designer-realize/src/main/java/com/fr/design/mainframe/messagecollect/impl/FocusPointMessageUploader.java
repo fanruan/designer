@@ -89,13 +89,8 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
     }
 
     private void generatePath() {
-        //文件夹名称的格式是: "FocusPoint" + 大版本号 + 小版本号 + randomUuid，均以下划线分隔
-        StringBuilder sb = new StringBuilder();
-        sb.append(FOCUS_POINT).append(SEPARATOR).
-                append(ProductConstants.MAIN_VERSION).append(SEPARATOR).
-                append(ProductConstants.MINOR_VERSION).append(SEPARATOR).
-                append(UUID.randomUUID());
-        String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString());
+        //文件夹名称是uuid.zip，版本信息已经在edition中体现了
+        String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), String.valueOf(UUID.randomUUID()));
         setFileEntityBuilder(new FileEntityBuilder(folderName));
     }
 }
