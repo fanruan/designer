@@ -1,24 +1,20 @@
 package com.fr.design.mainframe.messagecollect.entity;
 
+import com.fr.config.MarketConfig;
+import com.fr.design.DesignerEnvManager;
 import com.fr.general.CloudCenter;
+import com.fr.general.CloudClient;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
+import com.fr.stable.CoreConstants;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.third.jodd.datetime.JDateTime;
-import com.fr.third.org.apache.http.HttpEntity;
-import com.fr.third.org.apache.http.HttpResponse;
-import com.fr.third.org.apache.http.client.HttpClient;
-import com.fr.third.org.apache.http.client.methods.HttpPut;
-import com.fr.third.org.apache.http.entity.FileEntity;
-import com.fr.third.org.apache.http.impl.client.DefaultHttpClient;
-import com.fr.third.org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -26,10 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-
-import static com.fr.third.org.apache.http.HttpStatus.SC_OK;
 
 /**
  * @author alex sung
@@ -37,11 +30,12 @@ import static com.fr.third.org.apache.http.HttpStatus.SC_OK;
  */
 public class FileEntityBuilder {
 
-    private static final String INTELLI_OPERATION_URL = "intelli.operation.url";
-    private static final String OPERATION_URL = "https://cloud.fanruan.com/config/protect/operation";
-    private static final String ATTR_SIGNATURE = "signature";
-    private static final String ATTR_KEY = "key";
     private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
+    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_treasure_upload__";
+    private static final String FILE_FROM = "design";
+    private static final String FOCUS_POINT_FILE_UPLOAD_TYPE = "FocusPoint";
+    private static final String FOCUS_POINT_FILE_UPLOAD_URL = CloudCenter.getInstance().acquireUrlByKind("design.feedback");
+    private static final String FOCUS_POINT_URL_KEY = "focuspoint";
 
     /**
      * 文件夹路径
@@ -61,6 +55,9 @@ public class FileEntityBuilder {
     }
 
     public File generateZipFile(String pathName) {
+        if (pathName == null) {
+            return null;
+        }
         File zipFile = null;
         try {
             zipFile = new File(pathName + ".zip");
@@ -100,53 +97,40 @@ public class FileEntityBuilder {
 
     /**
      * 上传文件到云中心
-     * @param file 待上传文件
+     *
+     * @param file        待上传文件
      * @param keyFileName 目标文件
      * @throws IOException
      */
     public static void uploadFile(File file, String keyFileName) throws IOException {
+        CloudClient client = CloudClient.getInstance();
         String today = new JDateTime().toString("YYYY-MM-DD");
-        HttpClient httpclient = new DefaultHttpClient();
-        try {
-            String signedUrl = generateSignedUploadUrl(FOCUS_POINT_FILE_ROOT_PATH + File.separator + today + File.separator +keyFileName);
-            if(StringUtils.isEmpty(signedUrl)){
-                FineLoggerFactory.getLogger().error("signedUrl is null.");
-                return;
-            }
-            HttpPut httpPost = new HttpPut(signedUrl);
-            httpPost.addHeader("Content-Type","application/octet-stream");
-            FileEntity fileEntity = new FileEntity(file);
-            httpPost.setEntity(fileEntity);
-            HttpResponse response = httpclient.execute(httpPost);
+        String filePath = FOCUS_POINT_FILE_ROOT_PATH + CoreConstants.SEPARATOR + today + CoreConstants.SEPARATOR + keyFileName;
+        String bbsUserName = MarketConfig.getInstance().getBbsUsername();
+        String uuid = DesignerEnvManager.getEnvManager().getUUID();
+        String name = bbsUserName == null ? uuid : bbsUserName;
 
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == SC_OK) {
-                HttpEntity resEntity = response.getEntity();
-                EntityUtils.consume(resEntity);
-            } else {
-                HttpEntity entity = response.getEntity();
-                String result = EntityUtils.toString(entity, "utf-8");
-                FineLoggerFactory.getLogger().info("upload file result：" + result);
+        client.uploadFile(file, filePath, name, FILE_FROM);
+        addMessageQueue(filePath, bbsUserName, uuid);
+    }
+
+    private static void addMessageQueue(String filePath, String userName, String uuid) {
+        JSONObject uploadInfo = new JSONObject(FOCUS_POINT_FILE_UPLOAD_URL);
+        String focusPointUrl = uploadInfo.optString(FOCUS_POINT_URL_KEY);
+        try {
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("topic", FOCUS_POINT_FILE_UPLOAD_TOPIC);
+            params.put("username", userName);
+            params.put("uuid", uuid);
+            params.put("filepath", filePath);
+            params.put("timestamp", String.valueOf(System.currentTimeMillis()));
+            params.put("signature", String.valueOf(CommonUtils.signature()));
+            params.put("type", FOCUS_POINT_FILE_UPLOAD_TYPE);
+            if(StringUtils.isNotEmpty(focusPointUrl)){
+                HttpToolbox.post(focusPointUrl, params);
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-    }
-
-    private static String generateSignedUploadUrl(String fileKeyName) throws IOException {
-        String url = CloudCenter.getInstance().acquireUrlByKind(INTELLI_OPERATION_URL, OPERATION_URL);
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put(ATTR_KEY, fileKeyName);
-        parameters.put(ATTR_SIGNATURE, String.valueOf(CommonUtils.signature()));
-        String responseText = HttpToolbox.get(url, parameters);
-        try {
-            JSONObject data = new JSONObject(responseText);
-            if ("success".equals(data.optString("status"))) {
-                return data.optString("url");
-            }
-        } catch (JSONException e) {
-            FineLoggerFactory.getLogger().error("Illegal response text."+e, e.getMessage());
-        }
-        return null;
     }
 }
