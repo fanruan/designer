@@ -12,6 +12,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.TableDataSourceAction;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
@@ -112,7 +113,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         // 判断是否切换设计器状态到禁止拷贝剪切
         if (t.getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.BAN_COPY_AND_CUT);
-        } else if (!DesignModeContext.isVcsMode()) {
+        } else if (!DesignModeContext.isVcsMode() && !DesignModeContext.isAuthorityEditing()) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         }
         this.template = t;
