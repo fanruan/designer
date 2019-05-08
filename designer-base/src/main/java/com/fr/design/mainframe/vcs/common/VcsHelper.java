@@ -141,7 +141,7 @@ public class VcsHelper implements JTemplateActionListener {
                 } else {
                     operator.saveVersion(getCurrentUsername(), fileName, StringUtils.EMPTY, latestFileVersion + 1);
                 }
-                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
+                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndexAndUsername(fileName, getCurrentUsername(), 1);
                 if (needDeleteVersion(oldEntity)) {
                     operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
                 }
