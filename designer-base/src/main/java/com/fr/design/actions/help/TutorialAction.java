@@ -41,6 +41,7 @@ public class TutorialAction extends UpdateAction {
                 Desktop.getDesktop().browse(new URI(helpURL));
                 return;
             } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         FineLoggerFactory.getLogger().warn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Offline_Helptutorial_Msg"));
