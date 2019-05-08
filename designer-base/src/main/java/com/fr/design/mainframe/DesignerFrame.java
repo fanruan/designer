@@ -925,7 +925,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         jt.addJTemplateActionListener(this);
         jt.addTargetModifiedListener(this);
-        jt.addJTemplateActionListener(new VcsHelper());
+        jt.addJTemplateActionListener(VcsHelper.getInstance());
         centerTemplateCardPane.showJTemplate(jt);
         setTitle();
         layeredPane.repaint();

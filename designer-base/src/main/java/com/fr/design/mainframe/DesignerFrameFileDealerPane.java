@@ -304,6 +304,37 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             closeOpenedTemplate(path, isCurrentEditing);
             FileVersionsPanel fileVersionTablePanel = FileVersionsPanel.getInstance();
             fileVersionTablePanel.showFileVersionsPane();
+            stateChange();
+
+        }
+
+        /**
+         * 版本管理可用状态的监控
+         */
+        private void fireVcsActionChange() {
+            if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.getInstance().isUnSelectedTemplate() || FineClusterConfig.getInstance().isCluster()) {
+                vcsAction.setEnabled(false);
+                return;
+            }
+
+            if (WorkContext.getCurrent() != null) {
+                if (!WorkContext.getCurrent().isLocal()) {
+                    //当前环境为远程环境时
+                    FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
+                    if (selectedOperation.getFilePath() != null) {
+                        if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
+                            vcsAction.setEnabled(false);
+                        } else {
+                            vcsAction.setEnabled(true);
+                        }
+                    } else {
+                        vcsAction.setEnabled(false);
+                    }
+                } else {
+                    //当前环境为本地环境时
+                    vcsAction.setEnabled(selectedOperation.getFilePath() != null);
+                }
+            }
         }
 
         private void closeOpenedTemplate(String path, boolean isCurrentEditing) {
@@ -447,37 +478,14 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         delFileAction.setEnabled(selected);
         // 刷新操作始终可用
         refreshTreeAction.setEnabled(true);
-        handleVcsAction();
+        //触发vcsAction变化
+        vcsAction.fireVcsActionChange();
 
         // 其他状态
         otherStateChange();
     }
 
-    private void handleVcsAction() {
-        if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.getInstance().isUnSelectedTemplate()) {
-            vcsAction.setEnabled(false);
-            return;
-        }
 
-        if (WorkContext.getCurrent() != null) {
-            if (!WorkContext.getCurrent().isLocal()) {
-                //当前环境为远程环境时
-                FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                if (selectedOperation.getFilePath() != null) {
-                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
-                        vcsAction.setEnabled(false);
-                    } else {
-                        vcsAction.setEnabled(true);
-                    }
-                } else {
-                    vcsAction.setEnabled(false);
-                }
-            } else {
-                //当前环境为本地环境时
-                vcsAction.setEnabled(selectedOperation.getFilePath() != null);
-            }
-        }
-    }
 
 
 

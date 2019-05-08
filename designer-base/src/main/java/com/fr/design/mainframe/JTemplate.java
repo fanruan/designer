@@ -39,7 +39,6 @@ import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.template.info.TimeConsumeTimer;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.toolbar.VcsScene;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
