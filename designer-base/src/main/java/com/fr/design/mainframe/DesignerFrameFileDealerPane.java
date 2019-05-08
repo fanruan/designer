@@ -201,12 +201,28 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
-        if (VcsHelper.getInstance().needInit()) {
-            toolbarDef.addShortCut(vcsAction);
-        }
+        addVcsAction(toolbarDef);
         toolbarDef.updateToolBar(toolBar);
         resetActionStatus();
         refresh();
+    }
+
+
+    /**
+     * 添加VcsAction
+     * @param toolbarDef
+     */
+    private void addVcsAction(ToolBarDef toolbarDef) {
+        if (VcsHelper.getInstance().needInit()) {
+            vcsAction = new VcsAction();
+            if (FineClusterConfig.getInstance().isCluster()) {
+                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
+            } else {
+                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
+            }
+            toolbarDef.addShortCut(vcsAction);
+
+        }
     }
 
 
@@ -323,7 +339,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     private class VcsAction extends UpdateAction {
 
         public VcsAction() {
-            this.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
             this.setSmallIcon(VcsHelper.VCS_LIST_PNG);
         }
 
@@ -350,6 +365,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 setEnabled(false);
                 return;
             }
+
+
 
 
             if (WorkContext.getCurrent() != null) {
