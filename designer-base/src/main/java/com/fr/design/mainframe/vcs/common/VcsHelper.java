@@ -122,7 +122,7 @@ public class VcsHelper implements JTemplateActionListener {
      *
      * @param jt
      */
-    public void dealWithVcs(final JTemplate jt) {
+    public void fireVcs(final JTemplate jt) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -165,7 +165,7 @@ public class VcsHelper implements JTemplateActionListener {
     @Override
     public void templateSaved(JTemplate<?, ?> jt) {
         if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
-            dealWithVcs(jt);
+            fireVcs(jt);
         }
     }
 
