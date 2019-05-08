@@ -22,8 +22,6 @@ import java.util.UUID;
 public class FocusPointMessageUploader extends AbstractSendDataToCloud {
 
     private static final String TAG = "FocusPointMessageTag";
-    private static final String SEPARATOR = "_";
-    private static final String FOCUS_POINT = "FocusPoint";
     private static final long DELTA = 24 * 3600 * 1000L;
     private static volatile FocusPointMessageUploader instance;
 
