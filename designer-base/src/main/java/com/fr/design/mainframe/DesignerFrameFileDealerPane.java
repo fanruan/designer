@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -202,7 +203,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
-        if (VcsHelper.needInit()) {
+        if (VcsHelper.getInstance().needInit()) {
             toolbarDef.addShortCut(vcsAction);
         }
         toolbarDef.updateToolBar(toolBar);
@@ -453,7 +454,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     }
 
     private void handleVcsAction() {
-        if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.isUnSelectedTemplate()) {
+        if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.getInstance().isUnSelectedTemplate()) {
             vcsAction.setEnabled(false);
             return;
         }

@@ -687,10 +687,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.saved = true;
         this.authoritySaved = true;
         DesignerContext.getDesignerFrame().setTitle();
-        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
-            VcsHelper.dealWithVcs(this);
-
-        }
         this.fireJTemplateSaved();
         return true;
     }
@@ -831,7 +827,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+        for (int i = listeners.length - 1; i >= 0; i -= 1) {
             if (listeners[i] == JTemplateActionListener.class) {
                 ((JTemplateActionListener) listeners[i + 1]).templateSaved(this);
             }

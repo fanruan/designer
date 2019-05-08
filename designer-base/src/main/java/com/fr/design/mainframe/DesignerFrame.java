@@ -37,6 +37,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -924,6 +925,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         jt.addJTemplateActionListener(this);
         jt.addTargetModifiedListener(this);
+        jt.addJTemplateActionListener(new VcsHelper());
         centerTemplateCardPane.showJTemplate(jt);
         setTitle();
         layeredPane.repaint();

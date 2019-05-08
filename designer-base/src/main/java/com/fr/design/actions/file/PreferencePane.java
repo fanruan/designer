@@ -217,7 +217,7 @@ public class PreferencePane extends BasicPane {
         JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
         generalPane.add(vcsPane);
         remindVcsLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Remind"));
-        remindVcsLabel.setVisible(!VcsHelper.needInit());
+        remindVcsLabel.setVisible(!VcsHelper.getInstance().needInit());
         vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
         saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
         saveIntervalEditor = new IntegerEditor(60);
@@ -602,7 +602,7 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (VcsHelper.needInit()) {
+        if (VcsHelper.getInstance().needInit()) {
             vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
         } else {
             vcsEnableCheckBox.setEnabled(false);
