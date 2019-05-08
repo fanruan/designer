@@ -1,7 +1,6 @@
 package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.Utils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
@@ -10,9 +9,7 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.os.OperatingSystem;
 import com.fr.third.org.apache.http.HttpStatus;
 import com.fr.third.org.apache.http.StatusLine;
 import com.fr.third.org.apache.http.client.methods.HttpGet;
@@ -21,12 +18,10 @@ import javax.swing.KeyStroke;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
 public class TutorialAction extends UpdateAction {
-	
+
     public TutorialAction() {
         this.setMenuKeySet(HELP_TUTORIAL);
         this.setName(getMenuKeySet().getMenuName());
@@ -35,27 +30,6 @@ public class TutorialAction extends UpdateAction {
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
-    private void nativeExcuteMacInstallHomePrograms(String appName) {
-        String installHome = StableUtils.getInstallHome();
-        if(installHome == null) {
-            FineLoggerFactory.getLogger().error("Can not find the install home, please check it.");
-        } else {
-            String appPath = StableUtils.pathJoin(new String[]{installHome, "bin", appName});
-            if(!(new File(appPath)).exists()) {
-                FineLoggerFactory.getLogger().error(appPath + " can not be found.");
-            }
-
-            String cmd = "open " + appPath;
-            Runtime runtime = Runtime.getRuntime();
-
-            try {
-                runtime.exec(cmd);
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
-
-        }
-    }
     /**
      * 动作
      * @param evt 事件
@@ -69,12 +43,7 @@ public class TutorialAction extends UpdateAction {
             } catch (Exception e) {
             }
         }
-
-        if (OperatingSystem.isUnix()) {
-            nativeExcuteMacInstallHomePrograms("helptutorial.app");
-        } else {
-            Utils.nativeExcuteInstallHomePrograms("helptutorial.exe");
-        }
+        FineLoggerFactory.getLogger().warn(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Offline_Helptutorial_Msg"));
     }
 
     // 生成帮助文档 sitecenter key, help.zh_CN.10
