@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.messagecollect.impl;
 
-import com.fr.config.MarketConfig;
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.messagecollect.entity.FileEntityBuilder;
 import com.fr.design.mainframe.messagecollect.utils.MessageCollectUtils;
 import com.fr.intelli.record.FocusPoint;
@@ -24,8 +22,6 @@ import java.util.UUID;
 public class FocusPointMessageUploader extends AbstractSendDataToCloud {
 
     private static final String TAG = "FocusPointMessageTag";
-    private static final String SEPARATOR = "_";
-    private static final String FOCUS_POINT = "FocusPoint";
     private static final long DELTA = 24 * 3600 * 1000L;
     private static volatile FocusPointMessageUploader instance;
 
@@ -91,17 +87,8 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
     }
 
     private void generatePath() {
-        DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-        String bbsUserName = MarketConfig.getInstance().getBbsUsername();
-        String uuid = envManager.getUUID();
-        //文件夹名称的格式是: "FocusPoint" + 大版本号 + 小版本号 + uuid + bbsUserName + randomUuid，均以下划线分隔
-        StringBuilder sb = new StringBuilder();
-        sb.append(FOCUS_POINT).append(SEPARATOR).
-                append(ProductConstants.MAIN_VERSION).append(SEPARATOR).
-                append(ProductConstants.MINOR_VERSION).append(SEPARATOR).
-                append(uuid).append(SEPARATOR).append(bbsUserName).append(SEPARATOR).
-                append(UUID.randomUUID());
-        String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), sb.toString());
+        //文件夹名称是uuid.zip，版本信息已经在edition中体现了
+        String folderName = StableUtils.pathJoin(ProductConstants.getEnvHome(), String.valueOf(UUID.randomUUID()));
         setFileEntityBuilder(new FileEntityBuilder(folderName));
     }
 }
