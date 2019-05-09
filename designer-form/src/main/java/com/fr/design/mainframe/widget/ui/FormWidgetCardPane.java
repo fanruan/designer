@@ -28,6 +28,7 @@ import com.fr.design.widget.Operator;
 import com.fr.design.widget.ui.designer.component.WidgetAbsoluteBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetCardTagBoundPane;
+import com.fr.form.ui.FormWidgetHelper;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
@@ -102,6 +103,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     /**
      * 后台初始化所有事件.
      */
+    @Override
     public void initAllListeners() {
 
     }
@@ -113,7 +115,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         initListener(this);
     }
 
-
+    @Override
     protected void initContentPane() {
     }
 
@@ -214,7 +216,9 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         Widget widget = currentEditorDefinePane.updateBean();
         if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic")) && widgetPropertyPane != null) {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
-            if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
+            Widget existWidget = FormWidgetHelper.findWidgetByName(widget, widgetNameField.getText());
+            boolean exist = ComparatorUtils.equals(designer.getTarget().getContainer().getWidgetName(), widgetNameField.getText()) || (existWidget != null && !ComparatorUtils.equals(widget.getWidgetName(), widgetNameField.getText()));
+            if (exist) {
                 widgetNameField.setText(widget.getWidgetName());
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
