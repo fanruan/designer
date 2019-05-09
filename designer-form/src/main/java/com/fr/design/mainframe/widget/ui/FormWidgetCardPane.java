@@ -224,7 +224,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             }
             String containerName = designer.getTarget().getContainer().getWidgetName();
             Widget existWidget = FormWidgetHelper.findWidgetByName(widget, widgetNameField.getText());
-            // 判断设置的组件名是否和容器同名以及组件是否在容器在存在 满足任何之一 抛出提示
+            // 判断设置的组件名是否和容器同名以及组件是否在容器在存在 满足任何其一 抛出提示
             boolean exist = ComparatorUtils.equals(containerName, toSetWidgetName) || existWidget != null;
             if (exist) {
                 widgetNameField.setText(currentWidgetName);
