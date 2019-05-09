@@ -216,15 +216,23 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         Widget widget = currentEditorDefinePane.updateBean();
         if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic")) && widgetPropertyPane != null) {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
+            String toSetWidgetName = widgetNameField.getText();
+            String currentWidgetName = widget.getWidgetName();
+            // 设置的组件名和当前组件名相同 直接返回
+            if (ComparatorUtils.equals(toSetWidgetName, currentWidgetName)) {
+                return;
+            }
+            String containerName = designer.getTarget().getContainer().getWidgetName();
             Widget existWidget = FormWidgetHelper.findWidgetByName(widget, widgetNameField.getText());
-            boolean exist = ComparatorUtils.equals(designer.getTarget().getContainer().getWidgetName(), widgetNameField.getText()) || (existWidget != null && !ComparatorUtils.equals(widget.getWidgetName(), widgetNameField.getText()));
+            // 判断设置的组件名是否和容器同名以及组件是否在容器在存在 满足任何之一 抛出提示
+            boolean exist = ComparatorUtils.equals(containerName, toSetWidgetName) || existWidget != null;
             if (exist) {
-                widgetNameField.setText(widget.getWidgetName());
+                widgetNameField.setText(currentWidgetName);
                 JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
             widgetPropertyPane.update(widget);
-            xCreator.resetCreatorName(widget.getWidgetName());
+            xCreator.resetCreatorName(toSetWidgetName);
             xCreator.resetVisible(widget.isVisible());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
             return;
