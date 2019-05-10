@@ -8,6 +8,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.mainframe.vcs.common.VcsCacheFileNodeFile;
 import com.fr.file.filetree.FileNode;
+import com.fr.general.ComparatorUtils;
 import com.fr.report.entity.VcsEntity;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
@@ -53,9 +54,13 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
             //先关闭当前打开的模板版本
             JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             jt.stopEditing();
-            MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);
-            MutilTempalteTabPane.getInstance().closeFormat(jt);
-            MutilTempalteTabPane.getInstance().closeSpecifiedTemplate(jt);
+            //只有模板一样是关闭当前模板
+            if (ComparatorUtils.equals(fileOfVersion, jt.getPath())) {
+                MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);
+                MutilTempalteTabPane.getInstance().closeFormat(jt);
+                MutilTempalteTabPane.getInstance().closeSpecifiedTemplate(jt);
+            }
+
             //再打开cache中的模板
             DesignerContext.getDesignerFrame().openTemplate(new VcsCacheFileNodeFile(new FileNode(fileOfVersion, false)));
 
