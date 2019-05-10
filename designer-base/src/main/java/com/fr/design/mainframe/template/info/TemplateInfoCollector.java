@@ -12,12 +12,14 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
-import com.fr.workspace.WorkContext;
+import com.fr.third.org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,7 +135,8 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
             return;
         }
         try {
-            XMLableReader xmlReader = XMLableReader.createXMLableReader(new FileReader(getInfoFile()));
+            InputStreamReader isReader = new InputStreamReader(new FileInputStream(getInfoFile()), StandardCharsets.UTF_8);
+            XMLableReader xmlReader = XMLableReader.createXMLableReader(isReader);
             xmlReader.readXMLObject(this);
         } catch (XMLStreamException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -160,8 +163,12 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
      */
     private void saveInfo() {
         try {
-            FileOutputStream out = new FileOutputStream(getInfoFile());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
             XMLTools.writeOutputStreamXML(this, out);
+            out.flush();
+            out.close();
+            String fileContent = new String(out.toByteArray(), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(getInfoFile(), fileContent, StandardCharsets.UTF_8);
         } catch (Exception ex) {
             FineLoggerFactory.getLogger().error(ex.getMessage());
         }
