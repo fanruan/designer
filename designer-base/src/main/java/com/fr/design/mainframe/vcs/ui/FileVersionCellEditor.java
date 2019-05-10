@@ -54,7 +54,7 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
             //先关闭当前打开的模板版本
             JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             jt.stopEditing();
-            //只有模板一样是关闭当前模板
+            //只有模板路径一致时关闭当前模板
             if (ComparatorUtils.equals(fileOfVersion, jt.getPath())) {
                 MutilTempalteTabPane.getInstance().setIsCloseCurrent(true);
                 MutilTempalteTabPane.getInstance().closeFormat(jt);
