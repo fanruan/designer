@@ -27,7 +27,6 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.file.HistoryTemplateListCache;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.menu.MenuDef;
@@ -45,7 +44,6 @@ import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.report.TemplateReport;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ProductConstants;
-import org.apache.tools.ant.taskdefs.Sleep;
 
 /**
  * NameTabPane of sheets
