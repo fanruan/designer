@@ -5,7 +5,7 @@ body {
     background-size: 100% 100% !important;
     -moz-background-size: 100% 100% !important;
 
-    font-family: PingFangSC-Regular, Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif !important;
+    font-family: "PingFang SC", "Microsoft YaHei", "Myriad Pro", "OpenSans", Verdana, SimSun, sans-serif !important;
 }
 
 .close-btn {
@@ -27,7 +27,7 @@ body {
 }
 
 .font-bold {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .title {
