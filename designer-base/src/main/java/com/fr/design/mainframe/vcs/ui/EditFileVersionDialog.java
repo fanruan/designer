@@ -86,11 +86,7 @@ public class EditFileVersionDialog extends UIDialog {
                 setVisible(false);
                 String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
                 FileVersionTable table = FileVersionTable.getInstance();
-                try {
-                    table.updateModel(table.getSelectedRow(), WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", StringUtils.EMPTY)));
-                } catch (Exception e1) {
-                    FineLoggerFactory.getLogger().error(e1.getMessage());
-                }
+                table.updateModel(table.getSelectedRow(), WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", StringUtils.EMPTY)));
             }
         });
 
