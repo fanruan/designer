@@ -30,6 +30,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 	private String toggleButtonName = "";
 	private GlobalNameListener globalNameListener = null;
 	private Icon[] icons;
+	private final int ICON_COUNT = 2;
 
 	public UIToggleButton() {
 		this(StringUtils.EMPTY);
@@ -126,6 +127,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
     protected void initListener(){
         if(shouldResponseChangeListener()){
             this.addChangeListener(new ChangeListener() {
+            	@Override
                 public void stateChanged(ChangeEvent e) {
                     if (uiObserverListener == null) {
                         return;
@@ -153,7 +155,8 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (icons != null) {
+				Icon[] icons = UIToggleButton.this.icons;
+				if (icons != null && icons.length == ICON_COUNT) {
 					if (isSelected) {
 						UIToggleButton.this.setIcon(icons[1]);
 					} else {
