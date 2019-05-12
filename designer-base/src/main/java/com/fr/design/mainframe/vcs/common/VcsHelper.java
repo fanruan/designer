@@ -164,7 +164,7 @@ public class VcsHelper implements JTemplateActionListener {
      */
     @Override
     public void templateSaved(JTemplate<?, ?> jt) {
-        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
+        if (needInit() && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
             fireVcs(jt);
         }
     }
