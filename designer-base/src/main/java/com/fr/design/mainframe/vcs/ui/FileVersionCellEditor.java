@@ -68,7 +68,7 @@ public class FileVersionCellEditor extends AbstractCellEditor implements TableCe
 
         double height = editor.getPreferredSize().getHeight();
         if (table.getRowHeight(row) != height) {
-            table.setRowHeight(row, (int) height);
+            table.setRowHeight(row, (int) height + VcsHelper.OFFSET);
         }
         return editor;
     }
