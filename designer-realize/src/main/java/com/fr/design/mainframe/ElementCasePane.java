@@ -174,6 +174,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     private CellSelection cellNeedTOFormat = null;
     private FormatBrushAction formatBrushAction;
     private ActionListener keyListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (!formatBrush.isSelected()) {
                 DesignerContext.setFormatState(DesignerContext.FORMAT_STATE_ONCE);
@@ -188,6 +189,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         }
     };
     private ActionListener escKey = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             cancelFormatBrush();
         }
@@ -212,6 +214,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * 取消格式化
      */
+    @Override
     public void cancelFormat() {
         return;
     }
@@ -240,7 +243,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         verScrollBar = new DynamicScrollBar(Adjustable.VERTICAL, this, this.resolution);
         horScrollBar = new DynamicScrollBar(Adjustable.HORIZONTAL, this, this.resolution);
         this.add(RGridLayout.VerticalBar, this.verScrollBar);
-//         this.add(RGridLayout.HorizontalBar, this.horScrollBar);
 
         // Init input/action map defaultly.
         initInputActionMap();
@@ -253,7 +255,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         initFormatBrush();
     }
 
-
+    @Override
     public int getMenuState() {
         return DesignState.WORK_SHEET;
     }
@@ -265,6 +267,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         formatBrush.setSelected(DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL);
         formatBrush.removeActionListener(formatBrushAction);
         formatBrush.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 //如果没有格式刷，点击时就是想使用格式刷
                 if (e.getClickCount() == 1) {
@@ -528,8 +531,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 FineLoggerFactory.getLogger().info("Nothing to release");
             }
             this.selection = selection;
-            fireSelectionChanged();
         }
+        fireSelectionChanged();
     }
 
 
@@ -1210,6 +1213,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
     /**
      * 请求焦点
      */
+    @Override
     public void requestFocus() {
         super.requestFocus();
         this.getGrid().requestFocus();
@@ -1338,6 +1342,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      *
      * @return 返回正在编辑的状态.
      */
+    @Override
     public EditingState createEditingState() {
         return new ElementCaseEditingState(this.selection, this.verScrollBar.getValue(), this.horScrollBar.getValue(), this.resolution);
     }
@@ -1380,7 +1385,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
             ElementCasePane.this.getVerticalScrollBar().setValue(this.verticalValue);
             ElementCasePane.this.getHorizontalScrollBar().setValue(this.horizontalValue);
-//            ElementCasePane.this.setResolution(this.resolution);
             HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setScale(this.resolution);
             // 重绘.
             ElementCasePane.this.repaint();
