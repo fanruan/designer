@@ -115,7 +115,7 @@ public class VcsHelper implements JTemplateActionListener {
 
     public boolean needInit() {
         PluginContext context = PluginManager.getContext(VCS_PLUGIN_ID);
-        return context == null || !context.isActive();
+        return context == null || !context.isRunning();
     }
 
     /**
