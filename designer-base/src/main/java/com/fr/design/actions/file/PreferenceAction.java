@@ -4,9 +4,10 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.KeySetUtils;
 
@@ -38,9 +39,10 @@ public class PreferenceAction extends UpdateAction {
                 preferencePane.update(DesignerEnvManager.getEnvManager());
                 DesignerEnvManager.loadLogSetting();
                 DesignerEnvManager.getEnvManager().saveXMLFile();
-                JTemplate jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 jt.refreshToolArea();
                 preferencePane.showRestartDialog();
+                DesignerFrameFileDealerPane.getInstance().refreshDockingView();
             }
         });
 
