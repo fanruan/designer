@@ -26,7 +26,7 @@ import com.fr.stable.StringUtils;
  */
 public class UIToggleButton extends UIButton implements GlobalNameObserver{
 
-	private final int ICON_COUNT = 2;
+	private static final int ICON_COUNT = 2;
 	private boolean isSelected;
 	private boolean isEventBannded = false;
 	private String toggleButtonName = "";
