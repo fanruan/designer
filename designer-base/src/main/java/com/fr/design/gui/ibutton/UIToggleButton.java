@@ -25,12 +25,13 @@ import com.fr.stable.StringUtils;
  * @since 2012-5-11下午4:28:24
  */
 public class UIToggleButton extends UIButton implements GlobalNameObserver{
+
+	private final int ICON_COUNT = 2;
 	private boolean isSelected;
 	private boolean isEventBannded = false;
 	private String toggleButtonName = "";
 	private GlobalNameListener globalNameListener = null;
 	private Icon[] icons;
-	private final int ICON_COUNT = 2;
 
 	public UIToggleButton() {
 		this(StringUtils.EMPTY);
