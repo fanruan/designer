@@ -2,7 +2,6 @@ package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.base.GraphHelper;
 import com.fr.base.Icon;
-import com.fr.base.IconManager;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ilable.UILabel;
@@ -11,6 +10,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.mainframe.widget.preview.MobileTemplatePreviewPane;
 import com.fr.form.ui.CardSwitchButton;
+import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.mobile.DownMenuStyle;
@@ -40,6 +40,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         super(tagLayout);
     }
 
+    @Override
     protected void createExtraConfPane(JPanel centerPane) {
         JPanel panel = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 0);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
@@ -134,12 +135,13 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         private static final int GAP = 6;
         private static final String PAINT_ICON = "fund_white";
         private static final String ICON_PATH = "/com/fr/web/images/fund_white.png";
-        private LineDescription splitLine;
+        private transient LineDescription splitLine;
 
         public DownMenuStylePreviewPane() {
             this.setBackground(Color.decode("#3888EE"));
         }
 
+        @Override
         public void repaint() {
             super.repaint();
         }
@@ -172,7 +174,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
                     g2d.setColor(oldColor);
                 }
                 Icon icon = new Icon(PAINT_ICON, ICON_PATH);
-                g2d.drawImage(IconManager.getIconManager().getDefaultIconImage(icon), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
+                g2d.drawImage(WidgetInfoConfig.getInstance().getIconManager().getDefaultIconImage(icon), (eachWidth - ICON_OFFSET) / 2, (panelHeight - ICON_OFFSET - GAP - fontHeight) / 2, null);
                 g2d.drawString(displayName, (eachWidth - width) / 2, (panelHeight + ICON_OFFSET + GAP - fontHeight) / 2  + ascent);
                 Stroke oldStroke = g2d.getStroke();
                 if (splitLine.getLineStyle() != 0) {
@@ -187,6 +189,7 @@ public class DownMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
 
         }
 
+        @Override
         public void populateConfig(MobileTemplateStyle templateStyle) {
             super.populateConfig(templateStyle);
             this.splitLine = ((DownMenuStyle) templateStyle).getSplitLine();
