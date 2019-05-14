@@ -1,6 +1,7 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
+import com.fr.base.FileExtensionProvider;
 import com.fr.base.extension.FileExtension;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.file.NodeAuthProcessor;
@@ -16,7 +17,6 @@ import javax.swing.text.Position;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -129,15 +129,15 @@ public class TemplateFileTree extends EnvFileTree {
 
     public FileNode[] listFile(String path) {
         // 支持插件扩展, 先从env的filter拿, 再从插件拿
-        Set<FileExtension> supportTypes = createFileExtensionFilter();
+        Set<FileExtensionProvider> supportTypes = createFileExtensionFilter();
         return FRContext.getFileNodes().list(
                 path,
-                supportTypes.toArray(new FileExtension[supportTypes.size()])
+                supportTypes.toArray(new FileExtensionProvider[supportTypes.size()])
                 );
     }
 
-    private Set<FileExtension> createFileExtensionFilter() {
-        Set<FileExtension> supportTypes = new HashSet<FileExtension>();
+    private Set<FileExtensionProvider> createFileExtensionFilter() {
+        Set<FileExtensionProvider> supportTypes = new HashSet<FileExtensionProvider>();
         if (filter != null) {
             for (String temp : filter.getSupportedTypes()) {
                 supportTypes.add(FileExtension.parse(temp));
@@ -228,17 +228,6 @@ public class TemplateFileTree extends EnvFileTree {
         if (fileNodes == null) {
             fileNodes = new FileNode[0];
         }
-        // FileNodeFilter过滤
-        if (filter != null) {
-            List<FileNode> list = new ArrayList<FileNode>();
-            for (FileNode fileNode : fileNodes) {
-                if (filter.accept(fileNode)) {
-                    list.add(fileNode);
-                }
-            }
-            fileNodes = list.toArray(new FileNode[list.size()]);
-        }
-        Arrays.sort(fileNodes, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
 
         return fileNodes;
     }
