@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ import java.util.UUID;
 public class FileEntityBuilder {
 
     private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
-    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_treasure_upload__";
+    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_file_upload__";
     private static final String FILE_FROM = "design";
     private static final String FOCUS_POINT_FILE_UPLOAD_TYPE = "FocusPoint";
     private static final String FOCUS_POINT_FILE_UPLOAD_URL = CloudCenter.getInstance().acquireUrlByKind("design.feedback");
@@ -120,7 +121,7 @@ public class FileEntityBuilder {
         try {
             HashMap<String, Object> params = new HashMap<>();
             params.put("topic", FOCUS_POINT_FILE_UPLOAD_TOPIC);
-            params.put("username", userName);
+            params.put("username", URLEncoder.encode(userName, EncodeConstants.ENCODING_UTF_8));
             params.put("uuid", uuid);
             params.put("filepath", filePath);
             params.put("timestamp", String.valueOf(System.currentTimeMillis()));
