@@ -1,7 +1,6 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
-import com.fr.base.FileExtensionProvider;
 import com.fr.base.extension.FileExtension;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.file.NodeAuthProcessor;
@@ -130,15 +129,15 @@ public class TemplateFileTree extends EnvFileTree {
 
     public FileNode[] listFile(String path) {
         // 支持插件扩展, 先从env的filter拿, 再从插件拿
-        Set<FileExtensionProvider> supportTypes = createFileExtensionFilter();
+        Set<FileExtension> supportTypes = createFileExtensionFilter();
         return FRContext.getFileNodes().list(
                 path,
-                supportTypes.toArray(new FileExtensionProvider[supportTypes.size()])
+                supportTypes.toArray(new FileExtension[supportTypes.size()])
                 );
     }
 
-    private Set<FileExtensionProvider> createFileExtensionFilter() {
-        Set<FileExtensionProvider> supportTypes = new HashSet<FileExtensionProvider>();
+    private Set<FileExtension> createFileExtensionFilter() {
+        Set<FileExtension> supportTypes = new HashSet<FileExtension>();
         if (filter != null) {
             for (String temp : filter.getSupportedTypes()) {
                 supportTypes.add(FileExtension.parse(temp));
