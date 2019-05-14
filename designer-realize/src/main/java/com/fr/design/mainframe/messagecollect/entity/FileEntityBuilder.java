@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -120,7 +121,7 @@ public class FileEntityBuilder {
         try {
             HashMap<String, Object> params = new HashMap<>();
             params.put("topic", FOCUS_POINT_FILE_UPLOAD_TOPIC);
-            params.put("username", userName);
+            params.put("username", URLEncoder.encode(userName, EncodeConstants.ENCODING_UTF_8));
             params.put("uuid", uuid);
             params.put("filepath", filePath);
             params.put("timestamp", String.valueOf(System.currentTimeMillis()));
