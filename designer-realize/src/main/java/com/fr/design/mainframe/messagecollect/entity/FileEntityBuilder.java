@@ -32,7 +32,7 @@ import java.util.UUID;
 public class FileEntityBuilder {
 
     private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
-    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_treasure_upload__";
+    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_file_upload__";
     private static final String FILE_FROM = "design";
     private static final String FOCUS_POINT_FILE_UPLOAD_TYPE = "FocusPoint";
     private static final String FOCUS_POINT_FILE_UPLOAD_URL = CloudCenter.getInstance().acquireUrlByKind("design.feedback");
