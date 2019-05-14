@@ -44,6 +44,7 @@ public class VcsHelper implements JTemplateActionListener {
     public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_delete.png");
     public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
     public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
+    public final static int OFFSET = 2;
     private final static String VCS_DIR = "vcs";
     public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
     private static final int MINUTE = 60 * 1000;
@@ -114,7 +115,7 @@ public class VcsHelper implements JTemplateActionListener {
 
     public boolean needInit() {
         PluginContext context = PluginManager.getContext(VCS_PLUGIN_ID);
-        return context == null || !context.isActive();
+        return context == null || !context.isRunning();
     }
 
     /**
@@ -164,7 +165,7 @@ public class VcsHelper implements JTemplateActionListener {
      */
     @Override
     public void templateSaved(JTemplate<?, ?> jt) {
-        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
+        if (needInit() && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
             fireVcs(jt);
         }
     }
