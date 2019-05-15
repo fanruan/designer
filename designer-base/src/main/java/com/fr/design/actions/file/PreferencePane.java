@@ -186,11 +186,11 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
-
-        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
-        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
-        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
-        advancePane.add(debuggerPane);
+//
+//        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
+//        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+//        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
+//        advancePane.add(debuggerPane);
 
         JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
         useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
@@ -636,7 +636,7 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+//        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
@@ -702,7 +702,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
 
-        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
+//        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
