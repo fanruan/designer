@@ -157,7 +157,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 	/**
 	 * 设置当前选择的日期
 	 */
-	public void setSelectedDate(Date date) {
+	public void setSelectedDate(Date date) throws ParseException {
 	    if (date == null) {
             this.setSelectedItem(null);
         } else {
