@@ -20,8 +20,10 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.plugin.ExtraClassManager;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.manage.PluginFilter;
@@ -94,11 +96,11 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         imageLayoutComboBox = new UIComboBox(LAYOUT);
         initTextRotationCombox();
 
-        Icon[][] hAlignmentIconArray = {{BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment_white.png")}};
+        Icon[][] hAlignmentIconArray = {{IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_left_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_center_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_right_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment_white.png")}};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
         hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
         hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Right"),
@@ -106,9 +108,9 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         vPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-        Icon[][] vAlignmentIconArray = {{BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal_white.png")},
-                {BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png"), BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal_white.png")}};
+        Icon[][] vAlignmentIconArray = {{IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_top_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal_white.png")},
+                {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal_white.png")}};
         Integer[] vAlignment = new Integer[]{Constants.TOP, Constants.CENTER, Constants.BOTTOM};
         vAlignmentPane = new UIButtonGroup<Integer>(vAlignmentIconArray, vAlignment);
         vAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Bottom")});
@@ -210,9 +212,11 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     private JPanel basicPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
+        UILabel horizontalLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal") + "   ", SwingConstants.LEFT);
+        UIComponentUtils.setLineWrap(horizontalLabel);
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal") + "   ", SwingConstants.LEFT), hPaneContainer},
+                new Component[]{horizontalLabel, hPaneContainer},
                 new Component[]{null, null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Vertical") + "   ", SwingConstants.RIGHT), vPaneContainer},
                 new Component[]{null, null}
@@ -304,6 +308,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
      *
      * @param style the new style.
      */
+    @Override
     public void populateBean(Style style) {
         hAlignmentPane.setSelectedItem(BaseUtils.getAlignment4Horizontal(style));
         vAlignmentPane.setSelectedItem(style.getVerticalAlignment());
