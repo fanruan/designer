@@ -27,8 +27,10 @@ public class VideoAction extends UpdateAction
 	public void actionPerformed(ActionEvent arg0)
 	{
 		String url;
-		if (GeneralContext.getLocale().equals(Locale.US)) {
+		if (Locale.US.equals(GeneralContext.getLocale())) {
 			url = CloudCenter.getInstance().acquireUrlByKind("bbs.video.en");
+		} else if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
+			url = CloudCenter.getInstance().acquireUrlByKind("bbs.video.tw");
 		} else {
 	  		url = CloudCenter.getInstance().acquireUrlByKind("bbs.video");
 		}
