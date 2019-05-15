@@ -153,6 +153,10 @@ public class DateEditor extends Editor<Date> {
 		this.uiDatePicker.setSelectedItem(new Date());
 	}
 
+	public UIDatePicker getUiDatePicker() {
+		return uiDatePicker;
+	}
+
 	/**
 	 * Request focus
 	 */
