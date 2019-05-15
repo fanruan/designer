@@ -78,7 +78,7 @@ public class FileVersionDialog extends UIDialog {
                 FileVersionDialog.this.setVisible(false);
             }
         });
-        ActionLabel resetLabel = new ActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_resetValue"), VcsHelper.COPY_VERSION_BTN_COLOR);
+        VcsLabel resetLabel = new VcsLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_resetValue"), VcsHelper.COPY_VERSION_BTN_COLOR);
         resetLabel.setBorder(BorderFactory.createEmptyBorder(10, 160, 0, 10));
         resetLabel.addActionListener(new ActionListener() {
             @Override
