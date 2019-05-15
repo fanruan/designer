@@ -751,8 +751,11 @@ public class MutilTempalteTabPane extends JComponent {
                 JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 selectedIndex = HistoryTemplateListCache.getInstance().contains(template);
             }
-            //如果是已后台关闭的模板，则重新打开文件
-            openedTemplate.get(selectedIndex).activeOldJTemplate();
+            if (selectedIndex < openedTemplate.size()) {
+                //如果是已后台关闭的模板，则重新打开文件
+                openedTemplate.get(selectedIndex).activeOldJTemplate();
+            }
+
         }
     }
 

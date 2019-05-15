@@ -1,6 +1,5 @@
 package com.fr.design.utils;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
@@ -14,8 +13,7 @@ import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CodeUtils;
-import com.fr.stable.EncodeConstants;
+import com.fr.stable.CommonCodeUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.ServerStarter;
@@ -33,32 +31,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
  * Some util method of Designer
  */
 public class DesignUtils {
-    private static final int MESSAGEPORT = 51462;
-    private static final int TIME_OUT = 20 * 1000;
+    private static int port = DesignerPort.MESSAGE_PORT;
+
+    private DesignUtils() {
+    }
+
 
     public synchronized static void setPort(int port) {
         DesignUtils.port = port;
     }
 
-    private static int port = MESSAGEPORT;
-
-    private DesignUtils() {
-
+    public static int getPort() {
+        return port;
     }
-
 
     /**
      * 通过端口是否被占用判断设计器有没有启动
@@ -70,8 +69,7 @@ public class DesignUtils {
         try {
             new Socket("localhost", port);
             return true;
-        } catch (Exception exp) {
-
+        } catch (Exception ignored) {
         }
         return false;
     }
@@ -82,7 +80,7 @@ public class DesignUtils {
      * @param lines 命令行
      */
     public static void clientSend(String[] lines) {
-        if (lines != null && lines.length <= 0) {
+        if (lines == null || lines.length == 0) {
             return;
         }
         Socket socket = null;
@@ -90,18 +88,21 @@ public class DesignUtils {
         try {
             socket = new Socket("localhost", port);
 
-            writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), EncodeConstants.ENCODING_UTF_8)));
+            writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)));
             for (int i = 0; i < lines.length; i++) {
                 writer.println(lines[i]);
             }
-
             writer.flush();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
             try {
-                writer.close();
-                socket.close();
+                if (writer != null) {
+                    writer.close();
+                }
+                if (socket != null) {
+                    socket.close();
+                }
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
@@ -114,47 +115,52 @@ public class DesignUtils {
      * @param startPort 端口
      * @param suffixs   文件后缀
      */
-    public static void creatListeningServer(final int startPort, final String[] suffixs) {
-        Thread serverSocketThread = new Thread() {
+    public static void createListeningServer(final int startPort, final String[] suffixs) {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(new Runnable() {
+            @Override
             public void run() {
                 ServerSocket serverSocket = null;
                 try {
                     serverSocket = new ServerSocket(startPort);
                 } catch (IOException e1) {
-                    FineLoggerFactory.getLogger().error("Cannot create server socket on" + port);
+                    FineLoggerFactory.getLogger().error("Cannot create server socket on " + port);
                 }
                 while (true) {
                     try {
-                        Socket socket = serverSocket.accept(); // 接收客户连接
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), EncodeConstants.ENCODING_UTF_8));
-                        String line = null;
-                        while ((line = reader.readLine()) != null) {
-                            if (line.startsWith("demo")) {
-                                DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
-                                ServerStarter.browserDemoURL();
-                            } else if (StringUtils.isNotEmpty(line)) {
-                                File f = new File(line);
-                                String path = f.getAbsolutePath();
+                        if (serverSocket != null) {
+                            Socket socket = serverSocket.accept(); // 接收客户连接
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                if (line.startsWith("demo")) {
+                                    DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
+                                    ServerStarter.browserDemoURL();
+                                } else if (StringUtils.isNotEmpty(line)) {
+                                    File f = new File(line);
+                                    String path = f.getAbsolutePath();
 
-                                boolean isMatch = false;
-                                for (int i = 0; i < suffixs.length; i++) {
-                                    isMatch = isMatch || path.endsWith(suffixs[i]);
-                                }
-                                if (isMatch) {
-                                    DesignerContext.getDesignerFrame().openTemplate(new FileFILE(f));
+                                    boolean isMatch = false;
+                                    for (int i = 0; i < suffixs.length; i++) {
+                                        isMatch = isMatch || path.endsWith(suffixs[i]);
+                                    }
+                                    if (isMatch) {
+                                        DesignerContext.getDesignerFrame().openTemplate(new FileFILE(f));
+                                    }
                                 }
                             }
+                            reader.close();
+                            socket.close();
+                        } else {
+                            FineLoggerFactory.getLogger().error("Cannot create server socket on " + port);
+                            break;
                         }
-
-                        reader.close();
-                        socket.close();
-                    } catch (IOException e) {
-
+                    } catch (IOException ignored) {
                     }
                 }
             }
-        };
-        serverSocketThread.start();
+        });
+
     }
 
     /**
@@ -278,19 +284,18 @@ public class DesignUtils {
      */
     public static void visitEnvServerByParameters(String baseRoute, String[] names, String[] values) {
         int len = Math.min(ArrayUtils.getLength(names), ArrayUtils.getLength(values));
-        String[] segs = new String[len];
+        String[] nameValuePairs = new String[len];
         for (int i = 0; i < len; i++) {
-            try {
-                //设计器里面据说为了改什么界面统一, 把分隔符统一用File.separator, 意味着在windows里面报表路径变成了\
-                //以前的超链, 以及预览url什么的都是/, 产品组的意思就是用到的地方替换下, 真恶心.
-                String value = values[i].replaceAll("\\\\", "/");
-                segs[i] = URLEncoder.encode(CodeUtils.cjkEncode(names[i]), EncodeConstants.ENCODING_UTF_8) + "=" + URLEncoder.encode(CodeUtils.cjkEncode(value), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
+            //设计器里面据说为了改什么界面统一, 把分隔符统一用File.separator, 意味着在windows里面报表路径变成了\
+            //以前的超链, 以及预览url什么的都是/, 产品组的意思就是用到的地方替换下, 真恶心.
+            String value = values[i].replaceAll("\\\\", "/");
+            // 两次 encode 支持中文和特殊符号，避免跳转登录后预览400报错
+            nameValuePairs[i] =
+                    CommonCodeUtils.encodeURIComponent(CommonCodeUtils.encodeURIComponent(names[i])) +
+                            "=" + CommonCodeUtils.encodeURIComponent(CommonCodeUtils.encodeURIComponent(value));
         }
-        String postfixOfUri = (segs.length > 0 ? "?" + StableUtils.join(segs, "&") : StringUtils.EMPTY);
-    
+        String postfixOfUri = (nameValuePairs.length > 0 ? "?" + StableUtils.join(nameValuePairs, "&") : StringUtils.EMPTY);
+
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 String urlPath = getWebBrowserPath();
@@ -305,8 +310,7 @@ public class DesignUtils {
                         + "/" + web + "/" + ServerConfig.getInstance().getServletName() + baseRoute
                         + postfixOfUri;
                 ServerStarter.browserURLWithLocalEnv(url);
-            } catch (Throwable e) {
-                //
+            } catch (Throwable ignored) {
             }
         }
     }
@@ -320,87 +324,6 @@ public class DesignUtils {
         }
         return urlPath;
     }
-
-    //TODO:august:下个版本，要把下面的图片都放在一个preload文件夹下，表示可以预先加载。然后遍历一下就可以了，不用这么一个一个的写了
-
-    /**
-     * 预加载
-     */
-    public static void preLoadingImages() {
-        BaseUtils.readIcon("com/fr/design/images/custombtn/baobiaozhuti.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/baobiaozhuti_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/baobiaozhuti_click.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/canshujiemian.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/canshujiemian_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/canshujiemian_click.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/setting.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/setting_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/setting_click.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/page.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/page_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/page_click.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/form.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/form_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/form_click.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/edit.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/edit_hover.png");
-        BaseUtils.readIcon("com/fr/design/images/custombtn/edit_click.png");
-        BaseUtils.readIcon("com/fr/base/images/oem/addworksheet.png");
-        BaseUtils.readIcon("com/fr/design/images/sheet/addpolysheet.png");
-        BaseUtils.readIcon("com/fr/base/images/oem/worksheet.png");
-        BaseUtils.readIcon("com/fr/design/images/sheet/polysheet.png");
-        BaseUtils.readIcon("com/fr/design/images/sheet/left_right_btn.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/cellPop.png");
-        BaseUtils.readIcon("/com/fr/design/images/docking/right.gif");
-        BaseUtils.readIcon("/com/fr/design/images/docking/left.gif");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/save.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/excel.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/pdf.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/word.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/svg.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/csv.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/text.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_web/datasource.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_report/webreportattribute.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/pageSetup.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_report/header.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_report/footer.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/saveAs.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_report/background.png");
-        loadOtherImages();
-    }
-
-
-    private static void loadOtherImages() {
-        BaseUtils.readIcon("/com/fr/design/images/m_report/reportWriteAttr.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_report/linearAttr.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/bindColumn.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/text.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/chart.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/image.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/bias.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/subReport.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/insertRow.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/insertColumn.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_format/highlight.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/hyperLink.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/merge.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/unmerge.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_file/export.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/cell.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/float.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/undo.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/redo.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_edit/paste.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/leftAlignment.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/centerAlignment.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/rightAlignment.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_format/noboder.png");
-        BaseUtils.readIcon("/com/fr/design/images/gui/color/background.png");
-        BaseUtils.readIcon("/com/fr/design/images/m_insert/floatPop.png");
-    }
-
 
     /**
      * 将用户反馈发送至服务器

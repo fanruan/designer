@@ -12,6 +12,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.TableDataSourceAction;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
@@ -34,8 +35,9 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
-import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
+import com.fr.design.mainframe.template.info.TemplateProcessInfo;
+import com.fr.design.mainframe.template.info.TimeConsumeTimer;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.toolbar.VcsScene;
 import com.fr.design.menu.MenuDef;
@@ -91,9 +93,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
-    private long openTime = 0L; // 打开模板的时间点（包括新建模板）
-    private TemplateInfoCollector tic = TemplateInfoCollector.getInstance();
-    private StringBuilder process = new StringBuilder("");  // 制作模板的过程
+    private TimeConsumeTimer consumeTimer = new TimeConsumeTimer();
     public int resolution = ScreenResolution.getScreenResolution();
 
     public JTemplate() {
@@ -101,7 +101,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     public JTemplate(T t, String defaultFileName) {
         this(t, new MemFILE(newTemplateNameByIndex(defaultFileName)), true);
-        openTime = System.currentTimeMillis();
     }
 
     public JTemplate(T t, FILE file) {
@@ -113,7 +112,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         // 判断是否切换设计器状态到禁止拷贝剪切
         if (t.getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.BAN_COPY_AND_CUT);
-        } else {
+        } else if (!DesignModeContext.isVcsMode() && !DesignModeContext.isAuthorityEditing()) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         }
         this.template = t;
@@ -124,12 +123,24 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.add(createCenterPane(), BorderLayout.CENTER);
         this.undoState = createUndoState();
         designModel = createDesignModel();
-        // 如果不是新建模板，并且在收集列表中
-        if (!isNewFile && tic.inList(t)) {
-            openTime = System.currentTimeMillis();
-            process.append(tic.loadProcess(t));
-        }
 
+        consumeTimer.setEnabled(shouldInitForCollectInfo(isNewFile));
+    }
+
+    void onGetFocus() {
+        consumeTimer.start();
+    }
+
+    void onLostFocus() {
+        consumeTimer.stop();
+    }
+
+    private boolean shouldInitForCollectInfo(boolean isNewFile) {
+        if (isNewFile) {
+            return true;
+        }
+        // 不是新建模板，但是已经在收集列表中
+        return TemplateInfoCollector.getInstance().contains(template.getTemplateID());
     }
 
     // 刷新右侧属性面板
@@ -142,34 +153,27 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     // 为收集模版信息作准备
     private void initForCollect() {
         generateTemplateId();
-        if (openTime == 0) {
-            openTime = System.currentTimeMillis();
-        }
+        consumeTimer.setEnabled(true);
+        consumeTimer.start();
     }
 
     private void collectInfo() {  // 执行收集操作
-        if (openTime == 0) {  // 旧模板，不收集数据
+        collectInfo(StringUtils.EMPTY);
+    }
+
+    private void collectInfo(String originID) {  // 执行收集操作
+        if (!consumeTimer.isEnabled()) {
             return;
         }
-        long saveTime = System.currentTimeMillis();  // 保存模板的时间点
         try {
-            tic.collectInfo(template, this, openTime, saveTime);
+            int timeConsume = consumeTimer.popTime();
+            TemplateInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), timeConsume);
         } catch (Throwable th) {  // 不管收集过程中出现任何异常，都不应该影响模版保存
         }
-        openTime = saveTime;  // 更新 openTime，准备下一次计算
+        consumeTimer.start();  // 准备下一次计算
     }
 
     public abstract TemplateProcessInfo<T> getProcessInfo();
-
-    // 追加过程记录
-    public void appendProcess(String s) {
-        process.append(s);
-    }
-
-    // 获取过程记录
-    public String getProcess() {
-        return process.toString();
-    }
 
     public U getUndoState() {
         return undoState;
@@ -621,15 +625,20 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
     }
 
+    // 保存新模板时会进入此方法（新建模板直接保存，或者另存为）
     protected boolean saveNewFile(FILE editingFILE, String oldName) {
+        String originID = StringUtils.EMPTY;
+        if (StringUtils.isNotEmpty(this.template.getTemplateID())) {
+            originID = this.template.getTemplateID();
+        }
         // 在保存之前，初始化 templateID
-        initForCollect();  // 如果保存新模板（新建模板直接保存，或者另存为），则添加 templateID
+        initForCollect();
 
         this.editingFILE = editingFILE;
         boolean result = this.saveFile();
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
-            collectInfo();
+            collectInfo(originID);
         }
         //更换最近打开
         DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
@@ -678,7 +687,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.saved = true;
         this.authoritySaved = true;
         DesignerContext.getDesignerFrame().setTitle();
-
         this.fireJTemplateSaved();
         return true;
     }
@@ -819,7 +827,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+        for (int i = listeners.length - 1; i >= 0; i -= 1) {
             if (listeners[i] == JTemplateActionListener.class) {
                 ((JTemplateActionListener) listeners[i + 1]).templateSaved(this);
             }

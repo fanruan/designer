@@ -30,18 +30,21 @@ public class DesktopCardPane extends BasicPane implements TargetModifiedListener
         // 判断是否切换设计器状态到禁止拷贝剪切
         if (jt.getTarget().getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
             DesignModeContext.switchTo(DesignerMode.BAN_COPY_AND_CUT);
-        } else {
+        } else if (!DesignModeContext.isVcsMode() && !DesignModeContext.isAuthorityEditing()){
             DesignModeContext.switchTo(DesignerMode.NORMAL);
         }
         DesignerFrameFileDealerPane.getInstance().setCurrentEditingTemplate(jt);
         if (component != null) {
+            component.onLostFocus();
             remove(component);
         }
-        add(component = jt, BorderLayout.CENTER);
+        component = jt;
+        add(component, BorderLayout.CENTER);
         validate();
         repaint();
         revalidate();
         component.requestGridFocus();
+        component.onGetFocus();
     }
 
     protected JTemplate<?, ?> getSelectedJTemplate() {

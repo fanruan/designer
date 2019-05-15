@@ -22,16 +22,18 @@ public class BorderIcon implements Icon {
         this.cellBorderStyle = cellBorderStyle;
     }
 
+    @Override
     public int getIconHeight() {
         return height;
     }
 
+    @Override
     public int getIconWidth() {
         return width;
 
     }
 
-    public static void drawLine(Graphics g, double x1, double y1, double x2,
+    private void drawLine(Graphics g, double x1, double y1, double x2,
         double y2, int lineStyle, Color color) {
         g.setColor(color);
         x1--;
@@ -63,6 +65,7 @@ public class BorderIcon implements Icon {
         }
     }
 
+    @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
         int defaultWidth = c.getWidth();
         int defaultHeight = c.getHeight();
@@ -81,9 +84,9 @@ public class BorderIcon implements Icon {
             cellBorderStyle.getBottomColor());
         drawLine(gr, x1, y1, x1, y2, cellBorderStyle.getLeftStyle(),
             cellBorderStyle.getLeftColor());
-        drawLine(gr, defaultWidth / 2, x1, defaultWidth / 2, x2,
+        drawLine(gr, defaultWidth / 2, y1, defaultWidth / 2, y2,
             cellBorderStyle.getVerticalStyle(), cellBorderStyle.getVerticalColor());
-        drawLine(gr, y1, defaultHeight / 2, y2, defaultHeight / 2,
+        drawLine(gr, x1, defaultHeight / 2, x2, defaultHeight / 2,
             cellBorderStyle.getHorizontalStyle(), cellBorderStyle.getHorizontalColor());
     }
 
