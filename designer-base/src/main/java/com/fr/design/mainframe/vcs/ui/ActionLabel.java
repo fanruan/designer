@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 /**
- * Action label
+ * Created by XiaXiang on 2019/5/15.
  */
 public class ActionLabel extends UILabel {
     private ActionListener actionListener;
@@ -76,4 +76,11 @@ public class ActionLabel extends UILabel {
         this.actionListener = actionListener;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
