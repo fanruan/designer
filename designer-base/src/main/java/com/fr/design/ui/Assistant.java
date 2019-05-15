@@ -49,5 +49,6 @@ public class Assistant {
         ProtocolService protocolService = browserContext.getProtocolService();
         // 支持读取jar包中文件的自定义协议————emb:/com/fr/design/images/bbs.png
         protocolService.setProtocolHandler("emb", handler);
+        //protocolService.setProtocolHandler("file", handler);
     }
 }

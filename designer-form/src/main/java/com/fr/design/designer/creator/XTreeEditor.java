@@ -73,7 +73,7 @@ public class XTreeEditor extends XWidgetCreator {
 
         crp = (CRPropertyDescriptor[]) ArrayUtils.add(crp, new CRPropertyDescriptor("ajax", this.data.getClass()).setI18NName(
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Widget_Load_By_Async")).putKeyValue(XCreatorConstants.PROPERTY_CATEGORY,
-                "Advanced"));
+                "Fine-Design_Basic_Advanced"));
 
 		crp = this.addAllowEdit(crp);
 		crp = this.addCustomData(crp);

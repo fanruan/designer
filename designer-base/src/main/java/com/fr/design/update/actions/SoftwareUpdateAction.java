@@ -1,0 +1,33 @@
+package com.fr.design.update.actions;
+
+import com.fr.base.BaseUtils;
+import com.fr.design.actions.UpdateAction;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.update.ui.dialog.UpdateMainDialog;
+
+import java.awt.event.ActionEvent;
+
+/**
+ * Created by XINZAI on 2018/8/21.
+ */
+public class SoftwareUpdateAction extends UpdateAction {
+
+
+    public SoftwareUpdateAction() {
+        setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_UpdateAndUpgrade"));
+        setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/update/update_new.png"));
+
+    }
+
+    /**
+     * 事件响应
+     *
+     * @param e 事件
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
+        dialog.showDialog();
+    }
+}
+

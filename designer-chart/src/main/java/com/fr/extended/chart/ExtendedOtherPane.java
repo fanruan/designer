@@ -11,6 +11,7 @@ import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -138,4 +139,10 @@ public class ExtendedOtherPane<T extends AbstractChart> extends AbstractChartAtt
         return PaneTitleConstants.CHART_OTHER_TITLE;
     }
 
+    @Override
+    protected void initContentPane() {
+        leftContentPane = createContentPane();
+        leftContentPane.setBorder(BorderFactory.createMatteBorder(10, 3, 0, 10, original));
+        this.add(leftContentPane, BorderLayout.CENTER);
+    }
 }

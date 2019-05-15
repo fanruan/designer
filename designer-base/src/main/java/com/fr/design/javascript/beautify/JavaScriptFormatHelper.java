@@ -1,16 +1,16 @@
 package com.fr.design.javascript.beautify;
 
 
-import com.fr.log.FineLoggerFactory;
+import com.eclipsesource.v8.V8;
+import com.eclipsesource.v8.V8Array;
+import com.eclipsesource.v8.V8Object;
+import com.eclipsesource.v8.utils.V8ObjectUtils;
 import com.fr.general.IOUtils;
-import com.fr.script.ScriptFactory;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.EncodeConstants;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 public class JavaScriptFormatHelper {
 
@@ -34,15 +34,21 @@ public class JavaScriptFormatHelper {
      */
     public static String beautify(String jsCode, BeautifyOption option) {
         InputStream resourceAsStream = IOUtils.readResource("com/fr/design/javascript/beautify/beautify.js");
-        ScriptEngine scriptEngine = ScriptFactory.newScriptEngine();
         String result = jsCode;
+        V8 v8 = V8.createV8Runtime();
         try {
-            Reader reader = new InputStreamReader(resourceAsStream);
-            scriptEngine.eval(reader);
-            Invocable invocable = (Invocable) scriptEngine;
-            result = (String) invocable.invokeFunction("js_beautify_global", jsCode, option.toFormatArgument());
-        } catch (ScriptException | NoSuchMethodException e) {
+            v8.executeVoidScript(IOUtils.inputStream2String(resourceAsStream, EncodeConstants.ENCODING_UTF_8));
+            V8Array parameters = new V8Array(v8);
+            parameters.push(jsCode);
+            V8Object arg = V8ObjectUtils.toV8Object(v8, option.toFormatArgument());
+            parameters.push(arg);
+            result = v8.executeStringFunction("js_beautify_global", parameters);
+            parameters.release();
+            arg.release();
+        } catch (UnsupportedEncodingException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            v8.release(true);
         }
         return result;
     }

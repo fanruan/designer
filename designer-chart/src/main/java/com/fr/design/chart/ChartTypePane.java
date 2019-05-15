@@ -16,6 +16,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.license.function.VT4FR;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.BorderFactory;
@@ -67,7 +68,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         mainTypeList = new JList(defaultListModel);
 
         for (int i = 0; i < typeName.length; i++) {
-            defaultListModel.insertElementAt(com.fr.design.i18n.Toolkit.i18nText(typeName[i].getName()), i);
+            defaultListModel.insertElementAt(InterProviderFactory.getProvider().getLocText(typeName[i].getName()), i);
         }
         mainTypeList.addListSelectionListener(listSelectionListener);
 

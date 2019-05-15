@@ -22,6 +22,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 /**
  * @author richie
@@ -98,6 +99,14 @@ public class ModernUIPane<T> extends BasicPane {
         });
     }
 
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     */
+    public void redirect(String url) {
+        browser.loadURL(url);
+    }
+
     @Override
     protected String title4PopupWindow() {
         return "Modern";
@@ -105,13 +114,11 @@ public class ModernUIPane<T> extends BasicPane {
 
 
     public void populate(final T t) {
-        browser.addLoadListener(new LoadAdapter() {
+        browser.addScriptContextListener(new ScriptContextAdapter() {
             @Override
-            public void onFinishLoadingFrame(FinishLoadingEvent event) {
-                if (event.isMainFrame()) {
-                    JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
-                    ns.asObject().setProperty(variable, t);
-                }
+            public void onScriptContextCreated(ScriptContextEvent event) {
+                JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
+                ns.asObject().setProperty(variable, t);
             }
         });
     }
@@ -159,6 +166,16 @@ public class ModernUIPane<T> extends BasicPane {
         }
 
         /**
+         * 加载url指向的资源
+         * @param url 文件的地址
+         */
+        public Builder<T> withURL(final String url, Map<String, String> map) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(map));
+            pane.browser.loadURL(url);
+            return this;
+        }
+
+        /**
          * 加载Atom组件
          * @param component Atom组件
          */
@@ -167,6 +184,17 @@ public class ModernUIPane<T> extends BasicPane {
             pane.browser.loadURL("emb:dynamic");
             return this;
         }
+
+        /**
+         * 加载Atom组件
+         * @param component Atom组件
+         */
+        public Builder<T> withComponent(AssembleComponent component, Map<String, String> map) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(component, map));
+            pane.browser.loadURL("emb:dynamic");
+            return this;
+        }
+
 
         /**
          * 加载html文本内容

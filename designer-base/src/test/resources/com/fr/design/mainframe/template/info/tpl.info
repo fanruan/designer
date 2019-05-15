@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TplInfo xmlVersion="20170720" releaseVersion="10.0.0">
+<DesignerOpenHistory>
+<![CDATA[2019-04-08,2019-04-03,2019-03-29]]></DesignerOpenHistory>
+<TemplateInfoList>
+<TemplateInfo templateID="16a988ce-8529-42f5-b17c-2ee849355071" day_count="9">
+<processMap process="" float_count="0" widget_count="0" cell_count="1" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="不是安装版本" create_time="2019-03-26 16:13" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="129" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="23817e4f-64b6-438e-b23b-91c1a4d0b254" day_count="9">
+<processMap process="" float_count="0" widget_count="0" cell_count="231" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="不是安装版本" create_time="2019-03-26 16:52" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="91" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="31319947-5ce7-4d82-97e4-3cfea825df9c" day_count="9">
+<processMap process="" float_count="0" widget_count="0" cell_count="3" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="不是安装版本" create_time="2019-03-26 16:49" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="160" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="43bdd914-a3f7-405c-ad96-2feaf28bed74" day_count="8">
+<processMap process="" float_count="0" widget_count="0" cell_count="1" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="2019.01.04.18.06.01.38" create_time="2019-03-27 16:17" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="1426" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="cd527ae5-06e4-48fb-a73e-e9a06c9e7c58" day_count="12">
+<processMap process="" float_count="0" widget_count="0" cell_count="3" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="2019.01.04.18.06.01.38" create_time="2019-03-15 10:02" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="430" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="08f9c404-8124-4615-a34c-735dcabee137" day_count="9">
+<processMap process="" float_count="0" widget_count="0" cell_count="2" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="不是安装版本" create_time="2019-03-25 17:22" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="1497" version="10.0" username="plough"/>
+</TemplateInfo>
+<TemplateInfo templateID="981314a5-9c5b-4831-97d8-15e76735f9e2" day_count="1">
+<processMap process="" float_count="0" widget_count="0" cell_count="3" block_count="0" report_type="0"/>
+<consumingMap activitykey="2e0ea413-fa9c241e0-9723-4354fce51e81" jar_time="不是安装版本" create_time="2019-04-17 16:24" uuid="476ca2cc-f789-4c5d-8e89-ef146580775c" time_consume="155" version="10.0" username="plough"/>
+</TemplateInfo>
+</TemplateInfoList>
+</TplInfo>
