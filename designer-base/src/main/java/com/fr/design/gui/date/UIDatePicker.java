@@ -6,6 +6,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -156,8 +157,12 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 	/**
 	 * 设置当前选择的日期
 	 */
-	public void setSelectedDate(Date date) throws ParseException {
-		this.setSelectedItem(dateFormat.format(date));
+	public void setSelectedDate(Date date) {
+	    if (date == null) {
+            this.setSelectedItem(null);
+        } else {
+            this.setSelectedItem(dateFormat.format(date));
+        }
 	}
 
 	public void setSelectedItem(Object anObject) {
@@ -215,8 +220,11 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 					try {
 						String strDate = comboBox.getSelectedItem().toString();
                         synchronized (this) {
-                            Date selectionDate = dateFormat.parse(strDate);
-                            calendarPanel.setSelectedDate(selectionDate);
+                            Date selectionDate = new Date();
+                            if (StringUtils.isNotBlank(strDate)) {
+								selectionDate = dateFormat.parse(strDate);
+							}
+							calendarPanel.setSelectedDate(selectionDate);
                             calendarPanel.updateHMS();
                         }
 					} catch (Exception e) {
