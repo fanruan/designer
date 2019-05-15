@@ -228,16 +228,6 @@ public class TemplateFileTree extends EnvFileTree {
         if (fileNodes == null) {
             fileNodes = new FileNode[0];
         }
-        // FileNodeFilter过滤
-        if (filter != null) {
-            List<FileNode> list = new ArrayList<FileNode>();
-            for (FileNode fileNode : fileNodes) {
-                if (filter.accept(fileNode)) {
-                    list.add(fileNode);
-                }
-            }
-            fileNodes = list.toArray(new FileNode[list.size()]);
-        }
         Arrays.sort(fileNodes, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
 
         return fileNodes;
