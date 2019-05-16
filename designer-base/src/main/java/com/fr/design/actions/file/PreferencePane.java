@@ -192,10 +192,10 @@ public class PreferencePane extends BasicPane {
 //        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
 //        advancePane.add(debuggerPane);
 
-        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
-        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
-        upmSelectorPane.add(useOptimizedUPMCheckbox);
-        advancePane.add(upmSelectorPane);
+//        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+//        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+//        upmSelectorPane.add(useOptimizedUPMCheckbox);
+//        advancePane.add(upmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -206,10 +206,10 @@ public class PreferencePane extends BasicPane {
             improvePane.add(autoPushUpdateCheckBox);
         }
 
-        JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        spaceUpPane.add(oraclePane, BorderLayout.NORTH);
-        spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
-        spaceUpPane.add(improvePane, BorderLayout.SOUTH);
+        JPanel spaceUpPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
+        spaceUpPane.add(oraclePane);
+        spaceUpPane.add(createMemoryPane());
+        spaceUpPane.add(improvePane);
         advancePane.add(spaceUpPane);
     }
 
@@ -637,7 +637,7 @@ public class PreferencePane extends BasicPane {
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
 //        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
-        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+//        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -733,17 +733,17 @@ public class PreferencePane extends BasicPane {
             }
         });
 
-        Configurations.update(new Worker() {
-            @Override
-            public void run() {
-                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
-            }
-
-            @Override
-            public Class<? extends Configuration>[] targets() {
-                return new Class[] {ServerPreferenceConfig.class};
-            }
-        });
+//        Configurations.update(new Worker() {
+//            @Override
+//            public void run() {
+//                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+//            }
+//
+//            @Override
+//            public Class<? extends Configuration>[] targets() {
+//                return new Class[] {ServerPreferenceConfig.class};
+//            }
+//        });
 
     }
 
