@@ -10,6 +10,7 @@ import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.exe.GetInstalledPluginsExecutor;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
 import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
+import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
@@ -105,6 +106,12 @@ public class UpmBridge {
     @JSBridge
     public void getPackInfo(final JSFunction callback) {
         callback.invoke(window, StringUtils.EMPTY);
+    }
+
+    @JSBridge
+    public void getPluginPrefix(final JSFunction callback) {
+        UpmTaskWorker<Void> task = new UpmTaskWorker<>(new JSCallback(UpmBrowserExecutor.create(window, callback)), new GetPluginPrefixExecutor());
+        task.execute();
     }
 
     /**
@@ -401,6 +408,29 @@ public class UpmBridge {
             Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().info(e.getMessage());
+        }
+    }
+
+    /**
+     * 使用系统浏览器打开网页
+     * @param url 要打开的网页
+     */
+    @JSBridge
+    public void openShopUrlAtWebBrowser(String url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                //创建一个URI实例,注意不是URL
+                URI uri = URI.create(url);
+                //获取当前系统桌面扩展
+                Desktop desktop = Desktop.getDesktop();
+                //判断系统桌面是否支持要执行的功能
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    //获取系统默认浏览器打开链接
+                    desktop.browse(uri);
+                }
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
         }
     }
 }
