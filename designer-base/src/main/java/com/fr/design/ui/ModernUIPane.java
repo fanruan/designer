@@ -52,6 +52,8 @@ public class ModernUIPane<T> extends BasicPane {
                 toolbar.add(openDebugButton);
                 UIButton reloadButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Reload"));
                 toolbar.add(reloadButton);
+                UIButton closeButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Close_Window"));
+                toolbar.add(closeButton);
 
                 openDebugButton.addActionListener(new ActionListener() {
                     @Override
@@ -64,6 +66,13 @@ public class ModernUIPane<T> extends BasicPane {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         browser.reloadIgnoringCache();
+                    }
+                });
+
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        SwingUtilities.getWindowAncestor(ModernUIPane.this).setVisible(false);
                     }
                 });
                 BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");

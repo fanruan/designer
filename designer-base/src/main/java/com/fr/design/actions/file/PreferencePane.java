@@ -138,6 +138,7 @@ public class PreferencePane extends BasicPane {
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
+    private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
@@ -186,16 +187,21 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
-//
-//        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
-//        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
-//        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
-//        advancePane.add(debuggerPane);
+
+        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
+        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
+        advancePane.add(debuggerPane);
 
         JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
         useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
         upmSelectorPane.add(useOptimizedUPMCheckbox);
         advancePane.add(upmSelectorPane);
+
+        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
+        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        dbmSelectorPane.add(useUniverseDBMCheckbox);
+        advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -636,8 +642,10 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-//        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+
+        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -702,7 +710,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
 
-//        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
+        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
@@ -737,6 +745,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void run() {
                 ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
             @Override
