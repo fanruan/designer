@@ -22,12 +22,12 @@ public class UniversalDatabaseComponent extends AssembleComponent {
 
     @Override
     public ScriptPath script(RequestClient req) {
-        return ScriptPath.build("/com/fr/design/upm/database/database.js");
+        return ScriptPath.build("/com/fr/design/dcm/index.js");
     }
 
     @Override
     public StylePath style(RequestClient req) {
-        return StylePath.EMPTY;
+        return StylePath.build("/com/fr/design/dcm/style.css");
     }
 
     @Override

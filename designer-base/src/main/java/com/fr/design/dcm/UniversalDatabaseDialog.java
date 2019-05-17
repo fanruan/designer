@@ -20,7 +20,7 @@ public class UniversalDatabaseDialog extends UIDialog {
         JPanel panel = (JPanel) getContentPane();
         panel.setLayout(new BorderLayout());
         add(pane, BorderLayout.CENTER);
-        setSize(new Dimension(800, 500));
+        setSize(new Dimension(1000, 600));
         GUICoreUtils.centerWindow(this);
         setResizable(false);
     }
