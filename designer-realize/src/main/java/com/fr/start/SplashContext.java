@@ -167,7 +167,7 @@ public class SplashContext {
 
     private static String getSplashPath() {
         Locale locale = DesignerEnvManager.getEnvManager().getLanguage();
-        if (Locale.US.equals(locale) || Locale.KOREA.equals(locale)) {
+        if (Locale.US.equals(locale) || Locale.KOREA.equals(locale) || Locale.TAIWAN.equals(locale)) {
             return "/com/fr/design/images/splash_10_en.gif";
         } else if (Locale.JAPAN.equals(locale)) {
             return "/com/fr/design/images/splash_10_jp.gif";

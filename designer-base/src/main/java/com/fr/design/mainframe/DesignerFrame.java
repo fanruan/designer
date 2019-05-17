@@ -24,6 +24,7 @@ import com.fr.design.file.MutilTempalteTabPane;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.file.SaveSomeTemplatePane;
 import com.fr.design.file.TemplateTreePane;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.TitlePlaceProcessor;
 import com.fr.design.fun.impl.AbstractTemplateTreeShortCutProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -36,6 +37,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -57,6 +59,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
@@ -458,8 +461,19 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         try {
             @SuppressWarnings("unchecked")
-            List<BufferedImage> image = ICODecoder.read(DesignerFrame.class
-                    .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
+            OemProcessor oemProcessor = OemHandler.findOem();
+            List<BufferedImage> image = null;
+            if (oemProcessor != null) {
+                try {
+                    image = oemProcessor.createTitleIcon();
+                } catch (Throwable e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
+            if (image == null) {
+                image = ICODecoder.read(DesignerFrame.class
+                        .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
+            }
             this.setIconImages(image);
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -911,6 +925,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         jt.addJTemplateActionListener(this);
         jt.addTargetModifiedListener(this);
+        jt.addJTemplateActionListener(VcsHelper.getInstance());
         centerTemplateCardPane.showJTemplate(jt);
         setTitle();
         layeredPane.repaint();

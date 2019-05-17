@@ -3,12 +3,10 @@ package com.fr.aspectj.designerform;
 /**
  * Created by plough on 2017/3/3.
  */
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import org.aspectj.lang.reflect.SourceLocation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 
 public aspect TemplateProcessTracker {
     //声明一个pointcut，匹配你需要的方法

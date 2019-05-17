@@ -3,6 +3,8 @@ package com.fr.design.mainframe;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,7 +26,7 @@ import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.menu.MenuDef;
@@ -35,6 +37,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.general.IOUtils;
 import com.fr.main.impl.WorkBook;
 import com.fr.poly.PolyDesigner;
 import com.fr.report.poly.PolyWorkSheet;
@@ -52,15 +55,15 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private static final Color LINE_COLOR = new Color(0xababab);
 
-    private static final Icon ADD_WORK_SHEET = BaseUtils.readIcon("com/fr/base/images/oem/addworksheet.png");
-    protected static final Icon ADD_POLY_SHEET = BaseUtils.readIcon("com/fr/design/images/sheet/addpolysheet.png");
-    private static final Icon WORK_SHEET_ICON = BaseUtils.readIcon("com/fr/base/images/oem/worksheet.png");
-    private static final Icon POLY_SHEET_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/polysheet.png");
-    private static final Image DESIGN_IMAGE = BaseUtils.readImage("com/fr/design/images/sheet/left_right_btn.png");
-    private static final Icon LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_normal@1x.png");
-    private static final Icon RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_normal@1x.png");
-    private static final Icon DISABLED_LEFT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/left_hover@1x.png");
-    private static final Icon DISABLED_RIGHT_ICON = BaseUtils.readIcon("com/fr/design/images/sheet/right_hover@1x.png");
+    private static final Icon ADD_WORK_SHEET = IOUtils.readIcon("com/fr/base/images/oem/addworksheet.png");
+    protected static final Icon ADD_POLY_SHEET = IOUtils.readIcon("com/fr/design/images/sheet/addpolysheet.png");
+    private static final Icon WORK_SHEET_ICON = IOUtils.readIcon("com/fr/base/images/oem/worksheet.png");
+    private static final Icon POLY_SHEET_ICON = IOUtils.readIcon("com/fr/design/images/sheet/polysheet.png");
+    private static final Icon LEFT_ICON = IOUtils.readIcon("com/fr/design/images/sheet/left_normal@1x.png");
+    private static final Icon RIGHT_ICON = IOUtils.readIcon("com/fr/design/images/sheet/right_normal@1x.png");
+    private static final Icon DISABLED_LEFT_ICON = IOUtils.readIcon("com/fr/design/images/sheet/left_hover@1x.png");
+    private static final Icon DISABLED_RIGHT_ICON = IOUtils.readIcon("com/fr/design/images/sheet/right_hover@1x.png");
+    private static final int NUM = 10;
 
     private static final int ICON_SEP_DISTANCE = 8;
     private static final int TOOLBAR_HEIGHT = 16;
@@ -144,6 +147,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         this.setBorder(null);
         this.setForeground(new Color(99, 99, 99));
         leftButton = new UIButton(LEFT_ICON) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TOOLBAR_HEIGHT);
             }
@@ -163,6 +167,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         leftButton.set4ToolbarButton();
         leftButton.setDisabledIcon(DISABLED_LEFT_ICON);
         rightButton = new UIButton(RIGHT_ICON) {
+            @Override
             public Dimension getPreferredSize() {
                 return new Dimension(super.getPreferredSize().width, TOOLBAR_HEIGHT);
             }
@@ -197,7 +202,14 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 }
             }
         });
-        
+
+        DesignerContext.getDesignerFrame().addComponentListener(new ComponentAdapter(){
+            @Override public void componentResized(ComponentEvent e) {
+                for (int i = 0; i < lastOneIndex * NUM; i++) {
+                    moveLeft();
+                }
+            }
+        });
     }
 
     private ActionListener createLeftButtonActionListener() {
@@ -205,25 +217,29 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int s = scrollIndex;
-                if (s == lastOneIndex && s != 0) {
-                    scrollIndex--;
-                    lastOneIndex--;
-                    repaint();
-                } else {
-                    while (s > lastOneIndex && showCount != 0) {
-                        scrollIndex++;
-                        lastOneIndex++;
-                        repaint();
-                    }
-                    while (s < lastOneIndex && scrollIndex > 0) {
-                        scrollIndex--;
-                        lastOneIndex--;
-                        repaint();
-                    }
-                }
+                moveLeft();
             }
         };
+    }
+
+    private void moveLeft() {
+        int s = scrollIndex;
+        if (s == lastOneIndex && s != 0) {
+            scrollIndex--;
+            lastOneIndex--;
+            repaint();
+        } else {
+            while (s > lastOneIndex && showCount != 0) {
+                scrollIndex++;
+                lastOneIndex++;
+                repaint();
+            }
+            while (s < lastOneIndex && scrollIndex > 0) {
+                scrollIndex--;
+                lastOneIndex--;
+                repaint();
+            }
+        }
     }
 
     /**
@@ -282,6 +298,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseDragged(MouseEvent e) {
         if (isAuthorityEditing) {
             return;
@@ -295,6 +312,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
@@ -423,15 +441,6 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         }
         generalPath.closePath();
         g2d.fill(generalPath);
-//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//        g2d.setPaint(UIConstants.LINE_COLOR);
-//        if (selectedIndex == scrollIndex) {
-//            g2d.draw(new Line2D.Double(x[0], y[0], x[1], y[1]));
-//        }
-//        g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
-//        g2d.draw(new Line2D.Double(x[2], y[2], x[3], y[3]));
-//        g2d.draw(new Line2D.Double(x[3], y[3], x[4], y[4]));
-//        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         sheeticon.paintIcon(this, g2d, (int) textX + charWidth, 2);
         // peter:画字符
         g2d.setPaint(getForeground());
@@ -470,13 +479,6 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         g2d.fill(generalPath);
 
         g2d.setPaint(LINE_COLOR);
-//        if (i == scrollIndex) {
-//            g2d.draw(new Line2D.Double(x[0], y[0], x[1], y[1]));
-//        }
-//        g2d.draw(new Line2D.Double(x[1], y[1], x[2], y[2]));
-//        g2d.draw(new Line2D.Double(x[2], y[2], x[3], y[3]));
-//        g2d.draw(new Line2D.Double(x[3], y[3], x[4], y[4]));
-//        g2d.draw(new Line2D.Double(x[4], y[4], x[5], y[5]));
         double startX = textX > 0 ? textX - 1 : textX;
         g2d.drawRect((int)startX, 0, width, (int)textHeight);
 
@@ -560,6 +562,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
@@ -568,6 +571,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param evt 鼠标事件
      */
+    @Override
     public void mousePressed(MouseEvent evt) {
         isReleased = false;
         int reportcount = reportComposite.getEditingWorkBook().getReportCount();
@@ -586,7 +590,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 boolean needRefreshPropertiesPane = getSelectedIndex() != i;
                 setSelectedIndex(i);
                 if (needRefreshPropertiesPane) {
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
+                    HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().refreshEastPropertiesPane();
                 }
 
                 isBlank = false;
@@ -629,11 +633,11 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
         }
     
     }
-    
+
     protected void addInsertGridShortCut(MenuDef def){
     	def.addShortCut(new GridReportInsertAction());
     }
-    
+
     protected void firstInsertActionPerformed(){
 		new GridReportInsertAction().actionPerformed(null);
     }
@@ -644,6 +648,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
         this.isReleased = true;
         this.setReleasedXY(e.getX(), e.getY());
@@ -737,6 +742,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
@@ -745,6 +751,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
      *
      * @param e 鼠标事件
      */
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
@@ -772,7 +779,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     protected abstract class SheetInsertAction extends UpdateAction {
         SheetInsertAction() {
             this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Insert") + getTemplateReportType());
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
+            this.setSmallIcon(IOUtils.readIcon("/com/fr/base/images/cell/control/add.png"));
         }
 
         @Override
@@ -945,7 +952,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
     private class CopySheetAction extends UpdateAction {
         CopySheetAction() {
             this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Copy"));
-            this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
+            this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_edit/copy.png"));
         }
 
         @Override

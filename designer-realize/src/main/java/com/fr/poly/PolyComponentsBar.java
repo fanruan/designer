@@ -12,6 +12,7 @@ import com.fr.design.gui.itooltip.MultiLineToolTip;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.poly.PolyECBlock;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -65,7 +66,7 @@ public class PolyComponentsBar extends JToolBar {
         for (int i = 0; i < typeLen; i++) {
             BaseChart[] rowChart = BaseChartGetter.getStaticChartTypes(typeName[i].getPlotID());
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(typeName[i].getPlotID());
-            serIcons[i + 1] = new SerIcon(rowChart[0], Toolkit.i18nText(typeName[i].getName()), iconPath);
+            serIcons[i + 1] = new SerIcon(rowChart[0], InterProviderFactory.getProvider().getLocText(typeName[i].getName()), iconPath);
             this.add(serIcons[i + 1]);
         }
 

@@ -1,15 +1,5 @@
 package com.fr.design.designer.creator;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ContainerEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.beans.adapters.layout.FRFitLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
@@ -24,17 +14,25 @@ import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.PaddingMargin;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
 import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRLogger;
 import com.fr.general.FRScreen;
-import com.fr.form.ui.container.WAbsoluteLayout.BoundsWidget;
-
 import com.fr.stable.ArrayUtils;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.JOptionPane;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ContainerEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 /**
