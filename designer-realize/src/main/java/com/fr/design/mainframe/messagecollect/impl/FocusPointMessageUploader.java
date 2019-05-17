@@ -62,9 +62,9 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         MessageCollectUtils.readXMLFile(instance, getLastTimeFile());
         long currentTime = new Date().getTime();
         long lastTime = MessageCollectUtils.getLastTimeMillis(this.lastTime);
-//        if (currentTime - lastTime <= DELTA) {
-//            return;
-//        }
+        if (currentTime - lastTime <= DELTA) {
+            return;
+        }
         try {
             generatePath();
             queryData(currentTime, lastTime, FocusPoint.class);
