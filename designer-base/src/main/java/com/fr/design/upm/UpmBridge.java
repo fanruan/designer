@@ -63,6 +63,15 @@ public class UpmBridge {
     }
 
     /**
+     * 更新插件管理中心资源文件，这个方法仅仅是为了语义上的作用（更新）
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
+    public void update(final JSFunction callback) {
+        startDownload(callback);
+    }
+
+    /**
      * 下载并安装插件管理中心的资源文件
      * @param callback 安装完成后的回调函数
      */
