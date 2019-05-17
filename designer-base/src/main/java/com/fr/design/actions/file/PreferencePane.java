@@ -138,6 +138,7 @@ public class PreferencePane extends BasicPane {
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
+    private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
@@ -196,6 +197,11 @@ public class PreferencePane extends BasicPane {
         useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
         upmSelectorPane.add(useOptimizedUPMCheckbox);
         advancePane.add(upmSelectorPane);
+
+        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
+        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        dbmSelectorPane.add(useUniverseDBMCheckbox);
+        advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -639,6 +645,8 @@ public class PreferencePane extends BasicPane {
         openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
+        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
+
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
         this.joinProductImproveCheckBox.setSelected(designerEnvManager.isJoinProductImprove());
@@ -737,6 +745,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void run() {
                 ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
             @Override

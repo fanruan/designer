@@ -1,6 +1,7 @@
 package com.fr.design.gui.date;
 
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
@@ -9,7 +10,7 @@ import java.util.Date;
 
 public class SingleObjectComboBoxModel extends AbstractListModel implements ComboBoxModel {
     private SimpleDateFormat dateFormat;
-    private String selectedDate = "";
+    private String selectedDate = StringUtils.EMPTY;
 
     public SingleObjectComboBoxModel() {
     }
@@ -28,6 +29,7 @@ public class SingleObjectComboBoxModel extends AbstractListModel implements Comb
 
     public void setSelectedItem(Object anItem) {
         if (anItem == null) {
+            selectedDate = StringUtils.EMPTY;
             return;
         }
         if (anItem instanceof Date) {
