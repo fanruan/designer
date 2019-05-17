@@ -1,4 +1,4 @@
-package com.fr.design.upm.database;
+package com.fr.design.dcm;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
@@ -12,9 +12,9 @@ import java.awt.*;
  * @version 10.0
  * Created by richie on 2019-05-16
  */
-public class UniverseDatabaseDialog extends UIDialog {
+public class UniversalDatabaseDialog extends UIDialog {
 
-    public UniverseDatabaseDialog(Frame frame, BasicPane pane) {
+    public UniversalDatabaseDialog(Frame frame, BasicPane pane) {
         super(frame);
         setUndecorated(true);
         JPanel panel = (JPanel) getContentPane();

@@ -1,4 +1,4 @@
-package com.fr.design.upm.database;
+package com.fr.design.dcm;
 
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.mainframe.DesignerContext;
@@ -10,7 +10,7 @@ import javax.swing.*;
  * @version 10.0
  * Created by richie on 2019-05-16
  */
-public class UniverseDatabaseOpener {
+public class UniversalDatabaseOpener {
 
     private static UIDialog dialog = null;
 
@@ -19,9 +19,9 @@ public class UniverseDatabaseOpener {
     }
 
     public static void showUniverseDatabaseDialog() {
-        UniverseDatabasePane upmPane = new UniverseDatabasePane();
+        UniversalDatabasePane upmPane = new UniversalDatabasePane();
         if (dialog == null) {
-            dialog = new UniverseDatabaseDialog(DesignerContext.getDesignerFrame(), upmPane);
+            dialog = new UniversalDatabaseDialog(DesignerContext.getDesignerFrame(), upmPane);
         }
         dialog.setVisible(true);
     }

@@ -13,7 +13,7 @@ import com.fr.design.gui.NameInspector;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.upm.database.UniverseDatabaseOpener;
+import com.fr.design.dcm.UniversalDatabaseOpener;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
 import com.fr.transaction.CallBackAdaptor;
@@ -61,7 +61,7 @@ public class ConnectionListAction extends UpdateAction {
      */
     public void actionPerformed(ActionEvent evt) {
         if (ServerPreferenceConfig.getInstance().isUseUniverseDBM()) {
-            UniverseDatabaseOpener.showUniverseDatabaseDialog();
+            UniversalDatabaseOpener.showUniverseDatabaseDialog();
         } else {
             openDesignDatabaseManager();
         }

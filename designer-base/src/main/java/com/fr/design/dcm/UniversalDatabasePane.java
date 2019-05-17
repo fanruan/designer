@@ -1,4 +1,4 @@
-package com.fr.design.upm.database;
+package com.fr.design.dcm;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.ui.ModernUIPane;
@@ -13,7 +13,7 @@ import java.awt.*;
  * @version 10.0
  * Created by richie on 2019-05-16
  */
-public class UniverseDatabasePane extends BasicPane {
+public class UniversalDatabasePane extends BasicPane {
 
     private ModernUIPane<Object> modernUIPane;
 
@@ -22,14 +22,15 @@ public class UniverseDatabasePane extends BasicPane {
         return "Database";
     }
 
-    public UniverseDatabasePane() {
+    public UniversalDatabasePane() {
         setLayout(new BorderLayout());
-        modernUIPane = new ModernUIPane.Builder<Object>()
-                .withComponent(UniverseDatabaseComponent.KEY)
+        modernUIPane = new ModernUIPane.Builder<>()
+                .withComponent(UniversalDatabaseComponent.KEY)
                 .prepare(new ScriptContextAdapter() {
                     @Override
                     public void onScriptContextCreated(ScriptContextEvent event) {
                         JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
+                        window.asObject().setProperty("DcmHelper", UniversalDcmBridge.getBridge(event.getBrowser()));
                     }
                 })
                 .build();
