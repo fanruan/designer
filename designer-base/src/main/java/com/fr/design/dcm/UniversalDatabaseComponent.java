@@ -1,4 +1,4 @@
-package com.fr.design.upm.database;
+package com.fr.design.dcm;
 
 import com.fr.web.struct.AssembleComponent;
 import com.fr.web.struct.Atom;
@@ -12,22 +12,22 @@ import com.fr.web.struct.impl.FineUI;
  * @version 10.0
  * Created by richie on 2019-05-16
  */
-public class UniverseDatabaseComponent extends AssembleComponent {
+public class UniversalDatabaseComponent extends AssembleComponent {
 
-    public static final UniverseDatabaseComponent KEY = new UniverseDatabaseComponent();
+    public static final UniversalDatabaseComponent KEY = new UniversalDatabaseComponent();
 
-    private UniverseDatabaseComponent() {
+    private UniversalDatabaseComponent() {
 
     }
 
     @Override
     public ScriptPath script(RequestClient req) {
-        return ScriptPath.build("/com/fr/design/upm/database/database.js");
+        return ScriptPath.build("/com/fr/design/dcm/index.js");
     }
 
     @Override
     public StylePath style(RequestClient req) {
-        return StylePath.EMPTY;
+        return StylePath.build("/com/fr/design/dcm/style.css");
     }
 
     @Override

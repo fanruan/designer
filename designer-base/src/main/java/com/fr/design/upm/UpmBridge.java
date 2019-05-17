@@ -2,6 +2,7 @@ package com.fr.design.upm;
 
 import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
 import com.fr.design.bridge.exec.JSBridge;
 import com.fr.design.bridge.exec.JSCallback;
@@ -61,6 +62,20 @@ public class UpmBridge {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
+    /**
+     * 更新插件管理中心资源文件，这个方法仅仅是为了语义上的作用（更新）
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
+    public void update(final JSFunction callback) {
+        startDownload(callback);
+    }
+
+    /**
+     * 下载并安装插件管理中心的资源文件
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
     public void startDownload(final JSFunction callback) {
 
         new SwingWorker<Void, Void>(){
@@ -76,15 +91,24 @@ public class UpmBridge {
             protected void done() {
                 try {
                     get();
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+                    callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
                     EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
                 } catch (Exception e) {
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+                    callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     EventDispatcher.fire(DownloadEvent.ERROR, "error");
                 }
             }
         }.execute();
+    }
+
+    /**
+     * 获取upm的版本信息
+     * @return 版本信息
+     */
+    @JSBridge
+    public String getVersion() {
+        return ServerPreferenceConfig.getInstance().getOptimizedUPMVersion();
     }
 
     @JSBridge
