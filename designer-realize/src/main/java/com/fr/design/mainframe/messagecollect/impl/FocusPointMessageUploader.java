@@ -38,6 +38,9 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
 
     @Override
     public <T> JSONArray dealWithSendFunctionContent(DataList<T> focusPoints) {
+        if (focusPoints == null) {
+            return null;
+        }
         JSONArray ja = new JSONArray();
         for(T t:focusPoints.getList()){
             FocusPoint focusPoint = (FocusPoint)t;
@@ -59,9 +62,9 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
         MessageCollectUtils.readXMLFile(instance, getLastTimeFile());
         long currentTime = new Date().getTime();
         long lastTime = MessageCollectUtils.getLastTimeMillis(this.lastTime);
-        if (currentTime - lastTime <= DELTA) {
-            return;
-        }
+//        if (currentTime - lastTime <= DELTA) {
+//            return;
+//        }
         try {
             generatePath();
             queryData(currentTime, lastTime, FocusPoint.class);
