@@ -52,7 +52,6 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -98,7 +97,6 @@ import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
-import com.fr.start.preload.ImagePreLoader;
 import com.fr.xml.ReportXMLUtils;
 
 import java.awt.Image;
@@ -115,9 +113,9 @@ import java.util.concurrent.Executors;
  * 之后慢慢将DesignerModule拆成Activator
  */
 public class DesignerActivator extends Activator {
-
+    
     private LogHandler<DesignerLogAppender> logHandler = null;
-
+    
     @Override
     public void start() {
         List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
@@ -132,11 +130,11 @@ public class DesignerActivator extends Activator {
         DesignerSocketIO.update();
         UserInfoPane.getInstance().updateBBSUserInfo();
     }
-
+    
     private void loadLogAppender() {
         logHandler = new LogHandler<DesignerLogAppender>() {
             final DesignerLogAppender logAppender = new DesignerLogAppender();
-
+            
             @Override
             public DesignerLogAppender getHandler() {
                 return logAppender;
@@ -144,55 +142,41 @@ public class DesignerActivator extends Activator {
         };
         FineLoggerFactory.getLogger().addLogAppender(logHandler);
     }
-
+    
     private void unloadLogAppender() {
         if (logHandler != null) {
             FineLoggerFactory.getLogger().removeLogAppender(logHandler);
         }
     }
-
+    
     private void designerModuleStart() {
-
+        
         StableFactory.registerMarkedClass(ExtraDesignClassManagerProvider.XML_TAG, ExtraDesignClassManager.class);
         ActionFactory.registerCellInsertActionClass(actionsForInsertCellElement());
         ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
         DesignModuleFactory.registerCreators4Hyperlink(hyperlinkTypes());
-
+        
         justStartModules4Designer();
-
+        
         CalculatorProviderContext.setValueConverter(valueConverter());
         GeneralXMLTools.Object_Tokenizer = startXMLReadObjectTokenizer();
         GeneralXMLTools.Object_XML_Writer_Finder = startObjectXMLWriterFinder();
         addAdapterForPlate();
-
+        
         designerRegister();
-
+        
         InformationCollector.getInstance().collectStartTime();
     }
-
+    
     private static void preLoadPane() {
         ExecutorService service = Executors.newCachedThreadPool();
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                TemplateInfoCollector.getInstance();
-            }
-        });
-
         service.submit(new Runnable() {
             @Override
             public void run() {
                 LogMessageBar.getInstance();
             }
         });
-
+        
         service.submit(new Runnable() {
             @Override
             public void run() {
@@ -217,7 +201,7 @@ public class DesignerActivator extends Activator {
                 DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
             }
         });
-
+        
         service.submit(new Runnable() {
             @Override
             public void run() {
@@ -226,26 +210,26 @@ public class DesignerActivator extends Activator {
         });
         service.shutdown();
     }
-
+    
     private static Class<?>[] actionsForInsertCellElement() {
         List<Class<?>> classes = new ArrayList<>();
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             classes.add(provider.actionForInsertCellElement());
         }
-
+        
         return ArrayUtils.addAll(new Class<?>[]{
-                DSColumnCellAction.class,
-                GeneralCellAction.class,
-                RichTextCellAction.class,
-                FormulaCellAction.class,
-                ChartCellAction.class,
-                ImageCellAction.class,
-                BiasCellAction.class,
-                SubReportCellAction.class
+            DSColumnCellAction.class,
+            GeneralCellAction.class,
+            RichTextCellAction.class,
+            FormulaCellAction.class,
+            ChartCellAction.class,
+            ImageCellAction.class,
+            BiasCellAction.class,
+            SubReportCellAction.class
         }, classes.toArray(new Class<?>[classes.size()]));
     }
-
+    
     private static Class<?>[] actionsForInsertFloatElement() {
         List<Class<?>> classes = new ArrayList<>();
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
@@ -253,28 +237,28 @@ public class DesignerActivator extends Activator {
             classes.add(provider.actionForInsertFloatElement());
         }
         return ArrayUtils.addAll(new Class<?>[]{
-                TextBoxFloatAction.class,
-                FormulaFloatAction.class,
-                ChartFloatAction.class,
-                ImageFloatAction.class
+            TextBoxFloatAction.class,
+            FormulaFloatAction.class,
+            ChartFloatAction.class,
+            ImageFloatAction.class
         }, classes.toArray(new Class<?>[classes.size()]));
     }
-
+    
     private static NameableCreator[] hyperlinkTypes() {
         return new NameableCreator[]{
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"), EmailJavaScript.class, EmailPane.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
-                new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript"), JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
+            new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Reportlet"), ReportletHyperlink.class, ReportletHyperlinkPane.ChartNoRename.class),
+            new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Email"), EmailJavaScript.class, EmailPane.class),
+            new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Web_Link"), WebHyperlink.class, WebHyperlinkPane.ChartNoRename.class),
+            new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_JavaScript_Dynamic_Parameters"), ParameterJavaScript.class, ParameterJavaScriptPane.ChartNoRename.class),
+            new NameObjectCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JavaScript"), JavaScriptImpl.class, JavaScriptImplPane.ChartNoRename.class)
         };
     }
-
-
+    
+    
     private static void justStartModules4Designer() {
         formDesignerRegister();
     }
-
+    
     /**
      * CellElementValueConverter用来处理设计器格子里的值，将公式/数组/其他元素转换成对应的值。
      *
@@ -283,7 +267,7 @@ public class DesignerActivator extends Activator {
     private static ValueConverter valueConverter() {
         return new CellElementValueConverter();
     }
-
+    
     /*
      * 针对不同的对象，在读取Object对象的xml的时候需要使用不同的对象生成器
      * @return 返回对象生成器
@@ -291,7 +275,7 @@ public class DesignerActivator extends Activator {
     private static ObjectTokenizer startXMLReadObjectTokenizer() {
         return new ReportXMLUtils.ReportObjectTokenizer();
     }
-
+    
     /**
      * 针对不同的对象，在写对象的XML时需要使用不同的XML生成器
      *
@@ -300,51 +284,51 @@ public class DesignerActivator extends Activator {
     private static ObjectXMLWriterFinder startObjectXMLWriterFinder() {
         return new ReportXMLUtils.ReportObjectXMLWriterFinder();
     }
-
-
+    
+    
     //wei:fs的模块中可能有需要设计器界面做设置的地方，在这边添加
     private static void addAdapterForPlate() {
-
+        
         ProcessTransitionAdapter.setProcessTransitionAdapter(new ProcessTransitionAdapter() {
-
+            
             @Override
             protected String[] getTransitionNamesByBook(String book) {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getTransitionNamesByBook(book);
             }
-
+            
             @Override
             protected String[] getParaNames(String book) {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParaNames(book);
             }
-
+            
             @Override
             protected ParameterProvider[] getParas(String book) {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getParas(book);
             }
-
+            
             @Override
             protected MultiFieldParameter[] getAllMultiFieldParas(String book) {
                 return StableFactory.getMarkedObject(ProcessOperator.MARK_STRING, ProcessOperator.class, ProcessOperator.EMPTY).getAllMultiFieldParas(book);
             }
         });
     }
-
+    
     private static void designerRegister() {
         registerCellEditor();
         registerFloatEditor();
         registerData4Form();
         registerOtherPane();
     }
-
+    
     private static void registerOtherPane() {
         StableFactory.registerMarkedClass(BBSGuestPaneProvider.XML_TAG, BBSGuestPane.class);
     }
-
+    
     /**
      * kunsnat:注册单元格选中Editor
      */
     private static void registerCellEditor() {
-
+        
         ActionFactory.registerCellEditor(String.class, new CellStringQuickEditor());
         ActionFactory.registerCellEditor(Number.class, new CellStringQuickEditor());
         ActionFactory.registerCellEditor(BaseFormula.class, new CellFormulaQuickEditor());
@@ -357,7 +341,7 @@ public class DesignerActivator extends Activator {
         ActionFactory.registerCellEditor(CellImagePainter.class, new CellImageQuickEditor());
         //todo 图表编辑器populate没能实现刷新面板显示
         ActionFactory.registerCellEditorClass(ChartCollection.class, BasicChartQuickEditor.class);
-
+        
         Set<ElementUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ElementUIProvider.MARK_STRING);
         for (ElementUIProvider provider : providers) {
             try {
@@ -367,13 +351,13 @@ public class DesignerActivator extends Activator {
             }
         }
     }
-
-
+    
+    
     /**
      * kunnat: 注册悬浮选中Editor
      */
     private static void registerFloatEditor() {
-
+        
         ActionFactory.registerFloatEditor(String.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Formula.class, new FloatStringQuickEditor());
         ActionFactory.registerFloatEditor(Image.class, new FloatImageQuickEditor());
@@ -382,19 +366,19 @@ public class DesignerActivator extends Activator {
         //todo 图表编辑器populate没能实现刷新面板显示
         ActionFactory.registerFloatEditorClass(ChartCollection.class, FloatChartQuickEditor.class);
     }
-
-
+    
+    
     private static void registerData4Form() {
         StableFactory.registerMarkedClass(FormECDesignerProvider.XML_TAG, FormElementCaseDesigner.class);
         StableFactory.registerMarkedClass(FormECCompositeProvider.XML_TAG, FormReportComponentComposite.class);
         DesignModuleFactory.registerParameterReader(new WorkBookParameterReader());
     }
-
-
+    
+    
     private static void formDesignerRegister() {
-
+        
         StableFactory.registerMarkedObject(DesignToolbarProvider.STRING_MARKED, WidgetToolBarPane.getInstance());
-
+        
         DesignModuleFactory.registerNewFormActionClass(NewFormAction.class);
         DesignModuleFactory.registerFormParaDesignerClass(FormParaDesigner.class);
         DesignModuleFactory.registerParaPropertyPaneClass(ParameterPropertyPane.class);
@@ -402,12 +386,12 @@ public class DesignerActivator extends Activator {
         DesignModuleFactory.registerWidgetPropertyPaneClass(WidgetPropertyPane.class);
         DesignModuleFactory.registerButtonDetailPaneClass(FormSubmitButtonDetailPane.class);
         DesignModuleFactory.registerParameterReader(new FormParameterReader());
-
+        
         StableFactory.registerMarkedClass(BaseJForm.XML_TAG, JForm.class);
-
+        
         StableFactory.registerMarkedObject(ElementCaseThumbnailProcessor.MARK_STRING, new ElementCaseThumbnail());
     }
-
+    
     @Override
     public void stop() {
         unloadLogAppender();
