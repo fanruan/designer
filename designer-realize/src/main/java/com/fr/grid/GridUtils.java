@@ -12,6 +12,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.poly.creator.ECBlockPane;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.FloatElement;
@@ -48,8 +49,7 @@ public class GridUtils {
 
     //peter:下面这几个量是在Drag列的时候用.
     public final static int DRAG_CELL_SIZE = 1; //peter:drag的时候改变格子的宽度.
-    public final static int DRAG_SELECT_UNITS = 2; //peter:drag的时候,选中单元格.
-//    public static int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
+    public final static int DRAG_SELECT_UNITS = 2; //peter:drag的时候,选中单元格.//    public static int resolution = (int) (ScreenResolution.getScreenResolution()* JSliderPane.getInstance().resolutionTimes);
 
     /**
      * Is above float element.(the return may be null). <br>
@@ -125,7 +125,6 @@ public class GridUtils {
      */
     public static double[] caculateFloatElementLocations(FloatElement floatElement, DynamicUnitList columnWidthList, DynamicUnitList rowHeightList,
                                                          int verticalValue, int horizentalValue) {
-//        int resolution = ScreenResolution.getScreenResolution();
         int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
 
         double floatX = columnWidthList.getRangeValue(horizentalValue, 0).toPixD(resolution) + floatElement.getLeftDistance().toPixD(resolution);
@@ -180,7 +179,6 @@ public class GridUtils {
     private static int cc_selected_column_or_row(double mouseEvtPosition, int beginValue, int value, DynamicUnitList sizeList) {
         double tmpIntIndex = 0;
         int selectedCellIndex = 0;
-//        int resolution = ScreenResolution.getScreenResolution();
         int resolution = (int) (ScreenResolution.getScreenResolution() * JSliderPane.getInstance().resolutionTimes);
         if (mouseEvtPosition < 0) {
             selectedCellIndex = value;
@@ -239,7 +237,6 @@ public class GridUtils {
     private static int cc_selected_column_or_row_withresolution(double mouseEvtPosition, int beginValue, int value, DynamicUnitList sizeList, int resolution) {
         double tmpIntIndex = 0;
         int selectedCellIndex = 0;
-//        int resolution = ScreenResolution.getScreenResolution();
         if (mouseEvtPosition < 0) {
             selectedCellIndex = value;
             for (; true; selectedCellIndex--) {
@@ -311,6 +308,7 @@ public class GridUtils {
     public static boolean canMove(ElementCasePane reportPane, int cellColumn, int cellRow) {
         if (reportPane.mustInVisibleRange()) {
             Grid grid = reportPane.getGrid();
+            checkGridCount(reportPane);
             int verticalEndValue = grid.getVerticalValue() + grid.getVerticalExtent() - 1;
             int horizontalEndValue = grid.getHorizontalValue() + grid.getHorizontalExtent() - 1;
             if (cellColumn > horizontalEndValue) {
@@ -321,6 +319,16 @@ public class GridUtils {
             }
         }
         return true;
+    }
+
+    /**
+     *聚合报表的报表块增加单元格的数量时 当单元格拉动一半会自动扩展成完整的单元格
+     * 该单元格不被记录 check下重新计算下单元格数量
+     */
+    private static void checkGridCount(Object obj) {
+        if (obj instanceof ECBlockPane) {
+            ((ECBlockPane) obj).getTarget().firePropertyChange();
+        }
     }
 
     /**

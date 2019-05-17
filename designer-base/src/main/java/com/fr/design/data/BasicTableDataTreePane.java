@@ -147,6 +147,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     private boolean isIncludeUnderline(String name) {
         return ComparatorUtils.equals(name.indexOf(StoreProcedureAssist.GROUP_MARKER), -1) ? false : true;
     }
+    public abstract void addDataPane(final AbstractTableDataPane<?> uPanel, String paneName);
 
     public abstract TableDataTree getDataTree();
 

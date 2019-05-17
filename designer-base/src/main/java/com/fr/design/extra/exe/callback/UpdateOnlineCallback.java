@@ -1,5 +1,6 @@
 package com.fr.design.extra.exe.callback;
 
+import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.extra.PluginOperateUtils;
 
 import com.fr.log.FineLoggerFactory;
