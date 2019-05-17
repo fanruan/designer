@@ -2,6 +2,7 @@ package com.fr.design.upm;
 
 import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
 import com.fr.design.bridge.exec.JSBridge;
 import com.fr.design.bridge.exec.JSCallback;
@@ -85,6 +86,15 @@ public class UpmBridge {
                 }
             }
         }.execute();
+    }
+
+    /**
+     * 获取upm的版本信息
+     * @return 版本信息
+     */
+    @JSBridge
+    public String getVersion() {
+        return ServerPreferenceConfig.getInstance().getOptimizedUPMVersion();
     }
 
     @JSBridge
