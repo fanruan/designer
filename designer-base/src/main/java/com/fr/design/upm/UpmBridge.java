@@ -62,6 +62,11 @@ public class UpmBridge {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
+    /**
+     * 下载并安装插件管理中心的资源文件
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
     public void startDownload(final JSFunction callback) {
 
         new SwingWorker<Void, Void>(){
@@ -77,10 +82,10 @@ public class UpmBridge {
             protected void done() {
                 try {
                     get();
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+                    callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
                     EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
                 } catch (Exception e) {
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+                    callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     EventDispatcher.fire(DownloadEvent.ERROR, "error");
                 }
