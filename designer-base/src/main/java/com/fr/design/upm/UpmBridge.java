@@ -81,7 +81,7 @@ public class UpmBridge {
         new SwingWorker<Void, Void>(){
             @Override
             protected Void doInBackground() throws Exception {
-                callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
+                callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
                 UpmResourceLoader.INSTANCE.download();
                 UpmResourceLoader.INSTANCE.install();
                 return null;

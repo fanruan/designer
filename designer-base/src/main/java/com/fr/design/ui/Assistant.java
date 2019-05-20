@@ -6,8 +6,14 @@ import com.teamdev.jxbrowser.chromium.BrowserContext;
 import com.teamdev.jxbrowser.chromium.ProtocolService;
 import com.teamdev.jxbrowser.chromium.URLResponse;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * @author richie
@@ -44,7 +50,12 @@ public class Assistant {
         if (path.endsWith(".svg")) {
             return "image/svg+xml";
         }
-        return "text/html";
+        Path file = new File(path).toPath();
+        try {
+            return Files.probeContentType(file);
+        } catch (IOException e) {
+            return "text/html";
+        }
     }
 
     public static void setEmbProtocolHandler(Browser browser, EmbProtocolHandler handler) {
