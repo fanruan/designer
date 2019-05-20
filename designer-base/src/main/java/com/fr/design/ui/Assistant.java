@@ -41,6 +41,9 @@ public class Assistant {
         if (path.endsWith(".js")) {
             return "text/javascript";
         }
+        if (path.endsWith(".svg")) {
+            return "image/svg+xml";
+        }
         return "text/html";
     }
 
@@ -49,6 +52,6 @@ public class Assistant {
         ProtocolService protocolService = browserContext.getProtocolService();
         // 支持读取jar包中文件的自定义协议————emb:/com/fr/design/images/bbs.png
         protocolService.setProtocolHandler("emb", handler);
-        //protocolService.setProtocolHandler("file", handler);
+        protocolService.setProtocolHandler("file", handler);
     }
 }
