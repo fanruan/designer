@@ -38,7 +38,7 @@ public class UpmShowPane extends BasicPane {
                             window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
                         }
                     })
-                    .withURL(UpmFinder.getMainResourcePath())
+                    .withURL(UpmFinder.getMainResourcePath(), UpmUtils.renderMap())
                     .build();
         } else {
             modernUIPane = new ModernUIPane.Builder<>()
