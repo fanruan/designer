@@ -1,5 +1,6 @@
 package com.fr.design.upm;
 
+import com.fr.common.annotations.Negative;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.general.CloudCenter;
 import com.fr.stable.StringUtils;
@@ -25,6 +26,7 @@ public class UpmUtils {
         return list.toArray(new String[0]);
     }
 
+    @Negative(until = "2019-08-30")
     public static Map<String, String> renderMap() {
         Map<String, String> map4Tpl = new HashMap<>();
         map4Tpl.put("version", ServerPreferenceConfig.getInstance().getOptimizedUPMVersion());
