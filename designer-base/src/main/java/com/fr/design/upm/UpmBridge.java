@@ -57,10 +57,8 @@ public class UpmBridge {
     }
 
     private JSObject window;
-    private Browser browser;
 
     private UpmBridge(Browser browser) {
-        this.browser = browser;
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
@@ -96,7 +94,6 @@ public class UpmBridge {
                     callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
                     EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
                 } catch (Exception e) {
-                    e.printStackTrace();
                     callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     EventDispatcher.fire(DownloadEvent.ERROR, "error");
@@ -112,11 +109,6 @@ public class UpmBridge {
     @JSBridge
     public String getVersion() {
         return ServerPreferenceConfig.getInstance().getOptimizedUPMVersion();
-    }
-
-    @JSBridge
-    public void reload() {
-        browser.reloadIgnoringCache();
     }
 
     @JSBridge
