@@ -57,8 +57,10 @@ public class UpmBridge {
     }
 
     private JSObject window;
+    private Browser browser;
 
     private UpmBridge(Browser browser) {
+        this.browser = browser;
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
@@ -110,6 +112,11 @@ public class UpmBridge {
     @JSBridge
     public String getVersion() {
         return ServerPreferenceConfig.getInstance().getOptimizedUPMVersion();
+    }
+
+    @JSBridge
+    public void reload() {
+        browser.reloadIgnoringCache();
     }
 
     @JSBridge
