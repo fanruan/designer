@@ -3,11 +3,9 @@ package com.fr.design.mainframe.socketio;
 import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.EnvChangeEntrance;
-import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.DesignerLoggingProcessor;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.loghandler.DesignerLogHandler;
+import com.fr.design.mainframe.loghandler.DesignerLogger;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.RemoteDesignConstants;
@@ -48,12 +46,7 @@ public class DesignerSocketIO {
             if (ArrayUtils.isNotEmpty(objects)) {
                 try {
                     LoggingEvent event = SerializerHelper.deserialize((byte[]) objects[0]);
-                    DesignerLoggingProcessor processor = ExtraDesignClassManager.getInstance().getSingle(DesignerLoggingProcessor.XML_TAG);
-                    if (processor != null) {
-                        processor.printLoggingEvent(event);
-                    }else {
-                        DesignerLogHandler.getInstance().printLoggingEvent(event);
-                    }
+                    DesignerLogger.log(event);
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }

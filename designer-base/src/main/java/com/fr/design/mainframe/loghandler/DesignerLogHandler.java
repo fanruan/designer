@@ -368,9 +368,4 @@ public class DesignerLogHandler {
         };
         
     }
-    
-    public void printLoggingEvent(LoggingEvent event) {
-        
-        logHandlerArea.printStackTrace(event);
-    }
 }
