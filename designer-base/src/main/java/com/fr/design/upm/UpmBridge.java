@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author richie
@@ -68,7 +69,16 @@ public class UpmBridge {
      */
     @JSBridge
     public void update(final JSFunction callback) {
-        startDownload(callback);
+        callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
+        try {
+            UpmResourceLoader.INSTANCE.download();
+            UpmResourceLoader.INSTANCE.install();
+            callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+            EventDispatcher.fire(DownloadEvent.UPDATE, "success");
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+        }
     }
 
     /**
@@ -77,11 +87,10 @@ public class UpmBridge {
      */
     @JSBridge
     public void startDownload(final JSFunction callback) {
-
+        callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
         new SwingWorker<Void, Void>(){
             @Override
             protected Void doInBackground() throws Exception {
-                callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
                 UpmResourceLoader.INSTANCE.download();
                 UpmResourceLoader.INSTANCE.install();
                 return null;

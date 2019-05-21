@@ -116,6 +116,16 @@ public class ModernUIPane<T> extends BasicPane {
         browser.loadURL(url);
     }
 
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     * @param map 初始化参数
+     */
+    public void redirect(String url, Map<String, String> map) {
+        Assistant.setEmbProtocolHandler(browser, new EmbProtocolHandler(map));
+        browser.loadURL(url);
+    }
+
     @Override
     protected String title4PopupWindow() {
         return "Modern";
