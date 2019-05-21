@@ -17,20 +17,66 @@ public class DesignerLogger {
 
     /**
      * 记录LoggingEvent对象
+     *
      * @param event
      */
     public static void log(LoggingEvent event) {
         if (event == null) {
             return;
         }
-        int intLevel = event.getLevel().toInt();
-        ThrowableInformation information = event.getThrowableInformation();
-        if (intLevel == INFO_INT) {
-            FineLoggerFactory.getLogger().info(event.getRenderedMessage());
-        } else if (intLevel == ERROR_INT) {
-            FineLoggerFactory.getLogger().error(event.getRenderedMessage(), information == null ? null : information.getThrowable());
-        } else if (intLevel == WARN_INT) {
-            FineLoggerFactory.getLogger().warn(event.getRenderedMessage(), information == null ? null : information.getThrowable());
+        LogParser.parse(event).log(event);
+    }
+
+    public enum LogParser {
+        DEFAULT(-1) {
+            @Override
+            public void log(LoggingEvent event) {
+
+            }
+        },
+        INFO(Level.INFO.toInt()) {
+            @Override
+            public void log(LoggingEvent event) {
+                FineLoggerFactory.getLogger().info(event.getRenderedMessage());
+            }
+        },
+        WARN(Level.WARN.toInt()) {
+            @Override
+            public void log(LoggingEvent event) {
+                ThrowableInformation information = event.getThrowableInformation();
+                FineLoggerFactory.getLogger().warn(event.getRenderedMessage(), information == null ? null : information.getThrowable());
+            }
+        },
+
+        ERROR(Level.ERROR.toInt()) {
+            @Override
+            public void log(LoggingEvent event) {
+                ThrowableInformation information = event.getThrowableInformation();
+                FineLoggerFactory.getLogger().error(event.getRenderedMessage(), information == null ? null : information.getThrowable());
+            }
+        };
+        private int level;
+
+        LogParser(int level) {
+            this.level = level;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public static LogParser parse(LoggingEvent event) {
+            int intLevel = event.getLevel().toInt();
+            for (LogParser logParser : values()) {
+                if (logParser.getLevel() == intLevel) {
+                    return logParser;
+                }
+            }
+            return DEFAULT;
+
+        }
+
+        public void log(LoggingEvent event) {
         }
     }
 }
