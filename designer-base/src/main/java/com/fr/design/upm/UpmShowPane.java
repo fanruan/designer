@@ -40,6 +40,12 @@ public class UpmShowPane extends BasicPane {
                     })
                     .withURL(UpmFinder.getMainResourcePath(), UpmUtils.renderMap())
                     .build();
+            EventDispatcher.listen(DownloadEvent.UPDATE, new Listener<String>() {
+                @Override
+                public void on(Event event, String param) {
+                    modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
+                }
+            });
         } else {
             modernUIPane = new ModernUIPane.Builder<>()
                     .withComponent(WarnComponent.KEY)
@@ -53,7 +59,7 @@ public class UpmShowPane extends BasicPane {
             EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
                 @Override
                 public void on(Event event, String param) {
-                    modernUIPane.redirect(UpmFinder.getMainResourcePath());
+                    modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
                 }
             });
         }
