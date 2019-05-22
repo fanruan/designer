@@ -324,4 +324,31 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         dataTree.refresh();
         return  Collections.unmodifiableMap(tdNameMap);
     }
+    public void addDataPane(final AbstractTableDataPane<?> uPanel, String paneName) {
+        final NamePane nPanel = uPanel.asNamePane();
+        nPanel.setObjectName(paneName);
+        final String oldName = paneName;
+
+        allDSNames = DesignTableDataManager.getAllDSNames(tc.getBook());
+
+        DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
+        tc.renameTableData(oldName, nPanel.getObjectName(), false);
+        TableDataSource tds = tc.getBook();
+        TableData td = uPanel.updateBean();
+        if (td instanceof TableDataSourceDependent) {
+            ((TableDataSourceDependent) td).setTableDataSource(tds);
+        }
+        String tdName = nPanel.getObjectName();
+        tds.putTableData(tdName, td);
+        Map<String, String> map = new HashMap<String, String>();
+        if (!ComparatorUtils.equals(oldName, tdName)) {
+            map.put(oldName, tdName);
+        }
+        fireDSChanged(map);
+        tc.fireTargetModified();
+        tc.parameterChanged();
+        int[] rows = dataTree.getSelectionRows();
+        dataTree.refreshChildByName(tdName);
+        dataTree.setSelectionRows(rows);
+    }
 }

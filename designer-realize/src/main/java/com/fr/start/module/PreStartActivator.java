@@ -2,7 +2,8 @@ package com.fr.start.module;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.mainframe.templateinfo.TemplateInfoCollector;
+import com.fr.design.fun.OemProcessor;
+import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.general.CloudCenter;
@@ -14,6 +15,7 @@ import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.start.OemHandler;
 import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 import com.fr.start.fx.SplashFx;
@@ -70,8 +72,6 @@ public class PreStartActivator extends Activator {
     private void checkDebugStart() {
         if (isDebug()) {
             setDebugEnv();
-        } else {
-            DesignUtils.setPort(DesignUtils.getPort());
         }
     }
 
@@ -125,7 +125,19 @@ public class PreStartActivator extends Activator {
         service.shutdown();
     }
 
-    private static SplashStrategy createSplash() {
+    private SplashStrategy createSplash() {
+        OemProcessor oemProcessor = OemHandler.findOem();
+        if (oemProcessor != null) {
+            SplashStrategy splashStrategy = null;
+            try {
+                splashStrategy = oemProcessor.createSplashStrategy();
+            } catch (Throwable e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+            if (splashStrategy != null) {
+                return splashStrategy;
+            }
+        }
         // 这里可以开接口加载自定义启动画面
         if (OperatingSystem.isWindows()) {
             return new SplashFx();

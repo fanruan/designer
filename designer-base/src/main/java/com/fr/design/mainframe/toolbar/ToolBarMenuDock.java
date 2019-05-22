@@ -13,6 +13,7 @@ import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
 import com.fr.design.actions.community.CenterAction;
 import com.fr.design.actions.community.CusDemandAction;
+import com.fr.design.actions.community.FacebookFansAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
@@ -38,6 +39,7 @@ import com.fr.design.actions.server.PlatformManagerAction;
 import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -51,11 +53,12 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.design.onlineupdate.actions.SoftwareUpdateAction;
+import com.fr.design.update.actions.SoftwareUpdateAction;
 import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -64,6 +67,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -148,7 +152,6 @@ public abstract class ToolBarMenuDock {
         }
 
     };
-    private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
 
     private static final List<PluginEventListener> PLUGIN_LISTENERS = new ArrayList<>();
@@ -200,6 +203,18 @@ public abstract class ToolBarMenuDock {
         };
 
         this.menus = menus(plus);
+        try {
+            OemProcessor oemProcessor = OemHandler.findOem();
+            if (oemProcessor != null) {
+                this.menus = oemProcessor.dealWithMenuDef(this.menus);
+                if (this.menus == null) {
+                    this.menus = menus(plus);
+                }
+            }
+        } catch (Throwable e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            this.menus = menus(plus);
+        }
         for (int i = 0; i < menus.length; i++) {
             menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
@@ -528,6 +543,9 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
+        if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
+            shortCuts.add(new FacebookFansAction());
+        }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 

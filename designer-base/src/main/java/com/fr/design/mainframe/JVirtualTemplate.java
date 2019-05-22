@@ -7,7 +7,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.imenu.UIMenuItem;
-import com.fr.design.mainframe.templateinfo.TemplateProcessInfo;
+import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.file.FILE;

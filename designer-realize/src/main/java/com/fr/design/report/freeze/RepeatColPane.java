@@ -21,8 +21,10 @@ public class RepeatColPane extends FreezeAndRepeatPane {
 
 	@Override
 	public void populateBean(FT ob) {
-		((ColSpinner)start).setValue((ob.getFrom() + 1));
-		((ColSpinner)end).setValue((ob.getTo() + 1));
+		if (ob.getFrom() <= ob.getTo()) {
+			((ColSpinner)start).setValue((ob.getFrom() + 1));
+			((ColSpinner)end).setValue((ob.getTo() + 1));
+		}
 	}
 
 	@Override
