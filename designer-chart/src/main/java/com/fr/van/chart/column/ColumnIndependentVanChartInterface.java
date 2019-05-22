@@ -2,7 +2,10 @@ package com.fr.van.chart.column;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.MultiCategoryChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.vanchart.AbstractMultiCategoryVanChartUI;
@@ -32,5 +35,10 @@ public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVan
 
     public String getPlotTypeTitle4PopupWindow(){
         return VanChartColumnPlotPane.TITLE;
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new MultiCategoryChartDataPane(listener);
     }
 }
