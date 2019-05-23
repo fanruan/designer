@@ -19,8 +19,8 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.base.Strings;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.connect.AuthException;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
+import com.fr.workspace.engine.exception.WorkspaceAuthException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -523,7 +523,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
                 try {
                     return WorkContext.getConnector().testConnection(connection);
-                } catch (AuthException ignored) {
+                } catch (WorkspaceAuthException ignored) {
                     return null;
                 }
             }
@@ -532,27 +532,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             protected void done() {
                 okButton.setEnabled(true);
                 try {
-
                     TestConnectionResult result = TestConnectionResult.parse(get(), connection);
-                    if (result == TestConnectionResult.Fully_Success) {
-                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Successful"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
-                    }
-
-                    if (result == TestConnectionResult.Partly_Sucess) {
-                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Version_Inconsistence_Test"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-                    }
-
-                    if (result == TestConnectionResult.Fully_Failed) {
-                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                    }
-
-                    if (result == TestConnectionResult.Auth_Failed) {
-                        message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed"));
-                        uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                    }
+                    message.setText(result.getText());
+                    uiLabel.setIcon(result.getIcon());
                 } catch (InterruptedException | ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                     message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));

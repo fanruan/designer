@@ -13,6 +13,7 @@ import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
 import com.fr.design.actions.community.CenterAction;
 import com.fr.design.actions.community.CusDemandAction;
+import com.fr.design.actions.community.FacebookFansAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
@@ -151,7 +152,6 @@ public abstract class ToolBarMenuDock {
         }
 
     };
-    private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
 
     private static final List<PluginEventListener> PLUGIN_LISTENERS = new ArrayList<>();
@@ -543,6 +543,9 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
+        if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
+            shortCuts.add(new FacebookFansAction());
+        }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 

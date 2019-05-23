@@ -44,14 +44,6 @@ public class DesignerLogHandler {
     
     private static final SimpleDateFormat LOG_SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    private static final int INFO_INT = Level.INFO.toInt();
-    
-    private static final int ERROR_INT = Level.ERROR.toInt();
-    
-    private static final int WARN_INT = Level.WARN.toInt();
-    
-    private static final int DEBUG_INT = Level.DEBUG.toInt();
-    
     private static final int GAP_X = -150;
     
     private static final int INFO_GAP_Y = -60;
@@ -127,12 +119,12 @@ public class DesignerLogHandler {
                 JPopupMenu jPopupMenu = new JPopupMenu();
         
                 int logLevelInt = Log4jConfig.getInstance().getRootLevel().toInt();
-                if (logLevelInt <= INFO_INT) {
+                if (logLevelInt <= DesignerLogger.INFO_INT) {
                     jPopupMenu.add(showInfo);
                     jPopupMenu.add(showError);
                     jPopupMenu.add(showServer);
                     jPopupMenu.show(caption, caption.getWidth() + GAP_X, INFO_GAP_Y);
-                } else if (logLevelInt == ERROR_INT) {
+                } else if (logLevelInt == DesignerLogger.ERROR_INT) {
                     jPopupMenu.add(showError);
                     jPopupMenu.add(showServer);
                     jPopupMenu.show(caption, caption.getWidth() + GAP_X, ERRO_GAP_Y);
@@ -241,11 +233,11 @@ public class DesignerLogHandler {
             int intLevel = event.getLevel().toInt();
             Date date = new Date(event.getTimeStamp());
             ThrowableInformation information = event.getThrowableInformation();
-            if (intLevel == INFO_INT && showInfo.isSelected()) {
+            if (intLevel == DesignerLogger.INFO_INT && showInfo.isSelected()) {
                 printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
-            } else if (intLevel == ERROR_INT && showError.isSelected()) {
+            } else if (intLevel == DesignerLogger.ERROR_INT && showError.isSelected()) {
                 printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
-            } else if (intLevel == WARN_INT && showServer.isSelected()) {
+            } else if (intLevel == DesignerLogger.WARN_INT && showServer.isSelected()) {
                 printMessage(event.getRenderedMessage(), intLevel, date, information == null ? null : information.getThrowable());
             }
         }
@@ -253,11 +245,11 @@ public class DesignerLogHandler {
         public void printStackTrace(String message, Level level, Date date) {
             
             int intLevel = level.toInt();
-            if (intLevel == INFO_INT && showInfo.isSelected()) {
+            if (intLevel == DesignerLogger.INFO_INT && showInfo.isSelected()) {
                 printMessage(message, intLevel, date);
-            } else if (intLevel == ERROR_INT && showError.isSelected()) {
+            } else if (intLevel == DesignerLogger.ERROR_INT && showError.isSelected()) {
                 printMessage(message, intLevel, date);
-            } else if (intLevel == WARN_INT && showServer.isSelected()) {
+            } else if (intLevel == DesignerLogger.WARN_INT && showServer.isSelected()) {
                 printMessage(message, intLevel, date);
             }
             
@@ -287,13 +279,13 @@ public class DesignerLogHandler {
         private void log(String str, int style) {
             
             SimpleAttributeSet attrSet = new SimpleAttributeSet();
-            if (style == ERROR_INT) {
+            if (style == DesignerLogger.ERROR_INT) {
                 StyleConstants.setForeground(attrSet, new Color(247, 148, 29));
                 StyleConstants.setBold(attrSet, true);
-            } else if (style == WARN_INT) {
+            } else if (style == DesignerLogger.WARN_INT) {
                 StyleConstants.setForeground(attrSet, Color.red);
                 StyleConstants.setBold(attrSet, true);
-            } else if (style == INFO_INT) {
+            } else if (style == DesignerLogger.INFO_INT) {
                 StyleConstants.setForeground(attrSet, Color.black);
                 StyleConstants.setBold(attrSet, false);
             } else {
@@ -310,9 +302,9 @@ public class DesignerLogHandler {
         
         private String appendLocaleMark(String str, int style) {
             
-            if (style == ERROR_INT) {
+            if (style == DesignerLogger.ERROR_INT) {
                 str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert") + ":" + str + "\n";
-            } else if (style == WARN_INT) {
+            } else if (style == DesignerLogger.WARN_INT) {
                 str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + ":" + str + "\n";
             } else {
                 str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Normal") + ":" + str + "\n";
@@ -323,11 +315,11 @@ public class DesignerLogHandler {
         private void setMessage(String message, int level) {
             
             LogMessageBar.getInstance().setMessage(message);
-            if (level == DesignerLogHandler.INFO_INT && showInfo.isSelected()) {
+            if (level == DesignerLogger.INFO_INT && showInfo.isSelected()) {
                 caption.infoAdd();
-            } else if (level == DesignerLogHandler.ERROR_INT && showError.isSelected()) {
+            } else if (level == DesignerLogger.ERROR_INT && showError.isSelected()) {
                 caption.errorAdd();
-            } else if (level == DesignerLogHandler.WARN_INT && showServer.isSelected()) {
+            } else if (level == DesignerLogger.WARN_INT && showServer.isSelected()) {
                 caption.serverAdd();
             }
         }
@@ -367,10 +359,5 @@ public class DesignerLogHandler {
             }
         };
         
-    }
-    
-    public void printLoggingEvent(LoggingEvent event) {
-        
-        logHandlerArea.printStackTrace(event);
     }
 }

@@ -7,8 +7,11 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.entity.VcsEntity;
+import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 
@@ -81,6 +84,9 @@ public class EditFileVersionDialog extends UIDialog {
                 entity.setCommitMsg(msgTestArea.getText());
                 WorkContext.getCurrent().get(VcsOperator.class).updateVersion(entity);
                 setVisible(false);
+                String path = DesignerFrameFileDealerPane.getInstance().getSelectedOperation().getFilePath();
+                FileVersionTable table = FileVersionTable.getInstance();
+                table.updateModel(table.getSelectedRow(), WorkContext.getCurrent().get(VcsOperator.class).getVersions(path.replaceFirst("/", StringUtils.EMPTY)));
             }
         });
 

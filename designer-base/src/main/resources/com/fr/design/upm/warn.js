@@ -4,7 +4,7 @@ window.onload = function () {
         text: PluginHelper.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Resource_Warn"),
         height: 30
     });
-    let callback = function(text) {
+    let callback = function(status, text) {
         download.setValue(text);
     };
     let buttonOK = BI.createWidget({

@@ -205,7 +205,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
-		}, SEND_DELAY, TimeUnit.SECONDS);
+		}, SEND_DELAY, TimeUnit.MILLISECONDS);
 	}
 
     /**

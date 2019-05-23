@@ -138,6 +138,7 @@ public class PreferencePane extends BasicPane {
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
+    private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
@@ -197,6 +198,11 @@ public class PreferencePane extends BasicPane {
         upmSelectorPane.add(useOptimizedUPMCheckbox);
         advancePane.add(upmSelectorPane);
 
+        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
+        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        dbmSelectorPane.add(useUniverseDBMCheckbox);
+        advancePane.add(dbmSelectorPane);
+
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImproveCheckBox);
@@ -217,7 +223,7 @@ public class PreferencePane extends BasicPane {
         JPanel vcsPane = FRGUIPaneFactory.createVerticalTitledBorderPane(Toolkit.i18nText("Fine-Design_Vcs_Title"));
         generalPane.add(vcsPane);
         remindVcsLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Remind"));
-        remindVcsLabel.setVisible(!VcsHelper.needInit());
+        remindVcsLabel.setVisible(!VcsHelper.getInstance().needInit());
         vcsEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_SaveAuto"));
         saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
         saveIntervalEditor = new IntegerEditor(60);
@@ -602,7 +608,7 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (VcsHelper.needInit()) {
+        if (VcsHelper.getInstance().needInit()) {
             vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
         } else {
             vcsEnableCheckBox.setEnabled(false);
@@ -638,6 +644,8 @@ public class PreferencePane extends BasicPane {
 
         openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+
+        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -737,6 +745,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void run() {
                 ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
             @Override

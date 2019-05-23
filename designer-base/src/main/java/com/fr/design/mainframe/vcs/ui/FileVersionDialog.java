@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.vcs.ui;
 
+import com.fr.analysis.cloud.DateUtils;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.editor.editor.DateEditor;
 import com.fr.design.gui.date.UIDatePicker;
@@ -14,6 +15,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -45,7 +47,7 @@ public class FileVersionDialog extends UIDialog {
         upBox.setBorder(VcsHelper.EMPTY_BORDER);
         upBox.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_buildTime") + "    "));
         upBox.add(Box.createHorizontalGlue());
-        dateEditor = new DateEditor(new Date(), true, StringUtils.EMPTY, UIDatePicker.STYLE_CN_DATE1);
+        dateEditor = new VcsDateEditor(new Date(), true, StringUtils.EMPTY, UIDatePicker.STYLE_CN_DATE1);
         upBox.add(dateEditor);
         Box downBox = Box.createHorizontalBox();
         downBox.setBorder(VcsHelper.EMPTY_BORDER);
@@ -62,8 +64,10 @@ public class FileVersionDialog extends UIDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileVersionDialog.this.setVisible(false);
-                Date date = dateEditor.getValue();
-                List<VcsEntity> vcsEntities = WorkContext.getCurrent().get(VcsOperator.class).getFilterVersions(fileName, date, new Date(date.getTime() + DELAY), textField.getText());
+                Date editorDate = dateEditor.getValue();
+                Date start = editorDate == null ? new Date(0) : editorDate;
+                Date end = editorDate == null ? DateUtils.getLastHour() : new Date(start.getTime() + DELAY);
+                List<VcsEntity> vcsEntities = WorkContext.getCurrent().get(VcsOperator.class).getFilterVersions(fileName, start, end, textField.getText());
                 FileVersionTable.getInstance().updateModel(1, vcsEntities);
 
             }
@@ -74,16 +78,29 @@ public class FileVersionDialog extends UIDialog {
                 FileVersionDialog.this.setVisible(false);
             }
         });
+        VcsLabel resetLabel = new VcsLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_resetValue"), VcsHelper.COPY_VERSION_BTN_COLOR);
+        resetLabel.setBorder(BorderFactory.createEmptyBorder(10, 160, 0, 10));
+        resetLabel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dateEditor.setValue(null);
+                textField.setText(null);
+                FileVersionDialog.this.repaint();
+            }
+        });
         panel.add(upBox, BorderLayout.NORTH);
         panel.add(downBox, BorderLayout.CENTER);
         panel.add(buttonPane, BorderLayout.SOUTH);
-        add(panel);
-        setSize(new Dimension(230, 105));
-        centerWindow(this);
+        JPanel filterPane = new JPanel(new BorderLayout());
+        filterPane.add(resetLabel, BorderLayout.NORTH);
+        filterPane.add(panel, BorderLayout.CENTER);
+        add(filterPane);
+        setSize(new Dimension(230, 125));
+        centerWindow(frame);
     }
 
     private void centerWindow(Window window) {
-        window.setLocation(0, 95);
+        this.setLocation(window.getX(), 95);
 
     }
 

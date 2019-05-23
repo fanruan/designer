@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.vcs.common;
 
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
@@ -7,6 +8,7 @@ import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JTemplateActionListener;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.ui.FileVersionTable;
 import com.fr.general.IOUtils;
@@ -28,7 +30,7 @@ import static com.fr.stable.StableUtils.pathJoin;
 /**
  * Created by XiaXiang on 2019/4/17.
  */
-public class VcsHelper {
+public class VcsHelper implements JTemplateActionListener {
 
     public final static Color TABLE_SELECT_BACKGROUND = new Color(0xD8F2FD);
     public final static Color COPY_VERSION_BTN_COLOR = new Color(0x419BF9);
@@ -42,12 +44,18 @@ public class VcsHelper {
     public final static Icon VCS_DELETE_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_delete.png");
     public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
     public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
+    public final static int OFFSET = 2;
     private final static String VCS_DIR = "vcs";
     public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
     private static final int MINUTE = 60 * 1000;
     private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
+    private static final VcsHelper instance = new VcsHelper();
 
-    private static int containsFolderCounts() {
+    public static VcsHelper getInstance() {
+        return instance;
+    }
+
+    private int containsFolderCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
         if (fileTree.getSelectionPaths() == null) {
             return 0;
@@ -61,13 +69,13 @@ public class VcsHelper {
         return fileTree.getSelectionPaths().length - fileTree.getSelectedTemplatePaths().length;
     }
 
-    public static String getCurrentUsername() {
+    public String getCurrentUsername() {
         return WorkContext.getCurrent().isLocal()
                 ? Toolkit.i18nText("Fine-Design_Vcs_Local_User")
                 : WorkContext.getCurrent().getConnection().getUserName();
     }
 
-    private static int selectedTemplateCounts() {
+    private int selectedTemplateCounts() {
         TemplateFileTree fileTree = TemplateTreePane.getInstance().getTemplateFileTree();
         if (fileTree.getSelectionPaths() == null) {
             return 0;
@@ -76,11 +84,11 @@ public class VcsHelper {
         return fileTree.getSelectedTemplatePaths().length;
     }
 
-    public static boolean isUnSelectedTemplate() {
-        return VcsHelper.containsFolderCounts() + VcsHelper.selectedTemplateCounts() != 1;
+    public boolean isUnSelectedTemplate() {
+        return containsFolderCounts() + selectedTemplateCounts() != 1;
     }
 
-    public static String getEditingFilename() {
+    private String getEditingFilename() {
         JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String editingFilePath = jt.getEditingFILE().getPath();
         if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
@@ -94,7 +102,7 @@ public class VcsHelper {
         return editingFilePath;
     }
 
-    public static boolean needDeleteVersion(VcsEntity entity) {
+    private boolean needDeleteVersion(VcsEntity entity) {
         VcsConfigManager configManager = DesignerEnvManager.getEnvManager().getVcsConfigManager();
         if (entity == null || !configManager.isUseInterval()) {
             return false;
@@ -105,9 +113,9 @@ public class VcsHelper {
         return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE;
     }
 
-    public static boolean needInit() {
+    public boolean needInit() {
         PluginContext context = PluginManager.getContext(VCS_PLUGIN_ID);
-        return context == null || !context.isActive();
+        return context == null || !context.isRunning();
     }
 
     /**
@@ -115,7 +123,7 @@ public class VcsHelper {
      *
      * @param jt
      */
-    public static void dealWithVcs(final JTemplate jt) {
+    public void fireVcs(final JTemplate jt) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -134,8 +142,8 @@ public class VcsHelper {
                 } else {
                     operator.saveVersion(getCurrentUsername(), fileName, StringUtils.EMPTY, latestFileVersion + 1);
                 }
-                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndex(fileName, 1);
-                if (VcsHelper.needDeleteVersion(oldEntity)) {
+                VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndexAndUsername(fileName, getCurrentUsername(), 1);
+                if (needDeleteVersion(oldEntity)) {
                     operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
                 }
 
@@ -145,4 +153,25 @@ public class VcsHelper {
     }
 
 
+    @Override
+    public void templateOpened(JTemplate<?, ?> jt) {
+
+    }
+
+    /**
+     * 模板保存时 处理.
+     *
+     * @param jt 模板
+     */
+    @Override
+    public void templateSaved(JTemplate<?, ?> jt) {
+        if (needInit() && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
+            fireVcs(jt);
+        }
+    }
+
+    @Override
+    public void templateClosed(JTemplate<?, ?> jt) {
+
+    }
 }
