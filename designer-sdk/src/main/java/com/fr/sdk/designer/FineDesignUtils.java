@@ -10,7 +10,7 @@ import com.fr.report.ReportActivator;
 import com.fr.report.RestrictionActivator;
 import com.fr.report.module.ReportBaseActivator;
 import com.fr.scheduler.SchedulerActivator;
-import com.fr.sdk.server.ModuleShell;
+import com.fr.sdk.server.shell.ModuleShell;
 import com.fr.serialization.SerializationActivator;
 import com.fr.stable.StringUtils;
 import com.fr.startup.WorkspaceRegister;
