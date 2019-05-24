@@ -3,6 +3,7 @@ package com.fr.sdk.designer;
 import com.fr.config.activator.ConfigurationActivator;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.module.Module;
 import com.fr.module.tool.ActivatorToolBox;
@@ -56,7 +57,7 @@ public class FineDesignUtils {
                         try {
                             WorkContext.switchTo(DesignerWorkspaceGenerator.generate(RemoteDesignerWorkspaceInfo.create(connectionInfo)));
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            FineLoggerFactory.getLogger().error(e.getMessage(),e);
                         }
                     }
 
