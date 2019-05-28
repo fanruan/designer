@@ -161,7 +161,7 @@ public class ParameterTreeComboBox extends FRTreeComboBox {
 		// 全局数据源参数
 		parameters = new Parameter[0];
 		Calculator c = Calculator.createCalculator();
-		TableDataConfig tableDataConfig = TableDataConfig.getInstance();
+		TableDataConfig tableDataConfig = TableDataConfig.getInstance().mirror();
 		Iterator<String> nameIt = tableDataConfig.getTableDatas().keySet().iterator();
 		while (nameIt.hasNext()) {
 			TableData tableData = tableDataConfig.getTableData(nameIt.next());
