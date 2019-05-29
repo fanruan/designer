@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.widget.ui;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
@@ -28,13 +27,13 @@ import com.fr.design.widget.Operator;
 import com.fr.design.widget.ui.designer.component.WidgetAbsoluteBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetBoundPane;
 import com.fr.design.widget.ui.designer.component.WidgetCardTagBoundPane;
-import com.fr.form.ui.FormWidgetHelper;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -91,6 +90,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         return new WidgetBoundPane(xCreator);
     }
 
+    @Override
     protected JPanel createContentPane() {
         return null;
     }
@@ -218,21 +218,14 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
             String toSetWidgetName = widgetNameField.getText();
             String currentWidgetName = widget.getWidgetName();
-            // 设置的组件名和当前组件名相同 直接返回
-            if (ComparatorUtils.equals(toSetWidgetName, currentWidgetName)) {
-                return;
-            }
-            String containerName = designer.getTarget().getContainer().getWidgetName();
-            Widget existWidget = FormWidgetHelper.findWidgetByName(widget, widgetNameField.getText());
-            // 判断设置的组件名是否和容器同名以及组件是否在容器在存在 满足任何其一 抛出提示
-            boolean exist = ComparatorUtils.equals(containerName, toSetWidgetName) || existWidget != null;
+            boolean exist = designer.getTarget().isNameExist(toSetWidgetName) && !ComparatorUtils.equals(toSetWidgetName, currentWidgetName);
             if (exist) {
                 widgetNameField.setText(currentWidgetName);
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, IOUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
             widgetPropertyPane.update(widget);
-            xCreator.resetCreatorName(toSetWidgetName);
+            xCreator.resetCreatorName(currentWidgetName);
             xCreator.resetVisible(widget.isVisible());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
             return;
@@ -262,6 +255,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         creator.firePropertyChange();
     }
 
+    @Override
     public String getIconPath() {
         return StringUtils.EMPTY;
     }
