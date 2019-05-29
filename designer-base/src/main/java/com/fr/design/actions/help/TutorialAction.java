@@ -1,11 +1,11 @@
 package com.fr.design.actions.help;
 
-import com.fr.base.BaseUtils;
+import com.fr.cluster.ClusterBridge;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.utils.BrowseUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
@@ -29,7 +29,7 @@ public class TutorialAction extends UpdateAction {
         this.setMenuKeySet(HELP_TUTORIAL);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/help.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/bbs/help.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
