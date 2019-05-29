@@ -1,6 +1,5 @@
 package com.fr.design.actions.help;
 
-import com.fr.cluster.ClusterBridge;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
