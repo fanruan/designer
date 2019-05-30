@@ -24,13 +24,8 @@ public class FormHyperlinkGroupPaneNoPop extends FormHyperlinkGroupPane{
         return false;
     }
 
-    /**
-     * 是否需要将条件属性中的超级链接自动保存到超级链接属性中
-     *
-     * @return 是否需要自动保存
-     */
     @Override
-    public boolean needAutoSave() {
-        return false;
+    public void saveSettings() {
+        // do nothing
     }
 }
