@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.i18n.LocaleCenter;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -166,13 +167,6 @@ public class SplashContext {
     }
 
     private static String getSplashPath() {
-        Locale locale = DesignerEnvManager.getEnvManager().getLanguage();
-        if (Locale.US.equals(locale) || Locale.KOREA.equals(locale) || Locale.TAIWAN.equals(locale)) {
-            return "/com/fr/design/images/splash_10_en.gif";
-        } else if (Locale.JAPAN.equals(locale)) {
-            return "/com/fr/design/images/splash_10_jp.gif";
-        } else {
-            return "/com/fr/design/images/splash_10.gif";
-        }
+        return LocaleCenter.getInstance().getLocaleAction(DesignerEnvManager.getEnvManager().getLanguage()).getSplashPath();
     }
 }

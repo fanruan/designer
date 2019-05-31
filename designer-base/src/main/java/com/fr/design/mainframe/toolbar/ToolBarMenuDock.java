@@ -47,6 +47,7 @@ import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.gui.imenu.UIMenuBar;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.i18n.LocaleCenter;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.menu.MenuDef;
@@ -543,9 +544,7 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
-        if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
-            shortCuts.add(new FacebookFansAction());
-        }
+        LocaleCenter.getInstance().getLocaleAction(GeneralContext.getLocale()).addAction(shortCuts, new FacebookFansAction());
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 
