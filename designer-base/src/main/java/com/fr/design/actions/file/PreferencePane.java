@@ -232,8 +232,8 @@ public class PreferencePane extends BasicPane {
         enableVcsPanel.add(vcsEnableCheckBox);
         enableVcsPanel.add(remindVcsLabel);
         JPanel intervalPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
-        UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
-        UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
+        final UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
+        final UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
         intervalPanel.add(useIntervalCheckBox);
         intervalPanel.add(everyLabel);
         intervalPanel.add(saveIntervalEditor);
@@ -246,10 +246,14 @@ public class PreferencePane extends BasicPane {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
                     useIntervalCheckBox.setEnabled(true);
+                    everyLabel.setEnabled(true);
+                    delayLabel.setEnabled(true);
                 } else {
                     saveCommitCheckBox.setEnabled(false);
                     saveIntervalEditor.setEnabled(false);
                     useIntervalCheckBox.setEnabled(false);
+                    everyLabel.setEnabled(false);
+                    delayLabel.setEnabled(false);
                 }
             }
         });
