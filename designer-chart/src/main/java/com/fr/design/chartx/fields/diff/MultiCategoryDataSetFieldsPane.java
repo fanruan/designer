@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by shine on 2019/4/10.
  */
-public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithCustomFieldPane<MultiCategoryColumnFieldCollection> {
+public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
     private MultiComboBoxPane multiCategoryPane;
 
