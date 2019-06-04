@@ -3,6 +3,14 @@ package com.fr.design.i18n.impl;
 import com.fr.design.i18n.ActionType;
 import com.fr.general.CloudCenter;
 
+import java.util.Locale;
+
+/**
+ * 英文环境具体的表现动作
+ *
+ * @author Hades
+ * @date 2019/5/30
+ */
 public class USLocaleAction extends AbstractDefaultLocaleAction {
 
     @Override
@@ -13,4 +21,8 @@ public class USLocaleAction extends AbstractDefaultLocaleAction {
         urls.put(ActionType.ACTIVATION_CODE, CloudCenter.getInstance().acquireUrlByKind("frlogin.en"));
     }
 
+    @Override
+    public Locale getLocale() {
+        return Locale.US;
+    }
 }

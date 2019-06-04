@@ -124,9 +124,8 @@ public class CollectUserInformationDialog extends UIDialog {
 
 
     private void getKeyAction() {
-        Locale locale = GeneralContext.getLocale();
         try {
-            Desktop.getDesktop().browse(new URI(LocaleCenter.getInstance().getLocaleAction(locale).getUrls().get(ActionType.ACTIVATION_CODE)));
+            Desktop.getDesktop().browse(new URI(LocaleCenter.getInstance().getLocaleAction().getUrls().get(ActionType.ACTIVATION_CODE)));
         } catch (Exception ignored) {
 
         }

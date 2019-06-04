@@ -1,6 +1,5 @@
 package com.fr.start;
 
-import com.fr.design.DesignerEnvManager;
 import com.fr.design.i18n.LocaleCenter;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class SplashContext {
 
     public static final String SPLASH_PATH = getSplashPath();
-    public static final String SPLASH_CACHE_NAME = SPLASH_PATH.substring(SPLASH_PATH.lastIndexOf("/") + 1);
+    public static final String SPLASH_CACHE_NAME = SPLASH_PATH.substring(SPLASH_PATH.lastIndexOf('/') + 1);
     private static final int FETCH_ONLINE_MAX_TIMES = 50;
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
@@ -167,6 +166,6 @@ public class SplashContext {
     }
 
     private static String getSplashPath() {
-        return LocaleCenter.getInstance().getLocaleAction(DesignerEnvManager.getEnvManager().getLanguage()).getSplashPath();
+        return LocaleCenter.getInstance().getLocaleAction().getSplashPath();
     }
 }

@@ -4,7 +4,14 @@ import com.fr.design.i18n.ActionType;
 import com.fr.general.CloudCenter;
 
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * 繁体中文具体的表现动作
+ *
+ * @author Hades
+ * @date 2019/5/30
+ */
 public class TaiWanLocaleAction extends AbstractDefaultLocaleAction {
 
     @Override
@@ -15,7 +22,7 @@ public class TaiWanLocaleAction extends AbstractDefaultLocaleAction {
     }
 
     @Override
-    public void addAction(List list, Object action) {
-        list.add(action);
+    public Locale getLocale() {
+        return Locale.TAIWAN;
     }
 }

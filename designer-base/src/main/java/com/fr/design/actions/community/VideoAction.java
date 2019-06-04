@@ -26,7 +26,7 @@ public class VideoAction extends UpdateAction
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		BrowseUtils.browser(LocaleCenter.getInstance().getLocaleAction(GeneralContext.getLocale()).getUrls().get(ActionType.VIDEO));
+		BrowseUtils.browser(LocaleCenter.getInstance().getLocaleAction().getUrls().get(ActionType.VIDEO));
 
 	}
 	  public static final MenuKeySet VIDEO = new MenuKeySet() {

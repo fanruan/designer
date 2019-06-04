@@ -1,5 +1,11 @@
 package com.fr.design.i18n;
 
+/**
+ * 不同语言环境下的action
+ *
+ * @author Hades
+ * @date 2019/5/30
+ */
 public enum ActionType {
 
     /**
