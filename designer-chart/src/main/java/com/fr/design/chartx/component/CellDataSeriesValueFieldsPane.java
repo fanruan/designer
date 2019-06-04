@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by shine on 2019/6/4.
  */
-public class CellDataSeriesValueFieldsPane extends AbstractChartDataCorrelationPane<SeriesValueColumnFields> {
+public class CellDataSeriesValueFieldsPane extends AbstractCorrelationPane<SeriesValueColumnFields> {
 
     @Override
     protected FieldEditorComponentWrapper[] fieldEditorComponentWrappers() {

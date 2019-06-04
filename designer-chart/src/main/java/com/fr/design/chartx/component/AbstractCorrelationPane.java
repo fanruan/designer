@@ -14,13 +14,14 @@ import java.util.List;
 
 /**
  * Created by shine on 2019/6/4.
+ * 自定义editorComponent + 支持多种数据格式
  */
-public abstract class AbstractChartDataCorrelationPane<T> extends BasicBeanPane<T> {
+public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
     private FieldEditorComponentWrapper[] editorComponents;
 
     private UICorrelationPane correlationPane;
 
-    public AbstractChartDataCorrelationPane() {
+    public AbstractCorrelationPane() {
 
         this.editorComponents = fieldEditorComponentWrappers();
 
@@ -88,7 +89,7 @@ public abstract class AbstractChartDataCorrelationPane<T> extends BasicBeanPane<
 
             correlationPane.stopCellEditing();
 
-            currentEditorWrapper = AbstractChartDataCorrelationPane.this.editorComponents[column];
+            currentEditorWrapper = AbstractCorrelationPane.this.editorComponents[column];
 
             currentComponent = currentEditorWrapper.createEditorComponent(correlationPane);
             currentEditorWrapper.setValue(currentComponent, value);
