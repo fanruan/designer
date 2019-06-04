@@ -46,7 +46,7 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         multiCategoryPane.populate(categoryList);
 
-        populateCustomPane(ob);
+        populateSeriesValuePane(ob);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         multiCategoryPane.update(categoryList);
 
-        updateCustomPane(columnFieldCollection);
+        updateSeriesValuePane(columnFieldCollection);
 
         return columnFieldCollection;
     }

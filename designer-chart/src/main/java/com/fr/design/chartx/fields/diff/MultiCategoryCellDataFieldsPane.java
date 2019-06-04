@@ -3,7 +3,6 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.ColumnField;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.chartx.component.MultiTinyFormulaPane;
-import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 import com.fr.design.formula.TinyFormulaPane;
 
 import javax.swing.JPanel;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by shine on 2019/4/12.
  */
-public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsPane<MultiCategoryColumnFieldCollection> {
+public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
     private MultiTinyFormulaPane multiCategoryPane;
 
@@ -23,7 +22,7 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsPane<
     }
 
     @Override
-    protected JPanel addNorthPane() {
+    protected JPanel createNorthPane() {
 
         createMultiFormulaPane();
 
@@ -50,6 +49,8 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsPane<
         List<ColumnField> categoryList = ob.getCategoryList();
 
         multiCategoryPane.populate(categoryList);
+
+        populateSeriesValuePane(ob);
     }
 
     @Override
@@ -59,6 +60,8 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsPane<
         List<ColumnField> categoryList = fieldCollection.getCategoryList();
 
         multiCategoryPane.update(categoryList);
+
+        updateSeriesValuePane(fieldCollection);
 
         return fieldCollection;
     }

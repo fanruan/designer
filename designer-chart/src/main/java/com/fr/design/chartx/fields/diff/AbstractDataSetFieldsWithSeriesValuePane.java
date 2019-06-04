@@ -50,11 +50,11 @@ public abstract class AbstractDataSetFieldsWithSeriesValuePane<T extends Abstrac
         seriesValueFieldComboBoxPane.refreshBoxListWithSelectTableData(columnNameList);
     }
 
-    protected void populateCustomPane(AbstractColumnFieldCollectionWithSeriesValue t) {
+    protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue t) {
         seriesValueFieldComboBoxPane.populateBean(t.getSeriesValueColumnFields());
     }
 
-    protected void updateCustomPane(AbstractColumnFieldCollectionWithSeriesValue t) {
+    protected void updateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue t) {
         seriesValueFieldComboBoxPane.updateBean(t.getSeriesValueColumnFields());
     }
 }
