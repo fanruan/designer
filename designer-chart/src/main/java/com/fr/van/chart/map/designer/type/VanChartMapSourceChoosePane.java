@@ -381,7 +381,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         public void actionPerformed(ActionEvent e) {
 
             new SwingWorker<Void, Double>() {
-                private java.util.List<WMSLayer> list;
+                private java.util.List<WMSLayer> list = new ArrayList<>();
 
                 @Override
                 protected Void doInBackground() throws Exception {
