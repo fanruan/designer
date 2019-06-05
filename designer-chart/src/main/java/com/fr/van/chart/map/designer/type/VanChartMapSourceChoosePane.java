@@ -394,6 +394,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
                     String res =  httpClient.getResponseText();
                     List<String> layers = WMSFactory.readLayers(res);
+                    list.clear();
                     for (String layer : layers) {
                         list.add(new WMSLayer(layer, false));
                     }
