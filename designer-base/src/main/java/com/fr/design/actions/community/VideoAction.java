@@ -6,6 +6,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.utils.BrowseUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,7 @@ public class VideoAction extends UpdateAction
 		 this.setMenuKeySet(VIDEO);
 	     this.setName(getMenuKeySet().getMenuName());
 	     this.setMnemonic(getMenuKeySet().getMnemonic());
-		 this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/video.png"));
+		 this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/bbs/video.png"));
 		
 	}
 
