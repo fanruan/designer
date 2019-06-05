@@ -47,8 +47,6 @@ import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.gui.imenu.UIMenuBar;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.gui.itoolbar.UIToolbar;
-import com.fr.design.i18n.Action;
-import com.fr.design.i18n.LocaleCenter;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.menu.MenuDef;
@@ -534,7 +532,7 @@ public abstract class ToolBarMenuDock {
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
-        final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new BBSAction());
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
@@ -545,12 +543,9 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
-        LocaleCenter.getInstance().getLocaleAction().buildAction(new Action() {
-            @Override
-            public void todo() {
-                shortCuts.add(new FacebookFansAction());
-            }
-        }).doAction(Locale.TAIWAN);
+        if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
+            shortCuts.add(new FacebookFansAction());
+        }
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 

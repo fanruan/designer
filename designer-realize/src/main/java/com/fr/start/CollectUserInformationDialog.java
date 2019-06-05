@@ -7,11 +7,11 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.i18n.ActionType;
-import com.fr.design.i18n.LocaleCenter;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.CloudCenter;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 
 import javax.swing.*;
@@ -30,6 +30,11 @@ import java.util.Locale;
 public class CollectUserInformationDialog extends UIDialog {
 
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
+
+    private static final String CN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.cn");
+    private static final String EN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.en");
+    private static final String TW_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.tw");
+    private static final String JP_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.jp");
 
     private UITextField keyTextField;
 
@@ -124,8 +129,19 @@ public class CollectUserInformationDialog extends UIDialog {
 
 
     private void getKeyAction() {
+        Locale locale = GeneralContext.getLocale();
+        String url = EN_LOGIN_HTML;
+        if (ComparatorUtils.equals(locale, Locale.TAIWAN)) {
+            url = TW_LOGIN_HTML;
+        }
+        if (ComparatorUtils.equals(locale, Locale.CHINA)) {
+            url = CN_LOGIN_HTML;
+        }
+        if (ComparatorUtils.equals(locale, Locale.JAPAN)) {
+            url = JP_LOGIN_HTML;
+        }
         try {
-            Desktop.getDesktop().browse(new URI(LocaleCenter.getInstance().getLocaleAction().getUrls().get(ActionType.ACTIVATION_CODE)));
+            Desktop.getDesktop().browse(new URI(url));
         } catch (Exception ignored) {
 
         }
