@@ -1,7 +1,8 @@
 package com.fr.design.actions.file;
 
-import com.fr.base.vcs.DesignerMode;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.fun.PreviewProvider;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
@@ -10,11 +11,17 @@ import com.fr.file.FileNodeFILE;
 import com.fr.general.GeneralUtils;
 import com.fr.general.web.ParameterConstants;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.web.referrer.DesignSessionReferrer;
 
-import javax.swing.JOptionPane;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.showConfirmDialog;
 
 public final class WebPreviewUtils {
 
@@ -22,29 +29,38 @@ public final class WebPreviewUtils {
         preview(jt, jt.getPreviewType());
     }
 
-    @SuppressWarnings("unchecked")
     public static void preview(JTemplate<?, ?> jt, PreviewProvider provider) {
         String baseRoute = jt.route();
-        if (provider == null) {
-            actionPerformed(jt, baseRoute, Collections.EMPTY_MAP, ParameterConstants.VIEWLET);
-        } else {
-            actionPerformed(jt, baseRoute, provider.parametersForPreview(), provider.getActionType());
+
+        String previewType = ParameterConstants.VIEWLET;
+        Map<String, Object> paraMap = new HashMap<>(getExtraPara());
+
+        if (provider != null) {
+            Map<String, Object> providerParaMap = provider.parametersForPreview();
+            if (providerParaMap != null) {
+                paraMap.putAll(providerParaMap);
+            }
+            previewType = provider.getActionType();
         }
+        actionPerformed(jt, baseRoute, paraMap, previewType);
+    }
+
+    private static Map<String, Object> getExtraPara() {
+        Map<String, Object> extraPara = new HashMap<>();
+        if (DesignModeContext.isVcsMode()) {
+            extraPara.put("mode", DesignModeContext.getMode().toString());
+
+        }
+        extraPara.putAll(new DesignSessionReferrer.Builder().referrerMap());
+
+        return extraPara;
     }
 
     private static void actionPerformed(JTemplate<?, ?> jt, String baseRoute, Map<String, Object> map, String actionType) {
         if (jt == null) {
             return;
         }
-
-        if (map == null || map == Collections.EMPTY_MAP) {
-            map = new HashMap<>();
-        }
-        if (DesignerMode.isVcsMode()) {
-            map.put("mode", DesignerMode.getMode().toString());
-        }
         DesignerContext.getDesignerFrame().refreshToolbar();
-
         jt.stopEditing();
         /*
          * alex:如果没有保存,先保存到Env
@@ -54,17 +70,20 @@ public final class WebPreviewUtils {
         if (!jt.isSaved() && !jt.saveTemplate2Env()) {
             return;
         }
-
         FILE currentTemplate = jt.getEditingFILE();
         // carl:是否是保存在运行环境下的模板，不是就不能被预览
         if (currentTemplate instanceof FileNodeFILE) {
             browseUrl(currentTemplate, baseRoute, map, actionType, jt);
         } else {
             // 说明模板没有保存在报表运行环境下面,提示用户
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+            int selVal = showConfirmDialog(
+                    DesignerContext.getDesignerFrame(),
+                    Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
+                    Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"),
+                    OK_CANCEL_OPTION,
+                    WARNING_MESSAGE);
 
-            if (JOptionPane.OK_OPTION == selVal) {
+            if (OK_OPTION == selVal) {
                 if (!jt.saveAsTemplate2Env()) {
                     return;
                 }
@@ -74,7 +93,10 @@ public final class WebPreviewUtils {
         }
     }
 
-    private static void browseUrl(FILE currentTemplate, String baseRoute, Map<String, Object> map, String actionType, JTemplate<?, ?> jt) {
+    private static void browseUrl(FILE currentTemplate,
+                                  String baseRoute,
+                                  Map<String, Object> map,
+                                  String actionType, JTemplate<?, ?> jt) {
         if (!(currentTemplate instanceof FileNodeFILE)) {
             return;
         }
@@ -85,8 +107,8 @@ public final class WebPreviewUtils {
                 path = path.substring(ProjectConstants.REPORTLETS_NAME.length() + 1);
             }
 
-            java.util.List<String> parameterNameList = new java.util.ArrayList<String>();
-            java.util.List<String> parameterValueList = new java.util.ArrayList<String>();
+            List<String> parameterNameList = new ArrayList<>();
+            List<String> parameterValueList = new ArrayList<>();
 
             parameterNameList.add(actionType);
             parameterValueList.add(path);
@@ -96,14 +118,21 @@ public final class WebPreviewUtils {
                     parameterValueList.add(GeneralUtils.objectToString(map.get(key)));
                 }
             }
-            DesignUtils.visitEnvServerByParameters(baseRoute, parameterNameList.toArray(new String[parameterNameList.size()]), parameterValueList.toArray(new String[parameterValueList.size()]));
+            DesignUtils.visitEnvServerByParameters(
+                    baseRoute,
+                    parameterNameList.toArray(new String[0]),
+                    parameterValueList.toArray(new String[0])
+            );
         } else {
-            int selVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (JOptionPane.OK_OPTION == selVal) {
-                if (!jt.saveAsTemplate()) {
-                    return;
-                }
+            int selVal = showConfirmDialog(
+                    DesignerContext.getDesignerFrame(),
+                    Toolkit.i18nText("Fine-Design_Basic_Web_Preview_Message"),
+                    Toolkit.i18nText("Fine-Design_Basic_Preview_Tool_Tips"),
+                    OK_CANCEL_OPTION,
+                    WARNING_MESSAGE
+            );
+            if (OK_OPTION == selVal) {
+                jt.saveAsTemplate();
             }
         }
     }
