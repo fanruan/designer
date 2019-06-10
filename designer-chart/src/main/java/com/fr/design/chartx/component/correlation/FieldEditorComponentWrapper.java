@@ -1,4 +1,4 @@
-package com.fr.design.chartx.component;
+package com.fr.design.chartx.component.correlation;
 
 import com.fr.design.gui.frpane.UICorrelationPane;
 
@@ -13,7 +13,7 @@ public interface FieldEditorComponentWrapper<T extends Component> {
 
     T createEditorComponent(UICorrelationPane parent);
 
-    Object value(T t);
+    Object getValue(T t);
 
     void setValue(T t, Object o);
 }

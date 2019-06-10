@@ -1,4 +1,4 @@
-package com.fr.design.chartx.component;
+package com.fr.design.chartx.component.correlation;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.UICorrelationPane;
@@ -23,7 +23,7 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
 
     public AbstractCorrelationPane() {
 
-        this.editorComponents = fieldEditorComponentWrappers();
+        this.editorComponents = createFieldEditorComponentWrappers();
 
         String[] headers = new String[editorComponents.length];
 
@@ -34,20 +34,21 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
         initComps(headers);
     }
 
-    protected abstract FieldEditorComponentWrapper[] fieldEditorComponentWrappers();
+    protected abstract FieldEditorComponentWrapper[] createFieldEditorComponentWrappers();
 
-    protected List<Object[]> update() {
-        return correlationPane.updateBean();
-    }
-
-    protected void populate(List<Object[]> list) {
-        correlationPane.populateBean(list);
+    @Override
+    public void populateBean(T ob) {
+        correlationPane.populateBean(covertTBeanToTableModelList(ob));
     }
 
     @Override
     public T updateBean() {
-        return null;
+        return covertTableModelListToTBean(correlationPane.updateBean());
     }
+
+    protected abstract List<Object[]> covertTBeanToTableModelList(T t);
+
+    protected abstract T covertTableModelListToTBean(List<Object[]> tableValues);
 
     private void initComps(String[] headers) {
         correlationPane = new UICorrelationPane(headers) {
@@ -79,7 +80,7 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
         private FieldEditorComponentWrapper currentEditorWrapper;
 
         public Object getCellEditorValue() {
-            return currentEditorWrapper.value(currentComponent);
+            return currentEditorWrapper.getValue(currentComponent);
         }
 
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {

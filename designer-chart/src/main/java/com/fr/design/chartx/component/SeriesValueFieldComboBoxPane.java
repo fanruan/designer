@@ -1,7 +1,7 @@
 package com.fr.design.chartx.component;
 
 import com.fr.chartx.data.field.ColumnField;
-import com.fr.chartx.data.field.SeriesValueColumnFields;
+import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
 import com.fr.chartx.data.field.SeriesValueField;
 import com.fr.data.util.function.AbstractDataFunction;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by shine on 2019/5/17.
  */
-public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPane<SeriesValueColumnFields> {
+public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPane<SeriesValueCorrelationDefinition> {
 
     @Override
     protected AbstractUseFieldValuePane createUseFieldValuePane() {
@@ -26,7 +26,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
     }
 
     @Override
-    public void populateBean(SeriesValueColumnFields ob) {
+    public void populateBean(SeriesValueCorrelationDefinition ob) {
         if (ob.isCustomFieldValue()) {
             populateCustomFieldNamePane(ob);
             jcb.setSelectedIndex(1);
@@ -37,7 +37,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
     }
 
     @Override
-    public void updateBean(SeriesValueColumnFields ob) {
+    public void updateBean(SeriesValueCorrelationDefinition ob) {
         if (jcb.getSelectedIndex() == 0) {
             ob.setCustomFieldValue(false);
             updateUseFieldValuePane(ob);
@@ -47,10 +47,10 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
     }
 
-    private class UseFieldValuePane extends AbstractUseFieldValuePane<SeriesValueColumnFields> {
+    private class UseFieldValuePane extends AbstractUseFieldValuePane<SeriesValueCorrelationDefinition> {
 
         @Override
-        public void populateBean(SeriesValueColumnFields ob) {
+        public void populateBean(SeriesValueCorrelationDefinition ob) {
             List<SeriesValueField> list = ob.getSeriesValueFieldList();
             if (list != null && list.size() > 0) {
                 populateSeries(list.get(0).getSeries().getFieldName());
@@ -60,7 +60,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
 
         @Override
-        public void updateBean(SeriesValueColumnFields ob) {
+        public void updateBean(SeriesValueCorrelationDefinition ob) {
             List<SeriesValueField> list = new ArrayList<SeriesValueField>();
             SeriesValueField seriesValueField = new SeriesValueField();
             ColumnField series = new ColumnField(updateSeries());
@@ -73,12 +73,12 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
     }
 
-    private class CustomFieldNamePane extends AbstractCustomFieldNamePane<SeriesValueColumnFields> {
+    private class CustomFieldNamePane extends AbstractCustomFieldNamePane<SeriesValueCorrelationDefinition> {
 
         @Override
-        public void populateBean(SeriesValueColumnFields ob) {
+        public void populateBean(SeriesValueCorrelationDefinition definition) {
             List<Object[]> list = new ArrayList<Object[]>();
-            for (SeriesValueField seriesValueField : ob.getSeriesValueFieldList()) {
+            for (SeriesValueField seriesValueField : definition.getSeriesValueFieldList()) {
                 Object[] array = new Object[3];
                 array[0] = seriesValueField.getSeries().getFieldName();
                 array[1] = seriesValueField.getValue().getFieldName();
@@ -89,7 +89,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
 
         @Override
-        public void updateBean(SeriesValueColumnFields ob) {
+        public void updateBean(SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
             List<Object[]> list = update();
             List<SeriesValueField> seriesValueFields = new ArrayList<SeriesValueField>();
             for (Object[] line : list) {
@@ -101,7 +101,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
                 seriesValueField.setSeries(series);
                 seriesValueFields.add(seriesValueField);
             }
-            ob.setSeriesValueFieldList(seriesValueFields);
+            seriesValueCorrelationDefinition.setSeriesValueFieldList(seriesValueFields);
         }
     }
 

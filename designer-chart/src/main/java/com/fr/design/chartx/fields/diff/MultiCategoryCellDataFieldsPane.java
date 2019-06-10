@@ -44,13 +44,13 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
     }
 
     @Override
-    public void populateBean(MultiCategoryColumnFieldCollection ob) {
+    public void populateBean(MultiCategoryColumnFieldCollection multiCategoryColumnFieldCollection) {
 
-        List<ColumnField> categoryList = ob.getCategoryList();
+        List<ColumnField> categoryList = multiCategoryColumnFieldCollection.getCategoryList();
 
         multiCategoryPane.populate(categoryList);
 
-        populateSeriesValuePane(ob);
+        populateSeriesValuePane(multiCategoryColumnFieldCollection);
     }
 
     @Override

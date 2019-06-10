@@ -1,4 +1,4 @@
-package com.fr.design.chartx.component;
+package com.fr.design.chartx.component.correlation;
 
 import com.fr.base.BaseFormula;
 import com.fr.base.Utils;
@@ -10,17 +10,10 @@ import com.fr.design.gui.frpane.UICorrelationPane;
 /**
  * Created by shine on 2019/6/4.
  */
-public class TinyFormulaPaneEditorComponent implements FieldEditorComponentWrapper<TinyFormulaPane> {
-
-    private String header;
+public class TinyFormulaPaneEditorComponent extends AbstractEditorComponent<TinyFormulaPane> {
 
     public TinyFormulaPaneEditorComponent(String header) {
-        this.header = header;
-    }
-
-    @Override
-    public String headerName() {
-        return this.header;
+        super(header);
     }
 
     @Override
@@ -50,7 +43,7 @@ public class TinyFormulaPaneEditorComponent implements FieldEditorComponentWrapp
     }
 
     @Override
-    public Object value(TinyFormulaPane formulaPane) {
+    public Object getValue(TinyFormulaPane formulaPane) {
         return formulaPane.getUITextField().getText();
     }
 

@@ -1,7 +1,7 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.diff.AbstractColumnFieldCollectionWithSeriesValue;
-import com.fr.design.chartx.component.CellDataSeriesValueFieldsPane;
+import com.fr.design.chartx.component.CellDataSeriesValueCorrelationPane;
 import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 
 import javax.swing.JPanel;
@@ -13,12 +13,12 @@ import java.awt.BorderLayout;
 public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends AbstractColumnFieldCollectionWithSeriesValue>
         extends AbstractCellDataFieldsPane<T> {
 
-    private CellDataSeriesValueFieldsPane seriesValueFieldsPane;
+    private CellDataSeriesValueCorrelationPane seriesValueFieldsPane;
 
     @Override
     protected JPanel createCenterPane() {
         JPanel normalCenter = super.createCenterPane();
-        seriesValueFieldsPane = new CellDataSeriesValueFieldsPane();
+        seriesValueFieldsPane = new CellDataSeriesValueCorrelationPane();
 
         if (normalCenter != null) {
             JPanel panel = new JPanel(new BorderLayout());
@@ -30,12 +30,12 @@ public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends Abstra
         }
     }
 
-    protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue t) {
-        seriesValueFieldsPane.populateBean(t.getSeriesValueColumnFields());
+    protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+        seriesValueFieldsPane.populateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 
-    protected void updateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue t) {
-        seriesValueFieldsPane.updateBean(t.getSeriesValueColumnFields());
+    protected void updateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+        seriesValueFieldsPane.updateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 
 }
