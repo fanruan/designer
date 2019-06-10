@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -42,13 +44,18 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
     }
 
     @Override
+    public void updateBean(T ob) {
+        setTableModelListToTBean(correlationPane.updateBean(), ob);
+    }
+
+    @Override
     public T updateBean() {
-        return covertTableModelListToTBean(correlationPane.updateBean());
+        return null;
     }
 
     protected abstract List<Object[]> covertTBeanToTableModelList(T t);
 
-    protected abstract T covertTableModelListToTBean(List<Object[]> tableValues);
+    protected abstract void setTableModelListToTBean(List<Object[]> tableValues, T t);
 
     private void initComps(String[] headers) {
         correlationPane = new UICorrelationPane(headers) {
@@ -68,11 +75,26 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
                     }
                 };
             }
+
+            protected ActionListener getAddButtonListener() {
+                return new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tablePane.addLine(createLine());
+                        fireTargetChanged();
+                    }
+                };
+            }
         };
 
         this.setLayout(new BorderLayout());
         this.add(correlationPane, BorderLayout.CENTER);
     }
+
+    protected Object[] createLine() {
+        return new Object[this.editorComponents.length];
+    }
+
 
     private class Editor extends UITableEditor {
 
@@ -92,7 +114,7 @@ public abstract class AbstractCorrelationPane<T> extends BasicBeanPane<T> {
 
             currentEditorWrapper = AbstractCorrelationPane.this.editorComponents[column];
 
-            currentComponent = currentEditorWrapper.createEditorComponent(correlationPane);
+            currentComponent = currentEditorWrapper.getTableCellEditorComponent(correlationPane, table, isSelected, row, column);
             currentEditorWrapper.setValue(currentComponent, value);
 
             return currentComponent;

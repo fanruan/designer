@@ -74,25 +74,24 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
     }
 
     private class CustomFieldNamePane extends AbstractCustomFieldNamePane<SeriesValueCorrelationDefinition> {
-
         @Override
-        public void populateBean(SeriesValueCorrelationDefinition definition) {
+        protected List<Object[]> covertTBeanToTableModelList(SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
             List<Object[]> list = new ArrayList<Object[]>();
-            for (SeriesValueField seriesValueField : definition.getSeriesValueFieldList()) {
-                Object[] array = new Object[3];
-                array[0] = seriesValueField.getSeries().getFieldName();
-                array[1] = seriesValueField.getValue().getFieldName();
-                array[2] = DataPaneHelper.getFunctionString(seriesValueField.getValue().getDataFunction());
+            for (SeriesValueField seriesValueField : seriesValueCorrelationDefinition.getSeriesValueFieldList()) {
+                Object[] array = new Object[]{
+                        seriesValueField.getSeries().getFieldName(),
+                        seriesValueField.getValue().getFieldName(),
+                        DataPaneHelper.getFunctionString(seriesValueField.getValue().getDataFunction())
+                };
                 list.add(array);
             }
-            populate(list);
+            return list;
         }
 
         @Override
-        public void updateBean(SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
-            List<Object[]> list = update();
+        protected void setTableModelListToTBean(List<Object[]> tableValues, SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
             List<SeriesValueField> seriesValueFields = new ArrayList<SeriesValueField>();
-            for (Object[] line : list) {
+            for (Object[] line : tableValues) {
                 ColumnField series = new ColumnField(GeneralUtils.objectToString(line[0]));
                 ColumnField value = new ColumnField(GeneralUtils.objectToString(line[1]));
                 value.setDataFunction(DataPaneHelper.getFunctionByName(GeneralUtils.objectToString(line[2])));

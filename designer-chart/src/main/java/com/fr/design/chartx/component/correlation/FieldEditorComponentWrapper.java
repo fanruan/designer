@@ -2,6 +2,7 @@ package com.fr.design.chartx.component.correlation;
 
 import com.fr.design.gui.frpane.UICorrelationPane;
 
+import javax.swing.JTable;
 import java.awt.Component;
 
 /**
@@ -11,7 +12,7 @@ public interface FieldEditorComponentWrapper<T extends Component> {
 
     String headerName();
 
-    T createEditorComponent(UICorrelationPane parent);
+    T getTableCellEditorComponent(UICorrelationPane parent, JTable table, boolean isSelected, final int row, int column);
 
     Object getValue(T t);
 

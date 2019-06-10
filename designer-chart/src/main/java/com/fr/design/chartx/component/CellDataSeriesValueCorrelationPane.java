@@ -39,7 +39,7 @@ public class CellDataSeriesValueCorrelationPane extends AbstractCorrelationPane<
     }
 
     @Override
-    protected SeriesValueCorrelationDefinition covertTableModelListToTBean(List<Object[]> tableValues) {
+    protected void setTableModelListToTBean(List<Object[]> tableValues, SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
         List<SeriesValueField> seriesValueFieldList = new ArrayList<SeriesValueField>();
 
         for (Object[] oneLine : tableValues) {
@@ -51,9 +51,6 @@ public class CellDataSeriesValueCorrelationPane extends AbstractCorrelationPane<
             seriesValueFieldList.add(seriesValueField);
         }
 
-        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = new SeriesValueCorrelationDefinition();
         seriesValueCorrelationDefinition.setSeriesValueFieldList(seriesValueFieldList);
-
-        return seriesValueCorrelationDefinition;
     }
 }

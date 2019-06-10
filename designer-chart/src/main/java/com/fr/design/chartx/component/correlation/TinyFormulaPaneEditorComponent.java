@@ -7,6 +7,8 @@ import com.fr.design.event.UIObserverListener;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.UICorrelationPane;
 
+import javax.swing.JTable;
+
 /**
  * Created by shine on 2019/6/4.
  */
@@ -17,7 +19,7 @@ public class TinyFormulaPaneEditorComponent extends AbstractEditorComponent<Tiny
     }
 
     @Override
-    public TinyFormulaPane createEditorComponent(final UICorrelationPane parent) {
+    public TinyFormulaPane getTableCellEditorComponent(final UICorrelationPane parent, JTable table, boolean isSelected, final int row, int column) {
         TinyFormulaPane editorComponent = new TinyFormulaPane() {
             @Override
             public void okEvent() {
