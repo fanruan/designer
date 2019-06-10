@@ -45,7 +45,7 @@ public class ExtendedCustomFieldComboBoxPane extends AbstractCustomFieldComboBox
         }
     }
 
-    private class ExtendedUseFieldValuePane extends AbstractUseFieldValuePane<AbstractDataConfig> {
+    private class ExtendedUseFieldValuePane extends AbstractUseFieldValuePane {
 
         @Override
         public void populateBean(AbstractDataConfig ob) {
@@ -72,7 +72,7 @@ public class ExtendedCustomFieldComboBoxPane extends AbstractCustomFieldComboBox
 
     }
 
-    private class ExtendedCustomFieldNamePane extends AbstractCustomFieldNamePane<AbstractDataConfig> {
+    private class ExtendedCustomFieldNamePane extends AbstractCustomFieldNamePane {
 
         @Override
         protected List<Object[]> covertTBeanToTableModelList(AbstractDataConfig dataConfig) {

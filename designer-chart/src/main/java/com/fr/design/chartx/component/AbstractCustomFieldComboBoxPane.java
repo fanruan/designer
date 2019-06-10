@@ -130,7 +130,7 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         useFieldValuePane.updateBean(t);
     }
 
-    protected abstract class AbstractUseFieldValuePane<T> extends FurtherBasicBeanPane<T> {
+    protected abstract class AbstractUseFieldValuePane extends FurtherBasicBeanPane<T> {
         private UIComboBox series;
         private UIComboBox value;
         private CalculateComboBox function;
@@ -222,7 +222,7 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         }
     }
 
-    protected abstract class AbstractCustomFieldNamePane<T> extends AbstractCorrelationPane<T> {
+    protected abstract class AbstractCustomFieldNamePane extends AbstractCorrelationPane<T> {
 
         @Override
         protected FieldEditorComponentWrapper[] createFieldEditorComponentWrappers() {

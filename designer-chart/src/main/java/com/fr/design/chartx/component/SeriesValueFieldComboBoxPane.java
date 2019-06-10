@@ -47,7 +47,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
     }
 
-    private class UseFieldValuePane extends AbstractUseFieldValuePane<SeriesValueCorrelationDefinition> {
+    private class UseFieldValuePane extends AbstractUseFieldValuePane {
 
         @Override
         public void populateBean(SeriesValueCorrelationDefinition ob) {
@@ -73,7 +73,7 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         }
     }
 
-    private class CustomFieldNamePane extends AbstractCustomFieldNamePane<SeriesValueCorrelationDefinition> {
+    private class CustomFieldNamePane extends AbstractCustomFieldNamePane {
         @Override
         protected List<Object[]> covertTBeanToTableModelList(SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
             List<Object[]> list = new ArrayList<Object[]>();
