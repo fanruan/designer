@@ -68,6 +68,7 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.ImageWithSuffix;
 import com.fr.general.ModuleContext;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
@@ -89,6 +90,7 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
@@ -621,7 +623,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (workBook instanceof WorkBookAdapter) {
             elem.setValue(new CellImagePainter(cellImage));
         } else {
-            elem.setValue(cellImage.getImage());
+            elem.setValue(ImageWithSuffix.build(cellImage.getImage(),cellImage.getSuffix()));
         }
     }
 

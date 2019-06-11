@@ -52,6 +52,8 @@ public class ModernUIPane<T> extends BasicPane {
                 toolbar.add(openDebugButton);
                 UIButton reloadButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Reload"));
                 toolbar.add(reloadButton);
+                UIButton closeButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Close_Window"));
+                toolbar.add(closeButton);
 
                 openDebugButton.addActionListener(new ActionListener() {
                     @Override
@@ -64,6 +66,13 @@ public class ModernUIPane<T> extends BasicPane {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         browser.reloadIgnoringCache();
+                    }
+                });
+
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        SwingUtilities.getWindowAncestor(ModernUIPane.this).setVisible(false);
                     }
                 });
                 BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
@@ -104,6 +113,16 @@ public class ModernUIPane<T> extends BasicPane {
      * @param url 新的地址
      */
     public void redirect(String url) {
+        browser.loadURL(url);
+    }
+
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     * @param map 初始化参数
+     */
+    public void redirect(String url, Map<String, String> map) {
+        Assistant.setEmbProtocolHandler(browser, new EmbProtocolHandler(map));
         browser.loadURL(url);
     }
 

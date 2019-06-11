@@ -9,5 +9,5 @@ import com.fr.event.Event;
  */
 public enum  DownloadEvent implements Event<String> {
 
-    SUCCESS, ERROR
+    SUCCESS, ERROR, UPDATE
 }

@@ -2,16 +2,15 @@ package com.fr.design.report;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
-import com.fr.base.frpx.pack.PictureCollection;
-import com.fr.base.frpx.util.ImageIOHelper;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
+import com.fr.design.utils.ImageUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
-
+import com.fr.general.ImageWithSuffix;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.cell.painter.CellImagePainter;
@@ -28,6 +27,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
@@ -45,11 +45,6 @@ public class SelectImagePane extends BasicPane {
     private Style imageStyle = null;
 
     private Image previewImage = null;
-
-    /**
-     * 默认格式
-     */
-    private String suffix = PictureCollection.DEFAULT_SUFFIX;
 
     private File imageFile;
 
@@ -127,13 +122,12 @@ public class SelectImagePane extends BasicPane {
 
                 if (selectedFile != null && selectedFile.isFile()) {
                     String filePath = selectedFile.getPath();
-                    suffix = ImageIOHelper.getSuffix(filePath);
-                    Image image = BaseUtils.readImage(filePath);
+                    BufferedImage image = BaseUtils.readImage(filePath);
                     CoreGraphHelper.waitForImage(image);
 
                     imageFile = selectedFile;
                     setImageStyle();
-                    previewPane.setImage(image);
+                    previewPane.setImageWithSuffix(ImageWithSuffix.build(image, ImageUtils.getImageType(selectedFile)));
                     previewPane.setImageStyle(imageStyle);
                     previewImage = image;
                 } else {
@@ -184,7 +178,6 @@ public class SelectImagePane extends BasicPane {
                 setImage((Image) value);
             } else if (value instanceof CellImagePainter) {
                 setImage(((CellImagePainter) value).getImage());
-                suffix = ((CellImagePainter) value).getSuffix();
             }
 
             style = cell.getStyle();
@@ -214,11 +207,8 @@ public class SelectImagePane extends BasicPane {
 
     public CellImage update() {
         CellImage cellImage = new CellImage();
-        cellImage.setImage(previewPane.getImage());
+        cellImage.setImage(previewPane.getImageWithSuffix());
         cellImage.setStyle(this.imageStyle);
-        if (suffix != null) {
-            cellImage.setSuffix(suffix);
-        }
         return cellImage;
     }
 
