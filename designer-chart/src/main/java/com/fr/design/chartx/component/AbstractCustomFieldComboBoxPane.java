@@ -2,14 +2,15 @@ package com.fr.design.chartx.component;
 
 import com.fr.data.util.function.AbstractDataFunction;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.event.UIObserverListener;
+import com.fr.design.chartx.component.correlation.AbstractCorrelationPane;
+import com.fr.design.chartx.component.correlation.CalculateComboBoxEditorComponent;
+import com.fr.design.chartx.component.correlation.FieldEditorComponentWrapper;
+import com.fr.design.chartx.component.correlation.UIComboBoxEditorComponent;
+import com.fr.design.chartx.component.correlation.UITextFieldEditorComponent;
 import com.fr.design.gui.frpane.UIComboBoxPane;
-import com.fr.design.gui.frpane.UICorrelationPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itable.UITable;
-import com.fr.design.gui.itable.UITableEditor;
-import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
@@ -19,17 +20,11 @@ import com.fr.extended.chart.UIComboBoxWithNone;
 import com.fr.general.GeneralUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +33,6 @@ import java.util.List;
  * 系列名使用字段名or字段值的抽象的pane 支持多种属性结构的存取
  */
 public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<T> {
-    private static final String[] HEADS = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Field_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Series_Name"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Summary_Method")};
 
     private AbstractUseFieldValuePane useFieldValuePane;
 
@@ -64,7 +58,31 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         customFieldNamePane = createCustomFieldNamePane();
         List<FurtherBasicBeanPane<? extends T>> list = new ArrayList<FurtherBasicBeanPane<? extends T>>();
         list.add(useFieldValuePane);
-        list.add(customFieldNamePane);
+        FurtherBasicBeanPane pane = new FurtherBasicBeanPane() {
+            @Override
+            public String title4PopupWindow() {
+                return Toolkit.i18nText("Fine-Design_Chart_Enable_Field_Name");
+            }
+
+            @Override
+            public boolean accept(Object ob) {
+                return false;
+            }
+
+            @Override
+            public void reset() {
+            }
+
+            @Override
+            public void populateBean(Object ob) {
+            }
+
+            @Override
+            public Object updateBean() {
+                return null;
+            }
+        };
+        list.add(pane);
         return list;
     }
 
@@ -112,7 +130,7 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         useFieldValuePane.updateBean(t);
     }
 
-    protected abstract class AbstractUseFieldValuePane<T> extends FurtherBasicBeanPane<T> {
+    protected abstract class AbstractUseFieldValuePane extends FurtherBasicBeanPane<T> {
         private UIComboBox series;
         private UIComboBox value;
         private CalculateComboBox function;
@@ -129,9 +147,9 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
             function = new CalculateComboBox();
 
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(HEADS[1], SwingConstants.LEFT), series},
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value"), SwingConstants.LEFT), value},
-                    new Component[]{new UILabel(HEADS[2], SwingConstants.LEFT), function},
+                    new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Series_Name"), SwingConstants.LEFT), series},
+                    new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Use_Value"), SwingConstants.LEFT), value},
+                    new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Summary_Method"), SwingConstants.LEFT), function},
             };
 
             double p = TableLayout.PREFERRED;
@@ -204,165 +222,25 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         }
     }
 
-    protected abstract class AbstractCustomFieldNamePane<T> extends FurtherBasicBeanPane<T> {
+    protected abstract class AbstractCustomFieldNamePane extends AbstractCorrelationPane<T> {
 
-        private UICorrelationPane correlationPane;
-
-        public AbstractCustomFieldNamePane() {
-            initComponents();
-        }
-
-        private void initComponents() {
-
-            correlationPane = new UICorrelationPane(HEADS) {
-                @Override
-                protected ActionListener getAddButtonListener() {
-                    return new ActionListener() {
+        @Override
+        protected FieldEditorComponentWrapper[] createFieldEditorComponentWrappers() {
+            return new FieldEditorComponentWrapper[]{
+                    new UIComboBoxEditorComponent(Toolkit.i18nText("Fine-Design_Chart_Field_Name")) {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
-                            tablePane.addLine(new String[]{StringUtils.EMPTY, StringUtils.EMPTY, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")});
-                            fireTargetChanged();
+                        protected List<String> items() {
+                            return fieldList;
                         }
-                    };
-                }
-
-                public UITableEditor createUITableEditor() {
-                    return new Editor() {
-                        @Override
-                        protected UICorrelationPane getParent() {
-                            return correlationPane;
-                        }
-                    };
-                }
+                    },
+                    new UITextFieldEditorComponent(Toolkit.i18nText("Fine-Design_Chart_Series_Name")),
+                    new CalculateComboBoxEditorComponent(Toolkit.i18nText("Fine-Design_Chart_Summary_Method"))
             };
-
-            this.setLayout(new BorderLayout());
-            this.add(correlationPane, BorderLayout.CENTER);
-
-        }
-
-
-        protected void populate(List<Object[]> list) {
-            correlationPane.populateBean(list);
-        }
-
-        protected List<Object[]> update() {
-            return correlationPane.updateBean();
-        }
-
-
-        @Override
-        public boolean accept(Object ob) {
-            return true;
         }
 
         @Override
-        public void reset() {
-        }
-
-        @Override
-        public String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Enable_Field_Name");
-        }
-
-        @Override
-        public T updateBean() {
-            return null;
+        protected Object[] createLine() {
+            return new String[]{StringUtils.EMPTY, StringUtils.EMPTY, Toolkit.i18nText("Fine-Design_Chart_Use_None")};
         }
     }
-
-    private abstract class Editor extends UITableEditor {
-        private JComponent editorComponent;
-
-        protected abstract UICorrelationPane getParent();
-
-        @Override
-        public Object getCellEditorValue() {
-            if (editorComponent instanceof UIComboBox) {
-                return ((UIComboBox) editorComponent).getSelectedItem();
-            } else if (editorComponent instanceof UITextField) {
-                return ((UITextField) editorComponent).getText();
-            } else if (editorComponent instanceof CalculateComboBox) {
-                return ((CalculateComboBox) editorComponent).getSelectedItem();
-            }
-            return super.getCellEditorValue();
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, final int row, int column) {
-
-            switch (column) {
-                case 0:
-                    editorComponent = createComboBoxEdit(row, value);
-                    break;
-                case 1:
-                    editorComponent = createTextEdit(value);
-                    break;
-                default:
-                    editorComponent = createCalculateComboBox(value);
-                    break;
-
-            }
-            return editorComponent;
-        }
-
-        private void setDefaultName(int row) {
-            UITable table = getParent().getTable();
-            Object object = table.getValueAt(row, 0);
-            if (object != null) {
-                table.setValueAt(object, row, 1);
-            }
-        }
-
-        private UIComboBox createComboBoxEdit(final int row, Object value) {
-            UIComboBox uiComboBox = new UIComboBox(fieldList.toArray());
-
-            uiComboBox.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    getParent().stopCellEditing();
-                    getParent().fireTargetChanged();
-                    setDefaultName(row);
-                }
-            });
-
-            if (value != null && StringUtils.isNotEmpty(value.toString())) {
-                uiComboBox.getModel().setSelectedItem(value);
-            } else {
-                uiComboBox.getModel().setSelectedItem(value);
-            }
-
-            return uiComboBox;
-        }
-
-        private UITextField createTextEdit(Object value) {
-            UITextField uiTextField = new UITextField();
-            if (value != null) {
-                uiTextField.setText(value.toString());
-            }
-
-            uiTextField.registerChangeListener(new UIObserverListener() {
-                @Override
-                public void doChange() {
-                    getParent().fireTargetChanged();
-                }
-            });
-
-            return uiTextField;
-        }
-
-        private CalculateComboBox createCalculateComboBox(Object value) {
-            CalculateComboBox calculateComboBox = new CalculateComboBox();
-            if (value != null) {
-                calculateComboBox.setSelectedItem(value);
-            }
-            calculateComboBox.addItemListener(new ItemListener() {
-                public void itemStateChanged(ItemEvent e) {
-                    getParent().stopCellEditing();
-                    getParent().fireTargetChanged();
-                }
-            });
-            return calculateComboBox;
-        }
-    }
-
 }

@@ -45,7 +45,7 @@ public class ExtendedCustomFieldComboBoxPane extends AbstractCustomFieldComboBox
         }
     }
 
-    private class ExtendedUseFieldValuePane extends AbstractUseFieldValuePane<AbstractDataConfig> {
+    private class ExtendedUseFieldValuePane extends AbstractUseFieldValuePane {
 
         @Override
         public void populateBean(AbstractDataConfig ob) {
@@ -72,26 +72,24 @@ public class ExtendedCustomFieldComboBoxPane extends AbstractCustomFieldComboBox
 
     }
 
-    private class ExtendedCustomFieldNamePane extends AbstractCustomFieldNamePane<AbstractDataConfig> {
+    private class ExtendedCustomFieldNamePane extends AbstractCustomFieldNamePane {
 
         @Override
-        public void populateBean(AbstractDataConfig ob) {
-            List<ExtendedField> customFields = ob.getCustomFields();
+        protected List<Object[]> covertTBeanToTableModelList(AbstractDataConfig dataConfig) {
+            List<ExtendedField> customFields = dataConfig.getCustomFields();
 
             List<Object[]> list = new ArrayList<Object[]>();
             for (ExtendedField field : customFields) {
                 String[] array = {field.getFieldName(), field.getCustomName(), DataPaneHelper.getFunctionString(field.getDataFunction())};
                 list.add(array);
             }
-            populate(list);
+            return list;
         }
 
         @Override
-        public void updateBean(AbstractDataConfig ob) {
-            List<Object[]> list = update();
-
+        protected void setTableModelListToTBean(List<Object[]> tableValues, AbstractDataConfig dataConfig) {
             List<ExtendedField> customFields = new ArrayList<ExtendedField>();
-            for (Object[] line : list) {
+            for (Object[] line : tableValues) {
                 ExtendedField field = new ExtendedField(Utils.objectToString(line[0]));
                 field.setCustomName(Utils.objectToString(line[1]));
                 if (line.length > 2) {
@@ -100,8 +98,9 @@ public class ExtendedCustomFieldComboBoxPane extends AbstractCustomFieldComboBox
                 customFields.add(field);
             }
 
-            ob.setCustomFields(customFields);
+            dataConfig.setCustomFields(customFields);
         }
+
     }
 
 }

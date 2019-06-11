@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by shine on 2019/4/10.
  */
-public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithCustomFieldPane<MultiCategoryColumnFieldCollection> {
+public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
     private MultiComboBoxPane multiCategoryPane;
 
@@ -41,12 +41,12 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithCus
     }
 
     @Override
-    public void populateBean(MultiCategoryColumnFieldCollection ob) {
-        List<ColumnField> categoryList = ob.getCategoryList();
+    public void populateBean(MultiCategoryColumnFieldCollection multiCategoryColumnFieldCollection) {
+        List<ColumnField> categoryList = multiCategoryColumnFieldCollection.getCategoryList();
 
         multiCategoryPane.populate(categoryList);
 
-        populateCustomPane(ob);
+        populateSeriesValuePane(multiCategoryColumnFieldCollection);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithCus
 
         multiCategoryPane.update(categoryList);
 
-        updateCustomPane(columnFieldCollection);
+        updateSeriesValuePane(columnFieldCollection);
 
         return columnFieldCollection;
     }

@@ -31,18 +31,22 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
 
         this.setLayout(new BorderLayout(0, 6));
 
-        this.add(addNorthPane(), BorderLayout.NORTH);
-        this.add(addCenterPane(), BorderLayout.CENTER);
-        this.add(addSouthPane(), BorderLayout.SOUTH);
+        this.add(createNorthPane(), BorderLayout.NORTH);
+        this.add(createCenterPane(), BorderLayout.CENTER);
+        this.add(createSouthPane(), BorderLayout.SOUTH);
 
         this.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
     }
 
-    protected JPanel addCenterPane() {
+    protected JPanel createCenterPane() {
         String[] labels = fieldLabels();
         Component[] formulaPanes = fieldComponents();
 
         int len = Math.min(labels.length, formulaPanes.length);
+
+        if (len == 0) {
+            return null;
+        }
 
         Component[][] components = new Component[len][2];
         for (int i = 0; i < len; i++) {
@@ -59,11 +63,11 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
     }
 
 
-    protected JPanel addNorthPane() {
+    protected JPanel createNorthPane() {
         return new JPanel();
     }
 
-    protected JPanel addSouthPane() {
+    protected JPanel createSouthPane() {
         return new JPanel();
     }
 
