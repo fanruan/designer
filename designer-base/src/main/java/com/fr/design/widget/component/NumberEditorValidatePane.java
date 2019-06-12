@@ -9,13 +9,15 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NumberEditor;
-
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +25,7 @@ import java.awt.event.ActionListener;
  * Created by kerry on 2017/9/10.
  */
 public class NumberEditorValidatePane extends JPanel {
+
     private UICheckBox allowDecimalsCheckBox;
     private UICheckBox allowNegativeCheckBox;
     private UICheckBox setMaxValueCheckBox;
@@ -104,6 +107,7 @@ public class NumberEditorValidatePane extends JPanel {
 
     private void initListeners() {
         allowDecimalsListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (allowDecimalsCheckBox.isSelected()) {
                     limitNumberPane.setVisible(true);
@@ -129,8 +133,8 @@ public class NumberEditorValidatePane extends JPanel {
                     if (!setMinValueCheckBox.isSelected()) {
                         maxValueSpinner.getTextField().setMinValue(0.0);
                     }
-                    Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
-                    Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
+                    double minValue = Double.parseDouble("" + minValueSpinner.getValue());
+                    double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
                     if (minValue < 0.0) {
                         minValueSpinner.setValue(0.0);
                     }
@@ -143,10 +147,11 @@ public class NumberEditorValidatePane extends JPanel {
 
 
         setMaxListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (setMaxValueCheckBox.isSelected()) {
                     maxValueSpinner.setEnabled(true);
-                    Double value = new Double(0);
+                    Double value = (double) 0;
                     if (setMinValueCheckBox.isSelected()) {
                         Double minValue = Double.parseDouble("" + minValueSpinner.getValue());
                         if (minValue > value) {
@@ -163,10 +168,11 @@ public class NumberEditorValidatePane extends JPanel {
 
 
         setMinListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (setMinValueCheckBox.isSelected()) {
                     minValueSpinner.setEnabled(true);
-                    Double value = new Double(0);
+                    Double value = (double) 0;
                     if (setMaxValueCheckBox.isSelected()) {
                         Double maxValue = Double.parseDouble("" + maxValueSpinner.getValue());
                         if (maxValue < value) {
@@ -177,7 +183,7 @@ public class NumberEditorValidatePane extends JPanel {
                     maxValueSpinner.getTextField().setMinValue(value);
                 } else {
                     minValueSpinner.setEnabled(false);
-                    maxValueSpinner.getTextField().setMinValue(allowNegativeCheckBox.isSelected() ? (-Double.MAX_VALUE) : new Double(0));
+                    maxValueSpinner.getTextField().setMinValue(allowNegativeCheckBox.isSelected() ? (-Double.MAX_VALUE) : (double) 0);
                 }
             }
         };
@@ -222,28 +228,28 @@ public class NumberEditorValidatePane extends JPanel {
         allowNegativeCheckBox.setSelected(e.isAllowNegative());
         if (e.getMaxValue() == Double.MAX_VALUE) {
             setMaxValueCheckBox.setSelected(false);
-            maxValueSpinner.setValue(new Double(Double.MAX_VALUE));
+            maxValueSpinner.setValue(Double.MAX_VALUE);
             maxValueSpinner.setEnabled(false);
         } else {
             setMaxValueCheckBox.setSelected(true);
             maxValueSpinner.setEnabled(true);
-            maxValueSpinner.setValue(new Double(e.getMaxValue()));
+            maxValueSpinner.setValue(e.getMaxValue());
         }
 
         if (e.getMinValue() == -Double.MAX_VALUE) {
             setMinValueCheckBox.setSelected(false);
-            minValueSpinner.setValue(new Double(-Double.MAX_VALUE));
+            minValueSpinner.setValue(-Double.MAX_VALUE);
             minValueSpinner.setEnabled(false);
 
         } else {
             setMinValueCheckBox.setSelected(true);
             minValueSpinner.setEnabled(true);
-            minValueSpinner.setValue(new Double(e.getMinValue()));
+            minValueSpinner.setValue(e.getMinValue());
         }
-        if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
+        if (setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()) {
             errorMsgTextFieldPane.setVisible(true);
             errorMsgTextField.setText(e.getRegErrorMessage());
-        }else{
+        } else {
             errorMsgTextFieldPane.setVisible(false);
             errorMsgTextField.setText(StringUtils.EMPTY);
         }
@@ -259,15 +265,19 @@ public class NumberEditorValidatePane extends JPanel {
 
         if (setMinValueCheckBox.isSelected()) {
             ob.setMinValue(minValueSpinner.getValue());
+        } else {
+            ob.setMinValue(-Double.MAX_VALUE);
         }
 
         if (setMaxValueCheckBox.isSelected()) {
             ob.setMaxValue(maxValueSpinner.getValue());
+        } else {
+            ob.setMaxValue(Double.MAX_VALUE);
         }
 
-        if(setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()){
+        if (setMinValueCheckBox.isSelected() || setMaxValueCheckBox.isSelected()) {
             errorMsgTextFieldPane.setVisible(true);
-        }else{
+        } else {
             errorMsgTextFieldPane.setVisible(false);
             errorMsgTextField.setText(StringUtils.EMPTY);
         }

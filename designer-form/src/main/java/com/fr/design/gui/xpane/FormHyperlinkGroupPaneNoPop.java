@@ -23,4 +23,9 @@ public class FormHyperlinkGroupPaneNoPop extends FormHyperlinkGroupPane{
     protected boolean isNewStyle() {
         return false;
     }
+
+    @Override
+    public void saveSettings() {
+        // do nothing
+    }
 }

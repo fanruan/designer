@@ -1,0 +1,276 @@
+.bi-plugin-redis {
+  padding: 20px; }
+
+.database-connection-layout {
+  width: 100%;
+  height: 100%;
+  background-color: #f7f8fa; }
+  .database-connection-layout .title {
+    background-color: #fff;
+    border-bottom: 1px solid #e8eaed; }
+    .database-connection-layout .title .title-item {
+      height: 39px;
+      line-height: 39px;
+      padding-left: 15px;
+      padding-right: 15px;
+      text-align: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      font-weight: 700;
+      cursor: pointer; }
+    .database-connection-layout .title .close-button {
+      position: absolute !important;
+      right: 5px;
+      top: 5px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      background-image: url(./img/icon_close9x9_normal.png);
+      background-repeat: no-repeat;
+      background-position: center; }
+  .database-connection-layout .linkset {
+    margin: 10px;
+    bottom: 0px;
+    background-color: #ffffff; }
+  .database-connection-layout .linkStatus {
+    margin: 10px;
+    top: 40px;
+    background-color: #ffffff; }
+
+.database-left {
+  border-right: 1px solid #e8eaed; }
+  .database-left .select-group {
+    border-bottom: 1px solid #e8eaed; }
+    .database-left .select-group .select {
+      margin: 10px; }
+      .database-left .select-group .select .database-link-items {
+        padding-left: 10px; }
+        .database-left .select-group .select .database-link-items .link-item {
+          border-top: 1px solid #e8eaed; }
+    .database-left .select-group .status-title {
+      font-weight: 700;
+      margin-left: 12px;
+      margin-top: 12px; }
+  .database-left .left-list {
+    margin: 10px; }
+    .database-left .left-list .left-item {
+      height: 24px;
+      line-height: 24px;
+      cursor: pointer; }
+      .database-left .left-list .left-item:hover {
+        background-color: rgba(54, 133, 242, 0.05); }
+        .database-left .left-list .left-item:hover .icons .action-icon {
+          visibility: visible !important; }
+      .database-left .left-list .left-item .icons {
+        float: right !important; }
+        .database-left .left-list .left-item .icons .action-icon {
+          visibility: hidden; }
+        .database-left .left-list .left-item .icons .b-font {
+          font-size: 16px; }
+    .database-left .left-list .left-item-selected {
+      background-color: rgba(54, 133, 242, 0.05); }
+      .database-left .left-list .left-item-selected .link-title {
+        color: #3685f2; }
+
+.database-right {
+  min-width: 400px;
+  overflow: auto; }
+  .database-right .bi-flex-center-adapt-layout {
+    height: 100%; }
+    .database-right .bi-flex-center-adapt-layout .data-connection-background {
+      background: url(./img/resources.png) center center no-repeat;
+      background-size: contain; }
+  .database-right .right-status-title {
+    border-bottom: 1px solid #e8eaed;
+    color: #3d4d66;
+    line-height: 40px;
+    padding-left: 10px;
+    font-weight: 700; }
+  .database-right .right-status-body {
+    margin: 10px 30px 0px 30px;
+    height: 50%; }
+    .database-right .right-status-body .right-status-item {
+      height: 150px;
+      width: 50%;
+      top: 0;
+      left: 0;
+      position: absolute !important; }
+      .database-right .right-status-body .right-status-item .right-status-board {
+        margin-left: 25px;
+        position: relative !important;
+        left: -25px; }
+    .database-right .right-status-body .right-status-right {
+      height: 150px;
+      width: 50%;
+      top: 0;
+      right: 0;
+      position: absolute !important; }
+      .database-right .right-status-body .right-status-right .right-status-board {
+        margin-right: 25px;
+        position: relative !important;
+        left: 25px; }
+    .database-right .right-status-body .right-status-board {
+      background-color: #f7f8fa;
+      color: #3d4d66;
+      width: 100%;
+      height: 100%; }
+      .database-right .right-status-body .right-status-board .right-status-board-item {
+        text-align: center;
+        margin-top: 38px; }
+        .database-right .right-status-body .right-status-board .right-status-board-item .right-status-text {
+          display: inline-block; }
+        .database-right .right-status-body .right-status-board .right-status-board-item .card-font1 {
+          color: #13CD66;
+          font-size: 32px; }
+        .database-right .right-status-body .right-status-board .right-status-board-item .card-font2 {
+          color: #3685F2;
+          font-size: 32px; }
+  .database-right .right-content {
+    height: 100%; }
+    .database-right .right-content .right-title {
+      border-bottom: 1px solid #e8eaed;
+      color: #3d4d66;
+      line-height: 40px;
+      padding-left: 10px; }
+      .database-right .right-content .right-title .right-title-text {
+        font-weight: 700; }
+      .database-right .right-content .right-title .right-title-button {
+        float: right !important;
+        margin-right: 10px;
+        margin-top: 8px; }
+    .database-right .right-content .right-show {
+      margin: 10px; }
+      .database-right .right-content .right-show .right-form {
+        width: 100%; }
+
+.both-side {
+  line-height: 24px;
+  margin-bottom: 10px; }
+  .both-side .left {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    flex-shrink: 0;
+    font-weight: 700; }
+  .both-side .hint {
+    padding-left: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 5px;
+    color: #9ea6b2; }
+
+.shared-component-title {
+  height: 24px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  color: #9ea6b2;
+  border-bottom: 1px solid #e8eaed; }
+
+.comfirm-content {
+  margin-top: 40px;
+  margin-left: 20px; }
+  .comfirm-content .comfirm-icon {
+    background-image: url(./img/warning.png);
+    background-size: contain;
+    margin-right: 12px; }
+  .comfirm-content .bi-text {
+    height: 50px;
+    line-height: 50px;
+    margin-left: 12px; }
+
+.more-link .more-link-item {
+  width: 538px;
+  overflow: hidden auto;
+  left: -10px !important;
+  right: 0px;
+  top: 10px;
+  bottom: 0px;
+  position: absolute;
+  height: 380px; }
+  .more-link .more-link-item .link-item {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: solid 1px #fff; }
+    .more-link .more-link-item .link-item:hover {
+      border: solid 1px #3480f2; }
+    .more-link .more-link-item .link-item .selected {
+      position: absolute !important;
+      right: -1px;
+      top: -1px;
+      height: 30px;
+      width: 30px;
+      background: url(./img/database-selected.png) center center no-repeat;
+      background-size: contain; }
+    .more-link .more-link-item .link-item .text {
+      height: 27px;
+      line-height: 27px;
+      padding-left: 2px;
+      padding-right: 2px;
+      text-align: center;
+      white-space: nowrap;
+      background: #F0F3F7; }
+
+.popover-notitle .bi-header-background {
+  display: none; }
+
+.popover-notitle .bi-absolute-layout {
+  top: 0px !important; }
+
+.bi-custom-show .show-content {
+  text-align: center; }
+  .bi-custom-show .show-content .loading-icon {
+    display: block;
+    background: url(./img/loading.gif) center center no-repeat;
+    background-size: contain;
+    margin: 0 auto;
+    margin-bottom: 18px; }
+  .bi-custom-show .show-content .success-icon {
+    display: block;
+    background: url(./img/success.png) center center no-repeat;
+    background-size: contain;
+    margin: 0 auto;
+    margin-bottom: 18px; }
+  .bi-custom-show .show-content .error-icon {
+    display: block;
+    background: url(./img/error.png) center center no-repeat;
+    background-size: contain;
+    margin: 0 auto;
+    margin-bottom: 18px; }
+  .bi-custom-show .show-content .buttons {
+    margin-top: 18px; }
+    .bi-custom-show .show-content .buttons div {
+      margin: 0 4px; }
+
+.bi-custom-show .show-more {
+  text-align: left !important;
+  height: 73px;
+  background: #F2F4F7;
+  margin-bottom: 10px;
+  padding: 5px;
+  margin-top: 10px; }
+
+.link-font .b-font:before {
+  content: "\e759";
+  color: inherit; }
+
+.link-text-font .b-font:before {
+  content: "\e763";
+  color: inherit; }
+
+.info-font .b-font:before {
+  content: "\e63c";
+  color: inherit; }
+
+.delete-font .b-font:before {
+  content: "\e6c4";
+  color: inherit; }
+
+
+/*# sourceMappingURL=style.css.map*/

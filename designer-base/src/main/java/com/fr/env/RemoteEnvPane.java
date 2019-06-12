@@ -3,9 +3,11 @@ package com.fr.env;
 import com.fr.base.FRContext;
 import com.fr.base.ServerConfig;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
+import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -303,10 +305,17 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     @Override
     public RemoteDesignerWorkspaceInfo updateBean() {
+        String url = this.remoteWorkspaceURL.getURL();
+        String username = this.usernameInput.getText();
+        String password = new String(this.passwordInput.getPassword());
+        DesignerEnvProcessor envProcessor = ExtraDesignClassManager.getInstance().getSingle(DesignerEnvProcessor.XML_TAG);
+        if (envProcessor != null) {
+            url = envProcessor.changeEnvPathBeforeConnect(username, password, url);
+        }
         WorkspaceConnectionInfo connection = new WorkspaceConnectionInfo(
-                this.remoteWorkspaceURL.getURL(),
-                this.usernameInput.getText(),
-                new String(this.passwordInput.getPassword()),
+                url,
+                username,
+                password,
                 this.certPathInput.getText(),
                 new String(this.certSecretKeyInput.getPassword()));
 
