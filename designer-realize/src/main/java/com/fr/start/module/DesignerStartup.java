@@ -5,6 +5,7 @@ import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.Listener;
+import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
@@ -14,6 +15,7 @@ import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
 import com.fr.start.server.FineEmbedServer;
 import com.fr.startup.activators.BasicActivator;
+import com.fr.third.org.apache.commons.lang3.time.StopWatch;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
@@ -49,14 +51,19 @@ public class DesignerStartup extends Activator {
                 FineEmbedServer.start();
             }
         });
+        final StopWatch watch = new StopWatch();
         service.submit(new Runnable() {
 
             @Override
             public void run() {
                 try {
+    
+                    watch.start();
                     designer.show(args);
                 } finally {
                     DesignerContext.getDesignerFrame().getProgressDialog().dispose();
+                    FineLoggerFactory.getLogger().info("Designer showed.Time used {} ms", watch.getTime());
+                    watch.stop();
                 }
             }
         });
