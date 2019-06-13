@@ -5,7 +5,7 @@ import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.EnvChangeEntrance;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.loghandler.DesignerLogHandler;
+import com.fr.design.mainframe.loghandler.DesignerLogger;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.RemoteDesignConstants;
@@ -46,7 +46,7 @@ public class DesignerSocketIO {
             if (ArrayUtils.isNotEmpty(objects)) {
                 try {
                     LoggingEvent event = SerializerHelper.deserialize((byte[]) objects[0]);
-                    DesignerLogHandler.getInstance().printLoggingEvent(event);
+                    DesignerLogger.log(event);
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }

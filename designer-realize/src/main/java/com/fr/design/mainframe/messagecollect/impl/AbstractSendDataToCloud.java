@@ -98,9 +98,11 @@ public abstract class AbstractSendDataToCloud implements XMLable {
     }
 
     private <T> void generateThisPageFile(DataList<T> points) {
-        File file = null;
         try {
             JSONArray jsonArray = dealWithSendFunctionContent(points);
+            if (jsonArray == null) {
+                return;
+            }
             //生成json文件
             fileEntityBuilder.generateFile(jsonArray, getFileEntityBuilder().getFolderName());
         } catch (Exception e) {

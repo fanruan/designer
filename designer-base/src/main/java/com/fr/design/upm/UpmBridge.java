@@ -2,6 +2,7 @@ package com.fr.design.upm;
 
 import com.fr.base.passport.FinePassportManager;
 import com.fr.config.MarketConfig;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
 import com.fr.design.bridge.exec.JSBridge;
 import com.fr.design.bridge.exec.JSCallback;
@@ -10,6 +11,7 @@ import com.fr.design.extra.PluginUtils;
 import com.fr.design.extra.exe.GetInstalledPluginsExecutor;
 import com.fr.design.extra.exe.GetPluginCategoriesExecutor;
 import com.fr.design.extra.exe.GetPluginFromStoreExecutor;
+import com.fr.design.extra.exe.GetPluginPrefixExecutor;
 import com.fr.design.extra.exe.PluginLoginExecutor;
 import com.fr.design.extra.exe.ReadUpdateOnlineExecutor;
 import com.fr.design.extra.exe.SearchOnlineExecutor;
@@ -60,12 +62,34 @@ public class UpmBridge {
         this.window = browser.executeJavaScriptAndReturnValue("window").asObject();
     }
 
-    public void startDownload(final JSFunction callback) {
+    /**
+     * 更新插件管理中心资源文件，这个方法仅仅是为了语义上的作用（更新）
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
+    public void update(final JSFunction callback) {
+        callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
+        try {
+            UpmResourceLoader.INSTANCE.download();
+            UpmResourceLoader.INSTANCE.install();
+            callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+            EventDispatcher.fire(DownloadEvent.UPDATE, "success");
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+        }
+    }
 
+    /**
+     * 下载并安装插件管理中心的资源文件
+     * @param callback 安装完成后的回调函数
+     */
+    @JSBridge
+    public void startDownload(final JSFunction callback) {
+        callback.invoke(window, "start", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
         new SwingWorker<Void, Void>(){
             @Override
             protected Void doInBackground() throws Exception {
-                callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Start"));
                 UpmResourceLoader.INSTANCE.download();
                 UpmResourceLoader.INSTANCE.install();
                 return null;
@@ -75,15 +99,24 @@ public class UpmBridge {
             protected void done() {
                 try {
                     get();
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
+                    callback.invoke(window, "success", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Success"));
                     EventDispatcher.fire(DownloadEvent.SUCCESS, "success");
                 } catch (Exception e) {
-                    callback.invoke(window, Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
+                    callback.invoke(window, "error", Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager_Download_Error"));
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     EventDispatcher.fire(DownloadEvent.ERROR, "error");
                 }
             }
         }.execute();
+    }
+
+    /**
+     * 获取upm的版本信息
+     * @return 版本信息
+     */
+    @JSBridge
+    public String getVersion() {
+        return ServerPreferenceConfig.getInstance().getOptimizedUPMVersion();
     }
 
     @JSBridge
@@ -105,6 +138,12 @@ public class UpmBridge {
     @JSBridge
     public void getPackInfo(final JSFunction callback) {
         callback.invoke(window, StringUtils.EMPTY);
+    }
+
+    @JSBridge
+    public void getPluginPrefix(final JSFunction callback) {
+        UpmTaskWorker<Void> task = new UpmTaskWorker<>(new JSCallback(UpmBrowserExecutor.create(window, callback)), new GetPluginPrefixExecutor());
+        task.execute();
     }
 
     /**
@@ -401,6 +440,29 @@ public class UpmBridge {
             Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.reset")));
         } catch (Exception e) {
             FineLoggerFactory.getLogger().info(e.getMessage());
+        }
+    }
+
+    /**
+     * 使用系统浏览器打开网页
+     * @param url 要打开的网页
+     */
+    @JSBridge
+    public void openShopUrlAtWebBrowser(String url) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                //创建一个URI实例,注意不是URL
+                URI uri = URI.create(url);
+                //获取当前系统桌面扩展
+                Desktop desktop = Desktop.getDesktop();
+                //判断系统桌面是否支持要执行的功能
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    //获取系统默认浏览器打开链接
+                    desktop.browse(uri);
+                }
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
         }
     }
 }

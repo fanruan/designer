@@ -1,6 +1,7 @@
 package com.fr.design.utils;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.frpx.util.ImageIOHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogger;
 import com.fr.general.ImageWithSuffix;
@@ -70,7 +71,7 @@ public class ImageUtils {
             return null;
         }
         BufferedImage srcImg = BaseUtils.readImage(imageFile.getPath());
-        Image desImg = srcImg;
+        BufferedImage desImg = srcImg;
         try {
 
             if (canbeCompressedToJPEG(imageFile)) {
@@ -186,11 +187,23 @@ public class ImageUtils {
 
     /**
      * 获取图片类型
+     * 先根据ImageReader获取，ImageReader获取不到就拿后缀
      *
      * @param imageFile 图片文件
      * @return 图片类型(JPEG, PNG, GIF)
      */
     public static String getImageType(File imageFile) {
+        String imageType = getImageTypeByImageReader(imageFile);
+        return StringUtils.EMPTY.equals(imageType) ? ImageIOHelper.getSuffix(imageFile) : imageType;
+    }
+
+    /**
+     * 根据ImageReader获取图片类型
+     *
+     * @param imageFile 图片文件
+     * @return 图片类型(JPEG, PNG, GIF)
+     */
+    public static String getImageTypeByImageReader(File imageFile) {
         try {
             ImageInputStream iis = ImageIO.createImageInputStream(imageFile);
             Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
@@ -226,7 +239,7 @@ public class ImageUtils {
      * @param scale             缩放比例。比例大于1时为放大，小于1大于0为缩小
      * @param opacityCompatible 是否处理背景透明
      */
-    public static Image scale(BufferedImage srcImg, float scale, boolean opacityCompatible) {
+    public static BufferedImage scale(BufferedImage srcImg, float scale, boolean opacityCompatible) {
         if (scale < 0) {
             // 自动修正负数
             scale = -scale;
@@ -234,7 +247,7 @@ public class ImageUtils {
 
         int width = mul(Integer.toString(srcImg.getWidth(null)), Float.toString(scale)).intValue(); // 得到源图宽
         int height = mul(Integer.toString(srcImg.getHeight(null)), Float.toString(scale)).intValue(); // 得到源图长
-        return scale(srcImg, width, height, opacityCompatible);
+        return CoreGraphHelper.toBufferedImage(scale(srcImg, width, height, opacityCompatible));
     }
 
     private static BigDecimal mul(String v1, String v2) {

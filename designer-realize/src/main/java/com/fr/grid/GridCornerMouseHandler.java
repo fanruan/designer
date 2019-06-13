@@ -29,6 +29,8 @@ public class GridCornerMouseHandler extends MouseInputAdapter {
 
 	private void doSelectAll() {
 		ElementCasePane reportPane = this.gridCorner.getElementCasePane();
+		// 全选时,停止编辑状态
+		reportPane.getGrid().stopEditing();
 		ColumnRow lastColumnRow = GridUtils.getAdjustLastColumnRowOfReportPane(reportPane);
 
 		reportPane.setSelection(new CellSelection(0, 0, lastColumnRow.getColumn(), lastColumnRow.getRow()));

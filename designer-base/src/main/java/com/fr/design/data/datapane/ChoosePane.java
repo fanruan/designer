@@ -32,6 +32,7 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
@@ -331,7 +332,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         DBUtils.refreshDatabase();
         String schema = StringUtils.isEmpty(schemaBox.getSelectedItem()) ? null : schemaBox.getSelectedItem();
         DataCoreUtils.refreshTables(getConnection(), TableProcedure.TABLE, schema);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Refresh_Database"),
+        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Database"),
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -343,7 +344,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
                 Object userObj = node.getUserObject();
                 if (userObj instanceof String) {
-                    this.setIcon(BaseUtils.readIcon("com/fr/design/images/m_insert/expandCell.gif"));
+                    this.setIcon(IOUtils.readIcon("com/fr/design/images/m_insert/expandCell.gif"));
                 } else if (userObj instanceof TableProcedure) {
                     this.setText(((TableProcedure) userObj).getName());
                 }
