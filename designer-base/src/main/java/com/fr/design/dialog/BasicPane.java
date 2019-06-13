@@ -40,21 +40,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-
-        dg.setBasicDialogSize(BasicDialog.DEFAULT);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.DEFAULT);
     }
 
     /**
@@ -100,21 +86,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showWindow4ChartType(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-
-        dg.setBasicDialogSize(BasicDialog.CHART);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.CHART);
     }
 
     /**
@@ -125,20 +97,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showSmallWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        dg.setBasicDialogSize(BasicDialog.SMALL);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.SMALL);
     }
 
     /**
@@ -149,20 +108,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showMediumWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        dg.setBasicDialogSize(BasicDialog.MEDIUM);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.MEDIUM);
     }
 
     /**
@@ -173,6 +119,17 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showLargeWindow(Window window, DialogActionListener l) {
+        return showWindowWithCustomSize(window, l, BasicDialog.LARGE);
+    }
+
+    /**
+     * 以自定义的宽高显示窗口
+     * @param window 窗口
+     * @param l       对话框监听器
+     * @param dimension 自定义尺寸
+     * @return 对话框
+     */
+    protected BasicDialog showWindowWithCustomSize(Window window, DialogActionListener l, Dimension dimension) {
         BasicDialog dg;
         if (window instanceof Frame) {
             dg = new DIALOG((Frame) window);
@@ -183,7 +140,7 @@ public abstract class BasicPane extends JPanel {
         if (l != null) {
             dg.addDialogActionListener(l);
         }
-        dg.setBasicDialogSize(BasicDialog.LARGE);
+        dg.setBasicDialogSize(dimension);
         GUICoreUtils.centerWindow(dg);
         dg.setResizable(false);
         return dg;
@@ -350,6 +307,7 @@ public abstract class BasicPane extends JPanel {
             }
         }
 
+        @Override
         public void setVisible(boolean isVisible) {
             this.nameTextField.setVisible(isVisible);
             this.Name.setVisible(isVisible);
@@ -377,6 +335,7 @@ public abstract class BasicPane extends JPanel {
          *
          * @throws Exception 异常
          */
+        @Override
         public void checkValid() throws Exception {
             super.checkValid();
 

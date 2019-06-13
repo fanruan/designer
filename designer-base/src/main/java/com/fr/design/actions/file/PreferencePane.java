@@ -1,13 +1,12 @@
 package com.fr.design.actions.file;
 
-import com.fr.base.BaseUtils;
 import com.fr.config.Configuration;
-import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ibutton.UIButton;
@@ -31,6 +30,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
@@ -79,6 +79,7 @@ public class PreferencePane extends BasicPane {
     private static final int CACHING_DEFAULT = 5;
     private static final int CACHING_GAP = 5;
     private static final int MEMORY_TIP_LABEL_MAX_WIDTH = 230;
+    private static final int OFFSET_HEIGHT = 50;
 
     private static final String TYPE = "pressed";
     private static final String DISPLAY_TYPE = "+";
@@ -133,11 +134,11 @@ public class PreferencePane extends BasicPane {
     private UIComboBox logLevelComboBox, pageLengthComboBox, reportLengthComboBox;
     private UIDictionaryComboBox<Locale> languageComboBox;
     private IntegerEditor portEditor;
-    private UITextField jdkHomeTextField;
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
     private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
+    private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
     private UICheckBox autoPushUpdateCheckBox;
 
@@ -186,16 +187,21 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
-//
+
 //        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
 //        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
 //        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
 //        advancePane.add(debuggerPane);
-
+//
 //        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
 //        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
 //        upmSelectorPane.add(useOptimizedUPMCheckbox);
 //        advancePane.add(upmSelectorPane);
+//
+//        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
+//        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+//        dbmSelectorPane.add(useUniverseDBMCheckbox);
+//        advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -206,10 +212,10 @@ public class PreferencePane extends BasicPane {
             improvePane.add(autoPushUpdateCheckBox);
         }
 
-        JPanel spaceUpPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
-        spaceUpPane.add(oraclePane);
-        spaceUpPane.add(createMemoryPane());
-        spaceUpPane.add(improvePane);
+        JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        spaceUpPane.add(oraclePane, BorderLayout.NORTH);
+        spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
+        spaceUpPane.add(improvePane, BorderLayout.SOUTH);
         advancePane.add(spaceUpPane);
     }
 
@@ -226,8 +232,8 @@ public class PreferencePane extends BasicPane {
         enableVcsPanel.add(vcsEnableCheckBox);
         enableVcsPanel.add(remindVcsLabel);
         JPanel intervalPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
-        UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
-        UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
+        final UILabel everyLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Every"));
+        final UILabel delayLabel = new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Delay"));
         intervalPanel.add(useIntervalCheckBox);
         intervalPanel.add(everyLabel);
         intervalPanel.add(saveIntervalEditor);
@@ -240,10 +246,14 @@ public class PreferencePane extends BasicPane {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
                     useIntervalCheckBox.setEnabled(true);
+                    everyLabel.setEnabled(true);
+                    delayLabel.setEnabled(true);
                 } else {
                     saveCommitCheckBox.setEnabled(false);
                     saveIntervalEditor.setEnabled(false);
                     useIntervalCheckBox.setEnabled(false);
+                    everyLabel.setEnabled(false);
+                    delayLabel.setEnabled(false);
                 }
             }
         });
@@ -383,10 +393,10 @@ public class PreferencePane extends BasicPane {
 
         new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preference_Pagination_Line_Color"));
 
-        gridLineColorTBButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
+        gridLineColorTBButton = new UIColorButton(IOUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
         gridLineColorTBButton.setEnabled(this.isEnabled());
 
-        paginationLineColorTBButton = new UIColorButton(BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
+        paginationLineColorTBButton = new UIColorButton(IOUtils.readIcon("/com/fr/design/images/gui/color/foreground.png"));
         paginationLineColorTBButton.setEnabled(this.isEnabled());
 
         JPanel leftPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
@@ -638,6 +648,8 @@ public class PreferencePane extends BasicPane {
 
 //        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
 //        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+//
+//        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -737,6 +749,7 @@ public class PreferencePane extends BasicPane {
 //            @Override
 //            public void run() {
 //                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+//                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
 //            }
 //
 //            @Override
@@ -776,5 +789,10 @@ public class PreferencePane extends BasicPane {
                 languageChanged = !ComparatorUtils.equals(languageComboBox.getSelectedItem(), DesignerEnvManager.getEnvManager(false).getLanguage());
             }
         });
+    }
+
+    @Override
+    public BasicDialog showWindow(Window window, DialogActionListener l) {
+        return showWindowWithCustomSize(window, l, new Dimension(BasicDialog.DEFAULT.width, this.getPreferredSize().height + OFFSET_HEIGHT));
     }
 }

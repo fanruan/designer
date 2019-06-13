@@ -1,10 +1,10 @@
 package com.fr.design.actions.help;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
@@ -22,11 +22,13 @@ import java.net.URI;
 
 public class TutorialAction extends UpdateAction {
 
+    private static final String URL_FOR_TEST_NETWORK = "https://www.baidu.com";
+
     public TutorialAction() {
         this.setMenuKeySet(HELP_TUTORIAL);
         this.setName(getMenuKeySet().getMenuName());
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/help.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/bbs/help.png"));
         this.setAccelerator(getMenuKeySet().getKeyStroke());
     }
 
@@ -34,9 +36,11 @@ public class TutorialAction extends UpdateAction {
      * 动作
      * @param evt 事件
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
         String helpURL = CloudCenter.getInstance().acquireUrlByKind(createDocKey());
-        if (isServerOnline(helpURL)) {
+        // 用第三方网址去判断是否处在离线状态
+        if (isServerOnline(URL_FOR_TEST_NETWORK)) {
             try {
                 Desktop.getDesktop().browse(new URI(helpURL));
                 return;

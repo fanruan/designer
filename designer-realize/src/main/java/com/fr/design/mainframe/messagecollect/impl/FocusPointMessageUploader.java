@@ -38,6 +38,9 @@ public class FocusPointMessageUploader extends AbstractSendDataToCloud {
 
     @Override
     public <T> JSONArray dealWithSendFunctionContent(DataList<T> focusPoints) {
+        if (focusPoints == null) {
+            return null;
+        }
         JSONArray ja = new JSONArray();
         for(T t:focusPoints.getList()){
             FocusPoint focusPoint = (FocusPoint)t;
