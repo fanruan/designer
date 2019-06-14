@@ -1,6 +1,9 @@
 package com.fr.start.module;
 
+import com.fr.design.i18n.Toolkit;
+import com.fr.event.EventDispatcher;
 import com.fr.module.Activator;
+import com.fr.module.ModuleEvent;
 import com.fr.start.DesignerInitial;
 
 /**
@@ -10,7 +13,8 @@ public class DesignerShowActivator extends Activator {
     
     @Override
     public void start() {
-        
+    
+        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Module_Name_Designer"));
         DesignerInitial.show();
     }
     
