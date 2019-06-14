@@ -55,11 +55,14 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     public void show() {
         collectUserInformation();
         showDesignerFrame(false);
-        DesignerContext.getDesignerFrame().setVisible(true);
+ 
+        //TODO: 2019-06-14  这里有啥作用？
         DesignerContext.getDesignerFrame().refreshEnv();
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
+        DesignerContext.getDesignerFrame().setVisible(true);
+        DesignerContext.getDesignerFrame().resizeFrame();
     }
 
 
