@@ -56,6 +56,8 @@ public class PreStartActivator extends Activator {
         SplashContext.getInstance().registerSplash(createSplash());
         
         SplashContext.getInstance().show();
+        //初始化
+        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
         // 完成初始化
         //noinspection ResultOfMethodCallIgnored
         CloudCenter.getInstance();
