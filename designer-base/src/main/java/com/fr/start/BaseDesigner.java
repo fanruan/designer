@@ -43,8 +43,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init() {
-        //初始化
-        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
         // 初始化Log Handler
@@ -55,11 +53,14 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     public void show() {
         collectUserInformation();
         showDesignerFrame(false);
-        DesignerContext.getDesignerFrame().setVisible(true);
+ 
+        //TODO: 2019-06-14  这里有啥作用？
         DesignerContext.getDesignerFrame().refreshEnv();
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
+        DesignerContext.getDesignerFrame().setVisible(true);
+        DesignerContext.getDesignerFrame().resizeFrame();
     }
 
 

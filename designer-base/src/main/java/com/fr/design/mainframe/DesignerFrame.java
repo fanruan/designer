@@ -308,16 +308,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 }
             }
         });
-        this.addDesignerOpenedListener(new DesignerOpenedListener() {
-
-            @Override
-            public void designerOpened() {
-
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
-                reCalculateFrameSize();
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
-            }
-        });
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setVisible(false);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -326,7 +316,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         initMenuPane();
         this.progressDialog = new ProgressDialog(this);
     }
-
+    
+    public void resizeFrame() {
+        
+        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
+        reCalculateFrameSize();
+        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
+    }
+    
     public void closeAuthorityEditing() {
         DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         WestRegionContainerPane.getInstance().replaceDownPane(
