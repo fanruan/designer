@@ -43,8 +43,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
     
     private void init() {
-        //初始化
-        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
         // 初始化Log Handler
