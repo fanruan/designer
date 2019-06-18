@@ -58,6 +58,11 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         customFieldNamePane = createCustomFieldNamePane();
         List<FurtherBasicBeanPane<? extends T>> list = new ArrayList<FurtherBasicBeanPane<? extends T>>();
         list.add(useFieldValuePane);
+        list.add(paneWrapper());
+        return list;
+    }
+
+    private FurtherBasicBeanPane<? extends T> paneWrapper() {
         FurtherBasicBeanPane pane = new FurtherBasicBeanPane() {
             @Override
             public String title4PopupWindow() {
@@ -82,8 +87,9 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
                 return null;
             }
         };
-        list.add(pane);
-        return list;
+        pane.setLayout(new BorderLayout(0, 6));
+        pane.add(customFieldNamePane, BorderLayout.CENTER);
+        return pane;
     }
 
     protected abstract AbstractUseFieldValuePane createUseFieldValuePane();
