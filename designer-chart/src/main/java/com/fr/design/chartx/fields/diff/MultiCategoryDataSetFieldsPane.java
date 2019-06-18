@@ -4,7 +4,6 @@ import com.fr.chartx.data.field.ColumnField;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.chartx.component.MultiComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
 import java.util.List;
@@ -60,10 +59,5 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
         updateSeriesValuePane(columnFieldCollection);
 
         return columnFieldCollection;
-    }
-
-    @Override
-    protected String title4PopupWindow() {
-        return StringUtils.EMPTY;
     }
 }
