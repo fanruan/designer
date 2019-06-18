@@ -109,7 +109,7 @@ public class FileEntityBuilder {
         String filePath = FOCUS_POINT_FILE_ROOT_PATH + CoreConstants.SEPARATOR + today + CoreConstants.SEPARATOR + keyFileName;
         String bbsUserName = MarketConfig.getInstance().getBbsUsername();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
-        String name = bbsUserName == null ? uuid : bbsUserName;
+        String name = StringUtils.isEmpty(bbsUserName) ? uuid : bbsUserName;
 
         client.uploadFile(file, filePath, name, FILE_FROM);
         addMessageQueue(filePath, bbsUserName, uuid);
