@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created by shine on 2019/4/10.
- * 一列组件<T extends JComponent> 可增可删
+ * 一列组件<T extends JComponent> 可增可删，通过JComponent后面的加减button增删。
  */
 public abstract class AbstractMultiComponentPane<T extends JComponent> extends JPanel {
     private static final int COM_W = 96;
