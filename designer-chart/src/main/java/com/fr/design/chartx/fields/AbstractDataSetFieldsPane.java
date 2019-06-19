@@ -12,6 +12,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.general.GeneralUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -137,6 +138,12 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
         } else {
             field.setDataFunction(null);
         }
+    }
+
+
+    @Override
+    protected String title4PopupWindow() {
+        return StringUtils.EMPTY;
     }
 
 }
