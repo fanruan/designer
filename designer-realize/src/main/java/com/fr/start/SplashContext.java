@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -26,6 +27,7 @@ public class SplashContext {
     public static final String SPLASH_PATH = getSplashPath();
     public static final String SPLASH_CACHE_NAME = SPLASH_PATH.substring(SPLASH_PATH.lastIndexOf("/") + 1);
     private static final int FETCH_ONLINE_MAX_TIMES = 50;
+    private static final String THANKS = Toolkit.i18nText("Fine-Design_Report_Thanks_To");
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
 
@@ -147,7 +149,7 @@ public class SplashContext {
         if (shouldShowThanks()) {
             tryFetchOnline();
             if (StringUtils.isNotEmpty(guest)) {
-                updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thanks_To") + guest);
+                updateThanksLog(THANKS + guest);
             }
         }
     }
