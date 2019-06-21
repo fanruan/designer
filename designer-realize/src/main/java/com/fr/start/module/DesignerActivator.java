@@ -5,6 +5,7 @@ import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
@@ -169,7 +170,7 @@ public class DesignerActivator extends Activator {
     }
 
     private static void preLoadPane() {
-        ExecutorService service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newCachedThreadPool(new NamedThreadFactory("PreLoadPane"));
         service.submit(new Runnable() {
             @Override
             public void run() {

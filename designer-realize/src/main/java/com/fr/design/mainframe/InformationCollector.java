@@ -4,6 +4,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
@@ -196,7 +197,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 
-		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("InformationCollector"));
 		service.schedule(new Runnable() {
 			@Override
 			public void run() {
