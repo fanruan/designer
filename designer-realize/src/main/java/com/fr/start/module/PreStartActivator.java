@@ -1,5 +1,6 @@
 package com.fr.start.module;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.fun.OemProcessor;
@@ -33,10 +34,10 @@ import java.util.concurrent.Executors;
  * Created by juhaoyu on 2018/1/8.
  */
 public class PreStartActivator extends Activator {
-    
+
     @Override
     public void start() {
-        
+
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
         final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
@@ -48,98 +49,98 @@ public class PreStartActivator extends Activator {
             System.exit(0);
             return;
         }
-        
+
         RestartHelper.deleteRecordFilesWhenStart();
-        
+
         preloadResource();
-        
+
         SplashContext.getInstance().registerSplash(createSplash());
-        
+
         SplashContext.getInstance().show();
         //初始化
         EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
         // 完成初始化
         //noinspection ResultOfMethodCallIgnored
         CloudCenter.getInstance();
-        
+
         // 创建监听服务
         DesignUtils.createListeningServer(DesignUtils.getPort(), startFileSuffix());
-        
+
         initLanguage();
     }
-    
+
     @Override
     public void stop() {
-    
+
     }
-    
+
     private void checkDebugStart() {
-        
+
         if (isDebug()) {
             setDebugEnv();
         }
     }
-    
-    
+
+
     /**
      * 在VM options里加入-Ddebug=true激活
      *
      * @return isDebug
      */
     private boolean isDebug() {
-        
+
         return ComparatorUtils.equals("true", System.getProperty("debug"));
     }
-    
-    
+
+
     //端口改一下，环境配置文件改一下。便于启动两个设计器，进行对比调试
     private void setDebugEnv() {
-        
+
         DesignUtils.setPort(DesignerPort.DEBUG_MESSAGE_PORT);
         String debugXMlFilePath = StableUtils.pathJoin(
-            ProductConstants.getEnvHome(),
-            ProductConstants.APP_NAME + "Env_debug.xml"
+                ProductConstants.getEnvHome(),
+                ProductConstants.APP_NAME + "Env_debug.xml"
         );
         DesignerEnvManager.setEnvFile(
-            new File(debugXMlFilePath));
+                new File(debugXMlFilePath));
     }
-    
+
     private void initLanguage() {
         //这两句的位置不能随便调换，因为会影响语言切换的问题
         GeneralContext.setLocale(DesignerEnvManager.getEnvManager(false).getLanguage());
     }
-    
+
     private String[] startFileSuffix() {
-        
+
         return new String[]{".cpt", ".xls", ".xlsx", ".frm", ".form", ".cht", ".chart"};
     }
-    
+
     private static void preloadResource() {
-        
-        ExecutorService service = Executors.newCachedThreadPool();
-        
+
+        ExecutorService service = Executors.newCachedThreadPool(new NamedThreadFactory("PreLoadResource"));
+
         service.submit(new Runnable() {
-            
+
             @Override
             public void run() {
-                
+
                 new ImagePreLoader();
             }
         });
-        
+
         service.submit(new Runnable() {
-            
+
             @Override
             public void run() {
-                
+
                 TemplateInfoCollector.getInstance();
             }
         });
         service.shutdown();
     }
-    
+
     private SplashStrategy createSplash() {
-        
+
         OemProcessor oemProcessor = OemHandler.findOem();
         if (oemProcessor != null) {
             SplashStrategy splashStrategy = null;
