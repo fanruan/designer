@@ -688,7 +688,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return 是否加入产品改良
      */
     public boolean isJoinProductImprove() {
-        return joinProductImprove;
+        return Locale.CHINA.equals(GeneralContext.getLocale()) && this.joinProductImprove;
     }
 
     /**
