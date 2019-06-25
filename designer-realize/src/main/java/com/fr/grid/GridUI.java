@@ -26,6 +26,7 @@ import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.page.WatermarkPainter;
+import com.fr.page.stable.PaperSetting;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.FloatElement;
@@ -48,20 +49,9 @@ import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
 import com.fr.third.antlr.ANTLRException;
 
-import javax.swing.JComponent;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -118,7 +108,7 @@ public class GridUI extends ComponentUI {
     protected ReportSettingsProvider getReportSettings(ElementCase elementCase) {
         if (elementCase instanceof Report) {
             return ReportUtils.getReportSettings((Report) elementCase);
-        } else if(elementCase instanceof FormElementCase){
+        } else if (elementCase instanceof FormElementCase) {
             return ((FormElementCase) elementCase).getReportSettings();
         } else {
             return new ReportSettings();
@@ -141,6 +131,9 @@ public class GridUI extends ComponentUI {
         // richer;聚合报表设计中，最初的ElementCase还没有加到Report中,所以elementCase.getReport()可能为空
         ReportSettingsProvider reportSettings = getReportSettings(elementCase);
         PaperSettingProvider psetting = reportSettings.getPaperSetting();
+        if (psetting == null) {
+            psetting = new PaperSetting();
+        }
         if (grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE) {// paint paper margin line.
             PaperSize paperSize = psetting.getPaperSize();
             Margin margin = psetting.getMargin();
