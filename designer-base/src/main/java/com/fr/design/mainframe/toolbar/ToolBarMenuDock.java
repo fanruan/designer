@@ -58,6 +58,9 @@ import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.locale.LocaleAction;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.impl.SupportLocaleImpl;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
@@ -240,7 +243,7 @@ public abstract class ToolBarMenuDock {
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         //删除之前创建的插件菜单监听
         clearPluginListeners();
-        java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
+        final java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
 
@@ -258,10 +261,13 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
-            // 添加社区菜单
-            addCommunityMenuDef(menuList);
-        }
+        LocaleCenter.buildAction(new LocaleAction() {
+            @Override
+            public void execute() {
+                addCommunityMenuDef(menuList);
+            }
+        }, SupportLocaleImpl.COMMUNITY);
+
 
         // 添加全部UpdateAction到actionmanager中
         addAllUpdateActionsToList(menuList);
@@ -532,7 +538,7 @@ public abstract class ToolBarMenuDock {
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
-        java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new BBSAction());
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
@@ -543,9 +549,12 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
-        if (Locale.TAIWAN.equals(GeneralContext.getLocale())) {
-            shortCuts.add(new FacebookFansAction());
-        }
+        LocaleCenter.buildAction(new LocaleAction() {
+            @Override
+            public void execute() {
+                shortCuts.add(new FacebookFansAction());
+            }
+        }, SupportLocaleImpl.FACEBOOK);
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 
