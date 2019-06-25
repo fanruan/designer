@@ -1,6 +1,5 @@
 package com.fr.start;
 
-import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.locale.impl.SplashMark;
 import com.fr.design.mainframe.bbs.BBSConstants;
