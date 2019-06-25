@@ -1,11 +1,9 @@
 package com.fr.start.module;
 
-import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.fun.OemProcessor;
 import com.fr.design.i18n.Toolkit;
-import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.event.EventDispatcher;
@@ -24,11 +22,8 @@ import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
-import com.fr.start.preload.ImagePreLoader;
 
 import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2018/1/8.
@@ -51,8 +46,6 @@ public class PreStartActivator extends Activator {
         }
 
         RestartHelper.deleteRecordFilesWhenStart();
-
-        preloadResource();
 
         SplashContext.getInstance().registerSplash(createSplash());
 
@@ -113,30 +106,6 @@ public class PreStartActivator extends Activator {
     private String[] startFileSuffix() {
 
         return new String[]{".cpt", ".xls", ".xlsx", ".frm", ".form", ".cht", ".chart"};
-    }
-
-    private static void preloadResource() {
-
-        ExecutorService service = Executors.newCachedThreadPool(new NamedThreadFactory("PreLoadResource"));
-
-        service.submit(new Runnable() {
-
-            @Override
-            public void run() {
-
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-
-            @Override
-            public void run() {
-
-                TemplateInfoCollector.getInstance();
-            }
-        });
-        service.shutdown();
     }
 
     private SplashStrategy createSplash() {

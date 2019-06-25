@@ -116,7 +116,7 @@ public class UpdateActionManager {
         }
         isRegisterIndexSearchTextTask = true;
         // 没有缓存或者缓存失效的时候，等待设计器启动之后开始索引任务
-        EventDispatcher.listen(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE, new Listener<Null>() {
+        EventDispatcher.listen(DesignerLaunchStatus.OPEN_LAST_FILE_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
                 // 使用单线程索引
