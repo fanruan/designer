@@ -225,7 +225,8 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
                 return;
             }
             widgetPropertyPane.update(widget);
-            xCreator.resetCreatorName(currentWidgetName);
+            // 上面一行更新了组件 这里必须重新调用getWidgetName
+            xCreator.resetCreatorName(widget.getWidgetName());
             xCreator.resetVisible(widget.isVisible());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
             return;

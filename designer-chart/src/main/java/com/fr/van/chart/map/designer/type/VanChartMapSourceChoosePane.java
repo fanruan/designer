@@ -2,6 +2,7 @@ package com.fr.van.chart.map.designer.type;
 
 import com.fr.base.Parameter;
 import com.fr.base.Utils;
+import com.fr.decision.webservice.v10.map.WMSFactory;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -19,6 +20,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
+import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.plugin.chart.base.GisLayer;
 import com.fr.plugin.chart.base.ViewCenter;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -26,9 +28,7 @@ import com.fr.plugin.chart.map.designer.type.GEOJSONTreeHelper;
 import com.fr.plugin.chart.map.layer.WMSLayer;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
-import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.plugin.chart.map.server.MapLayerConfigManager;
-import com.fr.plugin.chart.service.WMSFactory;
 import com.fr.plugin.chart.type.GISLayerType;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
@@ -57,6 +57,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mitisky on 16/5/11.
@@ -380,7 +381,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         public void actionPerformed(ActionEvent e) {
 
             new SwingWorker<Void, Double>() {
-                private java.util.List<WMSLayer> list;
+                private java.util.List<WMSLayer> list = new ArrayList<>();
 
                 @Override
                 protected Void doInBackground() throws Exception {
@@ -392,7 +393,11 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
                     }
 
                     String res =  httpClient.getResponseText();
-                    list = WMSFactory.readLayers(res);
+                    List<String> layers = WMSFactory.readLayers(res);
+                    list.clear();
+                    for (String layer : layers) {
+                        list.add(new WMSLayer(layer, false));
+                    }
                     return null;
                 }
 
