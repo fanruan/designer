@@ -18,8 +18,6 @@ public class DesignerStartup extends Activator {
     public void start() {
 
         startSub(PreStartActivator.class);
-        startSub(DesignerInitActivator.class);
-        startSub(DesignerShowActivator.class);
         getSub("parallel").start();
         //designer模块启动好后，查看demo
         browserDemo();
