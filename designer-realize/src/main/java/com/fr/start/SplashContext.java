@@ -1,12 +1,15 @@
 package com.fr.start;
 
 import com.fr.concurrent.NamedThreadFactory;
-import com.fr.design.DesignerEnvManager;
+import com.fr.design.i18n.Toolkit;
+import com.fr.design.locale.impl.SplashMark;
 import com.fr.design.mainframe.bbs.BBSConstants;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
 import com.fr.general.GeneralContext;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.LocaleMark;
 import com.fr.module.ModuleEvent;
 import com.fr.stable.StringUtils;
 
@@ -27,6 +30,7 @@ public class SplashContext {
     public static final String SPLASH_PATH = getSplashPath();
     public static final String SPLASH_CACHE_NAME = SPLASH_PATH.substring(SPLASH_PATH.lastIndexOf("/") + 1);
     private static final int FETCH_ONLINE_MAX_TIMES = 50;
+    private static final String THANKS = Toolkit.i18nText("Fine-Design_Report_Thanks_To");
 
     private static final SplashContext SPLASH_CONTEXT = new SplashContext();
 
@@ -148,7 +152,7 @@ public class SplashContext {
         if (shouldShowThanks()) {
             tryFetchOnline();
             if (StringUtils.isNotEmpty(guest)) {
-                updateThanksLog(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Thanks_To") + guest);
+                updateThanksLog(THANKS + guest);
             }
         }
     }
@@ -167,13 +171,7 @@ public class SplashContext {
     }
 
     private static String getSplashPath() {
-        Locale locale = DesignerEnvManager.getEnvManager().getLanguage();
-        if (Locale.US.equals(locale) || Locale.KOREA.equals(locale) || Locale.TAIWAN.equals(locale)) {
-            return "/com/fr/design/images/splash_10_en.gif";
-        } else if (Locale.JAPAN.equals(locale)) {
-            return "/com/fr/design/images/splash_10_jp.gif";
-        } else {
-            return "/com/fr/design/images/splash_10.gif";
-        }
+        LocaleMark<String> localeMark = LocaleCenter.getMark(SplashMark.class);
+        return localeMark.getValue();
     }
 }
