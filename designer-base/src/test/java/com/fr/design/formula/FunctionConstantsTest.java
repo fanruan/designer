@@ -2,6 +2,7 @@ package com.fr.design.formula;
 
 import com.fr.general.GeneralUtils;
 import com.fr.invoke.Reflect;
+import com.fr.log.FineLoggerFactory;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,10 +10,10 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 /**
  * Created by plough on 2018/12/7.
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertFalse;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GeneralUtils.class)
 public class FunctionConstantsTest {
+
     @Test
     public void testNewInstanceFail() throws Exception {
         try {
@@ -31,7 +33,7 @@ public class FunctionConstantsTest {
     }
 
     @Test
-    public void testEmbedFuntionsAfterStaticInit() {
+    public void testEmbedFunctionsAfterStaticInit() {
         NameAndTypeAndFunctionList[] embFunctionLists = FunctionConstants.EMBFUNCTIONS;
         // 一共有 8 个分类
         assertEquals(8, embFunctionLists.length);
@@ -43,13 +45,17 @@ public class FunctionConstantsTest {
     }
 
     @Test
-    public void testCommonFuntionsAfterStaticInit() {
+    public void testCommonFunctionsAfterStaticInit() {
         NameAndFunctionList commonFunctionList = FunctionConstants.COMMON;
         assertEquals(9, commonFunctionList.getDescriptions().length);
     }
 
     @Test
     public void testIsCustomFormulaPathRunWithCode() {
+        // mock 的 GeneralUtils.readBuildNO()).andReturn("不是安装版本").anyTimes()
+        // 会影响 FunctionConstants.class 静态代码块 loadEmbededFunctions 执行，先加载这个类，执行静态代码块
+        FineLoggerFactory.getLogger().info(String.valueOf(FunctionConstants.EMBFUNCTIONS.length));
+
         PowerMock.mockStatic(GeneralUtils.class);
         EasyMock.expect(GeneralUtils.readBuildNO()).andReturn("不是安装版本").anyTimes();
         PowerMock.replayAll();
@@ -63,6 +69,10 @@ public class FunctionConstantsTest {
 
     @Test
     public void testIsCustomFormulaPathRunWithJar() {
+        // mock 的 GeneralUtils.readBuildNO()).andReturn("不是安装版本").anyTimes()
+        // 会影响 FunctionConstants.class 静态代码块 loadEmbededFunctions 执行，先加载这个类，执行静态代码块
+        FineLoggerFactory.getLogger().info(String.valueOf(FunctionConstants.EMBFUNCTIONS.length));
+
         PowerMock.mockStatic(GeneralUtils.class);
         EasyMock.expect(GeneralUtils.readBuildNO()).andReturn("Build#release-2018.12.10.12.11.09.95").anyTimes();
         PowerMock.replayAll();
