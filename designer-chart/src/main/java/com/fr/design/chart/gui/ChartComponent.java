@@ -9,7 +9,7 @@ import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartglyph.AxisGlyph;
-import com.fr.chartx.attr.XChart;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.chart.gui.active.ActiveGlyph;
 import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -162,7 +162,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         return (this.chartCollection4Design == null) ? 0 : this.chartCollection4Design.getChartCount();
     }
 
-    public XChart getEditingChart() {
+    public ChartProvider getEditingChart() {
         return editingChart;
     }
 

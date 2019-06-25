@@ -5,7 +5,7 @@ import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
-import com.fr.chartx.attr.XChart;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -135,9 +135,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (editingCollection != null) {
                 //点击添加按钮，则会触发切换状态
-                XChart chart = editingCollection.getChangeStateNewChart();
+                ChartProvider chart = editingCollection.getChangeStateNewChart();
                 try {
-                    XChart newChart = (XChart) chart.clone();
+                    ChartProvider newChart = (ChartProvider) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
