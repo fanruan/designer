@@ -6,6 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chart.web.ChartHyperPoplink;
+import com.fr.chartx.attr.XChart;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.hyperlink.AbstractHyperLinkPane;
@@ -66,10 +67,10 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
     private ChartCollection createChartCollection() {
         ChartCollection cc = new ChartCollection();
 
-        Chart chart = ChartTypeManager.getInstanceWithCheck().getFirstChart();
+        XChart chart = ChartTypeManager.getInstanceWithCheck().getFirstChart();
         if (chart != null) {
             try {
-                cc.addChart((Chart) chart.clone());
+                cc.addChart((XChart) chart.clone());
             } catch (CloneNotSupportedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }

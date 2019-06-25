@@ -2,6 +2,7 @@ package com.fr.extended.chart;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.XChart;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 
@@ -65,7 +66,7 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     }
 
     @Override
-    public Chart getDefaultChart() {
+    public XChart getDefaultChart() {
         return ChartTypeManager.getInstance().getChartTypes(getPlotID())[0];
     }
 

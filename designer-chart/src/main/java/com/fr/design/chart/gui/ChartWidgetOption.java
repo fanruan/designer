@@ -1,7 +1,7 @@
 package com.fr.design.chart.gui;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.XChart;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
@@ -38,8 +38,8 @@ public class ChartWidgetOption extends WidgetOption {
 		Class<? extends ChartEditor> clz = widgetClass();
 		try {
 			ChartEditor widget = clz.newInstance();
-			Chart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.chartID)[0];
-			widget.addChart((Chart) chart.clone());
+			XChart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.chartID)[0];
+			widget.addChart((XChart) chart.clone());
 			return widget;
 		} catch (InstantiationException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
