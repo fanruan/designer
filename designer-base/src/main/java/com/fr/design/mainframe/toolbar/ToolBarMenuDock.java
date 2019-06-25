@@ -60,7 +60,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.locale.LocaleAction;
 import com.fr.general.locale.LocaleCenter;
-import com.fr.general.locale.impl.SupportLocaleImpl;
+import com.fr.design.locale.impl.SupportLocaleImpl;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
