@@ -304,7 +304,7 @@ public class ImagePreviewPane extends JComponent implements Scrollable, ImagePre
     @Override
     public void setImage(Image image) {
 
-        setImageWithSuffix(image == null ? null : new ImageWithSuffix(image));
+        setImageWithSuffix(ImageWithSuffix.build(image));
 
     }
 

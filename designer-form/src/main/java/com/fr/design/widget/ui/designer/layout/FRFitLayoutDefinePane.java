@@ -195,7 +195,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                 Component[] components = xWFitLayout.getComponents();
                 xWFitLayout.removeAll();
                 layout.resetStyle();
-                XWAbsoluteBodyLayout xwAbsoluteBodyLayout = new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0));
+                XWAbsoluteBodyLayout xwAbsoluteBodyLayout = xWFitLayout.getBackupParent() == null ? new XWAbsoluteBodyLayout(wAbsoluteBodyLayout, new Dimension(0, 0)) : (XWAbsoluteBodyLayout) xWFitLayout.getBackupParent();
                 xWFitLayout.getLayoutAdapter().addBean(xwAbsoluteBodyLayout, 0, 0);
                 for (Component component : components) {
                     XCreator xCreator = (XCreator) component;
@@ -208,6 +208,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                     }
                     xwAbsoluteBodyLayout.add(component);
                 }
+                xWFitLayout.setBackupParent(xwAbsoluteBodyLayout);
                 FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                 formDesigner.getSelectionModel().setSelectedCreators(
                         FormSelectionUtils.rebuildSelection(xWFitLayout, new Widget[]{wAbsoluteBodyLayout}));
