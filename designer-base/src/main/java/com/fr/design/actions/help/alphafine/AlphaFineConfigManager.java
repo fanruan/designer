@@ -1,19 +1,29 @@
 package com.fr.design.actions.help.alphafine;
 
+import com.fr.general.ComparatorUtils;
 import com.fr.license.function.VT4FR;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
+import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLable;
 import com.fr.stable.xml.XMLableReader;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by XiaXiang on 2017/4/5.
+ * AlphaFine配置类
+ *
+ * @author XiaXiang
+ * @date 2017/4/5
  */
 public class AlphaFineConfigManager implements XMLable {
 
+    private static final long serialVersionUID = -8170289826729582122L;
     private static AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
     /**
      * 是否开启alphafine
@@ -56,12 +66,12 @@ public class AlphaFineConfigManager implements XMLable {
      */
     private boolean containPlugin = true;
     /**
-    * 分词搜索
-    */
+     * 分词搜索
+     */
     private boolean needSegmentationCheckbox = true;
     /**
-    * 智能客服
-    */
+     * 智能客服
+     */
     private boolean needIntelligentCustomerService = true;
     /**
      * 快捷键
@@ -71,24 +81,30 @@ public class AlphaFineConfigManager implements XMLable {
      * 是否提醒
      */
     private boolean needRemind = true;
+
+    private Map<String, String> actionSearchTextCache = new HashMap<>(8);
+
+    private String cacheBuildNO;
     /**
      * 直接操作菜单次数
      */
     private int operateCount;
+
+    private AlphaFineConfigManager() {
+    }
 
     public static AlphaFineConfigManager getInstance() {
         return alphaFineConfigManager;
     }
 
     public static boolean isALPHALicAvailable() {
-    
+
         return VT4FR.AlphaFine.isSupport();
     }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        AlphaFineConfigManager manager = (AlphaFineConfigManager) super.clone();
-        return manager;
+        return super.clone();
     }
 
     @Override
@@ -107,9 +123,33 @@ public class AlphaFineConfigManager implements XMLable {
             this.setShortcuts(reader.getAttrAsString("shortcuts", getDefaultShortCuts()));
             this.setNeedRemind(reader.getAttrAsBoolean("isNeedRemind", true));
             this.setOperateCount(reader.getAttrAsInt("operateCount", 0));
-
+        } else if (reader.isChildNode()) {
+            if (ComparatorUtils.equals(reader.getTagName(), "ActionSearchTextCache")) {
+                readActionSearchTextCacheXML(reader);
+            }
         }
+    }
 
+    /**
+     * 读出搜索缓存
+     */
+    private void readActionSearchTextCacheXML(XMLableReader reader) {
+        reader.readXMLObject(new XMLReadable() {
+            @Override
+            public void readXML(XMLableReader reader) {
+                if (ComparatorUtils.equals(reader.getTagName(), "ActionSearchTextCache")) {
+                    setCacheBuildNO(reader.getAttrAsString("buildNO", ""));
+                } else if (ComparatorUtils.equals(reader.getTagName(), "item")) {
+                    String tmpVal = reader.getElementValue();
+                    if (tmpVal != null) {
+                        actionSearchTextCache.put(reader.getAttrAsString("key", ""), tmpVal);
+                    } else {
+                        actionSearchTextCache.put(reader.getAttrAsString("key", ""), StringUtils.EMPTY);
+                    }
+
+                }
+            }
+        });
     }
 
     @Override
@@ -128,6 +168,18 @@ public class AlphaFineConfigManager implements XMLable {
                 .attr("operateCount", this.getOperateCount())
                 .attr("needSegmentationCheckbox", this.isNeedSegmentationCheckbox())
                 .attr("needIntelligentCustomerService", this.isNeedIntelligentCustomerService());
+        writeActionSearchTextCacheXML(writer);
+        writer.end();
+    }
+
+    /**
+     * 写入搜索缓存
+     */
+    private void writeActionSearchTextCacheXML(XMLPrintWriter writer) {
+        writer.startTAG("ActionSearchTextCache").attr("buildNO", cacheBuildNO);
+        for (Map.Entry<String, String> item : actionSearchTextCache.entrySet()) {
+            writer.startTAG("item").attr("key", item.getKey()).textNode(item.getValue()).end();
+        }
         writer.end();
     }
 
@@ -261,5 +313,26 @@ public class AlphaFineConfigManager implements XMLable {
 
     public void setOperateCount(int operateCount) {
         this.operateCount = operateCount;
+    }
+
+    @NotNull
+    public Map<String, String> getActionSearchTextCache() {
+        return Collections.unmodifiableMap(actionSearchTextCache);
+    }
+
+    public void setActionSearchTextCache(@NotNull String key, @NotNull String value) {
+        this.actionSearchTextCache.put(key, value);
+    }
+
+    @NotNull
+    public String getCacheBuildNO() {
+        if (cacheBuildNO == null) {
+            return StringUtils.EMPTY;
+        }
+        return cacheBuildNO;
+    }
+
+    public void setCacheBuildNO(@NotNull String cacheBuildNO) {
+        this.cacheBuildNO = cacheBuildNO;
     }
 }

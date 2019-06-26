@@ -19,7 +19,12 @@ public enum DesignerLaunchStatus implements Event<Null> {
     /**
      * 设计器模块启动完成
      */
-    DESIGNER_INIT_COMPLETE;
+    DESIGNER_INIT_COMPLETE,
+
+    /**
+     * 启动完成
+     */
+    OPEN_LAST_FILE_COMPLETE;
 
     private static DesignerLaunchStatus status;
 
@@ -29,6 +34,6 @@ public enum DesignerLaunchStatus implements Event<Null> {
 
     public static void setStatus(DesignerLaunchStatus state) {
         status = state;
-        EventDispatcher.fire(DesignerLaunchStatus.getStatus());
+        EventDispatcher.asyncFire(DesignerLaunchStatus.getStatus());
     }
 }

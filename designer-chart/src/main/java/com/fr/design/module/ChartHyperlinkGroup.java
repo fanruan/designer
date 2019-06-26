@@ -19,6 +19,7 @@ import com.fr.js.JavaScript;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Filter;
 import com.fr.stable.bridge.StableFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 图表的超级链接界面. 比一般的HyperlinkGroupPane多了图表的相关超级链接
@@ -33,6 +34,8 @@ public class ChartHyperlinkGroup extends BaseHyperlinkGroup {
      *
      * @return NameableCreator[]
      */
+    @NotNull
+    @Override
     public NameableCreator[] getHyperlinkCreators() {
         FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
 

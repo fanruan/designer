@@ -149,7 +149,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * alphafine
      */
-    private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
+    private AlphaFineConfigManager alphaFineConfigManager = AlphaFineConfigManager.getInstance();
 
     private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
 
@@ -1514,7 +1514,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readAlphaFineAttr(XMLableReader reader) {
-        reader.readXMLObject(this.alphaFineConfigManager = new AlphaFineConfigManager());
+        reader.readXMLObject(this.alphaFineConfigManager = AlphaFineConfigManager.getInstance());
     }
 
     private void readHttpsParas(XMLableReader reader) {

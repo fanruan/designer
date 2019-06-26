@@ -12,11 +12,11 @@ import com.fr.start.ServerStarter;
  */
 @EnableMetrics
 public class DesignerStartup extends Activator {
-    
+
     @Override
     @Metrics
     public void start() {
-        
+
         startSub(PreStartActivator.class);
         getSub("parallel").start();
         //designer模块启动好后，查看demo
@@ -25,17 +25,17 @@ public class DesignerStartup extends Activator {
         startSub(StartFinishActivator.class);
         FineRuntime.startFinish();
     }
-    
+
     private void browserDemo() {
-        
+
         if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
             ServerStarter.browserDemoURL();
         }
     }
-    
-    
+
+
     @Override
     public void stop() {
-    
+
     }
 }
