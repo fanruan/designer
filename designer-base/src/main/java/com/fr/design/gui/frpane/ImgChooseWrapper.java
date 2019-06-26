@@ -7,7 +7,6 @@ import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewer;
 import com.fr.design.utils.ImageUtils;
 import com.fr.general.ImageWithSuffix;
-
 import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StringUtils;
 
@@ -16,6 +15,7 @@ import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 /**
@@ -103,7 +103,7 @@ public class ImgChooseWrapper {
                         if (imageFileChooser.isCheckSelected()) {
                             imageWithSuffix = ImageUtils.defaultImageCompWithSuff(selectedFile);
                         } else {
-                            Image image = BaseUtils.readImage(selectedFile.getPath());
+                            BufferedImage image = BaseUtils.readImage(selectedFile.getPath());
                             String type = ImageUtils.getImageType(selectedFile);
                             imageWithSuffix = new ImageWithSuffix(image, type);
                         }
