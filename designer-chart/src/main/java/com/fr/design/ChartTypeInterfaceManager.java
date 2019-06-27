@@ -5,6 +5,7 @@ import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.IndependentChartUIProvider;
@@ -161,7 +162,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         int index = 0;
         for (ChartInternationalNameContentBean bean : typeName) {
             String plotID = bean.getPlotID();
-            Chart[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
+            ChartProvider[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
             if (ArrayUtils.isEmpty(rowChart) && !ChartTypeManager.innerChart(plotID)) {
                 continue;
             }

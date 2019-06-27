@@ -11,6 +11,7 @@ import com.fr.chart.chartattr.ChartIcon;
 import com.fr.chart.chartattr.MapPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -36,12 +37,13 @@ public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
 
     private ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstanceWithCheck().getAllChartBaseNames();
+    //todo@shinerefactor 这个页面所有强转Chart的地方都要处理一下
     private Chart[][] charts4Icon = null;
 
     {
         charts4Icon = new Chart[this.typeName.length][];
         for (int i = 0; i < this.typeName.length; i++) {
-            Chart[] rowCharts = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.typeName[i].getPlotID());
+            ChartProvider[] rowCharts = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.typeName[i].getPlotID());
             int rowChartsCount = rowCharts.length;
             charts4Icon[i] = new Chart[rowChartsCount];
             for (int j = 0; j < rowChartsCount; j++) {
@@ -145,9 +147,9 @@ public class ChartTypePane extends ChartCommonWizardPane {
         int subIndex = 0;
 
         for (int i = 0; i < typeName.length; i++) {
-            Chart[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(typeName[i].getPlotID());
+            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(typeName[i].getPlotID());
             for (int j = 0; j < charts.length; j++) {
-                if (charts[j].getPlot().match4GUI(plot)) {
+                if (((Chart) charts[j]).getPlot().match4GUI(plot)) {
                     mainIndex = i;
                     subIndex = j;
                     // 一旦匹配 立马中断
@@ -162,7 +164,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
 
     public void update(Chart oldChart) {
         String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
-        Chart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
+        Chart chart = (Chart) ChartTypeManager.getInstanceWithCheck().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
         if(chart.getPlot() != null){
             if(chart.getPlot() instanceof MapPlot && !supportMap()){
                 JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Not_Supported"));
@@ -191,7 +193,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         Chart chart4Update = cc.getSelectedChart();
         if (chart4Update == null) {
             String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
-            Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
+            Chart chart = (Chart) ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
             try{
                 chart4Update = (Chart)chart.clone();
                 cc.addChart(chart4Update);

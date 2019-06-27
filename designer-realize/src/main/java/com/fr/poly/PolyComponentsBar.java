@@ -1,7 +1,7 @@
 package com.fr.poly;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.chart.BaseChart;
+import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGetter;
 import com.fr.base.chart.BaseChartNameID;
 import com.fr.base.vcs.DesignerMode;
@@ -64,9 +64,10 @@ public class PolyComponentsBar extends JToolBar {
         );
         this.add(serIcons[0]);
         for (int i = 0; i < typeLen; i++) {
-            BaseChart[] rowChart = BaseChartGetter.getStaticChartTypes(typeName[i].getPlotID());
-            String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(typeName[i].getPlotID());
-            serIcons[i + 1] = new SerIcon(rowChart[0], InterProviderFactory.getProvider().getLocText(typeName[i].getName()), iconPath);
+            String chartID = typeName[i].getPlotID();
+            String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(chartID);
+            BaseChartCollection chartCollection = BaseChartGetter.getStaticChartCollection(chartID);
+            serIcons[i + 1] = new SerIcon(chartCollection, InterProviderFactory.getProvider().getLocText(typeName[i].getName()), iconPath);
             this.add(serIcons[i + 1]);
         }
 

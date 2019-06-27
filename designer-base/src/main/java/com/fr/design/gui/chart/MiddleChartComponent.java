@@ -1,11 +1,10 @@
 package com.fr.design.gui.chart;
 
-import javax.swing.JComponent;
-
-import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.stable.core.PropertyChangeListener;
+
+import javax.swing.JComponent;
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -18,8 +17,8 @@ public abstract class MiddleChartComponent extends JComponent {
 	public abstract BaseChartCollection update();
 	
 	public abstract void reset();
-	
-    public abstract BaseChart getEditingChart();
-    
-    public abstract void addStopEditingListener(PropertyChangeListener list);
+
+	public abstract ChartProvider getEditingChart();
+
+	public abstract void addStopEditingListener(PropertyChangeListener list);
 }

@@ -1,11 +1,10 @@
 package com.fr.design.chart.gui.active.action;
 
-import com.fr.base.chart.BaseChart;
 import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartglyph.AxisGlyph;
-import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.chart.gui.ChartComponent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,10 +26,6 @@ public abstract class ChartComponentAction extends UpdateAction {
 
     public void repaint() {
         chartComponent.repaint();
-    }
-
-    public BaseChart getEditingChart() {
-        return chartComponent.getEditingChart();
     }
 
     public ChartCollection getChartCollection() {

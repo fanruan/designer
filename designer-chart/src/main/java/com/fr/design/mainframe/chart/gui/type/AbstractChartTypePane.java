@@ -17,6 +17,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartattr.Title;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.BarIndependentChart;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
@@ -616,7 +617,7 @@ public abstract class AbstractChartTypePane extends FurtherBasicBeanPane<Chart>{
         return typePane;
     }
 
-    public Chart getDefaultChart() {
+    public ChartProvider getDefaultChart() {
         return BarIndependentChart.barChartTypes[0];
     }
 }
