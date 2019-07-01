@@ -16,12 +16,10 @@ public class DesignerStartup extends Activator {
     @Override
     @Metrics
     public void start() {
-
         startSub(PreStartActivator.class);
         getSub("parallel").start();
         //designer模块启动好后，查看demo
         browserDemo();
-        startSub(DesignerShowActivator.class);
         startSub(StartFinishActivator.class);
         FineRuntime.startFinish();
     }

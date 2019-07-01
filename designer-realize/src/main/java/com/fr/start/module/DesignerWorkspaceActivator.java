@@ -6,7 +6,6 @@ import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.module.Activator;
 import com.fr.start.server.FineEmbedServer;
-import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
@@ -22,7 +21,6 @@ public class DesignerWorkspaceActivator extends Activator {
     public void start() {
 
         registerEnvListener();
-        startServer(WorkContext.getCurrent());
     }
 
     /**

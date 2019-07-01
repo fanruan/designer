@@ -90,7 +90,6 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;

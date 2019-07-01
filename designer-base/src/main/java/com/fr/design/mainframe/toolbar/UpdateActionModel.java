@@ -32,15 +32,22 @@ public class UpdateActionModel {
      * @param action
      */
     private void setSearchKey(String parentName, UpdateAction action) {
-        StringBuffer buffer = new StringBuffer();
         if (actionName == null) {
             return;
         }
-        buffer.append(parentName).append(SEPARATOR).append(PinyinHelper.convertToPinyinString(parentName, "", PinyinFormat.WITHOUT_TONE))
-                .append(SEPARATOR).append(PinyinHelper.getShortPinyin(parentName)).append(SEPARATOR)
-                .append(actionName).append(SEPARATOR).append(PinyinHelper.convertToPinyinString(actionName, "", PinyinFormat.WITHOUT_TONE))
-                .append(SEPARATOR).append(PinyinHelper.getShortPinyin(actionName)).append(action.getSearchText());
-        this.searchKey = buffer.toString().toLowerCase();
+        String buffer = parentName +
+                SEPARATOR +
+                PinyinHelper.convertToPinyinString(parentName, "", PinyinFormat.WITHOUT_TONE) +
+                SEPARATOR +
+                PinyinHelper.getShortPinyin(parentName) +
+                SEPARATOR +
+                actionName +
+                SEPARATOR +
+                PinyinHelper.convertToPinyinString(actionName, "", PinyinFormat.WITHOUT_TONE) +
+                SEPARATOR +
+                PinyinHelper.getShortPinyin(actionName) +
+                action.getSearchText();
+        this.searchKey = buffer.toLowerCase();
     }
 
     /**

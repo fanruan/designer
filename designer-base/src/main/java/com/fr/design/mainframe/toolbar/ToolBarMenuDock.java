@@ -47,20 +47,20 @@ import com.fr.design.gui.imenu.UIMenu;
 import com.fr.design.gui.imenu.UIMenuBar;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
 import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.locale.impl.SupportLocaleImpl;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
-import com.fr.design.update.actions.SoftwareUpdateAction;
 import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
+import com.fr.design.update.actions.SoftwareUpdateAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.locale.LocaleAction;
 import com.fr.general.locale.LocaleCenter;
-import com.fr.design.locale.impl.SupportLocaleImpl;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
@@ -72,6 +72,7 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
@@ -197,14 +198,30 @@ public abstract class ToolBarMenuDock {
      */
     public final JMenuBar createJMenuBar(ToolBarMenuDockPlus plus) {
         UIMenuBar jMenuBar = new UIMenuBar() {
+            private Dimension dim;
+
             @Override
             public Dimension getPreferredSize() {
-                Dimension dim = super.getPreferredSize();
-                dim.height = MENUBAR_HEIGHT;
+                if (dim == null) {
+                    dim = super.getPreferredSize();
+                    dim.height = MENUBAR_HEIGHT;
+                }
                 return dim;
             }
         };
+        resetJMenuBar(jMenuBar, plus);
+        return jMenuBar;
+    }
 
+
+    /**
+     * 重置菜单栏
+     *
+     * @param jMenuBar 当前菜单栏
+     * @param plus     对象
+     */
+    public final void resetJMenuBar(JMenuBar jMenuBar, ToolBarMenuDockPlus plus) {
+        jMenuBar.removeAll();
         this.menus = menus(plus);
         try {
             OemProcessor oemProcessor = OemHandler.findOem();
@@ -218,13 +235,12 @@ public abstract class ToolBarMenuDock {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             this.menus = menus(plus);
         }
-        for (int i = 0; i < menus.length; i++) {
-            menus[i].setHasRecMenu(true);
-            UIMenu subMenu = menus[i].createJMenu();
+        for (MenuDef menu : menus) {
+            menu.setHasRecMenu(true);
+            UIMenu subMenu = menu.createJMenu();
             jMenuBar.add(subMenu);
-            menus[i].updateMenu();
+            menu.updateMenu();
         }
-        return jMenuBar;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -585,7 +601,7 @@ public abstract class ToolBarMenuDock {
      * @param plus             对象
      * @return 工具栏
      */
-    public JComponent resetToolBar(JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
+    public JComponent resetToolBar(@Nullable JComponent toolbarComponent, ToolBarMenuDockPlus plus) {
         ToolBarDef[] plusToolBarDefs = plus.toolbars4Target();
         UIToolbar toolBar;
         if (toolbarComponent instanceof UIToolbar) {
@@ -599,8 +615,7 @@ public abstract class ToolBarMenuDock {
         toolBarDef = new ToolBarDef();
 
         if (plusToolBarDefs != null) {
-            for (int i = 0; i < plusToolBarDefs.length; i++) {
-                ToolBarDef def = plusToolBarDefs[i];
+            for (ToolBarDef def : plusToolBarDefs) {
                 for (int di = 0, dlen = def.getShortCutCount(); di < dlen; di++) {
                     toolBarDef.addShortCut(def.getShortCut(di));
                 }
