@@ -40,6 +40,12 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
     }
 
     @Override
+    public void refreshBoxListWithSelectTableData(List columnNameList) {
+        super.refreshBoxListWithSelectTableData(columnNameList);
+        multiCategoryPane.setCurrentBoxItems(columnNameList);
+    }
+
+    @Override
     public void populateBean(MultiCategoryColumnFieldCollection multiCategoryColumnFieldCollection) {
         List<ColumnField> categoryList = multiCategoryColumnFieldCollection.getCategoryList();
 
