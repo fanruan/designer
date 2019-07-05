@@ -36,7 +36,7 @@ public class JFileTest extends TestCase {
         Designer designer = new Designer(new String[0]);
     }
 
-    public void testJWorkBook() {
+    public void testJWorkBookSetPicture() {
         WorkBook workBook = new WorkBook();
         WorkSheet workSheet = new WorkSheet();
         workBook.addReport("sheet1", workSheet);
@@ -50,7 +50,7 @@ public class JFileTest extends TestCase {
         Assert.assertEquals(imageWithSuffix, cellElement.getValue());
     }
 
-    public void testJForm() {
+    public void testJFormSetPicture() {
         Form form = new Form();
         ElementCaseEditor editor = new ElementCaseEditor();
         FormElementCase elementCase = new FormElementCase();
