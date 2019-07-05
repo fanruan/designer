@@ -71,4 +71,9 @@ public class StashedFILE extends AbstractFILE {
     public boolean isEnvFile() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return FILEFactory.MEM_PREFIX + getName();
+    }
 }
