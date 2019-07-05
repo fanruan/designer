@@ -78,7 +78,7 @@ public class ImagePane extends BasicPane {
     }
 
     public Image update() {
-        return this.imagePreviewPane.getImage();
+        return this.imagePreviewPane.getImageWithSuffix();
     }
 
     /**
