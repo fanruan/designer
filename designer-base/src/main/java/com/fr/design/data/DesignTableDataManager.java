@@ -41,7 +41,7 @@ import javax.swing.event.ChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -123,6 +123,7 @@ public abstract class DesignTableDataManager {
      * @param dsNameChangedMap 改变名字的数据集
      */
     public static void fireDSChanged(Map<String, String> dsNameChangedMap) {
+        clearGlobalDs();
         if (!dsNameChangedMap.isEmpty()) {
             setDsNameChangedMap(dsNameChangedMap);
         }
@@ -334,15 +335,9 @@ public abstract class DesignTableDataManager {
 
     private static void addStoreProcedureData(java.util.Map<String, TableDataWrapper> resMap) {
         ProcedureConfig procedureConfig = ProcedureConfig.getInstance();
-        String[] namearray = new String[0];
-        @SuppressWarnings("unchecked")
-        java.util.Iterator<String> nameIt = procedureConfig.getProcedures().keySet().iterator();
-        while (nameIt.hasNext()) {
-            namearray = (String[]) ArrayUtils.add(namearray, nameIt.next());
-        }
-        Arrays.sort(namearray, Collator.getInstance(java.util.Locale.CHINA));
-
-        for (String name : namearray) {
+        List<String> names = new ArrayList<>(procedureConfig.getProcedures().keySet());
+        Collections.sort(names, Collator.getInstance(java.util.Locale.CHINA));
+        for (String name : names) {
             StoreProcedure storeProcedure = procedureConfig.getProcedure(name);
             if (globalDsCache.containsKey(name)) {
                 resMap.put(name, globalDsCache.get(name));

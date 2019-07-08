@@ -8,11 +8,14 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.DescriptionTextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.locale.impl.UserInfoMark;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.LocaleMark;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -30,11 +33,6 @@ import java.util.Locale;
 public class CollectUserInformationDialog extends UIDialog {
 
     private static final int ONLINE_VERIFY_TIMEOUT = 30 * 1000;
-
-    private static final String CN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.cn");
-    private static final String EN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.en");
-    private static final String TW_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.tw");
-    private static final String JP_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.jp");
 
     private UITextField keyTextField;
 
@@ -129,19 +127,9 @@ public class CollectUserInformationDialog extends UIDialog {
 
 
     private void getKeyAction() {
-        Locale locale = GeneralContext.getLocale();
-        String url = EN_LOGIN_HTML;
-        if (ComparatorUtils.equals(locale, Locale.TAIWAN)) {
-            url = TW_LOGIN_HTML;
-        }
-        if (ComparatorUtils.equals(locale, Locale.CHINA)) {
-            url = CN_LOGIN_HTML;
-        }
-        if (ComparatorUtils.equals(locale, Locale.JAPAN)) {
-            url = JP_LOGIN_HTML;
-        }
+        LocaleMark<String> localeMark = LocaleCenter.getMark(UserInfoMark.class);
         try {
-            Desktop.getDesktop().browse(new URI(url));
+            Desktop.getDesktop().browse(new URI(localeMark.getValue()));
         } catch (Exception ignored) {
 
         }
