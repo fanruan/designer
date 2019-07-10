@@ -36,6 +36,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
     private static final String XML_FILE_NAME = "tpl.info";
     private static TemplateInfoCollector instance;
+    private static final int MAX_SIZE = 512 * 1024 * 1024;
     private Map<String, TemplateInfo> templateInfoMap;
     private DesignerOpenHistory designerOpenHistory;
 
@@ -167,7 +168,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     }
 
     private boolean shouldCollectInfo() {
-        return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
+        return FileUtils.sizeOf(getInfoFile()) <= MAX_SIZE && DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
     /**

@@ -961,7 +961,6 @@ public class Grid extends BaseGridComponent {
             if (!ComparatorUtils.equals_exactly(oldValue, newValue)) {
                 if (newValue instanceof CellImage) {
                     CellImage cellImage = (CellImage) newValue;
-                    newValue = cellImage.getImage();
                     JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                     currentEditingTemplate.setPictureElem(selectedFloatElement, cellImage);
 
