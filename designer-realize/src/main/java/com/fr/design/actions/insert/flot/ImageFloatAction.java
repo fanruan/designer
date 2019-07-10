@@ -87,7 +87,7 @@ public class ImageFloatAction extends ElementCaseAction {
 
                 if (selectedFile != null && selectedFile.isFile()) {
                     CellImage cellImage = selectImagePane.update();
-                    Image image = cellImage.getImage();
+                    Image image = cellImage.getBufferImage();
                     JTemplate<?, ?> currentEditingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
                     currentEditingTemplate.setPictureElem(floatElement, cellImage);
 

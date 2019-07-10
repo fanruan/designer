@@ -279,7 +279,12 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 		addSubmitConditionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final DSColumnLiteConditionPane conditionPane = new DSColumnLiteConditionPane();
+				final DSColumnLiteConditionPane conditionPane = new DSColumnLiteConditionPane() {
+					@Override
+					protected boolean isNeedDoWithCondition(Condition liteCondition) {
+						return liteCondition != null;
+					}
+				};
 				String[] columns = chooseTable.currentColumnNames();
 				if (columns != null && columns.length > 0) {
 					conditionPane.populateColumns(chooseTable.currentColumnNames());
