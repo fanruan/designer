@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * Time: 下午2:50
  * To change this template use File | Settings | File Templates.
  */
-public class FunnelPlotPane extends AbstractChartTypePane{
+public class FunnelPlotPane extends AbstractDeprecatedChartTypePane {
 
     private static final int FUNNEL_CHART = 0;
 

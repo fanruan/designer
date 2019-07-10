@@ -16,7 +16,7 @@ import com.fr.log.FineLoggerFactory;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
-public class MapPlotPane extends AbstractChartTypePane {
+public class MapPlotPane extends AbstractDeprecatedChartTypePane {
 
 
 	private boolean isSvgMap = true; // 默认是svg地图
