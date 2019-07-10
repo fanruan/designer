@@ -1,16 +1,16 @@
 package com.fr.design.actions.community;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.locale.impl.VideoMark;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.utils.BrowseUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.LocaleMark;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.Locale;
+
 
 public class VideoAction extends UpdateAction
 {
@@ -27,14 +27,8 @@ public class VideoAction extends UpdateAction
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		String url;
-		if (GeneralContext.getLocale().equals(Locale.US)) {
-			url = CloudCenter.getInstance().acquireUrlByKind("bbs.video.en");
-		} else {
-			url = CloudCenter.getInstance().acquireUrlByKind("bbs.video");
-		}
-		BrowseUtils.browser(url);
-
+		LocaleMark<String> localeMark = LocaleCenter.getMark(VideoMark.class);
+		BrowseUtils.browser(localeMark.getValue());
 	}
 	  public static final MenuKeySet VIDEO = new MenuKeySet() {
 	        @Override
