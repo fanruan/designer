@@ -17,7 +17,7 @@ import com.fr.locale.InterProviderFactory;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午06:57:36
  */
-public class AreaPlotPane extends AbstractChartTypePane{
+public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 
 	private static final int STACK_AREA_CHART = 0;
 	private static final int PERCENT_AREA_LINE_CHART = 1;

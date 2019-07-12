@@ -1,6 +1,5 @@
 package com.fr.design.chart.series.SeriesCondition.impl;
 
-import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
@@ -92,7 +91,7 @@ public class ChartHyperPoplinkPane extends AbstractHyperLinkPane<ChartHyperPopli
             this.itemNameTextField.setText(chartHyperlink.getItemName());
         }
 
-        BaseChartCollection cc = chartHyperlink.getChartCollection();
+        ChartCollection cc = (ChartCollection) chartHyperlink.getChartCollection();
         if (cc == null || cc.getChartCount() < 1) {
             cc = createChartCollection();
             chartHyperlink.setChartCollection(cc);

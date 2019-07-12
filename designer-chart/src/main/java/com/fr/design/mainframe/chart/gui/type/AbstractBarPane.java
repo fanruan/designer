@@ -9,9 +9,9 @@ import com.fr.chart.chartattr.Chart;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-25 下午04:55:05
  */
-public abstract class AbstractBarPane extends AbstractChartTypePane {
-	
-	protected static final int COLOMN_CHART = 0;
+public abstract class AbstractBarPane extends AbstractDeprecatedChartTypePane {
+
+    protected static final int COLOMN_CHART = 0;
 	protected static final int STACK_COLOMN_CHART = 1;
 	protected static final int PERCENT_STACK_COLOMN_CHART = 2;
 	protected static final int THREE_D_COLOMN_CHART = 3;

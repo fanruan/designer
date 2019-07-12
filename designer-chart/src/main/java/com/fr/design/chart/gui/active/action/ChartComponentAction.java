@@ -1,6 +1,5 @@
 package com.fr.design.chart.gui.active.action;
 
-import com.fr.chart.chartattr.Axis;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartglyph.AxisGlyph;
 import com.fr.design.actions.UpdateAction;
@@ -30,10 +29,6 @@ public abstract class ChartComponentAction extends UpdateAction {
 
     public ChartCollection getChartCollection() {
         return chartComponent.getChartCollection();
-    }
-
-    public Axis getActiveAxis() {
-        return chartComponent.getActiveAxis();
     }
 
     public AxisGlyph getActiveAxisGlyph() {

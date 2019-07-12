@@ -2,7 +2,6 @@ package com.fr.design;
 
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.base.ChartInternationalNameContentBean;
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
@@ -161,7 +160,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         ChartWidgetOption[] child = new ChartWidgetOption[typeName.length];
         int index = 0;
         for (ChartInternationalNameContentBean bean : typeName) {
-            String plotID = bean.getPlotID();
+            String plotID = bean.getChartID();
             ChartProvider[] rowChart = ChartTypeManager.getInstance().getChartTypes(plotID);
             if (ArrayUtils.isEmpty(rowChart) && !ChartTypeManager.innerChart(plotID)) {
                 continue;
@@ -254,7 +253,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
      *
      * @param paneList pane容器
      */
-    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends Chart>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane) {
+    public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends ChartProvider>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends ChartProvider>>> allChartTypePane) {
         
         List<Integer> priorityList = getPriorityInOrder();
         for (Integer aPriorityList : priorityList) {
@@ -264,7 +263,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     }
 
 
-    public void addPlotTypePaneList(String priority, List<FurtherBasicBeanPane<? extends Chart>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane) {
+    public void addPlotTypePaneList(String priority, List<FurtherBasicBeanPane<? extends ChartProvider>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends ChartProvider>>> allChartTypePane) {
 
         if (chartTypeInterfaces != null && chartTypeInterfaces.containsKey(priority)) {
 
@@ -283,7 +282,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 paneList.add(pane);
 
                 if (allChartTypePane.get(priority) == null) {
-                    allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends Chart>>());
+                    allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends ChartProvider>>());
                 }
                 allChartTypePane.get(priority).put(plotID, pane);
             }
@@ -450,9 +449,10 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         return true;
     }
 
-    public boolean needChartChangePane(Chart chart) {
-        if (chart != null && chart.getPlot() != null) {
-            IndependentChartUIProvider provider = getChartTypeInterface(chart.getPlot().getPlotID());
+    public boolean needChartChangePane(ChartProvider chart) {
+        if (chart != null) {
+            String chartID = chart.getID();
+            IndependentChartUIProvider provider = getChartTypeInterface(chartID);
             if (provider != null) {
                 return provider.needChartChangePane();
             }

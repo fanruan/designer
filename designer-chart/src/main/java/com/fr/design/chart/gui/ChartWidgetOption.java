@@ -1,7 +1,6 @@
 package com.fr.design.chart.gui;
 
-import com.fr.chart.charttypes.ChartTypeManager;
-import com.fr.chartx.attr.ChartProvider;
+import com.fr.base.chart.BaseChartGetter;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
@@ -38,14 +37,11 @@ public class ChartWidgetOption extends WidgetOption {
 		Class<? extends ChartEditor> clz = widgetClass();
 		try {
 			ChartEditor widget = clz.newInstance();
-			ChartProvider chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.chartID)[0];
-			widget.addChart((ChartProvider) chart.clone());
+			widget.setChartCollection(BaseChartGetter.createChartCollection(this.chartID));
 			return widget;
 		} catch (InstantiationException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		} catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 

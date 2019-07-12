@@ -11,8 +11,8 @@ import com.fr.locale.InterProviderFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-26 上午10:52:36
  */
-public class StockPlotPane extends AbstractChartTypePane {
-	
+public class StockPlotPane extends AbstractDeprecatedChartTypePane {
+
 	private static final int STOCK = 0;
 
 
