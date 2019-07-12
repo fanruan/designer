@@ -3,8 +3,12 @@ package com.fr.start.module;
 import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
+import com.fr.base.passport.FinePassportListenerAdapter;
+import com.fr.base.passport.FinePassportManager;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.config.MarketConfig;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
@@ -129,6 +133,7 @@ public class DesignerActivator extends Activator {
         loadLogAppender();
         DesignerSocketIO.update();
         UserInfoPane.getInstance().updateBBSUserInfo();
+        storePassport();
     }
 
     private void loadLogAppender() {
@@ -390,6 +395,16 @@ public class DesignerActivator extends Activator {
         StableFactory.registerMarkedClass(BaseJForm.XML_TAG, JForm.class);
 
         StableFactory.registerMarkedObject(ElementCaseThumbnailProcessor.MARK_STRING, new ElementCaseThumbnail());
+    }
+
+    private static void storePassport() {
+        FinePassportManager.getInstance().storePassport(MarketConfig.getInstance().getBbsUsername(), DesignerEnvManager.getEnvManager().getActivationKey());
+        FinePassportManager.getInstance().addPassportListener(new FinePassportListenerAdapter() {
+            @Override
+            public void onLoginSuccess() {
+                FinePassportManager.getInstance().storePassport(MarketConfig.getInstance().getBbsUsername(), DesignerEnvManager.getEnvManager().getActivationKey());
+            }
+        });
     }
 
     @Override
