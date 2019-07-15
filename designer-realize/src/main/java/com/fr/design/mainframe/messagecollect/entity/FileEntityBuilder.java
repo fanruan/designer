@@ -2,12 +2,9 @@ package com.fr.design.mainframe.messagecollect.entity;
 
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
-import com.fr.general.CloudCenter;
 import com.fr.general.CloudClient;
 import com.fr.general.IOUtils;
-import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
-import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.CoreConstants;
@@ -22,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -32,11 +28,7 @@ import java.util.UUID;
 public class FileEntityBuilder {
 
     private static final String FOCUS_POINT_FILE_ROOT_PATH = "FocusPoint";
-    private static final String FOCUS_POINT_FILE_UPLOAD_TOPIC = "__fine_intelli_file_upload__";
     private static final String FILE_FROM = "design";
-    private static final String FOCUS_POINT_FILE_UPLOAD_TYPE = "FocusPoint";
-    private static final String FOCUS_POINT_FILE_UPLOAD_URL = CloudCenter.getInstance().acquireUrlByKind("design.feedback");
-    private static final String FOCUS_POINT_URL_KEY = "focuspoint";
 
     /**
      * 文件夹路径
@@ -109,29 +101,8 @@ public class FileEntityBuilder {
         String filePath = FOCUS_POINT_FILE_ROOT_PATH + CoreConstants.SEPARATOR + today + CoreConstants.SEPARATOR + keyFileName;
         String bbsUserName = MarketConfig.getInstance().getBbsUsername();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
-        String name = bbsUserName == null ? uuid : bbsUserName;
+        String name = StringUtils.isEmpty(bbsUserName) ? uuid : bbsUserName;
 
-        client.uploadFile(file, filePath, name, FILE_FROM);
-        addMessageQueue(filePath, bbsUserName, uuid);
-    }
-
-    private static void addMessageQueue(String filePath, String userName, String uuid) {
-        JSONObject uploadInfo = new JSONObject(FOCUS_POINT_FILE_UPLOAD_URL);
-        String focusPointUrl = uploadInfo.optString(FOCUS_POINT_URL_KEY);
-        try {
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("topic", FOCUS_POINT_FILE_UPLOAD_TOPIC);
-            params.put("username", URLEncoder.encode(userName, EncodeConstants.ENCODING_UTF_8));
-            params.put("uuid", uuid);
-            params.put("filepath", filePath);
-            params.put("timestamp", String.valueOf(System.currentTimeMillis()));
-            params.put("signature", String.valueOf(CommonUtils.signature()));
-            params.put("type", FOCUS_POINT_FILE_UPLOAD_TYPE);
-            if(StringUtils.isNotEmpty(focusPointUrl)){
-                HttpToolbox.post(focusPointUrl, params);
-            }
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
+        client.uploadFile(file, filePath, URLEncoder.encode(name, EncodeConstants.ENCODING_UTF_8), FILE_FROM);
     }
 }
