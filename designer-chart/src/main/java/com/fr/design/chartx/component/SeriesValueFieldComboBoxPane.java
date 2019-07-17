@@ -79,8 +79,8 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
             List<Object[]> list = new ArrayList<Object[]>();
             for (SeriesValueField seriesValueField : seriesValueCorrelationDefinition.getSeriesValueFieldList()) {
                 Object[] array = new Object[]{
-                        seriesValueField.getSeries().getFieldName(),
                         seriesValueField.getValue().getFieldName(),
+                        seriesValueField.getSeries().getFieldName(),
                         DataPaneHelper.getFunctionString(seriesValueField.getValue().getDataFunction())
                 };
                 list.add(array);
@@ -92,8 +92,8 @@ public class SeriesValueFieldComboBoxPane extends AbstractCustomFieldComboBoxPan
         protected void setTableModelListToTBean(List<Object[]> tableValues, SeriesValueCorrelationDefinition seriesValueCorrelationDefinition) {
             List<SeriesValueField> seriesValueFields = new ArrayList<SeriesValueField>();
             for (Object[] line : tableValues) {
-                ColumnField series = new ColumnField(GeneralUtils.objectToString(line[0]));
-                ColumnField value = new ColumnField(GeneralUtils.objectToString(line[1]));
+                ColumnField value = new ColumnField(GeneralUtils.objectToString(line[0]));
+                ColumnField series = new ColumnField(GeneralUtils.objectToString(line[1]));
                 value.setDataFunction(DataPaneHelper.getFunctionByName(GeneralUtils.objectToString(line[2])));
                 SeriesValueField seriesValueField = new SeriesValueField();
                 seriesValueField.setValue(value);
