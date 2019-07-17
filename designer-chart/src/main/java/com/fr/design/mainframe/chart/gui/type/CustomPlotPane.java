@@ -11,7 +11,7 @@ import com.fr.locale.InterProviderFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-21 下午06:17:40
  */
-public class CustomPlotPane extends AbstractChartTypePane {
+public class CustomPlotPane extends AbstractDeprecatedChartTypePane {
 
 	@Override
 	protected String getPlotTypeID() {

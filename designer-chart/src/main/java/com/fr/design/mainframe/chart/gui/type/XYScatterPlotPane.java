@@ -14,7 +14,7 @@ import com.fr.stable.Constants;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午08:33:55
  */
-public class XYScatterPlotPane extends AbstractChartTypePane{
+public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
 	private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int XYSCATTER_CHART = 0;

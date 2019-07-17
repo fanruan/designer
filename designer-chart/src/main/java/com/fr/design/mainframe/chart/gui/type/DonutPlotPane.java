@@ -22,10 +22,10 @@ import java.text.DecimalFormat;
  * @author eason
  *
  */
-public class DonutPlotPane extends AbstractChartTypePane{
-	private static final long serialVersionUID = -7084314809934346710L;
-	private static final int DONUT_CHART = 0; //2d圆环图
-	private static final int THREE_D_DONUT_CHART = 1; //3D圆环图
+public class DonutPlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -7084314809934346710L;
+    private static final int DONUT_CHART = 0; //2d圆环图
+    private static final int THREE_D_DONUT_CHART = 1; //3D圆环图
 
     @Override
     protected String[] getTypeIconPath() {

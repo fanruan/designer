@@ -64,9 +64,9 @@ public class PolyComponentsBar extends JToolBar {
         );
         this.add(serIcons[0]);
         for (int i = 0; i < typeLen; i++) {
-            String chartID = typeName[i].getPlotID();
+            String chartID = typeName[i].getChartID();
             String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(chartID);
-            BaseChartCollection chartCollection = BaseChartGetter.getStaticChartCollection(chartID);
+            BaseChartCollection chartCollection = BaseChartGetter.createChartCollection(chartID);
             serIcons[i + 1] = new SerIcon(chartCollection, InterProviderFactory.getProvider().getLocText(typeName[i].getName()), iconPath);
             this.add(serIcons[i + 1]);
         }

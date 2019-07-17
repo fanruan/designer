@@ -13,8 +13,8 @@ import com.fr.locale.InterProviderFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-25 下午06:56:47
  */
-public class BubblePlotPane extends AbstractChartTypePane {
-	private static final long serialVersionUID = -601566194238908115L;
+public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int BUBBLE_CHART = 0;
 
