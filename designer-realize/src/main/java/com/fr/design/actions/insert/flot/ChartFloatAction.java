@@ -15,10 +15,9 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
+import com.fr.log.FineLoggerFactory;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -27,8 +26,8 @@ import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.OLDPIX;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.KeyStroke;
+import java.awt.Color;
 
 /**
  * 图表插入悬浮元素的操作.
@@ -80,7 +79,6 @@ public class ChartFloatAction extends ElementCaseAction {
         reportPane.stopEditing();
 
         final BaseChartCollection cc = (BaseChartCollection) StableFactory.createXmlObject(BaseChartCollection.XML_TAG);
-        cc.removeAllNameObject();
         final MiddleChartDialog chartDialog = DesignModuleFactory.getChartDialog(DesignerContext.getDesignerFrame());
         chartDialog.populate(cc);
         chartDialog.addDialogActionListener(new DialogActionAdapter() {
