@@ -6,7 +6,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.map.designer.type.GEOJSONTreeHelper;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
-import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JTree;
@@ -98,7 +97,8 @@ public class MapDataTree extends JTree {
             }
             String dirPath = el.getUserObject().toString();
             String url =  CompatibleGEOJSONHelper.getJsonUrlByPathIncludeParam(dirPath);
-            if (GEOJSONHelper.getInstance().isValidDirPath(dirPath) && ComparatorUtils.equals(jsonUrl, url)){
+            //先equals再valid原因：valid 远程下实时去服务器看有没有json文件
+            if (ComparatorUtils.equals(jsonUrl, url) && GEOJSONTreeHelper.isValidDirPath(dirPath)) {
                 selectTreeNode(el, m_model);
                 return el;
             }
@@ -151,7 +151,7 @@ public class MapDataTree extends JTree {
             DefaultMutableTreeNode el = els.nextElement();
             String path =  el.getUserObject().toString();
             String fileName = ChartGEOJSONHelper.getPresentNameWithPath(path);
-            if (GEOJSONHelper.getInstance().isValidDirPath(path) && StringUtils.contains(fileName, text)) {
+            if (StringUtils.contains(fileName, text) && GEOJSONTreeHelper.isValidDirPath(path)) {
                 selectTreeNode(el, m_model);
                 return;
             }

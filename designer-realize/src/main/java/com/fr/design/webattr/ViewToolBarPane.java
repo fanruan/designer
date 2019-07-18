@@ -52,9 +52,10 @@ public class ViewToolBarPane extends AbstractEditToolBarPane {
 				editToolBarButton.setEnabled(isUseToolBarCheckBox.isSelected());
 			}
 		});
-		sortCheckBox.setSelected(true);
-		conditonFilterBox.setSelected(true);
-		listFilterBox.setSelected(true);
+		// 切换BI工程目录 webView未设置 默认false
+		sortCheckBox.setSelected(false);
+		conditonFilterBox.setSelected(false);
+		listFilterBox.setSelected(false);
         northPane.add(GUICoreUtils.createFlowPane(new Component[]{sortCheckBox, conditonFilterBox, listFilterBox}, FlowLayout.LEFT, 6));
 		northPane.add(GUICoreUtils.createFlowPane(new Component[] {isUseToolBarCheckBox, editToolBarButton}, FlowLayout.LEFT));
         northPane.add(GUICoreUtils.createFlowPane(showListenersLabel, FlowLayout.LEFT));
