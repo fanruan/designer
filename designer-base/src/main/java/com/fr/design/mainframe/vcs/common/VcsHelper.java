@@ -19,6 +19,7 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
+import com.fr.workspace.server.vcs.filesystem.VcsFileSystem;
 
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
@@ -45,8 +46,6 @@ public class VcsHelper implements JTemplateActionListener {
     public final static Icon VCS_USER_PNG = IOUtils.readIcon("/com/fr/design/images/vcs/icon_user@1x.png");
     public final static Icon VCS_REVERT = IOUtils.readIcon("/com/fr/design/images/vcs/icon_revert.png");
     public final static int OFFSET = 2;
-    private final static String VCS_DIR = "vcs";
-    public final static String VCS_CACHE_DIR = pathJoin(VCS_DIR, "cache");
     private static final int MINUTE = 60 * 1000;
     private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
     private static final VcsHelper instance = new VcsHelper();
@@ -89,12 +88,13 @@ public class VcsHelper implements JTemplateActionListener {
     }
 
     private String getEditingFilename() {
+        String vcsCacheDir = VcsFileSystem.getInstance().getVcsCacheRelativePath();
         JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String editingFilePath = jt.getEditingFILE().getPath();
         if (editingFilePath.startsWith(ProjectConstants.REPORTLETS_NAME)) {
             editingFilePath = editingFilePath.replaceFirst(ProjectConstants.REPORTLETS_NAME, StringUtils.EMPTY);
-        } else if (editingFilePath.startsWith(VcsHelper.VCS_CACHE_DIR)) {
-            editingFilePath = editingFilePath.replaceFirst(VcsHelper.VCS_CACHE_DIR, StringUtils.EMPTY);
+        } else if (editingFilePath.startsWith(vcsCacheDir)) {
+            editingFilePath = editingFilePath.replaceFirst(vcsCacheDir, StringUtils.EMPTY);
         }
         if (editingFilePath.startsWith("/")) {
             editingFilePath = editingFilePath.substring(1);
