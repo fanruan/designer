@@ -2,14 +2,12 @@ package com.fr.van.chart.multilayer;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.MultiPieChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.van.chart.multilayer.data.MultiPiePlotReportDataContentPane;
-import com.fr.van.chart.multilayer.data.MultiPiePlotTableDataContentPane;
 import com.fr.van.chart.multilayer.other.VanChartMultiPieConditionPane;
 import com.fr.van.chart.multilayer.style.VanChartMultiPieSeriesPane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
@@ -29,13 +27,8 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
     }
 
     @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
-        return new MultiPiePlotTableDataContentPane(parent);
-    }
-
-    @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
-        return new MultiPiePlotReportDataContentPane(parent);
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new MultiPieChartDataPane(listener);
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
