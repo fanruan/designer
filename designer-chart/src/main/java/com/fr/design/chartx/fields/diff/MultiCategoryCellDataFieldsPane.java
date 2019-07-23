@@ -1,9 +1,12 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.ColumnField;
+import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
+import com.fr.design.chartx.component.AbstractSingleFilterPane;
 import com.fr.design.chartx.component.MultiTinyFormulaPane;
 import com.fr.design.formula.TinyFormulaPane;
+import com.fr.van.chart.map.designer.VanChartGroupPane;
 
 import javax.swing.JPanel;
 import java.util.List;
@@ -14,6 +17,9 @@ import java.util.List;
 public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
     private MultiTinyFormulaPane multiCategoryPane;
+
+    private AbstractSingleFilterPane seriesFilterPane;
+    private AbstractSingleFilterPane categoryFilterPane;
 
     private void createMultiFormulaPane() {
         if (multiCategoryPane == null) {
@@ -27,6 +33,28 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
         createMultiFormulaPane();
 
         return multiCategoryPane;
+    }
+
+    @Override
+    protected JPanel createSouthPane() {
+        if (seriesFilterPane == null) {
+            seriesFilterPane = new AbstractSingleFilterPane() {
+                @Override
+                public String title4PopupWindow() {
+                    //todo@shinerefactor
+                    return "series";
+                }
+            };
+            categoryFilterPane = new AbstractSingleFilterPane() {
+                @Override
+                public String title4PopupWindow() {
+                    return "category";
+                }
+            };
+        }
+        return new VanChartGroupPane(new String[]{seriesFilterPane.title4PopupWindow(), categoryFilterPane.title4PopupWindow()}
+                , new JPanel[]{seriesFilterPane, categoryFilterPane}) {
+        };
     }
 
     @Override
@@ -51,6 +79,16 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
         multiCategoryPane.populate(categoryList);
 
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
+
+        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = multiCategoryColumnFieldCollection.getSeriesValueCorrelationDefinition();
+        if (seriesValueCorrelationDefinition != null) {
+            seriesFilterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
+
+        }
+
+        if (categoryList != null && !categoryList.isEmpty()) {
+            categoryFilterPane.populateBean(categoryList.get(0).getFilterProperties());
+        }
     }
 
     @Override
@@ -62,6 +100,15 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
         multiCategoryPane.update(categoryList);
 
         updateSeriesValuePane(fieldCollection);
+
+        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = fieldCollection.getSeriesValueCorrelationDefinition();
+        if (seriesValueCorrelationDefinition != null) {
+            seriesValueCorrelationDefinition.setFilterProperties(seriesFilterPane.updateBean());
+        }
+
+        if (categoryList != null && !categoryList.isEmpty()) {
+            categoryList.get(0).setFilterProperties(categoryFilterPane.updateBean());
+        }
 
         return fieldCollection;
     }
