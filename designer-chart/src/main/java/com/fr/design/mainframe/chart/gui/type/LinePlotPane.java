@@ -9,7 +9,7 @@ import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
-public class LinePlotPane extends AbstractChartTypePane{
+public class LinePlotPane extends AbstractDeprecatedChartTypePane {
 
 	private static final int LINE_CHART = 0;
 

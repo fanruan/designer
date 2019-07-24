@@ -16,9 +16,9 @@ import com.fr.log.FineLoggerFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-26 上午10:48:57
  */
-public class MeterPlotPane extends AbstractChartTypePane {
-	
-	private static final int METER = 0;
+public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
+
+    private static final int METER = 0;
     private static final int BLUE_METER =1;
     private static final int SIMPLE_METER = 2;
 

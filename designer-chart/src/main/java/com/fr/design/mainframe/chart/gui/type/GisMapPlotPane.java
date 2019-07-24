@@ -19,10 +19,10 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 
 
-public class GisMapPlotPane extends AbstractChartTypePane{
-	
+public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
+
 	private static final long serialVersionUID = 2595221900000305396L;
-	
+
 	private static final int GISMAP = 0;
 	
 	private UITextField keyInput;

@@ -12,7 +12,7 @@ import com.fr.locale.InterProviderFactory;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-26 上午10:43:50
  */
-public class RangePlotPane extends AbstractChartTypePane{
+public class RangePlotPane extends AbstractDeprecatedChartTypePane {
 	private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int RANGE = 0;

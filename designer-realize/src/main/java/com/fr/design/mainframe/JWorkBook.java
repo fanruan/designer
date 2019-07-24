@@ -68,7 +68,6 @@ import com.fr.file.FILE;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.ImageWithSuffix;
 import com.fr.general.ModuleContext;
 import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
@@ -622,7 +621,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         if (workBook instanceof WorkBookAdapter) {
             elem.setValue(new CellImagePainter(cellImage));
         } else {
-            elem.setValue(ImageWithSuffix.build(cellImage.getImage(),cellImage.getSuffix()));
+            elem.setValue(cellImage.getImage());
         }
     }
 

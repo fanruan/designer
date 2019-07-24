@@ -21,8 +21,8 @@ import java.text.DecimalFormat;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午06:55:33
  */
-public class PiePlotPane extends AbstractChartTypePane{
-	private static final long serialVersionUID = -601566194238908115L;
+public class PiePlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int PIE_CHART = 0;
 	private static final int THREE_D_PIE_CHART = 1;

@@ -2,9 +2,9 @@ package com.fr.design.mainframe.chart.gui;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.dialog.BasicScrollPane;
@@ -41,30 +41,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	private ChartTypeButtonPane buttonPane;
     private ChartEditPane editPane;
     private ChartCollection editingCollection;
-	private PaneState paneState = new PaneState();
-
-	private class PaneState{
-		//记录面板所处状态
-		private SwitchState paneState = SwitchState.DEFAULT;
-		//记录当前面板是谁在使用切换状态
-		private String chartID = StringUtils.EMPTY;
-
-		public SwitchState getPaneState() {
-			return paneState;
-		}
-
-		public void setPaneState(SwitchState paneState) {
-			this.paneState = paneState;
-		}
-
-		public String getChartID() {
-			return chartID;
-		}
-
-		public void setChartID(String chartID) {
-			this.chartID = chartID;
-		}
-	}
 
 	@Override
 	protected JPanel createContentPane() {
@@ -122,14 +98,14 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public String title4PopupWindow() {
 		return PaneTitleConstants.CHART_TYPE_TITLE;
 	}
-	
-	class ComboBoxPane extends UIComboBoxPane<Chart>{
-		private Map<String, Map<String, FurtherBasicBeanPane<? extends Chart>>> allChartTypePane;
+
+	class ComboBoxPane extends UIComboBoxPane<ChartProvider> {
+		private Map<String, Map<String, FurtherBasicBeanPane<? extends ChartProvider>>> allChartTypePane;
 
 		@Override
-		protected List<FurtherBasicBeanPane<? extends Chart>> initPaneList() {
-			List<FurtherBasicBeanPane<? extends Chart>> paneList = new ArrayList<FurtherBasicBeanPane<? extends Chart>>();
-			allChartTypePane = new LinkedHashMap<String, Map<String, FurtherBasicBeanPane<? extends Chart>>>();
+		protected List<FurtherBasicBeanPane<? extends ChartProvider>> initPaneList() {
+			List<FurtherBasicBeanPane<? extends ChartProvider>> paneList = new ArrayList<FurtherBasicBeanPane<? extends ChartProvider>>();
+			allChartTypePane = new LinkedHashMap<String, Map<String, FurtherBasicBeanPane<? extends ChartProvider>>>();
 			ChartTypeInterfaceManager.getInstance().addPlotTypePaneList(paneList, allChartTypePane);
 			return paneList;
 		}
@@ -145,13 +121,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		 * 如果是切换图表的不同图表之间切换，则collection的选择下标会改变
 		 * @param chart
 		 */
-		public void updateBean(Chart chart) {
+		public void updateBean(ChartProvider chart) {
 
-			Plot oldPlot = chart.getPlot();
-			String lastPlotID = oldPlot == null ? StringUtils.EMPTY : oldPlot.getPlotID();
+			String lastPlotID = chart.getID();
 
             try{
-                Chart newDefaultChart = (Chart)((AbstractChartTypePane)getSelectedPane()).getDefaultChart().clone();
+				ChartProvider newDefaultChart = (ChartProvider) ((AbstractChartTypePane) getSelectedPane()).getDefaultChart().clone();
 				if (!ComparatorUtils.equals(chart.getClass(), newDefaultChart.getClass())) {
 					//vanChart 和 chart 之间切换
 					//不同chart之间切换
@@ -166,20 +141,20 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//这一步会替换plot
             ((AbstractChartTypePane)getSelectedPane()).updateBean(chart);
 
-			Plot plot = chart.getPlot();
+			String chartID = chart.getID();
 
-			if(plot != null){
-				String plotID = plot.getPlotID();
+			//chartID改变的话图表类型就算改变了
+			if (StringUtils.isNotEmpty(chartID)) {
 
-				//plot改变的话图表类型就算改变了
+				if (chart instanceof Chart) {
+					//todo@shinerefactor: 这边看下是否可以删除
+					((Chart) chart).setWrapperName(ChartTypeManager.getInstanceWithCheck().getWrapperName(chartID));
+					((Chart) chart).setChartImagePath(ChartTypeManager.getInstanceWithCheck().getChartImagePath(chartID));
+				}
 
-				chart.setWrapperName(ChartTypeManager.getInstanceWithCheck().getWrapperName(plotID));
+				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
 
-				chart.setChartImagePath(ChartTypeManager.getInstanceWithCheck().getChartImagePath(plotID));
-
-				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
-
-				if(editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
+				if (editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, chartID))) {
 					editPane.reLayout(chart);
 				}
 			}
@@ -219,12 +194,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 		private void addOnePriorityCards(String priority, boolean ignore) {
 
-			Map<String, FurtherBasicBeanPane<? extends Chart>> map = allChartTypePane.get(priority);
+			Map<String, FurtherBasicBeanPane<? extends ChartProvider>> map = allChartTypePane.get(priority);
 
-			Iterator<Map.Entry<String, FurtherBasicBeanPane<? extends Chart>>> iterator = map.entrySet().iterator();
+			Iterator<Map.Entry<String, FurtherBasicBeanPane<? extends ChartProvider>>> iterator = map.entrySet().iterator();
 
 			while (iterator.hasNext()) {
-				Map.Entry<String, FurtherBasicBeanPane<? extends Chart>> entry = iterator.next();
+				Map.Entry<String, FurtherBasicBeanPane<? extends ChartProvider>> entry = iterator.next();
 				String plotID = entry.getKey();
 				if (ignore || ChartTypeManager.enabledChart(plotID)) {
 					cards.add(entry.getValue());
@@ -241,9 +216,11 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		//处理办法：这边除了重构 下拉项选项和cardNames 还需要把cards重构下（不需要init pane，只需要我需要的拿出来就好了）
 		private void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
-			Chart chart = collection.getSelectedChart();
-			String priority = chart.getPriority();
-			String plotID = chart.getPlot().getPlotID();
+			ChartProvider chart = collection.getSelectedChartProvider();
+			String priority = ChartTypeManager.VAN_CHART_PRIORITY;
+			//TODO@shinerefactor
+			//	chart.getPriority();
+			String plotID = chart.getID();
 			boolean enabledChart = ChartTypeManager.enabledChart(plotID);
 			String item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority, plotID);
 
@@ -286,7 +263,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		@Override
-		public void populateBean(Chart ob) {
+		public void populateBean(ChartProvider ob) {
 			for (int i = 0; i < this.cards.size(); i++) {
 				FurtherBasicBeanPane pane = cards.get(i);
 				if (pane.accept(ob)) {
@@ -303,12 +280,12 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		}
 
 		@Override
-		public Chart updateBean() {
+		public ChartProvider updateBean() {
 			return getSelectedPane().updateBean();
 		}
 
 		@Override
-		public FurtherBasicBeanPane<? extends Chart> getSelectedPane(){
+		public FurtherBasicBeanPane<? extends ChartProvider> getSelectedPane() {
 			Object item = jcb.getSelectedItem();
 			for (int i = 0; i < cards.size(); i++){
 				if (ComparatorUtils.equals(item, cards.get(i).title4PopupWindow())){
@@ -327,8 +304,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * @param collection
 	 */
 	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
-		Chart chart = collection.getSelectedChart();
-		String plotID = chart.getPlot().getPlotID();
+		ChartProvider chart = collection.getSelectedChartProvider();
+		String plotID = chart.getID();
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 			editPane.reLayout(chart);
@@ -337,22 +314,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 
 	public void relayoutChartTypePane(ChartCollection collection){
-		if (needRelayout(collection)) {
-			chartTypeComBox.relayout(collection);
-			//设置面板切换状态
-			updatePaneState(collection);
-		}
-	}
-
-	private void updatePaneState(ChartCollection collection) {
-		paneState.setChartID(collection.getRepresentChartID());
-		paneState.setPaneState(collection.getState());
-	}
-
-	// TODO: 2016/11/17 因为现在populate面板时会重新构造面板，所以每次都需要重构
-	private boolean needRelayout(ChartCollection collection) {
-		/*return paneState.getChartID() != collection.getRepresentChartID() || paneState.getPaneState() != collection.getState();*/
-		return true;
+		chartTypeComBox.relayout(collection);
 	}
 
 	/**
@@ -361,7 +323,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void populate(ChartCollection collection) {
 		editingCollection = collection;
 
-		Chart chart = collection.getSelectedChart();
+		ChartProvider chart = collection.getSelectedChartProvider();
 		this.remove(leftContentPane);
 		initContentPane();
 
@@ -379,7 +341,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void update(ChartCollection collection) {
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
-		Chart chart = collection.getSelectedChart();
+		ChartProvider chart = collection.getSelectedChartProvider();
 		chartTypeComBox.updateBean(chart);
 	}
 
