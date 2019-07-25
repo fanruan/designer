@@ -286,7 +286,6 @@ public class CodeTemplateManager {
 										files[i].getAbsolutePath());
 					}
 					temp.add((CodeTemplate)obj);
-					d.close();
 				} catch (/*IO, NoSuchElement*/Exception e) {
 					// NoSuchElementException can be thrown when reading
 					// an XML file not in the format expected by XMLDecoder.
