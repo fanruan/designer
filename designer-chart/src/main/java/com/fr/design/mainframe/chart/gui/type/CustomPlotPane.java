@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.CustomIndependentChart;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -10,7 +11,7 @@ import com.fr.chart.charttypes.CustomIndependentChart;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-21 下午06:17:40
  */
-public class CustomPlotPane extends AbstractChartTypePane {
+public class CustomPlotPane extends AbstractDeprecatedChartTypePane {
 
 	@Override
 	protected String getPlotTypeID() {
@@ -26,9 +27,9 @@ public class CustomPlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Combine_Chart")
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Combine")
 		};
-	}
+    }
 
 	@Override
     protected String[] getTypeLayoutPath() {
@@ -45,7 +46,7 @@ public class CustomPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Combine_Chart");
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Combine");
 	}
 
 	/**

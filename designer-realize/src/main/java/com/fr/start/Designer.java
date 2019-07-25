@@ -3,7 +3,6 @@ package com.fr.start;
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.actions.file.newReport.NewPolyReportAction;
@@ -22,6 +21,7 @@ import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.InformationCollector;
@@ -30,14 +30,12 @@ import com.fr.design.mainframe.JWorkBook;
 import com.fr.design.mainframe.alphafine.component.AlphaFinePane;
 import com.fr.design.mainframe.bbs.UserInfoLabel;
 import com.fr.design.mainframe.bbs.UserInfoPane;
-import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
@@ -45,18 +43,14 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
 import com.fr.runtime.FineRuntime;
-import com.fr.stable.BuildContext;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
-import com.fr.start.fx.SplashFx;
-import com.fr.start.jni.SplashMac;
 import com.fr.start.module.StartupArgs;
-import com.fr.start.preload.ImagePreLoader;
 import com.fr.start.server.ServerTray;
+import com.fr.third.org.apache.commons.lang3.time.StopWatch;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -71,8 +65,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -102,24 +94,11 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
+    
+        StopWatch watch = new StopWatch();
+        watch.start();
         //启动运行时
         FineRuntime.start();
-        BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
-        // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
-        if (DesignUtils.isStarted()) {
-            DesignUtils.clientSend(args);
-            FineLoggerFactory.getLogger().error("Designer port not available.");
-            System.exit(0);
-            return;
-        }
-        RestartHelper.deleteRecordFilesWhenStart();
-
-        preloadResource();
-
-        SplashContext.getInstance().registerSplash(createSplash());
-
-        SplashContext.getInstance().show();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
@@ -127,7 +106,7 @@ public class Designer extends BaseDesigner {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
             SplashContext.getInstance().hide();
-            JOptionPane.showMessageDialog(null, fatal.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
             System.exit(0);
         }
@@ -136,36 +115,8 @@ public class Designer extends BaseDesigner {
             //初始化一下serverTray
             ServerTray.init();
         }
-
-    }
-
-    private static void preloadResource() {
-        ExecutorService service = Executors.newCachedThreadPool();
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                TemplateInfoCollector.getInstance();
-            }
-        });
-        service.shutdown();
-    }
-
-    private static SplashStrategy createSplash() {
-        // 这里可以开接口加载自定义启动画面
-        if (OperatingSystem.isWindows()) {
-            return new SplashFx();
-        } else if (OperatingSystem.isMacOS()) {
-            return new SplashMac();
-        }
-        return new SplashFx();
+        FineLoggerFactory.getLogger().info("Designer started.Time used {} ms", watch.getTime());
+        watch.stop();
     }
 
     /**
@@ -327,7 +278,7 @@ public class Designer extends BaseDesigner {
         ) {
             @Override
             protected void upButtonClickEvent() {
-                JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (jt == null) {
                     return;
                 }
@@ -336,7 +287,7 @@ public class Designer extends BaseDesigner {
 
             @Override
             protected void downButtonClickEvent() {
-                final JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+                final JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (jt == null) {
                     return;
                 }

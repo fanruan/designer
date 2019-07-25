@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.template.info;
 
 import com.fr.base.FRContext;
+import com.fr.base.io.XMLReadHelper;
 import com.fr.design.DesignerEnvManager;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
@@ -12,12 +13,15 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
-import com.fr.workspace.WorkContext;
+import com.fr.third.org.apache.commons.io.FileUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +36,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     private static final String XML_TEMPLATE_INFO_LIST = "TemplateInfoList";
     private static final String XML_FILE_NAME = "tpl.info";
     private static TemplateInfoCollector instance;
+    private static final int MAX_SIZE = 512 * 1024 * 1024;
     private Map<String, TemplateInfo> templateInfoMap;
     private DesignerOpenHistory designerOpenHistory;
 
@@ -132,13 +137,24 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
         if (!getInfoFile().exists()) {
             return;
         }
-        try {
-            XMLableReader xmlReader = XMLableReader.createXMLableReader(new FileReader(getInfoFile()));
-            xmlReader.readXMLObject(this);
-        } catch (XMLStreamException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+
+        XMLableReader reader = null;
+        try (InputStream in = new FileInputStream(getInfoFile())) {
+            // XMLableReader 还是应该考虑实现 Closable 接口的，这样就能使用 try-with 语句了
+            reader = XMLReadHelper.createXMLableReader(in, XMLPrintWriter.XML_ENCODER);
+            reader.readXMLObject(this);
         } catch (FileNotFoundException e) {
             // do nothing
+        } catch (XMLStreamException | IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (XMLStreamException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
         }
     }
 
@@ -152,7 +168,7 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
     }
 
     private boolean shouldCollectInfo() {
-        return DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
+        return FileUtils.sizeOf(getInfoFile()) <= MAX_SIZE && DesignerEnvManager.getEnvManager().isJoinProductImprove() && FRContext.isChineseEnv();
     }
 
     /**
@@ -160,8 +176,12 @@ public class TemplateInfoCollector implements XMLReadable, XMLWriter {
      */
     private void saveInfo() {
         try {
-            FileOutputStream out = new FileOutputStream(getInfoFile());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
             XMLTools.writeOutputStreamXML(this, out);
+            out.flush();
+            out.close();
+            String fileContent = new String(out.toByteArray(), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(getInfoFile(), fileContent, StandardCharsets.UTF_8);
         } catch (Exception ex) {
             FineLoggerFactory.getLogger().error(ex.getMessage());
         }

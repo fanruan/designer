@@ -2,6 +2,8 @@ package com.fr.design.utils.gui;
 
 import com.fr.design.gui.core.UITextComponent;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JComponent;
@@ -9,6 +11,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.Locale;
 
 /**
  * 包含 UI 组件相关的工具方法
@@ -45,15 +48,18 @@ public class UIComponentUtils {
     }
 
     private static void insertPrefixToText(UITextComponent comp, String prefix) {
-        if (comp == null) {
+        if (comp == null || ComparatorUtils.equals(Locale.CHINA, GeneralContext.getLocale())) {
+            // 最初是为了解决日文国际化显示不全，而增加的换行功能。中文不需要换行。
+            // windows 下，字体为宋体时，对于 JLabel、JCheckBox、JButton 等控件，使用<html>换行后，文字会下移，可能导致文字下半部分被截断。
+            // 因此中文直接返回，不加换行逻辑。
             return;
         }
-        String text = comp.getText();
 
-        if (StringUtils.isEmpty(comp.getText()) || text.startsWith(HTML_TAG)) {
+        String text = comp.getText();
+        if (StringUtils.isEmpty(text) || text.startsWith(HTML_TAG)) {
             return;
         }
-        comp.setText(prefix + comp.getText());
+        comp.setText(prefix + text);
     }
 
     /**

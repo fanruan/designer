@@ -1,6 +1,6 @@
-var arr ="%s".split(".").reverse();
-var create = function (obj, names) {
-    var name = names.pop();
+let arr ="%s".split(".").reverse();
+let create = function (obj, names) {
+    let name = names.pop();
     if (!name) {
         return;
     }

@@ -1,22 +1,18 @@
 package com.fr.design.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.Style;
-import com.fr.base.frpx.pack.PictureCollection;
-import com.fr.base.frpx.util.ImageIOHelper;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.frpane.ImgChooseWrapper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.style.background.image.ImageFileChooser;
 import com.fr.design.style.background.image.ImagePreviewPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -43,13 +39,6 @@ public class SelectImagePane extends BasicPane {
     private UIRadioButton adjustRadioButton = null;
 
     private Style imageStyle = null;
-
-    private Image previewImage = null;
-
-    /**
-     * 默认格式
-     */
-    private String suffix = PictureCollection.DEFAULT_SUFFIX;
 
     private File imageFile;
 
@@ -124,22 +113,8 @@ public class SelectImagePane extends BasicPane {
                     .showOpenDialog(SelectImagePane.this);
             if (returnVal != JFileChooser.CANCEL_OPTION) {
                 File selectedFile = imageFileChooser.getSelectedFile();
-
-                if (selectedFile != null && selectedFile.isFile()) {
-                    String filePath = selectedFile.getPath();
-                    suffix = ImageIOHelper.getSuffix(filePath);
-                    Image image = BaseUtils.readImage(filePath);
-                    CoreGraphHelper.waitForImage(image);
-
-                    imageFile = selectedFile;
-                    setImageStyle();
-                    previewPane.setImage(image);
-                    previewPane.setImageStyle(imageStyle);
-                    previewImage = image;
-                } else {
-                    previewPane.setImage(null);
-                }
-                previewPane.repaint();
+                imageFile = selectedFile;
+                ImgChooseWrapper.getInstance(previewPane, imageFileChooser, imageStyle, null).dealWithImageFile(returnVal);
             }
         }
     };
@@ -184,7 +159,6 @@ public class SelectImagePane extends BasicPane {
                 setImage((Image) value);
             } else if (value instanceof CellImagePainter) {
                 setImage(((CellImagePainter) value).getImage());
-                suffix = ((CellImagePainter) value).getSuffix();
             }
 
             style = cell.getStyle();
@@ -209,16 +183,12 @@ public class SelectImagePane extends BasicPane {
 
     public void setImage(Image image) {
         previewPane.setImage(image);
-        this.previewImage = image;
     }
 
     public CellImage update() {
         CellImage cellImage = new CellImage();
-        cellImage.setImage(previewPane.getImage());
+        cellImage.setImage(previewPane.getImageWithSuffix());
         cellImage.setStyle(this.imageStyle);
-        if (suffix != null) {
-            cellImage.setSuffix(suffix);
-        }
         return cellImage;
     }
 

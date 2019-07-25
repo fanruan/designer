@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.widget.ui;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.data.DataCreatorUI;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
@@ -34,6 +33,7 @@ import com.fr.form.ui.container.WTitleLayout;
 import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.general.ComparatorUtils;
 
+import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -90,6 +90,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         return new WidgetBoundPane(xCreator);
     }
 
+    @Override
     protected JPanel createContentPane() {
         return null;
     }
@@ -102,6 +103,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
     /**
      * 后台初始化所有事件.
      */
+    @Override
     public void initAllListeners() {
 
     }
@@ -113,7 +115,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         initListener(this);
     }
 
-
+    @Override
     protected void initContentPane() {
     }
 
@@ -214,12 +216,16 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         Widget widget = currentEditorDefinePane.updateBean();
         if (ComparatorUtils.equals(getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Basic")) && widgetPropertyPane != null) {
             UITextField widgetNameField = widgetPropertyPane.getWidgetNameField();
-            if (designer.getTarget().isNameExist(widgetNameField.getText()) && !ComparatorUtils.equals(widgetNameField.getText(), widget.getWidgetName())) {
-                widgetNameField.setText(widget.getWidgetName());
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, BaseUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
+            String toSetWidgetName = widgetNameField.getText();
+            String currentWidgetName = widget.getWidgetName();
+            boolean exist = designer.getTarget().isNameExist(toSetWidgetName) && !ComparatorUtils.equals(toSetWidgetName, currentWidgetName);
+            if (exist) {
+                widgetNameField.setText(currentWidgetName);
+                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Widget_Rename_Failure"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), JOptionPane.ERROR_MESSAGE, IOUtils.readIcon("com/fr/design/form/images/joption_failure.png"));
                 return;
             }
             widgetPropertyPane.update(widget);
+            // 上面一行更新了组件 这里必须重新调用getWidgetName
             xCreator.resetCreatorName(widget.getWidgetName());
             xCreator.resetVisible(widget.isVisible());
             designer.getEditListenerTable().fireCreatorModified(xCreator, DesignerEvent.CREATOR_RENAMED);
@@ -250,6 +256,7 @@ public class FormWidgetCardPane extends AbstractAttrNoScrollPane {
         creator.firePropertyChange();
     }
 
+    @Override
     public String getIconPath() {
         return StringUtils.EMPTY;
     }

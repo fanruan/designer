@@ -6,12 +6,14 @@ package com.fr.design.mainframe.toolbar;
 import com.fr.base.FRContext;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
 import com.fr.design.actions.community.CenterAction;
 import com.fr.design.actions.community.CusDemandAction;
+import com.fr.design.actions.community.FacebookFansAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
 import com.fr.design.actions.community.SignAction;
@@ -24,6 +26,7 @@ import com.fr.design.actions.file.OpenTemplateAction;
 import com.fr.design.actions.file.PreferenceAction;
 import com.fr.design.actions.file.SwitchExistEnv;
 import com.fr.design.actions.help.AboutAction;
+import com.fr.design.actions.help.FineUIAction;
 import com.fr.design.actions.help.TutorialAction;
 import com.fr.design.actions.help.WebDemoAction;
 import com.fr.design.actions.help.alphafine.AlphaFineAction;
@@ -36,6 +39,7 @@ import com.fr.design.actions.server.PlatformManagerAction;
 import com.fr.design.actions.server.PluginManagerAction;
 import com.fr.design.file.NewTemplatePane;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -54,6 +58,10 @@ import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.locale.LocaleAction;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.design.locale.impl.SupportLocaleImpl;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
 import com.fr.plugin.manage.PluginFilter;
@@ -62,6 +70,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -146,7 +155,6 @@ public abstract class ToolBarMenuDock {
         }
 
     };
-    private static final String FINEREPORT = "FineReport";
     private static final int MENUBAR_HEIGHT = 22;
 
     private static final List<PluginEventListener> PLUGIN_LISTENERS = new ArrayList<>();
@@ -198,6 +206,18 @@ public abstract class ToolBarMenuDock {
         };
 
         this.menus = menus(plus);
+        try {
+            OemProcessor oemProcessor = OemHandler.findOem();
+            if (oemProcessor != null) {
+                this.menus = oemProcessor.dealWithMenuDef(this.menus);
+                if (this.menus == null) {
+                    this.menus = menus(plus);
+                }
+            }
+        } catch (Throwable e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            this.menus = menus(plus);
+        }
         for (int i = 0; i < menus.length; i++) {
             menus[i].setHasRecMenu(true);
             UIMenu subMenu = menus[i].createJMenu();
@@ -223,7 +243,7 @@ public abstract class ToolBarMenuDock {
     public MenuDef[] menus(final ToolBarMenuDockPlus plus) {
         //删除之前创建的插件菜单监听
         clearPluginListeners();
-        java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
+        final java.util.List<MenuDef> menuList = new java.util.ArrayList<MenuDef>();
         // 添加文件菜单
         menuList.add(createFileMenuDef(plus));
 
@@ -241,10 +261,13 @@ public abstract class ToolBarMenuDock {
         // 添加帮助菜单
         menuList.add(createHelpMenuDef());
 
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
-            // 添加社区菜单
-            addCommunityMenuDef(menuList);
-        }
+        LocaleCenter.buildAction(new LocaleAction() {
+            @Override
+            public void execute() {
+                addCommunityMenuDef(menuList);
+            }
+        }, SupportLocaleImpl.COMMUNITY);
+
 
         // 添加全部UpdateAction到actionmanager中
         addAllUpdateActionsToList(menuList);
@@ -499,9 +522,14 @@ public abstract class ToolBarMenuDock {
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
             shortCuts.add(new AlphaFineAction());
         }
+
         shortCuts.add(SeparatorDef.DEFAULT);
+        if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
+            shortCuts.add(new FineUIAction());
+        }
         shortCuts.add(new AboutAction());
-        return shortCuts.toArray(new ShortCut[shortCuts.size()]);
+
+        return shortCuts.toArray(new ShortCut[0]);
     }
 
     /**
@@ -510,7 +538,7 @@ public abstract class ToolBarMenuDock {
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
-        java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new BBSAction());
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
@@ -521,6 +549,12 @@ public abstract class ToolBarMenuDock {
         shortCuts.add(new CusDemandAction());
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
+        LocaleCenter.buildAction(new LocaleAction() {
+            @Override
+            public void execute() {
+                shortCuts.add(new FacebookFansAction());
+            }
+        }, SupportLocaleImpl.FACEBOOK);
         return shortCuts.toArray(new ShortCut[shortCuts.size()]);
     }
 

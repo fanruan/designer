@@ -244,6 +244,8 @@ public class PluginUtils {
                 jo.put("onTrial", pluginContext.isOnTrial());
                 jo.put("deadline", getDeadline(pluginContext));
                 jo.put("registerFailed", pluginContext.isRegisterFailed());
+                jo.put("selfState", pluginContext.getSelfState());
+                jo.put("switchedReason", pluginContext.getSwitchedReason());
                 ja.put(jo);
             }
         }catch (Exception e){

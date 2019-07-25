@@ -2,13 +2,18 @@ package com.fr.design.dialog;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
-
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Window;
 
 /*
  * _denny: 这里的BasicPane通常会有populate & update方法
@@ -35,21 +40,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-
-        dg.setBasicDialogSize(BasicDialog.DEFAULT);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.DEFAULT);
     }
 
     /**
@@ -95,21 +86,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showWindow4ChartType(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-
-        dg.setBasicDialogSize(BasicDialog.CHART);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.CHART);
     }
 
     /**
@@ -120,20 +97,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showSmallWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        dg.setBasicDialogSize(BasicDialog.SMALL);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.SMALL);
     }
 
     /**
@@ -144,20 +108,7 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showMediumWindow(Window window, DialogActionListener l) {
-        BasicDialog dg;
-        if (window instanceof Frame) {
-            dg = new DIALOG((Frame) window);
-        } else {
-            dg = new DIALOG((Dialog) window);
-        }
-
-        if (l != null) {
-            dg.addDialogActionListener(l);
-        }
-        dg.setBasicDialogSize(BasicDialog.MEDIUM);
-        GUICoreUtils.centerWindow(dg);
-        dg.setResizable(false);
-        return dg;
+        return showWindowWithCustomSize(window, l, BasicDialog.MEDIUM);
     }
 
     /**
@@ -168,6 +119,17 @@ public abstract class BasicPane extends JPanel {
      * @return 对话框
      */
     public BasicDialog showLargeWindow(Window window, DialogActionListener l) {
+        return showWindowWithCustomSize(window, l, BasicDialog.LARGE);
+    }
+
+    /**
+     * 以自定义的宽高显示窗口
+     * @param window 窗口
+     * @param l       对话框监听器
+     * @param dimension 自定义尺寸
+     * @return 对话框
+     */
+    protected BasicDialog showWindowWithCustomSize(Window window, DialogActionListener l, Dimension dimension) {
         BasicDialog dg;
         if (window instanceof Frame) {
             dg = new DIALOG((Frame) window);
@@ -178,7 +140,7 @@ public abstract class BasicPane extends JPanel {
         if (l != null) {
             dg.addDialogActionListener(l);
         }
-        dg.setBasicDialogSize(BasicDialog.LARGE);
+        dg.setBasicDialogSize(dimension);
         GUICoreUtils.centerWindow(dg);
         dg.setResizable(false);
         return dg;
@@ -298,18 +260,20 @@ public abstract class BasicPane extends JPanel {
     public void checkValid() throws Exception {
     }
 
-    public static final class NamePane extends BasicPane {
+    public static class NamePane extends BasicPane {
         private UITextField nameTextField;
+        private UILabel Name;
         private BasicPane centerPane;
         private UILabel showfield;
         private PropertyChangeAdapter changeListener;
 
-        private NamePane(BasicPane bPane) {
+        public NamePane(BasicPane bPane) {
             this.setLayout(new BorderLayout(4, 4));
 
             nameTextField = new UITextField(30);
+            Name = new UILabel(Toolkit.i18nText("Fine-Design_Basic_Name") + ":");
             JPanel northPane = new JPanel(new BorderLayout(4, 4));
-            northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Name") + ":"), BorderLayout.WEST);
+            northPane.add(Name, BorderLayout.WEST);
             northPane.add(nameTextField, BorderLayout.CENTER);
             northPane.add(showfield = new UILabel(" "), BorderLayout.EAST);
             showfield.setForeground(new Color(204, 0, 1));
@@ -343,6 +307,12 @@ public abstract class BasicPane extends JPanel {
             }
         }
 
+        @Override
+        public void setVisible(boolean isVisible) {
+            this.nameTextField.setVisible(isVisible);
+            this.Name.setVisible(isVisible);
+        }
+
         public String getObjectName() {
             return this.nameTextField.getText().trim();
         }
@@ -365,6 +335,7 @@ public abstract class BasicPane extends JPanel {
          *
          * @throws Exception 异常
          */
+        @Override
         public void checkValid() throws Exception {
             super.checkValid();
 

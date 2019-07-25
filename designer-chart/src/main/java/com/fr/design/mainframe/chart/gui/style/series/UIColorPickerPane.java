@@ -531,12 +531,16 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 			double forValue = Double.MAX_VALUE;
 			double backValue = -Double.MAX_VALUE;
 			for(int i = 0, size = textFieldList.size(); i < size; i++) {// check 是否合格, 然后检查 是否改变颜色,
+				//backNumber是否是公式形式
+				boolean formulaBackNumber = false;
 				if(i == size - 1) {
 					backValue = -Double.MAX_VALUE;
 				} else {
 					Number backNumber = ChartBaseUtils.formula2Number(BaseFormula.createFormulaBuilder().build(getValue4Index(i+1)));
 					if(backNumber != null){
 						backValue = backNumber.doubleValue();
+					} else {
+						formulaBackNumber = true;
 					}
 				}
 
@@ -544,7 +548,7 @@ public class UIColorPickerPane extends BasicPane implements UIObserver {
 
 				if(number != null) {
 					double value = number.doubleValue();
-					if(value < forValue && value > backValue) {
+					if ((value < forValue && value > backValue) || formulaBackNumber) {
 						setBackgroundUIColor(i,Color.WHITE);
 					} else {
 						setBackgroundUIColor(i, Color.red);

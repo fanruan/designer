@@ -11,6 +11,7 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.utils.gui.UIComponentUtils;
@@ -39,8 +40,9 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	}
 
 	private void initDataPane() {
-		UILabel label = new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData"));
+		UILabel label = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Table_Data"));
 		UIComponentUtils.setLineWrap(label, TABLE_DATA_LABEL_LINE_WRAP_WIDTH);
+		UIComponentUtils.setPreferedWidth(label, ChartDataPane.LABEL_WIDTH);
 
 		tableDataPane = new DatabaseTableDataPane(label) {
 			@Override
@@ -85,7 +87,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 	 * @return 返回标题.
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TableData");
+		return Toolkit.i18nText("Fine-Design_Chart_TableData");
 	}
 
 

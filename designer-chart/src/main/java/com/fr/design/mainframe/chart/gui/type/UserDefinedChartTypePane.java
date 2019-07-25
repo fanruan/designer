@@ -1,12 +1,14 @@
 package com.fr.design.mainframe.chart.gui.type;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.common.annotations.Compatible;
 
 /**
  * Created by mengao on 2017/8/30.
  * 不能删掉这个类，echarts插件中用到
  */
-public abstract class UserDefinedChartTypePane extends AbstractChartTypePane {
+@Compatible
+public abstract class UserDefinedChartTypePane extends AbstractDeprecatedChartTypePane {
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }

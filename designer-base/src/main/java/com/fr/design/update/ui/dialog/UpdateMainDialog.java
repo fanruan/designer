@@ -1,6 +1,5 @@
 package com.fr.design.update.ui.dialog;
 
-import com.fr.base.FRContext;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.UIDialog;
@@ -23,6 +22,7 @@ import com.fr.design.update.ui.widget.UpdateInfoTableCellRender;
 import com.fr.design.update.ui.widget.UpdateInfoTableModel;
 import com.fr.design.update.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
 import com.fr.general.GeneralContext;
@@ -30,6 +30,7 @@ import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -38,6 +39,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
@@ -372,9 +374,7 @@ public class UpdateMainDialog extends UIDialog {
         new SwingWorker<JSONObject, Void>() {
             @Override
             protected JSONObject doInBackground() throws Exception {
-                HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("jar10.update"));
-                hc.setTimeout(UpdateConstants.CONNECTION_TIMEOUT);
-                return new JSONObject(hc.getResponseText());
+                return new JSONObject(HttpToolbox.get(CloudCenter.getInstance().acquireUrlByKind("jar10.update")));
             }
 
             @Override
@@ -621,14 +621,42 @@ public class UpdateMainDialog extends UIDialog {
                 long downloadSize = jo.optLong("size");
                 if (ComparatorUtils.equals(category, "server")) {
                     File currentJAR = new File(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, downloadName));
-                    if (currentJAR.exists() && ComparatorUtils.equals(currentJAR.length(), downloadSize)) {
-                        //假如大小一样的jar包就不要下载了
+                    String currentMD5 = getCurrentJarMD5(currentJAR);
+                    String downloadMD5 = jo.optString("md5");
+                    boolean exist = currentJAR.exists() && ComparatorUtils.equals(currentJAR.length(), downloadSize) && ComparatorUtils.equals(currentMD5, downloadMD5);
+                    if (exist) {
+                        // 如果jar包存在且MD5值和大小与oss上的一致 不下载
                         continue;
                     }
                 }
                 downloadItems.add(new DownloadItem(downloadName, downloadUrl, downloadSize));
             }
         }
+    }
+
+    /**
+     * 获取当前jar的md5
+     * @param currentJAR
+     * @return
+     */
+    private String getCurrentJarMD5(File currentJAR) {
+        String md5 = StringUtils.EMPTY;
+        FileInputStream input = null;
+        try {
+            input = new FileInputStream(currentJAR);
+            md5 = DigestUtils.md5Hex(input);
+        } catch (Exception ignore) {
+
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
+        }
+        return md5;
     }
 
     /**
@@ -707,7 +735,7 @@ public class UpdateMainDialog extends UIDialog {
         for (String file : files) {
             try {
                 IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
+                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
                         new File(StableUtils.pathJoin(todayBackupDir)));
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage());
@@ -748,8 +776,8 @@ public class UpdateMainDialog extends UIDialog {
     private void putNewFilesToInstallEnv(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
         for (String file : files) {
             map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, FRContext.getCommonOperator().getAppName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
         }
     }
 

@@ -6,9 +6,11 @@ import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
-import com.fr.workspace.resource.WorkResource;
 import com.fr.workspace.resource.WorkResourceOutputStream;
+import com.fr.workspace.server.lock.TplOperator;
+import com.fr.workspace.server.vcs.filesystem.VcsFileSystem;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -29,19 +31,21 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
      * @throws Exception
      */
     @Override
-    public InputStream asInputStream() {
+    public InputStream asInputStream() throws Exception {
         if (node == null) {
             return null;
         }
-
+        String vcsCacheDir = VcsFileSystem.getInstance().getVcsCacheRelativePath();
         String envPath = node.getEnvPath();
-        // envPath必须以vcs开头
-        if (!envPath.startsWith(VcsHelper.VCS_CACHE_DIR)) {
+        // envPath必须以VcsCacheRelativePath开头
+        if (!envPath.startsWith(vcsCacheDir)) {
             return null;
         }
-
-        InputStream in = WorkContext.getCurrent().get(WorkResource.class)
-                .openStream(StableUtils.pathJoin(VcsHelper.VCS_CACHE_DIR, envPath.substring(VcsHelper.VCS_CACHE_DIR.length() + 1)));
+        InputStream in = new ByteArrayInputStream(
+                WorkContext.getCurrent().get(TplOperator.class).readAndLockFile(
+                        StableUtils.pathJoin(vcsCacheDir, envPath.substring(vcsCacheDir.length() + 1))
+                )
+        );
 
         return envPath.endsWith(".cpt") || envPath.endsWith(".frm")
                 ? XMLEncryptUtils.decodeInputStream(in) : in;
@@ -59,13 +63,13 @@ public class VcsCacheFileNodeFile extends FileNodeFILE {
         if (ComparatorUtils.equals(node, null)) {
             return null;
         }
-
+        String vcsCacheDir = VcsFileSystem.getInstance().getVcsCacheRelativePath();
         String envPath = node.getEnvPath();
-        // envPath必须以reportLets开头
-        if (!envPath.startsWith(VcsHelper.VCS_CACHE_DIR)) {
+        // envPath必须以VcsCacheRelativePath开头
+        if (!envPath.startsWith(vcsCacheDir)) {
             return null;
         }
 
-        return new WorkResourceOutputStream(StableUtils.pathJoin(VcsHelper.VCS_CACHE_DIR, envPath.substring(VcsHelper.VCS_CACHE_DIR.length() + 1)));
+        return new WorkResourceOutputStream(StableUtils.pathJoin(vcsCacheDir, envPath.substring(vcsCacheDir.length() + 1)));
     }
 }

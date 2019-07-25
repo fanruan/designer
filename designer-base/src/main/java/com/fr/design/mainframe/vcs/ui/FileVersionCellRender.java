@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.vcs.ui;
 
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.report.entity.VcsEntity;
 
 import javax.swing.JPanel;
@@ -34,7 +35,7 @@ public class FileVersionCellRender implements TableCellRenderer {
 
         double height = editor.getPreferredSize().getHeight();
         if (table.getRowHeight(row) != height) {
-            table.setRowHeight(row, (int) height);
+            table.setRowHeight(row, (int) height + VcsHelper.OFFSET);
         }
         return editor;
     }

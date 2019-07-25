@@ -6,6 +6,8 @@ import com.fr.chart.chartattr.BarPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.BarIndependentChart;
+import com.fr.design.i18n.Toolkit;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -31,16 +33,16 @@ public class BarPlotPane extends AbstractBarPane{
 
     @Override
     protected String[] getTypeTipName() {
-        String bar = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bar");
-        String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
-        String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-        String td = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D");
+        String bar = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Bar");
+        String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
+        String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+        String td = Toolkit.i18nText("Fine-Design_Chart_3D");
         return new String[]{
                 bar,
                 stack + bar,
                 percent + stack + bar,
                 td + bar,
-                td + bar + "(" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal") + ")",
+                td + bar + "(" + Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal") + ")",
                 td + stack + bar,
                 td + percent + stack + bar
         };
@@ -65,8 +67,8 @@ public class BarPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bar");
-	}
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Bar");
+    }
 
     protected Plot getSelectedClonedPlot(){
         Chart[] barChart = BarIndependentChart.barChartTypes;

@@ -15,7 +15,7 @@ public class FileVersionFirstRowPanel extends JPanel {
         super(new BorderLayout());
         Box upPane = Box.createVerticalBox();
         upPane.setBorder(new EmptyBorder(5, 10, 5, 10));
-        upPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Local_User")));
+        upPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Vcs_Current")));
         add(upPane, BorderLayout.CENTER);
     }
 }

@@ -21,8 +21,10 @@ public class RepeatRowPane extends FreezeAndRepeatPane {
 
     @Override
     public void populateBean(FT ob) {
-        ((RowSpinner)start).setValue((ob.getFrom() + 1));
-        ((RowSpinner)end).setValue((ob.getTo() + 1));
+        if (ob.getFrom() <= ob.getTo()) {
+            ((RowSpinner)start).setValue((ob.getFrom() + 1));
+            ((RowSpinner)end).setValue((ob.getTo() + 1));
+        }
     }
 
     @Override

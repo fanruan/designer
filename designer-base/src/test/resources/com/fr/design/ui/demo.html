@@ -10,6 +10,12 @@
             return Pool.data;
         };
     </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById("name").value = Pool.data.getName();
+            document.getElementById("age").value = Pool.data.getAge();
+        };
+    </script>
 </head>
 <body>
 <div>测试页面，请点击最下面的按钮</div>

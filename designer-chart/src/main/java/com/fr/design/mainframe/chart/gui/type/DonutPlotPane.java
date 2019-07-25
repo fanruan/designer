@@ -10,10 +10,11 @@ import com.fr.chart.chartattr.Donut3DPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.DonutIndependentChart;
-
+import com.fr.design.i18n.Toolkit;
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.Constants;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 /**
@@ -21,10 +22,10 @@ import java.text.DecimalFormat;
  * @author eason
  *
  */
-public class DonutPlotPane extends AbstractChartTypePane{
-	private static final long serialVersionUID = -7084314809934346710L;
-	private static final int DONUT_CHART = 0; //2d圆环图
-	private static final int THREE_D_DONUT_CHART = 1; //3D圆环图
+public class DonutPlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -7084314809934346710L;
+    private static final int DONUT_CHART = 0; //2d圆环图
+    private static final int THREE_D_DONUT_CHART = 1; //3D圆环图
 
     @Override
     protected String[] getTypeIconPath() {
@@ -35,10 +36,10 @@ public class DonutPlotPane extends AbstractChartTypePane{
 
     @Override
     protected String[] getTypeTipName() {
-        String donut = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Donut_Chart");
+        String donut = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
         return new String[]{
                 donut,
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + donut
+                Toolkit.i18nText("Fine-Design_Chart_3D") + donut
         };
     }
 
@@ -103,8 +104,8 @@ public class DonutPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
     public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Donut_Chart");
-	}
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
+    }
 
     /**
      * 是否有坐标轴

@@ -43,13 +43,13 @@ public class FileVersionRowPanel extends JPanel {
 
         // version + username
         Box upPane = Box.createHorizontalBox();
-        upPane.setBorder(VcsHelper.EMPTY_BORDER);
+        upPane.setBorder(VcsHelper.EMPTY_BORDER_MEDIUM);
         upPane.add(versionLabel);
         upPane.add(Box.createHorizontalGlue());
 
 
         // msg
-        msgLabel.setBorder(VcsHelper.EMPTY_BORDER);
+        msgLabel.setBorder(VcsHelper.EMPTY_BORDER_MEDIUM);
         msgLabel.setOpaque(false);
         msgLabel.setBackground(new Color(0, 0, 0, 0));
         msgLabel.setEditable(false);
@@ -63,6 +63,7 @@ public class FileVersionRowPanel extends JPanel {
             public void actionPerformed(ActionEvent evt) {
                 if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Title"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    vcsEntity.setUsername(VcsHelper.getInstance().getCurrentUsername());
                     WorkContext.getCurrent().get(VcsOperator.class).rollbackTo(vcsEntity);
                     FileVersionsPanel.getInstance().exitVcs(vcsEntity.getFilename());
                 }

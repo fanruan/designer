@@ -31,39 +31,36 @@ import java.lang.reflect.Method;
  * The main class of Report Designer.
  */
 public abstract class BaseDesigner extends ToolBarMenuDock {
-    private static final int PERCENT_TEN = 10;
-    private static final int PERCENT_SIXTY = 60;
-    private static final int PERCENT_NINTY= 90;
-    private static final int PERCENT_COMPLETE= 100;
-
+    
     private static final int LOAD_TREE_MAXNUM = 10;
+    
+    private final String[] args;
 
     public BaseDesigner(String[] args) {
-
-        init(args);
+    
+        this.args = args;
+        init();
     }
-
-    private void init(String[] args) {
-        //初始化
-        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
+    
+    private void init() {
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         createDesignerFrame();
     }
-
-    public void show(final String[] args) {
+    
+    public void show() {
         collectUserInformation();
-        DesignerContext.getDesignerFrame().updateProgress(PERCENT_TEN);
-        showDesignerFrame(args, DesignerContext.getDesignerFrame(), false);
-        DesignerContext.getDesignerFrame().updateProgress(PERCENT_SIXTY);
+        showDesignerFrame(false);
+ 
+        //TODO: 2019-06-14  这里有啥作用？
         DesignerContext.getDesignerFrame().refreshEnv();
-        DesignerContext.getDesignerFrame().updateProgress(PERCENT_NINTY);
         for (int i = 0; !TemplateTreePane.getInstance().getTemplateFileTree().isTemplateShowing() && i < LOAD_TREE_MAXNUM; i++) {
             TemplateTreePane.getInstance().getTemplateFileTree().refresh();
         }
-        DesignerContext.getDesignerFrame().updateProgress(PERCENT_COMPLETE);
+        DesignerContext.getDesignerFrame().setVisible(true);
+        DesignerContext.getDesignerFrame().resizeFrame();
     }
 
 
@@ -71,10 +68,9 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
         new DesignerFrame(this);
     }
-
-
-    private void showDesignerFrame(String[] args, final DesignerFrame df,
-                                   boolean isException) {
+    
+    
+    private void showDesignerFrame(boolean isException) {
         try {
             FILE file = null;
             if (args != null && args.length > 0) {
@@ -101,12 +97,13 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
                 file = FILEFactory.createFILE(FILEFactory.ENV_PREFIX
                         + DesignerEnvManager.getEnvManager().getLastOpenFile());
             }
+            DesignerFrame df = DesignerContext.getDesignerFrame();
             isException = openFile(df, isException, file);
             df.fireDesignerOpened();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             if (!isException) {
-                showDesignerFrame(args, df, true);
+                showDesignerFrame(true);
             } else {
                 System.exit(0);
             }
@@ -137,19 +134,14 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         df.getSelectedJTemplate().requestGridFocus();
         return isException;
     }
-
-
-    /**
-     * @param window
-     */
+    
     private void enableFullScreenMode(Window window) {
         String className = "com.apple.eawt.FullScreenUtilities";
         String methodName = "setWindowCanFullScreen";
 
         try {
             Class<?> clazz = Class.forName(className);
-            Method method = clazz.getMethod(methodName, new Class<?>[]{
-                    Window.class, boolean.class});
+            Method method = clazz.getMethod(methodName, Window.class, boolean.class);
             method.invoke(null, window, true);
         } catch (Throwable t) {
             FineLoggerFactory.getLogger().error("Full screen mode is not supported");

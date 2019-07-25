@@ -41,6 +41,7 @@ ant{
 	mkdir(dir:"src/main/java")
 	move(todir:"src/main/java"){
 		fileset(dir:"../designer-realize/src",includes:"com/**")
+		fileset(dir:"../designer-sdk/src",includes:"com/**")
 		fileset(dir:"src",includes:"com/**")
 	}
 }

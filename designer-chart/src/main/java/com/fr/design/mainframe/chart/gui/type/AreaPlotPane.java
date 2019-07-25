@@ -8,6 +8,8 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.AreaIndependentChart;
+import com.fr.design.i18n.Toolkit;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -15,7 +17,7 @@ import com.fr.chart.charttypes.AreaIndependentChart;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午06:57:36
  */
-public class AreaPlotPane extends AbstractChartTypePane{
+public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 
 	private static final int STACK_AREA_CHART = 0;
 	private static final int PERCENT_AREA_LINE_CHART = 1;
@@ -33,10 +35,10 @@ public class AreaPlotPane extends AbstractChartTypePane{
 
 	@Override
 	protected String[] getTypeTipName() {
-		String area = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Area");
-		String stack = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Stacked");
-		String percent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-		String td = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D");
+		String area = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+		String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
+		String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+		String td = Toolkit.i18nText("Fine-Design_Chart_3D");
 		return new String[]{
 				stack + area,
 				percent + stack + area,
@@ -139,7 +141,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Area");
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
 	}
 
     public Chart getDefaultChart() {

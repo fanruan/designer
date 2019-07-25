@@ -4,6 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.BubbleIndependentChart;
+import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -12,8 +13,8 @@ import com.fr.chart.charttypes.BubbleIndependentChart;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-25 下午06:56:47
  */
-public class BubblePlotPane extends AbstractChartTypePane {
-	private static final long serialVersionUID = -601566194238908115L;
+public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int BUBBLE_CHART = 0;
 
@@ -25,9 +26,9 @@ public class BubblePlotPane extends AbstractChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart")
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart")
 		};
-	}
+    }
 
 	@Override
 	protected String[] getTypeLayoutPath() {
@@ -44,7 +45,7 @@ public class BubblePlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart");
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart");
 	}
 
 	/**

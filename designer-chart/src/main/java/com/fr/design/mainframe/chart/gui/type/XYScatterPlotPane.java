@@ -6,7 +6,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.XYScatterIndependentChart;
-
+import com.fr.locale.InterProviderFactory;
 import com.fr.stable.Constants;
 
 /**
@@ -14,7 +14,7 @@ import com.fr.stable.Constants;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午08:33:55
  */
-public class XYScatterPlotPane extends AbstractChartTypePane{
+public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
 	private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int XYSCATTER_CHART = 0;
@@ -28,9 +28,9 @@ public class XYScatterPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_I_XYScatterStyle_Marker")
+				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter")
 		};
-	}
+    }
 
 	@Override
     protected String[] getTypeLayoutPath() {
@@ -47,7 +47,7 @@ public class XYScatterPlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_I_XYScatterStyle_Marker");
+		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter");
 	}
 
 	/**

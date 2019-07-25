@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.FunnelPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.FunnelIndependentChart;
-
+import com.fr.locale.InterProviderFactory;
 
 import java.text.DecimalFormat;
 
@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
  * Time: 下午2:50
  * To change this template use File | Settings | File Templates.
  */
-public class FunnelPlotPane extends AbstractChartTypePane{
+public class FunnelPlotPane extends AbstractDeprecatedChartTypePane {
 
     private static final int FUNNEL_CHART = 0;
 
@@ -31,7 +31,7 @@ public class FunnelPlotPane extends AbstractChartTypePane{
     @Override
     protected String[] getTypeTipName() {
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Funnel")
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel")
         };
     }
 
@@ -50,7 +50,7 @@ public class FunnelPlotPane extends AbstractChartTypePane{
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Funnel");
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel");
     }
 
     /**

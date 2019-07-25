@@ -12,6 +12,7 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.TableDataSourceAction;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
@@ -39,7 +40,6 @@ import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.template.info.TimeConsumeTimer;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.toolbar.VcsScene;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
@@ -112,7 +112,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         // 判断是否切换设计器状态到禁止拷贝剪切
         if (t.getAttrMark(DesignBanCopyAttrMark.XML_TAG) != null) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.BAN_COPY_AND_CUT);
-        } else if (!DesignModeContext.isVcsMode()) {
+        } else if (!DesignModeContext.isVcsMode() && !DesignModeContext.isAuthorityEditing()) {
             DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         }
         this.template = t;
@@ -543,9 +543,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             return false;
         }
         collectInfo();
-        if (DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()) {
-            VcsHelper.dealWithVcs(this);
-        }
         return this.saveFile();
     }
 
@@ -606,7 +603,11 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             editingFILE = fileChooser.getSelectedFILE();
         }
 
-        boolean lockedTarget = WorkContext.getCurrent().get(TplOperator.class).saveAs(editingFILE.getPath());
+        boolean lockedTarget =
+                // 目标本地文件
+                !editingFILE.isEnvFile() ||
+                        // 目标远程文件
+                        WorkContext.getCurrent().get(TplOperator.class).saveAs(editingFILE.getPath());
         if (lockedTarget) {
             boolean saved = saveNewFile(editingFILE, oldName);
             // 目标文件保存成功并且源文件不一致的情况下，把源文件锁释放掉
@@ -686,7 +687,6 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.saved = true;
         this.authoritySaved = true;
         DesignerContext.getDesignerFrame().setTitle();
-
         this.fireJTemplateSaved();
         return true;
     }
@@ -827,7 +827,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+        for (int i = listeners.length - 1; i >= 0; i -= 1) {
             if (listeners[i] == JTemplateActionListener.class) {
                 ((JTemplateActionListener) listeners[i + 1]).templateSaved(this);
             }

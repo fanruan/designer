@@ -22,9 +22,9 @@ import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
-import com.fr.workspace.connect.AuthException;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
+import com.fr.workspace.engine.exception.WorkspaceAuthException;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -102,11 +102,7 @@ public class EnvChangeEntrance {
                 return false;
             }
 
-            //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
-            JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-            if (template != null) {
-                template.refreshToolArea();
-            }
+        
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
@@ -119,8 +115,13 @@ public class EnvChangeEntrance {
                     }
                 }
             });
+            //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
+            JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+            if (template != null) {
+                template.refreshToolArea();
+            }
 
-        } catch (AuthException | RegistEditionException e) {
+        } catch (WorkspaceAuthException | RegistEditionException e) {
             // String title = Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed");
             // String title = Toolkit.i18nText("Fine-Design_Basic_Lic_Does_Not_Support_Remote");
             strategy.showTip(new PopTip() {

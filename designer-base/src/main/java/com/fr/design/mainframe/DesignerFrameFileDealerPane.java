@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -26,6 +27,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.mainframe.vcs.ui.FileVersionsPanel;
 import com.fr.design.menu.KeySetUtils;
 import com.fr.design.menu.ShortCut;
@@ -49,7 +51,6 @@ import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.commons.io.FilenameUtils;
 import com.fr.workspace.WorkContext;
-import com.fr.design.mainframe.vcs.common.VcsHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -79,6 +80,9 @@ import static javax.swing.JOptionPane.WARNING_MESSAGE;
 
 public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarStateChangeListener, ResponseDataSourceChange {
 
+    private static final String FILE = "file";
+    private static volatile DesignerFrameFileDealerPane THIS;
+
     static {
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
 
@@ -94,10 +98,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
         });
     }
-
-    private static final String FILE = "file";
-
-    private static volatile DesignerFrameFileDealerPane THIS;
 
     private List<FileToolbarStateChangeListener> otherToolbarStateChangeListeners = new ArrayList<>();
 
@@ -117,25 +117,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     private VcsAction vcsAction = new VcsAction();
 
-
-    /**
-     * 刷新
-     */
-    public void refresh() {
-        selectedOperation.refresh();
-    }
-
-    public static DesignerFrameFileDealerPane getInstance() {
-
-        if (THIS == null) {
-            synchronized (DesignerFrameFileDealerPane.class) {
-                if (THIS == null) {
-                    THIS = new DesignerFrameFileDealerPane();
-                }
-            }
-        }
-        return THIS;
-    }
 
     private DesignerFrameFileDealerPane() {
 
@@ -164,6 +145,24 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         stateChange();
     }
 
+    public static DesignerFrameFileDealerPane getInstance() {
+
+        if (THIS == null) {
+            synchronized (DesignerFrameFileDealerPane.class) {
+                if (THIS == null) {
+                    THIS = new DesignerFrameFileDealerPane();
+                }
+            }
+        }
+        return THIS;
+    }
+
+    /**
+     * 刷新
+     */
+    public void refresh() {
+        selectedOperation.refresh();
+    }
 
     public final void setCurrentEditingTemplate(JTemplate<?, ?> jt) {
 
@@ -202,12 +201,28 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         for (ShortCut shortCut : extraShortCuts) {
             toolbarDef.addShortCut(shortCut);
         }
-        if (VcsHelper.needInit()) {
-            toolbarDef.addShortCut(vcsAction);
-        }
+        addVcsAction(toolbarDef);
         toolbarDef.updateToolBar(toolBar);
         resetActionStatus();
         refresh();
+    }
+
+
+    /**
+     * 添加VcsAction
+     * @param toolbarDef
+     */
+    private void addVcsAction(ToolBarDef toolbarDef) {
+        if (VcsHelper.getInstance().needInit()) {
+            vcsAction = new VcsAction();
+            if (FineClusterConfig.getInstance().isCluster()) {
+                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
+            } else {
+                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
+            }
+            toolbarDef.addShortCut(vcsAction);
+
+        }
     }
 
 
@@ -255,6 +270,41 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
     }
 
+    private boolean isCurrentEditing(String path) {
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        String editing = jt.getEditingFILE().getPath();
+        return ComparatorUtils.equals(editing, path);
+    }
+
+    /**
+     * 按钮状态改变
+     */
+    @Override
+    public void stateChange() {
+
+        int selectedPathNum = TemplateTreePane.getInstance().countSelectedPath();
+
+        // 新建文件夹，重命名操作，在explorer中打开三个操作在选中单个文件夹或者文件时可用，其他情况不可用
+        boolean singleSelected = selectedPathNum == 1;
+        newFolderAction.setEnabled(singleSelected);
+        renameAction.setEnabled(singleSelected);
+        showInExplorerAction.setEnabled(singleSelected);
+        // 删除操作在至少选中一个时可用
+        boolean selected = selectedPathNum > 0;
+        delFileAction.setEnabled(selected);
+        // 刷新操作始终可用
+        refreshTreeAction.setEnabled(true);
+        //触发vcsAction变化
+        vcsAction.fireVcsActionChange();
+
+        // 其他状态
+        otherStateChange();
+    }
+
+    public FileOperations getSelectedOperation() {
+        return selectedOperation;
+    }
+
     /*
      * 新建文件夹
      */
@@ -287,8 +337,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      * 版本管理
      */
     private class VcsAction extends UpdateAction {
+
         public VcsAction() {
-            this.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
             this.setSmallIcon(VcsHelper.VCS_LIST_PNG);
         }
 
@@ -299,15 +349,44 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             boolean isCurrentEditing = isCurrentEditing(path);
 
-            // 如果模板正在编辑，保存后再打开版本管理
-            if (isCurrentEditing) {
-                saveCurrentEditingTemplate();
-            }
-
             // 如果模板已经打开了，关掉，避免出现2个同名tab（1个是模板，1个是版本）
             closeOpenedTemplate(path, isCurrentEditing);
             FileVersionsPanel fileVersionTablePanel = FileVersionsPanel.getInstance();
             fileVersionTablePanel.showFileVersionsPane();
+            stateChange();
+
+        }
+
+        /**
+         * 版本管理可用状态的监控
+         */
+        private void fireVcsActionChange() {
+            if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.getInstance().isUnSelectedTemplate() || FineClusterConfig.getInstance().isCluster()) {
+                setEnabled(false);
+                return;
+            }
+
+
+
+
+            if (WorkContext.getCurrent() != null) {
+                if (!WorkContext.getCurrent().isLocal()) {
+                    //当前环境为远程环境时
+                    FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
+                    if (selectedOperation.getFilePath() != null) {
+                        if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
+                            setEnabled(false);
+                        } else {
+                            setEnabled(true);
+                        }
+                    } else {
+                        setEnabled(false);
+                    }
+                } else {
+                    //当前环境为本地环境时
+                    setEnabled(selectedOperation.getFilePath() != null);
+                }
+            }
         }
 
         private void closeOpenedTemplate(String path, boolean isCurrentEditing) {
@@ -324,19 +403,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         }
 
 
-    }
-
-    private void saveCurrentEditingTemplate() {
-        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-        jt.stopEditing();
-        jt.saveTemplate();
-        jt.requestFocus();
-    }
-
-    private boolean isCurrentEditing(String path) {
-        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-        String editing = jt.getEditingFILE().getPath();
-        return ComparatorUtils.equals(editing, path);
     }
 
     /**
@@ -436,63 +502,8 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             }
             selectedOperation.deleteFile();
             stateChange();
+            DesignerContext.getDesignerFrame().setTitle();
         }
-    }
-
-    /**
-     * 按钮状态改变
-     */
-    @Override
-    public void stateChange() {
-
-        int selectedPathNum = TemplateTreePane.getInstance().countSelectedPath();
-
-        // 新建文件夹，重命名操作，在explorer中打开三个操作在选中单个文件夹或者文件时可用，其他情况不可用
-        boolean singleSelected = selectedPathNum == 1;
-        newFolderAction.setEnabled(singleSelected);
-        renameAction.setEnabled(singleSelected);
-        showInExplorerAction.setEnabled(singleSelected);
-        // 删除操作在至少选中一个时可用
-        boolean selected = selectedPathNum > 0;
-        delFileAction.setEnabled(selected);
-        // 刷新操作始终可用
-        refreshTreeAction.setEnabled(true);
-        handleVcsAction();
-
-        // 其他状态
-        otherStateChange();
-    }
-
-    private void handleVcsAction() {
-        if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.isUnSelectedTemplate()) {
-            vcsAction.setEnabled(false);
-            return;
-        }
-
-        if (WorkContext.getCurrent() != null) {
-            if (!WorkContext.getCurrent().isLocal()) {
-                //当前环境为远程环境时
-                FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                if (selectedOperation.getFilePath() != null) {
-                    if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
-                        vcsAction.setEnabled(false);
-                    } else {
-                        vcsAction.setEnabled(true);
-                    }
-                } else {
-                    vcsAction.setEnabled(false);
-                }
-            } else {
-                //当前环境为本地环境时
-                vcsAction.setEnabled(selectedOperation.getFilePath() != null);
-            }
-        }
-    }
-
-
-
-    public FileOperations getSelectedOperation() {
-        return selectedOperation;
     }
 
     /**

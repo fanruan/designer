@@ -2,6 +2,10 @@ package com.fr.design.ui;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.itoolbar.UIToolbar;
+import com.fr.design.i18n.Toolkit;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.web.struct.AssembleComponent;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
@@ -14,8 +18,11 @@ import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
 import com.teamdev.jxbrowser.chromium.events.ScriptContextListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
-import javax.swing.JSplitPane;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 /**
  * @author richie
@@ -39,22 +46,55 @@ public class ModernUIPane<T> extends BasicPane {
             setLayout(new BorderLayout());
             BrowserPreferences.setChromiumSwitches("--disable-google-traffic");
             if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
-                JSplitPane splitPane = new JSplitPane();
-                add(splitPane, BorderLayout.CENTER);
-                splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-                splitPane.setDividerLocation(500);
+                UIToolbar toolbar = new UIToolbar();
+                add(toolbar, BorderLayout.NORTH);
+                UIButton openDebugButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+                toolbar.add(openDebugButton);
+                UIButton reloadButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Reload"));
+                toolbar.add(reloadButton);
+                UIButton closeButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Close_Window"));
+                toolbar.add(closeButton);
+
+                openDebugButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        showDebuggerDialog();
+                    }
+                });
+
+                reloadButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        browser.reloadIgnoringCache();
+                    }
+                });
+
+                closeButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        SwingUtilities.getWindowAncestor(ModernUIPane.this).setVisible(false);
+                    }
+                });
                 BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
                 initializeBrowser();
-                splitPane.setLeftComponent(new BrowserView(browser));
-                Browser debugger = new Browser();
-                debugger.loadURL(browser.getRemoteDebuggingURL());
-                BrowserView debuggerView = new BrowserView(debugger);
-                splitPane.setRightComponent(debuggerView);
+                add(new BrowserView(browser), BorderLayout.CENTER);
             } else {
                 initializeBrowser();
                 add(new BrowserView(browser), BorderLayout.CENTER);
             }
         }
+    }
+
+    private void showDebuggerDialog() {
+        JDialog dialog = new JDialog(SwingUtilities.getWindowAncestor(this));
+        Browser debugger = new Browser();
+        BrowserView debuggerView = new BrowserView(debugger);
+        dialog.add(debuggerView, BorderLayout.CENTER);
+        dialog.setSize(new Dimension(800, 400));
+        GUICoreUtils.centerWindow(dialog);
+        dialog.setVisible(true);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        debugger.loadURL(browser.getRemoteDebuggingURL());
     }
 
     private void initializeBrowser() {
@@ -66,6 +106,24 @@ public class ModernUIPane<T> extends BasicPane {
                 event.getBrowser().executeJavaScript(String.format(ModernUIConstants.SCRIPT_INIT_NAME_SPACE, namespace));
             }
         });
+    }
+
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     */
+    public void redirect(String url) {
+        browser.loadURL(url);
+    }
+
+    /**
+     * 转向一个新的地址，相当于重新加载
+     * @param url 新的地址
+     * @param map 初始化参数
+     */
+    public void redirect(String url, Map<String, String> map) {
+        Assistant.setEmbProtocolHandler(browser, new EmbProtocolHandler(map));
+        browser.loadURL(url);
     }
 
     @Override
@@ -127,6 +185,16 @@ public class ModernUIPane<T> extends BasicPane {
         }
 
         /**
+         * 加载url指向的资源
+         * @param url 文件的地址
+         */
+        public Builder<T> withURL(final String url, Map<String, String> map) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(map));
+            pane.browser.loadURL(url);
+            return this;
+        }
+
+        /**
          * 加载Atom组件
          * @param component Atom组件
          */
@@ -135,6 +203,17 @@ public class ModernUIPane<T> extends BasicPane {
             pane.browser.loadURL("emb:dynamic");
             return this;
         }
+
+        /**
+         * 加载Atom组件
+         * @param component Atom组件
+         */
+        public Builder<T> withComponent(AssembleComponent component, Map<String, String> map) {
+            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(component, map));
+            pane.browser.loadURL("emb:dynamic");
+            return this;
+        }
+
 
         /**
          * 加载html文本内容

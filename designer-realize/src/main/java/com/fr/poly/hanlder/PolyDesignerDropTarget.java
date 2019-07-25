@@ -4,7 +4,7 @@
 package com.fr.poly.hanlder;
 
 import com.fr.base.ScreenResolution;
-import com.fr.base.chart.BaseChart;
+import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.grid.Grid;
@@ -73,8 +73,8 @@ public class PolyDesignerDropTarget extends DropTargetAdapter {
 				if (obj instanceof Class) {
 					Class clazz = (Class) obj;
 					creator = PolyUtils.createCreator(clazz);
-				} else if (obj instanceof BaseChart) {
-					creator = PolyUtils.createCreator((BaseChart) obj);
+				} else if (obj instanceof BaseChartCollection) {
+					creator = PolyUtils.createCreator((BaseChartCollection) obj);
 				}
 				if (creator == null) {
 					return;

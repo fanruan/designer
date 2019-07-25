@@ -41,17 +41,17 @@ public class HistoryTemplateListCache implements CallbackEvent {
     private List<JTemplate<?, ?>> historyList;
     private JTemplate<?, ?> editingTemplate;
 
-    private static volatile HistoryTemplateListCache THIS;
+    private static volatile HistoryTemplateListCache instacne;
 
     public static HistoryTemplateListCache getInstance() {
-        if (THIS == null) {
+        if (instacne == null) {
             synchronized (HistoryTemplateListCache.class) {
-                if (THIS == null) {
-                    THIS = new HistoryTemplateListCache();
+                if (instacne == null) {
+                    instacne = new HistoryTemplateListCache();
                 }
             }
         }
-        return THIS;
+        return instacne;
     }
 
     private HistoryTemplateListCache() {
@@ -66,8 +66,8 @@ public class HistoryTemplateListCache implements CallbackEvent {
     public void closeSelectedReport(JTemplate<?, ?> selected) {
         DesignModuleFactory.clearChartPropertyPane();
         DesignTableDataManager.closeTemplate(selected);
-        //直接关闭模板的时候退出权限编辑
-        if (DesignModeContext.isAuthorityEditing()) {
+        //直接关闭模板的时候(当且仅当设计器tab上只剩一个模板)退出权限编辑
+        if (DesignModeContext.isAuthorityEditing() && historyList.size() <= 1) {
             DesignerContext.getDesignerFrame().closeAuthorityEditing();
         }
         if (contains(selected) == -1) {
@@ -263,9 +263,9 @@ public class HistoryTemplateListCache implements CallbackEvent {
             JTemplate<?, ?> template = iterator.next();
             String tPath = template.getPath();
             if (isDir ? tPath.startsWith(path) : tPath.equals(path)) {
+                int size = getHistoryCount();
                 iterator.remove();
                 int index = iterator.nextIndex();
-                int size = getHistoryCount();
                 if (size == index + 1 && index > 0) {
                     //如果删除的是后一个Tab，则定位到前一个
                     MutilTempalteTabPane.getInstance().setSelectedIndex(index - 1);

@@ -14,6 +14,7 @@ import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.locale.impl.ProductImproveMark;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
@@ -23,6 +24,8 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.LocaleMark;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
@@ -146,7 +149,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * alphafine
      */
-    private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
+    private AlphaFineConfigManager alphaFineConfigManager = AlphaFineConfigManager.getInstance();
 
     private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
 
@@ -182,6 +185,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public static DesignerEnvManager getEnvManager(boolean needCheckEnv) {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
+            //REPORT-15332有一个国际化调用比较早,需要在这边就设置好locale,由于后台GeneralContext默认是China
+            GeneralContext.setLocale(designerEnvManager.getLanguage());
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
@@ -695,7 +700,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return 是否加入产品改良
      */
     public boolean isJoinProductImprove() {
-        return joinProductImprove;
+        LocaleMark<Boolean> localeMark = LocaleCenter.getMark(ProductImproveMark.class);
+        return localeMark.getValue() && this.joinProductImprove;
     }
 
     /**
@@ -1517,7 +1523,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readAlphaFineAttr(XMLableReader reader) {
-        reader.readXMLObject(this.alphaFineConfigManager = new AlphaFineConfigManager());
+        reader.readXMLObject(this.alphaFineConfigManager = AlphaFineConfigManager.getInstance());
     }
 
     private void readHttpsParas(XMLableReader reader) {

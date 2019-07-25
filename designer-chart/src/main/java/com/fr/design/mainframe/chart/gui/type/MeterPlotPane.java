@@ -6,6 +6,8 @@ import com.fr.chart.chartattr.MeterPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.MeterStyle;
 import com.fr.chart.charttypes.MeterIndependentChart;
+import com.fr.design.i18n.Toolkit;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -14,9 +16,9 @@ import com.fr.log.FineLoggerFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-26 上午10:48:57
  */
-public class MeterPlotPane extends AbstractChartTypePane {
-	
-	private static final int METER = 0;
+public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
+
+    private static final int METER = 0;
     private static final int BLUE_METER =1;
     private static final int SIMPLE_METER = 2;
 
@@ -31,9 +33,9 @@ public class MeterPlotPane extends AbstractChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String meter = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
+        String meter = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
         return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
+                Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
                 meter + "1",
                 meter + "2"
         };
@@ -77,13 +79,13 @@ public class MeterPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
-	}
-	
-	/**
-	 * 保存界面属性
-	 */
-	public void updateBean(Chart chart) {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
+    }
+
+    /**
+     * 保存界面属性
+     */
+    public void updateBean(Chart chart) {
         if(needsResetChart(chart)){
             resetChart(chart);
         }

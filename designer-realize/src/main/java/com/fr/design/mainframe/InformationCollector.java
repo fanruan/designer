@@ -4,6 +4,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
@@ -47,6 +48,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author neil
  *
@@ -192,23 +197,16 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			return;
 		}
 
-    	Thread sendThread = new Thread(new Runnable() {
-
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("InformationCollector"));
+		service.schedule(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					//读取XML的5分钟后开始发请求连接服务器.
-					Thread.sleep(SEND_DELAY);
-				} catch (InterruptedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-				}
 				sendUserInfo();
 				FocusPointMessageUploader.getInstance().sendToCloudCenter();
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
 				ErrorInfoUploader.getInstance().sendErrorInfo();
 			}
-		});
-    	sendThread.start();
+		}, SEND_DELAY, TimeUnit.MILLISECONDS);
 	}
 
     /**

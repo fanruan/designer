@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import java.util.Locale;
 import java.util.UUID;
 
-public class TutorialActionTest extends TestCase{
+public class TutorialActionTest extends TestCase {
 
     public void testCreateKey() {
         TutorialAction action = new TutorialAction();
@@ -24,6 +24,7 @@ public class TutorialActionTest extends TestCase{
         GeneralContext.setLocale(pt);
         String ptKey = action.createDocKey();
         assertTrue(ptKey.contains(pt.toString()));
+        GeneralContext.setLocale(Locale.CHINA);
     }
 
     public void testServerOnline() {

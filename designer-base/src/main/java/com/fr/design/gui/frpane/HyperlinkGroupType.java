@@ -3,6 +3,7 @@ package com.fr.design.gui.frpane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.js.JavaScript;
 import com.fr.stable.Filter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 超级链接 支持的类型 种类.
@@ -17,6 +18,7 @@ public interface HyperlinkGroupType {
      *
      * @return NameableCreator[]
      */
+    @NotNull
     NameableCreator[] getHyperlinkCreators();
 
 
