@@ -259,21 +259,12 @@ public class WebViewDlgHelper {
         new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                try {
-                    PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
-                        @Override
-                        public void process(Double integer) {
-                            // 这个注释毫无意义，就是为了通过SonarQube
-                        }
-                    });
-                } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                    return false;
-                } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                    return false;
-                }
-                return true;
+                return PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
+                    @Override
+                    public void process(Double integer) {
+                        // 这个注释毫无意义，就是为了通过SonarQube
+                    }
+                });
             }
 
             @Override
