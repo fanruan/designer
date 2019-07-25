@@ -228,7 +228,7 @@ public class TemplateFileTree extends EnvFileTree {
         if (fileNodes == null) {
             fileNodes = new FileNode[0];
         }
-        Arrays.sort(fileNodes, new FileNodeComparator(FRContext.getFileNodes().getSupportedTypes()));
+        Arrays.sort(fileNodes, new FileNodeComparator(FileNodeConstants.SUPPORT_FILE_TYPES));
 
         return fileNodes;
     }
