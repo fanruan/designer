@@ -206,5 +206,21 @@ public class PluginOperateUtils {
         return pluginInfo.toString();
     }
 
+    public static String getSwitchedInfo(PluginTaskResult result) {
+        StringBuilder pluginInfo = new StringBuilder();
+        List<PluginTaskResult> pluginTaskResults = result.asList();
+        for (PluginTaskResult pluginTaskResult : pluginTaskResults) {
+            PluginTask pluginTask = pluginTaskResult.getCurrentTask();
+            if (pluginTask == null) {
+                continue;
+            }
+            PluginMarker pluginMarker = pluginTask.getToMarker();
+            PluginContext pluginContext = PluginManager.getContext(pluginMarker);
+            if (pluginContext != null && pluginContext.getSelfState() == 1) {
+                pluginInfo.append("\n").append(pluginContext.getSwitchedReason());
+            }
+        }
+        return pluginInfo.toString();
+    }
 
 }
