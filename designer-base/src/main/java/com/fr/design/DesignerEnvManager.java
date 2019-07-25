@@ -310,8 +310,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void createEnvFile(File envFile) {
+        FileWriter fileWriter = null;
         try {
-            FileWriter fileWriter = new FileWriter(envFile);
+            fileWriter = new FileWriter(envFile);
             File oldEnvFile = new File(ProductConstants.getEnvHome() + File.separator + ProductConstants.APP_NAME + "6-1" + "Env.xml");
             File envFile80 = new File(getEnvHome(VERSION_80) + File.separator + getEnvFile().getName());
             if (oldEnvFile.exists()) {
@@ -327,9 +328,17 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 Utils.copyCharTo(stringReader, fileWriter);
                 stringReader.close();
             }
-            fileWriter.close();
+
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            if (null != fileWriter) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
         }
     }
 

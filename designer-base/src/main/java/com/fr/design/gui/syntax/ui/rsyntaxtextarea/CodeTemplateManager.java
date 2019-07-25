@@ -276,8 +276,9 @@ public class CodeTemplateManager {
 			temp.addAll(templates);
 
 			for (int i=0; i<newCount; i++) {
+				XMLDecoder d = null;
 				try {
-					XMLDecoder d = new XMLDecoder(new BufferedInputStream(
+					d = new XMLDecoder(new BufferedInputStream(
 						new FileInputStream(files[i])));
 					Object obj = d.readObject();
 					if (!(obj instanceof CodeTemplate)) {
@@ -291,6 +292,10 @@ public class CodeTemplateManager {
 					// an XML file not in the format expected by XMLDecoder.
 					// (e.g. CodeTemplates in an old format).
 					e.printStackTrace();
+				} finally {
+					if(null != d){
+						d.close();
+					}
 				}
 			}
 			templates = temp;

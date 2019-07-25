@@ -85,24 +85,35 @@ public class PluginUtils {
     public static void downloadShopScripts(String id, Process<Double> p) throws Exception {
         HttpClient httpClient = new HttpClient(getDownloadPath(id));
         if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            int totalSize = httpClient.getContentLength();
-            InputStream reader = httpClient.getResponseStream();
-            String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
-            StableUtils.makesureFileExist(new File(temp));
-            FileOutputStream writer = new FileOutputStream(temp);
-            byte[] buffer = new byte[PluginConstants.BYTES_NUM];
-            int bytesRead = 0;
-            int totalBytesRead = 0;
+            InputStream reader = null;
+            FileOutputStream writer = null;
+            try {
+                int totalSize = httpClient.getContentLength();
+                reader = httpClient.getResponseStream();
+                String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
+                StableUtils.makesureFileExist(new File(temp));
+                writer = new FileOutputStream(temp);
+                byte[] buffer = new byte[PluginConstants.BYTES_NUM];
+                int bytesRead = 0;
+                int totalBytesRead = 0;
 
-            while ((bytesRead = reader.read(buffer)) > 0) {
-                writer.write(buffer, 0, bytesRead);
-                buffer = new byte[PluginConstants.BYTES_NUM];
-                totalBytesRead += bytesRead;
-                p.process(totalBytesRead / (double) totalSize);
+                while ((bytesRead = reader.read(buffer)) > 0) {
+                    writer.write(buffer, 0, bytesRead);
+                    buffer = new byte[PluginConstants.BYTES_NUM];
+                    totalBytesRead += bytesRead;
+                    p.process(totalBytesRead / (double) totalSize);
+                }
+            }catch (Exception e){
+                throw new Exception();
+            }finally {
+                if(null != reader){
+                    reader.close();
+                }
+                if(null != writer){
+                    writer.flush();
+                    writer.close();
+                }
             }
-            reader.close();
-            writer.flush();
-            writer.close();
         } else {
             throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
         }
