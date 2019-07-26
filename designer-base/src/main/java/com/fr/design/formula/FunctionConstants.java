@@ -174,7 +174,7 @@ public final class FunctionConstants {
                 jarPath = StringUtils.perfectStart(jarPath, "/");
             }
 			
-			ZipFile zip;
+			ZipFile zip = null;
 			try {
 				zip = new ZipFile(jarPath);
 				Enumeration entries = zip.entries();
@@ -193,6 +193,14 @@ public final class FunctionConstants {
 				}
 			} catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			} finally {
+				if(null != zip){
+					try {
+						zip.close();
+					} catch (IOException e) {
+						FineLoggerFactory.getLogger().error(e.getMessage(), e);
+					}
+				}
 			}
 		} else {
 			File dir = new File(filePath);
