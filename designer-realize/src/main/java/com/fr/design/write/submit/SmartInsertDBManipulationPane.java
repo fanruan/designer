@@ -445,24 +445,11 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 oriCellSelection = cellselection;
             }
 
-            private ColumnRowGroup getColumnRowGroupValue(Object oriValue) {
-                ColumnRowGroup newValue = new ColumnRowGroup();
-                if (oriValue instanceof ColumnRowGroup) {
-                    newValue.addAll((ColumnRowGroup) oriValue);
-                } else if (oriValue instanceof ColumnRow) {
-                    newValue.addColumnRow((ColumnRow) oriValue);
-                }
-                return newValue;
-            }
-
-            private boolean isSameStartPoint(CellSelection cs1, CellSelection cs2) {
-                return cs1.getColumn() == cs2.getColumn() && cs1.getRow() == cs2.getRow();
-            }
-
             private void dealDragSelection(ColumnRowGroup add, CellSelection cellselection, ColumnRowGroup newValue) {
                 int c = cellselection.getColumn();
                 int cs = cellselection.getColumnSpan();
-                int r = cellselection.getRow();int rs = cellselection.getRowSpan();
+                int r = cellselection.getRow();
+                int rs = cellselection.getRowSpan();
                 String allColumnRow = newValue.toString();
                 newAdd.clear();
                 for (int i = 0; i < cs; i++) {
@@ -482,6 +469,20 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 }
                 oldAdd.clear();
                 oldAdd.addAll(newAdd);
+            }
+
+            private ColumnRowGroup getColumnRowGroupValue(Object oriValue) {
+                ColumnRowGroup newValue = new ColumnRowGroup();
+                if (oriValue instanceof ColumnRowGroup) {
+                    newValue.addAll((ColumnRowGroup) oriValue);
+                } else if (oriValue instanceof ColumnRow) {
+                    newValue.addColumnRow((ColumnRow) oriValue);
+                }
+                return newValue;
+            }
+
+            private boolean isSameStartPoint(CellSelection cs1, CellSelection cs2) {
+                return cs1.getColumn() == cs2.getColumn() && cs1.getRow() == cs2.getRow();
             }
 
             private void dealSelectColRow(ColumnRowGroup add, CellSelection se) {
