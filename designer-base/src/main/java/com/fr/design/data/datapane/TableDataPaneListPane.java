@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -211,15 +210,19 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
 
     @Override
     public void update(TableDataConfig tableDataConfig) {
-        tableDataConfig.removeAllTableData();
-        ProcedureConfig.getInstance().removeAllProcedure();
+        Iterator<String> tableDataNames =  tableDataConfig.getTableDatas().keySet().iterator();
+        while (tableDataNames.hasNext()) {
+            tableDataConfig.removeTableData(tableDataNames.next());
+        }
+        Iterator<String> procedureName = ProcedureConfig.getInstance().getProcedures().keySet().iterator();
+        while (procedureName.hasNext()) {
+            ProcedureConfig.getInstance().removeProcedure(procedureName.next());
+        }
         Nameable[] tableDataArray = this.update();
-        Map<String,TableData> tableDataMap = new LinkedHashMap<String,TableData>();
         for (int i = 0; i < tableDataArray.length; i++) {
             NameObject nameObject = (NameObject) tableDataArray[i];
-            tableDataMap.put(nameObject.getName(), (TableData) nameObject.getObject());
+            tableDataConfig.addTableData(nameObject.getName(), (TableData) nameObject.getObject());
         }
-        tableDataConfig.setTableDatas(tableDataMap);
     }
 
     @Override
