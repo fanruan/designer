@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by alex sung on 2019/7/23.
@@ -21,8 +23,10 @@ import java.util.Set;
 public class FileNodeConstants {
 
     private static List<String> supportFileType;
+    private static ReadWriteLock rwl = new ReentrantReadWriteLock();
 
-    private FileNodeConstants(){}
+    private FileNodeConstants() {
+    }
 
     static {
         initSupportedTypes();
@@ -30,12 +34,7 @@ public class FileNodeConstants {
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
             @Override
             public void on(PluginEvent pluginEvent) {
-                supportFileType = new ArrayList<String>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
-                //通过插件扩展的
-                Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
-                for (App app : apps) {
-                    addAppExtensions(app.defaultExtensions());
-                }
+                initSupportedTypes();
             }
         }, new PluginFilter() {
             @Override
@@ -54,15 +53,30 @@ public class FileNodeConstants {
     }
 
     private static void initSupportedTypes() {
-        supportFileType = new ArrayList<String>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
-        //通过插件扩展的
-        Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
-        for (App app : apps) {
-            addAppExtensions(app.defaultExtensions());
+        try {
+            rwl.writeLock().lock();
+            supportFileType = new ArrayList<String>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
+            //通过插件扩展的
+            Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
+            for (App app : apps) {
+                addAppExtensions(app.defaultExtensions());
+            }
+        } catch (Exception ignored) {
+            //ignored
+        } finally {
+            rwl.writeLock().unlock();
         }
     }
 
     public static String[] getSupportFileTypes() {
-        return supportFileType.toArray(new String[0]);
+        try {
+            rwl.readLock().lock();
+            return supportFileType.toArray(new String[0]);
+        } catch (Exception ignored) {
+            //ignored
+        } finally {
+            rwl.readLock().unlock();
+        }
+        return null;
     }
 }
