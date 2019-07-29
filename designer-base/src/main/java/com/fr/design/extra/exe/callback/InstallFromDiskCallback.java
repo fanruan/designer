@@ -36,10 +36,12 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
 
     @Override
     public void done(PluginTaskResult result) {
+        String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
+            String switchedInfo = PluginOperateUtils.getSwitchedInfo(result);
             jsCallback.execute("success");
-            FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success"));
+            FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
+            JOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
