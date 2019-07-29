@@ -20,9 +20,13 @@ import java.util.Set;
  */
 public class FileNodeConstants {
 
-    private static List<String> supportFileType = new ArrayList<String>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
+    private static List<String> supportFileType;
+
+    private FileNodeConstants(){}
 
     static {
+        initSupportedTypes();
+
         GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
             @Override
             public void on(PluginEvent pluginEvent) {
@@ -46,6 +50,15 @@ public class FileNodeConstants {
             if (!supportFileType.contains(extensions[i])) {
                 supportFileType.add(extensions[i]);
             }
+        }
+    }
+
+    private static void initSupportedTypes() {
+        supportFileType = new ArrayList<String>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
+        //通过插件扩展的
+        Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
+        for (App app : apps) {
+            addAppExtensions(app.defaultExtensions());
         }
     }
 
