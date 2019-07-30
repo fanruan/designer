@@ -1,6 +1,5 @@
 package com.fr.design.actions.help.alphafine;
 
-import com.fr.base.FRContext;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
@@ -11,7 +10,7 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
 import com.fr.general.IOUtils;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 
 /**
@@ -51,9 +50,6 @@ public class AlphaFineAction extends UpdateAction {
 
         final AlphaFineConfigPane alphaFineConfigPane = new AlphaFineConfigPane();
         final AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
-        if (!FRContext.isChineseEnv()) {
-            manager.setSearchOnLine(false);
-        }
         alphaFineConfigPane.populate(manager);
         DialogActionListener dialogActionListener = new DialogActionAdapter() {
             public void doOk() {
