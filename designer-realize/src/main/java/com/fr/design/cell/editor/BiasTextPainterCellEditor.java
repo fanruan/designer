@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,7 @@ import java.awt.event.ActionListener;
 public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
     private BiasTextPainterPane biasTextPainterPane = null;
+    private static final double MULTIPLE = 1.5;
 
     /**
      * Constructor.
@@ -84,8 +86,10 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
         Window parentWindow = SwingUtilities.getWindowAncestor(grid);
         this.biasTextPainterPane = new BiasTextPainterPane();
+        Dimension dimension = this.biasTextPainterPane.getPreferredSize();
+        Dimension wrapDimension = new Dimension((int) (dimension.width * MULTIPLE), (int) (dimension.height * MULTIPLE));
         this.biasTextPainterPane.populate(biasTextPainter);
-        return this.biasTextPainterPane.showSmallWindow(parentWindow, new DialogActionAdapter() {
+        return this.biasTextPainterPane.showWindowWithCustomSize(parentWindow, new DialogActionAdapter() {
 
             @Override
             public void doOk() {
@@ -96,7 +100,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
             public void doCancel() {
                 BiasTextPainterCellEditor.this.fireEditingCanceled();
             }
-        });
+        }, wrapDimension);
     }
 
     public static class BiasTextPainterPane extends BasicPane {
@@ -142,7 +146,6 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
             group.add(choice2);
 
             choicePane.add(choice1);
-//            choicePane.add(new UILabel("    "));
             choicePane.add(choice2);
 
             centerPane.add(choicePane, BorderLayout.SOUTH);
