@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.actions.TemplateComponentAction;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.TargetComponent;
+import com.fr.general.IOUtils;
 
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
@@ -25,13 +26,13 @@ public class CutAction extends TemplateComponentAction {
 
         this.setName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_M_Edit_Cut"));
         this.setMnemonic('T');
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/m_edit/cut.png"));
         this.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, DEFAULT_MODIFIER));
         this.setEnabled(!DesignModeContext.isBanCopyAndCut());
     }
 
     @Override
     public boolean executeActionReturnUndoRecordNeeded() {
-        return DesignModeContext.doPaste(getEditingComponent());
+        return DesignModeContext.doCut(getEditingComponent());
     }
 }
