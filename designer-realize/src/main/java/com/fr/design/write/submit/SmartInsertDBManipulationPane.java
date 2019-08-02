@@ -32,11 +32,20 @@ import com.fr.stable.ColumnRowGroup;
 import com.fr.stable.StringUtils;
 import com.fr.write.DMLConfigJob;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SmartInsertDBManipulationPane extends DBManipulationPane {
     private static final Selection NO_SELECTION = new CellSelection(-1, -1, -1, -1);
@@ -115,6 +124,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
          *
          * @param evt 事件对象
          */
+        @Override
         public void actionPerformed(ActionEvent evt) {
             BasicPane bPane = new BasicPane() {
                 @Override
@@ -131,6 +141,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
             double f = TableLayout.FILL;
             bPane.add(TableLayoutHelper.createTableLayoutPane(coms, new double[]{p, p}, new double[]{p, f}), BorderLayout.NORTH);
             BasicDialog dlg = bPane.showSmallWindow(SwingUtilities.getWindowAncestor(SmartInsertDBManipulationPane.this), new DialogActionAdapter() {
+                @Override
                 public void doOk() {
                     int row_offset = ((Number) rowSpinner.getValue()).intValue();
                     int column_offset = ((Number) columnSpinner.getValue()).intValue();
@@ -177,6 +188,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
          *
          * @param evt 事件s
          */
+        @Override
         public void actionPerformed(ActionEvent evt) {
             showCellWindow(false);
         }
@@ -192,6 +204,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
          *
          * @param e 事件s
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
             showCellWindow(true);
         }
@@ -268,6 +281,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
      *
      * @throws Exception
      */
+    @Override
     public void checkValid() throws Exception {
         KeyColumnTableModel model = (KeyColumnTableModel) keyColumnValuesTable.getModel();
         int cnt = model.getRowCount();
@@ -293,6 +307,10 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
         // 单元格组要记录下之前的选中情况
         private CellSelection oriCellSelection = null;
+
+        private List<String> newAdd = new ArrayList<String>();
+
+        private List<String> oldAdd = new ArrayList<String>();
 
         public SmartJTablePane4DB(KeyColumnTableModel model, ElementCasePane actionReportPane) {
             this(model, actionReportPane, false);
@@ -347,6 +365,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
          *
          * @throws Exception
          */
+        @Override
         public void checkValid() throws Exception {
             SmartInsertDBManipulationPane.this.checkValid();
         }
@@ -402,19 +421,21 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
                 // 要考虑多选的情况 要结合之前的看看 可能是增加 也可能需要减少
                 ColumnRowGroup add = new ColumnRowGroup();
-                int removeCount = 0;
                 if (oriCellSelection != null && isSameStartPoint(cellselection, oriCellSelection)) {
-                    removeCount = dealDragSelection(add, cellselection);
+                    dealDragSelection(add, cellselection, newValue);
                 } else if (cellselection.getSelectedType() == CellSelection.CHOOSE_ROW || cellselection.getSelectedType() == CellSelection.CHOOSE_COLUMN) {
                     dealSelectColRow(add, cellselection);
                 } else {
-                    add.addColumnRow(ColumnRow.valueOf(cellselection.getColumn(), cellselection.getRow()));
+                    ColumnRow columnRow = ColumnRow.valueOf(cellselection.getColumn(), cellselection.getRow());
+                    String allColumnRow = columnRow.toString();
+                    if (!allColumnRow.contains(columnRow.toString())) {
+                        add.addColumnRow(columnRow);
+                    }
+
                 }
 
                 if (add.getSize() > 0) {
                     newValue.addAll(add);
-                } else if (removeCount > 0) {
-                    newValue.splice(newValue.getSize() - removeCount, removeCount);
                 }
 
                 kcv.cv.obj = newValue;
@@ -422,6 +443,32 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 model.fireTableDataChanged();
 
                 oriCellSelection = cellselection;
+            }
+
+            private void dealDragSelection(ColumnRowGroup add, CellSelection cellselection, ColumnRowGroup newValue) {
+                int c = cellselection.getColumn();
+                int cs = cellselection.getColumnSpan();
+                int r = cellselection.getRow();
+                int rs = cellselection.getRowSpan();
+                String allColumnRow = newValue.toString();
+                newAdd.clear();
+                for (int i = 0; i < cs; i++) {
+                    for (int j = 0; j < rs; j++) {
+                        ColumnRow columnRow = ColumnRow.valueOf(c + i, r + j);
+                        if (!allColumnRow.contains(columnRow.toString())) {
+                            add.addColumnRow(columnRow);
+                        }
+                        newAdd.add(columnRow.toString());
+                    }
+                }
+                int oldSize = oldAdd.size();
+                int newSize = newAdd.size();
+                if (oldSize > newSize && oldAdd.containsAll(newAdd)) {
+                    int diff = oldSize - newSize;
+                    newValue.splice(newValue.getSize() - diff, diff);
+                }
+                oldAdd.clear();
+                oldAdd.addAll(newAdd);
             }
 
             private ColumnRowGroup getColumnRowGroupValue(Object oriValue) {
@@ -436,26 +483,6 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
 
             private boolean isSameStartPoint(CellSelection cs1, CellSelection cs2) {
                 return cs1.getColumn() == cs2.getColumn() && cs1.getRow() == cs2.getRow();
-            }
-
-            private int dealDragSelection(ColumnRowGroup add, CellSelection cellselection) {
-                int removeCount = 0;
-                if (cellselection.getRowSpan() == oriCellSelection.getRowSpan() + 1) {
-                    for (int i = 0; i < cellselection.getColumnSpan(); i++) {
-                        add.addColumnRow(ColumnRow.valueOf(
-                                cellselection.getColumn() + i, cellselection.getRow() + cellselection.getRowSpan() - 1));
-                    }
-                } else if (cellselection.getRowSpan() == oriCellSelection.getRowSpan() - 1) {
-                    removeCount = cellselection.getColumnSpan();
-                } else if (cellselection.getColumnSpan() == oriCellSelection.getColumnSpan() + 1) {
-                    for (int i = 0; i < cellselection.getRowSpan(); i++) {
-                        add.addColumnRow(ColumnRow.valueOf(
-                                cellselection.getColumn() + cellselection.getColumnSpan() - 1, cellselection.getRow() + i));
-                    }
-                } else if (cellselection.getColumnSpan() == oriCellSelection.getColumnSpan() - 1) {
-                    removeCount = cellselection.getRowSpan();
-                }
-                return removeCount;
             }
 
             private void dealSelectColRow(ColumnRowGroup add, CellSelection se) {
