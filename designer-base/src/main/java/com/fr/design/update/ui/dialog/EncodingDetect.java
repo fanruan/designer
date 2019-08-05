@@ -1,5 +1,6 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.log.FineLoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,11 +77,10 @@ class BytesEncodingDetect extends Encoding {
 	   */
 	  public int detectEncoding(File testfile) {
 		  byte[] rawtext = new byte[(int) testfile.length()];
-		  try(FileInputStream chinesefile = new FileInputStream(testfile))  {
+		  try (FileInputStream chinesefile = new FileInputStream(testfile))  {
 			  chinesefile.read(rawtext);
-			  chinesefile.close();
 		  } catch (Exception e) {
-			  System.err.println("Error: " + e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		  }
 		  return detectEncoding(rawtext);
 	  }
