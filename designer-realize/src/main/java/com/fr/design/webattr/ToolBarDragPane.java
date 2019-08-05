@@ -9,6 +9,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.form.ui.ToolBar;
 import com.fr.form.ui.Widget;
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
@@ -35,6 +36,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.ImageObserver;
+import java.util.List;
 
 /**
  * 新的拖拽ToolBar button以实现自定义工具栏 报表web设置那儿的.应该不叫ToolBarDragPane，因为实际没有提供drag功能
@@ -225,6 +227,16 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 	public void setAllEnabled(boolean b) {
 		GUICoreUtils.setEnabled(this, b);
 		isEnabled = b;
+		removeAllListener(northToolBar.getToolBarButtons());
+	}
+
+	private void removeAllListener(List<ToolBarButton> toolBarButtons) {
+		for (ToolBarButton button : toolBarButtons) {
+			button.setEnabled(isEnabled);
+			if (!isEnabled) {
+				button.removeMouseListener(button);
+			}
+		}
 	}
 
 	/**
