@@ -9,7 +9,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.form.ui.ToolBar;
 import com.fr.form.ui.Widget;
 import com.fr.report.web.Location;
 import com.fr.report.web.ToolBarManager;
