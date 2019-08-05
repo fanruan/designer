@@ -11,8 +11,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import static org.junit.Assert.*;
+import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
 public class AlphaFineHelperTest {
@@ -25,8 +24,13 @@ public class AlphaFineHelperTest {
         PowerMock.mockStatic(GeneralContext.class);
         EasyMock.expect(GeneralContext.isChineseEnv()).andReturn(true).times(1).andReturn(false).times(1);
     
+        AlphaFineConfigManager mockConfig = EasyMock.partialMockBuilder(AlphaFineConfigManager.class).createMock();
+        Whitebox.setInternalState(mockConfig,"searchOnLine", true);
+        EasyMock.replay(mockConfig);
+    
         DesignerEnvManager manager = EasyMock.mock(DesignerEnvManager.class);
-        EasyMock.expect(manager.getAlphaFineConfigManager()).andReturn(new AlphaFineConfigManager()).anyTimes();
+        EasyMock.expect(manager.getAlphaFineConfigManager()).andReturn(mockConfig).anyTimes();
+
         EasyMock.replay(manager);
     
         PowerMock.mockStatic(DesignerEnvManager.class);
