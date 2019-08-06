@@ -62,8 +62,7 @@ public class CellElementEditPane extends BasicPane {
             @Override
             public void tabChanged(int index) {
                 card.show(center, paneList.get(index).title4PopupWindow());
-                paneList.get(index).populateBean(cellelement, ePane);// 设置面板变了，也要populate
-                paneList.get(index).addAttributeChangeListener(listener);
+                populate(ePane);
                 if (titleChangeListener != null) {
                     titleChangeListener.fireTitleChange(getSelectedTabName());
                 }

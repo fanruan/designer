@@ -532,7 +532,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String oldName = fnf.getName();
             String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replace(suffix, StringUtils.EMPTY);
+            oldName = StringUtils.replaceLast(oldName, suffix, StringUtils.EMPTY);
             this.setLayout(new BorderLayout());
             this.setModal(true);
 
@@ -651,7 +651,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String oldName = fnf.getName();
             String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
+            oldName = StringUtils.replaceLast(oldName, suffix, StringUtils.EMPTY);
 
             // 输入为空或者没有修改
             if (ComparatorUtils.equals(userInput, oldName)) {
