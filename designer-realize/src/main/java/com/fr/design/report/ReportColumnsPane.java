@@ -1,6 +1,5 @@
 package com.fr.design.report;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.border.UITitledBorder;
@@ -15,14 +14,27 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.general.IOUtils;
 import com.fr.report.stable.WorkSheetAttr;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -87,6 +99,7 @@ public class ReportColumnsPane extends BasicPane{
         };
 
         onOffButtonGroup = new UIButtonGroup(textArray) {
+            @Override
             protected void initButton(UIToggleButton labelButton) {
                 labelButton.setSize(new Dimension(60,20));
                 labelButton.setPreferredSize(new Dimension(60, 20));
@@ -190,7 +203,7 @@ public class ReportColumnsPane extends BasicPane{
         JPanel sampleLablePane = new JPanel(new GridLayout(1,2));
         sampleLablePane.setPreferredSize(new Dimension(524, 130));
         JPanel rPane = new JPanel();
-        UILabel rLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_Icon_File_Name")));
+        UILabel rLabel = new UILabel(IOUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Row_Icon_File_Name")));
         rLabel.setBorder(BorderFactory.createEmptyBorder(5,45,0,49));
         rPane.add(rLabel);
         rowButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_Horizontally"));
@@ -198,7 +211,7 @@ public class ReportColumnsPane extends BasicPane{
         rPane.add(rowButton);
         sampleLablePane.add(rPane);
         JPanel cPane = new JPanel();
-        UILabel cLabel = new UILabel(BaseUtils.readIcon("/com/fr/design/images/reportcolumns/col.png"));
+        UILabel cLabel = new UILabel(IOUtils.readIcon("/com/fr/design/images/reportcolumns/" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Col_Icon_File_Name")));
         cLabel.setBorder(BorderFactory.createEmptyBorder(5,49,0,49));
         cPane.add(cLabel);
         colButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportColumns_Columns_Vertically"));
@@ -552,6 +565,7 @@ public class ReportColumnsPane extends BasicPane{
     /**
 	 * 判断输入是否合法
 	 */
+    @Override
     public void checkValid() throws Exception {
         String repeatText = repeatColDataTextField.getText().trim();
         if(StringUtils.isEmpty(repeatText)){

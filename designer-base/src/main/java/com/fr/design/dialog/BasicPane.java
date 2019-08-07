@@ -129,7 +129,7 @@ public abstract class BasicPane extends JPanel {
      * @param dimension 自定义尺寸
      * @return 对话框
      */
-    protected BasicDialog showWindowWithCustomSize(Window window, DialogActionListener l, Dimension dimension) {
+    public BasicDialog showWindowWithCustomSize(Window window, DialogActionListener l, Dimension dimension) {
         BasicDialog dg;
         if (window instanceof Frame) {
             dg = new DIALOG((Frame) window);
