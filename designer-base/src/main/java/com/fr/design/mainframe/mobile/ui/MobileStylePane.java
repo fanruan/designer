@@ -6,7 +6,9 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.MobileWidgetStyleProvider;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WScaleLayout;
 import com.fr.form.ui.mobile.MobileStyle;
+import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 
@@ -27,7 +29,11 @@ public class MobileStylePane extends BasicPane {
     private Map<String, BasicBeanPane<MobileStyle>> map = new HashMap<>();
 
     public MobileStylePane(Widget widget) {
-        this.widget = widget;
+        if(widget instanceof WScaleLayout) {
+            this.widget = ((CRBoundsWidget)((WScaleLayout) widget).getBoundsWidget()).getWidget();
+        } else {
+            this.widget = widget;
+        }
         init();
     }
 
