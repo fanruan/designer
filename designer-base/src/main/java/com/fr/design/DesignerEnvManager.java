@@ -1373,7 +1373,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return
      */
     private Locale checkLocale(Locale locale) {
-        return Locale.US;//SupportLocale.getInstance().isSupport(locale) ? locale : Locale.US;
+        return SupportLocale.getInstance().isSupport(locale) ? locale : Locale.US;
     }
 
     private void readReportLengthUnit(XMLableReader reader) {
