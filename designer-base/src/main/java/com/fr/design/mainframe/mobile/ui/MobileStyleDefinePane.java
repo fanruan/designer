@@ -43,7 +43,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
         MobileStyle mobileStyle = Reflect.on(mobileStyleClazz).create().get();
         this.widget.setMobileStyle(mobileStyle);
         this.customBeanPane.updateBean();
-        mobileStyle.setBackground(colorSelectBox.getBackground());
+        mobileStyle.setBackground(colorSelectBox.getSelectObject());
         return mobileStyle;
     }
 
