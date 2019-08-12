@@ -187,7 +187,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
             //REPORT-15332有一个国际化调用比较早,需要在这边就设置好locale,由于后台GeneralContext默认是China
-            GeneralContext.setLocale(designerEnvManager.getLanguage());
+            GeneralContext.setLocale(DesignerEnvManager.designerEnvManager.checkLocale(designerEnvManager.getLanguage()));
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
@@ -1373,7 +1373,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * @return
      */
     private Locale checkLocale(Locale locale) {
-        return SupportLocale.getInstance().isSupport(locale) ? locale : Locale.US;
+        return Locale.US;//SupportLocale.getInstance().isSupport(locale) ? locale : Locale.US;
     }
 
     private void readReportLengthUnit(XMLableReader reader) {
