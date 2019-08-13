@@ -117,7 +117,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private Color paginationLineColor = Color.black; // line color of paper
     private boolean supportCellEditorDef = false;
     private boolean isDragPermited = false;
-    private Locale language = Locale.getDefault();
+    private Locale language = checkLocale(Locale.getDefault());
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
     private int cachingTemplateLimit = CACHINGTEMPLATE_LIMIT;
@@ -187,7 +187,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (designerEnvManager == null) {
             designerEnvManager = new DesignerEnvManager();
             //REPORT-15332有一个国际化调用比较早,需要在这边就设置好locale,由于后台GeneralContext默认是China
-            GeneralContext.setLocale(DesignerEnvManager.designerEnvManager.checkLocale(designerEnvManager.getLanguage()));
+            GeneralContext.setLocale(designerEnvManager.getLanguage());
             try {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
