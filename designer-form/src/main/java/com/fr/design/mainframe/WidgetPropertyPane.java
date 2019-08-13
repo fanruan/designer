@@ -7,6 +7,7 @@ import com.fr.design.designer.beans.events.DesignerEditListener;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
+import com.fr.design.designer.properties.mobile.MobileStylePropertyUI;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -172,8 +173,12 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
     private WidgetPropertyUIProvider[] getExtraPropertyUIProviders() {
         FormSelection selection = designer.getSelectionModel().getSelection();
         WidgetPropertyUIProvider[] embeddedPropertyUIProviders = null;
-        if (selection != null && selection.getSelectedCreator() != null) {
+        XCreator xCreator = selection.getSelectedCreator();
+        if (selection != null && xCreator != null) {
             embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
+            if(!designer.getDesignerMode().isFormParameterEditor() && xCreator.supportMobileStyle()) {
+                embeddedPropertyUIProviders = ArrayUtils.insert(0, embeddedPropertyUIProviders, new MobileStylePropertyUI(xCreator));
+            }
         }
         Set<WidgetPropertyUIProvider> set = ExtraDesignClassManager.getInstance().getArray(WidgetPropertyUIProvider.XML_TAG);
         return ArrayUtils.addAll(embeddedPropertyUIProviders, set.toArray(new WidgetPropertyUIProvider[set.size()]));

@@ -468,30 +468,28 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
-            BufferedReader br = new BufferedReader(streamReader);
-            String readStr, updateTimeStr;
-
-            while ((readStr = br.readLine()) != null) {
-                String[] updateInfo = readStr.split("\\t");
-                if (updateInfo.length == 2) {
-                    updateTimeStr = updateInfo[0];
-                    Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
-                    //形如 Build#release-2018.07.31.03.03.52.80
-                    String currentNO = GeneralUtils.readBuildNO();
-                    Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
-                    if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
-                        if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
-                            continue;
+            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
+                 BufferedReader br = new BufferedReader(streamReader)) {
+                String readStr, updateTimeStr;
+                while ((readStr = br.readLine()) != null) {
+                    String[] updateInfo = readStr.split("\\t");
+                    if (updateInfo.length == 2) {
+                        updateTimeStr = updateInfo[0];
+                        Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
+                        //形如 Build#release-2018.07.31.03.03.52.80
+                        String currentNO = GeneralUtils.readBuildNO();
+                        Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+                        if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
+                            if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
+                                continue;
+                            }
                         }
-                    }
-                    if (isValidLogInfo(updateInfo[1])) {
-                        updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        if (isValidLogInfo(updateInfo[1])) {
+                            updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        }
                     }
                 }
             }
-            br.close();
-            streamReader.close();
         }
     }
 

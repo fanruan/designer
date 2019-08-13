@@ -1,10 +1,11 @@
 package com.fr.design.gui.itree.filetree;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.project.ProjectConstants;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.Icon;
 import javax.swing.JTree;
@@ -29,7 +30,8 @@ import java.util.Stack;
  * File Tree.
  */
 public class JFileTree extends AbstractFileTree {
-    protected FileFilter fileFilter;
+
+    private FileFilter fileFilter;
 
     public JFileTree() {
         this(null);
@@ -68,11 +70,11 @@ public class JFileTree extends AbstractFileTree {
         DefaultMutableTreeNode rootTreeNode = (DefaultMutableTreeNode) defaultTreeModel.getRoot();
         rootTreeNode.removeAllChildren();
 
-        for (int k = 0; k < rootFiles.length; k++) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RootFile(rootFiles[k]));
+        for (File rootFile : rootFiles) {
+            DefaultMutableTreeNode node = new DefaultMutableTreeNode(new RootFile(rootFile));
             rootTreeNode.add(node);
 
-            if (rootFiles[k].isDirectory()) {
+            if (rootFile.isDirectory()) {
                 node.add(new DefaultMutableTreeNode(Boolean.TRUE));
             }
         }
@@ -93,6 +95,7 @@ public class JFileTree extends AbstractFileTree {
         this.fileFilter = fileFilter;
     }
 
+    @Nullable
     public File getSelectedFile() {
         TreePath selectedTreePath = this.getSelectionPath();
         if (selectedTreePath == null) {
@@ -140,7 +143,7 @@ public class JFileTree extends AbstractFileTree {
             File rootFile = rootLocalFile.getFile();
             // 是父子关系,开始找孩子.
             if (AbstractFileTree.isParentFile(rootFile, currentFile)) {
-                Stack nameStack = new Stack(); // 将所有的名字加入Stack.
+                Stack<String> nameStack = new Stack<>(); // 将所有的名字加入Stack.
                 while (true) {
                     if (ComparatorUtils.equals(rootFile, currentFile)) {
                         break;
@@ -153,7 +156,7 @@ public class JFileTree extends AbstractFileTree {
                 }
                 DefaultMutableTreeNode curChildTreeNode = rootChildTreeNode;
                 while (!nameStack.isEmpty()) {
-                    String name = (String) nameStack.pop();
+                    String name = nameStack.pop();
                     this.expandTreeNode(curChildTreeNode);
                     for (int j = 0; j < curChildTreeNode.getChildCount(); j++) {
                         DefaultMutableTreeNode tmpChildTreeNode =
@@ -198,9 +201,8 @@ public class JFileTree extends AbstractFileTree {
                 if (files == null) {
                     return new FileDirectoryNode[0];
                 }
-                List fileNodeList = new ArrayList();
-                for (int k = 0; k < files.length; k++) {
-                    File tmpFile = files[k];
+                List<FileDirectoryNode> fileNodeList = new ArrayList<>();
+                for (File tmpFile : files) {
                     // 文件属性为隐藏的话  不放入列表
                     if (tmpFile.isHidden()) {
                         continue;
@@ -256,7 +258,7 @@ public class JFileTree extends AbstractFileTree {
                     // 得到本地tree图标
                     Icon tmpIcon = view.getSystemIcon(currentFile);
                     if (currentFile.isDirectory() && fBuf.length() > 0) {
-                        tmpIcon = BaseUtils.readIcon("/com/fr/design/images/gui/folder.png");
+                        tmpIcon = IOUtils.readIcon("/com/fr/design/images/gui/folder.png");
                     }
                     this.setIcon(tmpIcon);
                     this.setName(null);
@@ -299,6 +301,7 @@ public class JFileTree extends AbstractFileTree {
          */
         @Override
         public int compare(FileDirectoryNode v1, FileDirectoryNode v2) {
+            //noinspection Duplicates
             if (v1.isDirectory()) {
                 if (v2.isDirectory()) {
                     return v1.getName().toLowerCase().compareTo(v2.getName().toLowerCase());

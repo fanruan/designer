@@ -1,16 +1,20 @@
 package com.fr.design.widget.ui.designer;
 
 
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.form.ui.ButtonGroup;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.SpinnerNumberModel;
+import java.awt.Component;
 
 
 public class ButtonGroupDictPane extends JPanel {
@@ -26,16 +30,23 @@ public class ButtonGroupDictPane extends JPanel {
     *
      */
 	public void initComponents() {
-
-
-
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		adaptiveCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Adaptive"), true);
 		adaptiveCheckbox.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		this.columnLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns") + ":");
+		UILabel dictLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_DS_Dictionary"));
+		this.columnLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Button_Group_Display_Columns") + ":", dictLabel.getPreferredSize().width);
 		columnSpinner = new UIBasicSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
-
-		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{adaptiveCheckbox, columnLabel, columnSpinner}}, TableLayoutHelper.FILL_LASTCOLUMN, 18, 7);
+		double f = TableLayout.FILL;
+		double p = TableLayout.PREFERRED;
+		double[] rowSize = {p, p};
+		double[] columnSize = {p, f};
+		int[][] rowCount = {{1, 1}, {1, 1}};
+		Component[][] components = {
+				new Component[] {adaptiveCheckbox, null},
+				new Component[] {columnLabel, columnSpinner},
+		};
+		JPanel jPanel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+		jPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
 		this.add(jPanel);
 	}

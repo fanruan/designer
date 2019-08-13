@@ -154,12 +154,12 @@ public class RestartHelper {
             deleteWhenDebug();
             return;
         }
-
+        RandomAccessFile randomAccessFile = null;
         try {
             try {
                 File restartLockFile = new File(StableUtils.pathJoin(StableUtils.getInstallHome(), "restart.lock"));
                 StableUtils.makesureFileExist(restartLockFile);
-                RandomAccessFile randomAccessFile = new RandomAccessFile(restartLockFile,"rw");
+                randomAccessFile = new RandomAccessFile(restartLockFile,"rw");
                 FileChannel restartLockFC = randomAccessFile.getChannel();
                 FileLock restartLock = restartLockFC.tryLock();
                 if(restartLock == null) {
@@ -176,6 +176,13 @@ public class RestartHelper {
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
+            try {
+                if (null != randomAccessFile) {
+                    randomAccessFile.close();
+                }
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
             DesignerContext.getDesignerFrame().exit();
         }
     }
