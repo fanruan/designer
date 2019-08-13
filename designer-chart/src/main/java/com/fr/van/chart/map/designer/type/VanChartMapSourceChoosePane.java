@@ -20,7 +20,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpClient;
-import com.fr.geojson.helper.GEOJSONHelper;
 import com.fr.plugin.chart.base.GisLayer;
 import com.fr.plugin.chart.base.ViewCenter;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -576,7 +575,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         mapDataTree.changeRootNode(this.getRootNode());
         if(samePlotChange) {
-            String nodePath = GEOJSONHelper.getDefaultJSONURL();
+            String nodePath = ChartGEOJSONHelper.getDefaultJSONURL();
             mapPlot.setGeoUrl(nodePath);
             mapDataTree.setSelectNodePath(nodePath);
             selectTreePath = mapDataTree.getSelectionPath();

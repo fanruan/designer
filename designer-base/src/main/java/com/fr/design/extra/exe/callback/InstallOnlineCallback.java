@@ -35,9 +35,10 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
     protected void allDone(PluginTaskResult result) {
         String pluginInfo = PluginOperateUtils.getSuccessInfo(result);
         if (result.isSuccess()) {
+            String switchedInfo = PluginOperateUtils.getSwitchedInfo(result);
             jsCallback.execute("success");
-            FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success"));
-            JOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success"));
+            FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
+            JOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
         } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
             int rv = JOptionPane.showOptionDialog(
                     null,
