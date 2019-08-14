@@ -56,6 +56,7 @@ public class FormWidgetAuthorityEditPane extends AuthorityEditPane {
             for (String selectedRole : selectedArray) {
                 for (Widget widget : widgets) {
                     widget.changeVisibleAuthorityState(selectedRole, widgetVisible.isSelected());
+                    widgetAvailable.setEnabled(widgetVisible.isSelected());
                 }
             }
             doAfterAuthority();
