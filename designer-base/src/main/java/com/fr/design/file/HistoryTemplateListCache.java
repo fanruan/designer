@@ -263,9 +263,9 @@ public class HistoryTemplateListCache implements CallbackEvent {
             JTemplate<?, ?> template = iterator.next();
             String tPath = template.getPath();
             if (isDir ? tPath.startsWith(path) : tPath.equals(path)) {
+                int size = getHistoryCount();
                 iterator.remove();
                 int index = iterator.nextIndex();
-                int size = getHistoryCount();
                 if (size == index + 1 && index > 0) {
                     //如果删除的是后一个Tab，则定位到前一个
                     MutilTempalteTabPane.getInstance().setSelectedIndex(index - 1);
