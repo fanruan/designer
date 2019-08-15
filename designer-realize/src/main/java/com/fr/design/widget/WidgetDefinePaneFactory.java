@@ -48,6 +48,7 @@ import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;
 import com.fr.stable.bridge.BridgeMark;
 import com.fr.stable.bridge.StableFactory;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,9 @@ import java.util.Map;
  * Time   : 上午11:17
  */
 public class WidgetDefinePaneFactory {
+    
     private static Map<Class<? extends Widget>, Appearance> defineMap = new HashMap<Class<? extends Widget>, Appearance>();
+    private static Map<Class<? extends Widget>, Appearance> pluginDefineMap = ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap();
 
     static {
         defineMap.put(NumberEditor.class, new Appearance(NumberEditorDefinePane.class, WidgetConstants.NUMBER + ""));
@@ -91,24 +94,32 @@ public class WidgetDefinePaneFactory {
         defineMap.put(AppendRowButton.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(DeleteRowButton.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(TreeNodeToggleButton.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
-        defineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());
     }
 
     private WidgetDefinePaneFactory() {
 
     }
 
+    @Nullable
     public static RN createWidgetDefinePane(Widget widget, Operator operator) {
+    
         Appearance dn = defineMap.get(widget.getClass());
-        DataModify<Widget> definePane = null;
-        try {
-            definePane = (DataModify) dn.getDefineClass().newInstance();
-            definePane.populateBean(widget);
-            operator.did(definePane.dataUI(), dn.getDisplayName());
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        // 再走一遍插件。
+        if (dn == null) {
+            dn = pluginDefineMap.get(widget.getClass());
         }
-        return new RN(definePane, dn.getDisplayName());
+        if (dn != null) {
+            DataModify<Widget> definePane = null;
+            try {
+                definePane = (DataModify) dn.getDefineClass().newInstance();
+                definePane.populateBean(widget);
+                operator.did(definePane.dataUI(), dn.getDisplayName());
+            } catch (Exception e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+            return new RN(definePane, dn.getDisplayName());
+        }
+        return null;
     }
 
     public static class RN {

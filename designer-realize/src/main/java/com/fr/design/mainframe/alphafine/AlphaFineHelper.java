@@ -15,6 +15,7 @@ import com.fr.design.mainframe.alphafine.search.manager.impl.PluginSearchManager
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecentSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.RecommendSearchManager;
 import com.fr.design.mainframe.alphafine.search.manager.impl.SimilarSearchManager;
+import com.fr.general.GeneralContext;
 import com.fr.general.ProcessCanceledException;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSON;
@@ -33,6 +34,25 @@ public class AlphaFineHelper {
     public static final NoResultModel NO_CONNECTION_MODEL = new NoResultModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Connection_Failed"));
     private static AlphaFineDialog alphaFineDialog;
     private static final String URL_FOR_TEST_NETWORK = "https://www.baidu.com";
+    
+    private AlphaFineHelper() {
+    
+    }
+    
+    /**
+     * 根据国际化调整配置
+     */
+    public static void switchConfig4Locale() {
+    
+        AlphaFineConfigManager manager = DesignerEnvManager.getEnvManager().getAlphaFineConfigManager();
+        if (!GeneralContext.isChineseEnv()) {
+            manager.setSearchOnLine(false);
+            manager.setContainDocument(false);
+            manager.setContainPlugin(false);
+            manager.setContainRecommend(false);
+            manager.setNeedIntelligentCustomerService(false);
+        }
+    }
 
     /**
      * 弹出alphafine搜索面板

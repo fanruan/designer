@@ -189,23 +189,34 @@ public class AlphaFineConfigPane extends BasicPane {
     }
 
     public void populate(AlphaFineConfigManager alphaFineConfigManager) {
+        
         this.enabledCheckbox.setSelected(alphaFineConfigManager.isEnabled());
-        this.searchOnlineCheckbox.setEnabled(FRContext.isChineseEnv());
+        
+        boolean enabled4Locale = FRContext.isChineseEnv();
+        
+        this.searchOnlineCheckbox.setEnabled(enabled4Locale);
         this.searchOnlineCheckbox.setSelected(alphaFineConfigManager.isSearchOnLine());
+        
         this.containActionCheckbox.setSelected(alphaFineConfigManager.isContainAction());
         this.containTemplateCheckbox.setSelected(alphaFineConfigManager.isContainTemplate());
         this.containFileContentCheckbox.setSelected(alphaFineConfigManager.isContainFileContent());
+        
         this.containDocumentCheckbox.setSelected(alphaFineConfigManager.isContainDocument() && alphaFineConfigManager.isSearchOnLine());
-        this.containDocumentCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.containDocumentCheckbox.setEnabled(enabled4Locale);
+        
         this.containPluginCheckbox.setSelected(alphaFineConfigManager.isContainPlugin() && alphaFineConfigManager.isSearchOnLine());
-        this.containPluginCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.containPluginCheckbox.setEnabled(enabled4Locale);
+        
         this.containRecommendCheckbox.setSelected(alphaFineConfigManager.isContainRecommend() && alphaFineConfigManager.isSearchOnLine());
-        this.containRecommendCheckbox.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.containRecommendCheckbox.setEnabled(enabled4Locale);
+        
         this.shortcutsField.setText(getDisplayShortCut(alphaFineConfigManager.getShortcuts()));
 
         this.needSegmentationCheckbox.setSelected(alphaFineConfigManager.isNeedSegmentationCheckbox());
+        
         this.needIntelligentCustomerService.setSelected(alphaFineConfigManager.isNeedIntelligentCustomerService() && alphaFineConfigManager.isSearchOnLine());
-        this.needIntelligentCustomerService.setEnabled(alphaFineConfigManager.isSearchOnLine());
+        this.needIntelligentCustomerService.setEnabled(enabled4Locale);
+        
         shortCutKeyStore = convert2KeyStroke(alphaFineConfigManager.getShortcuts());
     }
 

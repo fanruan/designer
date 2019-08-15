@@ -19,6 +19,7 @@ import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.form.ui.container.WSortLayout;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.SiteCenter;
 import com.fr.log.FineLoggerFactory;
@@ -87,9 +88,7 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
         double[] rowSize = {p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}};
-        if (ExtraReportClassManager.getInstance().getArray(MobileParamStyleProvider.MARK_STRING).size() != 0) {
-            tipLabel = null;
-        } else {
+        if (ExtraReportClassManager.getInstance().getArray(MobileParamStyleProvider.MARK_STRING).isEmpty()) {
             ((WParameterLayout) (paraCreator.toData())).setProvider((MobileParamStyleProvider) ((Item) paramLocationComboBox.getItemAt(0)).getValue());
         }
         Component[][] components = new Component[][]{
@@ -127,10 +126,9 @@ public class ParaMobileDefinePane extends MobileWidgetDefinePane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    //todo 添加对应插件下载地址
-                    Desktop.getDesktop().browse(new URI(SiteCenter.getInstance().acquireUrlByKind("plugin.download")));
+                    Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("plugin.mobile.style")));
                 } catch (Exception exp) {
-
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                 }
             }
             @Override
