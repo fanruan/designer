@@ -11,20 +11,20 @@ public class DesignerWorkspaceGenerator {
 
     public static Workspace generate(DesignerWorkspaceInfo config) throws Exception {
 
-        if (config == null || config.getType() == null) {
-            return null;
-        }
+                        if (config == null || config.getType() == null) {
+                            return null;
+                        }
 
-        Workspace workspace = null;
-        switch (config.getType()) {
-            case Local: {
-                workspace = WorkContext.getFactory().build(config.getPath());
-                break;
-            }
-            case Remote: {
-                WorkspaceClient client = WorkContext.getConnector().connect(config.getConnection());
-                if (client != null) {
-                    workspace = new RemoteWorkspace(client, config.getConnection());
+                        Workspace workspace = null;
+                        switch (config.getType()) {
+                            case Local: {
+                                workspace = WorkContext.getFactory().build(config.getPath());
+                                break;
+                            }
+                            case Remote: {
+                                WorkspaceClient client = WorkContext.getConnector().connect(config.getConnection());
+                                if (client != null) {
+                                    workspace = new RemoteWorkspace(client, config.getConnection());
                 }
                 break;
             }
