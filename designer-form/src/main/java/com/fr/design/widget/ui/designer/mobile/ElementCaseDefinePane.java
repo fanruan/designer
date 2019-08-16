@@ -50,6 +50,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
     private UISpinner maxHeightSpinner; // 最大高度Spinner
     private AttributeChangeListener changeListener;
     private UICheckBox allowFullCheckBox;
+    private UICheckBox functionalWhenUnactivatedCheckBox;
 
     public ElementCaseDefinePane (XCreator xCreator) {
         this.xCreator = xCreator;
@@ -87,11 +88,14 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
 
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
 
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
+
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"), SwingConstants.LEFT), vComboBox},
                 new Component[] {heightRestrictCheckBox, null},
                 new Component[] {allowFullCheckBox},
+                new Component[] {functionalWhenUnactivatedCheckBox},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
         };
         double f = TableLayout.FILL;
@@ -139,6 +143,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
         this.allowFullCheckBox.setSelected(elementCaseEditor.isAllowFullScreen());
+        this.functionalWhenUnactivatedCheckBox.setSelected(elementCaseEditor.isFunctionalWhenUnactivated());
     }
 
     @Override
@@ -163,6 +168,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
                 break;
             case "allowFullCheckBox":
                 ((ElementCaseEditor)xCreator.toData()).setAllowFullScreen(allowFullCheckBox.isSelected());
+            case "functionalWhenUnactivatedCheckBox":
+                ((ElementCaseEditor)xCreator.toData()).setAllowFullScreen(functionalWhenUnactivatedCheckBox.isSelected());
         }
     }
 
@@ -172,6 +179,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane{
         this.heightRestrictCheckBox.setGlobalName("heightRestrictCheckBox");
         this.maxHeightSpinner.setGlobalName("maxHeightSpinner");
         this.allowFullCheckBox.setGlobalName("allowFullCheckBox");
+        this.functionalWhenUnactivatedCheckBox.setGlobalName("functionalWhenUnactivatedCheckBox");
     }
 
 }
