@@ -107,8 +107,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
                 new Component[] {tipLabel, null},
-                new Component[] {allowFullCheckBox},
-                new Component[] {functionalWhenUnactivatedCheckBox}
+                new Component[] {allowFullCheckBox, null},
+                new Component[] {functionalWhenUnactivatedCheckBox, null}
         };
 
         double f = TableLayout.FILL;
