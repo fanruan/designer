@@ -67,8 +67,7 @@ public class DesignUtils {
      * @return 启动了返回true
      */
     public static boolean isStarted() {
-        try {
-            new Socket("localhost", port);
+        try (Socket socket = new Socket("localhost", port)) {
             return true;
         } catch (Exception ignored) {
         }
@@ -116,6 +115,7 @@ public class DesignUtils {
      * @param startPort 端口
      * @param suffixs   文件后缀
      */
+    @SuppressWarnings("squid:S2095")
     public static void createListeningServer(final int startPort, final String[] suffixs) {
         ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("DesignClientListener"));
         service.execute(new Runnable() {
