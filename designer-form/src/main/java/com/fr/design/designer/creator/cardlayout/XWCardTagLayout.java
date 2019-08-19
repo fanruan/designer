@@ -32,9 +32,9 @@ import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.general.act.BorderPacker;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.TextFetcher;
 import com.fr.general.cardtag.DefaultTemplateStyle;
 
 import javax.swing.border.Border;
@@ -360,8 +360,8 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             if (this.cardLayout == null) {
                 initCardLayout();
             }
-            TextFetcher borderStyle = this.cardLayout.toData().getBorderStyle();
-            FRFont f = borderStyle.getFrFont();
+            BorderPacker borderStyle = this.cardLayout.toData().getBorderStyle();
+            FRFont f = borderStyle.getTitle().getFrFont();
             FontMetrics fm = GraphHelper.getFontMetrics(f);
 
             switch (wCardTagLayout.getTextDirection()) {

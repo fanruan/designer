@@ -38,7 +38,7 @@ import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 
-import com.fr.general.TextFetcher;
+import com.fr.general.act.BorderPacker;
 import com.fr.share.ShareConstants;
 import com.fr.stable.Constants;
 
@@ -165,7 +165,7 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 		String tabpaneName = cardLayout.getWidgetName();
 		if (!wCardTagLayout.isNewTab()) {
 			wCardTagLayout.setWidgetName(tabpaneName);
-			TextFetcher borderStyle = cardLayout.getBorderStyle();
+			BorderPacker borderStyle = cardLayout.getBorderStyle();
 			if(borderStyle != null){
 				//新tab默认都有标题
 				borderStyle.setType(LayoutBorderStyle.TITLE);

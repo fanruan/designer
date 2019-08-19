@@ -22,14 +22,14 @@ import com.fr.design.mainframe.JForm;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WTabTextDirection;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
+import com.fr.general.act.BorderPacker;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-import com.fr.general.TextFetcher;
+import com.fr.general.act.TitlePacker;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.unit.PT;
 
@@ -297,7 +297,7 @@ public class XCardSwitchButton extends XButton {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 		CardSwitchButton button = (CardSwitchButton) this.toData();
-		WidgetTitle widgetTitle = getWidgetTitle();
+		TitlePacker widgetTitle = getWidgetTitle();
         drawBackground(button, widgetTitle);
         drawTitle(button, widgetTitle);
 		Dimension panelSize = this.getContentLabel().getSize();
@@ -311,7 +311,7 @@ public class XCardSwitchButton extends XButton {
 	}
 	
 	//画背景
-	private void drawBackground(CardSwitchButton button, WidgetTitle widgetTitle){
+	private void drawBackground(CardSwitchButton button, TitlePacker widgetTitle){
 		Background background = widgetTitle.getBackground() == null ? ColorBackground.getInstance(NORMAL_GRAL) : widgetTitle.getBackground();
 		TemplateStyle templateStyle = ((WCardTagLayout) tagLayout.toData()).getTemplateStyle();
 		//获取当前tab的index
@@ -329,7 +329,7 @@ public class XCardSwitchButton extends XButton {
 	}
 	
 	//画标题
-	private void drawTitle(CardSwitchButton button, WidgetTitle widgetTitle) {
+	private void drawTitle(CardSwitchButton button, TitlePacker widgetTitle) {
 		String titleText = button.getText();
 		this.setButtonText(titleText);
         FRFont font = widgetTitle.getFrFont();
@@ -340,12 +340,12 @@ public class XCardSwitchButton extends XButton {
 
 	}
 
-	private WidgetTitle getWidgetTitle() {
+	private TitlePacker getWidgetTitle() {
 		if (this.cardLayout == null) {
 			initRelateLayout();
 		}
-		TextFetcher style = this.cardLayout.toData().getBorderStyle();
-		return WidgetTitle.as(style);
+		BorderPacker style = this.cardLayout.toData().getBorderStyle();
+		return style.getTitle();
 	}
 	
 	//删除tab布局
@@ -452,7 +452,7 @@ public class XCardSwitchButton extends XButton {
 			String titleText = button.getText();
 			java.util.List verticalTextList = new ArrayList();
 			StringBuilder titleStringBuf = new StringBuilder();
-			WidgetTitle title = getWidgetTitle();
+			TitlePacker title = getWidgetTitle();
 			FRFont font = title.getFrFont();
 			FRFont newFont = FRFont.getInstance(font.getName(), font.getStyle(), font.getSize() + FONT_SIZE_ADJUST);
 			FontMetrics fm = GraphHelper.getFontMetrics(newFont);
