@@ -11,6 +11,7 @@ import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.WidgetValue;
 import com.fr.form.ui.container.WTitleLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.TextFetcher;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
@@ -41,7 +42,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     }
     
      protected void initStyle() {
-    	LayoutBorderStyle style = toData().getBorderStyle();
+    	TextFetcher style = toData().getBorderStyle();
      	initBorderStyle();
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
           	initTitleStyle(style);
@@ -52,7 +53,7 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
 
   // 边框默认值设为NONE,不然像scalelayout这种只用默认边框的会不显示边框
     protected void initBorderStyle() {
-    	LayoutBorderStyle style = toData().getBorderStyle();
+    	TextFetcher style = toData().getBorderStyle();
         if (style != null && style.getBorder() != Constants.LINE_NONE) {
             this.setBorder(new UIRoundedBorder(style.getBorder(), style.getColor(), style.getBorderRadius()));
         } else {
@@ -74,8 +75,8 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
      * 设置样式为标题样式时，对应组件加上标题
      * @param style 样式
      */
-    protected void initTitleStyle(LayoutBorderStyle style){
-    	if (style.getTitle() == null) {
+    protected void initTitleStyle(TextFetcher style){
+    	if (style.getTextObject() == null) {
     		return;
     	}
     	XWTitleLayout parent = (XWTitleLayout) this.getParent();
@@ -100,13 +101,13 @@ public class XBorderStyleWidgetCreator extends XWidgetCreator{
     /**
      * 更新标题控件所有的样式
      */
-    private void updateTitleWidgetStyle(Label title, LayoutBorderStyle style) {
+    private void updateTitleWidgetStyle(Label title, TextFetcher style) {
     	//标题的边框样式目前是取对应的控件的边框样式
     	title.setBorder(style.getBorder());
     	title.setColor(style.getColor());
 //    	title.setCorner(style.isCorner());
 
-    	WidgetTitle wTitle = style.getTitle();
+    	WidgetTitle wTitle = WidgetTitle.as(style);
     	//设置成随机不重复的, 不然都用一个名字的话, 联动只能联动一个
     	title.setWidgetName(wTitle.TITLE_NAME_INDEX + this.toData().getWidgetName());
     	title.setWidgetValue(getTitleValue(wTitle));
