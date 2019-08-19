@@ -22,7 +22,6 @@ import com.fr.design.mainframe.JForm;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WTabTextDirection;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
@@ -30,23 +29,13 @@ import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.Background;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-
+import com.fr.general.TextFetcher;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.unit.PT;
 
-import javax.swing.Action;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -355,8 +344,8 @@ public class XCardSwitchButton extends XButton {
 		if (this.cardLayout == null) {
 			initRelateLayout();
 		}
-		LayoutBorderStyle style = this.cardLayout.toData().getBorderStyle();
-		return style.getTitle();
+		TextFetcher style = this.cardLayout.toData().getBorderStyle();
+		return WidgetTitle.as(style);
 	}
 	
 	//删除tab布局

@@ -19,6 +19,7 @@ import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.TextFetcher;
 
 import java.awt.*;
 
@@ -90,7 +91,7 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
     // TODO 可以直接在这边将x，y都变成相对坐标，这样在后面判断拖进来的新控件放置方式的时候就不用再判断了
     private int adjustY(int y, XWTabFitLayout tabLayout) {
         XWCardLayout cardLayout = (XWCardLayout) tabLayout.getBackupParent();
-        LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
+        TextFetcher style = cardLayout.toData().getBorderStyle();
         y = y - this.getParaEditorYOffset();
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
             y = y - WCardMainBorderLayout.TAB_HEIGHT;

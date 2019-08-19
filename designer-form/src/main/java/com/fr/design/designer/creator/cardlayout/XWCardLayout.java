@@ -34,6 +34,7 @@ import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.TextFetcher;
 import com.fr.general.cardtag.DefaultTemplateStyle;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.ArrayUtils;
@@ -165,7 +166,7 @@ public class XWCardLayout extends XLayoutContainer {
         WCardMainBorderLayout border = new WCardMainBorderLayout();
         XWCardMainBorderLayout xMainBorder = new XWCardMainBorderLayout(border, dimension);
         //将子WCardBorder的style设置到父容器上
-        LayoutBorderStyle style = (this.toData()).getBorderStyle();
+        TextFetcher style = (this.toData()).getBorderStyle();
         border.setBorderStyle(style);
         this.setBackupParent(xMainBorder);
         XWCardTitleLayout titlePart = this.initTitlePart(widgetName, xMainBorder);
@@ -397,13 +398,13 @@ public class XWCardLayout extends XLayoutContainer {
     //初始化样式
     @Override
     protected void initStyle() {
-        LayoutBorderStyle style = toData().getBorderStyle();
+        TextFetcher style = toData().getBorderStyle();
         initBorderTitleStyle(style);
         initBorderStyle();
         clearOrShowTitleLayout(ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE));
     }
 
-    private void initBorderTitleStyle(LayoutBorderStyle style) {
+    private void initBorderTitleStyle(TextFetcher style) {
         //初始化默认标题样式
         if (!initFlag) {
             return;
@@ -411,7 +412,7 @@ public class XWCardLayout extends XLayoutContainer {
 
         style.setType(LayoutBorderStyle.TITLE);
         style.setBorder(Constants.LINE_THIN);
-        WidgetTitle widgetTitle = style.getTitle();
+        WidgetTitle widgetTitle = WidgetTitle.as(style);
         widgetTitle.setBackground(ColorBackground.getInstance(TITLE_COLOR));
         initFlag = false;
     }
