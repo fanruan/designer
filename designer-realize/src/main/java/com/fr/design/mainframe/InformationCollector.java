@@ -54,7 +54,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author neil
- *
  * @date: 2015-4-8-下午5:11:46
  */
 public class InformationCollector implements XMLReadable, XMLWriter {
@@ -83,17 +82,17 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private String lastTime;
 	private StartStopTime current = new StartStopTime();
 
-	public static InformationCollector getInstance(){
+	public static InformationCollector getInstance() {
 		if (collector == null) {
 			collector = new InformationCollector();
 
-            readEncodeXMLFile(collector, collector.getInfoFile());
+			readEncodeXMLFile(collector, collector.getInfoFile());
 		}
 
 		return collector;
 	}
 
-	private static void readEncodeXMLFile(XMLReadable xmlReadable, File xmlFile){
+	private static void readEncodeXMLFile(XMLReadable xmlReadable, File xmlFile) {
 		if (xmlFile == null || !xmlFile.exists()) {
 			return;
 		}
@@ -110,22 +109,22 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
 			xmlInputStream.close();
 		} catch (FileNotFoundException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (XMLStreamException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 	}
 
-	private static String getDecodeFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException{
+	private static String getDecodeFileContent(File xmlFile) throws FileNotFoundException, UnsupportedEncodingException {
 		InputStream encodeInputStream = new FileInputStream(xmlFile);
 		String encodeContent = IOUtils.inputStream2String(encodeInputStream);
 		return DesUtils.getDecString(encodeContent);
 	}
 
-	private long getLastTimeMillis(){
+	private long getLastTimeMillis() {
 		if (StringUtils.isEmpty(this.lastTime)) {
 			return 0;
 		}
@@ -138,7 +137,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
-	private JSONObject getJSONContentAsByte(){
+	private JSONObject getJSONContentAsByte() {
 		JSONObject content = new JSONObject();
 
 		JSONArray startStopArray = new JSONArray();
@@ -159,7 +158,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		return content;
 	}
 
-	private void sendUserInfo(){
+	private void sendUserInfo() {
 		long currentTime = new Date().getTime();
 		long lastTime = getLastTimeMillis();
 
@@ -178,7 +177,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		if (success){
+		if (success) {
 			this.reset();
 		}
 	}
@@ -186,13 +185,13 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	/**
 	 * 收集开始使用时间，发送信息
 	 */
-	public void collectStartTime(){
+	public void collectStartTime() {
 		this.current.setStartDate(dateToString());
 
 		sendUserInfoInOtherThread();
 	}
 
-	private void sendUserInfoInOtherThread(){
+	private void sendUserInfoInOtherThread() {
 		if (!DesignerEnvManager.getEnvManager().isJoinProductImprove() || !FRContext.isChineseEnv()) {
 			return;
 		}
@@ -209,67 +208,57 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}, SEND_DELAY, TimeUnit.MILLISECONDS);
 	}
 
-    /**
-     * 收集结束使用时间
-     */
-	public void collectStopTime(){
+	/**
+	 * 收集结束使用时间
+	 */
+	public void collectStopTime() {
 		this.current.setStopDate(dateToString());
 	}
 
-	private String dateToString(){
+	private String dateToString() {
 		DateFormat df = FRContext.getDefaultValues().getDateTimeFormat();
 		return df.format(new Date());
 	}
 
-	private void reset(){
+	private void reset() {
 		this.startStop.clear();
 		this.lastTime = dateToString();
 	}
 
-    private File getInfoFile() {
-    	return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FILE_NAME));
-    }
+	private File getInfoFile() {
+		return new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FILE_NAME));
+	}
 
-    /**
-     * 保存xml文件
-     */
-    public void saveXMLFile() {
-    	File xmlFile = this.getInfoFile();
-    	try{
-    		ByteArrayOutputStream out = new ByteArrayOutputStream();
+	/**
+	 * 保存xml文件
+	 */
+	public void saveXMLFile() {
+		File xmlFile = this.getInfoFile();
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			XMLTools.writeOutputStreamXML(this, out);
 			out.flush();
 			out.close();
 			String fileContent = new String(out.toByteArray(), EncodeConstants.ENCODING_UTF_8);
 			String encodeCotent = DesUtils.getEncString(fileContent);
 			writeEncodeContentToFile(encodeCotent, xmlFile);
-    	}catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		} catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-    }
+	}
 
 
 	/**
 	 * 将文件内容写到输出流中
 	 */
-	private static void writeEncodeContentToFile(String fileContent, File file){
-		BufferedWriter bw = null;
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, EncodeConstants.ENCODING_UTF_8);
-			bw = new BufferedWriter(osw);
+	private static void writeEncodeContentToFile(String fileContent, File file) {
+		try (FileOutputStream fos = new FileOutputStream(file);
+			 OutputStreamWriter osw = new OutputStreamWriter(fos, EncodeConstants.ENCODING_UTF_8);
+			 BufferedWriter bw = new BufferedWriter(osw)) {
 			bw.write(fileContent);
 		} catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		} finally {
-			if(bw != null){
-				try {
-					bw.close();
-				} catch (IOException e) {
-				}
-			}
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-
 	}
 
 	@Override
@@ -284,56 +273,56 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		writer.end();
 	}
 
-	private void writeStartStopList(XMLPrintWriter writer){
+	private void writeStartStopList(XMLPrintWriter writer) {
 		//启停
-    	writer.startTAG(XML_START_STOP_LIST);
-    	for (int i = 0; i < startStop.size(); i++) {
-    		startStop.get(i).writeXML(writer);
+		writer.startTAG(XML_START_STOP_LIST);
+		for (int i = 0; i < startStop.size(); i++) {
+			startStop.get(i).writeXML(writer);
 		}
-    	writer.end();
+		writer.end();
 	}
 
-	private void writeTag(String tag, String content, XMLPrintWriter writer){
+	private void writeTag(String tag, String content, XMLPrintWriter writer) {
 		if (StringUtils.isEmpty(content)) {
 			return;
 		}
 
-    	writer.startTAG(tag);
-    	writer.textNode(content);
-    	writer.end();
+		writer.startTAG(tag);
+		writer.textNode(content);
+		writer.end();
 	}
 
 	@Override
 	public void readXML(XMLableReader reader) {
-        if (reader.isChildNode()) {
-        	String name = reader.getTagName();
-            if (XML_START_STOP_LIST.equals(name)) {
-            	readStartStopList(reader);
-            } else if(XML_LAST_TIME.equals(name)){
-            	readLastTime(reader);
+		if (reader.isChildNode()) {
+			String name = reader.getTagName();
+			if (XML_START_STOP_LIST.equals(name)) {
+				readStartStopList(reader);
+			} else if (XML_LAST_TIME.equals(name)) {
+				readLastTime(reader);
 			}
-        }
+		}
 	}
 
-	private void readLastTime(XMLableReader reader){
+	private void readLastTime(XMLableReader reader) {
 		String tmpVal;
 		if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
 			this.lastTime = tmpVal;
 		}
 	}
 
-	private void readStartStopList(XMLableReader reader){
-    	startStop.clear();
+	private void readStartStopList(XMLableReader reader) {
+		startStop.clear();
 
 		reader.readXMLObject(new XMLReadable() {
-            public void readXML(XMLableReader reader) {
-                if (XML_START_STOP.equals(reader.getTagName())) {
-                    StartStopTime startStopTime = new StartStopTime();
-                    reader.readXMLObject(startStopTime);
-                    startStop.add(startStopTime);
-                }
-            }
-        });
+			public void readXML(XMLableReader reader) {
+				if (XML_START_STOP.equals(reader.getTagName())) {
+					StartStopTime startStopTime = new StartStopTime();
+					reader.readXMLObject(startStopTime);
+					startStop.add(startStopTime);
+				}
+			}
+		});
 	}
 
 	private class StartStopTime implements XMLReadable, XMLWriter {
@@ -358,14 +347,14 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		}
 
 		public void writeXML(XMLPrintWriter writer) {
-        	writer.startTAG(XML_START_STOP);
-        	if (StringUtils.isNotEmpty(startDate)) {
-        		writer.attr(ATTR_START, this.startDate);
+			writer.startTAG(XML_START_STOP);
+			if (StringUtils.isNotEmpty(startDate)) {
+				writer.attr(ATTR_START, this.startDate);
 			}
-        	if (StringUtils.isNotEmpty(stopDate)) {
-        		writer.attr(ATTR_STOP, this.stopDate);
+			if (StringUtils.isNotEmpty(stopDate)) {
+				writer.attr(ATTR_STOP, this.stopDate);
 			}
-        	writer.end();
+			writer.end();
 		}
 
 		public void readXML(XMLableReader reader) {
