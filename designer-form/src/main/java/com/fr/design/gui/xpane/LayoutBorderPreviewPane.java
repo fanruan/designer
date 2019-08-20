@@ -7,10 +7,10 @@ import com.fr.base.background.ColorBackground;
 import com.fr.design.designer.creator.cardlayout.XCardSwitchButton;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.WidgetTitle;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
 
+import com.fr.general.act.TitlePacker;
 import com.fr.stable.Constants;
 
 import javax.swing.JPanel;
@@ -126,7 +126,7 @@ public class LayoutBorderPreviewPane extends JPanel{
                 g2d.setColor(new Color(237, 237, 237));
             }
             g2d.setFont(frFont.applyResolutionNP(resolution));
-            WidgetTitle title = borderStyle.getTitle();
+            TitlePacker title = borderStyle.getTitle();
             String paintText = title.getTextObject().toString();
             int startX1 = 0;
             int startY = 0;
@@ -158,7 +158,7 @@ public class LayoutBorderPreviewPane extends JPanel{
             GraphHelper.draw(g,double2, borderStyle.getBorder());
         }
 
-        private void drawTabBack(Graphics2D g2d, Graphics g, WidgetTitle title, FontMetrics fm, int startX1, int startY){
+        private void drawTabBack(Graphics2D g2d, Graphics g, TitlePacker title, FontMetrics fm, int startX1, int startY){
         	Dimension d = getSize();
         	String paintText = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Title")+TAB_ZERO;
 

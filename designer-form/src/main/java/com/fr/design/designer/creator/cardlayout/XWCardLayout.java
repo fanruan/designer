@@ -25,7 +25,6 @@ import com.fr.form.ui.CardAddButton;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WLayout;
@@ -33,7 +32,9 @@ import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WCardTitleLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.general.act.BorderPacker;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.act.TitlePacker;
 import com.fr.general.cardtag.DefaultTemplateStyle;
 import com.fr.general.cardtag.TemplateStyle;
 import com.fr.stable.ArrayUtils;
@@ -165,7 +166,7 @@ public class XWCardLayout extends XLayoutContainer {
         WCardMainBorderLayout border = new WCardMainBorderLayout();
         XWCardMainBorderLayout xMainBorder = new XWCardMainBorderLayout(border, dimension);
         //将子WCardBorder的style设置到父容器上
-        LayoutBorderStyle style = (this.toData()).getBorderStyle();
+        BorderPacker style = (this.toData()).getBorderStyle();
         border.setBorderStyle(style);
         this.setBackupParent(xMainBorder);
         XWCardTitleLayout titlePart = this.initTitlePart(widgetName, xMainBorder);
@@ -397,13 +398,13 @@ public class XWCardLayout extends XLayoutContainer {
     //初始化样式
     @Override
     protected void initStyle() {
-        LayoutBorderStyle style = toData().getBorderStyle();
+        BorderPacker style = toData().getBorderStyle();
         initBorderTitleStyle(style);
         initBorderStyle();
         clearOrShowTitleLayout(ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE));
     }
 
-    private void initBorderTitleStyle(LayoutBorderStyle style) {
+    private void initBorderTitleStyle(BorderPacker style) {
         //初始化默认标题样式
         if (!initFlag) {
             return;
@@ -411,7 +412,7 @@ public class XWCardLayout extends XLayoutContainer {
 
         style.setType(LayoutBorderStyle.TITLE);
         style.setBorder(Constants.LINE_THIN);
-        WidgetTitle widgetTitle = style.getTitle();
+        TitlePacker widgetTitle = style.getTitle();
         widgetTitle.setBackground(ColorBackground.getInstance(TITLE_COLOR));
         initFlag = false;
     }
