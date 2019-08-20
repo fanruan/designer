@@ -1,8 +1,8 @@
 package com.fr.design.gui.controlpane;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.stable.AssistUtils;
 
 /**
  * Created by plough on 2017/8/1.
@@ -48,7 +48,7 @@ public abstract class ObjectUIControlPane extends UIListControlPane {
         if (constructor != null) {
             return constructor;
         } else {
-            if (cls.getName() == Object.class.getName()) {
+            if (AssistUtils.equals(cls.getName(),Object.class.getName())) {
                 return null;
             }
             return getConstructor(clazz, cls.getSuperclass());
