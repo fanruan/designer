@@ -213,7 +213,7 @@ public class FRGUIPaneFactory {
     public static JPanel createMediumHGapFlowInnerContainer_M_Pane_First0() {
         JPanel jp = new JPanel();
         jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jp.setLayout(new FRLeftFlowLayout(0, 20, 5));
+        jp.setLayout(new FRLeftFlowLayout(0, 5, 0));
         return jp;
     }
 
