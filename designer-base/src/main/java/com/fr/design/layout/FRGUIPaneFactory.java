@@ -213,6 +213,18 @@ public class FRGUIPaneFactory {
     public static JPanel createMediumHGapFlowInnerContainer_M_Pane_First0() {
         JPanel jp = new JPanel();
         jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jp.setLayout(new FRLeftFlowLayout(0, 20, 5));
+        return jp;
+    }
+
+    /**
+     * 创建一个靠左空边框面板，间隔小，firsthgap 为0
+     *
+     * @return JPanel对象
+     */
+    public static JPanel createTinyHGapFlowInnerContainer_M_Pane_First0() {
+        JPanel jp = new JPanel();
+        jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jp.setLayout(new FRLeftFlowLayout(0, 5, 0));
         return jp;
     }

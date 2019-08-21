@@ -46,7 +46,7 @@ public class TabIconConfigPane extends JPanel {
 
     public void initComp(int count) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel panel = FRGUIPaneFactory.createMediumHGapFlowInnerContainer_M_Pane_First0();
+        JPanel panel = FRGUIPaneFactory.createTinyHGapFlowInnerContainer_M_Pane_First0();
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         editIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editIconButton.setFont(FRFont.getInstance("Helvetica", Font.PLAIN, 12, Color.decode("#3A383A")));
@@ -182,11 +182,7 @@ public class TabIconConfigPane extends JPanel {
         public void actionPerformed(ActionEvent evt) {
             selectIconButton = this;
             editIconButton.setEnabled(true);
-            if (StringUtils.equals("", this.getIconName())) {
-                deleteIconButton.setEnabled(false);
-            } else {
-                deleteIconButton.setEnabled(true);
-            }
+            deleteIconButton.setEnabled(StringUtils.isNotEmpty(this.getIconName()));
             TabIconConfigPane.this.repaint();// repaint
         }
 
