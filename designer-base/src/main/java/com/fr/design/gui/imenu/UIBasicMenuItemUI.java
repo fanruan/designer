@@ -579,7 +579,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
      */
     private boolean isInternalFrameSystemMenu() {
         String actionCommand = menuItem.getActionCommand();
-        return (actionCommand == "Close") || (actionCommand == "Minimize") || (actionCommand == "Restore") || (actionCommand == "Maximize");
+        return (actionCommand.equals("Close")) || (actionCommand.equals("Minimize")) || (actionCommand.equals("Restore")) || (actionCommand.equals("Maximize"));
     }
 
     //////////////////////////////////////////////////////////
