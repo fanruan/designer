@@ -452,10 +452,10 @@ public class CustomIconPane extends BasicPane {
                 String path = jf.getSelectedFile().getAbsolutePath();
                 // 图片存储有最大值48*48限制，没有超过最大值时，按原图大小存储，超过最大值后，压缩至最大值存储
                 Image image = BaseUtils.readImage(path);
-                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(image.getWidth(null) >= 48 ? IconManager.DEFAULT_ICONWIDTH + 32 : image.getWidth(null),
-                        image.getHeight(null) >= 48 ? IconManager.DEFAULT_ICONHEIGHT + 32 : image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(image.getWidth(null) >= 48 ? IconManager.MAXSTORAGE_ICONWIDTH : image.getWidth(null),
+                        image.getHeight(null) >= 48 ? IconManager.MAXSTORAGE_ICONHEIGHT : image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2d = bufferedImage.createGraphics();
-                g2d.drawImage(image, 0, 0, image.getWidth(null) >= 48 ? IconManager.DEFAULT_ICONWIDTH + 32 : image.getWidth(null), image.getHeight(null) >= 48 ? IconManager.DEFAULT_ICONHEIGHT + 32 : image.getHeight(null), null);
+                g2d.drawImage(image, 0, 0, image.getWidth(null) >= 48 ? IconManager.MAXSTORAGE_ICONWIDTH : image.getWidth(null), image.getHeight(null) >= 48 ? IconManager.MAXSTORAGE_ICONHEIGHT : image.getHeight(null), null);
                 bufferedImage.flush();
                 g2d.dispose();
                 iconImage = bufferedImage;
