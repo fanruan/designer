@@ -11,7 +11,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
-import com.fr.design.widget.ui.designer.mobile.component.MobileComponentAdvancePane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileComponentFrozenPane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileComponentMarginPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentLayoutIntervalPane;
 import com.fr.form.ui.RichStyleWidgetProvider;
 import com.fr.form.ui.container.WFitLayout;
@@ -30,8 +31,11 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     private AttributeChangeListener changeListener;
     private UICheckBox appRelayoutCheck;
     private MobileWidgetListPane mobileWidgetListPane;
-    private MobileComponentAdvancePane advancePane;
+    private MobileComponentMarginPane marginPane;
     private MobileComponentLayoutIntervalPane intervalPane;
+    private MobileComponentFrozenPane frozenPane;
+    private UIExpandablePane advancePane;
+    private UIExpandablePane layoutPane;
 
     public BodyMobileDefinePane(XCreator xCreator) {
         this.bodyCreator = xCreator;
@@ -89,16 +93,23 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     private JPanel createNorthPane() {
         JPanel holder = FRGUIPaneFactory.createBorderLayout_S_Pane();
         holder.add(getMobilePropertyPane(), BorderLayout.NORTH);
-
-        advancePane = new MobileComponentAdvancePane(FormBodyPaddingAttrMark.XML_TAG);
+        marginPane = new MobileComponentMarginPane(FormBodyPaddingAttrMark.XML_TAG);
         intervalPane = new MobileComponentLayoutIntervalPane(FormBodyPaddingAttrMark.XML_TAG);
+        frozenPane = new MobileComponentFrozenPane();
+        JPanel wrapLayoutPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        wrapLayoutPane.add(intervalPane, BorderLayout.NORTH);
+        wrapLayoutPane.add(frozenPane, BorderLayout.CENTER);
+        advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, marginPane);
+        layoutPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, wrapLayoutPane);
         //高级
         holder.add(advancePane, BorderLayout.CENTER);
         //布局
-        holder.add(intervalPane, BorderLayout.SOUTH);
+        holder.add(layoutPane, BorderLayout.SOUTH);
 
-        advancePane.setVisible(!shouldHidePadding(designer));
-        intervalPane.setVisible(!shouldHidePadding(designer));
+        boolean flag = !shouldHidePadding(designer);
+        advancePane.setVisible(flag);
+        layoutPane.setVisible(flag);
+        frozenPane.setVisible(appRelayoutCheck.isSelected());
 
         return holder;
     }
@@ -137,13 +148,12 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     public void populate(FormDesigner designer) {
         this.designer = designer;
         appRelayoutCheck.setSelected(FormDesignerUtils.isAppRelayout(designer));
-
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
-
-        advancePane.populate((RichStyleWidgetProvider) getBodyCreator().toData());
+        marginPane.populate((RichStyleWidgetProvider) getBodyCreator().toData());
         intervalPane.populate((RichStyleWidgetProvider) getBodyCreator().toData());
+        frozenPane.populate(designer.getSelectionModel().getSelection().getSelectedCreator());
     }
 
     @Override
@@ -152,15 +162,19 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         setAppRelayout(appRelayoutCheck.isSelected());
         boolean appPaddingVisible = appRelayout || !FormDesignerUtils.isBodyAbsolute(designer);
         advancePane.setVisible(appPaddingVisible);
-        intervalPane.setVisible(appPaddingVisible);
+        layoutPane.setVisible(appPaddingVisible);
+        frozenPane.setVisible(appRelayout);
         mobileWidgetListPane.updateToDesigner();
         designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
 
         if (advancePane.isVisible()) {
-            advancePane.update((RichStyleWidgetProvider) getBodyCreator().toData());
+            marginPane.update((RichStyleWidgetProvider) getBodyCreator().toData());
         }
-        if (intervalPane.isVisible()) {
+        if (layoutPane.isVisible()) {
             intervalPane.update((RichStyleWidgetProvider) getBodyCreator().toData());
+        }
+        if (appRelayout) {
+            frozenPane.update(designer.getSelectionModel().getSelection().getSelectedCreator());
         }
     }
 }
