@@ -2,7 +2,6 @@ package com.fr.design.widget.ui.designer.mobile.component;
 
 import com.fr.base.iofile.attr.AttrMarkFactory;
 import com.fr.base.iofile.attr.FormBodyPaddingAttrMark;
-import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.ui.designer.XmlRelationedBasicPane;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
@@ -13,20 +12,19 @@ import java.awt.BorderLayout;
 /**
  * 只有内边距设置的高级设置
  */
-public class MobileComponentAdvancePane extends XmlRelationedBasicPane {
+public class MobileComponentMarginPane extends XmlRelationedBasicPane {
     private PaddingBoundPane paddingBound;
 
-    public MobileComponentAdvancePane(String xmlTag) {
+    public MobileComponentMarginPane(String xmlTag) {
         super(xmlTag);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         paddingBound = new PaddingBoundPane(FormBodyPaddingAttrMark.DEFAULT_SIZE, FormBodyPaddingAttrMark.DEFAULT_SIZE, FormBodyPaddingAttrMark.DEFAULT_SIZE, FormBodyPaddingAttrMark.DEFAULT_SIZE);
-        UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, paddingBound);
-        this.add(advanceExpandablePane, BorderLayout.NORTH);
+        this.add(paddingBound, BorderLayout.NORTH);
     }
 
     @Override
     protected String title4PopupWindow() {
-        return "ComponentAdvancePane";
+        return "ComponentMarginPane";
     }
 
     public void update(RichStyleWidgetProvider marginWidget) {

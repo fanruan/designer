@@ -7,12 +7,25 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.IOUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class UICheckListPopup extends UIPopupMenu {
     private List<ActionListener> listeners = new ArrayList<ActionListener>();
@@ -66,10 +79,10 @@ public class UICheckListPopup extends UIPopupMenu {
         }
         addSelectListener();
 
-        jScrollPane.setPreferredSize(new Dimension(200, checkBoxList.size() * CHECKBOX_HEIGHT + 10));
+        jScrollPane.setPreferredSize(new Dimension(130, checkBoxList.size() * CHECKBOX_HEIGHT + 10));
         //超过1页的数量时显示滚动条
         if (checkBoxList.size() > maxDisplayNumber) {
-            jScrollPane.setPreferredSize(new Dimension(200, maxDisplayNumber * CHECKBOX_HEIGHT));
+            jScrollPane.setPreferredSize(new Dimension(130, maxDisplayNumber * CHECKBOX_HEIGHT));
         }
         checkboxPane.repaint();
         jScrollPane.repaint();
@@ -77,11 +90,11 @@ public class UICheckListPopup extends UIPopupMenu {
 
     private void addOneCheckValue(Object checkValue) {
         JPanel checkPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-        checkPane.setPreferredSize(new Dimension(185, CHECKBOX_HEIGHT));
+        checkPane.setPreferredSize(new Dimension(120, CHECKBOX_HEIGHT));
         final JCheckBox temp = createCheckbox();
         final UILabel label = new UILabel(checkValue.toString());
         label.setBackground(Color.WHITE);
-        label.setPreferredSize(new Dimension(156, 20));
+        label.setPreferredSize(new Dimension(80, 20));
         checkPane.setBackground(Color.WHITE);
         checkPane.add(temp);
         checkPane.add(label);
@@ -95,8 +108,8 @@ public class UICheckListPopup extends UIPopupMenu {
         JCheckBox checkBox = new JCheckBox();
         checkBox.setPreferredSize(new Dimension(20, 20));
         checkBox.setBackground(Color.WHITE);
-        checkBox.setIcon(BaseUtils.readIcon(IconPathConstants.CHECKBOX_NORMAL));
-        checkBox.setSelectedIcon(BaseUtils.readIcon(IconPathConstants.CHECKBOX_SELECTED));
+        checkBox.setIcon(IOUtils.readIcon(IconPathConstants.CHECKBOX_NORMAL));
+        checkBox.setSelectedIcon(IOUtils.readIcon(IconPathConstants.CHECKBOX_SELECTED));
 
         return checkBox;
     }
@@ -109,10 +122,12 @@ public class UICheckListPopup extends UIPopupMenu {
      */
     private void addMouseListener(final JCheckBox checkBox, final UILabel label) {
         label.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseExited(MouseEvent e) {
                 label.setBackground(Color.WHITE);
             }
 
+            @Override
             public void mouseEntered(MouseEvent e) {
                 label.setOpaque(true);
                 label.setBackground(mouseEnteredColor);
@@ -133,6 +148,7 @@ public class UICheckListPopup extends UIPopupMenu {
             JCheckBox checkBox = checkBoxList.get(i);
             if (i == 0) {
                 checkBox.addItemListener(new ItemListener() {
+                    @Override
                     public void itemStateChanged(ItemEvent e) {
                         //全选checkbox事件
                         doSelectAll(checkBoxList.get(0).isSelected());
@@ -140,6 +156,7 @@ public class UICheckListPopup extends UIPopupMenu {
                 });
             } else {
                 checkBox.addItemListener(new ItemListener() {
+                    @Override
                     public void itemStateChanged(ItemEvent e) {
                         //do半选判断放在commit事件里
                         commit();
@@ -157,8 +174,17 @@ public class UICheckListPopup extends UIPopupMenu {
     private void doSelectAll(boolean isSelected) {
         for (int i = 1; i < checkBoxList.size(); i++) {
             //全选和反全选都不考虑全选按钮本身
-            if (!SELECT_ALL.equals(checkBoxList.get(i).getText()))
+            if (!SELECT_ALL.equals(checkBoxList.get(i).getText())) {
                 checkBoxList.get(i).setSelected(isSelected);
+            }
+        }
+    }
+
+    public void setSelectedValue(Map<Object, Boolean> selectedValues) {
+        List<Object> allValue = Arrays.asList(values);
+        for (Object value : selectedValues.keySet()) {
+            int index = allValue.indexOf(value);
+            checkBoxList.get(index + 1).setSelected(selectedValues.get(value));
         }
     }
 
@@ -214,8 +240,9 @@ public class UICheckListPopup extends UIPopupMenu {
     }
 
     public void addActionListener(ActionListener listener) {
-        if (!listeners.contains(listener))
+        if (!listeners.contains(listener)) {
             listeners.add(listener);
+        }
     }
 
     public void removeActionListener(ActionListener listener) {
