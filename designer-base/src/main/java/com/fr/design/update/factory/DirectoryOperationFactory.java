@@ -82,15 +82,12 @@ public class DirectoryOperationFactory {
     }
 
     private static void copy(String path1, String path2) throws IOException {
-        DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(path1)));
-        DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(path2)));
-        byte[] date = new byte[in.available()];
-
-        in.read(date);
-        out.write(date);
-
-        in.close();
-        out.close();
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(path1)));
+             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(path2)))) {
+            byte[] date = new byte[in.available()];
+            in.read(date);
+            out.write(date);
+        }
     }
 
     /**

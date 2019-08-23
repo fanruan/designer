@@ -35,6 +35,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -362,10 +363,10 @@ public class UpdateMainDialog extends UIDialog {
         add(jarVersionInfoPane, BorderLayout.NORTH);
 
         //海外版本不显示更新信息
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)){
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             add(jarUpdateInfoPane, BorderLayout.CENTER);
             add(updateActionPane, BorderLayout.SOUTH);
-        }else {
+        } else {
             add(updateActionPane, BorderLayout.CENTER);
         }
 
@@ -468,30 +469,28 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
-            BufferedReader br = new BufferedReader(streamReader);
-            String readStr, updateTimeStr;
-
-            while ((readStr = br.readLine()) != null) {
-                String[] updateInfo = readStr.split("\\t");
-                if (updateInfo.length == 2) {
-                    updateTimeStr = updateInfo[0];
-                    Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
-                    //形如 Build#release-2018.07.31.03.03.52.80
-                    String currentNO = GeneralUtils.readBuildNO();
-                    Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
-                    if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
-                        if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
-                            continue;
+            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
+                 BufferedReader br = new BufferedReader(streamReader)) {
+                String readStr, updateTimeStr;
+                while ((readStr = br.readLine()) != null) {
+                    String[] updateInfo = readStr.split("\\t");
+                    if (updateInfo.length == 2) {
+                        updateTimeStr = updateInfo[0];
+                        Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
+                        //形如 Build#release-2018.07.31.03.03.52.80
+                        String currentNO = GeneralUtils.readBuildNO();
+                        Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+                        if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
+                            if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
+                                continue;
+                            }
                         }
-                    }
-                    if (isValidLogInfo(updateInfo[1])) {
-                        updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        if (isValidLogInfo(updateInfo[1])) {
+                            updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        }
                     }
                 }
             }
-            br.close();
-            streamReader.close();
         }
     }
 
@@ -515,16 +514,15 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), "UTF-8");
-        BufferedWriter bufferWriter = new BufferedWriter(writerStream);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jo = (JSONObject) jsonArray.get(i);
-            bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
-            bufferWriter.newLine();
-            bufferWriter.flush();
+        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), EncodeConstants.ENCODING_UTF_8);
+             BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jo = (JSONObject) jsonArray.get(i);
+                bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
+                bufferWriter.newLine();
+                bufferWriter.flush();
+            }
         }
-        bufferWriter.close();
-        writerStream.close();
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
         lastUpdateCacheTime = endTime;
         cacheProperty.updateProperty("updateTime", lastUpdateCacheTime);
@@ -636,6 +634,7 @@ public class UpdateMainDialog extends UIDialog {
 
     /**
      * 获取当前jar的md5
+     *
      * @param currentJAR
      * @return
      */

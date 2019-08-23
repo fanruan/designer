@@ -24,6 +24,7 @@ public class LoadingBasicPaneTest {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
+						Thread.currentThread().interrupt();
 					}
 					container.add(new UIButton(i + "adfadwdadawdwad"));
 				}

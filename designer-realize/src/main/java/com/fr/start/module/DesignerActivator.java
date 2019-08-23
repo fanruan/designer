@@ -43,6 +43,7 @@ import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.WidgetToolBarPane;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
@@ -125,8 +126,9 @@ public class DesignerActivator extends Activator {
         DesignerSocketIO.update();
         UserInfoPane.getInstance().updateBBSUserInfo();
         storePassport();
+        AlphaFineHelper.switchConfig4Locale();
     }
-
+    
     private void loadLogAppender() {
         logHandler = new LogHandler<DesignerLogAppender>() {
             final DesignerLogAppender logAppender = new DesignerLogAppender();

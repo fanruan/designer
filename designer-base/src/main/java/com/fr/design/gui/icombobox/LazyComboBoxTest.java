@@ -40,6 +40,7 @@ public class LazyComboBoxTest {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
+					Thread.currentThread().interrupt();
 				}
 				return m;
 			}

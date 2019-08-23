@@ -41,17 +41,12 @@ public class HistoryTemplateListCache implements CallbackEvent {
     private List<JTemplate<?, ?>> historyList;
     private JTemplate<?, ?> editingTemplate;
 
-    private static volatile HistoryTemplateListCache instacne;
-
     public static HistoryTemplateListCache getInstance() {
-        if (instacne == null) {
-            synchronized (HistoryTemplateListCache.class) {
-                if (instacne == null) {
-                    instacne = new HistoryTemplateListCache();
-                }
-            }
-        }
-        return instacne;
+        return Holder.INSTANCE;
+    }
+
+    private static class Holder {
+        private static final HistoryTemplateListCache INSTANCE = new HistoryTemplateListCache();
     }
 
     private HistoryTemplateListCache() {
