@@ -5,7 +5,6 @@ package com.fr.design.chart;
 
 import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.ChartIcon;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.gui.ilable.UILabel;
