@@ -427,7 +427,7 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                     dealSelectColRow(add, cellselection);
                 } else {
                     ColumnRow columnRow = ColumnRow.valueOf(cellselection.getColumn(), cellselection.getRow());
-                    String allColumnRow = columnRow.toString();
+                    String allColumnRow = newValue.toString();
                     if (!allColumnRow.contains(columnRow.toString())) {
                         add.addColumnRow(columnRow);
                     }
