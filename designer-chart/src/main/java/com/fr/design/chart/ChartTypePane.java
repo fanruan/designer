@@ -1,7 +1,6 @@
 package com.fr.design.chart;
 /**
  * the Pane of the Chart
- *
  */
 
 import com.fr.chart.base.ChartInternationalNameContentBean;
@@ -120,15 +119,16 @@ public class ChartTypePane extends ChartCommonWizardPane {
             ChartProvider[] sub_charts = ChartTypePane.this.charts4Icon[main_index];
             ChartTypePane.this.iconListModel.clear();
             for (int i = 0; i < sub_charts.length; i++) {
-                ChartTypePane.this.iconListModel.addElement(new ChartIcon(sub_charts[i]));
+                String ImagePath = sub_charts[i].demoImagePath();
+                String chartName = sub_charts[i].getChartName();
+                ChartTypePane.this.iconListModel.addElement(new ChartIcon(ImagePath, chartName));
             }
             iconViewList.setSelectedIndex(0);
         }
     };
 
     public String getChartName(ChartIcon chartIcon) {
-        ChartProvider chart = chartIcon.getChart();
-        return ChartTypeManager.getInstanceWithCheck().getChartName(chart.getID());
+        return chartIcon.getChartName();
     }
 
     public void populate(ChartProvider chart) {
@@ -146,10 +146,10 @@ public class ChartTypePane extends ChartCommonWizardPane {
         if (chart4Update == null) {
             String plotID = typeName[mainTypeList.getSelectedIndex()].getChartID();
             ChartProvider chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
-            try{
+            try {
                 chart4Update = (ChartProvider) chart.clone();
                 cc.addChart(chart4Update);
-            }catch (CloneNotSupportedException ex){
+            } catch (CloneNotSupportedException ex) {
                 FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
         }
