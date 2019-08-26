@@ -1218,7 +1218,7 @@ public class TableLayout implements LayoutManager2, Serializable {
      * @param z                indicates row or column
      * @param availableSize    amount of space available in the container
      */
-
+    @SuppressWarnings("squid:S3518")
     protected void assignFillSize(int z, int availableSize) {
         // Skip if there is no more space to allocate
         if (availableSize <= 0)
@@ -1290,7 +1290,7 @@ public class TableLayout implements LayoutManager2, Serializable {
      * @return the amount of space available after absolute crs have been assigned
      *         sizes
      */
-
+    @SuppressWarnings("squid:S3518")
     protected int assignPrefMinSize
             (int z, int availableSize, double typeOfSize) {
         // Get variables referring to columns or rows (crs)
@@ -1727,7 +1727,7 @@ public class TableLayout implements LayoutManager2, Serializable {
      *
      * @return a dimension indicating the container's preferred or minimum size
      */
-
+    @SuppressWarnings("squid:S3518")
     protected int calculateLayoutSize
             (Container container, int z, double typeOfSize, Entry entryList[],
              Dimension prefMinSize[]) {
