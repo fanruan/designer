@@ -263,6 +263,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error("Map Save Error");
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -658,9 +659,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void saveXMLFile() {
         File xmlFile = this.getDesignerEnvFile();
-        if (xmlFile == null) {
-            return;
-        }
         if (!xmlFile.getParentFile().exists()) {//建立目录.
             StableUtils.mkdirs(xmlFile.getParentFile());
         }
