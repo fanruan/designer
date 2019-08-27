@@ -902,6 +902,8 @@ public class RTextAreaEditorKit extends DefaultEditorKit {
 					}
 				} catch (BadLocationException bl) {
 				}
+			}else if (textArea == null) {
+				throw new IllegalArgumentException("RTextArea can not be null!");
 			}
 
 			if (beep)
