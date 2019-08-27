@@ -1351,6 +1351,11 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 
 							// Start at alloc.x since this chunk starts
 							// at the beginning of a physical line.
+							if (tlist == null) {
+								p0 = (p == p0) ? p1 : p;
+								alloc.y += alloc.height;
+								continue;
+							}
 							int n = tlist.getListOffset(textArea,
 										WrappedSyntaxView.this,
 										alloc.x, x);
