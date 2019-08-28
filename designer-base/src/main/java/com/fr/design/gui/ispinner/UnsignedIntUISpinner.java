@@ -1,7 +1,5 @@
 package com.fr.design.gui.ispinner;
 
-import com.fr.design.event.GlobalNameObserver;
-import com.fr.design.event.UIObserver;
 import com.fr.design.gui.itextfield.UIIntNumberField;
 import com.fr.design.gui.itextfield.UINumberField;
 
@@ -11,7 +9,7 @@ import com.fr.design.gui.itextfield.UINumberField;
  * Date: 19-08-28
  * Time: 下午2:19
  */
-public class UnsignedIntUISpinner extends UISpinner implements UIObserver, GlobalNameObserver {
+public class UnsignedIntUISpinner extends UISpinner {
 
 
     public UnsignedIntUISpinner(double minValue, double maxValue, double dierta) {
