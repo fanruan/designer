@@ -66,10 +66,12 @@ public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
         }
 
         Plot cloned = null;
-        try {
-            cloned = (Plot)newPlot.clone();
-        } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error("Error In ColumnChart");
+        if(newPlot != null) {
+            try {
+                cloned = (Plot) newPlot.clone();
+            } catch (CloneNotSupportedException e) {
+                FineLoggerFactory.getLogger().error("Error In ColumnChart");
+            }
         }
         return cloned;
     }
