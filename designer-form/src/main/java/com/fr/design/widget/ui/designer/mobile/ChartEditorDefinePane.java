@@ -160,7 +160,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
         this.allowFullCheckBox.setSelected(allowFullScreen);
         boolean isFunctionalWhenUnactivated = chartEditor.getMobileAttr().isFunctionalWhenUnactivated();
-        this.functionalWhenUnactivatedCheckBox.setSelected(isFunctionalWhenUnactivated);
+        this.functionalWhenUnactivatedCheckBox.setSelected(!isFunctionalWhenUnactivated);
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
 
@@ -195,10 +195,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
             mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
             mobileAttr.setZoomOutAttr((ChartMobileFitAttrState) ((Item) zoomOutComboBox.getSelectedItem()).getValue());
             mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
-            mobileAttr.setFunctionalWhenUnactivated(functionalWhenUnactivatedCheckBox.isSelected());
+            mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }else {
             mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
-            mobileAttr.setFunctionalWhenUnactivated(functionalWhenUnactivatedCheckBox.isSelected());
+            mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
