@@ -11,10 +11,10 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-
-import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPaneWithOutMode;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotReportDataContentPane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotTableDataContentPane;
@@ -61,16 +61,9 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
                 return new VanChartInteractivePaneWithOutSort(){
 
                     @Override
-                    protected String[] getNameArray() {
-                        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
-
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPaneWithOutMode();
                     }
-
-                    @Override
-                    protected String[] getValueArray() {
-                        return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
-                    }
-
                 };
             }
         };

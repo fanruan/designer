@@ -14,7 +14,9 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.van.chart.bubble.data.VanChartBubblePlotTableDataContentPane;
+import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
 
@@ -70,7 +72,12 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
         VanChartStylePane stylePane = new VanChartBubbleStylePane(listener);
         VanChartOtherPane otherPane = new VanChartOtherPane(){
             protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartBubbleInteractivePane();
+                return new VanChartInteractivePaneWithOutSort() {
+                    @Override
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPane();
+                    }
+                };
             }
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};

@@ -15,6 +15,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.scatter.component.VanChartScatterStylePane;
 import com.fr.van.chart.scatter.data.VanChartScatterPlotTableDataContentPane;
@@ -68,7 +69,12 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
         VanChartOtherPane otherPane = new VanChartOtherPane(){
             @Override
             protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartInteractivePaneWithOutSort();
+                return new VanChartInteractivePaneWithOutSort() {
+                    @Override
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPane();
+                    }
+                };
             }
 
         };

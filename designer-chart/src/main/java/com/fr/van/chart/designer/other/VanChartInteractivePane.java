@@ -1,40 +1,28 @@
 package com.fr.van.chart.designer.other;
 
-import com.fr.base.BaseFormula;
-import com.fr.base.Utils;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.axis.type.AxisPlotType;
 import com.fr.plugin.chart.base.RefreshMoreLabel;
-import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.base.VanChartTools;
-import com.fr.plugin.chart.base.VanChartZoom;
 import com.fr.plugin.chart.vanchart.VanChart;
-import com.fr.stable.StableUtils;
 import com.fr.van.chart.custom.component.VanChartHyperLinkPane;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
@@ -53,14 +41,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     private AutoRefreshPane autoRefreshPane;
 
-    private UIButtonGroup zoomWidget;
-    protected UIButtonGroup zoomGesture;//地图手势缩放
-    private UIButtonGroup zoomResize;
-    private TinyFormulaPane from;
-    private TinyFormulaPane to;
-    private UIButtonGroup<String> zoomType;
-    private JPanel changeEnablePane;
-    private JPanel zoomTypePane;
+    private ZoomPane zoomPane;
 
     protected VanChartHyperLinkPane superLink;
 
@@ -111,54 +92,15 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
     protected JPanel createZoomPane(double[] row, double[] col, VanChartPlot plot) {
-        if (!plot.isSupportZoomDirection()) {
+        zoomPane = createZoomPane();
+        if (zoomPane == null) {
             return null;
         }
-        zoomWidget = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
-        zoomResize = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Non_Adjustment")});
-        from = new TinyFormulaPane();
-        to = new TinyFormulaPane();
-        zoomType = new UIButtonGroup(getNameArray(), getValueArray());
-        zoomGesture = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
-
-        JPanel zoomWidgetPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Widget"), zoomWidget);
-        JPanel zoomGesturePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ZoomGesture"), zoomGesture);
-
-        Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Boundary")), zoomResize},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_From")), from},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_To")), to},
-        };
-
-        double f = TableLayout.FILL;
-        double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
-        double[] columnSize = {f, e};
-        changeEnablePane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, columnSize);
-        changeEnablePane.setBorder(BorderFactory.createEmptyBorder(10,12,0,0));
-        zoomTypePane = getzoomTypePane(zoomType);
-        JPanel panel = createZoomPaneContent(zoomWidgetPane, zoomGesturePane, changeEnablePane, zoomTypePane, plot);
-        zoomWidget.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkZoomPane();
-            }
-        });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Zoom"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Zoom"), zoomPane);
     }
 
-
-    protected JPanel getzoomTypePane(UIButtonGroup zoomType) {
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Zoom_Direction"), zoomType);
-    }
-
-    protected JPanel createZoomPaneContent(JPanel zoomWidgetPane, JPanel zoomGesturePane, JPanel changeEnablePane, JPanel zoomTypePane, VanChartPlot plot) {
-        JPanel panel = new JPanel(new BorderLayout(0, 4));
-        if (plot.isSupportZoomCategoryAxis()) {//支持缩放控件
-            panel.add(zoomWidgetPane, BorderLayout.NORTH);
-            panel.add(changeEnablePane, BorderLayout.CENTER);
-        }
-        panel.add(zoomTypePane, BorderLayout.SOUTH);
-        return panel;
+    protected ZoomPane createZoomPane() {
+        return null;
     }
 
     private JPanel createAxisRotationPane(double[] row, double[] col, VanChartPlot plot){
@@ -167,12 +109,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         }
         axisRotation = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
-        axisRotation.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                checkZoomEnabled();
-            }
-        });
+
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Reversal")),axisRotation}
@@ -181,28 +118,6 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis"), panel);
     }
 
-    private void checkZoomEnabled() {
-        if (zoomWidget != null && axisRotation != null) {
-            if (axisRotation.getSelectedIndex() == 0) {
-                //只有开启坐标轴翻转，才需要将缩放控件强制关闭。
-                zoomWidget.setSelectedIndex(1);
-            }
-            checkZoomPane();
-            zoomWidget.setEnabled(axisRotation.getSelectedIndex() == 1);
-        }
-    }
-
-
-    protected String[] getNameArray() {
-        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_X_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Y_Axis")
-                ,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
-    }
-
-    protected String[] getValueArray() {
-        return new String[]{VanChartConstants.ZOOM_TYPE_X, VanChartConstants.ZOOM_TYPE_Y
-                ,VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
-
-    }
 
     protected JPanel createToolBarPane(double[] row, double[] col){
         isSort = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Sort"));
@@ -263,27 +178,21 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
 
-    private void checkZoomPane() {
-        boolean zoomWidgetEnabled = zoomWidget.getSelectedIndex() == 0;
-        changeEnablePane.setVisible(zoomWidgetEnabled);
-        zoomType.setEnabled(!zoomWidgetEnabled);
-    }
-
     @Override
     public void populateBean(Chart chart) {
         if (chart == null || chart.getPlot() == null) {
             return;
         }
         this.chart = chart;
-        VanChartPlot plot = (VanChartPlot)chart.getPlot();
+        VanChartPlot plot = chart.getPlot();
 
         if(interactivePane == null){
             this.remove(leftcontentPane);
             reLayoutContentPane(plot);
         }
-        if(plot.isSupportZoomDirection()){//支持缩放方向=方向+控件
-            populateChartZoom((VanChart)chart);
-            checkZoomPane();
+
+        if (zoomPane != null) {
+            zoomPane.populateBean(((VanChart) chart).getZoomAttribute());
         }
 
         if (plot.getAxisPlotType() == AxisPlotType.RECTANGLE){
@@ -295,8 +204,6 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         populateAutoRefresh((VanChart)chart);
 
         populateHyperlink(plot);
-
-        checkZoomEnabled();
     }
 
 
@@ -310,27 +217,6 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         exportImages.setSelected(vanChartTools.isExport());
         fullScreenDisplay.setSelected(vanChartTools.isFullScreen());
         collapse.setSelected(vanChartTools.isHidden());
-    }
-
-    private void populateChartZoom(VanChart chart) {
-        VanChartZoom zoom = chart.getVanChartZoom();
-        if(zoom == null){
-            zoom = new VanChartZoom();
-        }
-        zoomWidget.setSelectedIndex(zoom.isZoomVisible() ? 0 : 1);
-        zoomGesture.setSelectedIndex(zoom.isZoomGesture() ? 0 : 1);
-        zoomResize.setSelectedIndex(zoom.isZoomResize() ? 0 : 1);
-        if (zoom.getFrom() instanceof BaseFormula) {
-            from.populateBean(((BaseFormula) zoom.getFrom()).getContent());
-        } else {
-            from.populateBean(Utils.objectToString(zoom.getFrom()));
-        }
-        if (zoom.getTo() instanceof BaseFormula) {
-            to.populateBean(((BaseFormula) zoom.getTo()).getContent());
-        } else {
-            to.populateBean(Utils.objectToString(zoom.getTo()));
-        }
-        zoomType.setSelectedItem(zoom.getZoomType());
     }
 
     private void populateChartAxisRotation(VanChartPlot plot) {
@@ -366,11 +252,12 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
             return;
         }
 
-        VanChartPlot plot = (VanChartPlot)chart.getPlot();
+        VanChartPlot plot = chart.getPlot();
 
-        if(plot.isSupportZoomDirection()){
-            updateChartZoom((VanChart)chart);
+        if (zoomPane != null) {
+            ((VanChart) chart).setZoomAttribute(zoomPane.updateBean());
         }
+
         if(plot.getAxisPlotType() == AxisPlotType.RECTANGLE){
             updateChartAxisRotation((VanChart)chart);
         }
@@ -391,34 +278,6 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         vanChartTools.setSort(isSort.isSelected());
         vanChartTools.setHidden(collapse.isSelected());
         chart.setVanChartTools(vanChartTools);
-    }
-
-    private void updateChartZoom(VanChart chart) {
-        VanChartZoom zoom = chart.getVanChartZoom();
-        if(zoom == null){
-            zoom = new VanChartZoom();
-            chart.setVanChartZoom(zoom);
-        }
-        zoom.setZoomVisible(zoomWidget.getSelectedIndex() == 0);
-        zoom.setZoomGesture(zoomGesture.getSelectedIndex() == 0);
-        zoom.setZoomResize(zoomResize.getSelectedIndex() == 0);
-        String fromString = from.updateBean();
-        Object fromObject;
-        if (StableUtils.maybeFormula(fromString)) {
-            fromObject = BaseFormula.createFormulaBuilder().build(fromString);
-        } else {
-            fromObject = fromString;
-        }
-        zoom.setFrom(fromObject);
-        String toString = to.updateBean();
-        Object toObject;
-        if (StableUtils.maybeFormula(toString)) {
-            toObject = BaseFormula.createFormulaBuilder().build(toString);
-        } else {
-            toObject = toString;
-        }
-        zoom.setTo(toObject);
-        zoom.setZoomType(zoomType.getSelectedItem());
     }
 
     private void updateChartAxisRotation(VanChart chart) {
