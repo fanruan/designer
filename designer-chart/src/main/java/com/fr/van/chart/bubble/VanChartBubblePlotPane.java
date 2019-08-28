@@ -77,7 +77,6 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
                 newPlot = (VanChartBubblePlot)bubbleChart[i].getPlot();
             }
         }
-
         Plot cloned = null;
         try {
              if(newPlot != null) {

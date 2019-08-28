@@ -261,9 +261,9 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         }
         Plot cloned = null;
         try {
-             if(newPlot != null) {
+              if(newPlot != null) {
                  cloned = (Plot) newPlot.clone();
-             }
+              }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In ScatterChart");
         }

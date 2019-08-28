@@ -66,7 +66,6 @@ public class VanChartColumnPlotPane extends AbstractVanChartTypePane {
                 newPlot = (VanChartColumnPlot)columnChart[i].getPlot();
             }
         }
-
         Plot cloned = null;
         try {
              if(newPlot != null) {
