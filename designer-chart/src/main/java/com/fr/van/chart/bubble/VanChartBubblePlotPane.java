@@ -80,7 +80,9 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
 
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+             if(newPlot != null) {
+                 cloned = (Plot) newPlot.clone();
+             }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In BubbleChart");
         }
