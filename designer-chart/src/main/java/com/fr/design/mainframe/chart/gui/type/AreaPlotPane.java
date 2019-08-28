@@ -114,7 +114,9 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
             ((Area3DPlot)plot).setStacked(true);
             ((Area3DPlot)plot).getyAxis().setPercentage(true);
         }
-        createAreaCondition(plot);
+        if(plot != null) {
+			createAreaCondition(plot);
+		}
         return plot;
     }
 

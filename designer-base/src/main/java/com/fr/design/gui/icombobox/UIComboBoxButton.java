@@ -127,10 +127,6 @@ public class UIComboBoxButton extends JButton {
         boolean savedOpaque = false;
 
         paintRender(g, c, mustResetOpaque, savedOpaque, leftToRight, width, insets, iconWidth, left, top, height);
-        if (mustResetOpaque) {
-            JComponent jc = (JComponent) c;
-            jc.setOpaque(savedOpaque);
-        }
     }
 
     private void paintRender(Graphics g, Component c, boolean mustResetOpaque, boolean savedOpaque, boolean leftToRight,
@@ -151,14 +147,6 @@ public class UIComboBoxButton extends JButton {
                 rendererPane.paintComponent(g, c, this, left, top, cWidth, height, shouldValidate);
             } else {
                 rendererPane.paintComponent(g, c, this, left + iconWidth, top, cWidth, height, shouldValidate);
-            }
-            if (paintFocus && ThemeUtils.COMBO_FOCUS) {
-                g.setColor(Color.black);
-                Graphics2D g2d = (Graphics2D) g;
-                Rectangle r = new Rectangle(left, top, 2, 2);
-                TexturePaint tp = new TexturePaint(focusImg, r);
-                g2d.setPaint(tp);
-                g2d.draw(new Rectangle(left, top, cWidth, height));
             }
         }
     }

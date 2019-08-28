@@ -59,6 +59,7 @@ public class WarningIcon extends ImageIcon {
 				tracker.waitForID(0, 0);
 			} catch (InterruptedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
 			}
 
 			tracker.statusID(0, false);
