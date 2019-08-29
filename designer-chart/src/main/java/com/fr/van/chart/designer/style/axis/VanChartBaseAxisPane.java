@@ -12,7 +12,6 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
@@ -31,6 +30,7 @@ import com.fr.stable.StableUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartHtmlLabelPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
+import com.fr.van.chart.designer.style.component.LimitPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -71,9 +71,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected UIButtonGroup<Integer> position;
     protected UIButtonGroup<Boolean> reversed;
 
-    protected UIButtonGroup<Integer> axisLimitSize;
-    protected UISpinner maxProportion;
-    protected JPanel maxProportionPane;
+    private LimitPane limitPane;
 
     protected UIButtonGroup valueFormatStyle;
     protected FormatPane valueFormat;
@@ -286,24 +284,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createDisplayStrategy(double[] row, double[] col){
-        maxProportion = new UISpinner(0,100,1,30);
-        axisLimitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
-
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"),axisLimitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(limitSizePane, BorderLayout.NORTH);
-        panel.add(maxProportionPane, BorderLayout.CENTER);
-
-        axisLimitSize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkMaxProPortionUse();
-            }
-        });
-
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
+        limitPane = new LimitPane();
+        return limitPane;
     }
 
     protected JPanel createValueStylePane(){
@@ -360,7 +342,6 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkAllUse() {
         checkCardPane();
         checkLabelPane();
-        checkMaxProPortionUse();
     }
 
     protected void checkCardPane() {
@@ -392,12 +373,6 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         }
     }
 
-    //检查最大显示占比是否可用
-    private void checkMaxProPortionUse() {
-        if(maxProportionPane != null && axisLimitSize != null){
-            maxProportionPane.setVisible(axisLimitSize.getSelectedIndex() == 0 && axisLimitSize.isEnabled());
-        }
-    }
 
     /**
      * 是否是指定类型
@@ -516,13 +491,9 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void populateDisplayStrategy(VanChartAxis axis) {
-        if(axisLimitSize != null){
-            axisLimitSize.setSelectedIndex(axis.isLimitSize() ? 0 : 1);
+        if (limitPane != null) {
+            limitPane.populateBean(axis.getLimitAttribute());
         }
-        if(maxProportion != null){
-            maxProportion.setValue(axis.getMaxHeight());
-        }
-
     }
 
     //格式
@@ -637,11 +608,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void updateDisplayStrategy(VanChartAxis axis){
-        if(axisLimitSize != null){
-            axis.setLimitSize(axisLimitSize.getSelectedIndex() == 0);
-        }
-        if(maxProportion != null){
-            axis.setMaxHeight(maxProportion.getValue());
+        if (limitPane != null) {
+            axis.setLimitAttribute(limitPane.updateBean());
         }
     }
 
