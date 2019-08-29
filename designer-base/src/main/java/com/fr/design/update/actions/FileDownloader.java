@@ -65,6 +65,7 @@ public abstract class FileDownloader extends SwingWorker<Boolean, DownloadItem> 
             success = get();
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
