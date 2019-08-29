@@ -5,20 +5,23 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
-
 import com.fr.plugin.chart.attr.plot.VanChartLabelPositionPlot;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.base.AttrTooltipContent;
+import com.fr.plugin.chart.base.OverlapHandleType;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -38,7 +41,10 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     protected BasicBeanPane<AttrTooltipContent> dataLabelContentPane;
 
     protected UIButtonGroup<Integer> position;
-    protected UIButtonGroup<Boolean> autoAdjust;
+
+    private UIButtonGroup<Boolean> allowOverlap;
+    private UIComboBox overlapHandleType;
+
     protected UIToggleButton tractionLine;
 
     protected UIButtonGroup<Integer> style;
@@ -118,8 +124,11 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             }
 
             position = new UIButtonGroup<Integer>(names, values);
-            autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
+            allowOverlap = new UIButtonGroup<Boolean>(new String[]{Toolkit.i18nText("Fine-Design_Chart_YES"),
+                    Toolkit.i18nText("Fine-Design_Chart_NO")}, new Boolean[]{true, false});
+            overlapHandleType = new UIComboBox(new String[]{Toolkit.i18nText("Fine-Design_Chart_Label_OverlapHide"),
+                    Toolkit.i18nText("Fine-Design_Chart_Label_OverlapAdjust")});
 
             Component[][] comps = new Component[2][2];
 
@@ -134,11 +143,31 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
                 panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
+                panel.add(createOverlapLabelPane(), BorderLayout.SOUTH);
             }
             return panel;
         }
         return new JPanel();
+    }
+
+    private JPanel createOverlapLabelPane() {
+        allowOverlap.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                checkOverlap();
+            }
+        });
+
+        JPanel north = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Label_AllowOverlap"), allowOverlap);
+        JPanel center = new JPanel(new BorderLayout());
+        center.add(overlapHandleType, BorderLayout.CENTER);
+        center.setBorder(BorderFactory.createEmptyBorder(0, 78, 0, 0));
+
+        JPanel result = new JPanel(new BorderLayout(0, 6));
+        result.add(north, BorderLayout.NORTH);
+        result.add(center, BorderLayout.CENTER);
+
+        return result;
     }
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
@@ -208,10 +237,16 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     private void checkAllUse() {
         checkStyleUse();
-        if(tractionLine == null){
-            return;
+        checkOverlap();
+        if (tractionLine != null) {
+            checkPositionEnabled();
         }
-        checkPositionEnabled();
+    }
+
+    private void checkOverlap() {
+        if (overlapHandleType != null && allowOverlap != null) {
+            overlapHandleType.setVisible(!allowOverlap.getSelectedItem());
+        }
     }
 
     private void checkStyleUse() {
@@ -235,8 +270,11 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         if(tractionLine != null){
             tractionLine.setSelected(detail.isShowGuidLine());
         }
-        if(autoAdjust != null){
-            autoAdjust.setSelectedIndex(detail.isAutoAdjust() == true ? 0 : 1);
+        if (allowOverlap != null) {
+            allowOverlap.setSelectedItem(detail.isAllowOverlap());
+        }
+        if (overlapHandleType != null) {
+            overlapHandleType.setSelectedIndex(detail.getOverlapHandleType() == OverlapHandleType.HIDE ? 0 : 1);
         }
         style.setSelectedIndex(detail.isCustom() ? 1 : 0);
         textFontPane.populate(detail.getTextAttr());
@@ -259,7 +297,13 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             position.setSelectedItem(detail.getPosition());
         }
 
-        detail.setAutoAdjust(autoAdjust != null && autoAdjust.getSelectedItem());
+        if (allowOverlap != null) {
+            detail.setAllowOverlap(allowOverlap.getSelectedItem());
+        }
+
+        if (overlapHandleType != null) {
+            detail.setOverlapHandleType(overlapHandleType.getSelectedIndex() == 0 ? OverlapHandleType.HIDE : OverlapHandleType.ADJUST);
+        }
 
         if(tractionLine != null){
             detail.setShowGuidLine(tractionLine.isSelected() && detail.getPosition() == Constants.OUTSIDE);
