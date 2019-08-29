@@ -385,6 +385,7 @@ public class UpdateMainDialog extends UIDialog {
                     showDownLoadInfo();
                 } catch (InterruptedException e) {
                     stopLoading();
+                    Thread.currentThread().interrupt();
                 } catch (ExecutionException e) {
                     stopLoading();
                 } finally {
