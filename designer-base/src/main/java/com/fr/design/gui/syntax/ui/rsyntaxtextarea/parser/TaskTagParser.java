@@ -18,6 +18,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.ErrorStrip;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxDocument;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.Token;
+import com.fr.stable.StringUtils;
 
 
 /**
@@ -60,6 +61,7 @@ public class TaskTagParser extends AbstractParser {
 	}
 
 
+	@SuppressWarnings("squid:S2259")
 	public ParseResult parse(RSyntaxDocument doc, String style) {
 
 		Element root = doc.getDefaultRootElement();
@@ -101,6 +103,9 @@ public class TaskTagParser extends AbstractParser {
 			}
 
 			if (start>-1) {
+				if (StringUtils.isEmpty(text)) {
+					continue;
+				}
 				text = text.substring(start);
 				// TODO: Strip off end of MLC's if they're there.
 				int len = text.length();

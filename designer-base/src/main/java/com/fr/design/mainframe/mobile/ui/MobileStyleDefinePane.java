@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.mobile.ui;
 
+import com.fr.base.background.ColorBackground;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
@@ -23,6 +24,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
     private MobileStyleCustomDefinePane customBeanPane;
     private Class<? extends MobileStyle> mobileStyleClazz;
     private NewColorSelectBox colorSelectBox;
+    private Color titleColor = new Color(47, 142, 241);
 
     MobileStyleDefinePane(Widget widget, Class<? extends MobileStyleCustomDefinePane> customBeanPaneClass,
                           Class<? extends MobileStyle> mobileStyleClazz) {
@@ -35,7 +37,9 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
     @Override
     public void populateBean(MobileStyle ob) {
         this.customBeanPane.populateBean(ob);
-        colorSelectBox.setSelectObject(ob.getBackground());
+        if(ob.getBackground() != null) {
+            colorSelectBox.setSelectObject(((ColorBackground)ob.getBackground()).getColor());
+        }
     }
 
     @Override
@@ -43,7 +47,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
         MobileStyle mobileStyle = Reflect.on(mobileStyleClazz).create().get();
         this.widget.setMobileStyle(mobileStyle);
         this.customBeanPane.updateBean();
-        mobileStyle.setBackground(colorSelectBox.getSelectObject());
+        mobileStyle.setBackground(ColorBackground.getInstance(colorSelectBox.getSelectObject()));
         return mobileStyle;
     }
 
@@ -67,8 +71,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
         JPanel mobileStylePreviewPane = this.customBeanPane.createPreviewPane();
         if(mobileStylePreviewPane != null) {
             JPanel previewPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-            TitledBorder titledBorder = GUICoreUtils.createTitledBorder(Toolkit.i18nText("Fine-Design_Basic_Widget_Style_Preview"), null);
-            titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 12, new Color(0x2f8ef100)));
+            TitledBorder titledBorder = createTitledBorder(Toolkit.i18nText("Fine-Design_Basic_Widget_Style_Preview"));
             previewPane.setBorder(titledBorder);
             previewPane.setPreferredSize(new Dimension(500, 83));
             previewPane.add(mobileStylePreviewPane, BorderLayout.CENTER);
@@ -82,8 +85,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
         backgroundPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
         backgroundPane.setPreferredSize(new Dimension(500, 65));
 
-        TitledBorder titledBorder = GUICoreUtils.createTitledBorder(Toolkit.i18nText("Fine-Design_Mobile_Common_Attribute"), null);
-        titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 12, Color.BLUE));
+        TitledBorder titledBorder = createTitledBorder(Toolkit.i18nText("Fine-Design_Mobile_Common_Attribute"));
         backgroundPane.setBorder(titledBorder);
 
         UILabel colorSelectLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Widget_Background"), UILabel.RIGHT);
@@ -104,12 +106,17 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
 
     private void createCustomPane() {
         JPanel configPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        TitledBorder titledBorder = GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"), null);
-        titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 12, Color.BLUE));
+        TitledBorder titledBorder = createTitledBorder(Toolkit.i18nText("Fine-Design_Report_Set"));
         configPane.setBorder(titledBorder);
 
         configPane.add(this.customBeanPane, BorderLayout.CENTER);
 
         this.add(configPane, BorderLayout.CENTER);
+    }
+
+    private TitledBorder createTitledBorder(String title) {
+        TitledBorder titledBorder = GUICoreUtils.createTitledBorder(title, titleColor);
+        titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 12));
+        return  titledBorder;
     }
 }

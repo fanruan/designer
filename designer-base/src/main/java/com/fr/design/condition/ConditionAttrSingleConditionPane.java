@@ -1,10 +1,13 @@
 package com.fr.design.condition;
 
+import com.fr.common.annotations.Open;
+
 /**
 * @author richie
 * @date 2015-03-26
 * @since 8.0
 */
+@Open
 public abstract class ConditionAttrSingleConditionPane<T> extends SingleConditionPane<T> {
     protected HighLightConditionAction hightLighAttrUpdateAction = null;
     private ConditionAttributesPane conditionAttributesPane;

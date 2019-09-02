@@ -79,15 +79,17 @@ public class FineEmbedServerMonitor {
         scheduler.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                if (isComplete()) {
-                    scheduler.shutdown();
-                    DesignerContext.getDesignerFrame().hideProgressDialog();
-                    return;
-                }
-                if (!DesignerContext.getDesignerFrame().getProgressDialog().isVisible()) {
-                    DesignerContext.getDesignerFrame().showProgressDialog();
-                    DesignerContext.getDesignerFrame().getProgressDialog()
-                            .updateLoadingText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Embed_Server"));
+                while (!isComplete()) {
+                    if (!DesignerContext.getDesignerFrame().getProgressDialog().isVisible()) {
+                        DesignerContext.getDesignerFrame().showProgressDialog();
+                        DesignerContext.getDesignerFrame().getProgressDialog().updateLoadingText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Embed_Server"));
+                    }
+                    DesignerContext.getDesignerFrame().updateProgress(getProgress());
+                    try {
+                        Thread.sleep(STEP_HEARTBEAT);
+                    } catch (InterruptedException ignore) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
                 DesignerContext.getDesignerFrame().updateProgress(getProgress());
             }

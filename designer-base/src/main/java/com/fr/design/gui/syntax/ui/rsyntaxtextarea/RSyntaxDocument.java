@@ -366,7 +366,9 @@ public class RSyntaxDocument extends RDocument implements Iterable<Token>,
 	 */
 	public boolean getShouldIndentNextLine(int line) {
 		Token t = getTokenListForLine(line);
-		t = t.getLastNonCommentNonWhitespaceToken();
+		if (t != null) {
+			t = t.getLastNonCommentNonWhitespaceToken();
+		}
 		return tokenMaker.getShouldIndentNextLineAfter(t);
 	}
 

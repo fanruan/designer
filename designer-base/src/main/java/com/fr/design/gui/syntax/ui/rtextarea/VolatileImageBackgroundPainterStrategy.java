@@ -9,6 +9,8 @@
  */
 package com.fr.design.gui.syntax.ui.rtextarea;
 
+import com.fr.log.FineLoggerFactory;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.VolatileImage;
@@ -95,9 +97,9 @@ public class VolatileImageBackgroundPainterStrategy
 				try {
 					tracker.waitForID(1);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					FineLoggerFactory.getLogger().error(e.getMessage(),e);
 					bgImage = null;
-					return;
+					Thread.currentThread().interrupt();
 				} finally {
 					tracker.removeImage(i, 1);
 				}
@@ -106,9 +108,9 @@ public class VolatileImageBackgroundPainterStrategy
 				try {
 					tracker.waitForID(0);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					FineLoggerFactory.getLogger().error(e.getMessage(),e);
 					bgImage = null;
-					return;
+					Thread.currentThread().interrupt();
 				} finally {
 					tracker.removeImage(bgImage, 0);
 				}
