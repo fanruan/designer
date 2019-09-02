@@ -4,6 +4,7 @@
 package com.fr.design.mainframe.bbs;
 
 import com.fr.base.FRContext;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.constants.UIConstants;
@@ -20,6 +21,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -111,7 +114,7 @@ public class UserInfoPane extends BasicPane {
         return StringUtils.EMPTY;
     }
 
-    public void updateBBSUserInfo(){
+    public void updateBBSUserInfo() {
         String username = MarketConfig.getInstance().getBbsUsername();
         if (StringUtils.isEmpty(username)) {
             markUnSignIn();
@@ -149,7 +152,8 @@ public class UserInfoPane extends BasicPane {
     }
 
     private void autoPushLoginDialog() {
-        Thread showBBSThread = new Thread(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor(new NamedThreadFactory("BBSAutoPushLogin"));
+        executorService.execute(new Runnable() {
 
             @Override
             public void run() {
@@ -185,7 +189,7 @@ public class UserInfoPane extends BasicPane {
             }
 
         });
-        showBBSThread.start();
+        executorService.shutdown();
     }
 
 

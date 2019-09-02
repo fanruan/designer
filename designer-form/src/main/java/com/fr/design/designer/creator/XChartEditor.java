@@ -339,4 +339,9 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	public boolean isSupportShared() {
 		return true;
 	}
+
+	@Override
+	public boolean supportMobileStyle() {
+		return false;
+	}
 }

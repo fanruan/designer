@@ -153,6 +153,7 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 								try {
 									Thread.sleep(3);
 								} catch (InterruptedException e) {
+									Thread.currentThread().interrupt();
 								}
 							}
 							if (currentPanel != panel) {
@@ -202,7 +203,7 @@ public class UITabsHeaderIconPane extends JPanel implements UITabComponent {
 	}
 
 	@Override
-	public int getSelectedIndex() {
+	public synchronized int getSelectedIndex() {
 		return selectedIndex;
 	}
 

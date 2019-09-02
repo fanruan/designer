@@ -11,6 +11,7 @@ import com.fr.design.gui.frpane.BaseHyperlinkGroup;
 import com.fr.js.FormHyperlinkProvider;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.bridge.StableFactory;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +26,8 @@ public class FormHyperlinkGroup extends BaseHyperlinkGroup {
      *
      * @return NameableCreator[]
      */
+    @NotNull
+    @Override
     public NameableCreator[] getHyperlinkCreators() {
         FormHyperlinkProvider formHyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         NameableCreator[] related4ChartHyper = {

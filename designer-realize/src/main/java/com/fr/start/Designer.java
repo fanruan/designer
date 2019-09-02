@@ -21,6 +21,7 @@ import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.InformationCollector;
@@ -49,6 +50,7 @@ import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.server.ServerTray;
+import com.fr.third.org.apache.commons.lang3.time.StopWatch;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -92,7 +94,9 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-
+    
+        StopWatch watch = new StopWatch();
+        watch.start();
         //启动运行时
         FineRuntime.start();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
@@ -102,7 +106,7 @@ public class Designer extends BaseDesigner {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
             SplashContext.getInstance().hide();
-            JOptionPane.showMessageDialog(null, fatal.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
             System.exit(0);
         }
@@ -111,7 +115,8 @@ public class Designer extends BaseDesigner {
             //初始化一下serverTray
             ServerTray.init();
         }
-
+        FineLoggerFactory.getLogger().info("Designer started.Time used {} ms", watch.getTime());
+        watch.stop();
     }
 
     /**

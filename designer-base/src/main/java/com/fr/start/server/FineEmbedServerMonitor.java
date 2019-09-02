@@ -1,5 +1,6 @@
 package com.fr.start.server;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -66,7 +67,7 @@ public class FineEmbedServerMonitor {
     }
 
     public void monitor() {
-        ExecutorService service = Executors.newSingleThreadExecutor();
+        ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("FineEmbedServerMonitor"));
         service.submit(new Runnable() {
 
             @Override
@@ -80,6 +81,7 @@ public class FineEmbedServerMonitor {
                     try {
                         Thread.sleep(STEP_HEARTBEAT);
                     } catch (InterruptedException ignore) {
+                        Thread.currentThread().interrupt();
                     }
                 }
                 DesignerContext.getDesignerFrame().hideProgressDialog();

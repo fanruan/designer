@@ -526,7 +526,10 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
             try {
                 //旧选中内容编辑器释放模板对象
-                this.getCurrentEditor().release();
+                QuickEditor editor = this.getCurrentEditor();
+                if(editor !=  null){
+                    editor.release();
+                }
             } catch (UnsupportedOperationException e) {
                 FineLoggerFactory.getLogger().info("Nothing to release");
             }

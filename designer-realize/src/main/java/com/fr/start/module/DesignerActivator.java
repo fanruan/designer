@@ -3,8 +3,12 @@ package com.fr.start.module;
 import com.fr.base.BaseFormula;
 import com.fr.base.Formula;
 import com.fr.base.MultiFieldParameter;
+import com.fr.base.passport.FinePassportListenerAdapter;
+import com.fr.base.passport.FinePassportManager;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.config.MarketConfig;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
@@ -21,7 +25,6 @@ import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.bridge.DesignToolbarProvider;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.parameter.FormParaDesigner;
 import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -34,15 +37,13 @@ import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.BaseJForm;
-import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCaseThumbnail;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.InformationCollector;
 import com.fr.design.mainframe.JForm;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.WidgetToolBarPane;
+import com.fr.design.mainframe.alphafine.AlphaFineHelper;
 import com.fr.design.mainframe.bbs.BBSGuestPane;
 import com.fr.design.mainframe.bbs.UserInfoPane;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
@@ -50,7 +51,6 @@ import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
 import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
-import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
@@ -58,7 +58,6 @@ import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
-import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.JavaScriptImpl;
@@ -104,8 +103,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2018/1/31.
@@ -125,12 +122,13 @@ public class DesignerActivator extends Activator {
             }
         }
         designerModuleStart();
-        preLoadPane();
         loadLogAppender();
         DesignerSocketIO.update();
         UserInfoPane.getInstance().updateBBSUserInfo();
+        storePassport();
+        AlphaFineHelper.switchConfig4Locale();
     }
-
+    
     private void loadLogAppender() {
         logHandler = new LogHandler<DesignerLogAppender>() {
             final DesignerLogAppender logAppender = new DesignerLogAppender();
@@ -166,49 +164,6 @@ public class DesignerActivator extends Activator {
         designerRegister();
 
         InformationCollector.getInstance().collectStartTime();
-    }
-
-    private static void preLoadPane() {
-        ExecutorService service = Executors.newCachedThreadPool();
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                LogMessageBar.getInstance();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                HistoryTemplateListPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                WidgetInfoConfig.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CellElementPropertyPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                EastRegionContainerPane.getInstance();
-            }
-        });
-        service.shutdown();
     }
 
     private static Class<?>[] actionsForInsertCellElement() {
@@ -390,6 +345,16 @@ public class DesignerActivator extends Activator {
         StableFactory.registerMarkedClass(BaseJForm.XML_TAG, JForm.class);
 
         StableFactory.registerMarkedObject(ElementCaseThumbnailProcessor.MARK_STRING, new ElementCaseThumbnail());
+    }
+
+    private static void storePassport() {
+        FinePassportManager.getInstance().storePassport(MarketConfig.getInstance().getBbsUsername(), DesignerEnvManager.getEnvManager().getActivationKey());
+        FinePassportManager.getInstance().addPassportListener(new FinePassportListenerAdapter() {
+            @Override
+            public void onLoginSuccess() {
+                FinePassportManager.getInstance().storePassport(MarketConfig.getInstance().getBbsUsername(), DesignerEnvManager.getEnvManager().getActivationKey());
+            }
+        });
     }
 
     @Override

@@ -2,7 +2,7 @@
  * 02/11/2009
  *
  * LineNumberList.java - Renders line numbers in an RTextScrollPane.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
@@ -349,6 +349,10 @@ public class LineNumberList extends AbstractGutterComponent
 				int width = metrics.stringWidth(number);
 				g.drawString(number, rhs-width,y);
 				y += cellHeight;
+				if (fm == null) {
+					line++;
+					continue;
+				}
 				Fold fold = fm.getFoldForLine(line-1);
 				// Skip to next line to paint, taking extra care for lines with
 				// block ends and begins together, e.g. "} else {"
@@ -371,6 +375,10 @@ public class LineNumberList extends AbstractGutterComponent
 				String number = Integer.toString(line + getLineNumberingStartIndex() - 1);
 				g.drawString(number, RHS_BORDER_WIDTH, y);
 				y += cellHeight;
+				if (fm == null) {
+					line++;
+					continue;
+				}
 				Fold fold = fm.getFoldForLine(line-1);
 				// Skip to next line to paint, taking extra care for lines with
 				// block ends and begins together, e.g. "} else {"

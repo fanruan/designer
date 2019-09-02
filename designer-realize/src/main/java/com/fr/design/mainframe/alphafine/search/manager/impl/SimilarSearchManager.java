@@ -18,19 +18,19 @@ import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
  * Created by alex.sung on 2018/8/3.
  */
 public class SimilarSearchManager implements AlphaFineSearchProvider {
-    private static volatile SimilarSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList = new SearchResult();
 
+    private SimilarSearchManager() {
+
+    }
+
     public static SimilarSearchManager getInstance() {
-        if (instance == null) {
-            synchronized (SimilarSearchManager.class) {
-                if (instance == null) {
-                    instance = new SimilarSearchManager();
-                }
-            }
-        }
-        return instance;
+        return Holder.INSTANCE;
+    }
+
+    private static class Holder {
+        private static final SimilarSearchManager INSTANCE = new SimilarSearchManager();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class SimilarSearchManager implements AlphaFineSearchProvider {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
             }
-            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(Holder.INSTANCE);
             if (noConnectList != null) {
                 return noConnectList;
             }

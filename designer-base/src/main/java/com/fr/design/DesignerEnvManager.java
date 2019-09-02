@@ -149,7 +149,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * alphafine
      */
-    private AlphaFineConfigManager alphaFineConfigManager = new AlphaFineConfigManager();
+    private AlphaFineConfigManager alphaFineConfigManager = AlphaFineConfigManager.getInstance();
 
     private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
 
@@ -263,6 +263,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error("Map Save Error");
+                    Thread.currentThread().interrupt();
                 }
             }
         }
@@ -315,8 +316,9 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void createEnvFile(File envFile) {
+        FileWriter fileWriter = null;
         try {
-            FileWriter fileWriter = new FileWriter(envFile);
+            fileWriter = new FileWriter(envFile);
             File oldEnvFile = new File(ProductConstants.getEnvHome() + File.separator + ProductConstants.APP_NAME + "6-1" + "Env.xml");
             File envFile80 = new File(getEnvHome(VERSION_80) + File.separator + getEnvFile().getName());
             if (oldEnvFile.exists()) {
@@ -332,9 +334,17 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 Utils.copyCharTo(stringReader, fileWriter);
                 stringReader.close();
             }
-            fileWriter.close();
+
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            if (null != fileWriter) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
         }
     }
 
@@ -649,9 +659,6 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      */
     public void saveXMLFile() {
         File xmlFile = this.getDesignerEnvFile();
-        if (xmlFile == null) {
-            return;
-        }
         if (!xmlFile.getParentFile().exists()) {//建立目录.
             StableUtils.mkdirs(xmlFile.getParentFile());
         }
@@ -1514,7 +1521,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     }
 
     private void readAlphaFineAttr(XMLableReader reader) {
-        reader.readXMLObject(this.alphaFineConfigManager = new AlphaFineConfigManager());
+        reader.readXMLObject(this.alphaFineConfigManager = AlphaFineConfigManager.getInstance());
     }
 
     private void readHttpsParas(XMLableReader reader) {

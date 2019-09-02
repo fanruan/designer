@@ -6,6 +6,7 @@ import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.PluginVerifyException;
 import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
@@ -18,6 +19,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -82,29 +84,53 @@ public class PluginUtils {
         return jsonArray.toString();
     }
 
-    public static void downloadShopScripts(String id, Process<Double> p) throws Exception {
-        HttpClient httpClient = new HttpClient(getDownloadPath(id));
-        if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            int totalSize = httpClient.getContentLength();
-            InputStream reader = httpClient.getResponseStream();
-            String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
-            StableUtils.makesureFileExist(new File(temp));
-            FileOutputStream writer = new FileOutputStream(temp);
-            byte[] buffer = new byte[PluginConstants.BYTES_NUM];
-            int bytesRead = 0;
-            int totalBytesRead = 0;
+    public static boolean downloadShopScripts(String id, Process<Double> p) {
+        InputStream reader = null;
+        FileOutputStream writer = null;
+        try {
+            HttpClient httpClient = new HttpClient(getDownloadPath(id));
+            if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                int totalSize = httpClient.getContentLength();
+                reader = httpClient.getResponseStream();
+                String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
+                StableUtils.makesureFileExist(new File(temp));
+                writer = new FileOutputStream(temp);
+                byte[] buffer = new byte[PluginConstants.BYTES_NUM];
+                int bytesRead = 0;
+                int totalBytesRead = 0;
 
-            while ((bytesRead = reader.read(buffer)) > 0) {
-                writer.write(buffer, 0, bytesRead);
-                buffer = new byte[PluginConstants.BYTES_NUM];
-                totalBytesRead += bytesRead;
-                p.process(totalBytesRead / (double) totalSize);
+                while ((bytesRead = reader.read(buffer)) > 0) {
+                    writer.write(buffer, 0, bytesRead);
+                    buffer = new byte[PluginConstants.BYTES_NUM];
+                    totalBytesRead += bytesRead;
+                    p.process(totalBytesRead / (double) totalSize);
+                }
+            } else {
+                throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
             }
-            reader.close();
-            writer.flush();
-            writer.close();
-        } else {
-            throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
+        } catch (PluginVerifyException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            return false;
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return false;
+        } finally {
+            closeStream(reader, writer);
+        }
+        return true;
+    }
+
+    private static void closeStream(InputStream reader, FileOutputStream writer){
+        try {
+            if (null != reader) {
+                reader.close();
+            }
+            if (null != writer) {
+                writer.flush();
+                writer.close();
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 

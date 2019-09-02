@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.gui.ChartComponent;
+import com.fr.design.constants.DesignerLaunchStatus;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.module.ChartEmptyDataStyleAction;
@@ -52,6 +53,8 @@ public class ChartDesignerActivator extends Activator implements Prepare {
         
         DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
         DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
+
+        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE);
 
         ChartTypeInterfaceManager.addPluginChangedListener();
     }

@@ -3,13 +3,19 @@
  */
 package com.fr.design.constants;
 
-import com.fr.base.BaseUtils;
-
+import com.fr.general.IOUtils;
 import com.fr.stable.Constants;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
 /**
@@ -17,19 +23,19 @@ import java.awt.image.BufferedImage;
  */
 public interface UIConstants {
 
-    public static final Icon CPT_ICON = BaseUtils.readIcon("/com/fr/base/images/oem/cpt.png");
-    public static final Icon BLACK_ICON = BaseUtils.readIcon("/com/fr/base/images/cell/blank.gif");
+    public static final Icon CPT_ICON = IOUtils.readIcon("/com/fr/base/images/oem/cpt.png");
+    public static final Icon BLACK_ICON = IOUtils.readIcon("/com/fr/base/images/cell/blank.gif");
 
-    public static final Image APPFIT_V0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png");
-    public static final Image APPFIT_V1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png");
-    public static final Image APPFIT_V2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png");
-    public static final Image APPFIT_V3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png");
-    public static final Image APPFIT_V4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png");
-    public static final Image APPFIT_H0 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png");
-    public static final Image APPFIT_H1 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png");
-    public static final Image APPFIT_H2 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png");
-    public static final Image APPFIT_H3 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png");
-    public static final Image APPFIT_H4 = BaseUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png");
+    public static final Image APPFIT_V0 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/V0.png");
+    public static final Image APPFIT_V1 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/V1.png");
+    public static final Image APPFIT_V2 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/V2.png");
+    public static final Image APPFIT_V3 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/V3.png");
+    public static final Image APPFIT_V4 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/V4.png");
+    public static final Image APPFIT_H0 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/H0.png");
+    public static final Image APPFIT_H1 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/H1.png");
+    public static final Image APPFIT_H2 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/H2.png");
+    public static final Image APPFIT_H3 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/H3.png");
+    public static final Image APPFIT_H4 = IOUtils.readImage("/com/fr/design/images/dialog/appfit/H4.png");
 
     public static final Border CELL_ATTR_ZEROBORDER = BorderFactory.createEmptyBorder(0, 0, 0, 0);
     public static final Border CELL_ATTR_EMPTYBORDER = BorderFactory.createEmptyBorder(0, 10, 0, 0);
@@ -45,15 +51,15 @@ public interface UIConstants {
      * Cell default cursor.
      */
     public static final Cursor CELL_DEFAULT_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
-            BaseUtils.readImage("/com/fr/base/images/cell/cursor/cell_default.png"),
+            IOUtils.readImage("/com/fr/base/images/cell/cursor/cell_default.png"),
             new Point(16, 16), "CellDefaultCursor");
     public static final Cursor DRAW_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
-            BaseUtils.readImage("/com/fr/base/images/cell/cursor/cursor_draw.png"),
+            IOUtils.readImage("/com/fr/base/images/cell/cursor/cursor_draw.png"),
             new Point(16, 16), "DrawCursor");
 
 
     public static final Cursor FORMAT_BRUSH_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
-            BaseUtils.readImage("/com/fr/base/images/cell/cursor/brush_cursor0.png"),
+            IOUtils.readImage("/com/fr/base/images/cell/cursor/brush_cursor0.png"),
             new Point(16, 16), "formatBrushCursor");
 
     /**
@@ -140,63 +146,64 @@ public interface UIConstants {
 
 
 
-    public static final BufferedImage DRAG_BAR = BaseUtils.readImage("com/fr/design/images/control/bar.png");
-    public static final BufferedImage DRAG_BAR_LIGHT = BaseUtils.readImage("com/fr/design/images/control/bar-light.png");
-    public static final BufferedImage ARROW_NORTH = BaseUtils.readImage("com/fr/design/images/control/up_arrow.png");
-    public static final BufferedImage ARROW_SOUTH = BaseUtils.readImage("com/fr/design/images/control/down_arrow.png");
-    public static final BufferedImage ARROW_EAST = BaseUtils.readImage("com/fr/design/images/control/east_arrow.png");
-    public static final BufferedImage ARROW_WEST = BaseUtils.readImage("com/fr/design/images/control/west_arrow.png");
+    public static final BufferedImage DRAG_BAR = IOUtils.readImage("com/fr/design/images/control/bar.png");
+    public static final BufferedImage DRAG_BAR_LIGHT = IOUtils.readImage("com/fr/design/images/control/bar-light.png");
+    public static final BufferedImage ARROW_NORTH = IOUtils.readImage("com/fr/design/images/control/up_arrow.png");
+    public static final BufferedImage ARROW_SOUTH = IOUtils.readImage("com/fr/design/images/control/down_arrow.png");
+    public static final BufferedImage ARROW_EAST = IOUtils.readImage("com/fr/design/images/control/east_arrow.png");
+    public static final BufferedImage ARROW_WEST = IOUtils.readImage("com/fr/design/images/control/west_arrow.png");
 
-    public static final BufferedImage DRAG_BAR_RIGHT = BaseUtils.readImage("com/fr/design/images/control/barm.png");
-    public static final BufferedImage DRAG_BAR_LEFT = BaseUtils.readImage("com/fr/design/images/control/barl.png");
-    public static final BufferedImage DRAG_UP_NORMAL = BaseUtils.readImage("com/fr/design/images/control/upnor.png");
-    public static final BufferedImage DRAG_UP_PRESS = BaseUtils.readImage("com/fr/design/images/control/uppre.png");
-    public static final BufferedImage DRAG_DOWN_NORMAL = BaseUtils.readImage("com/fr/design/images/control/downnor.png");
-    public static final BufferedImage DRAG_DOWN_PRESS = BaseUtils.readImage("com/fr/design/images/control/downpre.png");
-    public static final BufferedImage DRAG_RIGHT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/rightnor.png");
-    public static final BufferedImage DRAG_RIGHT_PRESS = BaseUtils.readImage("com/fr/design/images/control/rightpre.png");
-    public static final BufferedImage DRAG_LEFT_NORMAL = BaseUtils.readImage("com/fr/design/images/control/leftnor.png");
-    public static final BufferedImage DRAG_LEFT_PRESS = BaseUtils.readImage("com/fr/design/images/control/leftpre.png");
-    public static final BufferedImage DRAG_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
-    public static final BufferedImage DRAG_LINE = BaseUtils.readImage("com/fr/design/images/control/dot-line.png");
-    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = BaseUtils.readImage("com/fr/design/images/control/dot.png");
-    public static final BufferedImage DRAG_DOT_VERTICAL = BaseUtils.readImage("com/fr/design/images/control/dotv.png");
-    public static final BufferedImage POP_BUTTON_DOWN = BaseUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
-    public static final BufferedImage POP_BUTTON_UP = BaseUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
-    public static final BufferedImage DRAG_DOWN_SELECTED_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/downSelected.png");
-    public static final BufferedImage DRAG_LEFT_NORMAL_SMALL = BaseUtils.readImage("com/fr/design/images/buttonicon/leftNormal.png");
-    public static final BufferedImage WATERMARK_BACKGROUND = BaseUtils.readImage("/com/fr/design/images/dialog/watermark/watermark_background.png");
+    public static final BufferedImage DRAG_BAR_RIGHT = IOUtils.readImage("com/fr/design/images/control/barm.png");
+    public static final BufferedImage DRAG_BAR_LEFT = IOUtils.readImage("com/fr/design/images/control/barl.png");
+    public static final BufferedImage DRAG_UP_NORMAL = IOUtils.readImage("com/fr/design/images/control/upnor.png");
+    public static final BufferedImage DRAG_UP_PRESS = IOUtils.readImage("com/fr/design/images/control/uppre.png");
+    public static final BufferedImage DRAG_DOWN_NORMAL = IOUtils.readImage("com/fr/design/images/control/downnor.png");
+    public static final BufferedImage DRAG_DOWN_PRESS = IOUtils.readImage("com/fr/design/images/control/downpre.png");
+    public static final BufferedImage DRAG_RIGHT_NORMAL = IOUtils.readImage("com/fr/design/images/control/rightnor.png");
+    public static final BufferedImage DRAG_RIGHT_PRESS = IOUtils.readImage("com/fr/design/images/control/rightpre.png");
+    public static final BufferedImage DRAG_LEFT_NORMAL = IOUtils.readImage("com/fr/design/images/control/leftnor.png");
+    public static final BufferedImage DRAG_LEFT_PRESS = IOUtils.readImage("com/fr/design/images/control/leftpre.png");
+    public static final BufferedImage DRAG_DOT = IOUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage DRAG_LINE = IOUtils.readImage("com/fr/design/images/control/dot-line.png");
+    public static final BufferedImage ACCESSIBLE_EDITOR_DOT = IOUtils.readImage("com/fr/design/images/control/dot.png");
+    public static final BufferedImage DRAG_DOT_VERTICAL = IOUtils.readImage("com/fr/design/images/control/dotv.png");
+    public static final BufferedImage POP_BUTTON_DOWN = IOUtils.readImage("com/fr/design/images/buttonicon/popdownarrow.png");
+    public static final BufferedImage POP_BUTTON_UP = IOUtils.readImage("com/fr/design/images/buttonicon/popuparrow.png");
+    public static final BufferedImage DRAG_DOWN_SELECTED_SMALL = IOUtils.readImage("com/fr/design/images/buttonicon/downSelected.png");
+    public static final BufferedImage DRAG_LEFT_NORMAL_SMALL = IOUtils.readImage("com/fr/design/images/buttonicon/leftNormal.png");
+    public static final BufferedImage WATERMARK_BACKGROUND = IOUtils.readImage("/com/fr/design/images/dialog/watermark/" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_WaterMark_Background_Icon_File_Name"));
+
     public static final int MODEL_NORMAL = 0;
     public static final int MODEL_PRESS = 1;
-    public static final Icon ARROW_DOWN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");
-    public static final Icon ARROW_UP_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/arrowup.png");
-    public static final Icon YES_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/yes.png");
-    public static final Icon CHOOSEN_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/select_item.png");
-    public static final Icon PRE_WIDGET_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/prewidget.png");
-    public static final Icon EDIT_NORMAL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/editn.png");
-    public static final Icon EDIT_PRESSED_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/editp.png");
-    public static final Icon HIDE_NORMAL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/hiden.png");
-    public static final Icon HIDE_PRESSED_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/hidep.png");
-    public static final Icon VIEW_NORMAL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/viewn.png");
-    public static final Icon VIEW_PRESSED_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/viewp.png");
-    public static final Icon RUN_BIG_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/run24.png");
-    public static final Icon RUN_SMALL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/runs.png");
-    public static final Icon PAGE_BIG_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/pageb24.png");
-    public static final Icon WRITE_BIG_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/writeb24.png");
-    public static final Icon ANA_BIG_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/anab24.png");
-    public static final Icon PAGE_SMALL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/pages.png");
-    public static final Icon WRITE_SMALL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/writes.png");
-    public static final Icon ANA_SMALL_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/anas.png");
-    public static final Icon REFRESH_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/refresh.png");
-    public static final Icon FONT_ICON = BaseUtils.readIcon("/com/fr/design/images/gui/color/foreground.png");
-    public static final Icon HISTORY_ICON = BaseUtils.readIcon("com/fr/design/images/buttonicon/history.png");
-    public static final Icon DELETE_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/close.png");
-    public static final Icon EDIT_ICON = BaseUtils.readIcon("com/fr/design/images/m_file/edit.png");
-    public static final Icon SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/search.png");
-    public static final Icon BLACK_SEARCH_ICON = BaseUtils.readIcon("/com/fr/design/images/data/black_search.png");
-    public static final Icon CLEAR_ICON = BaseUtils.readIcon("/com/fr/design/images/data/source/delete.png");
-    public static final Icon LIST_EDIT_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit.png");
-    public static final Icon LIST_EDIT_WHITE_ICON = BaseUtils.readIcon("/com/fr/design/images/control/edit_white.png");
+    public static final Icon ARROW_DOWN_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/arrowdown.png");
+    public static final Icon ARROW_UP_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/arrowup.png");
+    public static final Icon YES_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/yes.png");
+    public static final Icon CHOOSEN_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/select_item.png");
+    public static final Icon PRE_WIDGET_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/prewidget.png");
+    public static final Icon EDIT_NORMAL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/editn.png");
+    public static final Icon EDIT_PRESSED_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/editp.png");
+    public static final Icon HIDE_NORMAL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/hiden.png");
+    public static final Icon HIDE_PRESSED_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/hidep.png");
+    public static final Icon VIEW_NORMAL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/viewn.png");
+    public static final Icon VIEW_PRESSED_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/viewp.png");
+    public static final Icon RUN_BIG_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/run24.png");
+    public static final Icon RUN_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/runs.png");
+    public static final Icon PAGE_BIG_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/pageb24.png");
+    public static final Icon WRITE_BIG_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/writeb24.png");
+    public static final Icon ANA_BIG_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/anab24.png");
+    public static final Icon PAGE_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/pages.png");
+    public static final Icon WRITE_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/writes.png");
+    public static final Icon ANA_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/anas.png");
+    public static final Icon REFRESH_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/refresh.png");
+    public static final Icon FONT_ICON = IOUtils.readIcon("/com/fr/design/images/gui/color/foreground.png");
+    public static final Icon HISTORY_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/history.png");
+    public static final Icon DELETE_ICON = IOUtils.readIcon("com/fr/design/images/m_file/close.png");
+    public static final Icon EDIT_ICON = IOUtils.readIcon("com/fr/design/images/m_file/edit.png");
+    public static final Icon SEARCH_ICON = IOUtils.readIcon("/com/fr/design/images/data/search.png");
+    public static final Icon BLACK_SEARCH_ICON = IOUtils.readIcon("/com/fr/design/images/data/black_search.png");
+    public static final Icon CLEAR_ICON = IOUtils.readIcon("/com/fr/design/images/data/source/delete.png");
+    public static final Icon LIST_EDIT_ICON = IOUtils.readIcon("/com/fr/design/images/control/edit.png");
+    public static final Icon LIST_EDIT_WHITE_ICON = IOUtils.readIcon("/com/fr/design/images/control/edit_white.png");
     public static final Color PRESSED_DARK_GRAY = new Color(127, 127, 127);
     public static final Color GRDIENT_DARK_GRAY = new Color(45, 45, 45);
     public static final Color BARNOMAL = new Color(232, 232, 233);
@@ -205,10 +212,10 @@ public interface UIConstants {
     public static final int BUTTON_GROUP_ARC = 0;
     public static final int LARGEARC = 6;
     public static final Stroke BS = new BasicStroke(1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 2f, new float[]{3, 1}, 0);
-    public static final Icon PREVIEW_DOWN = BaseUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");
-    public static final Icon CLOSE_OF_AUTHORITY = BaseUtils.readIcon("/com/fr/design/images/m_report/close.png");
-    public static final Icon CLOSE_OVER_AUTHORITY = BaseUtils.readIcon("/com/fr/design/images/m_report/close_over.png");
-    public static final Icon CLOSE_PRESS_AUTHORITY = BaseUtils.readIcon("/com/fr/design/images/m_report/close_press.png");
+    public static final Icon PREVIEW_DOWN = IOUtils.readIcon("com/fr/design/images/buttonicon/prevew_down_icon.png");
+    public static final Icon CLOSE_OF_AUTHORITY = IOUtils.readIcon("/com/fr/design/images/m_report/close.png");
+    public static final Icon CLOSE_OVER_AUTHORITY = IOUtils.readIcon("/com/fr/design/images/m_report/close_over.png");
+    public static final Icon CLOSE_PRESS_AUTHORITY = IOUtils.readIcon("/com/fr/design/images/m_report/close_press.png");
     public static final int CLOSE_AUTHORITY_HEIGHT_AND_WIDTH = 24;
 
 

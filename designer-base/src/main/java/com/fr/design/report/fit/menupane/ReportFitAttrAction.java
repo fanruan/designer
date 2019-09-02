@@ -1,6 +1,5 @@
 package com.fr.design.report.fit.menupane;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -8,18 +7,17 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.general.IOUtils;
 import com.fr.report.fit.FitProvider;
 import com.fr.report.fit.ReportFitAttr;
 
 import javax.swing.KeyStroke;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 /**
  * Created by Administrator on 2015/7/6 0006.
  */
 public class ReportFitAttrAction extends JTemplateAction {
-    private static final Dimension MEDIUM = new Dimension(430, 400);
     private static final MenuKeySet REPORT_FIT_ATTR = new MenuKeySet() {
         @Override
         public char getMnemonic() {
@@ -67,7 +65,7 @@ public class ReportFitAttrAction extends JTemplateAction {
         }
         this.setName(getMenuKeySet().getMenuKeySetName() + "...");
         this.setMnemonic(getMenuKeySet().getMnemonic());
-        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/reportfit/fit.png"));
+        this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/reportfit/fit.png"));
     }
 
     /**
@@ -75,6 +73,7 @@ public class ReportFitAttrAction extends JTemplateAction {
      *
      * @param e 事件
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         final JTemplate jwb = getEditingComponent();
         if (jwb == null) {
@@ -93,14 +92,13 @@ public class ReportFitAttrAction extends JTemplateAction {
 
     private void showReportFitDialog(ReportFitAttr fitAttr, final JTemplate jwb, final FitProvider wbTpl, final BasicBeanPane<ReportFitAttr> attrPane) {
         attrPane.populateBean(fitAttr);
-        UIDialog dialog = attrPane.showUnsizedWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+        UIDialog dialog = attrPane.showMediumWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
                 wbTpl.setReportFitAttr(attrPane.updateBean());
                 jwb.fireTargetModified();
             }
         });
-        dialog.setSize(MEDIUM);
         dialog.setVisible(true);
     }
 

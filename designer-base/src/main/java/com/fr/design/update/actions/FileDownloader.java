@@ -65,6 +65,7 @@ public abstract class FileDownloader extends SwingWorker<Boolean, DownloadItem> 
             success = get();
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -80,22 +81,21 @@ public abstract class FileDownloader extends SwingWorker<Boolean, DownloadItem> 
         URLConnection connection = url.openConnection();
         int total = connection.getContentLength();
         item.setTotalLength(total);
-        InputStream reader = connection.getInputStream();
         File tempFile = new File(StableUtils.pathJoin(saveDir, item.getName()));
         StableUtils.makesureFileExist(tempFile);
-        FileOutputStream writer = new FileOutputStream(tempFile);
-        byte[] buffer = new byte[UpdateConstants.BYTE];
-        int bytesRead = 0;
-        int totalBytesRead = 0;
-        while ((bytesRead = reader.read(buffer)) != -1) {
-            writer.write(buffer, 0, bytesRead);
-            buffer = new byte[UpdateConstants.BYTE];
-            totalBytesRead += bytesRead;
-            item.setDownloadLength(totalBytesRead);
-            publish(item);
+        try ( InputStream reader = connection.getInputStream();
+              FileOutputStream writer = new FileOutputStream(tempFile)) {
+            byte[] buffer = new byte[UpdateConstants.BYTE];
+            int bytesRead = 0;
+            int totalBytesRead = 0;
+            while ((bytesRead = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, bytesRead);
+                buffer = new byte[UpdateConstants.BYTE];
+                totalBytesRead += bytesRead;
+                item.setDownloadLength(totalBytesRead);
+                publish(item);
+            }
         }
-        reader.close();
-        writer.close();
     }
 
     /**

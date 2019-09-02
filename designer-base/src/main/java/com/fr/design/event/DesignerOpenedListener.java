@@ -9,5 +9,5 @@ public interface DesignerOpenedListener extends EventListener {
     /**
      * Invoked when the target of the listener has changed the rpt content.
      */
-    public void designerOpened();
+    void designerOpened();
 }

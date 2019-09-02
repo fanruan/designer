@@ -3,14 +3,16 @@ package com.fr.start.module;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.fun.OemProcessor;
-import com.fr.design.mainframe.template.info.TemplateInfoCollector;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
+import com.fr.event.EventDispatcher;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
+import com.fr.module.ModuleEvent;
 import com.fr.stable.BuildContext;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
@@ -20,11 +22,8 @@ import com.fr.start.SplashContext;
 import com.fr.start.SplashStrategy;
 import com.fr.start.fx.SplashFx;
 import com.fr.start.jni.SplashMac;
-import com.fr.start.preload.ImagePreLoader;
 
 import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2018/1/8.
@@ -48,12 +47,11 @@ public class PreStartActivator extends Activator {
 
         RestartHelper.deleteRecordFilesWhenStart();
 
-        preloadResource();
-
         SplashContext.getInstance().registerSplash(createSplash());
 
         SplashContext.getInstance().show();
-
+        //初始化
+        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));
         // 完成初始化
         //noinspection ResultOfMethodCallIgnored
         CloudCenter.getInstance();
@@ -70,6 +68,7 @@ public class PreStartActivator extends Activator {
     }
 
     private void checkDebugStart() {
+
         if (isDebug()) {
             setDebugEnv();
         }
@@ -82,12 +81,14 @@ public class PreStartActivator extends Activator {
      * @return isDebug
      */
     private boolean isDebug() {
+
         return ComparatorUtils.equals("true", System.getProperty("debug"));
     }
 
 
     //端口改一下，环境配置文件改一下。便于启动两个设计器，进行对比调试
     private void setDebugEnv() {
+
         DesignUtils.setPort(DesignerPort.DEBUG_MESSAGE_PORT);
         String debugXMlFilePath = StableUtils.pathJoin(
                 ProductConstants.getEnvHome(),
@@ -103,29 +104,12 @@ public class PreStartActivator extends Activator {
     }
 
     private String[] startFileSuffix() {
+
         return new String[]{".cpt", ".xls", ".xlsx", ".frm", ".form", ".cht", ".chart"};
     }
 
-    private static void preloadResource() {
-        ExecutorService service = Executors.newCachedThreadPool();
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                new ImagePreLoader();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                TemplateInfoCollector.getInstance();
-            }
-        });
-        service.shutdown();
-    }
-
     private SplashStrategy createSplash() {
+
         OemProcessor oemProcessor = OemHandler.findOem();
         if (oemProcessor != null) {
             SplashStrategy splashStrategy = null;

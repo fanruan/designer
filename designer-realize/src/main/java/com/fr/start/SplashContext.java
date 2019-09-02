@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.locale.impl.SplashMark;
 import com.fr.design.mainframe.bbs.BBSConstants;
@@ -42,7 +43,7 @@ public class SplashContext {
     private int fetchOnlineTimes = 0;
     private String guest = StringUtils.EMPTY;
 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1, new NamedThreadFactory("SplashContext"));
 
     private Listener<String> listener;
 

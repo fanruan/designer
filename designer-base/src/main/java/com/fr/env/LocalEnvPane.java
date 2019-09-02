@@ -6,9 +6,9 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.itree.filetree.JFileTree;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.file.filter.OnlyShowDirectoryFileFilter;
-
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
@@ -33,8 +33,9 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         this.add(northPane, BorderLayout.NORTH);
 
-        northPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location") + ":"), BorderLayout.WEST);
-        northPane.add(pathTextField = new UITextField(), BorderLayout.CENTER);
+        northPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Basic_Location") + ":"), BorderLayout.WEST);
+        pathTextField = new UITextField();
+        northPane.add(pathTextField, BorderLayout.CENTER);
 
         // 删除选择文件按钮 添加JFileTree
 
@@ -54,19 +55,23 @@ public class LocalEnvPane extends BasicBeanPane<LocalDesignerWorkspaceInfo> {
 
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                pathTextField.setText(localEnvTree.getSelectedFile().getPath());
+                File selectFile = localEnvTree.getSelectedFile();
+                if (selectFile == null) {
+                    return;
+                }
+                pathTextField.setText(selectFile.getPath());
             }
         });
 
         UITextArea description = new UITextArea();
         centerPane.add(description, BorderLayout.SOUTH);
-        description.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Env_Des1"));
+        description.setText(Toolkit.i18nText("Fine-Design_Basic_Env_Des1"));
         description.setEditable(false);
     }
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Location");
+        return Toolkit.i18nText("Fine-Design_Basic_Location");
     }
 
     @Override
