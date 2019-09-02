@@ -1,6 +1,7 @@
 package com.fr.design.condition;
 
 
+import com.fr.common.annotations.Open;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -17,6 +18,7 @@ import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
 
+@Open
 public abstract class ConditionAttributesPane<T> extends BasicBeanPane<T> {
     private static final int MIN_HEIGHT = 60;
     protected CellHighlightAddMenuDef menuDef;
