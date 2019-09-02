@@ -1091,6 +1091,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             thread.join();
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error("Map Thread Error");
+            Thread.currentThread().interrupt();
         }
 
         DesignerEnvManager.getEnvManager().setLastOpenFile(
