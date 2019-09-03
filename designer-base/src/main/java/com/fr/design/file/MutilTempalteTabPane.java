@@ -156,6 +156,9 @@ public class MutilTempalteTabPane extends JComponent {
     }
 
     public JTemplate getSelectedFile() {
+        if (openedTemplate.size() == selectedIndex) {
+            selectedIndex = Math.max(--selectedIndex, 0);
+        }
         return openedTemplate.get(selectedIndex);
     }
 
