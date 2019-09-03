@@ -91,8 +91,8 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
         return VanChartWordCloudTypePane.TITLE;
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new WordCloudChartDataPane(listener);
-    }
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new WordCloudChartDataPane(listener);
+//    }
 }

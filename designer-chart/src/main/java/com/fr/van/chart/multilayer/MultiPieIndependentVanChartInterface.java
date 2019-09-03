@@ -26,10 +26,10 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         return "com/fr/design/images/form/toolbar/multiPie.png";
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new MultiPieChartDataPane(listener);
-    }
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new MultiPieChartDataPane(listener);
+//    }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new VanChartMultiPieSeriesPane(parent, plot);
