@@ -3,6 +3,7 @@ package com.fr.van.chart.structure.desinger;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.StructureChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -11,7 +12,6 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -80,5 +80,10 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     @Override
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartStructureConditionPane(plot);
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new StructureChartDataPane(listener);
     }
 }
