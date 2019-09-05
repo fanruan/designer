@@ -252,7 +252,7 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dtde 事件
      */
-    public void drop(DropTargetDropEvent dtde) {
+    public synchronized void drop(DropTargetDropEvent dtde) {
         Point loc = dtde.getLocation();
         this.adding(loc.x, loc.y);
         //针对在表单中拖入一个控件直接ctrl+s无反应
