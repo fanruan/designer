@@ -5,6 +5,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -22,6 +23,18 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
  * Created by Mitisky on 16/3/31.
  */
 public class BubbleIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Bubble");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart"),
+                Toolkit.i18nText("Fine-Design_Chart_New_Force_Bubble")
+        };
+    }
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
      *
@@ -78,9 +91,5 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new VanChartBubbleConditionPane(plot);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartBubblePlotPane.TITLE;
     }
 }

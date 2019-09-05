@@ -3,6 +3,7 @@ package com.fr.van.chart.radar;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
@@ -17,6 +18,19 @@ public class RadarIndependentVanChartInterface extends AbstractIndependentVanCha
     }
 
     @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Radar");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Radar_Chart"),
+                Toolkit.i18nText("Fine-Design_Chart_StackColumn_Radar")
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartRadarPlotPane();
     }
@@ -27,9 +41,5 @@ public class RadarIndependentVanChartInterface extends AbstractIndependentVanCha
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new VanChartRadarConditionPane(plot);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartRadarPlotPane.TITLE;
     }
 }
