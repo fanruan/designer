@@ -1368,6 +1368,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         FRLogger.getLogger().error(e.getMessage(), e);
+                        Thread.currentThread().interrupt();
                     }
 
                     pane.setLayout(new BorderLayout());
