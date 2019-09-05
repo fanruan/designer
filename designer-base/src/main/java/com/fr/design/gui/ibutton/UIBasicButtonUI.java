@@ -321,9 +321,9 @@ public class UIBasicButtonUI extends MetalButtonUI {
 
     //harry: 画带有高光的按钮。
     private void drawHighLightButton(Graphics2D g2, Color color1, Color color2, int w, int h) {
-        GradientPaint buttonPaint = new GradientPaint(0, 0, color1, 0, h - 1, color2);
-        GradientPaint buttonHighLightPaint = new GradientPaint(0, 0, new Color(1.0f, 1.0f, 1.0f, 0.6f), 0, h / 2, new Color(1.0f, 1.0f, 1.0f, 0.2f));
-        GradientPaint buttonHighLightLinePaint = new GradientPaint(1, 1, new Color(1.0f, 1.0f, 1.0f, 0.8f), 0, h / 2, new Color(1.0f, 1.0f, 1.0f, 0.4f));
+        GradientPaint buttonPaint = new GradientPaint(0, 0, color1, 0, h - 1f, color2);
+        GradientPaint buttonHighLightPaint = new GradientPaint(0, 0, new Color(1.0f, 1.0f, 1.0f, 0.6f), 0, h / 2f, new Color(1.0f, 1.0f, 1.0f, 0.2f));
+        GradientPaint buttonHighLightLinePaint = new GradientPaint(1, 1, new Color(1.0f, 1.0f, 1.0f, 0.8f), 0, h / 2f, new Color(1.0f, 1.0f, 1.0f, 0.4f));
         g2.setPaint(buttonPaint);
         g2.fillRoundRect(0, 0, w - 1, h - 1, 3, 3);
         g2.setPaint(buttonHighLightLinePaint);//按钮内侧高光线（内发光，0%阻塞）
