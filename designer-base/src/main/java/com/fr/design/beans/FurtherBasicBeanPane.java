@@ -1,11 +1,9 @@
 package com.fr.design.beans;
 
+import com.fr.common.annotations.Open;
 import com.fr.stable.StringUtils;
 
-/**
- * @author zhou
- * @since 2012-5-30下午12:12:42
- */
+@Open
 public abstract class FurtherBasicBeanPane<T> extends BasicBeanPane<T> {
     /**
      * 是否是指定类型

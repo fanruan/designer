@@ -433,7 +433,7 @@ public class CustomIconPane extends BasicPane {
             JPanel imagePane = new JPanel();
             imagePane.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
             showImageLabel = new UILabel();
-            showImageLabel.setPreferredSize(new Dimension(20, 20));
+            showImageLabel.setPreferredSize(new Dimension(50, 50));
             imagePane.add(showImageLabel);
             imagePane.add(browseButton);
             Component[][] components = {{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Name") + ":"), nameTextField}, {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Icon") + ":"), imagePane}};
@@ -450,12 +450,12 @@ public class CustomIconPane extends BasicPane {
 
             if (JFileChooser.APPROVE_OPTION == jf.showOpenDialog(DesignerContext.getDesignerFrame())) {
                 String path = jf.getSelectedFile().getAbsolutePath();
-                // 将图片转化到16 × 16大小
+                // 图片存储有最大值48*48限制，没有超过最大值时，按原图大小存储，超过最大值后，压缩至最大值存储
                 Image image = BaseUtils.readImage(path);
-                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(IconManager.DEFAULT_ICONWIDTH,
-                        IconManager.DEFAULT_ICONHEIGHT, BufferedImage.TYPE_INT_ARGB);
+                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(Math.min(image.getWidth(null), IconManager.MAXSTORAGE_ICONWIDTH),
+                        Math.min(image.getHeight(null), IconManager.MAXSTORAGE_ICONHEIGHT), BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2d = bufferedImage.createGraphics();
-                g2d.drawImage(image, 0, 0, IconManager.DEFAULT_ICONWIDTH, IconManager.DEFAULT_ICONHEIGHT, null);
+                g2d.drawImage(image, 0, 0, Math.min(image.getWidth(null), IconManager.MAXSTORAGE_ICONWIDTH), Math.min(image.getHeight(null), IconManager.MAXSTORAGE_ICONHEIGHT), null);
                 bufferedImage.flush();
                 g2d.dispose();
                 iconImage = bufferedImage;

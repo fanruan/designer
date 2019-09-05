@@ -81,6 +81,7 @@ public class FineEmbedServerMonitor {
                     try {
                         Thread.sleep(STEP_HEARTBEAT);
                     } catch (InterruptedException ignore) {
+                        Thread.currentThread().interrupt();
                     }
                 }
                 DesignerContext.getDesignerFrame().hideProgressDialog();

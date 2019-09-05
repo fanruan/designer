@@ -95,10 +95,6 @@ import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
 import com.fr.workspace.WorkContext;
-
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -106,6 +102,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -1103,9 +1102,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         // 弹出输入参数
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
-        try {
-            String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
-            FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
+        String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fullPath)) {
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, tpl, parameterMap);
         } catch (Exception e1) {

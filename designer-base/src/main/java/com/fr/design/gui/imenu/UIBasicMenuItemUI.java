@@ -7,6 +7,7 @@ package com.fr.design.gui.imenu;
 import com.fr.design.utils.ColorRoutines;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -579,7 +580,8 @@ public class UIBasicMenuItemUI extends MenuItemUI {
      */
     private boolean isInternalFrameSystemMenu() {
         String actionCommand = menuItem.getActionCommand();
-        return (actionCommand == "Close") || (actionCommand == "Minimize") || (actionCommand == "Restore") || (actionCommand == "Maximize");
+        return (StringUtils.equals(actionCommand,"Close") || StringUtils.equals(actionCommand,"Minimize")
+                || StringUtils.equals(actionCommand,"Restore") || StringUtils.equals(actionCommand,"Maximize"));
     }
 
     //////////////////////////////////////////////////////////

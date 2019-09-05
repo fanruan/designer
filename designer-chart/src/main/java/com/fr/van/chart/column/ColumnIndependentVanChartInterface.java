@@ -37,8 +37,8 @@ public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVan
         return VanChartColumnPlotPane.TITLE;
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new MultiCategoryChartDataPane(listener);
-    }
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new MultiCategoryChartDataPane(listener);
+//    }
 }
