@@ -251,7 +251,7 @@ public class UIButton extends JButton implements UIObserver, UITextComponent {
 	protected void paintOtherBorder(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(borderStroke);
-		Shape shape = new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
+		Shape shape = new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1f, getHeight() - 1f, UIConstants.ARC, UIConstants.ARC);
 		g2d.setColor(borderColor);
 		g2d.draw(shape);
 	}

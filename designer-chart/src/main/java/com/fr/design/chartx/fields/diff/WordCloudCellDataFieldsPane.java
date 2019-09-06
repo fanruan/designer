@@ -64,7 +64,7 @@ public class WordCloudCellDataFieldsPane extends AbstractCellDataFieldsPane<Word
         WordCloudColumnFieldCollection result = new WordCloudColumnFieldCollection();
         result.setTargetName(name.getText());
         updateField(wordName, result.getWordName());
-        populateField(wordValue, result.getWordValue());
+        updateField(wordValue, result.getWordValue());
         return result;
     }
 }

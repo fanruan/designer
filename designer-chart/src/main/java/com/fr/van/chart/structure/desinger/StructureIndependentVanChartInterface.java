@@ -95,4 +95,9 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartStructureConditionPane(plot);
     }
+
+   /* @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new StructureChartDataPane(listener);
+    }*/
 }
