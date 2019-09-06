@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.messagecollect;
 
 import com.fr.concurrent.NamedThreadFactory;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -32,6 +33,7 @@ public class StartupMessageCollector {
     private static final String XML_STARTUP_LOG = "startupLog";
     private static final String XML_STARTUP_Memory = "designerMemory";
     private static final String XML_STARTUP_COST = "cost";
+    private static final String XML_UUID = "UUID";
     private static final String STARTUP_URL_KEY = "user.info.v10.startup";
     private static final String LOG_TYPE = "single";
     private static final int BYTE_TO_MB = 1024 * 1024;
@@ -61,6 +63,7 @@ public class StartupMessageCollector {
                         FineModule root = (FineModule) ModuleContext.getRoot().getRoot();
                         JSONObject profile = root.profile();
                         JSONObject json = JSONObject.create()
+                                .put(XML_UUID,  DesignerEnvManager.getEnvManager().getUUID())
                                 .put(XML_STARTUP_TIME, FineRuntime.getAppStartTime() + FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_COST, FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_LOG, profile)
