@@ -1,6 +1,7 @@
 package com.fr.design.layout;
 
 
+import com.fr.stable.AssistUtils;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -399,17 +400,17 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Make sure rows and columns are valid
         for (int counter = 0; counter < crSpec[C].length; counter++)
             if ((crSpec[C][counter] < 0.0) &&
-                    (crSpec[C][counter] != FILL) &&
-                    (crSpec[C][counter] != PREFERRED) &&
-                    (crSpec[C][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[C][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[C][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[C][counter], MINIMUM)) {
                 crSpec[C][counter] = 0.0;
             }
 
         for (int counter = 0; counter < crSpec[R].length; counter++)
             if ((crSpec[R][counter] < 0.0) &&
-                    (crSpec[R][counter] != FILL) &&
-                    (crSpec[R][counter] != PREFERRED) &&
-                    (crSpec[R][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[R][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[R][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[R][counter], MINIMUM)) {
                 crSpec[R][counter] = 0.0;
             }
 
@@ -556,9 +557,9 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Make sure rows are valid
         for (int counter = 0; counter < crSpec[z].length; counter++)
             if ((crSpec[z][counter] < 0.0) &&
-                    (crSpec[z][counter] != FILL) &&
-                    (crSpec[z][counter] != PREFERRED) &&
-                    (crSpec[z][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[z][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[z][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[z][counter], MINIMUM)) {
                 crSpec[z][counter] = 0.0;
             }
 
@@ -641,9 +642,9 @@ public class TableLayout implements LayoutManager2, Serializable {
     protected void setCr(int z, int i, double size) {
         // Make sure size is valid
         if ((size < 0.0) &&
-                (size != FILL) &&
-                (size != PREFERRED) &&
-                (size != MINIMUM)) {
+                !AssistUtils.equals(size, FILL) &&
+                !AssistUtils.equals(size, PREFERRED) &&
+                !AssistUtils.equals(size, MINIMUM)) {
             size = 0.0;
         }
 
