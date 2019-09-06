@@ -5,10 +5,10 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
+import com.fr.common.annotations.Compatible;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.ChartTypeUIProvider;
-import com.fr.design.chart.fun.impl.AbstractIndependentChartsUI;
 import com.fr.design.chart.gui.ChartWidgetOption;
 import com.fr.design.chartinterface.AreaIndependentChartInterface;
 import com.fr.design.chartinterface.BarIndependentChartInterface;
@@ -39,10 +39,10 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.extended.chart.AbstractExtendedChartUIProvider;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
@@ -281,18 +281,23 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                     if (AssistUtils.equals(pane.title4PopupWindow(), TYPE_PANE_DEFAULT_TITLE)) {
                         continue;
                     }
-                    pane.setPlotID(plotID);
+                    pane.reLayout(plotID);
                     paneList.add(pane);
 
                     if (allChartTypePane.get(priority) == null) {
                         allChartTypePane.put(priority, new LinkedHashMap<String, FurtherBasicBeanPane<? extends ChartProvider>>());
                     }
                     allChartTypePane.get(priority).put(plotID, pane);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             }
         }
+    }
+
+    @Compatible
+    public String getTitle4PopupWindow(String plotID) {
+        return getName(plotID);
     }
     
     private List<Integer> getPriorityInOrder() {
@@ -324,18 +329,45 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         if (chartTypeInterfaces != null) {
             ChartTypeUIProvider provider = getChartTypeInterface(id);
             if (provider != null) {
-                String[] subNames = provider.getSubName();
-                return ArrayUtils.isEmpty(subNames) ? new String[]{getName(id)} : subNames;
+                String[] subNames = null;
+                try {
+                    subNames = provider.getSubName();
+                } catch (Throwable throwable) {
+                    //do nothing
+                }
+                return ArrayUtils.isEmpty(subNames) ? getCompatibleSubName(id, provider) : subNames;
             }
         }
         return new String[0];
+    }
+
+    //兼容
+    private String[] getCompatibleSubName(String id, ChartTypeUIProvider provider) {
+        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getChartTypes(id);
+
+        if (chartProviders.length == 1) {
+            return new String[]{getName(id)};
+        }
+        String[] result = new String[chartProviders.length];
+        for (int i = 0; i < chartProviders.length; i++) {
+            if (chartProviders[i] instanceof Chart) {
+                result[i] = ((Chart) chartProviders[i]).getChartName();
+            }
+        }
+        return result;
     }
 
     public String getName(String id) {
         if (chartTypeInterfaces != null) {
             ChartTypeUIProvider provider = getChartTypeInterface(id);
             if (provider != null) {
-                String name = provider.getName();
+                String name = null;
+                try {
+                    name = provider.getName();
+                } catch (Throwable throwable) {
+                    //do nothing
+                }
+
                 return StringUtils.isEmpty(name) ? getCompatibleName(id, provider) : name;
             }
         }
@@ -344,17 +376,26 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
     //兼容
     private static String getCompatibleName(String id, ChartTypeUIProvider provider) {
-        if (provider instanceof AbstractIndependentChartsUI) {
-            return provider.getPlotTypePane().title4PopupWindow();
+
+        String result = null;
+        try {
+            result = Reflect.on(provider).call("getPlotTypeTitle4PopupWindow").get();
+        } catch (Exception e) {
+            //do nothing
         }
-        if (provider instanceof AbstractExtendedChartUIProvider) {
-            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(id)[0];
-            if (chartProvider instanceof Chart) {
-                return ((Chart) chartProvider).getChartName();
-            }
+        if (StringUtils.isNotEmpty(result)) {
+            return result;
         }
 
-        return StringUtils.EMPTY;
+        ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(id)[0];
+        if (chartProvider instanceof Chart) {
+            result = ((Chart) chartProvider).getChartName();
+        }
+        if (StringUtils.isNotEmpty(result)) {
+            return result;
+        }
+
+        return provider.getPlotTypePane().title4PopupWindow();
     }
     
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
