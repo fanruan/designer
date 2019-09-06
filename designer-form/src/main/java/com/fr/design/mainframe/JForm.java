@@ -765,6 +765,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
                         Thread.sleep(1500);
                     } catch (InterruptedException e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                        Thread.currentThread().interrupt();
                     }
                     JPanel pane = new JPanel();
                     pane.setLayout(new BorderLayout());

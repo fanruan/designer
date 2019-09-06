@@ -11,7 +11,6 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -81,4 +80,9 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartStructureConditionPane(plot);
     }
+
+   /* @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new StructureChartDataPane(listener);
+    }*/
 }
