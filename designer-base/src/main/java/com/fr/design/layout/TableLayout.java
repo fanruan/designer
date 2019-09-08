@@ -322,7 +322,7 @@ public class TableLayout implements LayoutManager2, Serializable {
      this row/column. */
     public static final double MINIMUM = -3.0;
 
-    final double epsilon = 0.0000001;
+    public static final double EPSILON = 0.0000001;
 
 //******************************************************************************
 //** Constructors                                                            ***
@@ -1808,8 +1808,8 @@ public class TableLayout implements LayoutManager2, Serializable {
             for (counter = entry.cr1[z]; counter <= entry.cr2[z]; counter++)
                 if (crSpec[z][counter] >= 1.0)
                     scalableSize -= crSpec[z][counter];
-                else if (Math.abs(crSpec[z][counter] - PREFERRED) < epsilon ||
-                        Math.abs(crSpec[z][counter] - MINIMUM) < epsilon) {
+                else if (Math.abs(crSpec[z][counter] - PREFERRED) < EPSILON ||
+                        Math.abs(crSpec[z][counter] - MINIMUM) < EPSILON) {
                     scalableSize -= crPrefMin[counter];
                 }
 
@@ -1825,13 +1825,13 @@ public class TableLayout implements LayoutManager2, Serializable {
                 // Add scaled size to relativeWidth
                     relativeSize += crSpec[z][counter];
                 // Cr is fill
-                else if (Math.abs(crSpec[z][counter] - FILL) < epsilon && Math.abs(fillSizeRatio - 0.0) >= epsilon)
+                else if (Math.abs(crSpec[z][counter] - FILL) < EPSILON && Math.abs(fillSizeRatio - 0.0) >= EPSILON)
                 // Add fill size to relativeWidth
                     relativeSize += fillSizeRatio;
             }
 
             // Determine the total scaled size as estimated by this component
-            if (Math.abs(relativeSize - 0) < epsilon)
+            if (Math.abs(relativeSize - 0) < EPSILON)
                 temp = 0;
             else
                 temp = (int) (scalableSize / relativeSize + 0.5);
@@ -1852,8 +1852,8 @@ public class TableLayout implements LayoutManager2, Serializable {
             if (crSpec[z][counter] >= 1.0)
                 totalSize += (int) (crSpec[z][counter] + 0.5);
             // Is the current cr a preferred/minimum size
-            else if (Math.abs(crSpec[z][counter] - PREFERRED) < epsilon||
-                    Math.abs(crSpec[z][counter] - MINIMUM) < epsilon) {
+            else if (Math.abs(crSpec[z][counter] - PREFERRED) < EPSILON||
+                    Math.abs(crSpec[z][counter] - MINIMUM) < EPSILON) {
                 // Add preferred/minimum width
                 totalSize += crPrefMin[counter];
             }
