@@ -31,6 +31,7 @@ import com.fr.general.FRScreen;
 import com.fr.general.IOUtils;
 
 import com.fr.share.ShareConstants;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.Constants;
 
 import javax.swing.Icon;
@@ -108,7 +109,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension scrnsize = toolkit.getScreenSize();
         double screenValue = FRScreen.getByDimension(scrnsize).getValue();
-        if (screenValue != FormArea.DEFAULT_SLIDER) {
+        if (!AssistUtils.equals(screenValue, FormArea.DEFAULT_SLIDER)) {
             this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
         }
     }
@@ -167,7 +168,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
      * 界面容器大小不是默认的时，处理控件的BoundsWidget，且避免出现空隙
      */
     private Rectangle dealWidgetBound(Rectangle rec) {
-        if (containerPercent == 1.0) {
+        if (AssistUtils.equals(1.0, containerPercent)) {
             return rec;
         }
         rec.x = (int) (rec.x / containerPercent);
@@ -244,7 +245,7 @@ public class XWAbsoluteLayout extends XLayoutContainer {
     @Override
     public void updateChildBound(int minHeight) {
         double prevContainerPercent = FRScreen.getByDimension(toData().getDesigningResolution()).getValue() / FormArea.DEFAULT_SLIDER;
-        if (toData().getCompState() == 0 && prevContainerPercent != containerPercent) {
+        if (toData().getCompState() == 0 && !AssistUtils.equals(containerPercent, prevContainerPercent)) {
             for (int i = 0; i < this.getComponentCount(); i++) {
                 XCreator creator = getXCreator(i);
                 Rectangle rec = new Rectangle(creator.getBounds());
