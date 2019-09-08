@@ -37,7 +37,7 @@ public class WarningIcon extends ImageIcon {
 	}
 
 	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
+	public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
 		if (mainImage != null) {
 			g.drawImage(mainImage, x, y, c);
 		}
@@ -59,6 +59,7 @@ public class WarningIcon extends ImageIcon {
 				tracker.waitForID(0, 0);
 			} catch (InterruptedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
 			}
 
 			tracker.statusID(0, false);

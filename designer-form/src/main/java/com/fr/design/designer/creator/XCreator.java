@@ -3,7 +3,6 @@
  */
 package com.fr.design.designer.creator;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
@@ -589,6 +588,14 @@ public abstract class XCreator extends JPanel implements XComponent, XCreatorToo
 	 */
 	public void recalculateChildHeight(int height, boolean actualSize){
 		return;
+	}
+
+	/**
+	 * 是否支持定义移动端样式，默认true
+	 * @return 是否支持定义移动端样式
+	 */
+	public boolean supportMobileStyle() {
+		return true;
 	}
 
 	/**

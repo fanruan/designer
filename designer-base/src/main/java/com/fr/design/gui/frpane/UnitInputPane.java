@@ -10,6 +10,7 @@ import com.fr.design.gui.ispinner.UIBasicSpinner;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -81,7 +82,7 @@ public abstract class UnitInputPane extends BasicPane {
 			floatValue = de.floatValue();
 		}
         //选中多列, 并且列宽不完全一致的话, 就不显示值了.
-		temp.setText(floatValue == 0 ? StringUtils.EMPTY : Utils.convertNumberStringToString(new Float(floatValue)));
+		temp.setText(AssistUtils.equals(floatValue, 0) ? StringUtils.EMPTY : Utils.convertNumberStringToString(new Float(floatValue)));
 
 		// denny:默认应该为选中，方便用户修改
 		temp.selectAll();

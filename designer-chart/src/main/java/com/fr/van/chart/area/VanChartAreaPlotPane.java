@@ -68,10 +68,12 @@ public class VanChartAreaPlotPane extends AbstractVanChartTypePane {
             }
         }
         Plot cloned = null;
-        try {
-            cloned = (Plot) newPlot.clone();
-        } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error("Error In AreaChart");
+        if(newPlot != null) {
+            try {
+                cloned = (Plot) newPlot.clone();
+            } catch (CloneNotSupportedException e) {
+                FineLoggerFactory.getLogger().error("Error In AreaChart");
+            }
         }
         return cloned;
     }

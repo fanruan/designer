@@ -35,6 +35,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -362,10 +363,10 @@ public class UpdateMainDialog extends UIDialog {
         add(jarVersionInfoPane, BorderLayout.NORTH);
 
         //海外版本不显示更新信息
-        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)){
+        if (GeneralContext.getLocale().equals(Locale.CHINA) || GeneralContext.getLocale().equals(Locale.TAIWAN)) {
             add(jarUpdateInfoPane, BorderLayout.CENTER);
             add(updateActionPane, BorderLayout.SOUTH);
-        }else {
+        } else {
             add(updateActionPane, BorderLayout.CENTER);
         }
 
@@ -384,6 +385,7 @@ public class UpdateMainDialog extends UIDialog {
                     showDownLoadInfo();
                 } catch (InterruptedException e) {
                     stopLoading();
+                    Thread.currentThread().interrupt();
                 } catch (ExecutionException e) {
                     stopLoading();
                 } finally {
@@ -513,16 +515,15 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), "UTF-8");
-        BufferedWriter bufferWriter = new BufferedWriter(writerStream);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jo = (JSONObject) jsonArray.get(i);
-            bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
-            bufferWriter.newLine();
-            bufferWriter.flush();
+        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), EncodeConstants.ENCODING_UTF_8);
+             BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jo = (JSONObject) jsonArray.get(i);
+                bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
+                bufferWriter.newLine();
+                bufferWriter.flush();
+            }
         }
-        bufferWriter.close();
-        writerStream.close();
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
         lastUpdateCacheTime = endTime;
         cacheProperty.updateProperty("updateTime", lastUpdateCacheTime);
@@ -634,6 +635,7 @@ public class UpdateMainDialog extends UIDialog {
 
     /**
      * 获取当前jar的md5
+     *
      * @param currentJAR
      * @return
      */

@@ -195,6 +195,9 @@ public class LanguageAwareCompletionProvider extends CompletionProviderBase
 		// provider.  We do not do function/method completions while editing
 		// strings or comments.
 		CompletionProvider provider = getProviderFor(tc);
+		if (provider == null) {
+			return null;
+		}
 		return provider==defaultProvider ?
 				provider.getParameterizedCompletions(tc) : null;
 	}

@@ -3,21 +3,39 @@
  *
  * WrappedSyntaxView.java - Test implementation of WrappedSyntaxView that
  * is also aware of RSyntaxTextArea's different fonts per token type.
- * 
+ *
  * This library is distributed under a modified BSD license.  See the included
  * RSyntaxTextArea.License.txt file for details.
  */
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea;
 
-import java.awt.*;
-import javax.swing.text.*;
-import javax.swing.text.Position.Bias;
-import javax.swing.event.*;
-
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.TokenUtils.TokenSubList;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.folding.Fold;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.folding.FoldManager;
 import com.fr.design.gui.syntax.ui.rtextarea.Gutter;
+import com.fr.stable.CommonUtils;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.BoxView;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.LayeredHighlighter;
+import javax.swing.text.PlainDocument;
+import javax.swing.text.Position;
+import javax.swing.text.Position.Bias;
+import javax.swing.text.Segment;
+import javax.swing.text.TabExpander;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 
 /**
@@ -27,17 +45,17 @@ import com.fr.design.gui.syntax.ui.rtextarea.Gutter;
  * @version 0.2
  */
 public class WrappedSyntaxView extends BoxView implements TabExpander,
-												RSTAView {
+		RSTAView {
 
 	boolean widthChanging;
 	int tabBase;
 	int tabSize;
-    
+
 	/**
 	 * This is reused to keep from allocating/deallocating.
 	 */
 	private Segment s, drawSeg;
-	
+
 	/**
 	 * Another variable initialized once to keep from allocating/deallocating.
 	 */
@@ -93,7 +111,7 @@ public class WrappedSyntaxView extends BoxView implements TabExpander,
 		int p = p0;
 		RSyntaxTextArea textArea = (RSyntaxTextArea)getContainer();
 		float currentWidth = getWidth();
-		if (currentWidth==Integer.MAX_VALUE)
+		if (CommonUtils.equals(currentWidth, Integer.MAX_VALUE))
 			currentWidth = getPreferredSpan(X_AXIS);
 		// Make sure width>0; this is a huge hack to fix a bug where
 		// loading text into an RTextArea before it is visible if word wrap
@@ -128,7 +146,7 @@ public class WrappedSyntaxView extends BoxView implements TabExpander,
 //System.err.println("------ ending calculateBreakPosition() --------");
 
 //		return p;
-return p + 1;
+		return p + 1;
 	}
 
 //private int getBreakLocation(Token t, FontMetrics fm, int x0, int x,
@@ -229,7 +247,7 @@ return p + 1;
 				x = painter.paint(token, g, x,y, host, this);
 				token = token.getNextToken();
 			}
-			
+
 			if (token!=null && token.isPaintable() && token.getOffset()<p) {
 				int tokenOffset = token.getOffset();
 				tempToken.set(drawSeg.array, tokenOffset-start, p-1-start,
@@ -242,7 +260,7 @@ return p + 1;
 
 			p0 = (p==p0) ? p1 : p;
 			y += fontHeight;
-			
+
 		} // End of while (token!=null && token.isPaintable()).
 
 		// NOTE: We should re-use code from Token (paintBackground()) here,
@@ -271,8 +289,8 @@ return p + 1;
 	 * @param selEnd The end of the selection.
 	 */
 	protected void drawViewWithSelection(TokenPainter painter, Graphics2D g,
-				Rectangle r, View view, int fontHeight, int y, int selStart,
-				int selEnd) {
+										 Rectangle r, View view, int fontHeight, int y, int selStart,
+										 int selEnd) {
 
 		float x = r.x;
 
@@ -371,7 +389,7 @@ return p + 1;
 				int tokenOffset = token.getOffset();
 				Token orig = token;
 				token = new TokenImpl(drawSeg, tokenOffset-start, p-1-start,
-									tokenOffset, token.getType());
+						tokenOffset, token.getType());
 
 				// Selection starts in this token
 				if (token.containsPosition(selStart)) {
@@ -432,7 +450,7 @@ return p + 1;
 
 			p0 = (p==p0) ? p1 : p;
 			y += fontHeight;
-			
+
 		} // End of while (token!=null && token.isPaintable()).
 
 		// NOTE: We should re-use code from Token (paintBackground()) here,
@@ -449,7 +467,7 @@ return p + 1;
 	/**
 	 * Fetches the allocation for the given child view.<p>
 	 * Overridden to account for code folding.
-	 * 
+	 *
 	 * @param index The index of the child, >= 0 && < getViewCount().
 	 * @param a The allocation to this view
 	 * @return The allocation to the child; or <code>null</code> if
@@ -476,7 +494,7 @@ return p + 1;
 	/**
 	 * Fetches the allocation for the given child view to render into.<p>
 	 * Overridden to account for lines hidden by collapsed folded regions.
-	 * 
+	 *
 	 * @param line The index of the child, >= 0 && < getViewCount()
 	 * @param a The allocation to this view
 	 * @return The allocation to the child
@@ -515,7 +533,7 @@ return p + 1;
 	 * @param axis may be either View.X_AXIS or View.Y_AXIS
 	 * @return  the span the view would like to be rendered into.
 	 *           Typically the view is told to render into the span
-	 *           that is returned, although there is no guarantee.  
+	 *           that is returned, although there is no guarantee.
 	 *           The parent may choose to resize or break the view.
 	 * @see View#getMaximumSpan
 	 */
@@ -541,7 +559,7 @@ return p + 1;
 	 * @param axis may be either View.X_AXIS or View.Y_AXIS
 	 * @return  the span the view would like to be rendered into.
 	 *           Typically the view is told to render into the span
-	 *           that is returned, although there is no guarantee.  
+	 *           that is returned, although there is no guarantee.
 	 *           The parent may choose to resize or break the view.
 	 * @see View#getMinimumSpan
 	 */
@@ -567,7 +585,7 @@ return p + 1;
 	 * @param axis may be either View.X_AXIS or View.Y_AXIS
 	 * @return  the span the view would like to be rendered into.
 	 *           Typically the view is told to render into the span
-	 *           that is returned, although there is no guarantee.  
+	 *           that is returned, although there is no guarantee.
 	 *           The parent may choose to resize or break the view.
 	 * @see View#getPreferredSpan
 	 */
@@ -605,7 +623,7 @@ return p + 1;
 	 */
 	protected int getTabSize() {
 		Integer i = (Integer) getDocument().
-							getProperty(PlainDocument.tabSizeAttribute);
+				getProperty(PlainDocument.tabSizeAttribute);
 		int size = (i != null) ? i.intValue() : 5;
 		return size;
 	}
@@ -643,7 +661,7 @@ return p + 1;
 
 
 	/**
-	 * Gives notification that something was inserted into the 
+	 * Gives notification that something was inserted into the
 	 * document in a location that this view is responsible for.
 	 * This is implemented to simply update the children.
 	 *
@@ -655,8 +673,8 @@ return p + 1;
 	@Override
 	public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
 		updateChildren(changes, a);
-		Rectangle alloc = ((a != null) && isAllocationValid()) ? 
-									getInsideAllocation(a) : null;
+		Rectangle alloc = ((a != null) && isAllocationValid()) ?
+				getInsideAllocation(a) : null;
 		int pos = changes.getOffset();
 		View v = getViewAtPosition(pos, alloc);
 		if (v != null)
@@ -669,7 +687,7 @@ return p + 1;
 	 * This is called by the <code>setParent</code> method.
 	 * Subclasses can re-implement this to initialize their
 	 * child views in a different manner.  The default
-	 * implementation creates a child view for each 
+	 * implementation creates a child view for each
 	 * child element.
 	 *
 	 * @param f the view factory
@@ -765,8 +783,8 @@ return p + 1;
 	 */
 	@Override
 	public Shape modelToView(int p0, Position.Bias b0,
-							int p1, Position.Bias b1,
-							Shape a) throws BadLocationException {
+							 int p1, Position.Bias b1,
+							 Shape a) throws BadLocationException {
 
 		Shape s0 = modelToView(p0, a, b0);
 		Shape s1;
@@ -779,9 +797,9 @@ return p + 1;
 			if (s1 == null) {
 				// Assume extends left to right.
 				Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-								a.getBounds();
+						a.getBounds();
 				s1 = new Rectangle(alloc.x + alloc.width - 1, alloc.y,
-								1, alloc.height);
+						1, alloc.height);
 			}
 		}
 		else {
@@ -789,11 +807,11 @@ return p + 1;
 		}
 		Rectangle r0 = s0.getBounds();
 		Rectangle r1 = (s1 instanceof Rectangle) ? (Rectangle) s1 :
-													s1.getBounds();
+				s1.getBounds();
 		if (r0.y != r1.y) {
 			// If it spans lines, force it to be the width of the view.
 			Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-								a.getBounds();
+					a.getBounds();
 			r0.x = alloc.x;
 			r0.width = alloc.width;
 		}
@@ -840,7 +858,7 @@ return p + 1;
 	public void paint(Graphics g, Shape a) {
 
 		Rectangle alloc = (a instanceof Rectangle) ?
-							(Rectangle)a : a.getBounds();
+				(Rectangle)a : a.getBounds();
 		tabBase = alloc.x;
 
 		Graphics2D g2d = (Graphics2D)g;
@@ -904,7 +922,7 @@ return p + 1;
 
 
 	/**
-	 * Gives notification that something was removed from the 
+	 * Gives notification that something was removed from the
 	 * document in a location that this view is responsible for.
 	 * This is implemented to simply update the children.
 	 *
@@ -918,12 +936,12 @@ return p + 1;
 
 		updateChildren(changes, a);
 
-		Rectangle alloc = ((a != null) && isAllocationValid()) ? 
-									getInsideAllocation(a) : null;
+		Rectangle alloc = ((a != null) && isAllocationValid()) ?
+				getInsideAllocation(a) : null;
 		int pos = changes.getOffset();
 		View v = getViewAtPosition(pos, alloc);
 		if (v != null)
-            v.removeUpdate(changes, alloc, f);
+			v.removeUpdate(changes, alloc, f);
 
 	}
 
@@ -972,7 +990,7 @@ return p + 1;
 
 
 	/**
-	 * Update the child views in response to a 
+	 * Update the child views in response to a
 	 * document event.
 	 */
 	void updateChildren(DocumentEvent e, Shape a) {
@@ -1044,8 +1062,8 @@ return p + 1;
 
 		// Code folding may have hidden the last line.  If so, return the last
 		// visible offset instead of the last offset.
-		if (host.isCodeFoldingEnabled() && v==getView(getViewCount()-1) &&
-				offs==v.getEndOffset()-1) {
+		if (v != null && host.isCodeFoldingEnabled() && v == getView(getViewCount() - 1) &&
+				offs == v.getEndOffset() - 1) {
 			offs = host.getLastVisibleOffset();
 		}
 
@@ -1068,7 +1086,7 @@ return p + 1;
 	 * {@inheritDoc}
 	 */
 	public int yForLineContaining(Rectangle alloc, int offs)
-								throws BadLocationException {
+			throws BadLocationException {
 		if (isAllocationValid()) {
 			// TODO: make cached Y_AXIS offsets valid even with folding enabled
 			// to speed this back up!
@@ -1091,8 +1109,8 @@ return p + 1;
 	/**
 	 * Simple view of a line that wraps if it doesn't
 	 * fit within the horizontal space allocated.
-	 * This class tries to be lightweight by carrying little 
-	 * state of it's own and sharing the state of the outer class 
+	 * This class tries to be lightweight by carrying little
+	 * state of it's own and sharing the state of the outer class
 	 * with it's siblings.
 	 */
 	class WrappedLine extends View {
@@ -1136,10 +1154,10 @@ return p + 1;
 
 //System.err.println("... ... ... break position p==" + p);
 				p0 = (p == p0) ? ++p : p; // this is the fix of #4410243
-									// we check on situation when
-									// width is too small and
-									// break position is calculated
-									// incorrectly.
+				// we check on situation when
+				// width is too small and
+				// break position is calculated
+				// incorrectly.
 //System.err.println("... ... ... new p0==" + p0);
 			}
 /*
@@ -1161,7 +1179,7 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 		 * @param axis may be either X_AXIS or Y_AXIS
 		 * @return   the span the view would like to be rendered into.
 		 *           Typically the view is told to render into the span
-		 *           that is returned, although there is no guarantee.  
+		 *           that is returned, although there is no guarantee.
 		 *           The parent may choose to resize or break the view.
 		 * @see View#getPreferredSpan
 		 */
@@ -1170,7 +1188,7 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 			switch (axis) {
 				case View.X_AXIS:
 					float width = getWidth();
-					if (width == Integer.MAX_VALUE) {
+					if (CommonUtils.equals(width, Integer.MAX_VALUE)) {
 						// We have been initially set to MAX_VALUE, but we don't
 						// want this as our preferred.
 						return 100f;
@@ -1212,7 +1230,7 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 		 */
 		@Override
 		public Shape modelToView(int pos, Shape a, Position.Bias b)
-										throws BadLocationException {
+				throws BadLocationException {
 
 			//System.err.println("--- begin modelToView ---");
 			Rectangle alloc = a.getBounds();
@@ -1222,7 +1240,7 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 			int p0 = getStartOffset();
 			int p1 = getEndOffset();
 			int testP = (b == Position.Bias.Forward) ? pos :
-											Math.max(p0, pos - 1);
+					Math.max(p0, pos - 1);
 
 			// Get the token list for this line so we don't have to keep
 			// recomputing it if this logical line spans multiple physical
@@ -1242,9 +1260,9 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 				if ((pos >= p0) && (testP<p)) {//pos < p)) {
 					// it's in this line
 					alloc = RSyntaxUtilities.getLineWidthUpTo(
-									textArea, s, p0, pos,
-									WrappedSyntaxView.this,
-									alloc, alloc.x);
+							textArea, s, p0, pos,
+							WrappedSyntaxView.this,
+							alloc, alloc.x);
 					//System.err.println("--- end modelToView ---");
 					return alloc;
 				}
@@ -1253,9 +1271,9 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 					// Wants end.
 					if (pos > p0) {
 						alloc = RSyntaxUtilities.getLineWidthUpTo(
-									textArea, s, p0, pos,
-									WrappedSyntaxView.this,
-									alloc, alloc.x);
+								textArea, s, p0, pos,
+								WrappedSyntaxView.this,
+								alloc, alloc.x);
 					}
 					//System.err.println("--- end modelToView ---");
 					return alloc;
@@ -1352,8 +1370,8 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 							// Start at alloc.x since this chunk starts
 							// at the beginning of a physical line.
 							int n = tlist.getListOffset(textArea,
-										WrappedSyntaxView.this,
-										alloc.x, x);
+									WrappedSyntaxView.this,
+									alloc.x, x);
 
 							// NOTE:  We needed to add the max() with
 							// p0 as getTokenListForLine returns -1
@@ -1379,7 +1397,7 @@ System.err.println(">>> >>> calculated number of lines for this view (line " + l
 		}
 
 		private void handleDocumentEvent(DocumentEvent e, Shape a,
-											ViewFactory f) {
+										 ViewFactory f) {
 			int n = calculateLineCount();
 			if (this.nlines != n) {
 				this.nlines = n;

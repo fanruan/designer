@@ -34,7 +34,8 @@ public class LockIcon extends ImageIcon {
         }
     }
 
-    public void paintIcon(Component c, Graphics g, int x, int y) {
+    @Override
+    public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         if (mainImage != null) {
             g.drawImage(mainImage, x, y, c);
         }
@@ -48,6 +49,7 @@ public class LockIcon extends ImageIcon {
      *
      * @param image the image
      */
+    @Override
     protected void loadImage(Image image) {
         synchronized (tracker) {
             tracker.addImage(image, 0);
@@ -55,6 +57,7 @@ public class LockIcon extends ImageIcon {
                 tracker.waitForID(0, 0);
             } catch (InterruptedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
             }
 
             loadStatus = tracker.statusID(0, false);
@@ -70,6 +73,7 @@ public class LockIcon extends ImageIcon {
      *
      * @return the <code>Image</code> object for this <code>ImageIcon</code>
      */
+    @Override
     public Image getImage() {
         return mainImage;
     }
@@ -85,6 +89,7 @@ public class LockIcon extends ImageIcon {
      *
      * @return the width in pixels of this icon
      */
+    @Override
     public int getIconWidth() {
         return width;
     }
@@ -94,6 +99,7 @@ public class LockIcon extends ImageIcon {
      *
      * @return the height in pixels of this icon
      */
+    @Override
     public int getIconHeight() {
         return height;
     }
