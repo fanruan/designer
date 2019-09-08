@@ -1,6 +1,9 @@
 package com.fr.design.layout;
 
 
+import com.fr.stable.AssistUtils;
+import com.fr.general.GeneralUtils;
+import com.fr.stable.CommonUtils;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Container;
@@ -11,8 +14,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.ListIterator;
-
-import com.fr.general.GeneralUtils;
 
 
 /**
@@ -399,17 +400,17 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Make sure rows and columns are valid
         for (int counter = 0; counter < crSpec[C].length; counter++)
             if ((crSpec[C][counter] < 0.0) &&
-                    (crSpec[C][counter] != FILL) &&
-                    (crSpec[C][counter] != PREFERRED) &&
-                    (crSpec[C][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[C][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[C][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[C][counter], MINIMUM)) {
                 crSpec[C][counter] = 0.0;
             }
 
         for (int counter = 0; counter < crSpec[R].length; counter++)
             if ((crSpec[R][counter] < 0.0) &&
-                    (crSpec[R][counter] != FILL) &&
-                    (crSpec[R][counter] != PREFERRED) &&
-                    (crSpec[R][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[R][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[R][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[R][counter], MINIMUM)) {
                 crSpec[R][counter] = 0.0;
             }
 
@@ -556,9 +557,9 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Make sure rows are valid
         for (int counter = 0; counter < crSpec[z].length; counter++)
             if ((crSpec[z][counter] < 0.0) &&
-                    (crSpec[z][counter] != FILL) &&
-                    (crSpec[z][counter] != PREFERRED) &&
-                    (crSpec[z][counter] != MINIMUM)) {
+                    !AssistUtils.equals(crSpec[z][counter], FILL) &&
+                    !AssistUtils.equals(crSpec[z][counter], PREFERRED) &&
+                    !AssistUtils.equals(crSpec[z][counter], MINIMUM)) {
                 crSpec[z][counter] = 0.0;
             }
 
@@ -641,9 +642,9 @@ public class TableLayout implements LayoutManager2, Serializable {
     protected void setCr(int z, int i, double size) {
         // Make sure size is valid
         if ((size < 0.0) &&
-                (size != FILL) &&
-                (size != PREFERRED) &&
-                (size != MINIMUM)) {
+                !AssistUtils.equals(size, FILL) &&
+                !AssistUtils.equals(size, PREFERRED) &&
+                !AssistUtils.equals(size, MINIMUM)) {
             size = 0.0;
         }
 
@@ -853,9 +854,9 @@ public class TableLayout implements LayoutManager2, Serializable {
 
         // Make sure row size is valid
         if ((size < 0.0) &&
-                (size != FILL) &&
-                (size != PREFERRED) &&
-                (size != MINIMUM)) {
+                (!CommonUtils.equals(size, FILL)) &&
+                (!CommonUtils.equals(size, PREFERRED)) &&
+                (!CommonUtils.equals(size, MINIMUM))) {
             size = 0.0;
         }
 
@@ -1177,7 +1178,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         int numCr = crSpec[z].length;
 
         for (int counter = 0; counter < numCr; counter++)
-            if ((crSpec[z][counter] >= 1.0) || (crSpec[z][counter] == 0.0)) {
+            if ((crSpec[z][counter] >= 1.0) || CommonUtils.equals(crSpec[z][counter], 0.0)) {
                 crSize[z][counter] = (int) (crSpec[z][counter] + 0.5);
                 availableSize -= crSize[z][counter];
             }
@@ -1229,7 +1230,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         int numCr = crSpec[z].length;
 
         for (int counter = 0; counter < numCr; counter++)
-            if (crSpec[z][counter] == FILL)
+            if (CommonUtils.equals(crSpec[z][counter], FILL))
                 numFillSize++;
 
         // If numFillSize is zero, the if statement below will always evaluate to
@@ -1241,7 +1242,7 @@ public class TableLayout implements LayoutManager2, Serializable {
 
         // Assign "fill" cells equal amounts of the remaining space
         for (int counter = 0; counter < numCr; counter++)
-            if (crSpec[z][counter] == FILL) {
+            if (CommonUtils.equals(crSpec[z][counter], FILL)) {
                 crSize[z][counter] = availableSize / numFillSize;
                 slackSize -= crSize[z][counter];
             }
@@ -1249,7 +1250,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Assign one pixel of slack to each FILL cr, starting at the last one,
         // until all slack has been consumed
         for (int counter = numCr - 1; (counter >= 0) && (slackSize > 0); counter--) {
-            if (crSpec[z][counter] == FILL) {
+            if (CommonUtils.equals(crSpec[z][counter], FILL)) {
                 crSize[z][counter]++;
                 slackSize--;
             }
@@ -1299,7 +1300,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         // Address every cr
         for (int counter = 0; counter < numCr; counter++)
                 // Is the current cr a preferred/minimum (based on typeOfSize) size
-            if (crSpec[z][counter] == typeOfSize) {
+            if (CommonUtils.equals(crSpec[z][counter], typeOfSize)) {
                 // Assume a maximum width of zero
                 int maxSize = 0;
 
@@ -1319,7 +1320,7 @@ public class TableLayout implements LayoutManager2, Serializable {
                     // the current component occupies
                     if ((entry.cr1[z] <= counter) && (entry.cr2[z] >= counter)) {
                         // Setup size and number of adjustable crs
-                        Dimension p = (typeOfSize == PREFERRED) ?
+                        Dimension p = CommonUtils.equals(typeOfSize, PREFERRED) ?
                                 entry.component.getPreferredSize() :
                                 entry.component.getMinimumSize();
 
@@ -1328,23 +1329,23 @@ public class TableLayout implements LayoutManager2, Serializable {
                         int numAdjustable = 0;
 
                         // Calculate for preferred size
-                        if (typeOfSize == PREFERRED)
+                        if (CommonUtils.equals(typeOfSize, PREFERRED))
                         // Consider all crs this component occupies
                             for (int entryCr = entry.cr1[z];
                                  entryCr <= entry.cr2[z]; entryCr++) {
                                 // Subtract absolute, relative, and minumum cr
                                 // sizes, which have already been calculated
                                 if ((crSpec[z][entryCr] >= 0.0) ||
-                                        (crSpec[z][entryCr] == MINIMUM)) {
+                                        CommonUtils.equals(crSpec[z][entryCr], MINIMUM)) {
                                     size -= crSize[z][entryCr];
                                 }
                                 // Count preferred/min width columns
-                                else if (crSpec[z][entryCr] == PREFERRED)
+                                else if (CommonUtils.equals(crSpec[z][entryCr], PREFERRED))
                                     numAdjustable++;
-                                // Skip any component that occupies a fill cr
-                                // because the fill should fulfill the size
-                                // requirements
-                                else if (crSpec[z][entryCr] == FILL)
+                                    // Skip any component that occupies a fill cr
+                                    // because the fill should fulfill the size
+                                    // requirements
+                                else if (CommonUtils.equals(crSpec[z][entryCr], FILL))
                                     continue nextComponent;
                             }
                         // Calculate for minimum size
@@ -1357,14 +1358,14 @@ public class TableLayout implements LayoutManager2, Serializable {
                                 if (crSpec[z][entryCr] >= 0.0)
                                     size -= crSize[z][entryCr];
                                 // Count preferred/min width columns
-                                else if ((crSpec[z][entryCr] == PREFERRED) ||
-                                        (crSpec[z][entryCr] == MINIMUM)) {
+                                else if (CommonUtils.equals(crSpec[z][entryCr], PREFERRED) ||
+                                        CommonUtils.equals(crSpec[z][entryCr], MINIMUM)) {
                                     numAdjustable++;
                                 }
                                 // Skip any component that occupies a fill cr
                                 // because the fill should fulfill the size
                                 // requirements
-                                else if (crSpec[z][entryCr] == FILL)
+                                else if (CommonUtils.equals(crSpec[z][entryCr], FILL))
                                     continue nextComponent;
                             }
 
@@ -1692,7 +1693,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         Dimension prefMinSize[] = new Dimension[numEntry];
 
         for (int i = 0; i < numEntry; i++)
-            prefMinSize[i] = (typeOfSize == PREFERRED) ?
+            prefMinSize[i] = CommonUtils.equals(typeOfSize, PREFERRED) ?
                     entryList[i].component.getPreferredSize() :
                     entryList[i].component.getMinimumSize();
 
