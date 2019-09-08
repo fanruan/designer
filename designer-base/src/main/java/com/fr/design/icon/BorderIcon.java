@@ -1,5 +1,6 @@
 package com.fr.design.icon;
 
+import com.fr.stable.AssistUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -43,13 +44,13 @@ public class BorderIcon implements Icon {
         if (lineStyle == Constants.LINE_MEDIUM
             || lineStyle == Constants.LINE_THICK) {
             lineStyle = Constants.LINE_MEDIUM;
-            if (x1 == x2) {
-                if (x1 == y1) {
+            if (AssistUtils.equals(x1, x2)) {
+                if (AssistUtils.equals(x1, y1)) {
                     GraphHelper.drawLine(g, x1, y1 - 1, x2, y2 + 1, lineStyle);
                 } else {
                     GraphHelper.drawLine(g, x1, y1, x2, y2 + 1, lineStyle);
                 }
-            } else if (y1 == y2) {
+            } else if (AssistUtils.equals(y1, y2)) {
                 GraphHelper.drawLine(g, x1, y1, x2 + 1, y2, lineStyle);
             }
         } else if (lineStyle == Constants.LINE_THIN
@@ -57,7 +58,7 @@ public class BorderIcon implements Icon {
             GraphHelper.drawLine(g, x1, y1, x2, y2, lineStyle);
         } else {
             lineStyle = Constants.LINE_DOT;
-            if (y1 == x2 && x2 == y2) {
+            if (AssistUtils.equals(y1, x2) && AssistUtils.equals(x2, y2)) {
                 GraphHelper.drawLine(g, x1, y1, x2 + 1, y2, lineStyle);
             } else {
                 GraphHelper.drawLine(g, x1, y1, x2, y2, lineStyle);
