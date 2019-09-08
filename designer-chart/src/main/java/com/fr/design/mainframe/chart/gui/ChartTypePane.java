@@ -309,6 +309,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 			editPane.reLayout(chart);
+		}else {
+			throw new IllegalArgumentException("editPane can not be null.");
 		}
 	}
 

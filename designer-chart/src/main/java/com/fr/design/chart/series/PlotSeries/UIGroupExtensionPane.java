@@ -348,9 +348,6 @@ public class UIGroupExtensionPane extends BasicPane {
 				boolean isSelected,
 				boolean cellHasFocus) {
 			JComponent c = (JComponent) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (!hasEditOperation(list)) {
-				return c;
-			}
 			Border border = null;
 			c.setBorder(border);
 			UILabel editLabel = new UILabel(UIConstants.EDIT_ICON);

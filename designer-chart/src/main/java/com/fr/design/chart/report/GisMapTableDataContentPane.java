@@ -341,12 +341,8 @@ public class GisMapTableDataContentPane extends FurtherBasicBeanPane<GisMapTable
 						titleValuePane.stopCellEditing();
 					}
 				});
-				
-				if (value != null && StringUtils.isNotEmpty(value.toString())) {
-					box.setSelectedItem(value);
-				} else {
-					box.setSelectedItem(value);
-				}
+
+				box.setSelectedItem(value);
 				
 				this.editorComponent = box;
 			}
