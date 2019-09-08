@@ -19,12 +19,11 @@ public class VcsLabel extends ActionLabel {
     }
 
     public void paintComponent(Graphics g) {
-        if (ui != null) {
-            Graphics scratchGraphics = (g == null) ? null : g.create();
+        if (ui != null && g != null) {
+            Graphics scratchGraphics = g.create();
             try {
                 ui.update(scratchGraphics, this);
-            }
-            finally {
+            } finally {
                 scratchGraphics.dispose();
             }
         }

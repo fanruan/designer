@@ -65,10 +65,11 @@ public class VanChartBarPlotPane extends AbstractVanChartTypePane {
                 newPlot = (VanChartColumnPlot)barChart[i].getPlot();
             }
         }
-
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+            if(newPlot != null) {
+                cloned = (Plot) newPlot.clone();
+            }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In ColumnChart");
         }

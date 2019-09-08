@@ -1,10 +1,10 @@
 package com.fr.design.dialog;
 
+import com.fr.common.annotations.Open;
+
 import java.awt.*;
 
-/*
- * @author _denny
- */
+@Open
 public abstract class BasicDialog extends UIDialog {
 	public static final Dimension SMALL = new Dimension(340, 180);
 	public static final Dimension MEDIUM = new Dimension(600, 400);
