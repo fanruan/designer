@@ -147,7 +147,7 @@ public class VcsHelper implements JTemplateActionListener {
                 if (needDeleteVersion(oldEntity)) {
                     operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
                 }
-                operator.gc(true);
+                operator.gc();
 
             }
         }).start();
