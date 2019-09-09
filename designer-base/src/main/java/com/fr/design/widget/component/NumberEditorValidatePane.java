@@ -9,6 +9,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.NumberEditor;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -226,7 +227,7 @@ public class NumberEditorValidatePane extends JPanel {
         }
 
         allowNegativeCheckBox.setSelected(e.isAllowNegative());
-        if (e.getMaxValue() == Double.MAX_VALUE) {
+        if (AssistUtils.equals(e.getMaxValue(),Double.MAX_VALUE)) {
             setMaxValueCheckBox.setSelected(false);
             maxValueSpinner.setValue(Double.MAX_VALUE);
             maxValueSpinner.setEnabled(false);
@@ -236,7 +237,7 @@ public class NumberEditorValidatePane extends JPanel {
             maxValueSpinner.setValue(e.getMaxValue());
         }
 
-        if (e.getMinValue() == -Double.MAX_VALUE) {
+        if (AssistUtils.equals(e.getMinValue(),-Double.MAX_VALUE)) {
             setMinValueCheckBox.setSelected(false);
             minValueSpinner.setValue(-Double.MAX_VALUE);
             minValueSpinner.setEnabled(false);

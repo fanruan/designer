@@ -33,6 +33,9 @@ public class VanChartScatterPlotPane extends AbstractVanChartTypePane {
             }
         }
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {

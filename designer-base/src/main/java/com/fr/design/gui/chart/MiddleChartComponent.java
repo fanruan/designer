@@ -1,7 +1,6 @@
 package com.fr.design.gui.chart;
 
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.chartx.attr.ChartProvider;
 import com.fr.stable.core.PropertyChangeListener;
 
 import javax.swing.JComponent;
@@ -17,8 +16,6 @@ public abstract class MiddleChartComponent extends JComponent {
 	public abstract BaseChartCollection update();
 	
 	public abstract void reset();
-
-	public abstract ChartProvider getEditingChart();
 
 	public abstract void addStopEditingListener(PropertyChangeListener list);
 }
