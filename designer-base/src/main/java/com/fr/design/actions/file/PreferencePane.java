@@ -325,6 +325,12 @@ public class PreferencePane extends BasicPane {
                 tryGc();
             }
         });
+        gcEnableCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                gcButton.setEnabled(gcEnableCheckBox.isSelected() ? true : false);
+            }
+        });
 
         //集群下禁用
         if (FineClusterConfig.getInstance().isCluster()) {
