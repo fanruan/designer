@@ -184,9 +184,6 @@ public class PreferencePane extends BasicPane {
     private JProgressBar gcProgressBar;
     private Timer gcProgressTimer;
     private UIButton gcOkButton = new UIButton(Toolkit.i18nText("Fine-Design_Report_OK"));
-    private UIButton gcCancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
-
-
 
     public PreferencePane() {
         this.initComponents();
@@ -328,7 +325,7 @@ public class PreferencePane extends BasicPane {
         gcEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                gcButton.setEnabled(gcEnableCheckBox.isSelected() ? true : false);
+                gcButton.setEnabled(gcEnableCheckBox.isSelected());
             }
         });
 
@@ -706,7 +703,7 @@ public class PreferencePane extends BasicPane {
         saveCommitCheckBox.setSelected(vcsConfigManager.isSaveCommit());
         useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
         gcEnableCheckBox.setSelected(GcConfig.getInstance().isGcEnable());
-
+        gcButton.setEnabled(gcEnableCheckBox.isSelected());
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
         isDragPermitedCheckBox.setSelected(designerEnvManager.isDragPermited());
@@ -887,14 +884,12 @@ public class PreferencePane extends BasicPane {
     }
 
     private void tryGc() {
-        //停止gc线程时使用
-        final String uuid = String.valueOf(UUID.randomUUID());
         final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
             private  long size = 0;
 
             @Override
             protected Boolean doInBackground() {
-                size = WorkContext.getCurrent().get(VcsOperator.class).immediatelyGc(uuid);
+                size = WorkContext.getCurrent().get(VcsOperator.class).immediatelyGc();
                 return true;
             }
 
@@ -913,7 +908,6 @@ public class PreferencePane extends BasicPane {
                 if (null != gcDialog) {
                     gcDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"));
                 }
-                gcDialogDownPane.remove(gcCancelButton);
                 gcDialogDownPane.revalidate();
                 gcDialogDownPane.repaint();
                 gcDialogDownPane.add(gcOkButton);
@@ -925,19 +919,6 @@ public class PreferencePane extends BasicPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gcDialog.dispose();
-            }
-        });
-        gcCancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stopGcProgressTimer();
-
-                //中断gc 线程
-                if (StringUtils.isNotEmpty(uuid)) {
-                    WorkContext.getCurrent().get(VcsOperator.class).cancelImmediatelyGc(uuid);
-                }
-                gcDialog.dispose();
-                worker.cancel(true);
             }
         });
         gcDialog.addWindowListener(new WindowAdapter() {
@@ -969,7 +950,6 @@ public class PreferencePane extends BasicPane {
         //中下
         gcDialogDownPane = new JPanel();
         gcDialogDownPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
-        gcDialogDownPane.add(gcCancelButton);
 
         jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
         jp.add(gcUpPane);
