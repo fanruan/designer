@@ -29,6 +29,13 @@ public class TreeMapIndependentVanChartInterface extends MultiPieIndependentVanC
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/40.png"
+        };
+    }
+
+    @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/treeMap.png";
     }

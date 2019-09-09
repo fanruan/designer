@@ -38,6 +38,16 @@ public class BarIndependentVanChartInterface extends AbstractMultiCategoryVanCha
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/7.png",
+                "com/fr/plugin/chart/demo/image/8.png",
+                "com/fr/plugin/chart/demo/image/9.png",
+                "com/fr/plugin/chart/demo/image/10.png",
+        };
+    }
+
+    @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/bar.png";
     }

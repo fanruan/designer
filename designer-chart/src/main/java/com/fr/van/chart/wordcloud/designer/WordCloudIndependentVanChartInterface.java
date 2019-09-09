@@ -40,6 +40,13 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
         return Toolkit.i18nText("Fine-Design_Chart_Word_Cloud");
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/43.png"
+        };
+    }
+
     /**
      * 图标路径
      *

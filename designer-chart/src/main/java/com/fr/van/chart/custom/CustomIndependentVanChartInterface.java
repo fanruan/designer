@@ -30,6 +30,16 @@ public class CustomIndependentVanChartInterface extends AbstractIndependentVanCh
         };
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/28.png",
+                "com/fr/plugin/chart/demo/image/29.png",
+                "com/fr/plugin/chart/demo/image/30.png",
+                "com/fr/plugin/chart/demo/image/31.png"
+        };
+    }
+
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
      *

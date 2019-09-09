@@ -39,6 +39,16 @@ public class PieIndependentVanChartInterface extends AbstractIndependentVanChart
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/0.png",
+                "com/fr/plugin/chart/demo/image/1.png",
+                "com/fr/plugin/chart/demo/image/2.png"
+        };
+    }
+
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartPiePlotPane();
     }

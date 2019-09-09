@@ -19,7 +19,7 @@ import com.fr.stable.fun.Level;
  * Created by eason on 14/12/29.
  *
  * @since 8.0
- * 自定义图表类型设设计界面接口
+ * 自定义 图表类型 界面接口
  */
 public interface ChartTypeUIProvider extends Level {
     
@@ -66,8 +66,18 @@ public interface ChartTypeUIProvider extends Level {
     String[] getSubName();
 
     /**
-     * 图标路径
-     * 表单 工具栏 拖拽图表小图标
+     * 图表 demo图片路径
+     * 400*225
+     * 1.图表选择界面的图的路径 原样渲染
+     * 2.图表属性第一个界面 类型界面 缩放渲染
+     *
+     * @return demo图片路径
+     */
+    String[] getDemoImagePath();
+
+    /**
+     * 小图标路径
+     * 表单 工具栏 图表小图标
      * 16*16
      *
      * @return 图标路径

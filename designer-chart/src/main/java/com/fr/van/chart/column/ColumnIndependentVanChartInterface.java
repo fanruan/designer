@@ -32,6 +32,16 @@ public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVan
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/3.png",
+                "com/fr/plugin/chart/demo/image/4.png",
+                "com/fr/plugin/chart/demo/image/5.png",
+                "com/fr/plugin/chart/demo/image/6.png",
+        };
+    }
+
+    @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/column.png";
     }

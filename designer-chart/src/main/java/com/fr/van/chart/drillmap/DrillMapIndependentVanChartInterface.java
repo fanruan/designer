@@ -31,6 +31,15 @@ public class DrillMapIndependentVanChartInterface extends MapIndependentVanChart
         };
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/37.png",
+                "com/fr/plugin/chart/demo/image/38.png",
+                "com/fr/plugin/chart/demo/image/39.png"
+        };
+    }
+
     /**
      * 图标路径
      *

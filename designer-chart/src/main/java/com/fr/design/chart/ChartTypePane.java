@@ -94,7 +94,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
             int main_index = mainTypeList.getSelectedIndex();
             String id = ChartTypePane.this.chartIDs[main_index];
 
-            String[] demoImagePath = ChartTypeManager.getInstanceWithCheck().getDemoImagePath(id);
+            String[] demoImagePath = ChartTypeInterfaceManager.getInstance().getDemoImagePath(id);
             String[] subName = ChartTypeInterfaceManager.getInstance().getSubName(id);
 
             ChartTypePane.this.iconListModel.clear();

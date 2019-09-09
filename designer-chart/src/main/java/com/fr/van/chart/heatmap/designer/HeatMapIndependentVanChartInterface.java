@@ -38,6 +38,13 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
         return Toolkit.i18nText("Fine-Design_Chart_New_HeatMap");
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/42.png"
+        };
+    }
+
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartHeatMapTypePane();
     }

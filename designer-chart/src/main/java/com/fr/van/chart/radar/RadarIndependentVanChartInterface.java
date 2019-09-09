@@ -31,6 +31,14 @@ public class RadarIndependentVanChartInterface extends AbstractIndependentVanCha
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/23.png",
+                "com/fr/plugin/chart/demo/image/24.png"
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartRadarPlotPane();
     }

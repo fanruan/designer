@@ -5,6 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.chartx.impl.AbstractDataPane;
 import com.fr.design.chartx.impl.AbstractOtherPane;
+import com.fr.design.chartx.impl.DefaultTypePane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
@@ -13,12 +14,18 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
  * Created by shine on 2019/09/03.
  */
 public abstract class AbstractChartTypeUI extends AbstractProvider implements ChartTypeUIProvider {
+
+    @Override
+    public AbstractChartTypePane getPlotTypePane() {
+        return new DefaultTypePane();
+    }
 
     @Override
     public abstract AbstractDataPane getChartDataPane(AttributeChangeListener listener);
@@ -29,6 +36,16 @@ public abstract class AbstractChartTypeUI extends AbstractProvider implements Ch
     @Override
     public String[] getSubName() {
         return new String[]{getName()};
+    }
+
+    @Override
+    public int currentAPILevel() {
+        return CURRENT_API_LEVEL;
+    }
+
+    @Override
+    public String mark4Provider() {
+        return getClass().getName();
     }
 
     @Override
@@ -49,16 +66,6 @@ public abstract class AbstractChartTypeUI extends AbstractProvider implements Ch
     @Override
     public boolean isUseDefaultPane() {
         return false;
-    }
-
-    @Override
-    public int currentAPILevel() {
-        return CURRENT_API_LEVEL;
-    }
-
-    @Override
-    public String mark4Provider() {
-        return getClass().getName();
     }
 
     @Override

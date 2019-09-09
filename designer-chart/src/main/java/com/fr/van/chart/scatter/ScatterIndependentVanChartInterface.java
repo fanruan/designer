@@ -40,6 +40,13 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
         return Toolkit.i18nText("Fine-Design_Chart_New_Scatter");
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/25.png"
+        };
+    }
+
     /**
      * 图标路径
      *

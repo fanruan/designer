@@ -48,6 +48,11 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements ChartTyp
         return new String[0];
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[0];
+    }
+
     /**
      * 是否使用默认的界面，为了避免界面来回切换
      * @return 是否使用默认的界面

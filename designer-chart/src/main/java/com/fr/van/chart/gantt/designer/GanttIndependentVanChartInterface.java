@@ -34,6 +34,13 @@ public class GanttIndependentVanChartInterface extends AbstractIndependentVanCha
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/44.png"
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartGanttPlotPane();
     }

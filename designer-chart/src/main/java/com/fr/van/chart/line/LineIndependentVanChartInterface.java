@@ -32,6 +32,15 @@ public class LineIndependentVanChartInterface extends AbstractMultiCategoryVanCh
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/11.png",
+                "com/fr/plugin/chart/demo/image/12.png",
+                "com/fr/plugin/chart/demo/image/13.png"
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartLinePlotPane();
     }

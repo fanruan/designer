@@ -10,11 +10,11 @@ import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 /**
  * Created by shine on 2019/09/04.
  */
-public class CommonTypePane<T extends AbstractChartWithData> extends AbstractChartTypePane<AbstractChartWithData> {
+public class DefaultTypePane<T extends AbstractChartWithData> extends AbstractChartTypePane<AbstractChartWithData> {
 
     @Override
     protected String[] getTypeIconPath() {
-        return new String[0];
+        return ChartTypeInterfaceManager.getInstance().getDemoImagePath(getPlotID());
     }
 
     @Override

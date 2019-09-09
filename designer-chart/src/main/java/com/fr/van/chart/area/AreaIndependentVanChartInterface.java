@@ -36,6 +36,16 @@ public class AreaIndependentVanChartInterface extends AbstractMultiCategoryVanCh
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/14.png",
+                "com/fr/plugin/chart/demo/image/15.png",
+                "com/fr/plugin/chart/demo/image/16.png",
+                "com/fr/plugin/chart/demo/image/17.png"
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartAreaPlotPane();
     }

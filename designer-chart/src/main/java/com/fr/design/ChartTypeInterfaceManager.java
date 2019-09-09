@@ -4,6 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chart.fun.ChartTypeProvider;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.common.annotations.Compatible;
 import com.fr.design.beans.BasicBeanPane;
@@ -39,10 +40,12 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.extended.chart.AbstractChart;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.invoke.Reflect;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.PiePlot4VanChart;
 import com.fr.plugin.chart.area.VanChartAreaPlot;
@@ -325,9 +328,62 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         return StringUtils.EMPTY;
     }
 
-    public String[] getSubName(String id) {
+    public String[] getDemoImagePath(String chartID) {
+
         if (chartTypeInterfaces != null) {
-            ChartTypeUIProvider provider = getChartTypeInterface(id);
+            ChartTypeUIProvider provider = getChartTypeInterface(chartID);
+            if (provider != null) {
+                String[] result = null;
+                try {
+                    result = provider.getDemoImagePath();
+                } catch (Throwable e) {
+                    //do nothing
+                }
+                return ArrayUtils.isEmpty(result) ? getCompatibleDemoImagePath(chartID) : result;
+            }
+        }
+
+        return new String[0];
+    }
+
+    private String[] getCompatibleDemoImagePath(String chartID) {
+        String[] result = null;
+        try {
+            //AbstractIndependentChartsProvider
+            ChartTypeProvider chartTypeProvider = Reflect.on(ChartTypeManager.getInstanceWithCheck()).call("getChartType", chartID).get();
+            result = new String[]{
+                    Reflect.on(chartTypeProvider).call("getChartImagePath").get()
+            };
+
+            if (ArrayUtils.isNotEmpty(result)) {
+                return result;
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
+
+        try {
+            //兼容 图表类型选择界面会调到这边
+            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
+            result = new String[charts.length];
+            for (int i = 0; i < charts.length; i++) {
+                //Chart && AbstractChart
+                ChartProvider chart = charts[i];
+                if (!(chart instanceof AbstractChart)) {//扩展图表
+                    chart = Reflect.on(chart).field("subChart").get();
+                }
+                result[i] = Reflect.on(chart).call("demoImagePath").get();
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
+
+        return new String[0];
+    }
+
+    public String[] getSubName(String chartID) {
+        if (chartTypeInterfaces != null) {
+            ChartTypeUIProvider provider = getChartTypeInterface(chartID);
             if (provider != null) {
                 String[] subNames = null;
                 try {
@@ -335,31 +391,32 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 } catch (Throwable throwable) {
                     //do nothing
                 }
-                return ArrayUtils.isEmpty(subNames) ? getCompatibleSubName(id, provider) : subNames;
+                return ArrayUtils.isEmpty(subNames) ? getCompatibleSubName(chartID, provider) : subNames;
             }
         }
         return new String[0];
     }
 
     //兼容
-    private String[] getCompatibleSubName(String id, ChartTypeUIProvider provider) {
-        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getChartTypes(id);
+    private String[] getCompatibleSubName(String chartID, ChartTypeUIProvider provider) {
+        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
 
         if (chartProviders.length == 1) {
-            return new String[]{getName(id)};
+            return new String[]{getName(chartID)};
         }
         String[] result = new String[chartProviders.length];
         for (int i = 0; i < chartProviders.length; i++) {
             if (chartProviders[i] instanceof Chart) {
+                //Chart && AbstractChart
                 result[i] = ((Chart) chartProviders[i]).getChartName();
             }
         }
         return result;
     }
 
-    public String getName(String id) {
+    public String getName(String chartID) {
         if (chartTypeInterfaces != null) {
-            ChartTypeUIProvider provider = getChartTypeInterface(id);
+            ChartTypeUIProvider provider = getChartTypeInterface(chartID);
             if (provider != null) {
                 String name = null;
                 try {
@@ -368,31 +425,41 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                     //do nothing
                 }
 
-                return StringUtils.isEmpty(name) ? getCompatibleName(id, provider) : name;
+                return StringUtils.isEmpty(name) ? getCompatibleName(chartID, provider) : name;
             }
         }
         return StringUtils.EMPTY;
     }
 
     //兼容
-    private static String getCompatibleName(String id, ChartTypeUIProvider provider) {
+    private static String getCompatibleName(String chartID, ChartTypeUIProvider provider) {
 
         String result = null;
         try {
-            result = Reflect.on(provider).call("getPlotTypeTitle4PopupWindow").get();
+            //AbstractIndependentChartsProvider
+            ChartTypeProvider chartTypeProvider = Reflect.on(ChartTypeManager.getInstanceWithCheck()).call("getChartType", chartID).get();
+            result = Reflect.on(chartTypeProvider).call("getChartName").get();//国际化的key
+            result = InterProviderFactory.getProvider().getLocText(result);
+            if (StringUtils.isNotEmpty(result)) {
+                return result;
+            }
         } catch (Exception e) {
             //do nothing
         }
-        if (StringUtils.isNotEmpty(result)) {
-            return result;
-        }
 
-        ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(id)[0];
-        if (chartProvider instanceof Chart) {
-            result = ((Chart) chartProvider).getChartName();
-        }
-        if (StringUtils.isNotEmpty(result)) {
-            return result;
+
+        try {
+            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID)[0];
+            if (chartProvider instanceof Chart) {
+                //AbstractExtendedChartUIProvider
+                result = ((Chart) chartProvider).getChartName();
+            }
+            if (StringUtils.isNotEmpty(result) && !"Charts".equals(result)) {
+                return result;
+            }
+
+        } catch (Exception e) {
+            //do nothing
         }
 
         return provider.getPlotTypePane().title4PopupWindow();

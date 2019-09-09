@@ -29,6 +29,13 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         return Toolkit.i18nText("Fine-Design_Chart_New_MultiPie");
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/32.png"
+        };
+    }
+
 //    @Override
 //    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
 //        return new AbstractDataPane(listener) {

@@ -31,6 +31,13 @@ public class FunnelIndependentVanChartInterface extends AbstractIndependentVanCh
         return Toolkit.i18nText("Fine-Design_Chart_New_Funnel");
     }
 
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/41.png"
+        };
+    }
+
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
      *

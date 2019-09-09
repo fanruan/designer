@@ -47,6 +47,15 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/45.png",
+                "com/fr/plugin/chart/demo/image/46.png",
+                "com/fr/plugin/chart/demo/image/47.png"
+        };
+    }
+
+    @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/structure.png";
     }

@@ -49,6 +49,17 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
     }
 
     @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/18.png",
+                "com/fr/plugin/chart/demo/image/19.png",
+                "com/fr/plugin/chart/demo/image/20.png",
+                "com/fr/plugin/chart/demo/image/21.png",
+                "com/fr/plugin/chart/demo/image/22.png"
+        };
+    }
+
+    @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartGaugePlotPane();
     }
