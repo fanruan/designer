@@ -60,7 +60,11 @@ public class VanChartLinePlotPane extends AbstractVanChartTypePane {
         }
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+            if (newPlot == null) {
+                throw new IllegalArgumentException("newPlot con not be null");
+            }else {
+                cloned = (Plot)newPlot.clone();
+            }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In LineChart");
         }

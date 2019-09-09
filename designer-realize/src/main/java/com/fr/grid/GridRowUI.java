@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
-
+import com.fr.stable.AssistUtils;
 import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.GraphHelper;
@@ -106,7 +106,7 @@ public class GridRowUI extends ComponentUI {
             tmpHeight1 += tmpIncreaseHeight;
             tmpIncreaseHeight = rowHeightList.get(i).toPixD(resolution);
             // check these row wich height is zero.
-            tmpHeight2 = tmpIncreaseHeight == 0 ? tmpHeight1 + 1 : tmpHeight1 + tmpIncreaseHeight;
+            tmpHeight2 = AssistUtils.equals(tmpIncreaseHeight,0d) ? tmpHeight1 + 1 : tmpHeight1 + tmpIncreaseHeight;
             // check selection bound.
             Selection sel = reportPane.getSelection();
             int[] selectedRows = sel.getSelectedRows();

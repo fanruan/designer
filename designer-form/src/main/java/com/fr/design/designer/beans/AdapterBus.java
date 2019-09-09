@@ -41,6 +41,9 @@ public class AdapterBus {
 	 */
 	public static ComponentAdapter getComponentAdapter(FormDesigner designer, JComponent creator) {
 		JComponent jcomponent = getJComponent(creator);
+		if (null == jcomponent) {
+			return null;
+		}
 		ComponentAdapter adapter = (ComponentAdapter) jcomponent.getClientProperty("component.adapter");
 		if (adapter == null) {
 			adapter = new CompositeComponentAdapter(designer, creator);

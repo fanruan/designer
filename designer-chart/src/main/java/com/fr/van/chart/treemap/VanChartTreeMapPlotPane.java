@@ -45,6 +45,9 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
         }
 
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
