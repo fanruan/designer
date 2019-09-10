@@ -897,17 +897,13 @@ public class PreferencePane extends BasicPane {
             protected void done() {
                 try {
                     get();
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (ExecutionException e) {
+                    updateGcDialogPanelInfo(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Need_Update_Remote_Server_Jar"));
+                    return;
+                } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                 }
-                stopGcProgressTimer();
-                gcMessage.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
-                if (null != gcProgressBar) {
-                    gcProgressBarPanel.remove(gcProgressBar);
-                }
-                if (null != gcDialog) {
-                    gcDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"));
-                }
+                updateGcDialogPanelInfo(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
                 gcDialogDownPane.revalidate();
                 gcDialogDownPane.repaint();
                 gcDialogDownPane.add(gcOkButton);
@@ -930,6 +926,22 @@ public class PreferencePane extends BasicPane {
         });
         gcDialog.setVisible(true);
         gcDialog.dispose();
+    }
+
+    /**
+     * gc 后更新进度条面板信息
+     *
+     * @param message
+     */
+    private void updateGcDialogPanelInfo(String message) {
+        stopGcProgressTimer();
+        gcMessage.setText(message);
+        if (null != gcProgressBar) {
+            gcProgressBarPanel.remove(gcProgressBar);
+        }
+        if (null != gcDialog) {
+            gcDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"));
+        }
     }
 
     /**
