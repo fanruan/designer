@@ -3,12 +3,11 @@ package com.fr.van.chart.wordcloud.designer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.WordCloudChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -34,6 +33,18 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartWordCloudTypePane();
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_Word_Cloud");
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/43.png"
+        };
     }
 
     /**
@@ -87,12 +98,13 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartWordCloudTypePane.TITLE;
-    }
-
 //    @Override
 //    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-//        return new WordCloudChartDataPane(listener);
+//        return new AbstractDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new WordCloudDataSetFieldsPane(), new WordCloudCellDataFieldsPane());
+//            }
+//        };
 //    }
 }

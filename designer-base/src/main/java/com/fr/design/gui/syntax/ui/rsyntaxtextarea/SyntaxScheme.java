@@ -9,6 +9,7 @@
  */
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea;
 
+import com.fr.log.FineLoggerFactory;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -121,17 +122,17 @@ public class SyntaxScheme implements Cloneable, TokenTypes {
 	public Object clone() {
 		SyntaxScheme shcs = null;
 		try {
-			shcs = (SyntaxScheme)super.clone();
-		} catch (CloneNotSupportedException cnse) { // Never happens
-			cnse.printStackTrace();
-			return null;
-		}
-		shcs.styles = new Style[styles.length];
-		for (int i=0; i<styles.length; i++) {
-			Style s = styles[i];
-			if (s!=null) {
-				shcs.styles[i] = (Style)s.clone();
+			shcs = (SyntaxScheme) super.clone();
+			shcs.styles = new Style[styles.length];
+			for (int i = 0; i < styles.length; i++) {
+				Style s = styles[i];
+				if (s != null) {
+					shcs.styles[i] = (Style) s.clone();
+				}
 			}
+		} catch (CloneNotSupportedException cnse) { // Never happens
+			FineLoggerFactory.getLogger().error(cnse.getMessage(), cnse);
+			shcs = null;
 		}
 		return shcs;
 	}
