@@ -2,21 +2,21 @@ package com.fr.design.chart.gui;
 
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.base.chart.BaseChartPainter;
 import com.fr.base.chart.chartdata.CallbackEvent;
-import com.fr.chart.ChartWebPara;
+import com.fr.base.chart.result.WebChartIDInfo;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.log.FineLoggerFactory;
+import com.fr.script.Calculator;
 import com.fr.stable.core.PropertyChangeListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
@@ -35,7 +35,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
 	private static final long serialVersionUID = 744164838619052097L;
 	private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
     private ChartCollection chartCollection4Design;
-    private ChartProvider editingChart;
     private int chartWidth = -1;
     private int chartHeight = -1;
 
@@ -91,10 +90,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     public void reset() {
         fireStopEditing();
 
-        this.editingChart = null;
         this.chartHeight = this.chartWidth = -1;
-
-        this.editingChart = this.chartCollection4Design.getSelectedChartProvider();
 
         refreshChartGlyph();
 
@@ -138,11 +134,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         return (this.chartCollection4Design == null) ? 0 : this.chartCollection4Design.getChartCount();
     }
 
-    public ChartProvider getEditingChart() {
-        return editingChart;
-    }
-
-
     public void paintComponent(Graphics g) {  //
         super.paintComponent(g);
 
@@ -180,7 +171,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
       */
     private void refreshChartGlyph() {
         Dimension d = getBounds().getSize();
-        this.editingChart = this.chartCollection4Design.getSelectedChartProvider();// kunsnat: 切换选中时 同步切换Plot
         this.chartWidth = d.width - ChartConstants.PREGAP4BOUNDS;
         this.chartHeight = d.height - ChartConstants.PREGAP4BOUNDS;
     }
@@ -240,20 +230,20 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     }
 
     private boolean needRefreshChartGlyph() {
-        return editingChart == null || chartWidth != this.getBounds().width || chartHeight != this.getBounds().height;
+        return chartWidth != this.getBounds().width || chartHeight != this.getBounds().height;
     }
 
     private void drawChart(Graphics2D g2d) {
-        if (editingChart != null) {
+        if (chartCollection4Design != null) {
 
+            BaseChartPainter painter = chartCollection4Design.createResultChartPainter(Calculator.createCalculator(),
+                    WebChartIDInfo.createEmptyDesignerInfo(), chartWidth, chartHeight);
 
             int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();
             if (resolution == 0){
                 resolution = ScreenResolution.getScreenResolution();
             }
-            Image chartImage = editingChart.toImage(chartWidth, chartHeight, resolution, new ChartWebPara());
-
-            g2d.drawImage(chartImage, 0, 0,  null);
+            painter.paint(g2d, chartWidth, chartHeight, resolution, null);
         }
     }
 
