@@ -25,6 +25,7 @@ import javax.swing.text.Caret;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.DocumentRange;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.RSyntaxTextArea;
 import com.fr.design.gui.syntax.ui.rsyntaxtextarea.folding.FoldManager;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -174,6 +175,7 @@ public class SearchEngine {
 	 * @param forward Whether we're searching forward or backward.
 	 * @return The character sequence.
 	 */
+	@NotNull
 	private static CharSequence getFindInCharSequence(RTextArea textArea,
 			int start, boolean forward) {
 		RDocument doc = (RDocument)textArea.getDocument();
@@ -752,7 +754,6 @@ public class SearchEngine {
 		int start = makeMarkAndDotEqual(textArea, forward);
 
 		CharSequence findIn = getFindInCharSequence(textArea, start, forward);
-		if (findIn==null) return new SearchResult();
 
 		int markAllCount = 0;
 		if (context.getMarkAll()) {
