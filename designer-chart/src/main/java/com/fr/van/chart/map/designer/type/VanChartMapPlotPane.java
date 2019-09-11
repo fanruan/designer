@@ -19,7 +19,6 @@ import java.awt.Component;
  * Created by Mitisky on 16/5/4.
  */
 public class VanChartMapPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Map");
 
     private VanChartMapSourceChoosePane sourceChoosePane;
 
@@ -30,36 +29,6 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
                 "/com/fr/van/chart/map/images/line-map.png",
                 "/com/fr/van/chart/map/images/custom-map.png"
         };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Region_Map"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_PointMap"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_LineMap"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Combine_Map")
-        };
-    }
-
-    /**
-     * 获取各图表类型界面ID, 本质是plotID
-     *
-     * @return 图表类型界面ID
-     */
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartMapPlot.VAN_CHART_MAP_ID;
-    }
-
-    /**
-     * title应该是一个属性，不只是对话框的标题时用到，与其他组件结合时，也会用得到
-     *
-     * @return 绥化狂标题
-     */
-    @Override
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Map");
     }
 
     protected Component[][] getPaneComponents(JPanel typePane){
@@ -146,6 +115,9 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
             }
         }
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {
