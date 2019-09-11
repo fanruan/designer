@@ -12,15 +12,14 @@ import com.fr.design.mainframe.widget.editors.WidgetValueEditor;
 import com.fr.design.mainframe.widget.renderer.DateCellRenderer;
 import com.fr.form.ui.DateEditor;
 import com.fr.form.ui.WidgetValue;
+import com.fr.form.ui.concept.data.ValueInitializer;
 import com.fr.general.DateUtils;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.JComponent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.IntrospectionException;
 import java.util.Date;
 
@@ -84,7 +83,7 @@ public class XDateEditor extends XDirectWriteEditor {
     private void initFieldText() {
         DateEditor dateEditor = (DateEditor) data;
         if (dateEditor.getWidgetValue() != null) {
-            WidgetValue widgetValue = dateEditor.getWidgetValue();
+            ValueInitializer widgetValue = dateEditor.getWidgetValue();
             //控件值.toString
             String valueStr = widgetValue.toString();
             //控件值

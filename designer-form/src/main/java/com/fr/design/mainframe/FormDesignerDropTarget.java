@@ -6,10 +6,11 @@ import com.fr.form.ui.DataControl;
 import com.fr.form.ui.IframeEditor;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.WidgetValue;
+import com.fr.form.ui.concept.data.ValueInitializer;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -31,7 +32,8 @@ public class FormDesignerDropTarget extends DropTargetAdapter {
 
     /**
      * 响应拖拽进入事件
-     * @param dtde  需要被处理的拖拽事件
+     *
+     * @param dtde 需要被处理的拖拽事件
      */
     public void dragEnter(DropTargetDragEvent dtde) {
         dtde.acceptDrag(dtde.getDropAction());
@@ -39,6 +41,7 @@ public class FormDesignerDropTarget extends DropTargetAdapter {
 
     /**
      * 处理拖拽经过事件
+     *
      * @param dtde 需要被处理的拖拽事件
      */
     public void dragOver(DropTargetDragEvent dtde) {
@@ -52,7 +55,8 @@ public class FormDesignerDropTarget extends DropTargetAdapter {
 
     /**
      * 处理拖拽释放事件
-     * @param dtde  需要被处理的拖拽事件
+     *
+     * @param dtde 需要被处理的拖拽事件
      */
     public void drop(DropTargetDropEvent dtde) {
         Transferable tr = dtde.getTransferable();
@@ -75,22 +79,16 @@ public class FormDesignerDropTarget extends DropTargetAdapter {
             if (!(widget instanceof DataControl)) {
                 return;
             }
-            WidgetValue oldvalue = ((DataControl) widget).getWidgetValue();
-            WidgetValue newValue = new WidgetValue(new DataBinding((String[][]) o));
-            if (!ComparatorUtils.equals(oldvalue, newValue)) {
+            ValueInitializer oldValue = ((DataControl) widget).getWidgetValue();
+            ValueInitializer newValue = new WidgetValue(new DataBinding((String[][]) o));
+            if (!ComparatorUtils.equals(oldValue, newValue)) {
                 ((DataControl) widget).setWidgetValue(newValue);
                 designer.fireTargetModified();
             }
             creator.rebuid();
             designer.getSelectionModel().setSelectedCreator(creator);
-        } catch (UnsupportedFlavorException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        } catch (IOException e) {
+        } catch (UnsupportedFlavorException | IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
-    }
-
-    private void setSrcForIframeEditor() {
-
     }
 }
