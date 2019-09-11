@@ -3,6 +3,7 @@ package com.fr.design.layout;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ilable.UILabel;
 
+import com.fr.stable.AssistUtils;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -562,9 +563,9 @@ public class FRGUIPaneFactory {
         float i = Math.abs((((int) m + (int) (m + 1)) / WIDTHABS_PARA_F) - m);
         float j = Math.abs((((int) n + (int) (n + 1)) / WIDTHABS_PARA_F) - n);
         float x = i > j ? i : j;
-        if (x == i) {
+        if (AssistUtils.equals(x, i)) {
             w = Math.round(m) * WIDTH_PARA_INT - WIDTH_OFFSET_M;
-        } else if (x == j) {
+        } else if (AssistUtils.equals(x, j)) {
             w = Math.round(n) * WIDTH_PARA_INT - WIDTH_OFFSET_N;
         }
         return w;

@@ -723,37 +723,13 @@ int currentCaretY;							// Used to know when to rehighlight current line.
 		// If we're wrapping lines we need to check the actual y-coordinate
 		// of the caret, not just the line number, since a single logical
 		// line can span multiple physical lines.
-		if (getLineWrap()) {
-			try {
-				Rectangle temp = modelToView(dot);
-				if (temp!=null) {
-					currentCaretY = temp.y;
-				}
-			} catch (BadLocationException ble) {
-				ble.printStackTrace(); // Should never happen.
+		try {
+			Rectangle temp = modelToView(dot);
+			if (temp != null) {
+				currentCaretY = temp.y;
 			}
-		}
-
-		// No line wrap - we can simply check the line number (quicker).
-		else {
-//			Document doc = getDocument();
-//			if (doc!=null) {
-//				Element map = doc.getDefaultRootElement();
-//				int caretLine = map.getElementIndex(dot);
-//				Rectangle alloc = ((RTextAreaUI)getUI()).
-//											getVisibleEditorRect();
-//				if (alloc!=null)
-//					currentCaretY = alloc.y + caretLine*lineHeight;
-//			}
-// Modified for code folding requirements
-try {
-	Rectangle temp = modelToView(dot);
-	if (temp!=null) {
-		currentCaretY = temp.y;
-	}
-} catch (BadLocationException ble) {
-	ble.printStackTrace(); // Should never happen.
-}
+		} catch (BadLocationException ble) {
+			ble.printStackTrace(); // Should never happen.
 		}
 
 		// Repaint current line (to fill in entire highlight), and old line

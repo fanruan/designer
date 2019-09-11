@@ -1,68 +1,25 @@
-package com.fr.extended.chart;
+package com.fr.design.chartx.impl;
 
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chart.impl.AbstractChartWithData;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 
 /**
- * Created by shine on 2018/3/5.
+ * Created by shine on 2019/09/04.
  */
-public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartTypePane<AbstractChart> {
+public class DefaultTypePane<T extends AbstractChartWithData> extends AbstractChartTypePane<AbstractChartWithData> {
 
     @Override
     protected String[] getTypeIconPath() {
-        return new String[0];
+        return ChartTypeInterfaceManager.getInstance().getDemoImagePath(getPlotID());
     }
 
     @Override
     protected String[] getTypeTipName() {
-        return new String[0];
-    }
-
-    protected int getTypeIndex(T chart) {
-        return 0;
-    }
-
-    protected void setType(T chart, int index) {
-    }
-
-    protected void populate(T chart) {
-    }
-
-    protected void update(T chart) {
-    }
-
-    @Override
-    public void populateBean(AbstractChart chart) {
-        if (getTypeIconPath().length > 0) {
-            for (ChartImagePane imagePane : typeDemo) {
-                imagePane.isPressing = false;
-            }
-            typeDemo.get(getTypeIndex((T) chart)).isPressing = true;
-            checkDemosBackground();
-        }
-        populate((T) chart);
-    }
-
-    @Override
-    public void updateBean(AbstractChart chart) {
-        update((T) chart);
-
-        if (getTypeIconPath().length > 0) {
-            for (int index = 0, len = typeDemo.size(); index < len; index++) {
-                if (typeDemo.get(index).isPressing) {
-                    setType((T) chart, index);
-                    return;
-                }
-            }
-        }
-    }
-
-    @Override
-    protected String getPlotTypeID() {
-        return null;
+        return ChartTypeInterfaceManager.getInstance().getSubName(getPlotID());
     }
 
     @Override
@@ -75,6 +32,36 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
         return ChartTypeInterfaceManager.getInstance().getName(getPlotID());
     }
 
+    protected int getSelectIndexInChart(T chart) {
+        return 0;
+    }
+
+    protected void setSelectIndexInChart(T chart, int index) {
+    }
+
+    @Override
+    public void populateBean(AbstractChartWithData ob) {
+        if (getTypeIconPath().length > 0) {
+            for (ChartImagePane imagePane : typeDemo) {
+                imagePane.isPressing = false;
+            }
+            typeDemo.get(getSelectIndexInChart((T) ob)).isPressing = true;
+            checkDemosBackground();
+        }
+    }
+
+    @Override
+    public void updateBean(AbstractChartWithData ob) {
+        if (getTypeIconPath().length > 0) {
+            for (int index = 0, len = typeDemo.size(); index < len; index++) {
+                if (typeDemo.get(index).isPressing) {
+                    setSelectIndexInChart((T) ob, index);
+                    return;
+                }
+            }
+        }
+    }
+
     @Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
@@ -83,5 +70,10 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     @Override
     protected String[] getTypeLayoutTipName() {
         return new String[0];
+    }
+
+    @Override
+    protected String getPlotTypeID() {
+        return null;
     }
 }
