@@ -24,6 +24,7 @@ import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.widget.accessibles.AccessibleBackgroundEditor;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.ui.designer.AbstractDataModify;
+import com.fr.design.widget.ui.designer.component.UIBoundSpinner;
 import com.fr.form.ui.container.WParameterLayout;
 import com.fr.general.Background;
 
@@ -61,7 +62,7 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
 
     public void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        designerWidth = new UISpinner(1, Integer.MAX_VALUE, 1);
+        designerWidth = new UIBoundSpinner(1, Integer.MAX_VALUE, 1);
         JPanel advancePane = createAdvancePane();
         UIExpandablePane advanceExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, advancePane);
         this.add(advanceExpandablePane, BorderLayout.NORTH);
@@ -162,16 +163,29 @@ public class RootDesignDefinePane extends AbstractDataModify<WParameterLayout> {
     public WParameterLayout updateBean() {
         WParameterLayout wParameterLayout = (WParameterLayout) creator.toData();
         wParameterLayout.setLabelName(labelNameTextField.getText());
-        wParameterLayout.setDesignWidth((int) designerWidth.getValue());
+        if (isCompsOutOfDesignerWidth((int) designerWidth.getValue())) {
+            designerWidth.setValue(wParameterLayout.getDesignWidth());
+        } else {
+            wParameterLayout.setDesignWidth((int) designerWidth.getValue());
+        }
         wParameterLayout.setDelayDisplayContent(displayReport.isSelected());
         wParameterLayout.setUseParamsTemplate(useParamsTemplate.isSelected());
         JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
         jTemplate.needAddTemplateIdAttr(useParamsTemplate.isSelected());
         wParameterLayout.setBackground((Background) background.getValue());
-        wParameterLayout.setPosition((int)hAlignmentPane.getSelectedItem());
+        wParameterLayout.setPosition((int) hAlignmentPane.getSelectedItem());
         return wParameterLayout;
     }
 
+    private boolean isCompsOutOfDesignerWidth(int designerWidth){
+        for(int i=0; i<root.getComponentCount(); i++){
+            Component comp = root.getComponent(i);
+            if(comp.getX() + comp.getWidth() > designerWidth){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public DataCreatorUI dataUI() {
         return null;
