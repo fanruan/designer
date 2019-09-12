@@ -226,7 +226,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		service.schedule(new Runnable() {
 			@Override
 			public void run() {
-				SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
+				//回传在10.0.4版本发，暂时没测，先屏蔽
+//				SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
 				sendUserInfo();
 				FocusPointMessageUploader.getInstance().sendToCloudCenter();
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
