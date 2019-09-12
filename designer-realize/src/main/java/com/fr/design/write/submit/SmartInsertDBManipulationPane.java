@@ -452,7 +452,6 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 int r = cellselection.getRow();
                 int rs = cellselection.getRowSpan();
                 String allColumnRow = newValue.toString();
-                System.out.println("all: " + allColumnRow);
                 newAdd.clear();
                 for (int i = 0; i < cs; i++) {
                     for (int j = 0; j < rs; j++) {
