@@ -458,7 +458,6 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                         TemplateCellElement cellElement = ePane.getEditingElementCase().getTemplateCellElement(c + i, r + j );
                         if (cellElement != null && ((i + c) != 0 || (r + j) != 0)) {
                             String value = cellElement.toString();
-                            System.out.println(newAdd);
                             if (!newAdd.contains(value) && !allColumnRow.contains(value)) {
                                 add.addColumnRow(ColumnRow.valueOf(value));
                             }
