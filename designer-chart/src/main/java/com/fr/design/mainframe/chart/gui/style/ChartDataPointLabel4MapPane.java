@@ -121,11 +121,7 @@ public class ChartDataPointLabel4MapPane extends ChartDatapointLabelPane {
 		percentFormat = attrContents.getPercentFormat();
 
         if(textFontPane != null) {
-            if (attrContents != null) {
-                textFontPane.populate(attrContents.getTextAttr());
-            } else {
-                textFontPane.populate(FRFont.getInstance());
-            }
+			textFontPane.populate(attrContents.getTextAttr());
         }
 	}
 	

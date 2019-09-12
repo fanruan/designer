@@ -13,6 +13,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -139,9 +140,9 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 			}
 		}else{
 			String key = this.keyInput.getText().trim();
-			if(plot.isGisType() && key != plot.getBaiduKey()){
+			if(plot.isGisType() && !AssistUtils.equals(key,plot.getBaiduKey())){
 				plot.setBaiduKey(key);
-			}else if(!plot.isGisType() && key != plot.getGoogleKey()){
+			}else if(!plot.isGisType() && !AssistUtils.equals(key,plot.getGoogleKey())){
 				plot.setGoogleKey(key);
 			}
 		}

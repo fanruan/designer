@@ -5,6 +5,7 @@
 package com.fr.design;
 
 import com.fr.base.BaseUtils;
+import com.fr.common.annotations.Open;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
 import com.fr.design.fun.*;
 import com.fr.design.gui.core.WidgetOption;
@@ -34,6 +35,7 @@ import java.util.Set;
  * @since : 8.0
  * 用于设计器扩展的管理类
  */
+@Open
 public class ExtraDesignClassManager extends AbstractExtraClassManager implements ExtraDesignClassManagerProvider {
 
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();

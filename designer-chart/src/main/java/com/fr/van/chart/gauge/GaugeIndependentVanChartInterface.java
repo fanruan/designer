@@ -3,6 +3,7 @@ package com.fr.van.chart.gauge;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -29,6 +30,33 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/gauge.png";
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer180"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Ring"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Slot"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Cuvette")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/18.png",
+                "com/fr/plugin/chart/demo/image/19.png",
+                "com/fr/plugin/chart/demo/image/20.png",
+                "com/fr/plugin/chart/demo/image/21.png",
+                "com/fr/plugin/chart/demo/image/22.png"
+        };
     }
 
     @Override
@@ -78,9 +106,5 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new VanChartGaugeSeriesPane(parent, plot);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartGaugePlotPane.TITLE;
     }
 }

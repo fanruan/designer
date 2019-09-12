@@ -7,6 +7,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -59,7 +60,7 @@ public abstract class AbstractMultiComponentPaneWithUISpinner<T extends JCompone
             @Override
             public void setTextFieldValue(double value) {
                 //如果为0，则没有改变值
-                if (value == 0) {
+                if (AssistUtils.equals(value,0)) {
                     return;
                 }
                 super.setTextFieldValue(value);

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 
@@ -30,15 +31,16 @@ public class ChartsEditPane extends ChartEditPane {
      * 重新构造面板
      * @param currentChart 图表
      */
-    public void reLayout(Chart currentChart) {
+    public void reLayout(ChartProvider currentChart) {
         if (currentChart != null) {
+            Chart chart = (Chart) currentChart;
             this.removeAll();
             this.setLayout(new BorderLayout());
             paneList = new ArrayList<AbstractChartAttrPane>();
 
             String plotID = "";
-            if (currentChart.getPlot() != null) {
-                plotID = currentChart.getPlot().getPlotID();
+            if (chart.getPlot() != null) {
+                plotID = chart.getPlot().getPlotID();
             }
 
             dataPane4SupportCell = createChartDataPane(plotID);

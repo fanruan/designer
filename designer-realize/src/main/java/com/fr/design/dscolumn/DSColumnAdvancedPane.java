@@ -247,11 +247,7 @@ public class DSColumnAdvancedPane extends BasicPane {
             this.sortOrderComboBox.setSortOrder(new SortOrder(sort));
 
             String sortFormula = dSColumn.getSortFormula();
-            if (sortFormula != null && sortFormula.length() >= 1) {
-                sortFormulaTextField.setText(sortFormula);
-            } else {
-                sortFormulaTextField.setText(sortFormula);
-            }
+            sortFormulaTextField.setText(sortFormula);
         }
 
         public void update(CellElement cellElement) {

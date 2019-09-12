@@ -3,7 +3,6 @@ package com.fr.van.chart.radar;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.radar.RadarIndependentVanChart;
 import com.fr.plugin.chart.radar.VanChartRadarPlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +11,6 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/12/28.
  */
 public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Radar");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -21,32 +19,6 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
         return new String[]{"/com/fr/van/chart/radar/images/radar.png",
                 "/com/fr/van/chart/radar/images/stack.png"
         };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radar_Chart"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_StackColumn_Radar")
-        };
-    }
-
-    /**
-     * 返回界面标题
-     * @return 界面标题
-     */
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Radar");
-    }
-
-    /**
-     * 获取各图表类型界面ID, 本质是plotID
-     *
-     * @return 图表类型界面ID
-     */
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartRadarPlot.VAN_CHART_RADAR_PLOT;
     }
 
     protected Plot getSelectedClonedPlot(){
@@ -59,6 +31,9 @@ public class VanChartRadarPlotPane  extends AbstractVanChartTypePane {
         }
 
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {

@@ -60,6 +60,11 @@ public abstract class AbstractChartTypePane<T extends ChartProvider> extends Fur
     }
 
     public AbstractChartTypePane() {
+    }
+
+    public void reLayout(String chartID) {
+        this.plotID = chartID;
+
         double vs = 4;
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -156,9 +161,11 @@ public abstract class AbstractChartTypePane<T extends ChartProvider> extends Fur
             }
         }
 
-        for(int i = 0; i < typeDemo.size(); i++) {
-            typeDemo.get(i).checkBorder();
-            typeDemo.get(i).repaint();
+        if (this.typeDemo != null && !typeDemo.isEmpty()) {
+            for (int i = 0; i < typeDemo.size(); i++) {
+                typeDemo.get(i).checkBorder();
+                typeDemo.get(i).repaint();
+            }
         }
     }
 
@@ -197,22 +204,14 @@ public abstract class AbstractChartTypePane<T extends ChartProvider> extends Fur
         return plotID;
     }
 
-    public void setPlotID(String plotID) {
-        this.plotID = plotID;
-    }
-
     /**
      *
      * @param ob 对象
      * @return
      */
     public boolean accept(Object ob) {
-        if(ob instanceof Chart){
-            Chart chart = (Chart)ob;
-            Plot plot = chart.getPlot();
-            if(plot != null && ComparatorUtils.equals(plot.getPlotID(), getPlotID())){
-                return true;
-            }
+        if (ob instanceof ChartProvider) {
+            return ComparatorUtils.equals(((ChartProvider) ob).getID(), getPlotID());
         }
         return false;
     }

@@ -2,6 +2,7 @@ package com.fr.extended.chart;
 
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 
@@ -71,7 +72,7 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
 
     @Override
     public String title4PopupWindow() {
-        return ChartTypeManager.getInstance().getChartName(getPlotID());
+        return ChartTypeInterfaceManager.getInstance().getName(getPlotID());
     }
 
     @Override
