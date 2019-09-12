@@ -3,7 +3,6 @@ package com.fr.van.chart.multilayer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.multilayer.MultiPieIndependentVanChart;
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
@@ -14,28 +13,10 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Fangjie on 2016/6/15.
  */
 public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_MultiPie");
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/multilayer/image/multiPie.png"
         };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_MultiPie_Chart")
-        };
-    }
-
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartMultiPiePlot.VAN_CHART_MULTILAYER_PLOT_ID;
-    }
-
-    @Deprecated
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_MultiPie");
     }
 
     @Override
@@ -49,6 +30,9 @@ public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
         }
 
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {

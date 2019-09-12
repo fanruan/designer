@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.chart.gui;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
@@ -146,12 +145,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//chartID改变的话图表类型就算改变了
 			if (StringUtils.isNotEmpty(chartID)) {
 
-				if (chart instanceof Chart) {
-					//todo@shinerefactor: 这边看下是否可以删除
-					((Chart) chart).setWrapperName(ChartTypeManager.getInstanceWithCheck().getWrapperName(chartID));
-					((Chart) chart).setChartImagePath(ChartTypeManager.getInstanceWithCheck().getChartImagePath(chartID));
-				}
-
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
 
 				if (editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, chartID))) {
@@ -217,12 +210,10 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		private void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
 			ChartProvider chart = collection.getSelectedChartProvider();
-			String priority = ChartTypeManager.VAN_CHART_PRIORITY;
-			//TODO@shinerefactor
-			//	chart.getPriority();
-			String plotID = chart.getID();
-			boolean enabledChart = ChartTypeManager.enabledChart(plotID);
-			String item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority, plotID);
+			String chartID = chart.getID();
+			String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
+			boolean enabledChart = ChartTypeManager.enabledChart(chartID);
+			String item = ChartTypeInterfaceManager.getInstance().getName(chartID);
 
 			//第一步就是重构cards
 			cards.clear();
@@ -233,7 +224,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 					addOnePriorityCards(priority);
 				}
 			} else {
-				addOnePlotIDCards(priority, plotID);
+				addOnePlotIDCards(priority, chartID);
 			}
 
 			//下拉框重构开始。为了防止重构是触发update
@@ -309,6 +300,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 			editPane.reLayout(chart);
+		}else {
+			throw new IllegalArgumentException("editPane can not be null.");
 		}
 	}
 

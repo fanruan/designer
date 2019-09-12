@@ -13,6 +13,7 @@ import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.webattr.ToolBarButton;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StringUtils;
 
 
 import javax.swing.*;
@@ -204,7 +205,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
 
         public void populateType() {
-            if (name.getText() == "") {
+            if (StringUtils.isEmpty(name.getText())) {
                 type.setText("");
             } else {
                 type.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Toolbar_Button"));
@@ -218,7 +219,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
                     names += "," + buttonlists.get(i).getNameOption().optionName();
                 }
             }
-            if (names != "") {
+            if (StringUtils.isNotEmpty(names)) {
                 names = names.substring(1);
             }
             name.setText(names);
@@ -226,7 +227,7 @@ public class AuthorityEditToolBarPane extends AuthorityPropertyPane {
 
         public void populateCheckPane() {
             checkPane.removeAll();
-            if (name.getText() == "") {
+            if (StringUtils.isEmpty(name.getText())) {
                 return;
             }
             double f = TableLayout.FILL;

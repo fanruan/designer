@@ -1,11 +1,13 @@
-package com.fr.extended.chart;
+package com.fr.design.chart.fun.impl;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.ChartTypeUIProvider;
+import com.fr.design.chartx.impl.AbstractDataPane;
+import com.fr.design.chartx.impl.AbstractOtherPane;
+import com.fr.design.chartx.impl.DefaultTypePane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.ChartEditPane;
 import com.fr.design.mainframe.chart.ChartsConfigPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
@@ -16,57 +18,24 @@ import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
- * Created by shine on 2018/3/2.
+ * Created by shine on 2019/09/03.
  */
-public abstract class AbstractExtendedChartUIProvider extends AbstractProvider implements ChartTypeUIProvider {
-
-    protected abstract AbstractExtendedChartTableDataPane getTableDataSourcePane();
-
-    protected abstract AbstractReportDataContentPane getReportDataSourcePane();
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public String[] getSubName() {
-        return new String[0];
-    }
-
-    @Override
-    public boolean needChartChangePane() {
-        return false;
-    }
+public abstract class AbstractChartTypeUI extends AbstractProvider implements ChartTypeUIProvider {
 
     @Override
     public AbstractChartTypePane getPlotTypePane() {
-        return new ExtendedTypePane();
+        return new DefaultTypePane();
     }
 
     @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new ChartDataPane(listener);
-    }
+    public abstract AbstractDataPane getChartDataPane(AttributeChangeListener listener);
 
     @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return getTableDataSourcePane();
-    }
+    public abstract AbstractOtherPane[] getAttrPaneArray(AttributeChangeListener listener);
 
     @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return getReportDataSourcePane();
-    }
-
-    @Override
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
-        return new AbstractChartAttrPane[0];
-    }
-
-    @Override
-    public boolean isUseDefaultPane() {
-        return false;
+    public String[] getSubName() {
+        return new String[]{getName()};
     }
 
     @Override
@@ -77,6 +46,26 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
     @Override
     public String mark4Provider() {
         return getClass().getName();
+    }
+
+    @Override
+    public boolean needChartChangePane() {
+        return false;
+    }
+
+    @Override
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        return null;
+    }
+
+    @Override
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        return null;
+    }
+
+    @Override
+    public boolean isUseDefaultPane() {
+        return false;
     }
 
     @Override
@@ -98,4 +87,5 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
     public ChartsConfigPane getChartConfigPane(String plotID) {
         return null;
     }
+
 }

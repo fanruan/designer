@@ -3,7 +3,6 @@ package com.fr.van.chart.gauge;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.gauge.GaugeIndependentVanChart;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
@@ -12,7 +11,6 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 15/11/27.
  */
 public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
 
     private static final long serialVersionUID = -4599483879031804911L;
 
@@ -26,24 +24,6 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
         };
     }
 
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer180"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Ring"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Slot"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gauge_Cuvette")
-        };
-    }
-
-    /**
-     * 返回界面标题
-     * @return 界面标题
-     */
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
-    }
-
     protected Plot getSelectedClonedPlot(){
         VanChartGaugePlot newPlot = null;
         Chart[] GaugeChart = GaugeIndependentVanChart.GaugeVanChartTypes;
@@ -55,7 +35,11 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
 
         Plot cloned = null;
         try {
-            cloned = (Plot)newPlot.clone();
+            if (newPlot == null) {
+                throw new IllegalArgumentException("newPlot con not be null");
+            }else {
+                cloned = (Plot)newPlot.clone();
+            }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In GaugeChart");
         }
@@ -72,16 +56,6 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
         if(oldISMulti != newISMulti){
             chart.setFilterDefinition(null);
         }
-    }
-
-    /**
-     * 获取各图表类型界面ID, 本质是plotID
-     *
-     * @return 图表类型界面ID
-     */
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartGaugePlot.VAN_CHART_GAUGE_PLOT;
     }
 
     protected void cloneOldConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
