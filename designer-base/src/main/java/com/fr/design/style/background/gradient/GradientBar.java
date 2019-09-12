@@ -29,6 +29,7 @@ import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.style.color.ColorSelectDetailPane;
 import com.fr.design.style.color.ColorSelectDialog;
 import com.fr.design.style.color.ColorSelectable;
+import com.fr.stable.AssistUtils;
 
 /**
  * TODO:面板缩放的功能没有考虑（就是尾值过大，导致超过界面显示的情况），原来的那个实现完全是个BUG。要缩放的情况也比较少，就干脆以后弄吧
@@ -217,7 +218,7 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
      *  @return 同上
      */
     public boolean isOriginalPlace() {
-        return startLabel.getValue() == min && endLabel.getValue() == max;
+        return AssistUtils.equals(startLabel.getValue(), min) && AssistUtils.equals(endLabel.getValue(), max);
     }
 
     /**
