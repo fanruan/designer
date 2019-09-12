@@ -102,7 +102,8 @@ public class CellStylePane extends AbstractCellAttrPane {
                         }
                         Style style = cellElement.getStyle();
                         if (style == null) {
-                            style = style.DEFAULT_STYLE;
+                            style = Style.DEFAULT_STYLE;
+
                         }
                         style = stylePane.updateStyle(style);
                         cellElement.setStyle(style);
