@@ -35,7 +35,7 @@ public class PreStartActivator extends Activator {
 
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
-        final String[] args = getModule().upFindSingleton(StartupArgs.class).get();
+        final String[] args = findSingleton(StartupArgs.class).get();
         // 检查是否是-Ddebug = true 启动 并切换对应的端口以及环境配置文件
         checkDebugStart();
         if (DesignUtils.isStarted()) {
