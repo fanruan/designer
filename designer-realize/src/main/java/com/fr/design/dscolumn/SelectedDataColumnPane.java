@@ -263,7 +263,7 @@ public class SelectedDataColumnPane extends BasicPane {
 
         SimpleDSColumn simpleDSColumn = updateColumnPane();
         dsColumn.setDSName(Objects.requireNonNull(simpleDSColumn).getDsName());
-        dsColumn.setColumn(simpleDSColumn.getColumn());
+        dsColumn.setColumn(Objects.requireNonNull(simpleDSColumn).getColumn());
 
         dsColumn.setParameters((ps != null && ps.length > 0) ? ps : null);
     }

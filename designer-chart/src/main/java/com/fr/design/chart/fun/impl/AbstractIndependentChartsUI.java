@@ -3,7 +3,7 @@ package com.fr.design.chart.fun.impl;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chart.fun.IndependentChartUIProvider;
+import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -26,8 +26,19 @@ import com.fr.stable.fun.mark.API;
  * 用户使用第三方图表需要继承的面板抽象类
  */
 
-@API(level = IndependentChartUIProvider.CURRENT_API_LEVEL)
-public abstract class AbstractIndependentChartsUI extends AbstractProvider implements IndependentChartUIProvider {
+@Deprecated
+@API(level = ChartTypeUIProvider.CURRENT_API_LEVEL)
+public abstract class AbstractIndependentChartsUI extends AbstractProvider implements ChartTypeUIProvider {
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[0];
+    }
 
     public String mark4Provider() {
         return getClass().getName();
@@ -94,16 +105,6 @@ public abstract class AbstractIndependentChartsUI extends AbstractProvider imple
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Column.png";
-    }
-
-    @Override
-
-    /**
-     * plot面板的标题
-     * 插件兼容
-     */
-    public String getPlotTypeTitle4PopupWindow(){
-        return getPlotTypePane().title4PopupWindow();
     }
 
     @Override

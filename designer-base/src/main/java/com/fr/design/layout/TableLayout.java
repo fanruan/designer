@@ -323,7 +323,6 @@ public class TableLayout implements LayoutManager2, Serializable {
     public static final double MINIMUM = -3.0;
 
 
-
 //******************************************************************************
 //** Constructors                                                            ***
 //******************************************************************************
@@ -1808,8 +1807,8 @@ public class TableLayout implements LayoutManager2, Serializable {
             for (counter = entry.cr1[z]; counter <= entry.cr2[z]; counter++)
                 if (crSpec[z][counter] >= 1.0)
                     scalableSize -= crSpec[z][counter];
-                else if ((crSpec[z][counter] == PREFERRED) ||
-                        (crSpec[z][counter] == MINIMUM)) {
+                else if (AssistUtils.equals(crSpec[z][counter], PREFERRED) ||
+                        AssistUtils.equals(crSpec[z][counter], MINIMUM)) {
                     scalableSize -= crPrefMin[counter];
                 }
 
@@ -1825,13 +1824,13 @@ public class TableLayout implements LayoutManager2, Serializable {
                 // Add scaled size to relativeWidth
                     relativeSize += crSpec[z][counter];
                 // Cr is fill
-                else if ((crSpec[z][counter] == FILL) && (fillSizeRatio != 0.0))
+                else if (AssistUtils.equals(crSpec[z][counter], FILL) && !AssistUtils.equals(fillSizeRatio, 0.0))
                 // Add fill size to relativeWidth
                     relativeSize += fillSizeRatio;
             }
 
             // Determine the total scaled size as estimated by this component
-            if (relativeSize == 0)
+            if (AssistUtils.equals(relativeSize, 0))
                 temp = 0;
             else
                 temp = (int) (scalableSize / relativeSize + 0.5);
@@ -1852,8 +1851,8 @@ public class TableLayout implements LayoutManager2, Serializable {
             if (crSpec[z][counter] >= 1.0)
                 totalSize += (int) (crSpec[z][counter] + 0.5);
             // Is the current cr a preferred/minimum size
-            else if ((crSpec[z][counter] == PREFERRED) ||
-                    (crSpec[z][counter] == MINIMUM)) {
+            else if (AssistUtils.equals(crSpec[z][counter], PREFERRED) ||
+                    AssistUtils.equals(crSpec[z][counter], MINIMUM)) {
                 // Add preferred/minimum width
                 totalSize += crPrefMin[counter];
             }

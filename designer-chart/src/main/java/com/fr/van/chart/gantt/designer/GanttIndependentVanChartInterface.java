@@ -5,6 +5,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -27,6 +28,18 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
  * Created by hufan on 2017/1/9.
  */
 public class GanttIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Gantt");
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/44.png"
+        };
+    }
+
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartGanttPlotPane();
@@ -57,11 +70,6 @@ public class GanttIndependentVanChartInterface extends AbstractIndependentVanCha
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/gantt.png";
-    }
-
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartGanttPlotPane.TITLE;
     }
 
     /**

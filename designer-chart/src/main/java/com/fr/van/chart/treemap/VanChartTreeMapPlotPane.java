@@ -3,7 +3,6 @@ package com.fr.van.chart.treemap;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.treemap.TreeMapIndependentVanChart;
 import com.fr.plugin.chart.treemap.VanChartTreeMapPlot;
 import com.fr.van.chart.multilayer.VanChartMultiPiePlotPane;
@@ -12,16 +11,9 @@ import com.fr.van.chart.multilayer.VanChartMultiPiePlotPane;
  * Created by Fangjie on 2016/7/11.
  */
 public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_TreeMap");
+
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/van/chart/treemap/images/treeMap.png"
-        };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TreeMap_Chart")
         };
     }
 
@@ -45,6 +37,9 @@ public class VanChartTreeMapPlotPane extends VanChartMultiPiePlotPane {
         }
 
         Plot cloned = null;
+        if (null == newPlot) {
+            return cloned;
+        }
         try {
             cloned = (Plot)newPlot.clone();
         } catch (CloneNotSupportedException e) {

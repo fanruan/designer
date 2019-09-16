@@ -5,9 +5,13 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.IOUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class ChartImagePane extends ChartSelectDemoPane {
 	private static final long serialVersionUID = -2785128245790568603L;
@@ -33,9 +37,18 @@ public class ChartImagePane extends ChartSelectDemoPane {
         constructImagePane(fullIconPath, tipName, isDrawRightLine);
     }
 
-    private void constructImagePane(String fullIconPath, String tipName, boolean isDrawRightLine){
-    
-        UILabel image = new UILabel(IOUtils.readIcon(fullIconPath));
+    private void constructImagePane(final String fullIconPath, String tipName, boolean isDrawRightLine) {
+
+        UILabel image = new UILabel() {
+            @Override
+            public void paint(Graphics g) {
+                super.paint(g);
+
+                BufferedImage image1 = IOUtils.readImageWithCache(fullIconPath);
+                g.drawImage(image1, 0, 0, IMAGE_WIDTH, IMAGE_HIGTH, null);
+            }
+        };
+
         this.setLayout(new BorderLayout());
         this.add(image, BorderLayout.CENTER);
         addMouseListener(this);

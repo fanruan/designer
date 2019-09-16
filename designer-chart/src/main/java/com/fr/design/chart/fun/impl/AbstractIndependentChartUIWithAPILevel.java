@@ -2,7 +2,7 @@ package com.fr.design.chart.fun.impl;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chart.fun.IndependentChartUIProvider;
+import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -17,7 +17,7 @@ import com.fr.stable.StableUtils;
 /**
  * Created by Mitisky on 16/3/7.
  */
-public abstract class AbstractIndependentChartUIWithAPILevel implements IndependentChartUIProvider {
+public abstract class AbstractIndependentChartUIWithAPILevel implements ChartTypeUIProvider {
     //这个不能改,是做兼容用的
     //2016.10.14-11.24号的8.0jar因为改了这个为3,不会提示5.26号之前的插件更新
     private static final int OLD_PLUGIN_LEVEL = -2;
@@ -35,6 +35,22 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
         return new ChartDataPane(listener);
+    }
+
+    //todo@bjornrefactor 适配旧版本图表后 删掉下面两个方法
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[0];
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[0];
     }
 
     /**
@@ -64,14 +80,6 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements Independ
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new DataSeriesConditionPane();
-    }
-
-    /**
-     * plot面板的标题
-     * 插件兼容
-     */
-    public String getPlotTypeTitle4PopupWindow(){
-        return getPlotTypePane().title4PopupWindow();
     }
 
     public ChartEditPane getChartEditPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
