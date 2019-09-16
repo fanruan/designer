@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.widget.accessibles;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.core.WidgetOption;
@@ -52,6 +53,8 @@ public class AccessibleElementCaseToolBarEditor extends UneditableAccessibleEdit
         List<WidgetOption> defaultOptions = Arrays.asList(FormWebWidgetConstants.getFormElementCaseToolBarInstance());
         List<WidgetOption> options = new ArrayList<WidgetOption>();
         options.addAll(defaultOptions);
+        WidgetOption[] widgetOptions = ExtraDesignClassManager.getInstance().getStrictWebWidgetOptions();
+        options.addAll(Arrays.asList(widgetOptions));
         return options.toArray(new WidgetOption[options.size()]);
     }
 

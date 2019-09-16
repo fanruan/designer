@@ -43,7 +43,7 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
 
     private Set<ShortCut> shortCuts = new CloseableContainedSet<>(HashSet.class);
-    
+
     public static ExtraDesignClassManager getInstance() {
         return classManager;
     }
@@ -114,13 +114,28 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     }
 
 
+    /**
+     * 获取插件注册的工具栏按钮（严格区分决策报表与普通模板）
+     * @return
+     */
+    public WidgetOption[] getStrictWebWidgetOptions() {
+        return createWebWidgetOptions(true);
+    }
+
     public WidgetOption[] getWebWidgetOptions() {
+        return createWebWidgetOptions(false);
+    }
+
+    private WidgetOption[] createWebWidgetOptions(boolean filterByTemplateType) {
         Set<ToolbarItemProvider> set = getArray(ToolbarItemProvider.XML_TAG);
         if (set.isEmpty()) {
             return new WidgetOption[0];
         }
         List<WidgetOption> list = new ArrayList<>();
         for (ToolbarItemProvider provider : set) {
+            if (filterByTemplateType && !provider.accept()) {
+                continue;
+            }
             WidgetOption option = WidgetOptionFactory.createByWidgetClass(
                     provider.nameForWidget(),
                     IOUtils.readIcon(provider.iconPathForWidget()),
@@ -130,7 +145,6 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         }
         return list.toArray(new WidgetOption[list.size()]);
     }
-
 
 
     public Map<Class<? extends Widget>, Class<?>> getFormWidgetOptionsMap() {
@@ -168,7 +182,6 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         }
         return result.toArray(new WidgetOption[result.size()]);
     }
-
 
 
     public WidgetOption[] getCellWidgetOptions() {

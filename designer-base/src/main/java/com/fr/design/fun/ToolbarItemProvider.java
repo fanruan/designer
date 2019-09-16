@@ -36,4 +36,10 @@ public interface ToolbarItemProvider extends Mutable {
      */
     String nameForWidget();
 
+    /**
+     * 当前编辑的模板类型（决策报表 or cpt）是否支持
+     * @return 支持返回true,否则false
+     */
+    boolean accept();
+
 }
