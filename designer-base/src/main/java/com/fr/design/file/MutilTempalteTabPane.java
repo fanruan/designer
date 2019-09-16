@@ -322,7 +322,7 @@ public class MutilTempalteTabPane extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        double maxWidth = getWidth() - LIST_BUTTON_WIDTH; //最大宽度
+        double maxWidth = getWidth() - LIST_BUTTON_WIDTH * 1.0D; //最大宽度
         Graphics2D g2d = (Graphics2D) g;
         paintBackgroundAndLine(g2d, maxWidth);
     }
