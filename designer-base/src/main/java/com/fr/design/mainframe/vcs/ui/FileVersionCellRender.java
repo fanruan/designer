@@ -2,6 +2,7 @@ package com.fr.design.mainframe.vcs.ui;
 
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.report.entity.VcsEntity;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -34,7 +35,7 @@ public class FileVersionCellRender implements TableCellRenderer {
         editor.setBackground(isSelected ? TABLE_SELECT_BACKGROUND : TREE_BACKGROUND);
 
         double height = editor.getPreferredSize().getHeight();
-        if (table.getRowHeight(row) != height) {
+        if (!AssistUtils.equals(table.getRowHeight(row), height)) {
             table.setRowHeight(row, (int) height + VcsHelper.OFFSET);
         }
         return editor;
