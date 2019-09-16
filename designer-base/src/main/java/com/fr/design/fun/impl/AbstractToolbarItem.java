@@ -26,6 +26,6 @@ public abstract class AbstractToolbarItem extends AbstractProvider implements To
     @Override
     public boolean accept() {
         JTemplate currentTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-        return currentTemplate.isJWorkBook() || currentTemplate instanceof JVirtualTemplate;
+        return currentTemplate == null || currentTemplate.isJWorkBook() || currentTemplate instanceof JVirtualTemplate;
     }
 }
