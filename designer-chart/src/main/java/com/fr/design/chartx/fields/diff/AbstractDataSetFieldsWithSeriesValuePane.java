@@ -5,8 +5,8 @@ import com.fr.design.chartx.component.SeriesValueFieldComboBoxPane;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
 
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.util.List;
+import java.awt.BorderLayout;
 
 /**
  * Created by shine on 2019/5/16.
@@ -23,13 +23,24 @@ public abstract class AbstractDataSetFieldsWithSeriesValuePane<T extends Abstrac
         seriesValueFieldComboBoxPane = new SeriesValueFieldComboBoxPane();
 
         if (normalCenter != null) {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.add(normalCenter, BorderLayout.CENTER);
-            panel.add(seriesValueFieldComboBoxPane, BorderLayout.SOUTH);
+            JPanel panel = new JPanel(new BorderLayout(0,6));
+            panel.add(normalCenter, BorderLayout.NORTH);
+            panel.add(seriesValueFieldComboBoxPane, BorderLayout.CENTER);
             return panel;
         } else {
             return seriesValueFieldComboBoxPane;
         }
+    }
+
+    public SeriesValueFieldComboBoxPane getSeriesValueFieldComboBoxPane() {
+        if (seriesValueFieldComboBoxPane == null) {
+            seriesValueFieldComboBoxPane = new SeriesValueFieldComboBoxPane();
+        }
+        return seriesValueFieldComboBoxPane;
+    }
+
+    public void setSeriesValueFieldComboBoxPane(SeriesValueFieldComboBoxPane seriesValueFieldComboBoxPane) {
+        this.seriesValueFieldComboBoxPane = seriesValueFieldComboBoxPane;
     }
 
     @Override
