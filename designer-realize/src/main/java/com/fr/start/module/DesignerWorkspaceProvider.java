@@ -22,7 +22,7 @@ public class DesignerWorkspaceProvider extends Activator {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
 
-        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+        if (findSingleton(StartupArgs.class) != null && findSingleton(StartupArgs.class).isDemo()) {
             DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         } else {
             try {

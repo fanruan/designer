@@ -17,7 +17,7 @@ public class DesignerStartup extends Activator {
     @Metrics
     public void start() {
         startSub(PreStartActivator.class);
-        getSub("parallel").start();
+        startSub("parallel");
         //designer模块启动好后，查看demo
         browserDemo();
         startSub(StartFinishActivator.class);
@@ -26,7 +26,7 @@ public class DesignerStartup extends Activator {
 
     private void browserDemo() {
 
-        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+        if (findSingleton(StartupArgs.class) != null && findSingleton(StartupArgs.class).isDemo()) {
             ServerStarter.browserDemoURL();
         }
     }

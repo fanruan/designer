@@ -34,7 +34,7 @@ public class DesignerWorkspaceActivator extends Activator {
             @Override
             public void on(Event event, Workspace current) {
 
-                getSub(EnvBasedModule.class).stop();
+                stopSub(EnvBasedModule.class);
             }
         });
         /*切换环境后，重新启动所有相关模块，最先执行*/
@@ -43,7 +43,7 @@ public class DesignerWorkspaceActivator extends Activator {
             @Override
             public void on(Event event, Workspace current) {
 
-                getSub(EnvBasedModule.class).start();
+                startSub(EnvBasedModule.class);
                 startServer(current);
             }
         });
