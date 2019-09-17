@@ -167,17 +167,18 @@ class ColorPickerPanel extends JPanel
      * 截屏
      */
     public void captureScreen() {
-        try
-        {
+        try {
             robot = new Robot();
         }
-        catch (AWTException e)
-        {
+        catch (AWTException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         // 截屏幕
-        screenImage = robot.createScreenCapture(new Rectangle(0, 0, Toolkit
-                .getDefaultToolkit().getScreenSize().width, Toolkit
-                .getDefaultToolkit().getScreenSize().height));
+        Rectangle rectangle = new Rectangle(0, 0, 0, 0);
+        for (GraphicsDevice gd : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+            rectangle = rectangle.union(gd.getDefaultConfiguration().getBounds());
+        }
+        screenImage = robot.createScreenCapture(rectangle);
     }
 
     /**
