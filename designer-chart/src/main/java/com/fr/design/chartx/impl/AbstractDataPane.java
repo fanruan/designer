@@ -7,7 +7,6 @@ import com.fr.chartx.data.ChartDataDefinitionProvider;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -58,7 +57,7 @@ public abstract class AbstractDataPane extends ChartDataPane {
         if (collection == null) {
             return;
         }
-        VanChart chart = collection.getSelectedChart(VanChart.class);
+        AbstractChartWithData chart = collection.getSelectedChart(AbstractChartWithData.class);
         if (chart == null) {
             return;
         }
