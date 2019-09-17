@@ -269,11 +269,6 @@ public class HistoryTemplateListCache implements CallbackEvent {
                 if (size == index + 1 && index > 0) {
                     //如果删除的是后一个Tab，则定位到前一个
                     MutilTempalteTabPane.getInstance().setSelectedIndex(index - 1);
-                    JTemplate selectedFile = MutilTempalteTabPane.getInstance().getSelectedFile();
-                    if (!isCurrentEditingFile(selectedFile.getPath())) {
-                        //如果此时面板上的实时刷新的selectedIndex得到的和历史的不一样
-                        DesignerContext.getDesignerFrame().activateJTemplate(selectedFile);
-                    }
                 }
             }
         }
@@ -282,6 +277,13 @@ public class HistoryTemplateListCache implements CallbackEvent {
         if (openFileCount == 0) {
             DesignerContext.getDesignerFrame().addAndActivateJTemplate();
         }
+
+        JTemplate selectedFile = MutilTempalteTabPane.getInstance().getSelectedFile();
+        if (!isCurrentEditingFile(selectedFile.getPath())) {
+            //如果此时面板上的实时刷新的selectedIndex得到的和历史的不一样
+            DesignerContext.getDesignerFrame().activateJTemplate(selectedFile);
+        }
+
         MutilTempalteTabPane.getInstance().repaint();
     }
 
