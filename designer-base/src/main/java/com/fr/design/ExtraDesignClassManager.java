@@ -23,6 +23,7 @@ import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedSet;
+import com.fr.stable.Filter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
 import java.util.ArrayList;
@@ -113,35 +114,34 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         return result.toArray(new WidgetOption[result.size()]);
     }
 
-
-    /**
-     * 获取插件注册的工具栏按钮（严格区分决策报表与普通模板）
-     * @return
-     */
-    public WidgetOption[] getStrictWebWidgetOptions() {
-        return createWebWidgetOptions(true);
-    }
-
     public WidgetOption[] getWebWidgetOptions() {
-        return createWebWidgetOptions(false);
+        return getWebWidgetOptions(new Filter<ToolbarItemProvider>() {
+            @Override
+            public boolean accept(ToolbarItemProvider toolbarItemProvider) {
+                return true;
+            }
+        });
     }
 
-    private WidgetOption[] createWebWidgetOptions(boolean filterByTemplateType) {
+    public WidgetOption[] getWebWidgetOptions(Filter<ToolbarItemProvider> filter) {
         Set<ToolbarItemProvider> set = getArray(ToolbarItemProvider.XML_TAG);
-        if (set.isEmpty()) {
+        return getWebWidgetOptions(set, filter);
+    }
+
+    public WidgetOption[] getWebWidgetOptions(Set<ToolbarItemProvider> set, Filter<ToolbarItemProvider> filter) {
+        if (set == null || set.isEmpty()) {
             return new WidgetOption[0];
         }
         List<WidgetOption> list = new ArrayList<>();
         for (ToolbarItemProvider provider : set) {
-            if (filterByTemplateType && !provider.accept()) {
-                continue;
+            if (filter != null && filter.accept(provider)) {
+                WidgetOption option = WidgetOptionFactory.createByWidgetClass(
+                        provider.nameForWidget(),
+                        IOUtils.readIcon(provider.iconPathForWidget()),
+                        provider.classForWidget()
+                );
+                list.add(option);
             }
-            WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                    provider.nameForWidget(),
-                    IOUtils.readIcon(provider.iconPathForWidget()),
-                    provider.classForWidget()
-            );
-            list.add(option);
         }
         return list.toArray(new WidgetOption[list.size()]);
     }
