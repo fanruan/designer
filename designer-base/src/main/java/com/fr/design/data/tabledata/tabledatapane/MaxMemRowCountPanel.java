@@ -40,7 +40,8 @@ public class MaxMemRowCountPanel extends UIToolbar {
 			}
 		}
 	};
-	
+
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension dim = super.getPreferredSize();
 		dim.width = 340;
@@ -81,7 +82,7 @@ public class MaxMemRowCountPanel extends UIToolbar {
 	public void setValue(int value) {
 		if (value >= 0) {
 			showMaxPanel();
-			numberSpinner.setValue(Integer.valueOf(value));
+			numberSpinner.setValue(value);
 		} else {
 			showAllPanel();
 		}
