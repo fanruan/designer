@@ -17,10 +17,10 @@ import com.fr.stable.StringUtils;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 import static com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper.refreshBoxItems;
 
@@ -36,7 +36,7 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
 
     protected void initComponents() {
 
-        this.setLayout(new BorderLayout(0, 4));
+        this.setLayout(new BorderLayout(0, 6));
         this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
 
         JPanel north = createNorthPane(),
@@ -74,7 +74,6 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
         for (int i = 0; i < len; i++) {
             components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), fieldComponents[i]};
         }
-
         double p = TableLayout.PREFERRED;
         double[] columnSize = {ChartDataPane.LABEL_WIDTH, 122};
         double[] rowSize = new double[len];
