@@ -374,11 +374,15 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
                 }
                 result[i] = Reflect.on(chart).call("demoImagePath").get();
             }
+
+            if (ArrayUtils.isNotEmpty(result)) {
+                return result;
+            }
         } catch (Exception e) {
             //do nothing
         }
 
-        return new String[0];
+        return new String[]{getIconPath(chartID)};
     }
 
     public String[] getSubName(String chartID) {
