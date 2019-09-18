@@ -16,10 +16,12 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.stable.fun.impl.AbstractProvider;
+import com.fr.stable.fun.mark.API;
 
 /**
  * Created by shine on 2019/09/03.
  */
+@API(level = ChartTypeUIProvider.CURRENT_API_LEVEL)
 public abstract class AbstractChartTypeUI extends AbstractProvider implements ChartTypeUIProvider {
 
     @Override

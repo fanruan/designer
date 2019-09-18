@@ -125,7 +125,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public static final String TYPE_PANE_DEFAULT_TITLE = "DEFAULT_NAME";
 
     public synchronized static ChartTypeInterfaceManager getInstance() {
-        
+
         return classManager;
     }
 
@@ -158,7 +158,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
         });
     }
-    
+
     public static WidgetOption[] initWidgetOption() {
 
         String[] chartIDs = ChartTypeManager.getInstance().getAllChartIDs();
@@ -201,8 +201,8 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartGanttPlot.VAN_CHART_GANTT_PLOT_ID, new GanttIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartStructurePlot.STRUCTURE_PLOT_ID, new StructureIndependentVanChartInterface());
     }
-    
-    
+
+
     private static void readDefault() {
 
         addChartTypeInterface(DEPRECATED_CHART_PRIORITY, ChartConstants.COLUMN_CHART, new ColumnIndependentChartInterface());
@@ -225,7 +225,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     }
 
     private static void addChartTypeInterface(String priority, String plotID, ChartTypeUIProvider provider) {
-        
+
         if (chartTypeInterfaces != null) {
             if (!chartTypeInterfaces.containsKey(priority)) {
                 //新建一个具体图表列表
@@ -252,14 +252,14 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
         return null;
     }
-    
+
     /**
      * 把所有的pane加到list里
      *
      * @param paneList pane容器
      */
     public void addPlotTypePaneList(List<FurtherBasicBeanPane<? extends ChartProvider>> paneList, Map<String, Map<String, FurtherBasicBeanPane<? extends ChartProvider>>> allChartTypePane) {
-        
+
         List<Integer> priorityList = getPriorityInOrder();
         for (Integer aPriorityList : priorityList) {
             String priority = String.valueOf(aPriorityList);
@@ -302,9 +302,9 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     public String getTitle4PopupWindow(String plotID) {
         return getName(plotID);
     }
-    
+
     private List<Integer> getPriorityInOrder() {
-        
+
         List<Integer> priorityList = new ArrayList<Integer>();
         if (chartTypeInterfaces != null) {
             Iterator iterator = chartTypeInterfaces.entrySet().iterator();
@@ -464,7 +464,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return provider.getPlotTypePane().title4PopupWindow();
     }
-    
+
     public ChartDataPane getChartDataPane(String plotID, AttributeChangeListener listener) {
         ChartTypeUIProvider provider = getChartTypeInterface(plotID);
         if (provider != null) {
@@ -473,7 +473,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return new ChartDataPane(listener);
     }
-    
+
     public AbstractChartAttrPane[] getAttrPaneArray(String plotID, AttributeChangeListener listener) {
         ChartTypeUIProvider provider = getChartTypeInterface(plotID);
         if (provider != null) {
@@ -481,9 +481,9 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         }
 
         return new AbstractChartAttrPane[0];
-        
+
     }
-    
+
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
 
         ChartTypeUIProvider provider = getChartTypeInterface(plot.getPlotID());
@@ -493,7 +493,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return null;
     }
-    
+
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
 
         ChartTypeUIProvider provider = getChartTypeInterface(plot.getPlotID());
@@ -503,7 +503,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return null;
     }
-    
+
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
 
         ChartTypeUIProvider provider = getChartTypeInterface(plot.getPlotID());
@@ -513,7 +513,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return null;
     }
-    
+
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
 
         ChartTypeUIProvider provider = getChartTypeInterface(plot.getPlotID());
@@ -523,7 +523,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return null;
     }
-    
+
     /**
      * 是否使用默认的界面，为了避免界面来回切换
      *
@@ -536,7 +536,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         if (provider != null) {
             return provider.isUseDefaultPane();
         }
-        
+
         return true;
     }
 
@@ -551,31 +551,37 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         return true;
     }
-    
+
     @Override
     public void mount(PluginSingleInjection injection) {
-        
-        if (isIndependentChartUIProvider(injection)) {
+
+        if (isChartTypeUIProvider(injection)) {
+            String id = injection.getAttribute("chartID");
+            if (StringUtils.isEmpty(id)) {
+                id = injection.getAttribute("plotID");
+            }
             String priority = injection.getAttribute("priority", DEFAULT_PRIORITY);
-            String plotID = injection.getAttribute("plotID");
             ChartTypeUIProvider instance = (ChartTypeUIProvider) injection.getObject();
-            addChartTypeInterface(priority, plotID, instance);
+            addChartTypeInterface(priority, id, instance);
         }
     }
-    
-    
+
+
     @Override
     public void demount(PluginSingleInjection injection) {
-        
-        if (isIndependentChartUIProvider(injection)) {
+
+        if (isChartTypeUIProvider(injection)) {
             String priority = injection.getAttribute("priority", DEFAULT_PRIORITY);
-            String plotID = injection.getAttribute("plotID");
-            removeChartTypeInterface(priority, plotID);
+            String id = injection.getAttribute("chartID");
+            if (StringUtils.isEmpty(id)) {
+                id = injection.getAttribute("plotID");
+            }
+            removeChartTypeInterface(priority, id);
         }
     }
-    
+
     private void removeChartTypeInterface(String priority, String plotID) {
-        
+
         if (chartTypeInterfaces != null) {
             if (chartTypeInterfaces.containsKey(priority)) {
                 Map<String, ChartTypeUIProvider> chartUIList = chartTypeInterfaces.get(priority);
@@ -583,11 +589,11 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
             }
         }
     }
-    
-    
-    private boolean isIndependentChartUIProvider(PluginSingleInjection injection) {
 
-        return !(injection == null || injection.getObject() == null) && ChartTypeUIProvider.XML_TAG.equals(injection.getName()) && injection.getObject() instanceof ChartTypeUIProvider;
+
+    private boolean isChartTypeUIProvider(PluginSingleInjection injection) {
+
+        return !(injection == null || injection.getObject() == null) && (ChartTypeUIProvider.XML_TAG.equals(injection.getName()) || ChartTypeUIProvider.OLD_TAG.equals(injection.getName())) && injection.getObject() instanceof ChartTypeUIProvider;
     }
 
 
