@@ -103,7 +103,7 @@ public class CellFormulaQuickEditor extends CellQuickEditor {
         formulaButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 String text = formulaTextField.getText();
-                final UIFormula formulaPane = FormulaFactory.createFormulaPane();
+                final UIFormula formulaPane = FormulaFactory.createFormulaPaneWhenReserveFormula();
                 formulaPane.populate(BaseFormula.createFormulaBuilder().build(text));
                 formulaPane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
                     @Override

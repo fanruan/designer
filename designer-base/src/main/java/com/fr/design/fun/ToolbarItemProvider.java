@@ -1,6 +1,8 @@
 package com.fr.design.fun;
 
+import com.fr.design.mainframe.JTemplate;
 import com.fr.form.ui.Widget;
+import com.fr.stable.Filter;
 import com.fr.stable.fun.mark.Mutable;
 
 /**
@@ -8,7 +10,7 @@ import com.fr.stable.fun.mark.Mutable;
  * @since : 8.0
  * 自定义web工具栏菜单
  */
-public interface ToolbarItemProvider extends Mutable {
+public interface ToolbarItemProvider extends Mutable, Filter<JTemplate> {
 
     String XML_TAG = "ToolbarItemProvider";
 
@@ -35,5 +37,13 @@ public interface ToolbarItemProvider extends Mutable {
      * @return 菜单名
      */
     String nameForWidget();
+
+    /**
+     * 模板（决策报表 or cpt）是否支持此工具栏按钮
+     * JTemplate  模板
+     * @return 支持返回true, 否则false
+     */
+    @Override
+    boolean accept(JTemplate template);
 
 }
