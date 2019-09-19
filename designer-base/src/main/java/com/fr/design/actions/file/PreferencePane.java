@@ -1,9 +1,10 @@
 package com.fr.design.actions.file;
 
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
+import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
-import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -17,19 +18,20 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icombobox.UIDictionaryComboBox;
 import com.fr.design.gui.ilable.ActionLabel;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.iprogressbar.UIProgressBarUI;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
-import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.IOUtils;
@@ -37,24 +39,38 @@ import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 import com.fr.third.apache.log4j.Level;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
+import com.fr.workspace.WorkContext;
+import com.fr.workspace.server.vcs.VcsOperator;
+import com.fr.workspace.server.vcs.git.config.GcConfig;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JDialog;
+
+import javax.swing.Timer;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Desktop;
+import java.awt.Dialog;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FlowLayout;
+
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,10 +78,15 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+
+import java.awt.event.WindowAdapter;
 import java.io.File;
-import java.net.URI;
+import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 选项对话框
@@ -111,7 +132,6 @@ public class PreferencePane extends BasicPane {
     private static final String DISPLAY_EQUALS = "+";
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
-    private static final String PRIVACY_POLICY = "design.privacy";
 
     private static final Level[] LOG = {Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG};
 
@@ -153,10 +173,17 @@ public class PreferencePane extends BasicPane {
     private UICheckBox saveCommitCheckBox;
     private UICheckBox useIntervalCheckBox;
     private IntegerEditor saveIntervalEditor;
+    private UICheckBox gcEnableCheckBox;
+    private UIButton gcButton;
     private UILabel remindVcsLabel;
-    private UILabel linkLabel;
 
-
+    private JDialog gcDialog;
+    private UILabel gcMessage = new UILabel();
+    private JPanel gcDialogDownPane = new JPanel();
+    private JPanel gcProgressBarPanel = new JPanel();
+    private JProgressBar gcProgressBar;
+    private Timer gcProgressTimer;
+    private UIButton gcOkButton = new UIButton(Toolkit.i18nText("Fine-Design_Report_OK"));
 
     public PreferencePane() {
         this.initComponents();
@@ -196,44 +223,25 @@ public class PreferencePane extends BasicPane {
         oracleSpace = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-//        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
-//        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
-//        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
-//        advancePane.add(debuggerPane);
-//
-//        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
-//        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
-//        upmSelectorPane.add(useOptimizedUPMCheckbox);
-//        advancePane.add(upmSelectorPane);
-//
-//        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
-//        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
-//        dbmSelectorPane.add(useUniverseDBMCheckbox);
-//        advancePane.add(dbmSelectorPane);
+        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(Toolkit.i18nText("Fine-Design_Basic_Develop_Tools"));
+        openDebugComboBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Basic_Open_Debug_Window"));
+        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
+        advancePane.add(debuggerPane);
+
+        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+        useOptimizedUPMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+        upmSelectorPane.add(useOptimizedUPMCheckbox);
+        advancePane.add(upmSelectorPane);
+
+        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Manager"));
+        useUniverseDBMCheckbox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        dbmSelectorPane.add(useUniverseDBMCheckbox);
+        advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
-        linkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Privacy_Policy"));
-        linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        linkLabel.setForeground(UIConstants.NORMAL_BLUE);
-        linkLabel.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind(PRIVACY_POLICY)));
-                } catch (Exception e1) {
-                    FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
-                }
-            }
-        });
-        double p = TableLayout.PREFERRED;
-        double rowSize[] = {p};
-        double columnSize[] = {p, p};
-        Component[][] components = {
-                {joinProductImproveCheckBox, linkLabel},
-        };
-        JPanel choosePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
-        improvePane.add(choosePane);
+        improvePane.add(joinProductImproveCheckBox);
+
         if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
             autoPushUpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);
@@ -255,6 +263,10 @@ public class PreferencePane extends BasicPane {
         saveCommitCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_No_Delete"));
         saveIntervalEditor = new IntegerEditor(60);
         useIntervalCheckBox = new UICheckBox();
+
+        //gc面板
+        JPanel gcControlPane = createGcControlPane();
+
         JPanel enableVcsPanel = new JPanel(FRGUIPaneFactory.createLeftZeroLayout());
         enableVcsPanel.add(vcsEnableCheckBox);
         enableVcsPanel.add(remindVcsLabel);
@@ -287,6 +299,42 @@ public class PreferencePane extends BasicPane {
         vcsPane.add(enableVcsPanel);
         vcsPane.add(intervalPanel);
         vcsPane.add(saveCommitCheckBox);
+        vcsPane.add(gcControlPane);
+    }
+
+    /**
+     * 模创建板版本gc 配置操作面板
+     *
+     * @return 面板
+     */
+    private JPanel createGcControlPane() {
+        //gc面板
+        JPanel gcControlPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel gcButtonPane = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 0));
+        gcEnableCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Vcs_Storage_Optimization"));
+        gcButton = initGcButton();
+        gcButtonPane.add(gcButton);
+        gcControlPane.add(gcEnableCheckBox);
+        gcControlPane.add(gcButtonPane);
+        gcButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                tryGc();
+            }
+        });
+        gcEnableCheckBox.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                gcButton.setEnabled(gcEnableCheckBox.isSelected());
+            }
+        });
+
+        //集群下禁用
+        if (FineClusterConfig.getInstance().isCluster()) {
+            gcEnableCheckBox.setEnabled(false);
+            gcButton.setEnabled(false);
+        }
+        return gcControlPane;
     }
 
     private void createFunctionPane(JPanel generalPane) {
@@ -654,7 +702,8 @@ public class PreferencePane extends BasicPane {
         saveIntervalEditor.setValue(vcsConfigManager.getSaveInterval());
         saveCommitCheckBox.setSelected(vcsConfigManager.isSaveCommit());
         useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
-
+        gcEnableCheckBox.setSelected(GcConfig.getInstance().isGcEnable());
+        gcButton.setEnabled(gcEnableCheckBox.isSelected());
         supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
 
         isDragPermitedCheckBox.setSelected(designerEnvManager.isDragPermited());
@@ -673,10 +722,10 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-//        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
-//        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
-//
-//        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
+        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
+        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+
+        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -741,7 +790,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
 
-//        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
+        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
@@ -751,6 +800,18 @@ public class PreferencePane extends BasicPane {
         vcsConfigManager.setVcsEnable(this.vcsEnableCheckBox.isSelected());
         vcsConfigManager.setSaveCommit(this.saveCommitCheckBox.isSelected());
         vcsConfigManager.setUseInterval(this.useIntervalCheckBox.isSelected());
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                GcConfig.getInstance().setGcEnable(gcEnableCheckBox.isSelected());
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[]{GcConfig.class};
+            }
+        });
+
         if (this.autoPushUpdateCheckBox != null) {
             designerEnvManager.setAutoPushUpdateEnabled(this.autoPushUpdateCheckBox.isSelected());
         }
@@ -772,21 +833,20 @@ public class PreferencePane extends BasicPane {
             }
         });
 
-//        Configurations.update(new Worker() {
-//            @Override
-//            public void run() {
-//                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
-//                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
-//            }
-//
-//            @Override
-//            public Class<? extends Configuration>[] targets() {
-//                return new Class[] {ServerPreferenceConfig.class};
-//            }
-//        });
+        Configurations.update(new Worker() {
+            @Override
+            public void run() {
+                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
+            }
+
+            @Override
+            public Class<? extends Configuration>[] targets() {
+                return new Class[] {ServerPreferenceConfig.class};
+            }
+        });
 
     }
-
 
     // 如果语言设置改变了，则显示重启对话框
     public void showRestartDialog() {
@@ -822,4 +882,203 @@ public class PreferencePane extends BasicPane {
     public BasicDialog showWindow(Window window, DialogActionListener l) {
         return showWindowWithCustomSize(window, l, new Dimension(BasicDialog.DEFAULT.width, this.getPreferredSize().height + OFFSET_HEIGHT));
     }
+
+    private void tryGc() {
+        final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            private  long size = 0;
+
+            @Override
+            protected Boolean doInBackground() {
+                size = WorkContext.getCurrent().get(VcsOperator.class).immediatelyGc();
+                return true;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    get();
+                } catch (ExecutionException e) {
+                    updateGcDialogPanelInfo(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Need_Update_Remote_Server_Jar"));
+                    return;
+                } catch (InterruptedException e) {
+                    FineLoggerFactory.getLogger().error(e, e.getMessage());
+                }
+                updateGcDialogPanelInfo(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
+                gcDialogDownPane.revalidate();
+                gcDialogDownPane.repaint();
+                gcDialogDownPane.add(gcOkButton);
+            }
+        };
+        worker.execute();
+        initGcDialog();
+        gcOkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gcDialog.dispose();
+            }
+        });
+        gcDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                stopGcProgressTimer();
+                worker.cancel(true);
+            }
+        });
+        gcDialog.setVisible(true);
+        gcDialog.dispose();
+    }
+
+    /**
+     * gc 后更新进度条面板信息
+     *
+     * @param message
+     */
+    private void updateGcDialogPanelInfo(String message) {
+        stopGcProgressTimer();
+        gcMessage.setText(message);
+        if (null != gcProgressBar) {
+            gcProgressBarPanel.remove(gcProgressBar);
+        }
+        if (null != gcDialog) {
+            gcDialog.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"));
+        }
+    }
+
+    /**
+     * 初始化 gc 对话框
+     */
+    private void initGcDialog() {
+        gcDialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(PreferencePane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Clean_Progress") + "...", true);
+        gcDialog.setSize(new Dimension(340, 140));
+
+        JPanel jp = new JPanel();
+        //中上
+        JPanel gcUpPane = new JPanel();
+        gcUpPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        gcUpPane.add(new UILabel(UIManager.getIcon("OptionPane.informationIcon")));
+        gcProgressBarPanel = createProgressBarPane();
+        gcUpPane.add(gcProgressBarPanel);
+
+        //中下
+        gcDialogDownPane = new JPanel();
+        gcDialogDownPane.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
+
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+        jp.add(gcUpPane);
+        jp.add(gcDialogDownPane);
+        gcDialog.add(jp);
+        gcDialog.setResizable(false);
+        gcDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(PreferencePane.this));
+    }
+
+    /**
+     * gc 进度条面板
+     *
+     * @return
+     */
+    private JPanel createProgressBarPane() {
+        JPanel jp = new JPanel();
+        VerticalFlowLayout layout = new VerticalFlowLayout();
+        layout.setAlignLeft(true);
+        jp.setLayout(layout);
+
+        //提示
+        gcMessage = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Vcs_Cleaning"));
+        // 创建一个进度条
+        gcProgressBar = createGcProgressBar(0, 30, 240, 15, Color.GREEN);
+        gcProgressTimer = createGcProgressTimer(500, gcProgressBar);
+        gcProgressTimer.start();
+        jp.add(gcMessage);
+        jp.add(gcProgressBar);
+        return jp;
+    }
+
+    /**
+     * 创建 gc 进度条
+     *
+     * @param min    最小值
+     * @param max    最大值
+     * @param width  宽度
+     * @param height 高度
+     * @param color  填充的图片颜色
+     * @return
+     */
+    private JProgressBar createGcProgressBar(int min, int max, int width, int height, Color color) {
+        // 创建一个进度条
+        JProgressBar progressBar = new JProgressBar(min, max);
+        UIProgressBarUI progressBarUI = new UIProgressBarUI();
+        progressBar.setUI(progressBarUI);
+
+        //颜色（进度条里的小方块）
+        progressBar.setForeground(color);
+
+        progressBar.setOpaque(false);
+        progressBar.setPreferredSize(new Dimension(width, height));
+        return progressBar;
+    }
+
+    /**
+     * @param delay       每隔 delay 毫秒更新进度
+     * @param progressBar 要更新的进度条
+     * @return
+     */
+    private Timer createGcProgressTimer(int delay, final JProgressBar progressBar) {
+        if (null == progressBar) {
+            return null;
+        }
+        // 模拟延时操作进度, 每隔 delay / 1000 秒更新进度
+        Timer timer = new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int currentProgress = progressBar.getValue() + 1;
+                if (currentProgress > progressBar.getMaximum()) {
+                    currentProgress = progressBar.getMinimum();
+                }
+                progressBar.setValue(currentProgress);
+            }
+        });
+
+        return timer;
+    }
+
+    /**
+     * 停止进度条模拟计时器
+     */
+    private void stopGcProgressTimer() {
+        if (null == gcProgressTimer) {
+            return;
+        }
+        gcProgressTimer.stop();
+    }
+
+    /**
+     * 将字节转换成 KB or MB or GB 保留两位小数
+     *
+     * @param size
+     * @return
+     */
+    private String fileSizeConvert(long size) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        double n = 1024d;
+        if (size > Math.pow(n, 3)) {
+            return df.format(size / Math.pow(n, 3)) + "GB";
+        }
+        if (size > Math.pow(n, 2)) {
+            return df.format(size / Math.pow(n, 2)) + "MB";
+        }
+        return new StringBuilder().append(df.format(size / n)).append("KB").toString();
+    }
+
+    /**
+     * 立即清理的Button
+     *
+     * @return
+     */
+    private UIButton initGcButton() {
+        UIButton gcButton = new UIButton(Toolkit.i18nText("Fine-Design_Vcs_Clean"));
+        gcButton.setPreferredSize(new Dimension(100, 15));
+        gcButton.setRoundBorder(true, Constants.LEFT);
+        return gcButton;
+    }
+
 }
