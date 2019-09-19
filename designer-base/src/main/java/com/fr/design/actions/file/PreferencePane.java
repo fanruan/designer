@@ -3,6 +3,7 @@ package com.fr.design.actions.file;
 import com.fr.config.Configuration;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -28,12 +29,14 @@ import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.IOUtils;
 import com.fr.general.Inter;
 import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
+import com.fr.log.FineLoggerFactory;
 import com.fr.third.apache.log4j.Level;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
@@ -48,6 +51,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Window;
@@ -58,6 +63,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.net.URI;
 import java.util.Locale;
 import java.util.Map;
 
@@ -105,6 +111,7 @@ public class PreferencePane extends BasicPane {
     private static final String DISPLAY_EQUALS = "+";
     private static final String MINUS = "MINUS";
     private static final String DISPLAY_MINUS = "-";
+    private static final String PRIVACY_POLICY = "design.privacy";
 
     private static final Level[] LOG = {Level.FATAL, Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG};
 
@@ -147,6 +154,7 @@ public class PreferencePane extends BasicPane {
     private UICheckBox useIntervalCheckBox;
     private IntegerEditor saveIntervalEditor;
     private UILabel remindVcsLabel;
+    private UILabel linkLabel;
 
 
 
@@ -205,8 +213,27 @@ public class PreferencePane extends BasicPane {
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Join_Product_Improve"));
-        improvePane.add(joinProductImproveCheckBox);
-
+        linkLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Privacy_Policy"));
+        linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        linkLabel.setForeground(UIConstants.NORMAL_BLUE);
+        linkLabel.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind(PRIVACY_POLICY)));
+                } catch (Exception e1) {
+                    FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
+                }
+            }
+        });
+        double p = TableLayout.PREFERRED;
+        double rowSize[] = {p};
+        double columnSize[] = {p, p};
+        Component[][] components = {
+                {joinProductImproveCheckBox, linkLabel},
+        };
+        JPanel choosePane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+        improvePane.add(choosePane);
         if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
             autoPushUpdateCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);

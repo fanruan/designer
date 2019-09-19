@@ -27,6 +27,7 @@ import com.fr.design.selection.SelectionListener;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.report.cell.TemplateCellElement;
 import com.fr.stable.ColumnRow;
 import com.fr.stable.ColumnRowGroup;
 import com.fr.stable.StringUtils;
@@ -454,11 +455,22 @@ public class SmartInsertDBManipulationPane extends DBManipulationPane {
                 newAdd.clear();
                 for (int i = 0; i < cs; i++) {
                     for (int j = 0; j < rs; j++) {
-                        ColumnRow columnRow = ColumnRow.valueOf(c + i, r + j);
-                        if (!allColumnRow.contains(columnRow.toString())) {
-                            add.addColumnRow(columnRow);
+                        TemplateCellElement cellElement = ePane.getEditingElementCase().getTemplateCellElement(c + i, r + j );
+                        if (cellElement != null && ((i + c) != 0 || (r + j) != 0)) {
+                            String value = cellElement.toString();
+                            if (!newAdd.contains(value) && !allColumnRow.contains(value)) {
+                                add.addColumnRow(ColumnRow.valueOf(value));
+                            }
+                            newAdd.add(value);
                         }
-                        newAdd.add(columnRow.toString());
+
+                        if (cellElement == null) {
+                            ColumnRow columnRow = ColumnRow.valueOf(c + i, r + j);
+                            if (!allColumnRow.contains(columnRow.toString())) {
+                                add.addColumnRow(columnRow);
+                            }
+                            newAdd.add(columnRow.toString());
+                        }
                     }
                 }
                 int oldSize = oldAdd.size();
