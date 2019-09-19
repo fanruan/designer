@@ -21,7 +21,7 @@ public class SwitchExistEnv extends MenuDef {
         initMenuDef();
     }
 
-    private void initMenuDef() {
+    private void initMenuDef() { 
         Iterator<String> nameIt = DesignerEnvManager.getEnvManager().getEnvNameIterator();
         while (nameIt.hasNext()) {
             String name = nameIt.next();
