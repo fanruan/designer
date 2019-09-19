@@ -1,6 +1,7 @@
 package com.fr.design.gui.iprogressbar;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
@@ -17,7 +18,7 @@ import java.awt.Frame;
 /**
  * 加载进度弹窗
  */
-public class ProgressDialog extends JDialog {
+public class ProgressDialog extends UIDialog {
     private JProgressBar progressBar;
     private JDialog centerDialog;
     private JLabel text;
@@ -53,6 +54,11 @@ public class ProgressDialog extends JDialog {
         panel.add(text, BorderLayout.SOUTH);
         panel.setVisible(true);
         centerDialog.getContentPane().add(panel);
+    }
+
+    @Override
+    public void checkValid() throws Exception {
+
     }
 
     @Override
