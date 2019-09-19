@@ -24,6 +24,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
+import com.fr.general.SupportLocale;
 import com.fr.general.locale.LocaleCenter;
 import com.fr.general.locale.LocaleMark;
 import com.fr.general.xml.GeneralXMLTools;
@@ -116,7 +117,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private Color paginationLineColor = Color.black; // line color of paper
     private boolean supportCellEditorDef = false;
     private boolean isDragPermited = false;
-    private Locale language = Locale.getDefault();
+    private Locale language = checkLocale(Locale.getDefault());
     //2014-8-26默认显示全部, 因为以前的版本, 虽然是false, 实际上是显示所有表, 因此这边要兼容
     private boolean useOracleSystemSpace = true;
     private int cachingTemplateLimit = CACHINGTEMPLATE_LIMIT;
@@ -1343,7 +1344,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         String tmpVal;
         if ((tmpVal = reader.getElementValue()) != null) {
             if (!CommonUtils.isNumber(tmpVal)) {
-                setLanguage(CommonUtils.stringToLocale(tmpVal));
+                setLanguage(checkLocale(CommonUtils.stringToLocale(tmpVal)));
             } else {
                 // 用于兼容10.0之前的版本
                 int value = Integer.parseInt(tmpVal);
@@ -1390,6 +1391,16 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         if (StringUtils.isNotBlank(tmpVal = reader.getElementValue())) {
             this.pageLengthUnit = Short.parseShort(tmpVal);
         }
+    }
+
+    /**
+     * 对国际化进行校验
+     * 非简繁英日韩的默认环境 设计器全部默认为英文版本
+     * @param locale
+     * @return
+     */
+    private Locale checkLocale(Locale locale) {
+        return SupportLocale.getInstance().isSupport(locale) ? locale : Locale.US;
     }
 
     private void readReportLengthUnit(XMLableReader reader) {

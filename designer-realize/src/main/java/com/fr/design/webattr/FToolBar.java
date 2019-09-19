@@ -17,7 +17,7 @@ public class FToolBar {
 	}
 
 	public void setButtonlist(List<ToolBarButton> buttonlist) {
-		if (buttonlist == null || buttonlist.size() < 0) {
+		if (buttonlist == null ) {
 			this.buttonlist = new ArrayList<ToolBarButton>();
 		} else {
 			this.buttonlist = buttonlist;

@@ -11,6 +11,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -98,8 +99,8 @@ public class ChartTypePane extends ChartCommonWizardPane {
             String[] subName = ChartTypeInterfaceManager.getInstance().getSubName(id);
 
             ChartTypePane.this.iconListModel.clear();
-            for (int i = 0, len = demoImagePath.length; i < len; i++) {
-                String ImagePath = demoImagePath[i];
+            for (int i = 0, len = subName.length; i < len; i++) {
+                String ImagePath = demoImagePath.length > i ? demoImagePath[i] : StringUtils.EMPTY;
                 String chartName = subName[i];
                 ChartTypePane.this.iconListModel.addElement(new ChartIcon(ImagePath, chartName));
             }
