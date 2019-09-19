@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.fr.design.mainframe;
 
 import com.fr.base.FRContext;
@@ -6,7 +9,6 @@ import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.messagecollect.impl.FocusPointMessageUploader;
-import com.fr.design.mainframe.messagecollect.solid.SolidCollector;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
@@ -28,7 +30,6 @@ import com.fr.stable.xml.XMLTools;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
-import com.sun.management.OperatingSystemMXBean;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -42,8 +43,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.management.ManagementFactory;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,19 +53,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 设计器信息收集
- *
  * @author neil
  * @date: 2015-4-8-下午5:11:46
  */
 public class InformationCollector implements XMLReadable, XMLWriter {
 
-	/**
-	 * 24小时上传一次
-	 */
+	// 24小时上传一次
 	private static final long DELTA = 24 * 3600 * 1000L;
 	private static final long SEND_DELAY = 300 * 1000L;
-	private static final int BYTE_TO_MB = 1024 * 1024;
 	private static final String FILE_NAME = "fr.info";
 	private static final String XML_START_STOP_LIST = "StartStopList";
 	private static final String XML_START_STOP = "StartStop";
@@ -79,19 +73,12 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private static final String XML_UUID = "UUID";
 	private static final String XML_KEY = "ActiveKey";
 	private static final String XML_OS = "OS";
-	private static final String XML_ARCH = "arch";
-	private static final String XML_AVAILABLE_PROCESSORS = "cpu";
-	private static final String XML_PHYSICAL_MEMORY = "systemMemory";
 
 	private static InformationCollector collector;
 
-	/**
-	 * 启动时间与关闭时间列表
-	 */
-	private List<StartStopTime> startStop = new ArrayList<>();
-	/**
-	 * 上一次的发送时间
-	 */
+	//启动时间与关闭时间列表
+	private List<StartStopTime> startStop = new ArrayList<StartStopTime>();
+	//上一次的发送时间
 	private String lastTime;
 	private StartStopTime current = new StartStopTime();
 
@@ -122,11 +109,11 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			}
 			xmlInputStream.close();
 		} catch (FileNotFoundException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (IOException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		} catch (XMLStreamException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 
 	}
@@ -150,41 +137,28 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 
 	}
 
-	private JSONObject getJSONContentAsByte(){
+	private JSONObject getJSONContentAsByte() {
 		JSONObject content = new JSONObject();
 
 		JSONArray startStopArray = new JSONArray();
-		for (StartStopTime startStopTime : startStop) {
+		for (int i = 0; i < startStop.size(); i++) {
 			JSONObject jo = new JSONObject();
-			jo.put(ATTR_START, startStopTime.getStartDate());
-			jo.put(ATTR_STOP, startStopTime.getStopDate());
+			jo.put(ATTR_START, startStop.get(i).getStartDate());
+			jo.put(ATTR_STOP, startStop.get(i).getStopDate());
 			startStopArray.put(jo);
+			DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
+			content.put(XML_START_STOP, startStopArray);
+			content.put(XML_UUID, envManager.getUUID());
+			content.put(XML_JAR, GeneralUtils.readBuildNO());
+			content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
+			content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
+			content.put(XML_KEY, envManager.getActivationKey());
+			content.put(XML_OS, System.getProperty("os.name"));
 		}
-		DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
-		content.put(XML_START_STOP, startStopArray);
-		content.put(XML_UUID, envManager.getUUID());
-		content.put(XML_JAR, GeneralUtils.readBuildNO());
-		content.put(XML_VERSION, ProductConstants.RELEASE_VERSION);
-            content.put(XML_USERNAME, MarketConfig.getInstance().getBbsUsername());
-		content.put(XML_KEY, envManager.getActivationKey());
-		content.put(XML_OS, System.getProperty("os.name"));
-		content.put(XML_ARCH, System.getProperty("os.arch"));
-		content.put(XML_AVAILABLE_PROCESSORS, Runtime.getRuntime().availableProcessors());
-		content.put(XML_PHYSICAL_MEMORY, getTotalPhysicalMemorySize());
 		return content;
 	}
 
-	/**
-	 * 获取物理内存，单位GB
-	 *
-	 * @return 物理内存
-	 */
-	private static long getTotalPhysicalMemorySize() {
-		OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-		return bean.getTotalPhysicalMemorySize() / BYTE_TO_MB;
-	}
-
-	private void sendUserInfo(){
+	private void sendUserInfo() {
 		long currentTime = new Date().getTime();
 		long lastTime = getLastTimeMillis();
 
@@ -203,7 +177,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
-		if (success){
+		if (success) {
 			this.reset();
 		}
 	}
@@ -226,7 +200,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		service.schedule(new Runnable() {
 			@Override
 			public void run() {
-				SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
 				sendUserInfo();
 				FocusPointMessageUploader.getInstance().sendToCloudCenter();
 				TemplateInfoCollector.getInstance().sendTemplateInfo();
@@ -266,7 +239,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			XMLTools.writeOutputStreamXML(this, out);
 			out.flush();
 			out.close();
-			String fileContent = new String(out.toByteArray(), StandardCharsets.UTF_8);
+			String fileContent = new String(out.toByteArray(), EncodeConstants.ENCODING_UTF_8);
 			String encodeCotent = DesUtils.getEncString(fileContent);
 			writeEncodeContentToFile(encodeCotent, xmlFile);
 		} catch (Exception e) {
@@ -279,21 +252,12 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	 * 将文件内容写到输出流中
 	 */
 	private static void writeEncodeContentToFile(String fileContent, File file) {
-		BufferedWriter bw = null;
-		try {
-			FileOutputStream fos = new FileOutputStream(file);
-			OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
-			bw = new BufferedWriter(osw);
+		try (FileOutputStream fos = new FileOutputStream(file);
+			 OutputStreamWriter osw = new OutputStreamWriter(fos, EncodeConstants.ENCODING_UTF_8);
+			 BufferedWriter bw = new BufferedWriter(osw)) {
 			bw.write(fileContent);
 		} catch (Exception e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);
-		} finally {
-			if (bw != null) {
-				try {
-					bw.close();
-				} catch (IOException ignore) {
-				}
-			}
 		}
 	}
 
@@ -312,8 +276,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 	private void writeStartStopList(XMLPrintWriter writer) {
 		//启停
 		writer.startTAG(XML_START_STOP_LIST);
-		for (StartStopTime startStopTime : startStop) {
-			startStopTime.writeXML(writer);
+		for (int i = 0; i < startStop.size(); i++) {
+			startStop.get(i).writeXML(writer);
 		}
 		writer.end();
 	}
@@ -351,7 +315,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 		startStop.clear();
 
 		reader.readXMLObject(new XMLReadable() {
-			@Override
 			public void readXML(XMLableReader reader) {
 				if (XML_START_STOP.equals(reader.getTagName())) {
 					StartStopTime startStopTime = new StartStopTime();
@@ -383,7 +346,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			this.stopDate = endDate;
 		}
 
-		@Override
 		public void writeXML(XMLPrintWriter writer) {
 			writer.startTAG(XML_START_STOP);
 			if (StringUtils.isNotEmpty(startDate)) {
@@ -395,7 +357,6 @@ public class InformationCollector implements XMLReadable, XMLWriter {
 			writer.end();
 		}
 
-		@Override
 		public void readXML(XMLableReader reader) {
 			this.startDate = reader.getAttrAsString(ATTR_START, StringUtils.EMPTY);
 			this.stopDate = reader.getAttrAsString(ATTR_STOP, StringUtils.EMPTY);
