@@ -25,6 +25,7 @@ import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.bridge.DesignToolbarProvider;
+import com.fr.design.constants.DesignerLaunchStatus;
 import com.fr.design.form.parameter.FormParaDesigner;
 import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -98,8 +99,8 @@ import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
 import com.fr.xml.ReportXMLUtils;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -115,7 +116,7 @@ public class DesignerActivator extends Activator {
 
     @Override
     public void start() {
-        List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
+        List<LocaleMarker> markers = findMutable(InterMutableKey.Path);
         for (LocaleMarker marker : markers) {
             if (marker.match(LocaleScope.DESIGN)) {
                 DesignI18nImpl.getInstance().addResource(marker.getPath());
@@ -128,7 +129,12 @@ public class DesignerActivator extends Activator {
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
     }
-    
+
+    @Override
+    public void afterAllStart() {
+        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE);
+    }
+
     private void loadLogAppender() {
         logHandler = new LogHandler<DesignerLogAppender>() {
             final DesignerLogAppender logAppender = new DesignerLogAppender();

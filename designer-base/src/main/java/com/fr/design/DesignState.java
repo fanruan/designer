@@ -1,9 +1,7 @@
 package com.fr.design;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
-import com.fr.workspace.WorkContext;
 
 /**
  * Created by IntelliJ IDEA.
