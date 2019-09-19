@@ -6,6 +6,7 @@ import com.fr.design.EnvChangeEntrance;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogger;
+import com.fr.design.ui.util.UIUtil;
 import com.fr.event.EventDispatcher;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.RemoteDesignConstants;
@@ -22,9 +23,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -88,7 +87,8 @@ public class DesignerSocketIO {
                      */
                     if (status != Status.Disconnecting) {
                         try {
-                            SwingUtilities.invokeAndWait(new Runnable() {
+                            UIUtil.invokeAndWaitIfNeeded(new Runnable() {
+                                @Override
                                 public void run() {
                                     JOptionPane.showMessageDialog(
                                             DesignerContext.getDesignerFrame(),

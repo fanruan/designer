@@ -13,6 +13,7 @@ import com.fr.design.fun.DesignerStartOpenFileProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
+import com.fr.design.ui.util.UIUtil;
 import com.fr.design.utils.DesignUtils;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
@@ -25,8 +26,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 
-import javax.swing.SwingUtilities;
-import java.awt.Window;
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
 
@@ -54,44 +54,33 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     public void show() {
-        if (DesignerLaunchStatus.getStatus() == DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE) {
-            refreshTemplateTree();
-        } else {
-            EventDispatcher.listen(DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE, new Listener<Null>() {
-                @Override
-                public void on(Event event, Null param) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshTemplateTree();
-                        }
-                    });
-                }
-            });
-        }
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                refreshTemplateTree();
+            }
+        });
 
         EventDispatcher.listen(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
-                SwingUtilities.invokeLater(new Runnable() {
+                UIUtil.invokeLaterIfNeeded(new Runnable() {
                     @Override
                     public void run() {
+
                         // 打开上次的文件
                         showDesignerFrame(false);
-                        DesignerContext.getDesignerFrame().resizeFrame();
-                        EventDispatcher.asyncFire(DesignerLaunchStatus.OPEN_LAST_FILE_COMPLETE);
+                        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.OPEN_LAST_FILE_COMPLETE);
                     }
                 });
             }
         });
-        EventDispatcher.listen(DesignerLaunchStatus.OPEN_LAST_FILE_COMPLETE, new Listener<Null>() {
+        EventDispatcher.listen(DesignerLaunchStatus.STARTUP_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
                 collectUserInformation();
             }
         });
-        // 启动界面
-        DesignerContext.getDesignerFrame().setVisible(true);
     }
 
     private void refreshTemplateTree() {

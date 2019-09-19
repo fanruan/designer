@@ -15,7 +15,7 @@ public class DesignerAppActivator extends Activator implements Prepare {
     @Override
     public void start() {
 
-        List<App> appList = rightCollectMutable(App.KEY);
+        List<App> appList = findMutable(App.KEY);
         for (App app : appList) {
             JTemplateFactory.register(app);
         }
@@ -24,7 +24,7 @@ public class DesignerAppActivator extends Activator implements Prepare {
     @Override
     public void stop() {
 
-        List<App> appList = rightCollectMutable(App.KEY);
+        List<App> appList = findMutable(App.KEY);
         for (App app : appList) {
             JTemplateFactory.remove(app);
         }

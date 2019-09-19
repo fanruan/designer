@@ -7,8 +7,10 @@ import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
+import com.fr.value.NotNullLazyValue;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -17,12 +19,20 @@ import com.fr.workspace.Workspace;
  */
 public class DesignerWorkspaceProvider extends Activator {
 
+    private NotNullLazyValue<StartupArgs> startupArgs = new NotNullLazyValue<StartupArgs>() {
+        @NotNull
+        @Override
+        protected StartupArgs compute() {
+            return findSingleton(StartupArgs.class);
+        }
+    };
+
     @Override
     public void start() {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
 
-        if (findSingleton(StartupArgs.class) != null && findSingleton(StartupArgs.class).isDemo()) {
+        if (startupArgs.getValue().isDemo()) {
             DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         } else {
             try {
@@ -40,12 +50,15 @@ public class DesignerWorkspaceProvider extends Activator {
                 EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
             }
         }
-        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE);
     }
 
     @Override
     public void stop() {
-
+        // void
     }
 
+    @Override
+    public void afterAllStart() {
+        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE);
+    }
 }
