@@ -42,7 +42,7 @@ public class SplashCommon implements SplashStrategy {
 
     @Override
     public void updateModuleLog(final String text) {
-        UIUtil.invokeAndWaitIfNeeded(new Runnable() {
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
             @Override
             public void run() {
                 if (splashWindow != null) {
