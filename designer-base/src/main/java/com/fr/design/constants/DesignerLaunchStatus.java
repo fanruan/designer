@@ -22,9 +22,14 @@ public enum DesignerLaunchStatus implements Event<Null> {
     DESIGNER_INIT_COMPLETE,
 
     /**
+     * 打开模板完成
+     */
+    OPEN_LAST_FILE_COMPLETE,
+
+    /**
      * 启动完成
      */
-    OPEN_LAST_FILE_COMPLETE;
+    STARTUP_COMPLETE;
 
     private static DesignerLaunchStatus status;
 
@@ -34,6 +39,6 @@ public enum DesignerLaunchStatus implements Event<Null> {
 
     public static void setStatus(DesignerLaunchStatus state) {
         status = state;
-        EventDispatcher.asyncFire(DesignerLaunchStatus.getStatus());
+        EventDispatcher.fire(DesignerLaunchStatus.getStatus());
     }
 }

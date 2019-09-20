@@ -18,7 +18,6 @@ import com.fr.stable.StringUtils;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 启动信息收集
@@ -56,14 +55,18 @@ public class StartupMessageCollector {
                 if (StringUtils.isEmpty(url)) {
                     return;
                 }
-                ExecutorService es = Executors.newSingleThreadExecutor(new NamedThreadFactory("StartupMessageCollector"));
+                ExecutorService es = ModuleContext.getExecutor()
+                        .newSingleThreadExecutor(new NamedThreadFactory("StartupMessageCollector"));
                 es.submit(new Runnable() {
                     @Override
                     public void run() {
                         FineModule root = (FineModule) ModuleContext.getRoot().getRoot();
                         JSONObject profile = root.profile();
+                        if (profile.isEmpty()) {
+                            return;
+                        }
                         JSONObject json = JSONObject.create()
-                                .put(XML_UUID,  DesignerEnvManager.getEnvManager().getUUID())
+                                .put(XML_UUID, DesignerEnvManager.getEnvManager().getUUID())
                                 .put(XML_STARTUP_TIME, FineRuntime.getAppStartTime() + FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_COST, FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_LOG, profile)

@@ -5,18 +5,12 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 /**
  * 内置Tomcat服务器管理界面 
@@ -46,7 +40,6 @@ public class ServerManageFrame extends JFrame {
 	
 	private ServerManageFrame() {
 		
-		DesignUtils.initLookAndFeel();	
 		this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/trayStarted.png"));
 
 		JPanel contentPane = (JPanel) this.getContentPane();

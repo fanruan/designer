@@ -189,7 +189,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             value = value > SHOWVALMAX ? SHOWVALMAX : value;
             value = value < SHOWVALMIN ? SHOWVALMIN : value;
             JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            jf.resolution = (int) value;
             jf.getFormDesign().setResolution((int) value);
             jf.getFormDesign().getArea().resolution = (int) value;
             reCalculateRoot(value, true);

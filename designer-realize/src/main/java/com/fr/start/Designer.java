@@ -82,6 +82,7 @@ public class Designer extends BaseDesigner {
     private UIButton saveButton;
     private UIButton undo;
     private UIButton redo;
+    private UIButton[] upToolBar;
     private UIPreviewButton run;
 
     public Designer(String[] args) {
@@ -94,7 +95,7 @@ public class Designer extends BaseDesigner {
      * @param args 参数
      */
     public static void main(String[] args) {
-    
+
         StopWatch watch = new StopWatch();
         watch.start();
         //启动运行时
@@ -210,11 +211,17 @@ public class Designer extends BaseDesigner {
      */
     @Override
     public UIButton[] createUp() {
-        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
+        if (upToolBar == null) {
+            createSaveButton();
+            createUndoButton();
+            createRedoButton();
+            return upToolBar = new UIButton[]{saveButton, undo, redo};
+        }
+        return upToolBar;
     }
 
 
-    private UIButton createSaveButton() {
+    private void createSaveButton() {
         saveButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/save.png"));
         saveButton.setToolTipText(KeySetUtils.SAVE_TEMPLATE.getMenuKeySetName());
         saveButton.set4ToolbarButton();
@@ -227,11 +234,10 @@ public class Designer extends BaseDesigner {
                 jt.requestFocus();
             }
         });
-        return saveButton;
     }
 
 
-    private UIButton createUndoButton() {
+    private void createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));
         undo.setToolTipText(KeySetUtils.UNDO.getMenuKeySetName());
         undo.set4ToolbarButton();
@@ -244,10 +250,9 @@ public class Designer extends BaseDesigner {
                 }
             }
         });
-        return undo;
     }
 
-    private UIButton createRedoButton() {
+    private void createRedoButton() {
         redo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/redo.png"));
         redo.setToolTipText(KeySetUtils.REDO.getMenuKeySetName());
         redo.set4ToolbarButton();
@@ -260,7 +265,6 @@ public class Designer extends BaseDesigner {
                 }
             }
         });
-        return redo;
     }
 
     private void createRunButton(UILargeToolbar largeToolbar) {
