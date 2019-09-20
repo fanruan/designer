@@ -1,25 +1,32 @@
 package com.fr.start.server;
 
 import com.fr.concurrent.NamedThreadFactory;
+import com.fr.design.gui.iprogressbar.ProgressDialog;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
 import com.fr.event.Null;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 内置服务器启动监视器
- * Created by zack on 2018/8/21.
+ *
+ * @author zack
+ * @date 2018/8/21
  */
 public class FineEmbedServerMonitor {
     private int progress;
-    private static final int COMPLETE = 100;//启动完成
-    private static final int STEP = 5;//随便设置一个假的进度条
-    private static final int STEP_HEARTBEAT = 2000;//2秒更新进度
+    private static final int STEP = 1;
+    /**
+     * 40ms更新进度
+     */
+    private static final int STEP_HEARTBEAT = 40;
     private static volatile FineEmbedServerMonitor monitor;
+    private static ProgressDialog progressBar = DesignerContext.getDesignerFrame().getProgressDialog();
 
     private FineEmbedServerMonitor() {
     }
@@ -46,7 +53,7 @@ public class FineEmbedServerMonitor {
     }
 
     public int getProgress() {
-        if (progress == COMPLETE) {
+        if (progress == progressBar.getProgressMaximum()) {
             return progress;
         } else {
             progress += STEP;
@@ -55,7 +62,7 @@ public class FineEmbedServerMonitor {
     }
 
     public void setComplete() {
-        this.progress = COMPLETE;
+        this.progress = progressBar.getProgressMaximum();
     }
 
     public void reset() {
@@ -63,30 +70,28 @@ public class FineEmbedServerMonitor {
     }
 
     public boolean isComplete() {
-        return this.progress == COMPLETE;
+        return this.progress >= progressBar.getProgressMaximum();
     }
 
     public void monitor() {
-        ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("FineEmbedServerMonitor"));
-        service.submit(new Runnable() {
-
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1,
+                new NamedThreadFactory("FineEmbedServerMonitor"));
+        scheduler.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                while (!isComplete()) {
-                    if (!DesignerContext.getDesignerFrame().getProgressDialog().isVisible()) {
-                        DesignerContext.getDesignerFrame().showProgressDialog();
-                        DesignerContext.getDesignerFrame().getProgressDialog().updateLoadingText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Embed_Server"));
-                    }
-                    DesignerContext.getDesignerFrame().updateProgress(getProgress());
-                    try {
-                        Thread.sleep(STEP_HEARTBEAT);
-                    } catch (InterruptedException ignore) {
-                        Thread.currentThread().interrupt();
-                    }
+                if (isComplete()) {
+                    scheduler.shutdown();
+                    DesignerContext.getDesignerFrame().hideProgressDialog();
+                    return;
                 }
-                DesignerContext.getDesignerFrame().hideProgressDialog();
+                if (!DesignerContext.getDesignerFrame().getProgressDialog().isVisible()) {
+                    DesignerContext.getDesignerFrame().showProgressDialog();
+                    DesignerContext.getDesignerFrame().getProgressDialog()
+                            .updateLoadingText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Embed_Server"));
+                }
+                DesignerContext.getDesignerFrame().updateProgress(getProgress());
             }
-        });
-        service.shutdown();
+        }, 0, STEP_HEARTBEAT, TimeUnit.MILLISECONDS);
+
     }
 }

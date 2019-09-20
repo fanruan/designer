@@ -11,6 +11,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
@@ -293,10 +294,9 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update") + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
-                httpClient.asGet();
-                if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    String text = httpClient.getResponseText();
+                String url = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update");
+                if (url != null) {
+                    String text = HttpToolbox.get(url + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                     JSONObject resultJSONObject = new JSONObject(text);
                     String isLatest = resultJSONObject.optString("result");
                     if (!ComparatorUtils.equals(isLatest, LATEST)) {

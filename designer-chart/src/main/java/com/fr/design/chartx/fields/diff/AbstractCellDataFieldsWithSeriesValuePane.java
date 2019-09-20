@@ -21,13 +21,24 @@ public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends Abstra
         seriesValueFieldsPane = new CellDataSeriesValueCorrelationPane();
 
         if (normalCenter != null) {
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.add(normalCenter, BorderLayout.CENTER);
-            panel.add(seriesValueFieldsPane, BorderLayout.SOUTH);
+            JPanel panel = new JPanel(new BorderLayout(0,6));
+            panel.add(normalCenter, BorderLayout.NORTH);
+            panel.add(seriesValueFieldsPane, BorderLayout.CENTER);
             return panel;
         } else {
             return seriesValueFieldsPane;
         }
+    }
+
+    public CellDataSeriesValueCorrelationPane getSeriesValueFieldsPane() {
+        if (seriesValueFieldsPane == null) {
+            seriesValueFieldsPane = new CellDataSeriesValueCorrelationPane();
+        }
+        return seriesValueFieldsPane;
+    }
+
+    public void setSeriesValueFieldsPane(CellDataSeriesValueCorrelationPane seriesValueFieldsPane) {
+        this.seriesValueFieldsPane = seriesValueFieldsPane;
     }
 
     protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {

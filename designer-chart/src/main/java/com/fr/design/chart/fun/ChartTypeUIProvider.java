@@ -23,7 +23,9 @@ import com.fr.stable.fun.Level;
  */
 public interface ChartTypeUIProvider extends Level {
     
-    String XML_TAG = SpecialLevel.IndependentChartUIProvider.getTagName();
+    String XML_TAG = "ChartTypeUIProvider";
+
+    String OLD_TAG = SpecialLevel.IndependentChartUIProvider.getTagName();
 
     int CURRENT_API_LEVEL = 3;
 

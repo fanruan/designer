@@ -163,7 +163,7 @@ public class QQLoginWebPane extends JFXPanel {
         final BooleanProperty confirmationResult = new SimpleBooleanProperty();
         // initialize the confirmation dialog
         final Stage dialog = new Stage(StageStyle.UTILITY);
-        dialog.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - DEFAULT_CONFIRM_WIDTH / 2 + DEFAULT_OFFEST);
+        dialog.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - DEFAULT_CONFIRM_WIDTH / 2.0D + DEFAULT_OFFEST);
         dialog.setY(Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 + DEFAULT_OFFEST);
         dialog.setHeight(DEFAULT_CONFIRM_HEIGHT);
         dialog.setWidth(DEFAULT_CONFIRM_WIDTH);

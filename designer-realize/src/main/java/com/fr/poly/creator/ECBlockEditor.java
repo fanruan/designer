@@ -136,6 +136,7 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
      * @date 2014-11-24-下午3:48:19
      */
     public void resetSelectionAndChooseState() {
+        boolean chooseBlock = designer.isChooseBlock();
         designer.setChooseType(SelectionType.INNER);
         if (DesignerMode.isAuthorityEditing()) {
             JTemplate jTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
@@ -167,7 +168,9 @@ public class ECBlockEditor extends BlockEditor<ECBlockPane, PolyECBlock> {
             conditionAttributesGroupPane.populate(editComponent);
 
             EastRegionContainerPane.getInstance().updateCellElementState(isSelectedOneCell());
-
+            if (chooseBlock) {
+                EastRegionContainerPane.getInstance().switchTabTo(EastRegionContainerPane.KEY_CELL_ATTR);
+            }
         }
 
         // 超级链接
