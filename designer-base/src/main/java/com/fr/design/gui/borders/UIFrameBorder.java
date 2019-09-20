@@ -141,8 +141,8 @@ public class UIFrameBorder extends AbstractBorder implements UIResource {
         int spread1 = ThemeUtils.FRAME_SPREAD_DARK_DISABLED;
         int spread2 = ThemeUtils.FRAME_SPREAD_LIGHT_DISABLED;
         int y2 = y;
-        Color borderColor = null;
-        drawFirstCaption(g, borderColor, spread1, spread2, x, y2, w);
+        Color borderColor = isActive ? ThemeUtils.FRAME_BORDER_COLOR : ThemeUtils.FRAME_BORDER_DISABLED_COLOR;
+        drawFirstCaption(g, borderColor, x, y2, w);
         Color c2 = ColorRoutines.darken(c, 4 * spread1);
         drawSecondCaption(g, c2, c, spread2, x, y2, w);
         c2 = ColorRoutines.darken(c, 6 * spread1);
@@ -257,14 +257,8 @@ public class UIFrameBorder extends AbstractBorder implements UIResource {
         g.drawLine(x + w - 4, y2, x + w - 4, y2);
     }
 
-    private void drawFirstCaption(Graphics g, Color borderColor, int spread1, int spread2, int x, int y2, int w) {
-        if (isActive) {
-            borderColor = ThemeUtils.FRAME_BORDER_COLOR;
-            spread1 = ThemeUtils.FRAME_SPREAD_DARK;
-            spread2 = ThemeUtils.FRAME_SPREAD_LIGHT;
-        } else {
-            borderColor = ThemeUtils.FRAME_BORDER_DISABLED_COLOR;
-        }
+
+    private void drawFirstCaption(Graphics g, Color borderColor, int x, int y2, int w) {
         // always paint the semi-transparent parts
 // 1
         // blend

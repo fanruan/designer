@@ -32,6 +32,9 @@ public class PolyUtils {
 	}
 
 	public static BlockCreator createCreator(TemplateBlock block) {
+		if (block == null) {
+			return null;
+		}
 		Class cls = block.getClass();
 		Class clazz = blockMapCls.get(cls);
 		if (clazz == null) {
@@ -55,7 +58,7 @@ public class PolyUtils {
 		TemplateBlock block = new PolyChartBlock(cc);
 		return createCreator(block);
 	}
-	
+
 	private static TemplateBlock blockGenerate(Class clazz) {
 		TemplateBlock block = null;
 		try {
@@ -85,7 +88,7 @@ public class PolyUtils {
 	public static int converty2Designer(PolyDesigner designer, int y) {
 		return y += designer.getVerticalValue();
 	}
-	
+
 	/**
 	 * 获取所处(x,y)位置的聚合块，如果没有，就返回null
 	 * @param designer
