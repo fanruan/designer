@@ -1,7 +1,7 @@
 package com.fr.design.update.ui.dialog;
 
-import com.fr.decision.update.Info.UpdateCallBack;
-import com.fr.decision.update.Info.UpdateProgressCallBack;
+import com.fr.decision.update.info.UpdateCallBack;
+import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.UIDialog;

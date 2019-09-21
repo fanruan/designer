@@ -1,6 +1,6 @@
 package com.fr.design.update.actions;
 
-import com.fr.decision.update.Info.UpdateCallBack;
+import com.fr.decision.update.info.UpdateCallBack;
 import com.fr.decision.update.UpdateExecutor;
 import com.fr.log.FineLoggerFactory;
 
