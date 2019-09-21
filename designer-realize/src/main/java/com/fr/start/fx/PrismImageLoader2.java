@@ -127,6 +127,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
 
+    @SuppressWarnings("squid:S244")
     private void loadAll(InputStream stream, int w, int h,
                          boolean preserveRatio, boolean smooth) {
         ImageLoadListener listener = new PrismLoadListener();
