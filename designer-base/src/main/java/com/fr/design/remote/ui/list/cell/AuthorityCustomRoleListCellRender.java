@@ -1,6 +1,7 @@
 package com.fr.design.remote.ui.list.cell;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.remote.constants.MemberIcon;
 import com.fr.design.remote.ui.list.AuthorityListCellRenderer;
 import com.fr.report.DesignAuthority;
 
@@ -14,7 +15,7 @@ import javax.swing.Icon;
 public class AuthorityCustomRoleListCellRender extends AuthorityListCellRenderer {
     @Override
     protected Icon getMemberIcon() {
-        return BaseUtils.readIcon("com/fr/design/remote/images/icon_Custom_Role_normal@1x.png");
+        return BaseUtils.readIcon(MemberIcon.CUSTOM_ROLE_ICON);
     }
 
     @Override

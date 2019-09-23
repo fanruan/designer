@@ -1,6 +1,7 @@
 package com.fr.design.remote.ui.list.cell;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.remote.constants.MemberIcon;
 import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.workspace.server.authority.RemoteDesignMember;
 
@@ -14,7 +15,7 @@ import javax.swing.Icon;
 public class AddedUserListCellRender extends AddedMemberListCellRender {
     @Override
     protected Icon getMemberIcon() {
-        return BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png");
+        return BaseUtils.readIcon(MemberIcon.USER_ICON);
     }
 
     @Override
