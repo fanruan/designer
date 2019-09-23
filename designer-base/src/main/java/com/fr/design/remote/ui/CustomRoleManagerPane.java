@@ -4,8 +4,8 @@ import com.fr.design.border.UITitledBorder;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.remote.ui.list.AddedMemberListCellRender;
 import com.fr.design.remote.ui.list.AddingMemberListCellRender;
-import com.fr.design.remote.ui.list.cell.AddedUserListCellRender;
-import com.fr.design.remote.ui.list.cell.AddingUserListCellRender;
+import com.fr.design.remote.ui.list.cell.AddedCustomRoleListCellRender;
+import com.fr.design.remote.ui.list.cell.AddingCustomRoleListCellRender;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.authority.RemoteDesignMember;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
@@ -18,14 +18,14 @@ import java.util.Collection;
 
 
 /**
- * 选择设计用户
+ * 选择设计角色
  */
-public class UserManagerPane extends AbstractManagerPane {
+public class CustomRoleManagerPane extends AbstractManagerPane {
 
     @Override
     protected String title4PopupWindow() {
-        // 选择设计用户
-        return Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Choose_User");
+        // 选择设计角色
+        return Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Choose_Custom");
     }
 
     @Override
@@ -36,8 +36,8 @@ public class UserManagerPane extends AbstractManagerPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                // 已选择的设计用户
-                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Selected_User"),
+                                // 已选择的设计角色
+                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Selected_Custom"),
                                 4
                         )
                 )
@@ -53,8 +53,8 @@ public class UserManagerPane extends AbstractManagerPane {
                 BorderFactory.createCompoundBorder(
                         new EmptyBorder(6, 0, 0, 0),
                         UITitledBorder.createBorderWithTitle(
-                                // 决策系统用户
-                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Decision_User"),
+                                // 决策系统角色
+                                Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Decision_Custom"),
                                 4)
                 )
         );
@@ -63,21 +63,21 @@ public class UserManagerPane extends AbstractManagerPane {
 
     @Override
     protected AddingMemberListCellRender getAddingMemberListCellRender() {
-        return new AddingUserListCellRender();
+        return new AddingCustomRoleListCellRender();
     }
 
     @Override
     protected AddedMemberListCellRender getAddedMemberListCellRender() {
-        return new AddedUserListCellRender();
+        return new AddedCustomRoleListCellRender();
     }
 
     @Override
     protected Collection<RemoteDesignMember> getMembers(String userName, String keyWord){
-        return WorkContext.getCurrent().get(DecisionOperator.class).getMembers(userName, keyWord);
+        return WorkContext.getCurrent().get(DecisionOperator.class).getCustoms(userName, keyWord);
     }
 
     @Override
     protected Collection<RemoteDesignMember> getMembers(String userName, String keyWord, int pageNum, int count){
-        return WorkContext.getCurrent().get(DecisionOperator.class).getMembers(userName, keyWord, pageNum, count);
+        return WorkContext.getCurrent().get(DecisionOperator.class).getCustoms(userName, keyWord, pageNum, count);
     }
 }

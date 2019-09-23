@@ -1,9 +1,9 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.base.BaseUtils;
 import com.fr.report.DesignAuthority;
 import sun.swing.DefaultLookup;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
 
-public class AuthorityListCellRenderer extends
+public abstract class AuthorityListCellRenderer extends
         JLabel implements ListCellRenderer<DesignAuthority> {
 
     /**
@@ -81,8 +81,8 @@ public class AuthorityListCellRenderer extends
         }
         setBorder(border);
 
-        this.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
-        this.setText(authority.getRealName() + "(" + authority.getUsername() + ")");
+        this.setIcon(getMemberIcon());
+        this.setText(getMemberName(authority));
         return this;
     }
 
@@ -126,4 +126,8 @@ public class AuthorityListCellRenderer extends
                 p.isOpaque();
         return !colorMatch && super.isOpaque();
     }
+
+    protected abstract Icon getMemberIcon();
+
+    protected abstract String getMemberName(DesignAuthority authority);
 }

@@ -40,10 +40,15 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorityListControlPane extends BasicPane {
+/**
+ * 左侧面板的基类
+ * @author Lucian.Chen
+ * @version 10.0
+ * Created by Lucian.Chen on 2019/9/19
+ */
+public abstract class AbstractListControlPane extends BasicPane {
 
-
-    private static final String LIST_NAME = "AuthorityListControlPaneList";
+    private static final String LIST_NAME = "AbstractListControlPane";
 
     private static final String UNSELECTED_EDITOR_NAME = "UNSELECTED";
     private static final String SELECTED_EDITOR_NAME = "SELECTED";
@@ -68,7 +73,7 @@ public class AuthorityListControlPane extends BasicPane {
     private UIToolbar toolBar;
 
 
-    public AuthorityListControlPane() {
+    public AbstractListControlPane() {
         super();
         initComponentPane();
     }
@@ -76,13 +81,8 @@ public class AuthorityListControlPane extends BasicPane {
 
     private void initComponentPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.authorityCreators = new RemoteDesignAuthorityCreator[]{
-                new RemoteDesignAuthorityCreator(
-                        Toolkit.i18nText("Fine-Design_Basic_Remote_Design_User"),
-                        BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"),
-                        DesignAuthority.class,
-                        AuthorityEditorPane.class)
-        };
+        this.authorityCreators = getAuthorityCreators();
+
         editorCtrl = new ListEditorControlPane();
 
         // 左侧列表面板
@@ -107,6 +107,7 @@ public class AuthorityListControlPane extends BasicPane {
         checkButtonEnabled();
     }
 
+    protected abstract RemoteDesignAuthorityCreator[] getAuthorityCreators();
 
     private void initLeftToolbar(JPanel leftPane) {
         shortCuts = createShortcuts();
@@ -139,17 +140,19 @@ public class AuthorityListControlPane extends BasicPane {
                     if (hasInvalid()) {
                         return;
                     }
-                    AuthorityListControlPane.this.editorCtrl.update();
-                    AuthorityListControlPane.this.editorCtrl.populate();
-                    AuthorityListControlPane.this.checkButtonEnabled();
+                    AbstractListControlPane.this.editorCtrl.update();
+                    AbstractListControlPane.this.editorCtrl.populate();
+                    AbstractListControlPane.this.checkButtonEnabled();
                 }
             }
         });
     }
 
+    protected abstract AuthorityListCellRenderer getAuthorityListCellRender();
+
     private AuthorityList createList() {
         AuthorityList list = new AuthorityList(new DefaultListModel<DesignAuthority>());
-        list.setCellRenderer(new AuthorityListCellRenderer());
+        list.setCellRenderer(getAuthorityListCellRender());
         return list;
     }
 
@@ -168,7 +171,9 @@ public class AuthorityListControlPane extends BasicPane {
         this.editorCtrl.update();
         DefaultListModel listModel = (DefaultListModel) this.authorityList.getModel();
         for (int i = 0, len = listModel.getSize(); i < len; i++) {
-            res.add((DesignAuthority) listModel.getElementAt(i));
+            DesignAuthority authority = (DesignAuthority) listModel.getElementAt(i);
+//            authority.setRoleType(RoleType.USER);
+            res.add(authority);
         }
         return res.toArray(new DesignAuthority[res.size()]);
     }
@@ -315,7 +320,7 @@ public class AuthorityListControlPane extends BasicPane {
         public void checkEnable() {
             this.shortCut.setEnabled(authorityList.getModel()
                     .getSize() > 0
-                    && AuthorityListControlPane.this.authorityList.getSelectedIndex() != -1);
+                    && AbstractListControlPane.this.authorityList.getSelectedIndex() != -1);
         }
     }
 
@@ -356,13 +361,13 @@ public class AuthorityListControlPane extends BasicPane {
     }
 
     private boolean hasInvalid() {
-        int idx = AuthorityListControlPane.this.getInValidIndex();
+        int idx = AbstractListControlPane.this.getInValidIndex();
         if (authorityList.getSelectedIndex() != idx) {
             try {
                 checkValid();
             } catch (Exception exp) {
                 FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                JOptionPane.showMessageDialog(AuthorityListControlPane.this, exp.getMessage());
+                JOptionPane.showMessageDialog(AbstractListControlPane.this, exp.getMessage());
                 authorityList.setSelectedIndex(idx);
                 return true;
             }
@@ -442,7 +447,7 @@ public class AuthorityListControlPane extends BasicPane {
         }
 
         public void populate() {
-            authority = AuthorityListControlPane.this.authorityList.getSelectedValue();
+            authority = AbstractListControlPane.this.authorityList.getSelectedValue();
 
             if (authority == null) {
                 return;
@@ -485,6 +490,10 @@ public class AuthorityListControlPane extends BasicPane {
         }
     }
 
+    protected abstract AbstractManagerPane getManagerPane();
+
+    protected abstract String getKey();
+
     /**
      * 选择按钮
      */
@@ -498,17 +507,17 @@ public class AuthorityListControlPane extends BasicPane {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            final UserManagerPane userManagerPane = new UserManagerPane();
-            BasicDialog dialog = userManagerPane.showWindow(SwingUtilities.getWindowAncestor(AuthorityListControlPane.this));
+            final AbstractManagerPane managerPane = getManagerPane();
+            BasicDialog dialog = managerPane.showWindow(SwingUtilities.getWindowAncestor(AbstractListControlPane.this));
 
             // 刷新用户管理面板展示信息
-            final DesignAuthority[] authorities = AuthorityListControlPane.this.update();
+            final DesignAuthority[] authorities = AbstractListControlPane.this.update();
 
             dialog.addDialogActionListener(new DialogActionAdapter() {
                 @Override
                 public void doOk() {
                     // 获取添加的用户到权限编辑面板
-                    List<RemoteDesignMember> members = userManagerPane.update();
+                    List<RemoteDesignMember> members = managerPane.update();
 
                     List<DesignAuthority> oldAuthorities = new ArrayList<>();
 
@@ -529,6 +538,7 @@ public class AuthorityListControlPane extends BasicPane {
                         authority.setUsername(member.getUsername());
                         authority.setUserId(member.getUserId());
                         authority.setRealName(member.getRealName());
+                        authority.setRoleType(member.getRoleType());
                         addAuthority(authority, getModel().getSize());
                     }
 
@@ -543,9 +553,11 @@ public class AuthorityListControlPane extends BasicPane {
                 m.setUserId(authority.getUserId());
                 m.setRealName(authority.getRealName());
                 m.setSelected(true);
+                m.setRoleType(authority.getRoleType());
+                m.setAuthority(true);
                 members.add(m);
             }
-            userManagerPane.populate(members);
+            managerPane.populate(members);
 
             dialog.setModal(true);
             dialog.setVisible(true);
@@ -567,7 +579,7 @@ public class AuthorityListControlPane extends BasicPane {
         public void actionPerformed(ActionEvent evt) {
             doBeforeRemove();
             if (GUICoreUtils.removeJListSelectedNodes(SwingUtilities
-                    .getWindowAncestor(AuthorityListControlPane.this), authorityList)) {
+                    .getWindowAncestor(AbstractListControlPane.this), authorityList, getKey())) {
                 checkButtonEnabled();
                 doAfterRemove();
             }

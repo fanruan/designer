@@ -9,6 +9,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
+import com.fr.stable.ArrayUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.authority.AuthorityOperator;
 
@@ -22,6 +23,7 @@ public class RemoteDesignAuthManagerAction extends UpdateAction {
 
     public RemoteDesignAuthManagerAction() {
         this.setName(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Authority_Manager"));
+        // 远程设计权限管理
         this.setSmallIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Remote_Design_Auth_Manager_normal@1x.png"));
     }
 
@@ -36,9 +38,13 @@ public class RemoteDesignAuthManagerAction extends UpdateAction {
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
-                if (authorities != null && authorities.length != 0) {
-                    managerPane.populate(authorities);
+                DesignAuthority[] userAuthorities = WorkContext.getCurrent().get(AuthorityOperator.class).getUserAuthorities();
+                DesignAuthority[] customAuthorities = WorkContext.getCurrent().get(AuthorityOperator.class).getCustomRoleAuthorities();
+                if (userAuthorities != null && userAuthorities.length != 0) {
+                    managerPane.populateByUser(userAuthorities);
+                }
+                if (customAuthorities != null && customAuthorities.length != 0) {
+                    managerPane.populateByCustom(customAuthorities);
                 }
             } catch (Exception exception) {
                 FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
@@ -49,7 +55,9 @@ public class RemoteDesignAuthManagerAction extends UpdateAction {
 
             @Override
             public void doOk() {
-                DesignAuthority[] authorities = managerPane.update();
+                DesignAuthority[] userAuthorities = managerPane.updateByUser();
+                DesignAuthority[] customRoleAuthorities = managerPane.updateByCustom();
+                DesignAuthority[] authorities = ArrayUtils.addAll(userAuthorities, customRoleAuthorities);
                 if (!WorkContext.getCurrent().isLocal()) {
                     boolean success = false;
                     try {
