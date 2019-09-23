@@ -729,12 +729,16 @@ public final class GUICoreUtils {
 	 * @return 布尔值
 	 */
 	public static boolean removeJListSelectedNodes(Window ancestorWindow, JList nodeList) {
+		return removeJListSelectedNodes(ancestorWindow, nodeList, "Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item");
+	}
+
+	public static boolean removeJListSelectedNodes(Window ancestorWindow, JList nodeList, String key) {
 		int selectedIndex = nodeList.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return false;
 		}
 
-		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
+		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText(key), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (returnVal == JOptionPane.OK_OPTION) {
 			int minSelectedIndex = nodeList.getMinSelectionIndex();
