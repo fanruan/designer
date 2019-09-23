@@ -29,32 +29,33 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements ChartTyp
         return OLD_PLUGIN_LEVEL;
     }
 
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         return new AbstractChartAttrPane[0];
     }
 
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener){
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new ChartDataPane(listener);
     }
 
     @Override
     public String[] getSubName() {
-        return new String[0];
+        return new String[]{getName()};
     }
 
     /**
      * 是否使用默认的界面，为了避免界面来回切换
+     *
      * @return 是否使用默认的界面
      */
-    public boolean isUseDefaultPane(){
+    public boolean isUseDefaultPane() {
         return true;
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return getPlotSeriesPane();
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(){
+    public BasicBeanPane<Plot> getPlotSeriesPane() {
         return null;
     }
 
@@ -67,11 +68,15 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements ChartTyp
         return true;
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new DataSeriesConditionPane();
     }
 
-    public ChartEditPane getChartEditPane(String plotID){ return StableUtils.construct(ChartEditPane.class);}
+    public ChartEditPane getChartEditPane(String plotID) {
+        return StableUtils.construct(ChartEditPane.class);
+    }
 
-    public ChartsConfigPane getChartConfigPane(String plotID){return null;}
+    public ChartsConfigPane getChartConfigPane(String plotID) {
+        return null;
+    }
 }
