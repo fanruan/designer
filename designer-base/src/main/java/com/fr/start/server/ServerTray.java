@@ -1,6 +1,7 @@
 package com.fr.start.server;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.ui.util.UIUtil;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.ListenerAdaptor;
@@ -85,6 +86,7 @@ public class ServerTray {
         //创建退出菜单监听器
         ActionListener exitListener = new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
 
                 exit();
@@ -177,7 +179,13 @@ public class ServerTray {
     }
 
     public static void init() {
-        if (INSTANCE == null)
-            INSTANCE = new ServerTray();
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                if (INSTANCE == null) {
+                    INSTANCE = new ServerTray();
+                }
+            }
+        });
     }
 }
