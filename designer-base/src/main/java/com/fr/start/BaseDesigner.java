@@ -46,6 +46,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
     }
 
     private void init() {
+        prepare();
         // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
         DesignUtils.initLookAndFeel();
         // 初始化Log Handler
@@ -53,14 +54,10 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         createDesignerFrame();
     }
 
-    public void show() {
-        UIUtil.invokeLaterIfNeeded(new Runnable() {
-            @Override
-            public void run() {
-                refreshTemplateTree();
-            }
-        });
-
+    /**
+     * 准备一些订阅
+     */
+    private void prepare() {
         EventDispatcher.listen(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
@@ -79,6 +76,15 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             @Override
             public void on(Event event, Null param) {
                 collectUserInformation();
+            }
+        });
+    }
+
+    public void show() {
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                refreshTemplateTree();
             }
         });
     }
