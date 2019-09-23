@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.impl.GanttPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.report.GanttPlotReportDataContentPane;
@@ -11,7 +12,6 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.data.table.GanttPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.GanttPlotPane;
-import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -45,13 +45,13 @@ public class GanttIndependentChartInterface extends AbstractIndependentChartUIWi
 
     @Override
     public String getName() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Gantt");
     }
 
     @Override
     public String[] getSubName() {
         return new String[]{
-                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt")
+                Toolkit.i18nText("Fine-Design_Chart_Type_Gantt")
         };
     }
 

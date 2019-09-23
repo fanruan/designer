@@ -6,6 +6,7 @@ import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.impl.Area3DPlotDataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.impl.AreaPlotDataSeriesCondtionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -16,7 +17,6 @@ import com.fr.design.mainframe.chart.gui.style.series.Area3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.AreaSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.AreaPlotPane;
-import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -54,16 +54,16 @@ public class AreaIndependentChartInterface extends AbstractIndependentChartUIWit
 
     @Override
     public String getName() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Area");
     }
 
     @Override
     public String[] getSubName() {
-        String chartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
-        String stackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Stacked") + chartName;
-        String perStackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Use_Percent") + stackChartName;
-        String stackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + stackChartName;
-        String perStackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + perStackChartName;
+        String chartName = Toolkit.i18nText("Fine-Design_Chart_Type_Area");
+        String stackChartName = Toolkit.i18nText("Fine-Design_Chart_Type_Stacked") + chartName;
+        String perStackChartName = Toolkit.i18nText("Fine-Design_Chart_Use_Percent") + stackChartName;
+        String stackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + stackChartName;
+        String perStackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + perStackChartName;
 
         return new String[]{
                 stackChartName,

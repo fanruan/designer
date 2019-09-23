@@ -4,12 +4,12 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.BubblePlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.BubbleIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 
 
 /**
  * 气泡图 属性表 选择类型 布局界面.
- * 
+ *
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-25 下午06:56:47
  */
@@ -26,7 +26,7 @@ public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart")
+		        Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart_OLD")
 		};
     }
 
@@ -45,7 +45,7 @@ public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart");
+		return Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart_OLD");
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
 	 */
 	public void populateBean(Chart chart) {
 		typeDemo.get(0).isPressing = true;
-		
+
 		checkDemosBackground();
 	}
 

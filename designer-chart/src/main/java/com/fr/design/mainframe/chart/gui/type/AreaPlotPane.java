@@ -9,7 +9,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.AreaIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -35,7 +34,7 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 
 	@Override
 	protected String[] getTypeTipName() {
-		String area = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+		String area = Toolkit.i18nText("Fine-Design_Chart_Type_Area");
 		String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
 		String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
 		String td = Toolkit.i18nText("Fine-Design_Chart_3D");
@@ -79,7 +78,7 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 				} else {
 					typeDemo.get(STACK_AREA_CHART).isPressing = true;
 				}
-			} 
+			}
 		} else if(plot instanceof Area3DPlot) {
 			Area3DPlot threeDPlot = (Area3DPlot)plot;
 			if(threeDPlot.isStacked()) {
@@ -90,7 +89,7 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 				}
 			}
 		}
-		
+
 		checkDemosBackground();
 	}
 
@@ -121,13 +120,13 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	/**
-	 * 保存界面属性 
+	 * 保存界面属性
 	 */
 	public void updateBean(Chart chart) {
 		chart.switchPlot(getSelectedClonedPlot());
 		super.updateBean(chart);
 	}
-	
+
 	private void createAreaCondition(Plot plot) {
 		ConditionCollection collection = plot.getConditionCollection();
 		AttrAlpha alpha = (AttrAlpha) collection.getDefaultAttr().getExisted(AttrAlpha.class);
@@ -143,7 +142,7 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Area");
 	}
 
     public Chart getDefaultChart() {

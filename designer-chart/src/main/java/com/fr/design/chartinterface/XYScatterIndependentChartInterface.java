@@ -6,6 +6,7 @@ import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.impl.XYScatterPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -15,7 +16,6 @@ import com.fr.design.mainframe.chart.gui.data.table.XYScatterPlotTableDataConten
 import com.fr.design.mainframe.chart.gui.style.series.XYScatterSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.XYScatterPlotPane;
-import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -55,13 +55,13 @@ public class XYScatterIndependentChartInterface extends AbstractIndependentChart
 
     @Override
     public String getName() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter");
     }
 
     @Override
     public String[] getSubName() {
         return new String[]{
-                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter")
+                Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter")
         };
     }
 

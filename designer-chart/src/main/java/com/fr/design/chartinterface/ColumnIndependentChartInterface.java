@@ -7,6 +7,7 @@ import com.fr.design.chart.series.SeriesCondition.impl.Bar2DTrendLineDSCondition
 import com.fr.design.chart.series.SeriesCondition.impl.Bar3DPlotDataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.impl.BarPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -17,7 +18,6 @@ import com.fr.design.mainframe.chart.gui.style.series.Bar2DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.Bar3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ColumnPlotPane;
-import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -57,18 +57,18 @@ public class ColumnIndependentChartInterface extends AbstractIndependentChartUIW
 
     @Override
     public String getName() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Column");
     }
 
     @Override
     public String[] getSubName() {
-        String chartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
-        String stackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Stacked") + chartName;
-        String perStackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Use_Percent") + stackChartName;
-        String chartName3D =   InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D")+ chartName;
-        String chartNameHoriz3D = chartName3D + "(" + InterProviderFactory.getProvider().getLocText("Fine-Engine_Report_Utils_Left_To_Right") + ")";
-        String stackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + stackChartName;
-        String perStackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D")  + perStackChartName;
+        String chartName = Toolkit.i18nText("Fine-Design_Chart_Type_Column");
+        String stackChartName = Toolkit.i18nText("Fine-Design_Chart_Type_Stacked") + chartName;
+        String perStackChartName = Toolkit.i18nText("Fine-Design_Chart_Use_Percent") + stackChartName;
+        String chartName3D =   Toolkit.i18nText("Fine-Design_Chart_3D")+ chartName;
+        String chartNameHoriz3D = chartName3D + "(" + Toolkit.i18nText("Fine-Design_Report_Utils_Left_To_Right") + ")";
+        String stackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + stackChartName;
+        String perStackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D")  + perStackChartName;
 
         //依次，柱形图-旧版本、堆积柱形图-旧版本、百分比堆积柱形图-旧版本、三维柱形图-旧版本、三维柱形图-旧版本(横向)、三维堆积柱形图-旧版本、三维百分比堆积柱形图-旧版本
         return new String[]{
