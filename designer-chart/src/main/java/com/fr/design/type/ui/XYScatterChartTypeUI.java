@@ -1,45 +1,47 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
-import com.fr.design.chart.series.SeriesCondition.DataSeriesCustomConditionPane;
+import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
+import com.fr.design.chart.series.SeriesCondition.impl.XYScatterPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.report.XYScatterPlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.style.series.CustomSeriesPane;
+import com.fr.design.mainframe.chart.gui.data.table.XYScatterPlotTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.style.series.XYScatterSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.design.mainframe.chart.gui.type.CustomPlotPane;
+import com.fr.design.mainframe.chart.gui.type.XYScatterPlotPane;
 
 /**
  * Created by eason on 15/4/21.
  */
-public class CustomIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class XYScatterChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
 
     public AbstractChartTypePane getPlotTypePane() {
-        return new CustomPlotPane();
+        return new XYScatterPlotPane();
     }
 
+
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new CategoryPlotTableDataContentPane(parent);
+        return new XYScatterPlotTableDataContentPane(parent);
     }
 
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new CategoryPlotReportDataContentPane(parent);
+        return new XYScatterPlotReportDataContentPane(parent);
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
-        return new CustomSeriesPane(parent, plot);
+        return new XYScatterSeriesPane(parent, plot);
     }
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
-        return new DataSeriesCustomConditionPane();
+        return plot.isSupportTrendLine() ? new XYScatterPlotDataSeriesConditionPane() : new DataSeriesConditionPane();
     }
 
     /**
@@ -48,25 +50,25 @@ public class CustomIndependentChartInterface extends AbstractIndependentChartUIW
      * @return 图标路径
      */
     public String getIconPath() {
-        return "com/fr/design/images/form/toolbar/ChartF-Comb_Chart.png";
+        return "com/fr/design/images/form/toolbar/ChartF-XYScatter.png";
     }
 
     @Override
     public String getName() {
-        return Toolkit.i18nText("Fine-Design_Chart_Type_Combine");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter");
     }
 
     @Override
     public String[] getSubName() {
         return new String[]{
-                Toolkit.i18nText("Fine-Design_Chart_Type_Combine")
+                Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter")
         };
     }
 
     @Override
     public String[] getDemoImagePath() {
         return new String[]{
-                "com/fr/plugin/chart/demo/image/custom.png"
+                "com/fr/plugin/chart/demo/image/point.png"
         };
     }
 }

@@ -1,4 +1,4 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
@@ -17,7 +17,7 @@ import com.fr.design.mainframe.chart.gui.type.MeterPlotPane;
 /**
  * Created by eason on 15/4/21.
  */
-public class MeterIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class MeterChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
 
     public AbstractChartTypePane getPlotTypePane() {

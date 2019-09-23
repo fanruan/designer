@@ -1,4 +1,4 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
@@ -11,29 +11,30 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotMoreCateReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotMoreCateTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.style.series.Bar2DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.Bar3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.design.mainframe.chart.gui.type.BarPlotPane;
+import com.fr.design.mainframe.chart.gui.type.ColumnPlotPane;
 
 /**
  * Created by eason on 15/4/21.
  */
-public class BarIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class ColumnChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
     public AbstractChartTypePane getPlotTypePane() {
-        return new BarPlotPane();
+        return new ColumnPlotPane();
     }
 
+
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new CategoryPlotTableDataContentPane(parent);
+        return new CategoryPlotMoreCateTableDataContentPane(parent);
     }
 
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new CategoryPlotReportDataContentPane(parent);
+        return new CategoryPlotMoreCateReportDataContentPane(parent);
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
@@ -51,25 +52,25 @@ public class BarIndependentChartInterface extends AbstractIndependentChartUIWith
      * @return 图标路径
      */
     public String getIconPath() {
-        return "com/fr/design/images/form/toolbar/ChartF-Bar.png";
+        return "com/fr/design/images/form/toolbar/ChartF-Column.png";
     }
 
     @Override
     public String getName() {
-        return Toolkit.i18nText("Fine-Design_Chart_Type_Bar");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Column");
     }
 
     @Override
     public String[] getSubName() {
-        String chartName = Toolkit.i18nText("Fine-Design_Chart_Type_Bar");
+        String chartName = Toolkit.i18nText("Fine-Design_Chart_Type_Column");
         String stackChartName = Toolkit.i18nText("Fine-Design_Chart_Type_Stacked") + chartName;
         String perStackChartName = Toolkit.i18nText("Fine-Design_Chart_Use_Percent") + stackChartName;
-        String chartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + chartName;
+        String chartName3D =   Toolkit.i18nText("Fine-Design_Chart_3D")+ chartName;
         String chartNameHoriz3D = chartName3D + "(" + Toolkit.i18nText("Fine-Design_Report_Utils_Left_To_Right") + ")";
         String stackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + stackChartName;
-        String perStackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D") + perStackChartName;
+        String perStackChartName3D = Toolkit.i18nText("Fine-Design_Chart_3D")  + perStackChartName;
 
-        //依次，条形图-旧版本、堆积条形图-旧版本、百分比堆积条形图-旧版本、三维条形图-旧版本、三维条形图-旧版本(横向)、三维堆积条形图-旧版本、三维百分比堆积条形图-旧版本
+        //依次，柱形图-旧版本、堆积柱形图-旧版本、百分比堆积柱形图-旧版本、三维柱形图-旧版本、三维柱形图-旧版本(横向)、三维堆积柱形图-旧版本、三维百分比堆积柱形图-旧版本
         return new String[]{
                 chartName,
                 stackChartName,
@@ -84,14 +85,13 @@ public class BarIndependentChartInterface extends AbstractIndependentChartUIWith
     @Override
     public String[] getDemoImagePath() {
         return new String[]{
-                "com/fr/plugin/chart/demo/image/bar.png",
-                "com/fr/plugin/chart/demo/image/barstacked.png",
-                "com/fr/plugin/chart/demo/image/barstackedpercent.png",
-                "com/fr/plugin/chart/demo/image/bar3D.png",
-                "com/fr/plugin/chart/demo/image/bar3D(cross).png",
-                "com/fr/plugin/chart/demo/image/barstacked3D.png",
-                "com/fr/plugin/chart/demo/image/barstackedpercent3D.png"
+                "com/fr/plugin/chart/demo/image/column.png",
+                "com/fr/plugin/chart/demo/image/columnstacked.png",
+                "com/fr/plugin/chart/demo/image/columnstackedpercent.png",
+                "com/fr/plugin/chart/demo/image/column3D.png",
+                "com/fr/plugin/chart/demo/image/column3D(cross).png",
+                "com/fr/plugin/chart/demo/image/columnstacked3D.png",
+                "com/fr/plugin/chart/demo/image/columnstackedpercent3D.png"
         };
     }
-
 }
