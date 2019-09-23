@@ -10,7 +10,7 @@ import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 /**
  * Created by shine on 2019/09/04.
  */
-public class DefaultTypePane<T extends AbstractChartWithData> extends AbstractChartTypePane<AbstractChartWithData> {
+public class DefaultTypePane<T extends AbstractChartWithData> extends AbstractChartTypePane<T> {
 
     @Override
     protected String[] getTypeIconPath() {
@@ -40,22 +40,22 @@ public class DefaultTypePane<T extends AbstractChartWithData> extends AbstractCh
     }
 
     @Override
-    public void populateBean(AbstractChartWithData ob) {
+    public void populateBean(T ob) {
         if (getTypeIconPath().length > 0) {
             for (ChartImagePane imagePane : typeDemo) {
                 imagePane.isPressing = false;
             }
-            typeDemo.get(getSelectIndexInChart((T) ob)).isPressing = true;
+            typeDemo.get(getSelectIndexInChart(ob)).isPressing = true;
             checkDemosBackground();
         }
     }
 
     @Override
-    public void updateBean(AbstractChartWithData ob) {
+    public void updateBean(T ob) {
         if (getTypeIconPath().length > 0) {
             for (int index = 0, len = typeDemo.size(); index < len; index++) {
                 if (typeDemo.get(index).isPressing) {
-                    setSelectIndexInChart((T) ob, index);
+                    setSelectIndexInChart(ob, index);
                     return;
                 }
             }
