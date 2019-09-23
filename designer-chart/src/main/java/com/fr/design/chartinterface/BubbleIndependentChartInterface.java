@@ -14,6 +14,7 @@ import com.fr.design.mainframe.chart.gui.data.table.BubblePlotTableDataContentPa
 import com.fr.design.mainframe.chart.gui.style.series.BubbleSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.BubblePlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -48,4 +49,22 @@ public class BubbleIndependentChartInterface extends AbstractIndependentChartUIW
         return new BubblePlotDataSeriesConditionPane();
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Bubble_Chart")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/bubble.png"
+        };
+    }
 }

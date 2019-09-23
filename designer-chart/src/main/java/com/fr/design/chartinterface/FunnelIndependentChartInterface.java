@@ -14,6 +14,7 @@ import com.fr.design.mainframe.chart.gui.data.table.PiePlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.style.series.FunnelSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.FunnelPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -49,4 +50,22 @@ public class FunnelIndependentChartInterface extends AbstractIndependentChartUIW
         return "com/fr/design/images/form/toolbar/ChartF-Funnel.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/funnel.png"
+        };
+    }
 }

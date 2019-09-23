@@ -12,6 +12,7 @@ import com.fr.design.mainframe.chart.gui.data.table.MeterPlotTableDataContentPan
 import com.fr.design.mainframe.chart.gui.style.series.MeterSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.MeterPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -19,28 +20,51 @@ import com.fr.design.mainframe.chart.gui.type.MeterPlotPane;
 public class MeterIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
 
-    public AbstractChartTypePane getPlotTypePane(){
+    public AbstractChartTypePane getPlotTypePane() {
         return new MeterPlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new MeterPlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new MeterPlotReportDataContentPane(parent);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new MeterSeriesPane(parent, plot);
     }
 
     /**
-     *图标路径
+     * 图标路径
+     *
      * @return 图标路径
      */
-    public String getIconPath(){
+    public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Meter.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter"),
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter"),
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/meter.png",
+                "com/fr/plugin/chart/demo/image/meterblue.png",
+                "com/fr/plugin/chart/demo/image/metersimple.png"
+        };
+    }
 }

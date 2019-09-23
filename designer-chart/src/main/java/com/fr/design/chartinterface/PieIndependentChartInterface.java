@@ -16,6 +16,7 @@ import com.fr.design.mainframe.chart.gui.style.series.Pie2DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.Pie3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -23,32 +24,54 @@ import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
 public class PieIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
 
-    public AbstractChartTypePane getPlotTypePane(){
+    public AbstractChartTypePane getPlotTypePane() {
         return new PiePlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new PiePlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new PiePlotReportDataContentPane(parent);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return plot.isSupport3D() ? new Pie3DSeriesPane(parent, plot) : new Pie2DSeriesPane(parent, plot);
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return plot.isSupport3D() ? new Pie3DPlotDataSeriesConditionPane() : new PiePlotDataSeriesConditionPane();
     }
 
     /**
-     *图标路径
+     * 图标路径
+     *
      * @return 图标路径
      */
-    public String getIconPath(){
+    public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Pie.png";
+    }
+
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie"),
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/pie.png",
+                "com/fr/plugin/chart/demo/image/pie3D.png",
+        };
     }
 
 }

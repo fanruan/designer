@@ -12,6 +12,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.style.series.MapSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.MapPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -47,4 +48,22 @@ public class MapIndependentChartInterface extends AbstractIndependentChartUIWith
         return "com/fr/design/images/form/toolbar/Chart-Map.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_SVG_MAP");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_SVG_MAP")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/map.png"
+        };
+    }
 }

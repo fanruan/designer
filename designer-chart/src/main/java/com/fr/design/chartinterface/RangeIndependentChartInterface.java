@@ -12,6 +12,7 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.design.mainframe.chart.gui.style.series.RangeSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.RangePlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -43,4 +44,22 @@ public class RangeIndependentChartInterface extends AbstractIndependentChartUIWi
         return "com/fr/design/images/form/toolbar/ChartF-Range_Chart.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Range");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Range")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/range.png"
+        };
+    }
 }

@@ -37,19 +37,8 @@ public abstract class AbstractIndependentChartUIWithAPILevel implements ChartTyp
         return new ChartDataPane(listener);
     }
 
-    //todo@bjornrefactor 适配旧版本图表后 删掉下面两个方法
-    @Override
-    public String getName() {
-        return null;
-    }
-
     @Override
     public String[] getSubName() {
-        return new String[0];
-    }
-
-    @Override
-    public String[] getDemoImagePath() {
         return new String[0];
     }
 

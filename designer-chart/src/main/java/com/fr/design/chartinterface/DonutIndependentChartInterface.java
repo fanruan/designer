@@ -16,6 +16,7 @@ import com.fr.design.mainframe.chart.gui.style.series.Donut2DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.Donut3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.DonutPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -23,32 +24,53 @@ import com.fr.design.mainframe.chart.gui.type.DonutPlotPane;
 public class DonutIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
 
-    public AbstractChartTypePane getPlotTypePane(){
+    public AbstractChartTypePane getPlotTypePane() {
         return new DonutPlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new CategoryPlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new CategoryPlotReportDataContentPane(parent);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return plot.isSupport3D() ? new Donut3DSeriesPane(parent, plot) : new Donut2DSeriesPane(parent, plot);
     }
-    
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return plot.isSupport3D() ? new DataSeriesConditionPane() : new Donut2DPlotDataSeriesConditionPane();
     }
 
     /**
-     *图标路径
+     * 图标路径
+     *
      * @return 图标路径
      */
-    public String getIconPath(){
+    public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Donut.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut"),
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/donut2D.png",
+                "com/fr/plugin/chart/demo/image/donut3D.png"
+        };
+    }
 }

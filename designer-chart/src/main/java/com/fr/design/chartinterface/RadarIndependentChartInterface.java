@@ -14,6 +14,7 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.design.mainframe.chart.gui.style.series.RadarSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.RadarPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
@@ -50,4 +51,22 @@ public class RadarIndependentChartInterface extends AbstractIndependentChartUIWi
         return "com/fr/design/images/form/toolbar/ChartF-Radar.png";
     }
 
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Radar");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Radar")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/radar.png"
+        };
+    }
 }

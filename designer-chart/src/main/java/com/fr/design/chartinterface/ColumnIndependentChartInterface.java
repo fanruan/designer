@@ -17,39 +17,81 @@ import com.fr.design.mainframe.chart.gui.style.series.Bar2DSeriesPane;
 import com.fr.design.mainframe.chart.gui.style.series.Bar3DSeriesPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ColumnPlotPane;
+import com.fr.locale.InterProviderFactory;
 
 /**
  * Created by eason on 15/4/21.
  */
 public class ColumnIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
 
-    public AbstractChartTypePane getPlotTypePane(){
+    public AbstractChartTypePane getPlotTypePane() {
         return new ColumnPlotPane();
     }
 
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new CategoryPlotMoreCateTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new CategoryPlotMoreCateReportDataContentPane(parent);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return plot.isSupport3D() ? new Bar3DSeriesPane(parent, plot) : new Bar2DSeriesPane(parent, plot);
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return plot.isSupport3D() ? new Bar3DPlotDataSeriesConditionPane()
                 : (plot.isSupportTrendLine() ? new Bar2DTrendLineDSConditionPane() : new BarPlotDataSeriesConditionPane());
     }
 
     /**
-     *图标路径
+     * 图标路径
+     *
      * @return 图标路径
      */
-    public String getIconPath(){
+    public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Column.png";
+    }
+
+    @Override
+    public String getName() {
+        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
+    }
+
+    @Override
+    public String[] getSubName() {
+        String chartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Column");
+        String stackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Stacked") + chartName;
+        String perStackChartName = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Use_Percent") + stackChartName;
+        String chartName3D =   InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D")+ chartName;
+        String chartNameHoriz3D = chartName3D + "(" + InterProviderFactory.getProvider().getLocText("Fine-Engine_Report_Utils_Left_To_Right") + ")";
+        String stackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D") + stackChartName;
+        String perStackChartName3D = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_3D")  + perStackChartName;
+
+        //依次，柱形图-旧版本、堆积柱形图-旧版本、百分比堆积柱形图-旧版本、三维柱形图-旧版本、三维柱形图-旧版本(横向)、三维堆积柱形图-旧版本、三维百分比堆积柱形图-旧版本
+        return new String[]{
+                chartName,
+                stackChartName,
+                perStackChartName,
+                chartName3D,
+                chartNameHoriz3D,
+                stackChartName3D,
+                perStackChartName3D
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/column.png",
+                "com/fr/plugin/chart/demo/image/columnstacked.png",
+                "com/fr/plugin/chart/demo/image/columnstackedpercent.png",
+                "com/fr/plugin/chart/demo/image/column3D.png",
+                "com/fr/plugin/chart/demo/image/column3D(cross).png",
+                "com/fr/plugin/chart/demo/image/columnstacked3D.png",
+                "com/fr/plugin/chart/demo/image/columnstackedpercent3D.png"
+        };
     }
 }
