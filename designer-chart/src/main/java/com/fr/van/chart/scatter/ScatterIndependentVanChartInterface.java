@@ -6,6 +6,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -33,6 +34,18 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartScatterPlotPane();
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Scatter");
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/25.png"
+        };
     }
 
     /**
@@ -83,9 +96,5 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot){
         return new VanChartScatterConditionPane(plot);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartScatterPlotPane.TITLE;
     }
 }

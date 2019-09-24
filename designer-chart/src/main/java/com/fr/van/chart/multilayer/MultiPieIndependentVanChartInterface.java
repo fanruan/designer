@@ -2,10 +2,8 @@ package com.fr.van.chart.multilayer;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.MultiPieChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.multilayer.other.VanChartMultiPieConditionPane;
@@ -27,9 +25,26 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
     }
 
     @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new MultiPieChartDataPane(listener);
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_MultiPie");
     }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/32.png"
+        };
+    }
+
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new MultiPieDataSetFieldsPane(), new MultiPieCellDataFieldsPane());
+//            }
+//        };
+//    }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new VanChartMultiPieSeriesPane(parent, plot);
@@ -39,7 +54,4 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         return new VanChartMultiPieConditionPane(plot);
     }
 
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartMultiPiePlotPane.TITLE;
-    }
 }

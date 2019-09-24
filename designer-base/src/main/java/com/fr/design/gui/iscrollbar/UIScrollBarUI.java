@@ -1326,9 +1326,9 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
                 newModel.addChangeListener(modelListener);
                 scrollbar.repaint();
                 scrollbar.revalidate();
-            } else if ("orientation" == propertyName) {
+            } else if (StringUtils.equals("orientation", propertyName)) {
                 updateButtonDirections();
-            } else if ("componentOrientation" == propertyName) {
+            } else if (StringUtils.equals("componentOrientation", propertyName)) {
                 updateButtonDirections();
                 InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
                 SwingUtilities.replaceUIInputMap(scrollbar, JComponent.WHEN_FOCUSED, inputMap);

@@ -148,6 +148,9 @@ public class FormCreatorDropTarget extends DropTarget {
                 // 取消前一个焦点容器的提示渲染器
                 designer.setPainter(null);
             }
+            if (container == null) {
+                throw new IllegalArgumentException("container can not be null!");
+            }
             //获取painter的时候要考虑布局之间嵌套的问题
             XLayoutContainer xLayoutContainer = container.getTopLayout();
             if (xLayoutContainer != null && xLayoutContainer.getParent() != null
@@ -215,7 +218,8 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dtde 事件
      */
-    public void dragEnter(DropTargetDragEvent dtde) {
+    @Override
+    public synchronized void dragEnter(DropTargetDragEvent dtde) {
         Point loc = dtde.getLocation();
         this.entering(loc.x, loc.y);
     }
@@ -225,7 +229,8 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dtde 事件
      */
-    public void dragOver(DropTargetDragEvent dtde) {
+    @Override
+    public synchronized void dragOver(DropTargetDragEvent dtde) {
         Point loc = dtde.getLocation();
         hovering(loc.x, loc.y);
     }
@@ -235,7 +240,8 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dtde 事件
      */
-    public void dropActionChanged(DropTargetDragEvent dtde) {
+    @Override
+    public synchronized void dropActionChanged(DropTargetDragEvent dtde) {
     }
 
     /**
@@ -243,7 +249,8 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dte 事件
      */
-    public void dragExit(DropTargetEvent dte) {
+    @Override
+    public synchronized void dragExit(DropTargetEvent dte) {
         this.exiting();
     }
 
@@ -252,7 +259,8 @@ public class FormCreatorDropTarget extends DropTarget {
      *
      * @param dtde 事件
      */
-    public void drop(DropTargetDropEvent dtde) {
+    @Override
+    public synchronized void drop(DropTargetDropEvent dtde) {
         Point loc = dtde.getLocation();
         this.adding(loc.x, loc.y);
         //针对在表单中拖入一个控件直接ctrl+s无反应

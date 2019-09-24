@@ -8,11 +8,12 @@ import com.fr.chart.charttypes.GisMapIndependentChart;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -73,7 +74,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map")
+				Toolkit.i18nText("Fine-Design_Chart_GIS_Map_OLD")
 		};
     }
 
@@ -139,9 +140,9 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 			}
 		}else{
 			String key = this.keyInput.getText().trim();
-			if(plot.isGisType() && key != plot.getBaiduKey()){
+			if(plot.isGisType() && !AssistUtils.equals(key,plot.getBaiduKey())){
 				plot.setBaiduKey(key);
-			}else if(!plot.isGisType() && key != plot.getGoogleKey()){
+			}else if(!plot.isGisType() && !AssistUtils.equals(key,plot.getGoogleKey())){
 				plot.setGoogleKey(key);
 			}
 		}
@@ -173,7 +174,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map");
+		return Toolkit.i18nText("Fine-Design_Chart_GIS_Map_OLD");
 	}
 
     /**

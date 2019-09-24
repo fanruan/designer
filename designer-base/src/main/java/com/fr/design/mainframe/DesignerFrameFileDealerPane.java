@@ -210,15 +210,17 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
     /**
      * 添加VcsAction
+     *
      * @param toolbarDef
      */
     private void addVcsAction(ToolBarDef toolbarDef) {
         if (VcsHelper.getInstance().needInit()) {
             vcsAction = new VcsAction();
-            if (FineClusterConfig.getInstance().isCluster()) {
-                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
-            } else {
+
+            if (WorkContext.getCurrent().isLocal()) {
                 vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
+            } else {
+                vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
             }
             toolbarDef.addShortCut(vcsAction);
 
@@ -365,8 +367,6 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 setEnabled(false);
                 return;
             }
-
-
 
 
             if (WorkContext.getCurrent() != null) {
@@ -532,7 +532,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String oldName = fnf.getName();
             String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replace(suffix, StringUtils.EMPTY);
+            oldName = StringUtils.replaceLast(oldName, suffix, StringUtils.EMPTY);
             this.setLayout(new BorderLayout());
             this.setModal(true);
 
@@ -651,7 +651,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             String oldName = fnf.getName();
             String suffix = fnf.isDirectory() ? StringUtils.EMPTY : oldName.substring(oldName.lastIndexOf(CoreConstants.DOT), oldName.length());
-            oldName = oldName.replaceAll(suffix, StringUtils.EMPTY);
+            oldName = StringUtils.replaceLast(oldName, suffix, StringUtils.EMPTY);
 
             // 输入为空或者没有修改
             if (ComparatorUtils.equals(userInput, oldName)) {

@@ -6,11 +6,11 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.XYScatterPlot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.charttypes.XYScatterIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 import com.fr.stable.Constants;
 
 /**
- * 散点图 属性表 选择类型 布局界面. 
+ * 散点图 属性表 选择类型 布局界面.
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午08:33:55
  */
@@ -28,7 +28,7 @@ public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter")
+		        Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter")
 		};
     }
 
@@ -47,11 +47,11 @@ public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_XYScatter");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter");
 	}
 
 	/**
-	 * 保存界面内容 
+	 * 保存界面内容
 	 */
 	public void updateBean(Chart chart) {
 
@@ -61,7 +61,7 @@ public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
 
 		XYScatterPlot plot = new XYScatterPlot();
 		chart.switchPlot(plot);
-		
+
 		ConditionAttr conditionAttr = plot.getConditionCollection().getDefaultAttr();
 		 AttrLineStyle lineStyle = (AttrLineStyle) conditionAttr.getConditionInType(AttrLineStyle.XML_TAG);
 		 if (lineStyle != null) {

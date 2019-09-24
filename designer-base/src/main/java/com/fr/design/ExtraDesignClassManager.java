@@ -20,6 +20,7 @@ import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.injectable.PluginSingleInjection;
 import com.fr.plugin.solution.closeable.CloseableContainedSet;
+import com.fr.stable.Filter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
 
     private Set<ShortCut> shortCuts = new CloseableContainedSet<>(HashSet.class);
-    
+
     public static ExtraDesignClassManager getInstance() {
         return classManager;
     }
@@ -111,24 +112,37 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         return result.toArray(new WidgetOption[result.size()]);
     }
 
-
     public WidgetOption[] getWebWidgetOptions() {
+        return getWebWidgetOptions(new Filter<ToolbarItemProvider>() {
+            @Override
+            public boolean accept(ToolbarItemProvider toolbarItemProvider) {
+                return true;
+            }
+        });
+    }
+
+    public WidgetOption[] getWebWidgetOptions(Filter<ToolbarItemProvider> filter) {
         Set<ToolbarItemProvider> set = getArray(ToolbarItemProvider.XML_TAG);
-        if (set.isEmpty()) {
+        return getWebWidgetOptions(set, filter);
+    }
+
+    public WidgetOption[] getWebWidgetOptions(Set<ToolbarItemProvider> set, Filter<ToolbarItemProvider> filter) {
+        if (set == null || set.isEmpty()) {
             return new WidgetOption[0];
         }
         List<WidgetOption> list = new ArrayList<>();
         for (ToolbarItemProvider provider : set) {
-            WidgetOption option = WidgetOptionFactory.createByWidgetClass(
-                    provider.nameForWidget(),
-                    IOUtils.readIcon(provider.iconPathForWidget()),
-                    provider.classForWidget()
-            );
-            list.add(option);
+            if (filter != null && filter.accept(provider)) {
+                WidgetOption option = WidgetOptionFactory.createByWidgetClass(
+                        provider.nameForWidget(),
+                        IOUtils.readIcon(provider.iconPathForWidget()),
+                        provider.classForWidget()
+                );
+                list.add(option);
+            }
         }
         return list.toArray(new WidgetOption[list.size()]);
     }
-
 
 
     public Map<Class<? extends Widget>, Class<?>> getFormWidgetOptionsMap() {
@@ -166,7 +180,6 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
         }
         return result.toArray(new WidgetOption[result.size()]);
     }
-
 
 
     public WidgetOption[] getCellWidgetOptions() {

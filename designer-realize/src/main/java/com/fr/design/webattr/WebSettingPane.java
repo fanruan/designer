@@ -122,8 +122,8 @@ public abstract class WebSettingPane<T extends WebContent> extends BasicBeanPane
 			choseComboBox.removeItemListener(itemListener);
 			choseComboBox.setSelectedIndex(SERVER_SET);
 			choseComboBox.addItemListener(itemListener);
-			checkEnabled(false);
 			populateServerSettings();
+			checkEnabled(false);
 			return;
 		}
 		// 模板设置

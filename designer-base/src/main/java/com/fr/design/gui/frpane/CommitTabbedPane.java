@@ -296,7 +296,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         double[] x = {startX, startX, startX + tabWidth, startX + tabWidth, startX};
         double[] y = {-1, getHeight(), getHeight(), -1, -1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(startX, 1, this.getWidth(), this.getHeight(), 7, 7);
-        g2d.setPaint(new GradientPaint(1, 1, new Color(255, 255, 255), 1, getHeight() - 1, UIConstants.NORMAL_BACKGROUND));
+        g2d.setPaint(new GradientPaint(1, 1, new Color(255, 255, 255), 1, getHeight() - 1f, UIConstants.NORMAL_BACKGROUND));
 
         GeneralPath generalPath = new GeneralPath(Path2D.WIND_EVEN_ODD, x.length);
         generalPath.moveTo((float) x[0] + CORNOR_RADIUS, (float) y[0]);
@@ -345,9 +345,9 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
         double[] x = {startX, startX, startX + tabWidth, startX + tabWidth, startX};
         double[] y = {-1, getHeight() - 1, getHeight() - 1, -1, -1};
         if (selfIndex == mouseOveredIndex) {
-            g2d.setPaint(new GradientPaint(1, 1, new Color(255, 255, 255), 1, getHeight() - 1, UIConstants.NORMAL_BACKGROUND));
+            g2d.setPaint(new GradientPaint(1, 1, new Color(255, 255, 255), 1, getHeight() - 1f, UIConstants.NORMAL_BACKGROUND));
         } else {
-            g2d.setPaint(new GradientPaint(1, 1, UIConstants.NORMAL_BACKGROUND, 1, getHeight() - 1, UIConstants.NORMAL_BACKGROUND));
+            g2d.setPaint(new GradientPaint(1, 1, UIConstants.NORMAL_BACKGROUND, 1, getHeight() - 1f, UIConstants.NORMAL_BACKGROUND));
         }
 
 

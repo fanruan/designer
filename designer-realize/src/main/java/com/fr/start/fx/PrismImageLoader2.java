@@ -1,6 +1,7 @@
 package com.fr.start.fx;
 
 import com.fr.concurrent.NamedThreadFactory;
+import com.fr.log.FineLoggerFactory;
 import com.sun.javafx.iio.ImageFrame;
 import com.sun.javafx.iio.ImageLoadListener;
 import com.sun.javafx.iio.ImageLoader;
@@ -79,6 +80,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
     @Override
+    @SuppressWarnings("squid:S2142")
     public PlatformImage getFrame(int index) {
         while (images[index] == null) {
             synchronized (this) {
@@ -86,7 +88,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
                     try {
                         this.wait();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                 }
             }
@@ -125,6 +127,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
 
+    @SuppressWarnings("squid:S244")
     private void loadAll(InputStream stream, int w, int h,
                          boolean preserveRatio, boolean smooth) {
         ImageLoadListener listener = new PrismLoadListener();

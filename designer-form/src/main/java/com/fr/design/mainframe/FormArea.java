@@ -23,6 +23,7 @@ import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.main.mobile.FormMobileAttr;
 import com.fr.form.ui.container.WBorderLayout;
 import com.fr.general.FRScreen;
+import com.fr.stable.AssistUtils;
 
 
 import javax.swing.JComponent;
@@ -188,7 +189,6 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
             value = value > SHOWVALMAX ? SHOWVALMAX : value;
             value = value < SHOWVALMIN ? SHOWVALMIN : value;
             JForm jf = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
-            jf.resolution = (int) value;
             jf.getFormDesign().setResolution((int) value);
             jf.getFormDesign().getArea().resolution = (int) value;
             reCalculateRoot(value, true);
@@ -226,7 +226,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 //        slidePane.populateBean(screenValue);
         if (root.acceptType(XWFitLayout.class)) {
             XWFitLayout layout = (XWFitLayout) root;
-            if (screenValue != DEFAULT_SLIDER) {
+            if ( !AssistUtils.equals(screenValue, DEFAULT_SLIDER) ) {
                 reCalculateRoot(screenValue, true);
             } else {
                 // 组件间隔啊
@@ -354,7 +354,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
 //    	double value = slidePane.updateBean();
         //重置滑块的值为默认值100
         START_VALUE = DEFAULT_SLIDER;
-        if (screenValue == DEFAULT_SLIDER) {
+        if ( AssistUtils.equals(screenValue, DEFAULT_SLIDER) ) {
             layout.getParent().setSize(width, height + designer.getParaHeight());
             FormArea.this.validate();
         } else {
@@ -370,7 +370,7 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
      * @param value
      */
     private void reCalculateRoot(double value, boolean needCalculateParaHeight) {
-        if (value == START_VALUE) {
+        if ( AssistUtils.equals(value, START_VALUE) ) {
             return;
         }
         double percent = (value - START_VALUE) / START_VALUE;
@@ -734,15 +734,15 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
         this.horicalMax = (int) totalSize.getHeight();
         // 撤销时会refreshRoot，导致layout大小变为默认大小
         // 按照之前设置的宽高和百分比重置下容器size
-        if (width != widthPane.getValue()) {
+        if ( !AssistUtils.equals(width, widthPane.getValue()) ) {
             widthPane.setValue(width);
             reCalculateWidth((int) width);
         }
-        if (height != heightPane.getValue()) {
+        if ( !AssistUtils.equals(height, heightPane.getValue()) ) {
             heightPane.setValue(height);
             reCalculateHeight((int) height);
         }
-        if (designer.getRootComponent().acceptType(XWFitLayout.class) && slide == DEFAULT_SLIDER) {
+        if (designer.getRootComponent().acceptType(XWFitLayout.class) && AssistUtils.equals(slide, DEFAULT_SLIDER) ) {
             XWFitLayout layout = (XWFitLayout) designer.getRootComponent();
             // 撤销时先refreshRoot了，此处去掉内边距再增加间隔
             layout.moveContainerMargin();
@@ -817,6 +817,9 @@ public class FormArea extends JComponent implements ScrollRulerComponent {
                 Rectangle rec = new Rectangle(left + (right - DESIGNERWIDTH) / 2, TOPGAP, right, bottom);
                 //是否为表单
                 if (isValid) {
+                    if (hbarPreferredSize == null) {
+                        throw new IllegalArgumentException("hbarPreferredSize can not be null!");
+                    }
                     int maxHeight = bottom - hbarPreferredSize.height - resize.height - TOPGAP * 2;
                     int maxWidth = right - vbarPreferredSize.width;
                     DESIGNERWIDTH = DESIGNERWIDTH > maxWidth ? maxWidth : DESIGNERWIDTH;

@@ -3,15 +3,15 @@ package com.fr.design.chart;
  * the Pane of the Chart
  */
 
-import com.fr.chart.base.ChartInternationalNameContentBean;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -28,29 +28,7 @@ import java.awt.Component;
 public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
 
-    private ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstanceWithCheck().getAllChartBaseNames();
-    private ChartProvider[][] charts4Icon = null;
-
-    {
-        charts4Icon = new ChartProvider[this.typeName.length][];
-        for (int i = 0; i < this.typeName.length; i++) {
-            ChartProvider[] rowCharts = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.typeName[i].getChartID());
-            int rowChartsCount = rowCharts.length;
-            charts4Icon[i] = new ChartProvider[rowChartsCount];
-            for (int j = 0; j < rowChartsCount; j++) {
-                try {
-                    charts4Icon[i][j] = (ChartProvider) rowCharts[j].clone();
-                    //todo@shinerefactor 老图表也是提供一张图片 这边就不用setTitle(null) 然后实时去画
-//                    charts4Icon[i][j].setTitle(null);
-//                    if(charts4Icon[i][j].getPlot() != null){
-//                        charts4Icon[i][j].getPlot().setLegend(null);
-//                    }
-                } catch (CloneNotSupportedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-        }
-    }
+    private String[] chartIDs = ChartTypeManager.getInstanceWithCheck().getAllChartIDs();
 
     private JList mainTypeList = null;
     private JList iconViewList = null;
@@ -61,8 +39,8 @@ public class ChartTypePane extends ChartCommonWizardPane {
         DefaultListModel defaultListModel = new DefaultListModel();
         mainTypeList = new JList(defaultListModel);
 
-        for (int i = 0; i < typeName.length; i++) {
-            defaultListModel.insertElementAt(InterProviderFactory.getProvider().getLocText(typeName[i].getName()), i);
+        for (int i = 0; i < chartIDs.length; i++) {
+            defaultListModel.insertElementAt(ChartTypeInterfaceManager.getInstance().getName(chartIDs[i]), i);
         }
         mainTypeList.addListSelectionListener(listSelectionListener);
 
@@ -115,11 +93,15 @@ public class ChartTypePane extends ChartCommonWizardPane {
     protected ListSelectionListener listSelectionListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e) {
             int main_index = mainTypeList.getSelectedIndex();
-            ChartProvider[] sub_charts = ChartTypePane.this.charts4Icon[main_index];
+            String id = ChartTypePane.this.chartIDs[main_index];
+
+            String[] demoImagePath = ChartTypeInterfaceManager.getInstance().getDemoImagePath(id);
+            String[] subName = ChartTypeInterfaceManager.getInstance().getSubName(id);
+
             ChartTypePane.this.iconListModel.clear();
-            for (int i = 0; i < sub_charts.length; i++) {
-                String ImagePath = sub_charts[i].demoImagePath();
-                String chartName = sub_charts[i].getChartName();
+            for (int i = 0, len = subName.length; i < len; i++) {
+                String ImagePath = demoImagePath.length > i ? demoImagePath[i] : StringUtils.EMPTY;
+                String chartName = subName[i];
                 ChartTypePane.this.iconListModel.addElement(new ChartIcon(ImagePath, chartName));
             }
             iconViewList.setSelectedIndex(0);
@@ -143,7 +125,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
 
         ChartProvider chart4Update = cc.getSelectedChartProvider();
         if (chart4Update == null) {
-            String plotID = typeName[mainTypeList.getSelectedIndex()].getChartID();
+            String plotID = this.chartIDs[mainTypeList.getSelectedIndex()];
             ChartProvider chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
             try {
                 chart4Update = (ChartProvider) chart.clone();

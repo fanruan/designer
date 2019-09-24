@@ -20,6 +20,7 @@ import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 import com.fr.workspace.server.vcs.filesystem.VcsFileSystem;
+import com.fr.workspace.server.vcs.git.config.GcConfig;
 
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
@@ -145,6 +146,9 @@ public class VcsHelper implements JTemplateActionListener {
                 VcsEntity oldEntity = WorkContext.getCurrent().get(VcsOperator.class).getFileVersionByIndexAndUsername(fileName, getCurrentUsername(), 1);
                 if (needDeleteVersion(oldEntity)) {
                     operator.deleteVersion(oldEntity.getFilename(), oldEntity.getVersion());
+                }
+                if (GcConfig.getInstance().isGcEnable()) {
+                    operator.gc();
                 }
 
             }

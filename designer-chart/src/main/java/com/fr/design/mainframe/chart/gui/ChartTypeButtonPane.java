@@ -178,9 +178,8 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
      */
     public ChartProvider getChangeStateNewChart() {
         ChartProvider chart = editingCollection.getSelectedChartProvider();
-        String priority = ChartTypeManager.VAN_CHART_PRIORITY;
-        //todo@shinerefactor
-        // chart.getPriority();
+        String chartID = chart.getID();
+        String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
         return ChartTypeManager.getInstanceWithCheck().getFirstChart(priority);
     }
 

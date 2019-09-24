@@ -3016,11 +3016,6 @@ private boolean fractionalFontMetricsEnabled;
 			return he;
 		}
 
-		private final boolean equal(LinkGeneratorResult e1,
-				LinkGeneratorResult e2) {
-			return e1.getSourceOffset()==e2.getSourceOffset();
-		}
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (getHyperlinksEnabled() && isScanningForLinks &&
@@ -3080,8 +3075,7 @@ private boolean fractionalFontMetricsEnabled;
 							isLinkAtOffset(RSyntaxTextArea.this, offs);
 					if (newResult!=null) {
 						// Repaint if we're at a new link now.
-						if (linkGeneratorResult==null ||
-								!equal(newResult, linkGeneratorResult)) {
+						if (linkGeneratorResult==null || newResult.getSourceOffset() != linkGeneratorResult.getSourceOffset()) {
 							repaint();
 						}
 						linkGeneratorResult = newResult;

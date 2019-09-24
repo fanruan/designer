@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart;
 
 
+import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
@@ -130,6 +131,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     };
 
+    @Deprecated
+    public void reLayout(Chart currentChart) {
+    }
+
     /**
      * 重新构造面板
      * @param currentChart 图表
@@ -225,8 +230,14 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             return;
         }
 
-        if (checkNeedsReLayout(collection.getSelectedChartProvider())) {
-            reLayout(collection.getSelectedChartProvider());
+        ChartProvider chartProvider = collection.getSelectedChartProvider();
+        if (checkNeedsReLayout(chartProvider)) {
+            String chartID = chartProvider.getID();
+            if ("WaferChipChart".equals(chartID) || "BoxPlotChart".equals(chartID)) {
+                reLayout((Chart)chartProvider);
+            } else {
+                reLayout(chartProvider);
+            }
         }
 
         this.collection = collection;

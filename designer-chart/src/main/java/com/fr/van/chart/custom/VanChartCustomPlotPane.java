@@ -10,7 +10,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.custom.CustomDefinition;
@@ -35,7 +34,6 @@ import java.util.Map;
  * Created by Mitisky on 16/2/16.
  */
 public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Combine");
 
     //是否选择自定义
     private boolean isCustom = false;
@@ -113,26 +111,6 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
         };
     }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column_Line"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Column_Area"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_StackColumn_Line"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Custom_Combine")
-        };
-    }
-
-    @Override
-    /**
-     * 返回界面标题
-     * @return 界面标题
-     */
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Combine");
-    }
-
 
     @Override
     public void updateBean(Chart chart) {
@@ -239,16 +217,6 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
         checkDemosBackground();
 
-    }
-
-    /**
-     * 获取各图表类型界面ID, 本质是plotID
-     *
-     * @return 图表类型界面ID
-     */
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartCustomPlot.VAN_CHART_CUSTOM_PLOT_ID;
     }
 
     protected Plot getSelectedClonedPlot() {

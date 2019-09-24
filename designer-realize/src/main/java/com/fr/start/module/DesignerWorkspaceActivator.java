@@ -6,12 +6,10 @@ import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.module.Activator;
 import com.fr.start.server.FineEmbedServer;
-import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2019-06-14.
@@ -22,7 +20,6 @@ public class DesignerWorkspaceActivator extends Activator {
     public void start() {
 
         registerEnvListener();
-        startServer(WorkContext.getCurrent());
     }
 
     /**
@@ -36,7 +33,7 @@ public class DesignerWorkspaceActivator extends Activator {
             @Override
             public void on(Event event, Workspace current) {
 
-                getSub(EnvBasedModule.class).stop();
+                stopSub(EnvBasedModule.class);
             }
         });
         /*切换环境后，重新启动所有相关模块，最先执行*/
@@ -45,8 +42,7 @@ public class DesignerWorkspaceActivator extends Activator {
             @Override
             public void on(Event event, Workspace current) {
 
-                getSub(EnvBasedModule.class).start();
-                startServer(current);
+                startSub(EnvBasedModule.class);
             }
         });
         /*切换环境前，存储一下打开的所有文件对象，要先于 关闭相关模块部分 被触发*/
@@ -74,7 +70,8 @@ public class DesignerWorkspaceActivator extends Activator {
 
         // 切换后的环境是本地环境才启动内置服务器
         if (current.isLocal()) {
-            ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("DesignerWorkspaceActivator"));
+            ExecutorService service = newSingleThreadExecutor(
+                    new NamedThreadFactory("DesignerWorkspaceActivator"));
             service.submit(new Runnable() {
 
                 @Override

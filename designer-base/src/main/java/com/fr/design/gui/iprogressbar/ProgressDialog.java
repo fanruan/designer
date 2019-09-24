@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 
-
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +46,7 @@ public class ProgressDialog extends UIDialog {
         progressBar.setBorderPainted(false);
         progressBar.setOpaque(false);
         progressBar.setBorder(null);
+        progressBar.setMaximum(1000);
         panel.add(progressBar, BorderLayout.CENTER);
         text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Project"), JLabel.CENTER);
         FRFont font = FRFont.getInstance().applySize(14).applyForeground(new ColorUIResource(333334));
@@ -54,7 +54,6 @@ public class ProgressDialog extends UIDialog {
         panel.add(text, BorderLayout.SOUTH);
         panel.setVisible(true);
         centerDialog.getContentPane().add(panel);
-
     }
 
     @Override
@@ -72,11 +71,20 @@ public class ProgressDialog extends UIDialog {
         progressBar.setValue(value);
     }
 
+    public void setProgressMaximum(int value) {
+        progressBar.setMaximum(value);
+    }
+
+    public int getProgressMaximum() {
+        return progressBar.getMaximum();
+    }
+
     @Override
     public void dispose() {
         centerDialog.dispose();
         super.dispose();
     }
+
     public void updateLoadingText(String text) {
         this.text.setText(text);
     }

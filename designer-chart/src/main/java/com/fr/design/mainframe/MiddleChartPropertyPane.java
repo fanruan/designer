@@ -91,7 +91,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      * @param ePane  面板
      */
 	public void populateChartPropertyPane(ChartCollection collection, TargetComponent<?> ePane) {
-		addChartEditPane(collection.getSelectedChart().getPlot().getPlotID());
+		addChartEditPane(collection.getSelectedChartProvider().getID());
 		setSupportCellData(true);
 		this.container.setEPane(ePane);
 		chartEditPane.populate(collection);
