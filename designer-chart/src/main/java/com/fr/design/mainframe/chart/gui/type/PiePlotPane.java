@@ -35,15 +35,6 @@ public class PiePlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		String pie = Toolkit.i18nText("Fine-Design_Chart_Type_Pie");
-		return new String[]{
-                pie,
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
-        };
-	}
-
-	@Override
     protected String[] getTypeLayoutPath() {
         return new String[]{"/com/fr/design/images/chart/PiePlot/layout/0.png",
                 "/com/fr/design/images/chart/PiePlot/layout/1.png",

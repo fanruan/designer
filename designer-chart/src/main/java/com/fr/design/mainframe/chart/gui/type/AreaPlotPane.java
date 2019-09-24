@@ -33,20 +33,6 @@ public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 	}
 
 	@Override
-	protected String[] getTypeTipName() {
-		String area = Toolkit.i18nText("Fine-Design_Chart_Type_Area");
-		String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
-		String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-		String td = Toolkit.i18nText("Fine-Design_Chart_3D");
-		return new String[]{
-				stack + area,
-				percent + stack + area,
-				td + stack + area,
-				td + percent + stack + area
-		};
-	}
-
-	@Override
 	protected String getPlotTypeID() {
 		return ChartConstants.AREA_CHART;
 	}

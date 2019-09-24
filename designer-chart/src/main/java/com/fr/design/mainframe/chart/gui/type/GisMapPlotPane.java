@@ -27,7 +27,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	private static final int GISMAP = 0;
 	
 	private UITextField keyInput;
-	
+
 	public GisMapPlotPane(){
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
@@ -63,6 +63,11 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
 	
+	}
+
+	@Override
+	public void reLayout(String chartID){
+
 	}
 
     @Override

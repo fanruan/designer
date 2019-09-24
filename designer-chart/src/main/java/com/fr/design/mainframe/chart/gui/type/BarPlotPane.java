@@ -31,23 +31,6 @@ public class BarPlotPane extends AbstractBarPane{
 	}
 
     @Override
-    protected String[] getTypeTipName() {
-        String bar = Toolkit.i18nText("Fine-Design_Chart_Type_Bar");
-        String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
-        String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-        String td = Toolkit.i18nText("Fine-Design_Chart_3D");
-        return new String[]{
-                bar,
-                stack + bar,
-                percent + stack + bar,
-                td + bar,
-                td + bar + "(" + Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal") + ")",
-                td + stack + bar,
-                td + percent + stack + bar
-        };
-    }
-
-    @Override
 	protected String[] getTypeLayoutPath() {
 		return new String[]{"/com/fr/design/images/chart/ColumnPlot/layout/0.png",
                 "/com/fr/design/images/chart/ColumnPlot/layout/1.png",

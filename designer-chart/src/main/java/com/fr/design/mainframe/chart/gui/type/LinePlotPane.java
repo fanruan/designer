@@ -20,13 +20,6 @@ public class LinePlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				Toolkit.i18nText("Fine-Design_Chart_Type_Line")
-		};
-    }
-
-	@Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }
