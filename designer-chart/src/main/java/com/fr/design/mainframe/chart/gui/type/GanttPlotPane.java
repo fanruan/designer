@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.GanttIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 
 
 /**
@@ -25,7 +25,7 @@ public class GanttPlotPane extends AbstractDeprecatedChartTypePane {
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt")
+				Toolkit.i18nText("Fine-Design_Chart_Type_Gantt")
 		};
     }
 
@@ -48,7 +48,7 @@ public class GanttPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Gantt");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Gantt");
 	}
 
 	/**

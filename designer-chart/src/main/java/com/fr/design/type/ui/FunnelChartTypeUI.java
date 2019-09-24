@@ -1,10 +1,11 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.impl.FunnelPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -18,7 +19,7 @@ import com.fr.design.mainframe.chart.gui.type.FunnelPlotPane;
 /**
  * Created by eason on 15/4/21.
  */
-public class FunnelIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class FunnelChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
 
     public AbstractChartTypePane getPlotTypePane(){
@@ -49,4 +50,22 @@ public class FunnelIndependentChartInterface extends AbstractIndependentChartUIW
         return "com/fr/design/images/form/toolbar/ChartF-Funnel.png";
     }
 
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Funnel");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Type_Funnel")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/funnel.png"
+        };
+    }
 }

@@ -1,4 +1,4 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
@@ -6,6 +6,7 @@ import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.DataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.impl.StockPlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -19,7 +20,7 @@ import com.fr.design.mainframe.chart.gui.type.StockPlotPane;
 /**
  * Created by eason on 15/4/21.
  */
-public class StockIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class StockChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
 
     public AbstractChartTypePane getPlotTypePane(){
@@ -50,4 +51,22 @@ public class StockIndependentChartInterface extends AbstractIndependentChartUIWi
         return "com/fr/design/images/form/toolbar/ChartF-Stock.png";
     }
 
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Stock");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Type_Stock")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/stock.png"
+        };
+    }
 }

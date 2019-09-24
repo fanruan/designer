@@ -1,4 +1,4 @@
-package com.fr.design.chartinterface;
+package com.fr.design.type.ui;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
@@ -6,6 +6,7 @@ import com.fr.design.chart.fun.impl.AbstractIndependentChartUIWithAPILevel;
 import com.fr.design.chart.series.SeriesCondition.impl.Pie3DPlotDataSeriesConditionPane;
 import com.fr.design.chart.series.SeriesCondition.impl.PiePlotDataSeriesConditionPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
@@ -20,35 +21,57 @@ import com.fr.design.mainframe.chart.gui.type.PiePlotPane;
 /**
  * Created by eason on 15/4/21.
  */
-public class PieIndependentChartInterface extends AbstractIndependentChartUIWithAPILevel {
+public class PieChartTypeUI extends AbstractIndependentChartUIWithAPILevel {
 
 
-    public AbstractChartTypePane getPlotTypePane(){
+    public AbstractChartTypePane getPlotTypePane() {
         return new PiePlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new PiePlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new PiePlotReportDataContentPane(parent);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return plot.isSupport3D() ? new Pie3DSeriesPane(parent, plot) : new Pie2DSeriesPane(parent, plot);
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return plot.isSupport3D() ? new Pie3DPlotDataSeriesConditionPane() : new PiePlotDataSeriesConditionPane();
     }
 
     /**
-     *图标路径
+     * 图标路径
+     *
      * @return 图标路径
      */
-    public String getIconPath(){
+    public String getIconPath() {
         return "com/fr/design/images/form/toolbar/ChartF-Pie.png";
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Pie");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Type_Pie"),
+                Toolkit.i18nText("Fine-Design_Chart_3D") + Toolkit.i18nText("Fine-Design_Chart_Type_Pie")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/pie.png",
+                "com/fr/plugin/chart/demo/image/pie3D.png",
+        };
     }
 
 }
