@@ -9,10 +9,8 @@ public class VanChartLineWidthPane extends VanChartLineTypePane {
     private static final long serialVersionUID = 4537158946119294689L;
 
     @Override
-    protected Component[][] createContentComponent(Component[] lineTypeComponent, Component[] lineWidthComponent, Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
+    protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
         return new Component[][]{
-                lineTypeComponent,
-                lineWidthComponent,
                 nullValueBreakComponent
         };
     }

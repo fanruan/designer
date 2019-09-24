@@ -16,23 +16,20 @@ public class VanChartScatterLineTypePane extends VanChartLineTypePane {
     @Override
     protected void createLineStyle() {
         String[] textArray = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Normal_Line"),
-                                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
         lineStyle = new UIButtonGroup<LineStyle>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
     }
 
     @Override
-    protected Component[][] createContentComponent(Component[] lineTypeComponent, Component[] lineWidthComponent, Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
+    protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
         return new Component[][]{
-                new Component[]{null, null},
-                lineTypeComponent,
-                lineWidthComponent,
                 lineStyleComponent
         };
     }
 
     @Override
     protected VanChartAttrLine initVanChartAttrLine() {
-        VanChartAttrLine attrLine =  new VanChartAttrLine();
+        VanChartAttrLine attrLine = new VanChartAttrLine();
         //默认为无线型，且默認空值不斷開
         attrLine.setLineType(LineType.NONE);
         attrLine.setNullValueBreak(false);

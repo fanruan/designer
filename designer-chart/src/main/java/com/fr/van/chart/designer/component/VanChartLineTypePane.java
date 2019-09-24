@@ -32,10 +32,11 @@ public class VanChartLineTypePane extends BasicPane {
     protected UIButtonGroup<LineStyle> lineStyle;//形态
     private UIButtonGroup nullValueBreak;//空值断开
 
-    public VanChartLineTypePane() {
-        lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
+    private JPanel lineWidthPane;
 
-        lineWidthSpinner = new UISpinner(0.5, Integer.MAX_VALUE, 0.5, 2);
+    public VanChartLineTypePane() {
+
+        JPanel typeAndWidthPane = createTypeAndWidthPane();
 
         createLineStyle();
 
@@ -52,14 +53,10 @@ public class VanChartLineTypePane extends BasicPane {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
 
-        Component[] lineTypeComponent = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineTypeComboBox},
-                lineWidthComponent = new Component[]{
-                        FRWidgetFactory.createLineWrapLabel(Toolkit.i18nText("Fine-Design_Chart_Line_Width")),
-                        UIComponentUtils.wrapWithBorderLayoutPane(lineWidthSpinner)},
-                lineStyleComponent = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Style_Present")), lineStyle},
+        Component[] lineStyleComponent = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Style_Present")), lineStyle},
                 nullValueBreakComponent = new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Null_Value_Break")), nullValueBreak};
 
-        Component[][] components = createContentComponent(lineTypeComponent, lineWidthComponent, lineStyleComponent, nullValueBreakComponent);
+        Component[][] components = createContentComponent(lineStyleComponent, nullValueBreakComponent);
 
         double[] row = new double[components.length];
         Arrays.fill(row, p);
@@ -67,16 +64,45 @@ public class VanChartLineTypePane extends BasicPane {
 
         JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(0, 6));
+        this.add(typeAndWidthPane, BorderLayout.NORTH);
         this.add(contentPane, BorderLayout.CENTER);
     }
 
     private JPanel createTypeAndWidthPane() {
-        //todo@shinerefactor:当前兼容工作到这边，因为finekit和移动端，暂停
-        JPanel panel = new JPanel(new BorderLayout(0, 6));
 
+        lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
 
-        return panel;
+        lineWidthSpinner = new UISpinner(0.5, Integer.MAX_VALUE, 0.5, 2);
+
+        lineTypeComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkLineWidth();
+            }
+        });
+
+        Component[][] lineTypeComps = new Component[][]{
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineTypeComboBox}
+        };
+        Component[][] lineWidthComps = new Component[][]{
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(Toolkit.i18nText("Fine-Design_Chart_Line_Width")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(lineWidthSpinner)}
+        };
+
+        double p = TableLayout.PREFERRED, f = TableLayout.FILL, e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] row = {p}, col = {f, e};
+
+        JPanel lineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineTypeComps, row, col);
+        lineWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineWidthComps, row, col);
+
+        JPanel contentPane = new JPanel(new BorderLayout(0, 6));
+
+        contentPane.add(lineTypePane, BorderLayout.CENTER);
+        contentPane.add(lineWidthPane, BorderLayout.SOUTH);
+
+        return contentPane;
     }
 
     protected void createLineStyle() {
@@ -85,25 +111,21 @@ public class VanChartLineTypePane extends BasicPane {
         lineStyle = new UIButtonGroup<LineStyle>(textArray, LineStyle.values());
     }
 
-    protected Component[][] createContentComponent(Component[] lineTypeComponent, Component[] lineWidthComponent,
-                                                   Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
+    protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
         return new Component[][]{
-                new Component[]{null,null},
-                lineTypeComponent,
-                lineWidthComponent,
                 lineStyleComponent,
                 nullValueBreakComponent
         };
     }
 
     private void checkLineWidth() {
-        if (lineWidthSpinner != null && lineTypeComboBox != null) {
-            lineWidthSpinner.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(), LineType.NONE));
+        if (lineWidthPane != null && lineTypeComboBox != null) {
+            lineWidthPane.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(), LineType.NONE));
         }
     }
 
-    public void checkLarge(boolean large){
-        if(large){
+    public void checkLarge(boolean large) {
+        if (large) {
             lineTypeComboBox.setSelectedItem(LineType.NONE);
         }
         lineTypeComboBox.setEnabled(!large);
