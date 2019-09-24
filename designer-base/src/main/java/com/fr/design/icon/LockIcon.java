@@ -35,7 +35,7 @@ public class LockIcon extends ImageIcon {
     }
 
     @Override
-    public void paintIcon(Component c, Graphics g, int x, int y) {
+    public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
         if (mainImage != null) {
             g.drawImage(mainImage, x, y, c);
         }

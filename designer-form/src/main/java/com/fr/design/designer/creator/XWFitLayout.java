@@ -21,6 +21,7 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.FRLogger;
 import com.fr.general.FRScreen;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -72,7 +73,7 @@ public class XWFitLayout extends XLayoutContainer {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension scrnsize = toolkit.getScreenSize();
 		double screenValue = FRScreen.getByDimension(scrnsize).getValue();
-		if(screenValue != FormArea.DEFAULT_SLIDER){
+		if (!AssistUtils.equals(FormArea.DEFAULT_SLIDER, screenValue)) {
 			this.setContainerPercent(screenValue / FormArea.DEFAULT_SLIDER);
 		}
 	}
@@ -717,7 +718,7 @@ public class XWFitLayout extends XLayoutContainer {
 	 * 界面容器大小不是默认的时，处理控件的BoundsWidget，且避免出现空隙
 	 */
 	private Rectangle dealWidgetBound(Rectangle rec) {
-		if (containerPercent == 1.0) {
+		if (AssistUtils.equals(1.0, containerPercent)) {
 			return rec;
 		}
 		rec.x = (int) (rec.x/containerPercent);
@@ -731,7 +732,7 @@ public class XWFitLayout extends XLayoutContainer {
 	 * 界面容器大小不是默认的时，恢复组件实际大小
 	 */
 	private Rectangle dealWgtBound(Rectangle rec) {
-		if (containerPercent == 1.0) {
+		if (AssistUtils.equals(1.0, containerPercent)) {
 			return rec;
 		}
 		rec.x = (int) (rec.x * containerPercent);

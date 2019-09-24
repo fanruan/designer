@@ -5,6 +5,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -30,6 +31,29 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartStructureTypePane();
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Structure");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Vertical_Structure"),
+                Toolkit.i18nText("Fine-Design_Chart_Horizontal_Structure"),
+                Toolkit.i18nText("Fine-Design_Chart_Radial_Structure")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/45.png",
+                "com/fr/plugin/chart/demo/image/46.png",
+                "com/fr/plugin/chart/demo/image/47.png"
+        };
     }
 
     @Override
@@ -74,4 +98,9 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartStructureConditionPane(plot);
     }
+
+   /* @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new StructureChartDataPane(listener);
+    }*/
 }

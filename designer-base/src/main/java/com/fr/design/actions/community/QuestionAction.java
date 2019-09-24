@@ -10,38 +10,37 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 
-public class QuestionAction extends UpdateAction
-{
+public class QuestionAction extends UpdateAction {
 
-	public QuestionAction()
-	{ this.setMenuKeySet(QUESTIONS);
-    this.setName(getMenuKeySet().getMenuName());
-    this.setMnemonic(getMenuKeySet().getMnemonic());
-    this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/question.png"));
-	
-}
+    public QuestionAction() {
+        this.setMenuKeySet(QUESTIONS);
+        this.setName(getMenuKeySet().getMenuName());
+        this.setMnemonic(getMenuKeySet().getMnemonic());
+        this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/bbs/question.png"));
 
-@Override
-public void actionPerformed(ActionEvent arg0)
-{
-	 String url = CloudCenter.getInstance().acquireUrlByKind("bbs.questions");
-     BrowseUtils.browser(url);
-}
- public static final MenuKeySet QUESTIONS = new MenuKeySet() {
-       @Override
-       public char getMnemonic() {
-           return 'Q';
-       }
+    }
 
-       @Override
-       public String getMenuName() {
-           return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community_Questions");
-       }
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        String url = CloudCenter.getInstance().acquireUrlByKind("bbs.questions");
+        BrowseUtils.browser(url);
+    }
 
-       @Override
-       public KeyStroke getKeyStroke() {
-           return null;
-       }
-   };
+    public static final MenuKeySet QUESTIONS = new MenuKeySet() {
+        @Override
+        public char getMnemonic() {
+            return 'Q';
+        }
+
+        @Override
+        public String getMenuName() {
+            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community_Questions");
+        }
+
+        @Override
+        public KeyStroke getKeyStroke() {
+            return null;
+        }
+    };
 
 }

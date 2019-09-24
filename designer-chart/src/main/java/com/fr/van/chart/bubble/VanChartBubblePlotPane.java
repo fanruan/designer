@@ -19,7 +19,6 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/3/31.
  */
 public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bubble");;
 
     private static final long serialVersionUID = -3481633368542654247L;
 
@@ -34,38 +33,11 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
         };
     }
 
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Force_Bubble")
-        };
-    }
-
-    /**
-     * 返回界面标题
-     * @return 界面标题
-     */
-    public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Bubble");
-    }
-
-
     private void removeDefaultAttr(ConditionAttr conditionAttr, Class <? extends DataSeriesCondition> targetClass) {
         DataSeriesCondition attr = conditionAttr.getExisted(targetClass);
         if (attr != null){
             conditionAttr.remove(targetClass);
         }
-    }
-
-    /**
-     * 获取各图表类型界面ID, 本质是plotID
-     *
-     * @return 图表类型界面ID
-     */
-    @Override
-    protected String getPlotTypeID() {
-        return VanChartBubblePlot.VAN_CHART_BUBBLE_PLOT_ID;
     }
 
     protected Plot getSelectedClonedPlot(){

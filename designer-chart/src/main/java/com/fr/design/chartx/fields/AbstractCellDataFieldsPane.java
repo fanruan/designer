@@ -13,9 +13,9 @@ import com.fr.stable.StringUtils;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.util.Arrays;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.util.Arrays;
 
 /**
  * Created by shine on 2019/5/16.
@@ -31,9 +31,21 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
 
         this.setLayout(new BorderLayout(0, 6));
 
-        this.add(createNorthPane(), BorderLayout.NORTH);
-        this.add(createCenterPane(), BorderLayout.CENTER);
-        this.add(createSouthPane(), BorderLayout.SOUTH);
+        JPanel north = createNorthPane(),
+                center = createCenterPane(),
+                south = createSouthPane();
+
+        if (north != null) {
+            this.add(north, BorderLayout.NORTH);
+        }
+
+        if (center != null) {
+            this.add(center, BorderLayout.CENTER);
+        }
+
+        if (south != null) {
+            this.add(south, BorderLayout.SOUTH);
+        }
 
         this.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
     }
@@ -53,7 +65,6 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
             components[i] = new Component[]{new UILabel(labels[i], SwingConstants.LEFT), formulaPanes[i]};
         }
 
-
         double p = TableLayout.PREFERRED;
         double[] columnSize = {ChartDataPane.LABEL_WIDTH, 124};
         double[] rowSize = new double[len];
@@ -64,11 +75,11 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
 
 
     protected JPanel createNorthPane() {
-        return new JPanel();
+        return null;
     }
 
     protected JPanel createSouthPane() {
-        return new JPanel();
+        return null;
     }
 
     protected Component[] fieldComponents() {

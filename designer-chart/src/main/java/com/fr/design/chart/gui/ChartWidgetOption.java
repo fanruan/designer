@@ -37,7 +37,7 @@ public class ChartWidgetOption extends WidgetOption {
 		Class<? extends ChartEditor> clz = widgetClass();
 		try {
 			ChartEditor widget = clz.newInstance();
-			widget.setChartCollection(BaseChartGetter.createChartCollection(this.chartID));
+			widget.resetChangeChartCollection(BaseChartGetter.createChartCollection(this.chartID));
 			return widget;
 		} catch (InstantiationException e) {
 			FineLoggerFactory.getLogger().error(e.getMessage(), e);

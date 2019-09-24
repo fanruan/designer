@@ -1,5 +1,7 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.info.UpdateCallBack;
+import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.UIDialog;
@@ -10,8 +12,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.update.actions.FileDownloader;
-import com.fr.design.update.domain.DownloadItem;
+import com.fr.design.update.actions.FileProcess;
 import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.update.domain.UpdateInfoCachePropertyManager;
 import com.fr.design.update.factory.DirectoryOperationFactory;
@@ -27,7 +28,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.DateUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
 import com.fr.general.SiteCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
@@ -39,18 +39,10 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-import com.fr.stable.project.ProjectConstants;
-import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
@@ -67,19 +59,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -107,7 +94,6 @@ public class UpdateMainDialog extends UIDialog {
     private static final SimpleDateFormat CHANGELOG_FORMAT = new SimpleDateFormat("M/d/y, h:m:s a", Locale.ENGLISH);
     private static final SimpleDateFormat UPDATE_INFO_TABLE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
 
-    private Set<DownloadItem> downloadItems = new HashSet<DownloadItem>();
     private JSONObject downloadFileConfig;
     //最新版本标签
     private LoadingLabel loadingLabel;
@@ -166,14 +152,12 @@ public class UpdateMainDialog extends UIDialog {
     public void setAutoUpdateAfterInit() {
         autoUpdateAfterInit = true;
     }
-
     private void initUpdateActionPane() {
         double[] rowUpdateSubContentPaneSize = {UPDATE_CONTENT_PANE_ROW_SIZE, TableLayout.PREFERRED, UPDATE_CONTENT_PANE_ROW_SIZE};
         double[] rowUpdateContentPaneSize = {TableLayout.PREFERRED};
         double[] columnUpdateSubContentPaneProgressSize = {TableLayout.FILL, TableLayout.PREFERRED};
         double[] columnUpdateSubContentPaneSize = {UPDATE_CONTENT_PANE_COLUMN_SIZE, TableLayout.FILL, TableLayout.PREFERRED};
         JPanel progressBarPane = new JPanel(new BorderLayout());
-
         progressBar = new JProgressBar();
         progressBar.setUI(new MotifProgressBarUI());
         progressBar.setForeground(UpdateConstants.BAR_COLOR);
@@ -601,62 +585,6 @@ public class UpdateMainDialog extends UIDialog {
             }
             break;
         }
-
-        initMapWithInfo(downloadFileConfig);
-    }
-
-    public void initMapWithInfo(JSONObject result) {
-        addJarNameToMap(result, "designer");
-        addJarNameToMap(result, "server");
-    }
-
-    private void addJarNameToMap(JSONObject result, String category) {
-        JSONArray jsonArray = result.optJSONArray(category);
-        if (jsonArray != null) {
-            for (int i = 0, len = jsonArray.length(); i < len; i++) {
-                JSONObject jo = jsonArray.optJSONObject(i);
-                String downloadName = jo.optString("name");
-                String downloadUrl = jo.optString("url");
-                long downloadSize = jo.optLong("size");
-                if (ComparatorUtils.equals(category, "server")) {
-                    File currentJAR = new File(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, downloadName));
-                    String currentMD5 = getCurrentJarMD5(currentJAR);
-                    String downloadMD5 = jo.optString("md5");
-                    boolean exist = currentJAR.exists() && ComparatorUtils.equals(currentJAR.length(), downloadSize) && ComparatorUtils.equals(currentMD5, downloadMD5);
-                    if (exist) {
-                        // 如果jar包存在且MD5值和大小与oss上的一致 不下载
-                        continue;
-                    }
-                }
-                downloadItems.add(new DownloadItem(downloadName, downloadUrl, downloadSize));
-            }
-        }
-    }
-
-    /**
-     * 获取当前jar的md5
-     *
-     * @param currentJAR
-     * @return
-     */
-    private String getCurrentJarMD5(File currentJAR) {
-        String md5 = StringUtils.EMPTY;
-        FileInputStream input = null;
-        try {
-            input = new FileInputStream(currentJAR);
-            md5 = DigestUtils.md5Hex(input);
-        } catch (Exception ignore) {
-
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-        }
-        return md5;
     }
 
     /**
@@ -669,31 +597,19 @@ public class UpdateMainDialog extends UIDialog {
                 if (updateSuccessful) {
                     RestartHelper.restart();
                 } else {
+                    progressBar.setVisible(true);
+                    UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
                     deletePreviousPropertyFile();
                     updateButton.setEnabled(false);
-                    progressBar.setVisible(true);
                     updateLabel.setVisible(false);
-
-                    new FileDownloader(
-                            downloadItems.toArray(new DownloadItem[downloadItems.size()]),
-                            StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DOWNLOAD_DIR)) {
-                        @Override
-                        protected void process(java.util.List<DownloadItem> chunks) {
-                            DownloadItem fileInfo = chunks.get(chunks.size() - 1);
-                            progressBar.setString(fileInfo.getName() + " " + fileInfo.getProgressString());
-                            progressBar.setValue(fileInfo.getProgressValue());
-                        }
-
+                    new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
                             updateButton.setEnabled(true);
                             progressBar.setVisible(false);
-                            backup();
-                            putNewFiles();
                             updateSuccessful = true;
                             updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
                         }
-
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
@@ -719,107 +635,10 @@ public class UpdateMainDialog extends UIDialog {
         }
     }
 
-    /**
-     * JAR包更新的时候备份老的jar包，包括设计器相关的和服务器相关的几个
-     */
-    private void backup() {
-        String installHome = StableUtils.getInstallHome();
-        //jar包备份文件的目录为"backup/"+jar包当前版本号
-        String todayBackupDir = StableUtils.pathJoin(installHome, getBackupDirectory(), (GeneralUtils.readBuildNO()));
-        backupFilesFromInstallEnv(installHome, todayBackupDir, getJARList4Server());
-        backupFilesFromInstallLib(installHome, todayBackupDir, getJARList4Designer());
-        jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
-    }
-
-    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
-            try {
-                IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
-                        new File(StableUtils.pathJoin(todayBackupDir)));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
-            }
-        }
-    }
-
-    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
-            try {
-                IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file)),
-                        new File(StableUtils.pathJoin(todayBackupDir)));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
-            }
-        }
-    }
-
-    private void putNewFiles() {
-        Map<String, String> map = new HashMap<String, String>();
-        java.util.List<String> list = new ArrayList<String>();
-        String installHome = StableUtils.getInstallHome();
-        putNewFilesToInstallLib(installHome, getDownLoadJAR4Designer(), map, list);
-        putNewFilesToInstallEnv(installHome, getDownLoadJAR4Server(), map, list);
-        RestartHelper.saveFilesWhichToMove(map);
-        RestartHelper.saveFilesWhichToDelete(list.toArray(new String[list.size()]));
-    }
-
-    private void putNewFilesToInstallLib(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
-        }
-    }
-
-    private void putNewFilesToInstallEnv(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-        }
-    }
 
     //获取备份目录
     private String getBackupDirectory() {
         return UpdateConstants.DESIGNER_BACKUP_DIR;
-    }
-
-    //获取服务器jar包列表
-    private List<String> getJARList4Server() {
-        return UpdateConstants.JARS_FOR_SERVER_X;
-    }
-
-    //获取设计器jar包列表
-    private List<String> getJARList4Designer() {
-        return UpdateConstants.JARS_FOR_DESIGNER_X;
-    }
-
-    //获取服务器jar包下载列表
-    private String[] getDownLoadJAR4Server() {
-        ArrayList<String> jarList = new ArrayList<String>();
-        List<String> serverItems = getJARList4Server();
-        for (DownloadItem downloadItem : downloadItems) {
-            String downloadItemName = downloadItem.getName();
-            if (serverItems.contains(downloadItemName)) {
-                jarList.add(downloadItemName);
-            }
-        }
-        return jarList.toArray(new String[jarList.size()]);
-    }
-
-    //获取设计器jar包下载列表
-    private String[] getDownLoadJAR4Designer() {
-        ArrayList<String> jarList = new ArrayList<String>();
-        List<String> designerJarItems = getJARList4Designer();
-        for (DownloadItem downloadItem : downloadItems) {
-            String downloadItemName = downloadItem.getName();
-            if (designerJarItems.contains(downloadItemName)) {
-                jarList.add(downloadItemName);
-            }
-        }
-        return jarList.toArray(new String[jarList.size()]);
     }
 
     //获取更新日志缓存配置文件名

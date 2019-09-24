@@ -9,9 +9,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
+import com.fr.stable.collections.utils.MathUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -109,7 +111,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         }
         value = value < minValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
-        if (value == this.value) {
+        if (CommonUtils.equals(value, this.value)) {
             return;
         }
         this.value = value;
@@ -132,7 +134,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         value = value < minValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
 
-        if (value == this.value) {
+        if (CommonUtils.equals(value, this.value)) {
             return;
         }
         this.value = value;

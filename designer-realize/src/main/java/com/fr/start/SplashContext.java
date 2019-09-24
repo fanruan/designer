@@ -36,17 +36,18 @@ public class SplashContext {
 
     private SplashStrategy splashStrategy;
 
-    private String moduleID = "";
+    private String moduleId = "";
     private int loadingIndex = 0;
     private String[] loading = new String[]{"..", "....", "......"};
 
     private int fetchOnlineTimes = 0;
     private String guest = StringUtils.EMPTY;
+    private boolean hasShowThanks = false;
 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1, new NamedThreadFactory("SplashContext"));
+    private ScheduledExecutorService scheduler = Executors
+            .newScheduledThreadPool(1, new NamedThreadFactory("SplashContext"));
 
     private Listener<String> listener;
-
 
     public static SplashContext getInstance() {
         return SPLASH_CONTEXT;
@@ -76,11 +77,11 @@ public class SplashContext {
      * 隐藏启动动画
      */
     public void hide() {
-        splashStrategy.hide();
-        //取消监听
-        EventDispatcher.stopListen(listener);
         // 窗口关闭后取消定时获取模块信息的timer
         scheduler.shutdown();
+        //取消监听
+        EventDispatcher.stopListen(listener);
+        splashStrategy.hide();
         // 一次性
         splashStrategy = null;
     }
@@ -91,7 +92,7 @@ public class SplashContext {
             public void run() {
                 showThanks();
                 loadingIndex++;
-                updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
+                updateModuleLog(moduleId.isEmpty() ? StringUtils.EMPTY : moduleId + loading[loadingIndex % 3]);
             }
         }, 0, 300, TimeUnit.MILLISECONDS);
 
@@ -99,9 +100,9 @@ public class SplashContext {
 
             @Override
             public void on(Event event, String i18n) {
-                moduleID = i18n;
+                moduleId = i18n;
                 loadingIndex++;
-                updateModuleLog(moduleID.isEmpty() ? StringUtils.EMPTY : moduleID + loading[loadingIndex % 3]);
+                updateModuleLog(moduleId.isEmpty() ? StringUtils.EMPTY : moduleId + loading[loadingIndex % 3]);
             }
         };
         EventDispatcher.listen(ModuleEvent.MajorModuleStarting, listener);
@@ -149,10 +150,11 @@ public class SplashContext {
      * 获取10次在线资源，最大时间3秒
      */
     private void showThanks() {
-        if (shouldShowThanks()) {
+        if (shouldShowThanks() && !hasShowThanks) {
             tryFetchOnline();
             if (StringUtils.isNotEmpty(guest)) {
                 updateThanksLog(THANKS + guest);
+                hasShowThanks = true;
             }
         }
     }

@@ -310,11 +310,7 @@ public class SeriesNameUseFieldNamePane extends FurtherBasicBeanPane<ChartCollec
             });
             editorComponent = uiComboBox;
 
-            if (value != null && StringUtils.isNotEmpty(value.toString())) {
-                uiComboBox.getModel().setSelectedItem(value);
-            } else {
-                uiComboBox.getModel().setSelectedItem(value);
-            }
+            uiComboBox.getModel().setSelectedItem(value);
 
             return uiComboBox;
         }

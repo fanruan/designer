@@ -7,7 +7,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.MeterStyle;
 import com.fr.chart.charttypes.MeterIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -33,7 +32,7 @@ public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
 
     @Override
     protected String[] getTypeTipName() {
-        String meter = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
+        String meter = Toolkit.i18nText("Fine-Design_Chart_Type_Meter");
         return new String[]{
                 Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
                 meter + "1",
@@ -81,7 +80,7 @@ public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Meter");
     }
 
     /**

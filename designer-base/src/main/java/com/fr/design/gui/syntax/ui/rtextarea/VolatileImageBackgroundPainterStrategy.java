@@ -103,6 +103,9 @@ public class VolatileImageBackgroundPainterStrategy
 				} finally {
 					tracker.removeImage(i, 1);
 				}
+				if(bgImage == null) {
+					continue;
+				}
 				bgImage.getGraphics().drawImage(i, 0,0, null);
 				tracker.addImage(bgImage, 0);
 				try {
@@ -114,7 +117,7 @@ public class VolatileImageBackgroundPainterStrategy
 				} finally {
 					tracker.removeImage(bgImage, 0);
 				}
-			} while (bgImage.contentsLost());
+			} while (bgImage != null && bgImage.contentsLost());
 		} // End of if (master!=null).
 		else {
 			bgImage = null;

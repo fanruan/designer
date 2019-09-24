@@ -112,14 +112,18 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
             if (between(evt, tmpSize1, tmpSize2)) {
                 if (index >= dragIndex) {
                     try {
-                        method.invoke(report, dragIndex, FU.valueOfPix(evtOffset(evt, oldEndValueSize), resolution));
+                        if(method != null) {
+                            method.invoke(report, dragIndex, FU.valueOfPix(evtOffset(evt, oldEndValueSize), resolution));
+                        }
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                     //sizeList.set(dragIndex, FU.valueOfPix(evtOffset(evt, oldEndValueSize), resolution));
                 } else {
                     try {
-                        method.invoke(report, index, FU.valueOfPix(evtOffset(evt, (int) tmpSize1), resolution));
+                        if(method != null) {
+                            method.invoke(report, index, FU.valueOfPix(evtOffset(evt, (int) tmpSize1), resolution));
+                        }
                     } catch (Exception e) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
@@ -127,7 +131,9 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
                     // from all to do.
                     for (int h = (dragIndex - 1); h > index; h--) {
                         try {
-                            method.invoke(report, h, UNIT.ZERO);
+                            if(method != null) {
+                                method.invoke(report, h, UNIT.ZERO);
+                            }
                         } catch (Exception e) {
                             FineLoggerFactory.getLogger().error(e.getMessage(), e);
                         }

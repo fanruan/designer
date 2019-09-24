@@ -633,9 +633,6 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 		for (int i = 0; i < len; i++) {
 			currentColumnNames[i] = new ColumnName(colNames[i]);
 		}
-		if (currentColumnNames == null) {
-			currentColumnNames = new ColumnName[0];
-		}
 		return currentColumnNames;
 	}
 
@@ -701,7 +698,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			} else {
 				dmlConfigComboBox.setSelectedIndex(0);
 			}
-			jobs = new NameSubmitJob[dmlConfig == null ? 0 : dmlConfig.getSubmitJobCount()];
+			jobs = new NameSubmitJob[dmlConfig.getSubmitJobCount()];
 			for (int i = 0; i < jobs.length; i++) {
 				jobs[i] = dmlConfig.getSubmitJob(i);
 			}

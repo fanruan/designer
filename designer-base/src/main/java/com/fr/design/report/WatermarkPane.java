@@ -113,8 +113,8 @@ public class WatermarkPane extends BasicPane {
         formulaPane = new TinyFormulaPane();
         fontSizeComboBox = new UIComboBox(FRFontPane.FONT_SIZES);
         fontSizeComboBox.setEditable(true);
-        horizontalGapSpinner = new UnsignedIntUISpinner(0, Integer.MAX_VALUE, 1, 200);
-        verticalGapSpinner = new UnsignedIntUISpinner(0, Integer.MAX_VALUE, 1, 100);
+        horizontalGapSpinner = new UnsignedIntUISpinner(100, Integer.MAX_VALUE, 1, 200);
+        verticalGapSpinner = new UnsignedIntUISpinner(50, Integer.MAX_VALUE, 1, 100);
         horizontalGapSpinner.setPreferredSize(SPINNER_DIMENSION);
         verticalGapSpinner.setPreferredSize(SPINNER_DIMENSION);
         JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
