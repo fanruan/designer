@@ -745,12 +745,12 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         resetCombineUpTooBar(ad.resetUpToolBar(plus));
 
-        // 颜色，字体那些按钮的工具栏
-        if (toolbarComponent == null) {
-            toolbarPane.add(toolbarComponent = ad.resetToolBar(null, plus), BorderLayout.CENTER);
-        } else {
-            ad.resetToolBar(toolbarComponent, plus);
+        if (toolbarComponent != null) {
+            toolbarPane.remove(toolbarComponent);
         }
+
+        // 颜色，字体那些按钮的工具栏
+        toolbarPane.add(toolbarComponent = ad.resetToolBar(toolbarComponent, plus), BorderLayout.CENTER);
 
         this.checkToolbarMenuEnable();
         this.validate();

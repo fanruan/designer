@@ -1,11 +1,19 @@
 package com.fr.start.common;
 
+import com.fr.base.BaseUtils;
+import com.fr.design.fun.OemProcessor;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.os.OperatingSystem;
+import com.fr.start.OemHandler;
 import com.sun.awt.AWTUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.*;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 启动画面窗口
@@ -21,6 +29,8 @@ public class SplashWindow extends JFrame {
     public SplashWindow() {
         // alex:必须设置这个属性为true,才可以用透明背景
         System.setProperty("sun.java2d.noddraw", "true");
+
+        initTitleIcon();
 
         //slash pane
         this.splash = new SplashPane();
@@ -42,6 +52,32 @@ public class SplashWindow extends JFrame {
     }
 
     /**
+     * 设置任务栏图标，主要用于Windows
+     */
+    @SuppressWarnings("unchecked")
+    private void initTitleIcon() {
+        try {
+            OemProcessor oemProcessor = OemHandler.findOem();
+            List<BufferedImage> image = null;
+            if (oemProcessor != null) {
+                try {
+                    image = oemProcessor.createTitleIcon();
+                } catch (Throwable e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                }
+            }
+            if (image == null) {
+                image = ICODecoder.read(SplashWindow.class
+                        .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
+            }
+            this.setIconImages(image);
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+        }
+    }
+
+    /**
      * 注销窗口
      */
     @Override
@@ -60,11 +96,5 @@ public class SplashWindow extends JFrame {
 
     void updateThanksLog(String text) {
         splash.updateThanksLog(text);
-    }
-
-
-    public static void main(String[] args) {
-        SplashWindow splashWindow = new SplashWindow();
-        splashWindow.setVisible(true);
     }
 }
