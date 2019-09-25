@@ -2,6 +2,8 @@ package com.fr.van.chart.designer.other;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chart.chartglyph.ConditionAttr;
+import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chartx.attr.LargeDataAttribute;
 import com.fr.chartx.attr.LargeDataModeType;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -17,8 +19,13 @@ import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.axis.type.AxisPlotType;
+import com.fr.plugin.chart.base.AttrEffect;
+import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.base.RefreshMoreLabel;
+import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.base.VanChartTools;
+import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
+import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.custom.component.VanChartHyperLinkPane;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -229,6 +236,40 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     private void checkLargeDataMode() {
         largeModeThresholdNumberPane.setVisible(largeDataMode.getSelectedItem() == LargeDataModeType.OPEN_BEYOND_THRESHOLD);
+
+        resetAttr();
+    }
+
+    private void resetAttr() {
+        if (largeDataMode.getSelectedItem() == LargeDataModeType.OPEN_BEYOND_THRESHOLD) {
+            VanChartPlot plot = this.chart.getPlot();
+
+            AttrLabel attrLabel = plot.getAttrLabelFromConditionCollection();
+            if (attrLabel == null) {
+                attrLabel = plot.getDefaultAttrLabel();
+                ConditionAttr defaultAttr = plot.getConditionCollection().getDefaultAttr();
+                defaultAttr.addDataSeriesCondition(attrLabel);
+            }
+            attrLabel.setEnable(false);
+
+            resetCustomCondition(plot.getConditionCollection());
+        }
+    }
+
+
+    private void resetCustomCondition(ConditionCollection conditionCollection) {
+        for (int i = 0, len = conditionCollection.getConditionAttrSize(); i < len; i++) {
+            ConditionAttr conditionAttr = conditionCollection.getConditionAttr(i);
+            conditionAttr.remove(AttrLabel.class);
+            conditionAttr.remove(ScatterAttrLabel.class);
+            conditionAttr.remove(AttrEffect.class);
+            conditionAttr.remove(AttrLineEffect.class);
+
+            VanChartAttrMarker attrMarker = conditionAttr.getExisted(VanChartAttrMarker.class);
+            if (attrMarker != null && !attrMarker.isCommon()) {
+                conditionAttr.remove(VanChartAttrMarker.class);
+            }
+        }
     }
 
     @Override

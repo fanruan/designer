@@ -177,20 +177,6 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         return PlotFactory.largeDataModel(plot);
     }
 
-    protected void resetCustomCondition(ConditionCollection conditionCollection) {
-        for (int i = 0, len = conditionCollection.getConditionAttrSize(); i < len; i++) {
-            ConditionAttr conditionAttr = conditionCollection.getConditionAttr(i);
-            conditionAttr.remove(AttrLabel.class);
-            conditionAttr.remove(ScatterAttrLabel.class);
-            conditionAttr.remove(AttrEffect.class);
-            conditionAttr.remove(AttrLineEffect.class);
-
-            VanChartAttrMarker attrMarker = conditionAttr.getExisted(VanChartAttrMarker.class);
-            if (attrMarker != null && !attrMarker.isCommon()) {
-                conditionAttr.remove(VanChartAttrMarker.class);
-            }
-        }
-    }
 
     protected RadiusCardLayoutPane initRadiusPane() {
         return new RadiusCardLayoutPane();
