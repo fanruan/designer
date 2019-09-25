@@ -91,8 +91,8 @@ public class UpdateMainDialog extends UIDialog {
     private static final String UPDATE_CACHE_STATE_FAIL = "fail";
     private static final String UPDATE_CACHE_STATE_SUCCESS = "success";
 
-    private static final SimpleDateFormat CHANGELOG_FORMAT = new SimpleDateFormat("M/d/y, h:m:s a", Locale.ENGLISH);
-    private static final SimpleDateFormat UPDATE_INFO_TABLE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
+    private final SimpleDateFormat CHANGELOG_FORMAT = new SimpleDateFormat("M/d/y, h:m:s a", Locale.ENGLISH);
+    private final SimpleDateFormat UPDATE_INFO_TABLE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
 
     private JSONObject downloadFileConfig;
     //最新版本标签

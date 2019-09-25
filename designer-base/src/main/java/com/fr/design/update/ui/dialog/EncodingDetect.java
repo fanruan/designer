@@ -447,11 +447,7 @@ class BytesEncodingDetect extends Encoding {
 	          bfchars++;
 	          totalfreq += 500;
 	          row = rawtext[i] - 0x81;
-	          if (0x40 <= rawtext[i + 1] && rawtext[i + 1] <= 0x7E) {
-	            column = rawtext[i + 1] - 0x40;
-	          } else {
-	            column = rawtext[i + 1] - 0x40;
-	          }
+	          column = rawtext[i + 1] - 0x40;
 	          // System.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
 	          if (Big5PFreq[row][column] != 0) {
 	            bffreq += Big5PFreq[row][column];
