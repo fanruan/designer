@@ -444,6 +444,18 @@ public class UpmBridge {
     }
 
     /**
+     * 立即注册
+     */
+    @JSBridge
+    public void registerHref() {
+        try {
+            Desktop.getDesktop().browse(new URI(CloudCenter.getInstance().acquireUrlByKind("bbs.register")));
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().info(e.getMessage());
+        }
+    }
+
+    /**
      * 使用系统浏览器打开网页
      * @param url 要打开的网页
      */
