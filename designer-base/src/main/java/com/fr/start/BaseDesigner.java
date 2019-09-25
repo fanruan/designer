@@ -61,6 +61,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         EventDispatcher.listen(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
+                EventDispatcher.stopListen(this);
                 UIUtil.invokeLaterIfNeeded(new Runnable() {
                     @Override
                     public void run() {
@@ -75,6 +76,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
         EventDispatcher.listen(DesignerLaunchStatus.STARTUP_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
+                EventDispatcher.stopListen(this);
                 collectUserInformation();
             }
         });

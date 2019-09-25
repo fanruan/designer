@@ -129,6 +129,7 @@ public class UpdateActionManager {
         EventDispatcher.listen(DesignerLaunchStatus.STARTUP_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
+                EventDispatcher.stopListen(this);
                 afterStartup = true;
                 for (Map.Entry<String, UpdateAction> cache : updateActionsIndexCache.entrySet()) {
                     searchPool.execute(new IndexTask(cache.getKey(), cache.getValue()));
