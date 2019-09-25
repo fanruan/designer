@@ -31,16 +31,6 @@ public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
     @Override
-    protected String[] getTypeTipName() {
-        String meter = Toolkit.i18nText("Fine-Design_Chart_Type_Meter");
-        return new String[]{
-                Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
-                meter + "1",
-                meter + "2"
-        };
-    }
-
-    @Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }

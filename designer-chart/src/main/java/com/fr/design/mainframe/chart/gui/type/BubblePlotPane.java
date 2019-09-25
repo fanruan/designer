@@ -24,13 +24,6 @@ public class BubblePlotPane extends AbstractDeprecatedChartTypePane {
 	}
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-		        Toolkit.i18nText("Fine-Design_Chart_Bubble_Chart_OLD")
-		};
-    }
-
-	@Override
 	protected String[] getTypeLayoutPath() {
 		return new String[0];
 	}

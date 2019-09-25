@@ -24,13 +24,6 @@ public class RangePlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				Toolkit.i18nText("Fine-Design_Chart_Type_Range")
-		};
-    }
-
-	@Override
 	protected String getPlotTypeID() {
 		return ChartConstants.RANGE_CHART;
 	}

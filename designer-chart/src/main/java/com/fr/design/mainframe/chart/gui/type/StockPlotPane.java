@@ -23,13 +23,6 @@ public class StockPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				Toolkit.i18nText("Fine-Design_Chart_Type_Stock")
-		};
-    }
-
-	@Override
 	protected String getPlotTypeID() {
 		return ChartConstants.STOCK_CHART;
 	}

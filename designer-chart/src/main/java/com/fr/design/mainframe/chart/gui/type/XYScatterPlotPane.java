@@ -26,13 +26,6 @@ public class XYScatterPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-		        Toolkit.i18nText("Fine-Design_Chart_Type_XYScatter")
-		};
-    }
-
-	@Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }

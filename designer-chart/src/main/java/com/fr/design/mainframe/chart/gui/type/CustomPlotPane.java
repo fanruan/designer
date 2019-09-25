@@ -25,13 +25,6 @@ public class CustomPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				Toolkit.i18nText("Fine-Design_Chart_Type_Combine")
-		};
-    }
-
-	@Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }

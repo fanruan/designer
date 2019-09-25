@@ -5,7 +5,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.chartx.impl.AbstractDataPane;
 import com.fr.design.chartx.impl.AbstractOtherPane;
-import com.fr.design.chartx.impl.DefaultTypePane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
@@ -25,9 +24,7 @@ import com.fr.stable.fun.mark.API;
 public abstract class AbstractChartTypeUI extends AbstractProvider implements ChartTypeUIProvider {
 
     @Override
-    public AbstractChartTypePane getPlotTypePane() {
-        return new DefaultTypePane();
-    }
+    public abstract AbstractChartTypePane getPlotTypePane();
 
     @Override
     public abstract AbstractDataPane getChartDataPane(AttributeChangeListener listener);
