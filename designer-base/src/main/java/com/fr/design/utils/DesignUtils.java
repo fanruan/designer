@@ -56,7 +56,7 @@ public class DesignUtils {
         DesignUtils.port = port;
     }
 
-    public static int getPort() {
+    public synchronized static int getPort() {
         return port;
     }
 
