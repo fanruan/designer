@@ -60,19 +60,20 @@ public class BarIndependentVanChartInterface extends AbstractMultiCategoryVanCha
         return new VanChartBarPlotPane();
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartColumnConditionPane(plot);
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartColumnSeriesPane(parent, plot);
     }
 
     /**
      * 图表的属性界面数组
+     *
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartBarStylePane(listener);
         VanChartOtherPane otherPane = new VanChartOtherPane() {
             @Override
@@ -81,6 +82,11 @@ public class BarIndependentVanChartInterface extends AbstractMultiCategoryVanCha
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
+                    }
+
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
                     }
                 };
             }

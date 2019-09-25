@@ -57,18 +57,19 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/scatter.png";
     }
+
     @Override
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartScatterSeriesPane(parent, plot);
     }
 
     @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new VanChartScatterPlotTableDataContentPane(parent);
     }
 
     @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new BubblePlotReportDataContentPane(parent);
     }
 
@@ -77,15 +78,20 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
      * 图表的属性界面数组
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartScatterStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane(){
+        VanChartOtherPane otherPane = new VanChartOtherPane() {
             @Override
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort() {
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
+                    }
+
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
                     }
                 };
             }
@@ -94,7 +100,7 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartScatterConditionPane(plot);
     }
 }
