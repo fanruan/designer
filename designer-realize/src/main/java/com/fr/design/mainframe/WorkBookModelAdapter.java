@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.Parameter;
 import com.fr.base.TableData;
+import com.fr.base.parameter.ParameterUI;
 import com.fr.data.TableDataSource;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.bridge.DesignToolbarProvider;
@@ -118,6 +119,20 @@ public class WorkBookModelAdapter extends DesignModelAdapter<WorkBook, JWorkBook
     public List<WidgetName> getWidgetsName() {
         List<WidgetName> list = new ArrayList<WidgetName>();
         WorkBook wb = this.getBook();
+        ReportParameterAttr parameterAttr = wb.getReportParameterAttr();
+        if (parameterAttr != null) {
+            ParameterUI parameterUI = parameterAttr.getParameterUI();
+            if (parameterUI != null) {
+                Widget[] paraWidgets = parameterUI.getAllWidgets();
+                for (int i = 0; i < paraWidgets.length; i++) {
+                    Widget wi = paraWidgets[i];
+                    if (widgetAccepted(wi)) {
+                        list.add(new WidgetName(wi.getWidgetName()));
+                    }
+                }
+            }
+        }
+
         for (int i = 0, len = wb.getReportCount(); i < len; i++) {
             Report report = wb.getReport(i);
             Iterator it = report.iteratorOfElementCase();
@@ -128,6 +143,7 @@ public class WorkBookModelAdapter extends DesignModelAdapter<WorkBook, JWorkBook
                     CellElement ce = (CellElement) cs.next();
                     if (ce instanceof DefaultTemplateCellElement) {
                         Widget widget = ((DefaultTemplateCellElement) ce).getWidget();
+                        //todo 这边有没有必要统一改成widgetAccepted？暂时不改，插件那边可能会有影响，因为插件有的控件并没有实现DataControl的
                         if (widget != null && StringUtils.isNotEmpty(widget.getWidgetName())) {
                             list.add(new WidgetName(widget.getWidgetName()));
                         }
