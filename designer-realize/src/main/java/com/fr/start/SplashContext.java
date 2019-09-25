@@ -77,13 +77,15 @@ public class SplashContext {
      * 隐藏启动动画
      */
     public void hide() {
-        // 窗口关闭后取消定时获取模块信息的timer
-        scheduler.shutdown();
-        //取消监听
-        EventDispatcher.stopListen(listener);
-        splashStrategy.hide();
-        // 一次性
-        splashStrategy = null;
+        if (splashStrategy != null) {
+            // 窗口关闭后取消定时获取模块信息的timer
+            scheduler.shutdown();
+            //取消监听
+            EventDispatcher.stopListen(listener);
+            splashStrategy.hide();
+            // 一次性
+            splashStrategy = null;
+        }
     }
 
     private void initListener() {

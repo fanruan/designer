@@ -13,7 +13,7 @@ public class DesignerShowActivator extends Activator {
 
     @Override
     public void start() {
-        DesignerInitial.init(findSingleton(StartupArgs.class).get());
+//        DesignerInitial.init(findSingleton(StartupArgs.class).get());
         EventDispatcher.asyncFire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Module_Name_Designer"));
         DesignerInitial.prepare();
     }
