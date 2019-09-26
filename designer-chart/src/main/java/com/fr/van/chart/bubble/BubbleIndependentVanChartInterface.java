@@ -65,22 +65,23 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/bubble.png";
     }
+
     @Override
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartBubbleSeriesPane(parent, plot);
     }
 
     @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
-        if(((VanChartBubblePlot) plot).isForceBubble()){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        if (((VanChartBubblePlot) plot).isForceBubble()) {
             return super.getTableDataSourcePane(plot, parent);
         }
         return new VanChartBubblePlotTableDataContentPane(parent);
     }
 
     @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
-        if(((VanChartBubblePlot) plot).isForceBubble()){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        if (((VanChartBubblePlot) plot).isForceBubble()) {
             return super.getReportDataSourcePane(plot, parent);
         }
         return new BubblePlotReportDataContentPane(parent);
@@ -88,16 +89,22 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
 
     /**
      * 图表的属性界面数组
+     *
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartBubbleStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane(){
+        VanChartOtherPane otherPane = new VanChartOtherPane() {
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort() {
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
+                    }
+
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
                     }
                 };
             }
@@ -105,7 +112,7 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartBubbleConditionPane(plot);
     }
 }

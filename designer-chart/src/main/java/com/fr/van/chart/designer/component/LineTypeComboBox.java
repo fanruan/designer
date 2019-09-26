@@ -30,7 +30,7 @@ public class LineTypeComboBox extends UIComboBox {
         this.setRenderer(new CellRenderer());
     }
 
-    private class CellRenderer extends UIComboBoxRenderer {
+    private static class CellRenderer extends UIComboBoxRenderer {
 
         private LineType lineType;
 

@@ -1,6 +1,5 @@
 package com.fr.van.chart.map;
 
-import com.fr.base.chart.chartdata.model.DataProcessor;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.frpane.UINumberDragPane;
@@ -12,7 +11,6 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.base.AttrBorderWithAlpha;
 import com.fr.plugin.chart.base.AttrEffect;
@@ -21,7 +19,6 @@ import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.map.VanChartMapPlot;
-import com.fr.plugin.chart.map.attr.AttrMapLabel;
 import com.fr.plugin.chart.map.line.condition.AttrCurve;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.plugin.chart.type.MapMarkerType;
@@ -79,7 +76,6 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     //line
     private VanChartCurvePane curvePane;
     private VanChartLineMapEffectPane lineMapEffectPane;
-    private UIButtonGroup<DataProcessor> lineMapLargeDataModelGroup;//大数据模式
 
     private MapType mapType = MapType.AREA;
 
@@ -87,53 +83,20 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         super(parent, plot);
     }
 
-    @Override
-    protected void checkLarge() {
-        if(largeModel()) {
-            if(plot instanceof VanChartMapPlot) {
-                ConditionAttr defaultAttr = plot.getConditionCollection().getDefaultAttr();
-                AttrMapLabel attrMapLabel =  defaultAttr.getExisted(AttrMapLabel.class);
-                if(attrMapLabel == null){
-                    attrMapLabel = new AttrMapLabel();
-                    defaultAttr.addDataSeriesCondition(attrMapLabel);
-                }
-                attrMapLabel.getPointLabel().setEnable(false);
-
-                resetCustomCondition(((VanChartMapPlot) plot).getPointConditionCollection());
-            }
-        }
-
-        checkPointCompsEnabledWithLarge();
+    protected void checkCompsEnabledWithLarge(Plot plot) {
+        checkPointCompsEnabledWithLarge(plot);
+        checkLineCompsEnabledWithLarge(plot);
     }
 
-    protected void checkCompsEnabledWithLarge() {
-        checkPointCompsEnabledWithLarge();
-        checkLineCompsEnabledWithLarge();
-    }
-
-    private void checkPointCompsEnabledWithLarge() {
-        if(pointEffectPane != null) {
-            GUICoreUtils.setEnabled(pointEffectPane, !largeModel());
+    private void checkPointCompsEnabledWithLarge(Plot plot) {
+        if (pointEffectPane != null) {
+            GUICoreUtils.setEnabled(pointEffectPane, !largeModel(plot));
         }
     }
 
-    private boolean lineMapLargeModel() {
-        return lineMapLargeDataModelGroup != null && lineMapLargeDataModelGroup.getSelectedIndex() == 0;
-    }
-
-    private void checkLineMapLarge() {
-        if(lineMapLargeModel()) {
-            if(plot instanceof VanChartMapPlot) {
-                resetCustomCondition(((VanChartMapPlot) plot).getLineConditionCollection());
-            }
-        }
-
-        checkLineCompsEnabledWithLarge();
-    }
-
-    private void checkLineCompsEnabledWithLarge() {
-        if(lineMapEffectPane != null) {
-            GUICoreUtils.setEnabled(lineMapEffectPane, !lineMapLargeModel());
+    private void checkLineCompsEnabledWithLarge(Plot plot) {
+        if (lineMapEffectPane != null) {
+            GUICoreUtils.setEnabled(lineMapEffectPane, !largeModel(plot));
         }
     }
 
@@ -195,7 +158,6 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         Component[][] components = new Component[][]{
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), createPointAlphaPane())},
                 new Component[]{createMarkerComPane()},
-                new Component[]{createLargeDataModelPane()},
                 new Component[]{createPointEffectPane()},
         };
 
@@ -212,23 +174,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{createCurvePane()},
-                new Component[]{createLineMapLargeDataModelPane()},
                 new Component[]{createAnimationPane()}
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, row, col);
-    }
-
-    private JPanel createLineMapLargeDataModelPane() {
-        lineMapLargeDataModelGroup = createLargeDataModelGroup();
-        lineMapLargeDataModelGroup.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                checkLineMapLarge();
-            }
-        });
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), lineMapLargeDataModelGroup);
-        return createLargeDataModelPane(panel);
     }
 
     private Component createCurvePane() {
@@ -257,8 +206,8 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         commonMarkerPane = new VanChartMapScatterMarkerPane();
         commonMarkerPane.setBorder(TableLayout4VanChartHelper.SECOND_EDIT_AREA_BORDER);
-        bubblePane = new VanChartBubblePane(){
-            protected JPanel getContentPane () {
+        bubblePane = new VanChartBubblePane() {
+            protected JPanel getContentPane() {
                 double p = TableLayout.PREFERRED;
                 double f = TableLayout.FILL;
                 double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
@@ -304,7 +253,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel pointPane = createPointPane();
         JPanel linePane = createLinePane();
 
-        JPanel  panel = createGroupPane(plot, areaPane, pointPane, linePane);
+        JPanel panel = createGroupPane(plot, areaPane, pointPane, linePane);
 
         return panel;
     }
@@ -313,7 +262,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel panel;
         if (ComparatorUtils.equals(plot.getClass(), VanChartDrillMapPlot.class)) {
             panel = createDrillMapCustomGroupPane(areaPane, pointPane);
-        }else {
+        } else {
             panel = createMapCustomGroupPane(areaPane, pointPane, linePane);
         }
         return panel;
@@ -334,7 +283,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             public void stateChanged(ChangeEvent e) {
                 if (areaPointAndLineGroup.getSelectedIndex() == 0) {
                     cardLayout.show(centerPane, AREA_STRING);
-                } else if (areaPointAndLineGroup.getSelectedIndex() == 1){
+                } else if (areaPointAndLineGroup.getSelectedIndex() == 1) {
                     cardLayout.show(centerPane, POINT_STRING);
                 } else {
                     cardLayout.show(centerPane, LINE_STRING);
@@ -375,36 +324,30 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     public void populateBean(Plot plot) {
-        if(plot != null && plot instanceof VanChartMapPlot){
-            if(markerTypeCom != null){
+        if (plot != null && plot instanceof VanChartMapPlot) {
+            if (markerTypeCom != null) {
                 markerTypeCom.setSelectedItem(((VanChartMapPlot) plot).getMapMarkerType().toLocalString());
             }
-            if(nullValueColorBox != null){
+            if (nullValueColorBox != null) {
                 nullValueColorBox.setSelectObject(((VanChartMapPlot) plot).getNullValueColor());
-            }
-            if(lineMapLargeDataModelGroup != null){
-                lineMapLargeDataModelGroup.setSelectedItem(((VanChartMapPlot) plot).getLineMapDataProcessor());
             }
         }
         super.populateBean(plot);
     }
 
     public void updateBean(Plot plot) {
-        if(plot != null && plot instanceof VanChartMapPlot){
-            if(markerTypeCom != null){
+        if (plot != null && plot instanceof VanChartMapPlot) {
+            if (markerTypeCom != null) {
                 ((VanChartMapPlot) plot).setMapMarkerType(MapMarkerType.parseInt(markerTypeCom.getSelectedIndex()));
             }
-            if(nullValueColorBox != null){
+            if (nullValueColorBox != null) {
                 ((VanChartMapPlot) plot).setNullValueColor(nullValueColorBox.getSelectObject());
-            }
-            if(lineMapLargeDataModelGroup != null){
-                ((VanChartMapPlot) plot).setLineMapDataProcessor(lineMapLargeDataModelGroup.getSelectedItem());
             }
         }
         super.updateBean(plot);
     }
 
-        @Override
+    @Override
     protected void populateCondition(ConditionAttr defaultAttr) {
         switch (mapType) {
             case AREA:
@@ -427,50 +370,50 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     protected void populateArea(ConditionAttr defaultAttr) {
         populateAlpha(defaultAttr);
         if (borderWithAlphaPane != null) {
-            AttrBorderWithAlpha attrBorderWithAlpha = (AttrBorderWithAlpha) defaultAttr.getExisted(AttrBorderWithAlpha.class);
+            AttrBorderWithAlpha attrBorderWithAlpha = defaultAttr.getExisted(AttrBorderWithAlpha.class);
             borderWithAlphaPane.populate(attrBorderWithAlpha);
         }
     }
 
 
     private void populatePoint(ConditionAttr defaultAttr) {
-        if(pointAlphaPane != null){
-            AttrMarkerAlpha attrAlpha = (AttrMarkerAlpha)defaultAttr.getExisted(AttrMarkerAlpha.class);
+        if (pointAlphaPane != null) {
+            AttrMarkerAlpha attrAlpha = defaultAttr.getExisted(AttrMarkerAlpha.class);
             double alpha = VanChartAttrHelper.PERCENT * (attrAlpha == null ? 1 : attrAlpha.getAlpha());
             pointAlphaPane.populateBean(alpha);
         }
 
-        if(pointEffectPane != null){
+        if (pointEffectPane != null) {
             AttrEffect attrEffect = defaultAttr.getExisted(AttrEffect.class);
-            if(attrEffect == null){//老的模板做界面上的兼容
+            if (attrEffect == null) {//老的模板做界面上的兼容
                 attrEffect = new AttrEffect(3.2);
                 attrEffect.setEnabled(false);
             }
             pointEffectPane.populateBean(attrEffect);
         }
 
-        VanChartAttrMarker attrMarker = (VanChartAttrMarker) defaultAttr.getExisted(VanChartAttrMarker.class);
-        if(commonMarkerPane != null) {
+        VanChartAttrMarker attrMarker = defaultAttr.getExisted(VanChartAttrMarker.class);
+        if (commonMarkerPane != null) {
             commonMarkerPane.populateBean(attrMarker);
         }
-        if(imageMarkerPane != null) {
+        if (imageMarkerPane != null) {
             imageMarkerPane.populateBean(attrMarker);
         }
-        if(bubblePane != null) {
-            VanChartAttrBubble attrBubble = (VanChartAttrBubble) defaultAttr.getExisted(VanChartAttrBubble.class);
+        if (bubblePane != null) {
+            VanChartAttrBubble attrBubble = defaultAttr.getExisted(VanChartAttrBubble.class);
             bubblePane.populateBean(attrBubble);
         }
     }
 
     private void populateLine(ConditionAttr defaultAttr) {
-        if (curvePane != null){
-            if (defaultAttr.getExisted(AttrCurve.class) == null){
+        if (curvePane != null) {
+            if (defaultAttr.getExisted(AttrCurve.class) == null) {
                 defaultAttr.addDataSeriesCondition(new AttrCurve());
             }
-            curvePane.populateBean((AttrCurve) defaultAttr.getExisted(AttrCurve.class));
+            curvePane.populateBean(defaultAttr.getExisted(AttrCurve.class));
         }
-        if (lineMapEffectPane != null){
-            if (defaultAttr.getExisted(AttrLineEffect.class) == null){
+        if (lineMapEffectPane != null) {
+            if (defaultAttr.getExisted(AttrLineEffect.class) == null) {
                 defaultAttr.addDataSeriesCondition(new AttrLineEffect());
             }
             AttrLineEffect attrLineEffect = defaultAttr.getExisted(AttrLineEffect.class);
@@ -498,40 +441,40 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         }
     }
 
-    protected void checkoutMapType(Plot plot){
-        this.mapType = ((VanChartMapPlot)plot).getMapType();
+    protected void checkoutMapType(Plot plot) {
+        this.mapType = ((VanChartMapPlot) plot).getMapType();
     }
 
     protected void updateArea(ConditionAttr defaultAttr) {
         updateAlpha(defaultAttr);
         if (borderWithAlphaPane != null) {
-            AttrBorderWithAlpha attrBorderWithAlpha = (AttrBorderWithAlpha) defaultAttr.getExisted(AttrBorderWithAlpha.class);
+            AttrBorderWithAlpha attrBorderWithAlpha = defaultAttr.getExisted(AttrBorderWithAlpha.class);
             defaultAttr.remove(attrBorderWithAlpha);
             defaultAttr.addDataSeriesCondition(borderWithAlphaPane.update());
         }
     }
 
     private void updatePoint(ConditionAttr defaultAttr) {
-        if(pointAlphaPane != null){
-            AttrMarkerAlpha attrAlpha = (AttrMarkerAlpha)defaultAttr.getExisted(AttrMarkerAlpha.class);
-            if(attrAlpha == null){
+        if (pointAlphaPane != null) {
+            AttrMarkerAlpha attrAlpha = defaultAttr.getExisted(AttrMarkerAlpha.class);
+            if (attrAlpha == null) {
                 attrAlpha = new AttrMarkerAlpha();
                 defaultAttr.addDataSeriesCondition(attrAlpha);
             }
-            attrAlpha.setAlpha((float)(pointAlphaPane.updateBean()/VanChartAttrHelper.PERCENT));
+            attrAlpha.setAlpha((float) (pointAlphaPane.updateBean() / VanChartAttrHelper.PERCENT));
         }
 
-        if(pointEffectPane != null){
+        if (pointEffectPane != null) {
             AttrEffect attrEffect = defaultAttr.getExisted(AttrEffect.class);
             defaultAttr.remove(attrEffect);
             defaultAttr.addDataSeriesCondition(pointEffectPane.updateBean());
         }
 
-        VanChartAttrMarker attrMarker = (VanChartAttrMarker) defaultAttr.getExisted(VanChartAttrMarker.class);
+        VanChartAttrMarker attrMarker = defaultAttr.getExisted(VanChartAttrMarker.class);
         defaultAttr.remove(attrMarker);
-        VanChartAttrBubble attrBubble = (VanChartAttrBubble) defaultAttr.getExisted(VanChartAttrBubble.class);
+        VanChartAttrBubble attrBubble = defaultAttr.getExisted(VanChartAttrBubble.class);
         defaultAttr.remove(attrBubble);
-        if(markerTypeCom != null) {
+        if (markerTypeCom != null) {
             if (markerTypeCom.getSelectedIndex() == 1) {
                 defaultAttr.addDataSeriesCondition(commonMarkerPane.updateBean());
             } else if (markerTypeCom.getSelectedIndex() == 2) {
@@ -543,17 +486,17 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private void updateLine(ConditionAttr defaultAttr) {
-        if(curvePane != null){
+        if (curvePane != null) {
             AttrCurve attrCurve = defaultAttr.getExisted(AttrCurve.class);
-            if(attrCurve != null){
+            if (attrCurve != null) {
                 defaultAttr.remove(AttrCurve.class);
             }
             attrCurve = curvePane.updateBean();
             defaultAttr.addDataSeriesCondition(attrCurve);
         }
-        if (lineMapEffectPane != null){
+        if (lineMapEffectPane != null) {
             AttrLineEffect attrLineEffect = defaultAttr.getExisted(AttrLineEffect.class);
-            if (attrLineEffect != null){
+            if (attrLineEffect != null) {
                 defaultAttr.remove(AttrLineEffect.class);
             }
             attrLineEffect = (AttrLineEffect) lineMapEffectPane.updateBean();

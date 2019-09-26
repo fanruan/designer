@@ -21,17 +21,18 @@ import com.fr.van.chart.designer.style.VanChartStylePane;
 /**
  * Created by mengao on 2017/7/6.
  */
-public abstract class AbstractMultiCategoryVanChartUI extends  AbstractIndependentVanChartUI {
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependentVanChartUI {
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         //自定义组合图特殊处理
-        if (((VanChartPlot)plot).isInCustom() && ((VanChartPlot)plot).getCustomType().equals("CUSTOM")) {
+        if (((VanChartPlot) plot).isInCustom() && ((VanChartPlot) plot).getCustomType().equals("CUSTOM")) {
             return new CategoryPlotTableDataContentPane(parent);
         }
-        return new VanChartMoreCateTableDataContentPane(parent);    }
+        return new VanChartMoreCateTableDataContentPane(parent);
+    }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         //自定义组合图特殊处理
-        if (((VanChartPlot)plot).isInCustom() && ((VanChartPlot)plot).getCustomType().equals("CUSTOM")) {
+        if (((VanChartPlot) plot).isInCustom() && ((VanChartPlot) plot).getCustomType().equals("CUSTOM")) {
             return new CategoryPlotReportDataContentPane(parent);
         }
         return new VanChartMoreCateReportDataContentPane(parent);
@@ -48,6 +49,11 @@ public abstract class AbstractMultiCategoryVanChartUI extends  AbstractIndepende
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
+                    }
+
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
                     }
                 };
             }
