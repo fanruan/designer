@@ -2,8 +2,14 @@ package com.fr.van.chart.column;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.vanchart.AbstractMultiCategoryVanChartUI;
@@ -11,7 +17,7 @@ import com.fr.van.chart.vanchart.AbstractMultiCategoryVanChartUI;
 /**
  * Created by Mitisky on 15/9/24.
  */
-public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVanChartUI {
+public class VanColumnChartTypeUI extends AbstractMultiCategoryVanChartUI {
 
     @Override
     public String getName() {
@@ -60,13 +66,13 @@ public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVan
         return new VanChartColumnSeriesPane(parent, plot);
     }
 
-//    @Override
-//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-//        return new AbstractDataPane(listener) {
-//            @Override
-//            protected SingleDataPane createSingleDataPane() {
-//                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
-//            }
-//        };
-//    }
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+            }
+        };
+    }
 }

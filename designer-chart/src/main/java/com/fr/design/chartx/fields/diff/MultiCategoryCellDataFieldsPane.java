@@ -1,14 +1,14 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.ColumnField;
-import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
-import com.fr.design.chartx.component.AbstractSingleFilterPane;
+import com.fr.design.chartx.component.CategorySeriesFilterPane;
 import com.fr.design.chartx.component.MultiTinyFormulaPane;
 import com.fr.design.formula.TinyFormulaPane;
-import com.fr.van.chart.map.designer.VanChartGroupPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.util.List;
 
 /**
@@ -18,43 +18,21 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
 
     private MultiTinyFormulaPane multiCategoryPane;
 
-    private AbstractSingleFilterPane seriesFilterPane;
-    private AbstractSingleFilterPane categoryFilterPane;
-
-    private void createMultiFormulaPane() {
-        if (multiCategoryPane == null) {
-            multiCategoryPane = new MultiTinyFormulaPane();
-        }
-    }
+    private CategorySeriesFilterPane filterPane;
 
     @Override
-    protected JPanel createNorthPane() {
+    protected void initComponents() {
+        multiCategoryPane = new MultiTinyFormulaPane();
+        filterPane = new CategorySeriesFilterPane();
 
-        createMultiFormulaPane();
+        JPanel northPane = new JPanel(new BorderLayout(0, 6));
+        northPane.add(multiCategoryPane, BorderLayout.NORTH);
+        northPane.add(createCenterPane(), BorderLayout.CENTER);
+        northPane.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
 
-        return multiCategoryPane;
-    }
-
-    @Override
-    protected JPanel createSouthPane() {
-        if (seriesFilterPane == null) {
-            seriesFilterPane = new AbstractSingleFilterPane() {
-                @Override
-                public String title4PopupWindow() {
-                    //todo@shinerefactor
-                    return "series";
-                }
-            };
-            categoryFilterPane = new AbstractSingleFilterPane() {
-                @Override
-                public String title4PopupWindow() {
-                    return "category";
-                }
-            };
-        }
-        return new VanChartGroupPane(new String[]{seriesFilterPane.title4PopupWindow(), categoryFilterPane.title4PopupWindow()}
-                , new JPanel[]{seriesFilterPane, categoryFilterPane}) {
-        };
+        this.setLayout(new BorderLayout(0, 6));
+        this.add(northPane, BorderLayout.NORTH);
+        this.add(filterPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -64,9 +42,6 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
 
     @Override
     protected TinyFormulaPane[] formulaPanes() {
-
-        createMultiFormulaPane();
-
         List<TinyFormulaPane> list = multiCategoryPane.componentList();
         return list.toArray(new TinyFormulaPane[list.size()]);
     }
@@ -80,15 +55,7 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
 
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 
-        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = multiCategoryColumnFieldCollection.getSeriesValueCorrelationDefinition();
-        if (seriesValueCorrelationDefinition != null) {
-            seriesFilterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
-
-        }
-
-        if (categoryList != null && !categoryList.isEmpty()) {
-            categoryFilterPane.populateBean(categoryList.get(0).getFilterProperties());
-        }
+        filterPane.populateMultiCategoryFieldCollection(multiCategoryColumnFieldCollection);
     }
 
     @Override
@@ -101,14 +68,7 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
 
         updateSeriesValuePane(fieldCollection);
 
-        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = fieldCollection.getSeriesValueCorrelationDefinition();
-        if (seriesValueCorrelationDefinition != null) {
-            seriesValueCorrelationDefinition.setFilterProperties(seriesFilterPane.updateBean());
-        }
-
-        if (categoryList != null && !categoryList.isEmpty()) {
-            categoryList.get(0).setFilterProperties(categoryFilterPane.updateBean());
-        }
+        filterPane.updateMultiCategoryFieldCollection(fieldCollection);
 
         return fieldCollection;
     }

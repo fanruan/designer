@@ -3,6 +3,10 @@ package com.fr.van.chart.structure.desinger;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.StructureCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.StructureDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -27,7 +31,7 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
 /**
  * Created by shine on 2017/2/15.
  */
-public class StructureIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartStructureTypePane();
@@ -99,8 +103,13 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
         return new VanChartStructureConditionPane(plot);
     }
 
-   /* @Override
+    @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new StructureChartDataPane(listener);
-    }*/
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
+            }
+        };
+    }
 }

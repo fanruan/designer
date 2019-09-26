@@ -63,7 +63,7 @@ public class StructureDataSetFieldsPane extends AbstractDataSetFieldsPane<Struct
                 nodeName,
                 nodeId,
                 parentId,
-                nodeValue,
+                seriesName,
                 nodeValue,
                 calculateCombox
         };
