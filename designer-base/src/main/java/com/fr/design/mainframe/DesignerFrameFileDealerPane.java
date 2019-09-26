@@ -2,7 +2,7 @@ package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
-import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.cluster.ClusterBridge;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -242,6 +242,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
     /**
      * 响应数据集改变
      */
+    @Override
     public void fireDSChanged() {
 
         fireDSChanged(new HashMap<String, String>());
@@ -252,6 +253,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
      *
      * @param map 改变名字的数据集
      */
+    @Override
     public void fireDSChanged(Map<String, String> map) {
 
         DesignTableDataManager.fireDSChanged(map);
@@ -307,7 +309,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         return selectedOperation;
     }
 
-    /*
+    /**
      * 新建文件夹
      */
     private class NewFolderAction extends UpdateAction {
@@ -363,7 +365,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
          * 版本管理可用状态的监控
          */
         private void fireVcsActionChange() {
-            if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() || VcsHelper.getInstance().isUnSelectedTemplate() || FineClusterConfig.getInstance().isCluster()) {
+            if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
+                    || VcsHelper.getInstance().isUnSelectedTemplate()
+                    || ClusterBridge.isClusterMode()) {
                 setEnabled(false);
                 return;
             }
@@ -549,14 +553,17 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             nameField = new UITextField(oldName);
             nameField.getDocument().addDocumentListener(new DocumentListener() {
 
+                @Override
                 public void changedUpdate(DocumentEvent e) {
                     validInput();
                 }
 
+                @Override
                 public void insertUpdate(DocumentEvent e) {
                     validInput();
                 }
 
+                @Override
                 public void removeUpdate(DocumentEvent e) {
                     validInput();
                 }
@@ -597,6 +604,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             confirmButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Confirm"));
             confirmButton.setPreferredSize(new Dimension(60, 25));
             confirmButton.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     confirmClose();
                 }
@@ -608,6 +616,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             cancelButton.addActionListener(new ActionListener() {
 
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose();
                 }
@@ -764,14 +773,17 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             nameField = new UITextField();
             nameField.getDocument().addDocumentListener(new DocumentListener() {
 
+                @Override
                 public void changedUpdate(DocumentEvent e) {
                     validInput();
                 }
 
+                @Override
                 public void insertUpdate(DocumentEvent e) {
                     validInput();
                 }
 
+                @Override
                 public void removeUpdate(DocumentEvent e) {
                     validInput();
                 }
@@ -812,6 +824,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             confirmButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Confirm"));
             confirmButton.setPreferredSize(new Dimension(60, 25));
             confirmButton.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     confirmClose();
                 }
@@ -824,6 +837,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
 
             cancelButton.addActionListener(new ActionListener() {
 
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose();
                 }

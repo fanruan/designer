@@ -70,7 +70,7 @@ public class DesignerStartup extends Activator {
     @Metrics
     public void start() {
         startSub(PreStartActivator.class);
-        startSub(DesignerWorkspaceActivator.class);
+        startSub("parallel");
         //designer模块启动好后，查看demo
         browserDemoIfNeeded();
         startupEmbedServerIfNeeded();
