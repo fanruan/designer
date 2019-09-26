@@ -93,6 +93,10 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         return textField;
     }
 
+    public UIButton getNextButton() {
+        return nextButton;
+    }
+
     public void setValue(double value) {
         setValue(value, true);
     }

@@ -23,6 +23,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,6 +33,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+
 
 /**
  * Created by plough on 2018/5/15.
@@ -49,6 +58,13 @@ public class WatermarkPane extends BasicPane {
     private UISpinner verticalGapSpinner;
     // 文字颜色
     private NewColorSelectPane colorPane;
+    //间距超过限制消息
+    private UILabel message;
+
+    //横向间距最小值
+    public static final int HORIZONTAL_GAP_MIX = 100;
+    //纵向间距最小值
+    public static final int VERTICAL_GAP_MIX = 50;
 
     private static final Dimension SPINNER_DIMENSION = new Dimension(75, 20);
 
@@ -57,6 +73,7 @@ public class WatermarkPane extends BasicPane {
     }
 
     private void initComponents() {
+        message = new UILabel();
         this.setBorder(BorderFactory.createEmptyBorder(4, 4, -5, 4));
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
 
@@ -93,7 +110,7 @@ public class WatermarkPane extends BasicPane {
     public WatermarkAttr update() {
         WatermarkAttr watermark = new WatermarkAttr();
         watermark.setText(formulaPane.getUITextField().getText());
-        watermark.setFontSize((int)fontSizeComboBox.getSelectedItem());
+        watermark.setFontSize((int) fontSizeComboBox.getSelectedItem());
         watermark.setHorizontalGap((int) horizontalGapSpinner.getValue());
         watermark.setVerticalGap((int) verticalGapSpinner.getValue());
         watermark.setColor(colorPane.getColor());
@@ -109,7 +126,7 @@ public class WatermarkPane extends BasicPane {
         this.formulaPane = formulaPane;
     }
 
-    protected UIScrollPane initRightPane(){
+    protected UIScrollPane initRightPane() {
         formulaPane = new TinyFormulaPane();
         fontSizeComboBox = new UIComboBox(FRFontPane.FONT_SIZES);
         fontSizeComboBox.setEditable(true);
@@ -117,7 +134,17 @@ public class WatermarkPane extends BasicPane {
         verticalGapSpinner = new UnsignedIntUISpinner(50, Integer.MAX_VALUE, 1, 100);
         horizontalGapSpinner.setPreferredSize(SPINNER_DIMENSION);
         verticalGapSpinner.setPreferredSize(SPINNER_DIMENSION);
-        JPanel fontSizeTypePane = new JPanel(new BorderLayout(10,0));
+        message.setBorder(BorderFactory.createEmptyBorder(8, 5, 0, 0));
+        //失去焦点时要判断是否要弹出提示
+        horizontalGapSpinner.getTextField().addFocusListener(
+                createFocusListener4GapNumberField(horizontalGapSpinner, HORIZONTAL_GAP_MIX, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Horizontal_Gap_Over_Warning")));
+        verticalGapSpinner.getTextField().addFocusListener(createFocusListener4GapNumberField(verticalGapSpinner, VERTICAL_GAP_MIX, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vertical_Gap_Over_Warning")));
+
+        //next 按钮 释放时也要判断是否要弹出提示
+        horizontalGapSpinner.getNextButton().addMouseListener(createMouseListener4GapNextButton(horizontalGapSpinner, HORIZONTAL_GAP_MIX, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Horizontal_Gap_Over_Warning")));
+        verticalGapSpinner.getNextButton().addMouseListener(createMouseListener4GapNextButton(verticalGapSpinner, VERTICAL_GAP_MIX, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Vertical_Gap_Over_Warning")));
+
+        JPanel fontSizeTypePane = new JPanel(new BorderLayout(10, 0));
         fontSizeTypePane.add(fontSizeComboBox, BorderLayout.CENTER);
 
         //水印间距面板
@@ -144,18 +171,18 @@ public class WatermarkPane extends BasicPane {
         JPanel rightContentPane = TableLayoutHelper.createCommonTableLayoutPane(new JComponent[][]{
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Watermark_Text")), formulaPane},
                 {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Font_Size")), fontSizeTypePane},
-                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Watermark_Gap")),watermarkGapPane },
-                {null,watermarkGapTipsPane },
+                {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Watermark_Gap")), watermarkGapPane},
+                {null, watermarkGapTipsPane},
                 {colorLabelPane, colorPane},
         }, rowSize, columnSize, 10);
         rightContentPane.setBorder(BorderFactory.createEmptyBorder(15, 12, 10, 12));
 
         UIScrollPane configPane = new UIScrollPane(rightContentPane);
-        configPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Config"),null));
+        configPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Config"), null));
         return configPane;
     }
 
-    protected void populateFontSize(int fontSize){
+    protected void populateFontSize(int fontSize) {
         this.fontSizeComboBox.setSelectedItem(fontSize);
         this.fontSizeComboBox.addItemListener(new ItemListener() {
             @Override
@@ -165,7 +192,7 @@ public class WatermarkPane extends BasicPane {
         });
     }
 
-    protected void populateWatermarkGap(WatermarkAttr watermark){
+    protected void populateWatermarkGap(WatermarkAttr watermark) {
         this.horizontalGapSpinner.setValue(watermark.getHorizontalGap());
         this.horizontalGapSpinner.addUISpinnerFocusListenner(new FocusListener() {
 
@@ -195,7 +222,7 @@ public class WatermarkPane extends BasicPane {
         });
     }
 
-    protected void paintPreviewPane(){
+    protected void paintPreviewPane() {
         watermarkPreviewPane.repaint(update());
     }
 
@@ -235,4 +262,67 @@ public class WatermarkPane extends BasicPane {
     protected String title4PopupWindow() {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_WaterMark");
     }
+
+    /**
+     * 创建水印间距文本段焦点监听器
+     *
+     * @return
+     */
+    private FocusListener createFocusListener4GapNumberField(final UISpinner spinner, final int limitMinValue, final String messageStr) {
+        return new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (spinner.getValue() >= limitMinValue) {
+                    return;
+                }
+                createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
+            }
+        };
+    }
+
+    /**
+     * 创建水印间距微调器 NextButton 的鼠标释放监听器
+     *
+     * @param messageStr    提示消息
+     * @param limitMinValue 限制的最小值
+     * @return
+     */
+    private MouseListener createMouseListener4GapNextButton(final UISpinner spinner, final int limitMinValue, final String messageStr) {
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (spinner.getValue() >= limitMinValue) {
+                    return;
+                }
+                createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
+            }
+        };
+        return mouseAdapter;
+    }
+
+    /**
+     * 创建超过水印间距限制的对话框
+     *
+     * @param messageStr 提示消息
+     */
+    private void createGapDialog(String messageStr) {
+        JDialog dialog = new JDialog((Dialog) SwingUtilities.getWindowAncestor(WatermarkPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Joption_News"), true);
+        dialog.setSize(new Dimension(268, 118));
+        message.setText(messageStr);
+        JPanel upPane = new JPanel();
+        UILabel uiLabel = new UILabel(UIManager.getIcon("OptionPane.informationIcon"));
+        upPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        upPane.add(uiLabel);
+        upPane.add(message);
+        dialog.add(upPane);
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(WatermarkPane.this));
+        dialog.setVisible(true);
+        dialog.dispose();
+    }
+
 }
