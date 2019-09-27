@@ -3,7 +3,6 @@ package com.fr.design.mainframe.chart.gui;
 import com.fr.base.BaseUtils;
 import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
@@ -187,12 +186,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private void calculateMultiChartMode() {
         //设置切换功能是否可用
         editingCollection.getChangeConfigAttr().setEnable(changeEnable());
-        //多图表切换模式
-        if (editingCollection.getChartCount() > 1) {
-            editingCollection.setState(SwitchState.CHANGE);
-        } else {
-            editingCollection.setState(SwitchState.DEFAULT);
-        }
     }
 
     /**
@@ -363,7 +356,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private void checkConfigButtonVisible() {
         addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChartProvider().getID()));
         //新建一个collection
-        if (editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChartProvider() != null) {
+        if (editingCollection.getChartCount() == 1 && editingCollection.getSelectedChartProvider() != null) {
             //Chart 不支持图表切换
             configButton.setVisible(supportChange());
         }
