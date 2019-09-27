@@ -196,6 +196,7 @@ public class RemoteWorkspaceURL implements FCloneable {
                 ", port='" + port + '\'' +
                 ", web='" + web + '\'' +
                 ", servlet='" + servlet + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 
