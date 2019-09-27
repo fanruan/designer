@@ -37,6 +37,7 @@ public class DesignerInitial {
         EventDispatcher.listen(DesignerLaunchStatus.OPEN_LAST_FILE_COMPLETE, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
+                EventDispatcher.stopListen(this);
                 UIUtil.invokeLaterIfNeeded(new Runnable() {
                     @Override
                     public void run() {

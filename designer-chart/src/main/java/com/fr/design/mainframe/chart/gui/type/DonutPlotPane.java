@@ -34,15 +34,6 @@ public class DonutPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
     @Override
-    protected String[] getTypeTipName() {
-        String donut = Toolkit.i18nText("Fine-Design_Chart_Type_Donut");
-        return new String[]{
-                donut,
-                Toolkit.i18nText("Fine-Design_Chart_3D") + donut
-        };
-    }
-
-    @Override
     protected String[] getTypeLayoutPath() {
         return new String[]{"/com/fr/design/images/chart/DonutPlot/layout/0.png",
                 "/com/fr/design/images/chart/DonutPlot/layout/1.png",

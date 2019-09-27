@@ -23,13 +23,6 @@ public class GanttPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				Toolkit.i18nText("Fine-Design_Chart_Type_Gantt")
-		};
-    }
-
-	@Override
 	protected String getPlotTypeID() {
 		return ChartConstants.GANTT_CHART;
 	}

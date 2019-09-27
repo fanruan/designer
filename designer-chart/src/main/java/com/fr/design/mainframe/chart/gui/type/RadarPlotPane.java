@@ -23,13 +23,6 @@ public class RadarPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-		        Toolkit.i18nText("Fine-Design_Chart_Type_Radar")
-		};
-    }
-
-	@Override
 	protected String getPlotTypeID() {
 		return ChartConstants.RADAR_CHART;
 	}

@@ -1,6 +1,6 @@
 package com.fr.design.actions.file;
 
-import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.cluster.ClusterBridge;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
@@ -307,7 +307,7 @@ public class PreferencePane extends BasicPane {
         });
 
         //集群下禁用
-        if (FineClusterConfig.getInstance().isCluster()) {
+        if (ClusterBridge.isClusterMode()) {
             gcEnableCheckBox.setEnabled(false);
             gcButton.setEnabled(false);
         }
@@ -1050,7 +1050,7 @@ public class PreferencePane extends BasicPane {
         if (size > Math.pow(n, 2)) {
             return df.format(size / Math.pow(n, 2)) + "MB";
         }
-        return new StringBuilder().append(df.format(size / n)).append("KB").toString();
+        return df.format(size / n) + "KB";
     }
 
     /**

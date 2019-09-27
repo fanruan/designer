@@ -314,16 +314,15 @@ public abstract class AbstractManagerPane extends BasicPane {
 
     private void addToMemberList() {
         addingListModel.clear();
-        for (RemoteDesignMember member : addingMembers) {
+        for (RemoteDesignMember addingMember : addingMembers) {
             // 如果包含在右侧列表中，那么左侧列表默认选中
-            if (addedMembers.contains(member)) {
-                member.setAuthority(true);
-                member.setSelected(true);
-            } else {
-                member.setAuthority(false);
-                member.setSelected(false);
+            for (RemoteDesignMember addedMember : addedMembers){
+                if (addingMember.equals(addedMember)){
+                    addingMember.setAuthority(addedMember.hasAuthority());
+                    addingMember.setSelected(true);
+                }
             }
-            addingListModel.addElement(member);
+            addingListModel.addElement(addingMember);
         }
         addingList.revalidate();
         addingList.repaint();

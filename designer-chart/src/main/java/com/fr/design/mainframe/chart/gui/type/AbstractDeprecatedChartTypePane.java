@@ -16,6 +16,7 @@ import com.fr.chart.chartattr.Legend;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartattr.Title;
 import com.fr.chart.chartglyph.ConditionAttr;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.js.NameJavaScriptGroup;
@@ -36,6 +37,12 @@ public abstract class AbstractDeprecatedChartTypePane extends AbstractChartTypeP
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error in change plot");
         }
+    }
+
+
+    @Override
+    protected String[] getTypeTipName() {
+        return ChartTypeInterfaceManager.getInstance().getSubName(getPlotID());
     }
 
     /**
