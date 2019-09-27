@@ -9,6 +9,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
@@ -23,12 +24,7 @@ import com.fr.design.update.ui.widget.UpdateInfoTableCellRender;
 import com.fr.design.update.ui.widget.UpdateInfoTableModel;
 import com.fr.design.update.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.DateUtils;
-import com.fr.general.GeneralContext;
-import com.fr.general.GeneralUtils;
-import com.fr.general.SiteCenter;
+import com.fr.general.*;
 import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
@@ -39,6 +35,7 @@ import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
@@ -46,21 +43,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,8 +106,6 @@ public class UpdateMainDialog extends UIDialog {
     private UIButton searchUpdateInfoBtn;
     //搜索更新信息关键词文本框
     private UITextField searchUpdateInfoKeyword;
-
-    private boolean updateSuccessful;
 
     private UpdateInfoTable updateInfoTable;
 
@@ -248,12 +232,12 @@ public class UpdateMainDialog extends UIDialog {
 
         updateInfoTable.setShowGrid(false);
         updateInfoTable.setCellSelectionEnabled(false);
-        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<UpdateInfoTableModel>(updateInfoTable.getDataModel());
+        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<>(updateInfoTable.getDataModel());
         sorter.setSortable(updateTimeColIndex, true);
         sorter.setSortable(updateTitleColIndex, false);
         sorter.setSortable(updateSignColIndex, false);
         updateInfoTable.setRowSorter(sorter);
-        List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(updateTimeColIndex, SortOrder.DESCENDING));
         sorter.setSortKeys(sortKeys);
 
@@ -367,6 +351,7 @@ public class UpdateMainDialog extends UIDialog {
                 try {
                     downloadFileConfig = get();
                     showDownLoadInfo();
+                    afterInit();
                 } catch (InterruptedException e) {
                     stopLoading();
                     Thread.currentThread().interrupt();
@@ -380,7 +365,7 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     private SwingWorker<JSONArray, Void> getUpdateInfo(final String keyword) {
-        updateInfoList = new ArrayList<Object[]>();
+        updateInfoList = new ArrayList<>();
         lastUpdateCacheTime = UpdateConstants.CHANGELOG_X_START;
         String cacheConfigPath = getUpdateCacheConfig();
         cacheProperty = new UpdateInfoCachePropertyManager(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), "resources", "offlineres", cacheConfigPath));
@@ -430,7 +415,6 @@ public class UpdateMainDialog extends UIDialog {
                     getUpdateInfoSuccess = true;
                     //step4:update cache file,start from cacheRecordTime,end latest server jartime
                     updateCachedInfoFile(jsonArray);
-                    afterInit();
                 } catch (Exception e) {
                     getUpdateInfoSuccess = true;
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -532,7 +516,7 @@ public class UpdateMainDialog extends UIDialog {
                 updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateTitle, updateTime.after(curJarDate)});
             }
         }
-        return new ArrayList<Object[]>(updateInfoList);
+        return new ArrayList<>(updateInfoList);
     }
 
     private boolean containsKeyword(String str, String keyword) {
@@ -594,12 +578,12 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (updateSuccessful) {
-                    RestartHelper.restart();
-                } else {
+                backup();
+                int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"),2);
+                if (a == 0) {
                     progressBar.setVisible(true);
+                    progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
                     UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
-                    deletePreviousPropertyFile();
                     updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
                     new FileProcess(callBack) {
@@ -607,12 +591,13 @@ public class UpdateMainDialog extends UIDialog {
                         public void onDownloadSuccess() {
                             updateButton.setEnabled(true);
                             progressBar.setVisible(false);
-                            updateSuccessful = true;
-                            updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
+                            RestartHelper.restart();
                         }
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
+                            JOptionPane.showMessageDialog(getParent(),"Update Failed");
+                            RestartHelper.restart();
                         }
                     }.execute();
                 }
@@ -621,20 +606,40 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     /**
-     * 确保升级更新之前删除以前的配置文件
+     * Jar还原按钮兼容
      */
-    public static void deletePreviousPropertyFile() {
-        //在进行更新升级之前确保move和delete.properties删除
-        File moveFile = new File(RestartHelper.MOVE_FILE);
-        File delFile = new File(RestartHelper.RECORD_FILE);
-        if ((moveFile.exists()) && (!moveFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.MOVE_FILE + "delete failed!");
-        }
-        if ((delFile.exists()) && (!delFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.RECORD_FILE + "delete failed!");
+    private void backup() {
+        String installHome = StableUtils.getInstallHome();
+        //jar包备份文件的目录为"backup/"+jar包当前版本号
+        String todayBackupDir = StableUtils.pathJoin(installHome, getBackupDirectory(), (GeneralUtils.readBuildNO()));
+        backupFilesFromInstallEnv(installHome, todayBackupDir, UpdateConstants.JARS_FOR_SERVER_X);
+        backupFilesFromInstallLib(installHome, todayBackupDir, UpdateConstants.JARS_FOR_DESIGNER_X);
+        jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
+    }
+
+    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, List<String> files) {
+        for (String file : files) {
+            try {
+                IOUtils.copy(
+                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
+                        new File(StableUtils.pathJoin(todayBackupDir)));
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage());
+            }
         }
     }
 
+    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, List<String> files) {
+        for (String file : files) {
+            try {
+                IOUtils.copy(
+                        new File(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file)),
+                        new File(StableUtils.pathJoin(todayBackupDir)));
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage());
+            }
+        }
+    }
 
     //获取备份目录
     private String getBackupDirectory() {
