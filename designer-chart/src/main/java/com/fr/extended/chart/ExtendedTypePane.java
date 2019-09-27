@@ -67,7 +67,7 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
 
     @Override
     public ChartProvider getDefaultChart() {
-        return ChartTypeManager.getInstance().getChartTypes(getPlotID())[0];
+        return ChartTypeManager.getInstance().getCharts(getPlotID())[0];
     }
 
     @Override

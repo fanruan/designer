@@ -125,7 +125,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
             try{
 				AbstractChartTypePane selectedPane = (AbstractChartTypePane) getSelectedPane();
-				ChartProvider newDefaultChart =(ChartProvider) ChartTypeManager.getInstanceWithCheck().getChartTypes(selectedPane.getPlotID())[0].clone();
+				ChartProvider newDefaultChart =(ChartProvider) ChartTypeManager.getInstanceWithCheck().getCharts(selectedPane.getPlotID())[0].clone();
 				if (!ComparatorUtils.equals(chart.getClass(), newDefaultChart.getClass())) {
 					//vanChart 和 chart 之间切换
 					//不同chart之间切换
