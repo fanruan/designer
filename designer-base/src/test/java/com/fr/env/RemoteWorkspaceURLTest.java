@@ -4,12 +4,25 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author yaohwu
  */
 public class RemoteWorkspaceURLTest {
 
+
+    @Test
+    public void testEqualAndHashCode() {
+        String a = "https://yaohwu:8080/webroot/app/c/d";
+        RemoteWorkspaceURL workspaceURL1 = new RemoteWorkspaceURL(a);
+        RemoteWorkspaceURL workspaceURL2 = new RemoteWorkspaceURL(a);
+        assertEquals(workspaceURL1.hashCode(), workspaceURL2.hashCode());
+        assertEquals(workspaceURL1, workspaceURL2);
+        workspaceURL2.resetUrl();
+        assertNotEquals(workspaceURL1.hashCode(), workspaceURL2.hashCode());
+        assertNotEquals(workspaceURL1, workspaceURL2);
+    }
 
     @Test
     public void testUrlReset() {
