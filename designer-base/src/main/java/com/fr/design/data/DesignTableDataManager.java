@@ -38,7 +38,8 @@ import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 
-import javax.swing.event.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.io.ByteArrayOutputStream;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -521,6 +522,7 @@ public abstract class DesignTableDataManager {
         if (inParameters.length > 0 && !ComparatorUtils.equals(threadLocal.get(), NO_PARAMETER)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(inParameters);
             pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                @Override
                 public void doOk() {
                     parameterMap.putAll(pPane.update());
                 }
