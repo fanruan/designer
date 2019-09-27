@@ -12,6 +12,7 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.workspace.WorkContext;
 
 import java.util.concurrent.ExecutorService;
@@ -87,13 +88,13 @@ public class DesignerPushUpdateManager {
     public boolean isAutoPushUpdateSupported() {
         boolean isLocalEnv = WorkContext.getCurrent().isLocal();
         boolean isChineseEnv = GeneralContext.isChineseEnv();
-
-        return isAutoPushUpdateSupported(isLocalEnv, isChineseEnv);
+        boolean isLinux = OperatingSystem.isLinux();
+        return isAutoPushUpdateSupported(isLocalEnv, isChineseEnv,isLinux);
     }
 
-    private boolean isAutoPushUpdateSupported(boolean isLocalEnv, boolean isChineseEnv) {
-        // 远程设计和非中文环境，都不生效
-        return isLocalEnv && isChineseEnv;
+    private boolean isAutoPushUpdateSupported(boolean isLocalEnv, boolean isChineseEnv,boolean isLinux) {
+        // 远程设计和非中文环境以及Linux环境，都不生效
+        return isLocalEnv && isChineseEnv && !isLinux;
     }
 
     /**

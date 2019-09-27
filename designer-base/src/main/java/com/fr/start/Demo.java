@@ -2,7 +2,7 @@ package com.fr.start;
 
 
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.OperatingSystem;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 
 import java.io.IOException;
@@ -17,13 +17,15 @@ public class Demo {
 
         String executorPath;
 
-        if (OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isMacos()) {
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.app");
-        } else {
+        } else if(OperatingSystem.isWindows()){
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.exe demo");
+        }else{
+            executorPath = StableUtils.pathJoin(installHome, "bin", "designer.sh demo");
         }
 
-        if (OperatingSystem.isMacOS()) {
+        if (OperatingSystem.isMacos()) {
             ProcessBuilder builder = new ProcessBuilder();
             builder.command("open", "-a", executorPath, "--args", "demo");
             try {
@@ -31,8 +33,16 @@ public class Demo {
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-        } else {
+        } else if(OperatingSystem.isWindows()){
             // ProcessBuilder这种方式在window下报错：系统找不到指定文件
+            Runtime rt = Runtime.getRuntime();
+            try {
+                rt.exec(executorPath);
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
+        }else{
+            //先用和win一样的方式
             Runtime rt = Runtime.getRuntime();
             try {
                 rt.exec(executorPath);

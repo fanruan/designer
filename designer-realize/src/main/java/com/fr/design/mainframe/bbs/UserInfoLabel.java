@@ -28,7 +28,8 @@ import com.fr.general.DateUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
-import com.fr.stable.OperatingSystem;
+import com.fr.stable.os.Arch;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -142,7 +143,8 @@ public class UserInfoLabel extends UILabel {
             @Override
             public void run() {
                 // vito:最新mac10.12和javafx弹出框初始化时会有大几率卡死在native方法，这里先屏蔽一下。
-                if (!FRContext.isChineseEnv() || OperatingSystem.isMacOS()) {
+                //ARM下暂时也不能用javafx
+                if (!shouldShowBBSDialog()) {
                     return;
                 }
                 String lastBBSNewsTime = DesignerEnvManager.getEnvManager().getLastShowBBSNewsTime();
@@ -240,6 +242,10 @@ public class UserInfoLabel extends UILabel {
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
+    }
+
+    private static boolean shouldShowBBSDialog(){
+        return FRContext.isChineseEnv() && !OperatingSystem.isMacos() && Arch.getArch() != Arch.ARM;
     }
 
     public String getUserName() {

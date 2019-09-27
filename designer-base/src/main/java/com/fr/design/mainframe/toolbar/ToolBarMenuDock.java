@@ -70,6 +70,7 @@ import com.fr.plugin.observer.PluginEventListener;
 import com.fr.plugin.observer.PluginEventType;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 import org.jetbrains.annotations.Nullable;
@@ -540,7 +541,7 @@ public abstract class ToolBarMenuDock {
         }
 
         shortCuts.add(SeparatorDef.DEFAULT);
-        if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
+        if (DesignerEnvManager.getEnvManager().isOpenDebug() && !OperatingSystem.isLinux()) {
             shortCuts.add(new FineUIAction());
         }
         shortCuts.add(new AboutAction());

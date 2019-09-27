@@ -16,6 +16,7 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.dcm.UniversalDatabaseOpener;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.WorkerFacade;
@@ -60,7 +61,7 @@ public class ConnectionListAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        if (ServerPreferenceConfig.getInstance().isUseUniverseDBM()) {
+        if (ServerPreferenceConfig.getInstance().isUseUniverseDBM() && !OperatingSystem.isLinux()) {
             UniversalDatabaseOpener.showUniverseDatabaseDialog();
         } else {
             openDesignDatabaseManager();

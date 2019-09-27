@@ -5,7 +5,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.OperatingSystem;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 
@@ -168,10 +168,13 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            if (OperatingSystem.isMacOS()) {
+            if (OperatingSystem.isMacos()) {
                 restartInMacOS(installHome, filesToBeDelete);
-            } else {
+            } else if(OperatingSystem.isWindows()){
                 restartInWindows(installHome, filesToBeDelete);
+            }else{
+                //增加一个Linux系统
+                restartInLinux(installHome,filesToBeDelete);
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -204,6 +207,18 @@ public class RestartHelper {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
         commands.add(installHome + File.separator + "bin" + File.separator + "restart.exe");
+        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
+            commands.add(StableUtils.join(filesToBeDelete, "+"));
+        }
+        builder.command(commands);
+        builder.start();
+    }
+
+    private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
+        ProcessBuilder builder = new ProcessBuilder();
+        List<String> commands = new ArrayList<String>();
+        //现在先写的是restart.sh
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
         if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
             commands.add(StableUtils.join(filesToBeDelete, "+"));
         }

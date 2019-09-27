@@ -5,6 +5,7 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.stable.os.OperatingSystem;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -28,7 +29,9 @@ public class ProgressDialog extends UIDialog {
         setUndecorated(true);
         setSize(parent.getSize());
         setLocationRelativeTo(null);
-        setOpacity(0.5f);
+        if(!OperatingSystem.isLinux()) {
+            setOpacity(0.5f);
+        }
         initComponent();
     }
 

@@ -91,6 +91,7 @@ import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.os.Arch;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
@@ -125,7 +126,9 @@ public class DesignerActivator extends Activator {
         designerModuleStart();
         loadLogAppender();
         DesignerSocketIO.update();
-        UserInfoPane.getInstance().updateBBSUserInfo();
+        if(Arch.getArch() != Arch.ARM) {
+            UserInfoPane.getInstance().updateBBSUserInfo();
+        }
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
     }

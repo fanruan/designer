@@ -58,6 +58,7 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
+import com.fr.stable.os.Arch;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
@@ -456,13 +457,20 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor != null) {
-            processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            if(Arch.getArch() != Arch.ARM) {
+                processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            }else{
+                //暂时不知道具体插件，先传null
+                processor.hold(northEastPane, LogMessageBar.getInstance(), null);
+            }
         }
         northEastPane.add(ad.createAlphaFinePane());
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             ad.createAlphaFinePane().setVisible(false);
         }
-        northEastPane.add(ad.createBBSLoginPane());
+        if(Arch.getArch() != Arch.ARM) {
+            northEastPane.add(ad.createBBSLoginPane());
+        }
     }
 
     public void initTitleIcon() {
