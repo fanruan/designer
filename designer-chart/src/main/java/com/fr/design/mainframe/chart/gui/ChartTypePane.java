@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.chart.gui;
 
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
@@ -218,7 +217,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			//第一步就是重构cards
 			cards.clear();
 			if (enabledChart) {
-				if (collection.getState() == SwitchState.DEFAULT) {
+				if (collection.getChartCount() == 1) {
 					addAllCards();
 				} else {
 					addOnePriorityCards(priority);

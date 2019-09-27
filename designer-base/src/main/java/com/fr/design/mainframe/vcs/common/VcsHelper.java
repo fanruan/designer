@@ -26,9 +26,9 @@ import com.fr.workspace.server.vcs.git.config.GcConfig;
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.util.Date;
 
-import static com.fr.stable.StableUtils.pathJoin;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by XiaXiang on 2019/4/17.
