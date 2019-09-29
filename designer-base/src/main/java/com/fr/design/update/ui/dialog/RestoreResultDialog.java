@@ -7,7 +7,6 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -93,7 +92,7 @@ public class RestoreResultDialog extends JDialog {
         jarProgressLabel.setVisible(true);
         progressLabelPane.add(jarProgressLabel);
         pane.add(progressLabelPane, BorderLayout.CENTER);
-        deletePreviousPropertyFile(RestartHelper.MOVE_FILE,RestartHelper.RECORD_FILE);
+        deletePreviousPropertyFile();
         putJarBackupFiles();
         restartButton.setEnabled(true);
         restartLaterButton.setEnabled(true);
@@ -101,18 +100,13 @@ public class RestoreResultDialog extends JDialog {
         this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
     }
 
-    public static boolean deletePreviousPropertyFile(String move, String record) {
-        File moveFile = new File(move);
-        File delFile = new File(record);
-        if ((moveFile.exists()) && (!moveFile.delete())) {
-            FineLoggerFactory.getLogger().error(move + "delete failed!");
-            return false;
+    public static boolean deletePreviousPropertyFile() {
+        File moveFile = new File(RestartHelper.MOVE_FILE);
+        File delFile = new File(RestartHelper.RECORD_FILE);
+        if (StableUtils.mkdirs(moveFile) && StableUtils.mkdirs(delFile)) {
+            return StableUtils.deleteFile(moveFile) && StableUtils.deleteFile(delFile);
         }
-        if ((delFile.exists()) && (!delFile.delete())) {
-            FineLoggerFactory.getLogger().error(record + "delete failed!");
-            return false;
-        }
-        return true;
+        return false;
     }
 
     private void initOldVersionRestoreComps() {

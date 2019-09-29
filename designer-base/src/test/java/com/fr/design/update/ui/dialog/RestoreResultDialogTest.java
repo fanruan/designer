@@ -1,23 +1,26 @@
 package com.fr.design.update.ui.dialog;
 
-
-import org.easymock.EasyMock;
-import org.easymock.IMocksControl;
+import com.fr.design.RestartHelper;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StableUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 public class RestoreResultDialogTest {
 
     @Test
     public void testDeletePreviousPropertyFile() {
-        IMocksControl control = EasyMock.createControl();
-        File testRecordFile = control.createMock(File.class);
-        File testMoveFile = control.createMock(File.class);
-        EasyMock.expect(testRecordFile.getPath()).andReturn("move").anyTimes();
-        EasyMock.expect(testMoveFile.getPath()).andReturn("record").anyTimes();
-        control.replay();
-        Assert.assertTrue(RestoreResultDialog.deletePreviousPropertyFile("move","record"));
+        File moveFile = new File(RestartHelper.MOVE_FILE);
+        File recordFile = new File(RestartHelper.RECORD_FILE);
+        try {
+            StableUtils.makesureFileExist(moveFile);
+            StableUtils.makesureFileExist(recordFile);
+            Assert.assertTrue(RestoreResultDialog.deletePreviousPropertyFile());
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(),e);
+        }
     }
 }
