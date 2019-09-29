@@ -2,6 +2,7 @@ package com.fr.design.data;
 
 import com.fr.base.StoreProcedureParameter;
 import com.fr.base.TableData;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.data.TableDataSource;
 import com.fr.data.TableDataSourceTailor;
 import com.fr.data.core.DataCoreXmlUtils;
@@ -30,6 +31,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
 import com.fr.log.FineLoggerFactory;
+import com.fr.module.ModuleContext;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
@@ -48,8 +50,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 设计器管理操作数据集的类:
@@ -444,11 +446,18 @@ public abstract class DesignTableDataManager {
         } catch (Exception e) {
             throw new TableDataException(e.getMessage(), e);
         } finally {
-            new Timer().schedule(new TimerTask() {
+            ScheduledExecutorService scheduledExecutorService = ModuleContext
+                    .getExecutor()
+                    .newSingleThreadScheduledExecutor(new NamedThreadFactory(""));
+            scheduledExecutorService.schedule(new Runnable() {
+                @Override
                 public void run() {
-                    loadingBar.close();
+                    if (loadingBar != null) {
+                        loadingBar.close();
+                    }
                 }
-            }, 100);
+            }, 100, TimeUnit.MILLISECONDS);
+            scheduledExecutorService.shutdown();
         }
     }
 
@@ -513,6 +522,7 @@ public abstract class DesignTableDataManager {
         if (inParameters.length > 0 && !ComparatorUtils.equals(threadLocal.get(), NO_PARAMETER)) {// 检查Parameter.
             final ParameterInputPane pPane = new ParameterInputPane(inParameters);
             pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+                @Override
                 public void doOk() {
                     parameterMap.putAll(pPane.update());
                 }
