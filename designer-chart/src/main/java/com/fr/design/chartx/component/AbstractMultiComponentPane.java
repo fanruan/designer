@@ -24,7 +24,6 @@ import java.util.List;
  * 一列组件<T extends JComponent> 可增可删，通过JComponent后面的加减button增删。
  */
 public abstract class AbstractMultiComponentPane<T extends JComponent> extends JPanel {
-    private static final int COM_W = 96;
     private static final int H = 20;
     private static final int ICON_W = 20;
 
@@ -50,7 +49,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
         label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
 
         firstFieldComponent = createFirstFieldComponent();
-        firstFieldComponent.setPreferredSize(new Dimension(COM_W, H));
+        firstFieldComponent.setPreferredSize(new Dimension(componentWidth(), H));
 
         addButton = new UIButton(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         addButton.setPreferredSize(new Dimension(ICON_W, H));
@@ -64,7 +63,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
         });
 
         final JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 2));
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 2));
 
         panel.add(label);
         panel.add(firstFieldComponent);
@@ -76,6 +75,10 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
         this.setLayout(new BorderLayout(4, 0));
         this.add(panel, BorderLayout.NORTH);
         this.add(boxPane, BorderLayout.CENTER);
+    }
+
+    protected int componentWidth() {
+        return 96;
     }
 
     private JPanel addComboBoxAndButtonToBox(T uiComboBox, UIButton uiButton) {
@@ -93,7 +96,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
 
     private void addNewComboBox() {
         final T comboBox = createOtherFieldComponent();
-        comboBox.setPreferredSize(new Dimension(COM_W, H));
+        comboBox.setPreferredSize(new Dimension(componentWidth(), H));
 
         UIButton delButton = new UIButton(IOUtils.readIcon("com/fr/design/images/toolbarbtn/close.png"));
         delButton.setPreferredSize(new Dimension(ICON_W, H));
