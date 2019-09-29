@@ -23,14 +23,12 @@ public interface UpdateConstants {
     String CHANGELOG_X_START = "2018-07-11";
 
     String DEFAULT_APP_NAME = "FineReport";
-    String DOWNLOAD_DIR = "update";
     String DESIGNER_BACKUP_DIR = "designerbackup";
 
     String UPDATE_CACHE_CONFIG_X = "updateCacheConfig10";
     String UPDATE_CACHE_INFO_X = "updateCacheInfo10";
 
-
-    int BYTE = 153600;
+    String JXBROWSER = "jxbrowser";
 
     List<String> JARS_FOR_SERVER_X = Collections.unmodifiableList(Arrays.asList(new String[]{
             "fine-activator-10.0.jar",
@@ -51,8 +49,6 @@ public interface UpdateConstants {
             "fine-report-designer-10.0.jar",
             "aspectjrt.jar"
     }));
-
-
     List<String> LOG_TYPE = Collections.unmodifiableList(Arrays.asList(new String[]{
             "REPORT", "MOBILE", "CHART", "PFC", "BI"
     }));
