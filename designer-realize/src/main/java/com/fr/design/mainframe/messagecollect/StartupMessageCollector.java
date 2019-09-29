@@ -8,6 +8,7 @@ import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
@@ -30,14 +31,15 @@ public class StartupMessageCollector {
 
     private static final String XML_STARTUP_TIME = "t";
     private static final String XML_STARTUP_LOG = "startupLog";
-    private static final String XML_STARTUP_Memory = "designerMemory";
+    private static final String XML_STARTUP_MEMORY = "designerMemory";
     private static final String XML_STARTUP_COST = "cost";
     private static final String XML_UUID = "UUID";
+    private static final String XML_BUILD_NO = "buildNO";
     private static final String STARTUP_URL_KEY = "user.info.v10.startup";
     private static final String LOG_TYPE = "single";
     private static final int BYTE_TO_MB = 1024 * 1024;
 
-    public static final StartupMessageCollector INSTANCE = new StartupMessageCollector();
+    private static final StartupMessageCollector INSTANCE = new StartupMessageCollector();
 
     private StartupMessageCollector() {
     }
@@ -67,10 +69,11 @@ public class StartupMessageCollector {
                         }
                         JSONObject json = JSONObject.create()
                                 .put(XML_UUID, DesignerEnvManager.getEnvManager().getUUID())
+                                .put(XML_BUILD_NO, GeneralUtils.readBuildNO())
                                 .put(XML_STARTUP_TIME, FineRuntime.getAppStartTime() + FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_COST, FineRuntime.getStartingTime())
                                 .put(XML_STARTUP_LOG, profile)
-                                .put(XML_STARTUP_Memory, Runtime.getRuntime().totalMemory() / BYTE_TO_MB);
+                                .put(XML_STARTUP_MEMORY, Runtime.getRuntime().maxMemory() / BYTE_TO_MB);
                         sendInfo(json, url + LOG_TYPE);
                     }
                 });
