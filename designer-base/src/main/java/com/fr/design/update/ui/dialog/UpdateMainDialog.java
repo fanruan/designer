@@ -25,7 +25,6 @@ import com.fr.design.update.ui.widget.UpdateInfoTableModel;
 import com.fr.design.update.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.*;
-import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
@@ -36,6 +35,9 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
+import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
@@ -47,6 +49,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,6 +57,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+
+import static java.nio.charset.StandardCharsets.*;
 
 /**
  * Created by XINZAI on 2018/8/21.
@@ -380,6 +385,8 @@ public class UpdateMainDialog extends UIDialog {
         return new SwingWorker<JSONArray, Void>() {
             @Override
             protected JSONArray doInBackground() {
+                CloseableHttpClient httpClient;
+                CloseableHttpResponse response;
                 try {
                     getUpdateInfoSuccess = false;
                     //step1:read from cache file
@@ -388,16 +395,15 @@ public class UpdateMainDialog extends UIDialog {
                     if (downloadFileConfig == null) {
                         throw new Exception("network error.");
                     }
-                    HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
-                    hc.asGet();
-                    hc.setTimeout(UpdateConstants.CONNECTION_TIMEOUT * 2);
-                    String responseText = hc.getResponseText();
+                    HttpGet get = new HttpGet(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    httpClient = HttpToolbox.getHttpClient(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    response = httpClient.execute(get);
+                    String responseText = CommonIOUtils.inputStream2String(response.getEntity().getContent(),EncodeConstants.ENCODING_UTF_8).trim();
                     JSONArray array = JSONArray.create();
                     //假如返回"-1"，说明socket出错了
                     if (!ComparatorUtils.equals(responseText, "-1")) {
                         array = new JSONArray(responseText);
                     }
-                    hc.release();
                     return array;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -438,7 +444,7 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
+            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), StandardCharsets.UTF_8);
                  BufferedReader br = new BufferedReader(streamReader)) {
                 String readStr, updateTimeStr;
                 while ((readStr = br.readLine()) != null) {
@@ -483,13 +489,14 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), EncodeConstants.ENCODING_UTF_8);
-             BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jo = (JSONObject) jsonArray.get(i);
-                bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
-                bufferWriter.newLine();
-                bufferWriter.flush();
+        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), UTF_8)) {
+            try (BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jo = (JSONObject) jsonArray.get(i);
+                    bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
+                    bufferWriter.newLine();
+                    bufferWriter.flush();
+                }
             }
         }
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
@@ -507,6 +514,9 @@ public class UpdateMainDialog extends UIDialog {
             //形如 Build#release-2018.07.31.03.03.52.80
             String currentNO = GeneralUtils.readBuildNO();
             Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+            if (curJarDate == null) {
+                curJarDate = updateTime;
+            }
             if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
                 if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateTitle, keyword)) {
                     continue;
@@ -579,7 +589,7 @@ public class UpdateMainDialog extends UIDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 backup();
-                int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"),2);
+                int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"), JOptionPane.OK_CANCEL_OPTION);
                 if (a == 0) {
                     progressBar.setVisible(true);
                     progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
@@ -612,13 +622,13 @@ public class UpdateMainDialog extends UIDialog {
         String installHome = StableUtils.getInstallHome();
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, getBackupDirectory(), (GeneralUtils.readBuildNO()));
-        backupFilesFromInstallEnv(installHome, todayBackupDir, UpdateConstants.JARS_FOR_SERVER_X);
-        backupFilesFromInstallLib(installHome, todayBackupDir, UpdateConstants.JARS_FOR_DESIGNER_X);
+        backupFilesFromInstallEnv(installHome, todayBackupDir);
+        backupFilesFromInstallLib(installHome, todayBackupDir);
         jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
     }
 
-    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
+    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir) {
+        for (String file : UpdateConstants.JARS_FOR_SERVER_X) {
             try {
                 IOUtils.copy(
                         new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
@@ -629,8 +639,8 @@ public class UpdateMainDialog extends UIDialog {
         }
     }
 
-    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
+    private void backupFilesFromInstallLib(String installHome, String todayBackupDir) {
+        for (String file : UpdateConstants.JARS_FOR_DESIGNER_X) {
             try {
                 IOUtils.copy(
                         new File(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file)),
@@ -692,10 +702,8 @@ public class UpdateMainDialog extends UIDialog {
     /**
      * 检查有效性
      *
-     * @throws Exception
      */
     @Override
     public void checkValid() throws Exception {
-
     }
 }

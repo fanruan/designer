@@ -12,7 +12,6 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
 
-
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -25,6 +24,7 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,14 +92,21 @@ public class RestoreResultDialog extends JDialog {
         jarProgressLabel.setVisible(true);
         progressLabelPane.add(jarProgressLabel);
         pane.add(progressLabelPane, BorderLayout.CENTER);
-
-        UpdateMainDialog.deletePreviousPropertyFile();
-
+        deletePreviousPropertyFile();
         putJarBackupFiles();
         restartButton.setEnabled(true);
         restartLaterButton.setEnabled(true);
         this.setSize(RESTORE);
         this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
+    }
+
+    public static boolean deletePreviousPropertyFile() {
+        File moveFile = new File(RestartHelper.MOVE_FILE);
+        File delFile = new File(RestartHelper.RECORD_FILE);
+        if (StableUtils.mkdirs(moveFile) && StableUtils.mkdirs(delFile)) {
+            return StableUtils.deleteFile(moveFile) && StableUtils.deleteFile(delFile);
+        }
+        return false;
     }
 
     private void initOldVersionRestoreComps() {
@@ -151,8 +158,8 @@ public class RestoreResultDialog extends JDialog {
     }
 
     private void putJarBackupFiles() {
-        Map<String, String> map = new HashMap<String, String>();
-        java.util.List<String> list = new ArrayList<String>();
+        Map<String, String> map = new HashMap<>();
+        java.util.List<String> list = new ArrayList<>();
         String installHome = StableUtils.getInstallHome();
 
         putJarBackupFilesToInstallLib(installHome, map, list);
