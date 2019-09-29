@@ -4,11 +4,57 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author yaohwu
  */
-public class RemoteEnvURLTest {
+public class RemoteWorkspaceURLTest {
+
+
+    @Test
+    public void testEqualAndHashCode() {
+        String a = "https://yaohwu:8080/webroot/app/c/d";
+        RemoteWorkspaceURL workspaceURL1 = new RemoteWorkspaceURL(a);
+        RemoteWorkspaceURL workspaceURL2 = new RemoteWorkspaceURL(a);
+        assertEquals(workspaceURL1.hashCode(), workspaceURL2.hashCode());
+        assertEquals(workspaceURL1, workspaceURL2);
+        workspaceURL2.resetUrl();
+        assertNotEquals(workspaceURL1.hashCode(), workspaceURL2.hashCode());
+        assertNotEquals(workspaceURL1, workspaceURL2);
+    }
+
+    @Test
+    public void testUrlReset() {
+
+        String a = "https://yaohwu:8080/webroot/app/c/d";
+        RemoteWorkspaceURL workspaceURL = new RemoteWorkspaceURL(a);
+        Assert.assertEquals(a, workspaceURL.getURL());
+        Assert.assertEquals("app", workspaceURL.getServlet());
+        Assert.assertEquals("webroot", workspaceURL.getWeb());
+        Assert.assertEquals("yaohwu", workspaceURL.getHost());
+        Assert.assertEquals("8080", workspaceURL.getPort());
+        Assert.assertTrue(workspaceURL.getHttps());
+
+        workspaceURL.setHttps(false);
+        workspaceURL.setHost("finereport");
+
+        Assert.assertEquals(a, workspaceURL.getURL());
+        Assert.assertEquals("app", workspaceURL.getServlet());
+        Assert.assertEquals("webroot", workspaceURL.getWeb());
+        Assert.assertEquals("finereport", workspaceURL.getHost());
+        Assert.assertEquals("8080", workspaceURL.getPort());
+        Assert.assertFalse(workspaceURL.getHttps());
+
+        workspaceURL.resetUrl();
+
+        Assert.assertEquals("http://finereport:8080/webroot/app", workspaceURL.getURL());
+        Assert.assertEquals("app", workspaceURL.getServlet());
+        Assert.assertEquals("webroot", workspaceURL.getWeb());
+        Assert.assertEquals("finereport", workspaceURL.getHost());
+        Assert.assertEquals("8080", workspaceURL.getPort());
+        Assert.assertFalse(workspaceURL.getHttps());
+    }
 
     @Test
     public void testURLParser() {
