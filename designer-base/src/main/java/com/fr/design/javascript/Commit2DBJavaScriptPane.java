@@ -149,6 +149,8 @@ public class Commit2DBJavaScriptPane extends FurtherBasicBeanPane<Commit2DBJavaS
 
 		commit2dbJavaScript.setCallBack(this.javaScriptActionPane.getCall());
 
+		this.javaScriptActionPane.setCall(null);
+
 		return commit2dbJavaScript;
 	}
 
