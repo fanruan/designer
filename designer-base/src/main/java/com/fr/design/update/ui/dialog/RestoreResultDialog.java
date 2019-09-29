@@ -93,7 +93,7 @@ public class RestoreResultDialog extends JDialog {
         jarProgressLabel.setVisible(true);
         progressLabelPane.add(jarProgressLabel);
         pane.add(progressLabelPane, BorderLayout.CENTER);
-        deletePreviousPropertyFile();
+        deletePreviousPropertyFile(RestartHelper.MOVE_FILE,RestartHelper.RECORD_FILE);
         putJarBackupFiles();
         restartButton.setEnabled(true);
         restartLaterButton.setEnabled(true);
@@ -101,16 +101,18 @@ public class RestoreResultDialog extends JDialog {
         this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
     }
 
-    public static void deletePreviousPropertyFile() {
-        //在进行更新升级之前确保move和delete.properties删除
-        File moveFile = new File(RestartHelper.MOVE_FILE);
-        File delFile = new File(RestartHelper.RECORD_FILE);
+    public static boolean deletePreviousPropertyFile(String move, String record) {
+        File moveFile = new File(move);
+        File delFile = new File(record);
         if ((moveFile.exists()) && (!moveFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.MOVE_FILE + "delete failed!");
+            FineLoggerFactory.getLogger().error(move + "delete failed!");
+            return false;
         }
         if ((delFile.exists()) && (!delFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.RECORD_FILE + "delete failed!");
+            FineLoggerFactory.getLogger().error(record + "delete failed!");
+            return false;
         }
+        return true;
     }
 
     private void initOldVersionRestoreComps() {
