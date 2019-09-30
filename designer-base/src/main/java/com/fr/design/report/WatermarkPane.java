@@ -36,6 +36,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 
@@ -269,14 +270,10 @@ public class WatermarkPane extends BasicPane {
      * @return
      */
     private FocusListener createFocusListener4GapNumberField(final UISpinner spinner, final int limitMinValue, final String messageStr) {
-        return new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-
+        return new FocusAdapter() {
             @Override
             public void focusLost(FocusEvent e) {
-                if (spinner.getValue() >= limitMinValue) {
+                if (!spinner.isLessMinValue()) {
                     return;
                 }
                 createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
@@ -294,8 +291,8 @@ public class WatermarkPane extends BasicPane {
     private MouseListener createMouseListener4GapNextButton(final UISpinner spinner, final int limitMinValue, final String messageStr) {
         MouseAdapter mouseAdapter = new MouseAdapter() {
             @Override
-            public void mousePressed(MouseEvent e) {
-                if (spinner.getValue() >= limitMinValue) {
+            public void mouseReleased(MouseEvent e) {
+                if (!spinner.isLessMinValue()) {
                     return;
                 }
                 createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
