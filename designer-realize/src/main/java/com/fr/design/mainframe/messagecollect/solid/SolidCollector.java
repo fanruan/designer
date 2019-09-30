@@ -51,10 +51,11 @@ public class SolidCollector {
         if (WorkContext.getCurrent().isLocal()) {
             return;
         }
+        FineLoggerFactory.getLogger().info("start to get solid content from server...");
         try {
             String content = requestContent();
             if (StringUtils.isNotEmpty(content)) {
-                String cipherText = JSONFactory.createJSON(JSON.OBJECT).optString("data");
+                String cipherText = JSONFactory.createJSON(JSON.OBJECT, content).optString("data");
                 if(StringUtils.isNotEmpty(cipherText)){
                     Map<String, Object> params = new HashMap<>();
                     params.put(ATTR_CIPHER_TEXT, cipherText);
@@ -65,6 +66,7 @@ public class SolidCollector {
                     HttpToolbox.post(deleteUrl, getParams());
                 }
             }
+            FineLoggerFactory.getLogger().info("send solid content to cloud center success.");
         } catch (Exception e) {
             FineLoggerFactory.getLogger().info(e.getMessage(), e);
         } finally {
