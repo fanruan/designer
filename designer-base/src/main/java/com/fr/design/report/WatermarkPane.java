@@ -276,6 +276,7 @@ public class WatermarkPane extends BasicPane {
                 if (!spinner.isLessMinValue()) {
                     return;
                 }
+                spinner.resetLessMinValue();
                 createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
             }
         };
@@ -295,6 +296,7 @@ public class WatermarkPane extends BasicPane {
                 if (!spinner.isLessMinValue()) {
                     return;
                 }
+                spinner.resetLessMinValue();
                 createGapDialog(new StringBuilder(messageStr).append(limitMinValue).toString());
             }
         };

@@ -102,6 +102,10 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         return lessMinValue;
     }
 
+    public void resetLessMinValue() {
+        lessMinValue = false;
+    }
+
     public void setValue(double value) {
         setValue(value, true);
     }
