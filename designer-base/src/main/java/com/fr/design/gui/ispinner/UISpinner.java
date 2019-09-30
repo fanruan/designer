@@ -39,6 +39,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
     private String spinnerName = StringUtils.EMPTY;
     private UIObserverListener uiObserverListener;
     private GlobalNameListener globalNameListener = null;
+    private boolean lessMinValue = false;
 
 
     public UISpinner(double minValue, double maxValue, double dierta) {
@@ -97,6 +98,10 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         return nextButton;
     }
 
+    public boolean isLessMinValue() {
+        return lessMinValue;
+    }
+
     public void setValue(double value) {
         setValue(value, true);
     }
@@ -113,7 +118,8 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(spinnerName);
         }
-        value = value < minValue ? minValue : value;
+        lessMinValue = value < minValue;
+        value = lessMinValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
         if (CommonUtils.equals(value, this.value)) {
             return;
@@ -135,7 +141,8 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(spinnerName);
         }
-        value = value < minValue ? minValue : value;
+        lessMinValue = value < minValue;
+        value = lessMinValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
 
         if (CommonUtils.equals(value, this.value)) {
