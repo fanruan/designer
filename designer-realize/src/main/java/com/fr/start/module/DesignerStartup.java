@@ -1,14 +1,15 @@
 package com.fr.start.module;
 
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.messagecollect.StartupMessageCollector;
 import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
-import com.fr.runtime.FineRuntime;
 import com.fr.start.Designer;
 import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
@@ -42,7 +43,7 @@ public class DesignerStartup extends Activator {
         startSub(EnvBasedModule.class);
         //designer模块启动好后，查看demo
         browserDemo();
-        ExecutorService service = Executors.newFixedThreadPool(2);
+        ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("FineEmbedServerStart"));
         service.submit(new Runnable() {
             @Override
             public void run() {
@@ -67,7 +68,7 @@ public class DesignerStartup extends Activator {
 
         DesignerContext.getDesignerFrame().getProgressDialog().setVisible(true);
         startSub(StartFinishActivator.class);
-        FineRuntime.startFinish();
+        StartupMessageCollector.getInstance().recordStartupLog();
     }
 
     private void browserDemo() {
@@ -87,7 +88,7 @@ public class DesignerStartup extends Activator {
 
             @Override
             public void on(Event event, Workspace current) {
-                getSub(EnvBasedModule.class).stop();
+                stopSub(EnvBasedModule.class);
             }
         });
         /*切换环境后，重新启动所有相关模块，最先执行*/
@@ -95,7 +96,7 @@ public class DesignerStartup extends Activator {
 
             @Override
             public void on(Event event, Workspace current) {
-                getSub(EnvBasedModule.class).start();
+                startSub(EnvBasedModule.class);
                 // 切换后的环境是本地环境才启动内置服务器
                 if (current.isLocal()) {
                     ExecutorService service = Executors.newSingleThreadExecutor();
