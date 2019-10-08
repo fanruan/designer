@@ -16,7 +16,6 @@ import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
@@ -67,15 +66,29 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
     @Override
     public NameableCreator[] createNameableCreators() {
+        List<NameObjectCreator> creators = new ArrayList<NameObjectCreator>();
 
-        List<UIMenuNameableCreator> list = createMenuList();
-        NameObjectCreator[] creators = new NameObjectCreator[list.size()];
-        for (int i = 0; list != null && i < list.size(); i++) {
-            UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
-            creators[i] = new NameObjectCreator(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj().getClass(), uiMenuNameableCreator.getPaneClazz());
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
+                ReportletHyperlink.class, ReportletHyperlinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), EmailJavaScript.class, NewChartEmailPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
+                WebHyperlink.class, WebHyperlinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
+                ParameterJavaScript.class, ParameterJavaScriptPane.class));
+        creators.add(new NameObjectCreator("JavaScript", JavaScriptImpl.class, JavaScriptImplPane.class));
 
-        }
-        return creators;
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
+                ChartHyperPoplink.class, ChartHyperPoplinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
+                ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
+                ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class));
+
+        FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
+                hyperlink.getClass(), FormHyperlinkPane.class));
+
+        return creators.toArray(new NameObjectCreator[creators.size()]);
     }
 
     public BasicBeanPane createPaneByCreators(NameableCreator creator) {
@@ -158,32 +171,6 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
         this.populate(nameObjects.toArray(new NameObject[nameObjects.size()]));
         doLayout();
-    }
-
-    private List<UIMenuNameableCreator> createMenuList() {
-        List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
-                new ReportletHyperlink(), ReportletHyperlinkPane.class));
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), new EmailJavaScript(), NewChartEmailPane.class));
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
-                new WebHyperlink(), WebHyperlinkPane.class));
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
-                new ParameterJavaScript(), ParameterJavaScriptPane.class));
-        list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), JavaScriptImplPane.class));
-
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
-                new ChartHyperPoplink(), ChartHyperPoplinkPane.class));
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
-                new ChartHyperRelateCellLink(), ChartHyperRelateCellLinkPane.class));
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
-                new ChartHyperRelateFloatLink(), ChartHyperRelateFloatLinkPane.class));
-
-        FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
-                hyperlink, FormHyperlinkPane.class));
-
-        return list;
     }
 
     /**
