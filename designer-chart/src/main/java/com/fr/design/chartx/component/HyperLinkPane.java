@@ -4,7 +4,6 @@ import com.fr.base.BaseFormula;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
@@ -13,7 +12,6 @@ import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateFloatLink
 import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
-import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
@@ -27,7 +25,6 @@ import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.FormHyperlinkProvider;
@@ -39,7 +36,6 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -51,7 +47,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.awt.Component;
 
 /**
@@ -72,18 +67,15 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        //面板初始化，需要在populate的时候更新
-        Map<String, NameableCreator> nameCreators = new ListMap<String, NameableCreator>();
-        NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
-        for (NameableCreator creator : creators) {
-            nameCreators.put(creator.menuName(), creator);
+
+        List<UIMenuNameableCreator> list = createMenuList();
+        NameObjectCreator[] creators = new NameObjectCreator[list.size()];
+        for (int i = 0; list != null && i < list.size(); i++) {
+            UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
+            creators[i] = new NameObjectCreator(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj().getClass(), uiMenuNameableCreator.getPaneClazz());
+
         }
-        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        for (HyperlinkProvider provider : providers) {
-            NameableCreator nc = provider.createHyperlinkCreator();
-            nameCreators.put(nc.menuName(), nc);
-        }
-        return nameCreators.values().toArray(new NameableCreator[nameCreators.size()]);
+        return creators;
     }
 
     public BasicBeanPane createPaneByCreators(NameableCreator creator) {
@@ -154,34 +146,13 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
         this.hyperLinkEditorMap = hyperLinkEditorMap;
 
-        Map<Class, Class> paneMap = getHyperlinkMap();
-
-        //安装平台内打开插件时,添加相应按钮
-        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        for (HyperlinkProvider provider : providers) {
-            NameableCreator nc = provider.createHyperlinkCreator();
-            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
-        }
-
-        List<UIMenuNameableCreator> list = refreshList(paneMap);
-        NameObjectCreator[] creators = new NameObjectCreator[list.size()];
-        for (int i = 0; list != null && i < list.size(); i++) {
-            UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
-            creators[i] = new NameObjectCreator(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj().getClass(), uiMenuNameableCreator.getPaneClazz());
-
-        }
-
-        refreshNameableCreator(creators);
-
         List<NameObject> nameObjects = new ArrayList<NameObject>();
 
         for (int i = 0; nameGroup != null && i < nameGroup.size(); i++) {
             NameJavaScript javaScript = nameGroup.getNameHyperlink(i);
             if (javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
-                UIMenuNameableCreator uiMenuNameableCreator = new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass()));
-                nameObjects.add(new NameObject(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj()));
-
+                nameObjects.add(new NameObject(javaScript.getName(), script));
             }
         }
 
@@ -189,60 +160,30 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         doLayout();
     }
 
-    private Map<Class, Class> getHyperlinkMap() {
-        Map<Class, Class> map = new HashMap<Class, Class>();
-
-        map.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
-        map.put(EmailJavaScript.class, ChartEmailPane.class);
-        map.put(WebHyperlink.class, WebHyperlinkPane.class);
-        map.put(ParameterJavaScript.class, ParameterJavaScriptPane.class);
-
-        map.put(JavaScriptImpl.class, JavaScriptImplPane.class);
-        map.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.class);
-        map.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class);
-        map.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class);
-
-        map.put(FormHyperlinkProvider.class, FormHyperlinkPane.class);
-        return map;
-    }
-
-    private List<UIMenuNameableCreator> refreshList(Map<Class, Class> map) {
+    private List<UIMenuNameableCreator> createMenuList() {
         List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
-                new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
+                new ReportletHyperlink(), ReportletHyperlinkPane.class));
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), new EmailJavaScript(), NewChartEmailPane.class));
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
-                new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
+                new WebHyperlink(), WebHyperlinkPane.class));
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
-                new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
-        list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
+                new ParameterJavaScript(), ParameterJavaScriptPane.class));
+        list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), JavaScriptImplPane.class));
 
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
-                new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
+                new ChartHyperPoplink(), ChartHyperPoplinkPane.class));
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
-                new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
+                new ChartHyperRelateCellLink(), ChartHyperRelateCellLinkPane.class));
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
-                new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
+                new ChartHyperRelateFloatLink(), ChartHyperRelateFloatLinkPane.class));
 
         FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
-                hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
+                hyperlink, FormHyperlinkPane.class));
 
         return list;
-    }
-
-    private Class<? extends BasicBeanPane> getUseMap(Map<Class, Class> map, Object key) {
-        if (map.get(key) != null) {
-            return (Class<? extends BasicBeanPane>) map.get(key);
-        }
-        //引擎在这边放了个provider,当前表单对象
-        for (Object tempKey : map.keySet()) {
-            if (((Class) tempKey).isAssignableFrom((Class) key)) {
-                return (Class<? extends BasicBeanPane>) map.get(tempKey);
-            }
-        }
-        return null;
     }
 
     /**
