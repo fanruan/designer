@@ -4,6 +4,7 @@ import com.fr.base.BaseFormula;
 import com.fr.chart.web.ChartHyperPoplink;
 import com.fr.chart.web.ChartHyperRelateCellLink;
 import com.fr.chart.web.ChartHyperRelateFloatLink;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.javascript.ChartEmailPane;
 import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperPoplinkPane;
@@ -12,6 +13,7 @@ import com.fr.design.chart.series.SeriesCondition.impl.ChartHyperRelateFloatLink
 import com.fr.design.chart.series.SeriesCondition.impl.FormHyperlinkPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
+import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.awt.Component;
 
 /**
@@ -66,7 +69,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
     @Override
     public NameableCreator[] createNameableCreators() {
-        List<NameObjectCreator> creators = new ArrayList<NameObjectCreator>();
+        List<NameableCreator> creators = new ArrayList<NameableCreator>();
 
         creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
                 ReportletHyperlink.class, ReportletHyperlinkPane.class));
@@ -88,7 +91,13 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
                 hyperlink.getClass(), FormHyperlinkPane.class));
 
-        return creators.toArray(new NameObjectCreator[creators.size()]);
+        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
+        for (HyperlinkProvider provider : providers) {
+            NameableCreator nc = provider.createHyperlinkCreator();
+            creators.add(nc);
+        }
+
+        return creators.toArray(new NameableCreator[creators.size()]);
     }
 
     public BasicBeanPane createPaneByCreators(NameableCreator creator) {
