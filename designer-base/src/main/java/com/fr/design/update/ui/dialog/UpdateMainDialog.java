@@ -35,6 +35,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.third.org.apache.http.ProtocolException;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
 import com.fr.third.org.apache.http.client.methods.HttpGet;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
@@ -431,6 +432,7 @@ public class UpdateMainDialog extends UIDialog {
 
     private void afterInit() {
         if (autoUpdateAfterInit) {
+            updateButton.setEnabled(true);
             updateButton.doClick();
         }
     }
@@ -606,7 +608,7 @@ public class UpdateMainDialog extends UIDialog {
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
-                            JOptionPane.showMessageDialog(getParent(),"Update Failed");
+                            JOptionPane.showMessageDialog(getParent(),Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
                             RestartHelper.restart();
                         }
                     }.execute();
