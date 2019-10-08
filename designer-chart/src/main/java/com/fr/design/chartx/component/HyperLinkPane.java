@@ -61,9 +61,7 @@ import java.awt.Component;
  */
 public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
-    NameJavaScriptGroup nameGroup;
-
-    HashMap<String, BaseFormula> hyperLinkEditorMap;
+    private Map<String, BaseFormula> hyperLinkEditorMap;
 
     private UIObserverListener uiObserverListener;
 
@@ -152,13 +150,11 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
     }
 
-    public void populate(NameJavaScriptGroup nameGroup, HashMap<String, BaseFormula> hyperLinkEditorMap) {
-        this.nameGroup = nameGroup;
-        if (this.hyperLinkEditorMap == null) {
-            this.hyperLinkEditorMap = hyperLinkEditorMap;
-        }
+    public void populate(NameJavaScriptGroup nameGroup, Map<String, BaseFormula> hyperLinkEditorMap) {
 
-        HashMap paneMap = getHyperlinkMap();
+        this.hyperLinkEditorMap = hyperLinkEditorMap;
+
+        Map paneMap = getHyperlinkMap();
 
         //安装平台内打开插件时,添加相应按钮
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
@@ -193,8 +189,8 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         doLayout();
     }
 
-    private HashMap getHyperlinkMap() {
-        HashMap<Class, Class> map = new HashMap<Class, Class>();
+    private Map getHyperlinkMap() {
+        Map<Class, Class> map = new HashMap<Class, Class>();
 
         map.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
         map.put(EmailJavaScript.class, ChartEmailPane.class);
@@ -210,7 +206,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         return map;
     }
 
-    private List<UIMenuNameableCreator> refreshList(HashMap map) {
+    private List<UIMenuNameableCreator> refreshList(Map map) {
         List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
@@ -236,7 +232,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         return list;
     }
 
-    private Class<? extends BasicBeanPane> getUseMap(HashMap map, Object key) {
+    private Class<? extends BasicBeanPane> getUseMap(Map map, Object key) {
         if (map.get(key) != null) {
             return (Class<? extends BasicBeanPane>) map.get(key);
         }
