@@ -2,11 +2,16 @@ package com.fr.design.upm;
 
 import com.fr.base.FRContext;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.update.domain.UpdateConstants;
+import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
 
@@ -51,11 +56,32 @@ public class UpmFinder {
     }
 
     public static void showUPMDialog() {
-        UpmShowPane upmPane = new UpmShowPane();
-        if (dialog == null) {
-            dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+        boolean flag = false;
+        File file = new File(StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File file1 : files) {
+                if (file1.getName().contains(UpdateConstants.JXBROWSER)) {
+                    flag = true;
+                    break;
+                }
+            }
+        }else {
+            FineLoggerFactory.getLogger().error("Designer lib can not be null");
         }
-        dialog.setVisible(true);
+        if (flag) {
+            UpmShowPane upmPane = new UpmShowPane();
+            if (dialog == null) {
+                dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+            }
+            dialog.setVisible(true);
+        } else {
+            FineLoggerFactory.getLogger().error("jsxb false");
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
+            UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
+            dialog.setAutoUpdateAfterInit();
+            dialog.showDialog();
+        }
     }
 
     public static void closeWindow() {
