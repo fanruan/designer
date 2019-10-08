@@ -76,7 +76,6 @@ public class UpmFinder {
             }
             dialog.setVisible(true);
         } else {
-            FineLoggerFactory.getLogger().error("jsxb false");
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
             UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
             dialog.setAutoUpdateAfterInit();
