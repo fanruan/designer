@@ -154,7 +154,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
 
         this.hyperLinkEditorMap = hyperLinkEditorMap;
 
-        Map paneMap = getHyperlinkMap();
+        Map<Class, Class> paneMap = getHyperlinkMap();
 
         //安装平台内打开插件时,添加相应按钮
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
@@ -189,7 +189,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         doLayout();
     }
 
-    private Map getHyperlinkMap() {
+    private Map<Class, Class> getHyperlinkMap() {
         Map<Class, Class> map = new HashMap<Class, Class>();
 
         map.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
@@ -206,7 +206,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         return map;
     }
 
-    private List<UIMenuNameableCreator> refreshList(Map map) {
+    private List<UIMenuNameableCreator> refreshList(Map<Class, Class> map) {
         List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
 
         list.add(new UIMenuNameableCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
@@ -232,7 +232,7 @@ public class HyperLinkPane extends UIListControlPane implements UIObserver {
         return list;
     }
 
-    private Class<? extends BasicBeanPane> getUseMap(Map map, Object key) {
+    private Class<? extends BasicBeanPane> getUseMap(Map<Class, Class> map, Object key) {
         if (map.get(key) != null) {
             return (Class<? extends BasicBeanPane>) map.get(key);
         }
