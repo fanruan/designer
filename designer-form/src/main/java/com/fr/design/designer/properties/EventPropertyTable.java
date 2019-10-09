@@ -28,6 +28,7 @@ public class EventPropertyTable extends UIListControlPane {
 
     public EventPropertyTable(FormDesigner designer) {
         super();
+        this.setNameListEditable(false);
         this.designer = designer;
     }
 
