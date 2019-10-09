@@ -1,5 +1,7 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.data.UpdateConstants;
+import com.fr.decision.update.exception.UpdateException;
 import com.fr.decision.update.info.UpdateCallBack;
 import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
@@ -14,7 +16,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.update.actions.FileProcess;
-import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.update.domain.UpdateInfoCachePropertyManager;
 import com.fr.design.update.factory.DirectoryOperationFactory;
 import com.fr.design.update.ui.widget.LoadingLabel;
@@ -29,13 +30,8 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.third.org.apache.http.ProtocolException;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
 import com.fr.third.org.apache.http.client.methods.HttpGet;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
@@ -590,43 +586,73 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                backup();
-                int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"), JOptionPane.OK_CANCEL_OPTION);
-                if (a == 0) {
-                    progressBar.setVisible(true);
-                    progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
-                    UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
-                    updateButton.setEnabled(false);
-                    updateLabel.setVisible(false);
-                    new FileProcess(callBack) {
-                        @Override
-                        public void onDownloadSuccess() {
-                            updateButton.setEnabled(true);
-                            progressBar.setVisible(false);
-                            RestartHelper.restart();
-                        }
-                        @Override
-                        public void onDownloadFailed() {
-                            progressBar.setVisible(false);
-                            JOptionPane.showMessageDialog(getParent(),Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
-                            RestartHelper.restart();
-                        }
-                    }.execute();
+                if (backup()) {
+                    int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"), JOptionPane.OK_CANCEL_OPTION);
+                    if (a == 0) {
+                        progressBar.setVisible(true);
+                        progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
+                        UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
+                        updateButton.setEnabled(false);
+                        updateLabel.setVisible(false);
+                        new FileProcess(callBack) {
+                            @Override
+                            public void onDownloadSuccess() {
+                                progressBar.setVisible(false);
+                                deleteForDesignerUpdate();
+                                RestartHelper.restart();
+                            }
+                            @Override
+                            public void onDownloadFailed() {
+                                progressBar.setVisible(false);
+                                try {
+                                    IOUtils.copyFilesInDirByPath(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DESIGNERBACKUPPATH),
+                                            StableUtils.pathJoin(StableUtils.getInstallHome(),ProjectConstants.LIB_NAME));
+                                } catch (IOException e) {
+                                    UpdateException exception = new UpdateException(e.getMessage());
+                                    FineLoggerFactory.getLogger().error(exception.getMessage() + "recover for design failed");
+                                } finally {
+                                    deleteForDesignerUpdate();
+                                }
+                                JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
+                                RestartHelper.restart();
+                            }
+                        }.execute();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(getParent(),Toolkit.i18nText("Fine-Design_Update_Info_Backup_Message"));
                 }
             }
         });
     }
 
+    private void deleteForDesignerUpdate() {
+        File designerBackup = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DESIGNERBACKUPPATH));
+        CommonUtils.deleteFile(designerBackup);
+        File downloadForDesigner = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DOWNLOADPATH));
+        CommonUtils.deleteFile(downloadForDesigner);
+    }
+
     /**
      * Jar还原按钮兼容
      */
-    private void backup() {
+    private boolean backup() {
         String installHome = StableUtils.getInstallHome();
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, getBackupDirectory(), (GeneralUtils.readBuildNO()));
         backupFilesFromInstallEnv(installHome, todayBackupDir);
         backupFilesFromInstallLib(installHome, todayBackupDir);
         jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
+        try {
+            File file = new File(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOADPATH));
+            CommonUtils.mkdirs(file);
+            IOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
+                    StableUtils.pathJoin(installHome, UpdateConstants.DESIGNERBACKUPPATH));
+            return true;
+        }catch (IOException e) {
+            UpdateException exception = new UpdateException("Backup Exception for designer" + e.getMessage());
+            FineLoggerFactory.getLogger().error(exception.getMessage(),exception);
+            return false;
+        }
     }
 
     private void backupFilesFromInstallEnv(String installHome, String todayBackupDir) {

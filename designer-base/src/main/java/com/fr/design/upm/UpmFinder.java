@@ -1,10 +1,10 @@
 package com.fr.design.upm;
 
 import com.fr.base.FRContext;
+import com.fr.decision.update.data.UpdateConstants;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
