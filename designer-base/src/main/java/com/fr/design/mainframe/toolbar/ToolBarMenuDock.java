@@ -54,6 +54,7 @@ import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.update.actions.SoftwareUpdateAction;
 import com.fr.design.utils.ThemeUtils;
@@ -61,6 +62,8 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.locale.LocaleAction;
 import com.fr.general.locale.LocaleCenter;
+import com.fr.general.os.OSBasedAction;
+import com.fr.general.os.OSSupportCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginRuntime;
@@ -525,7 +528,7 @@ public abstract class ToolBarMenuDock {
      * @return 帮组菜单的子菜单
      */
     public ShortCut[] createHelpShortCuts() {
-        java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
+        final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new WebDemoAction());
         // 英文，把 video 和帮助文档放到 Help 下面
         if (GeneralContext.getLocale().equals(Locale.US)) {
@@ -541,8 +544,14 @@ public abstract class ToolBarMenuDock {
         }
 
         shortCuts.add(SeparatorDef.DEFAULT);
-        if (DesignerEnvManager.getEnvManager().isOpenDebug() && !OperatingSystem.isLinux()) {
-            shortCuts.add(new FineUIAction());
+        if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
+            OSSupportCenter.buildAction(new OSBasedAction() {
+                @Override
+                public void execute() {
+                    shortCuts.add(new FineUIAction());
+                }
+            }, SupportOSImpl.FINEUI);
+
         }
         shortCuts.add(new AboutAction());
 

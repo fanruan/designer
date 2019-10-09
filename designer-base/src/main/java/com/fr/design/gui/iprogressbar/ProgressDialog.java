@@ -3,8 +3,12 @@ package com.fr.design.gui.iprogressbar;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.os.impl.SupportOSImpl;
+import com.fr.design.upm.UpmFinder;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.general.os.OSBasedAction;
+import com.fr.general.os.OSSupportCenter;
 import com.fr.stable.os.OperatingSystem;
 
 import javax.swing.JDialog;
@@ -29,9 +33,12 @@ public class ProgressDialog extends UIDialog {
         setUndecorated(true);
         setSize(parent.getSize());
         setLocationRelativeTo(null);
-        if(!OperatingSystem.isLinux()) {
-            setOpacity(0.5f);
-        }
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute() {
+                setOpacity(0.5f);
+            }
+        }, SupportOSImpl.OPACITY);
         initComponent();
     }
 

@@ -1,15 +1,11 @@
 package com.fr.design.actions.server;
 
-import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.extra.WebViewDlgHelper;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.upm.UpmFinder;
-import com.fr.design.utils.DesignUtils;
+import com.fr.design.os.impl.PMDialogAction;
 import com.fr.general.IOUtils;
-import com.fr.stable.os.Arch;
-import com.fr.stable.os.OperatingSystem;
-
+import com.fr.general.os.OSBasedAction;
+import com.fr.general.os.OSSupportCenter;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
@@ -29,15 +25,8 @@ public class PluginManagerAction extends UpdateAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         // 可以启用新版本的插件商店（使用JxBrowser作为容器）
-        if(Arch.getArch() == Arch.ARM){
-            DesignUtils.visitEnvServerByParameters( PLUGIN_MANAGER_ROUTE,null,null);
-            return;
-        }
-        if (ServerPreferenceConfig.getInstance().isUseOptimizedUPM() && !OperatingSystem.isLinux()) {
-            UpmFinder.showUPMDialog();
-        } else {
-            WebViewDlgHelper.createPluginDialog();
-        }
+         OSBasedAction osBasedAction = OSSupportCenter.getAction(PMDialogAction.class);
+         osBasedAction.execute();
     }
 
     public static final MenuKeySet PLUGIN_MANAGER = new MenuKeySet() {

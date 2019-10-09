@@ -40,6 +40,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
@@ -48,6 +49,8 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.os.OSBasedAction;
+import com.fr.general.os.OSSupportCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -58,7 +61,6 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
-import com.fr.stable.os.Arch;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
@@ -84,6 +86,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -450,27 +453,36 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         return northEastPane;
     }
 
-    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
+    private void refreshNorthEastPane(final JPanel northEastPane, final ToolBarMenuDock ad) {
 
         northEastPane.removeAll();
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor != null) {
-            if(Arch.getArch() != Arch.ARM) {
-                processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
-            }else{
-                //暂时不知道具体插件，先传null
-                processor.hold(northEastPane, LogMessageBar.getInstance(), null);
-            }
+            final Component[] bbsLoginPane = {null};
+            OSSupportCenter.buildAction(new OSBasedAction() {
+                @Override
+                public void execute() {
+                   bbsLoginPane[0] =  ad.createBBSLoginPane();
+                }
+            }, SupportOSImpl.USERINFOPANE);
+            processor.hold(northEastPane, LogMessageBar.getInstance(), bbsLoginPane[0]);
         }
         northEastPane.add(ad.createAlphaFinePane());
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             ad.createAlphaFinePane().setVisible(false);
         }
-        if(Arch.getArch() != Arch.ARM) {
-            northEastPane.add(ad.createBBSLoginPane());
-        }
+        /*if(Arch.getArch() != Arch.ARM) {
+
+        }*/
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute() {
+               northEastPane.add(ad.createBBSLoginPane());
+            }
+        }, SupportOSImpl.USERINFOPANE);
+
     }
 
     public void initTitleIcon() {

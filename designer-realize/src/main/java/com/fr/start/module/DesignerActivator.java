@@ -54,11 +54,14 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
+import com.fr.general.os.OSBasedAction;
+import com.fr.general.os.OSSupportCenter;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.JavaScriptImpl;
@@ -126,9 +129,13 @@ public class DesignerActivator extends Activator {
         designerModuleStart();
         loadLogAppender();
         DesignerSocketIO.update();
-        if(Arch.getArch() != Arch.ARM) {
-            UserInfoPane.getInstance().updateBBSUserInfo();
-        }
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute() {
+                UserInfoPane.getInstance().updateBBSUserInfo();
+            }
+        }, SupportOSImpl.USERINFOPANE);
+
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
     }
