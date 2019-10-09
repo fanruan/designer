@@ -2,9 +2,9 @@ package com.fr.design.os.impl;
 
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.extra.WebViewDlgHelper;
+import com.fr.design.os.OSBasedAction;
 import com.fr.design.upm.UpmFinder;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.os.OSBasedAction;
 import com.fr.stable.os.Arch;
 import com.fr.stable.os.OperatingSystem;
 

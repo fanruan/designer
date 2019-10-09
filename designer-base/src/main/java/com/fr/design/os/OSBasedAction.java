@@ -1,6 +1,5 @@
-package com.fr.design;
+package com.fr.design.os;
 
 public interface OSBasedAction {
     void execute();
 }
-

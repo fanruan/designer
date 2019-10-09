@@ -7,11 +7,12 @@ import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.gui.NameInspector;
 import com.fr.design.menu.MenuKeySet;
+import com.fr.design.os.OSBasedAction;
+import com.fr.design.os.OSSupportCenter;
 import com.fr.design.os.impl.DatabaseDialogAction;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
-import com.fr.general.os.OSBasedAction;
-import com.fr.general.os.OSSupportCenter;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.Map;
@@ -52,11 +53,6 @@ public class ConnectionListAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-       /* if (ServerPreferenceConfig.getInstance().isUseUniverseDBM() && !OperatingSystem.isLinux()) {
-            UniversalDatabaseOpener.showUniverseDatabaseDialog();
-        } else {
-            openDesignDatabaseManager();
-        }*/
         OSBasedAction osBasedAction =  OSSupportCenter.getAction(DatabaseDialogAction.class);
         osBasedAction.execute();
     }

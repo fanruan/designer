@@ -2,9 +2,10 @@ package com.fr.design.update.actions;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.os.OSBasedAction;
+import com.fr.design.os.OSSupportCenter;
 import com.fr.design.os.impl.UpdateDialogAction;
-import com.fr.general.os.OSBasedAction;
-import com.fr.general.os.OSSupportCenter;
+
 import java.awt.event.ActionEvent;
 
 /**

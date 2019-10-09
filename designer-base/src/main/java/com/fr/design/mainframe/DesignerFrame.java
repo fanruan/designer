@@ -40,6 +40,8 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.OSBasedAction;
+import com.fr.design.os.OSSupportCenter;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
@@ -49,8 +51,6 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.general.os.OSBasedAction;
-import com.fr.general.os.OSSupportCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -473,9 +473,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             ad.createAlphaFinePane().setVisible(false);
         }
-        /*if(Arch.getArch() != Arch.ARM) {
-
-        }*/
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
             public void execute() {

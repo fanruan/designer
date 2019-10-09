@@ -1,6 +1,6 @@
 package com.fr.design.os.impl;
 
-import com.fr.general.os.SupportOS;
+import com.fr.design.os.SupportOS;
 import com.fr.stable.os.Arch;
 import com.fr.stable.os.OperatingSystem;
 

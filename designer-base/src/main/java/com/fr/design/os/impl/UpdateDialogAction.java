@@ -1,9 +1,9 @@
 package com.fr.design.os.impl;
 
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.os.OSBasedAction;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.design.utils.DesignUtils;
-import com.fr.general.os.OSBasedAction;
 import com.fr.stable.os.OperatingSystem;
 
 //更新升级窗口
