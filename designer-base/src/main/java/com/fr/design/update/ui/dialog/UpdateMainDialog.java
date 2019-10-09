@@ -584,7 +584,6 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
                 int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"), JOptionPane.OK_CANCEL_OPTION);
                 if (a == 0) {
                     progressBar.setVisible(true);
