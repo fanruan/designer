@@ -60,19 +60,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -961,5 +949,17 @@ public final class GUICoreUtils {
 			components[i][0] = comps[i];
 		}
 		return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
+	}
+
+	/**
+	 * 获取当前所有显示器设备的总长总宽
+	 * @return
+	 */
+	public static Rectangle getRectScreen() {
+		Rectangle rectangle = new Rectangle(0, 0, 0, 0);
+		for (GraphicsDevice gd : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+			rectangle = rectangle.union(gd.getDefaultConfiguration().getBounds());
+		}
+		return rectangle;
 	}
 }
