@@ -29,40 +29,41 @@ public class UpmShowPane extends BasicPane {
 
     UpmShowPane() {
         setLayout(new BorderLayout());
-        if (UpmFinder.checkUPMResourcesExist()) {
-            modernUIPane = new ModernUIPane.Builder<>()
-                    .prepare(new ScriptContextAdapter() {
-                        @Override
-                        public void onScriptContextCreated(ScriptContextEvent event) {
-                            JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
-                        }
-                    })
-                    .withURL(UpmFinder.getMainResourcePath(), UpmUtils.renderMap())
-                    .build();
-            EventDispatcher.listen(DownloadEvent.UPDATE, new Listener<String>() {
-                @Override
-                public void on(Event event, String param) {
-                    modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
-                }
-            });
-        } else {
-            modernUIPane = new ModernUIPane.Builder<>()
-                    .withComponent(WarnComponent.KEY)
-                    .prepare(new ScriptContextAdapter() {
-                        @Override
-                        public void onScriptContextCreated(ScriptContextEvent event) {
-                            JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
-                        }
-                    }).build();
-            EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
-                @Override
-                public void on(Event event, String param) {
-                    modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
-                }
-            });
-        }
+//        先屏蔽掉这个判断，后续可能修改交互
+//        if (UpmFinder.checkUPMResourcesExist()) {
+        modernUIPane = new ModernUIPane.Builder<>()
+                .prepare(new ScriptContextAdapter() {
+                    @Override
+                    public void onScriptContextCreated(ScriptContextEvent event) {
+                        JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
+                        window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
+                    }
+                })
+                .withURL(UpmFinder.getMainResourcePath(), UpmUtils.renderMap())
+                .build();
+        EventDispatcher.listen(DownloadEvent.UPDATE, new Listener<String>() {
+            @Override
+            public void on(Event event, String param) {
+                modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
+            }
+        });
+//        } else {
+//            modernUIPane = new ModernUIPane.Builder<>()
+//                    .withComponent(WarnComponent.KEY)
+//                    .prepare(new ScriptContextAdapter() {
+//                        @Override
+//                        public void onScriptContextCreated(ScriptContextEvent event) {
+//                            JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
+//                            window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
+//                        }
+//                    }).build();
+//            EventDispatcher.listen(DownloadEvent.SUCCESS, new Listener<String>() {
+//                @Override
+//                public void on(Event event, String param) {
+//                    modernUIPane.redirect(UpmFinder.getMainResourcePath(), UpmUtils.renderMap());
+//                }
+//            });
+//        }
         add(modernUIPane, BorderLayout.CENTER);
     }
 }
