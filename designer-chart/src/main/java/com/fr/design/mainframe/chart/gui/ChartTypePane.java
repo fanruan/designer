@@ -19,15 +19,15 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * 图表 属性表, 类型选择 界面.
@@ -124,7 +124,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String lastPlotID = chart.getID();
 
             try{
-				ChartProvider newDefaultChart = (ChartProvider) ((AbstractChartTypePane) getSelectedPane()).getDefaultChart().clone();
+				AbstractChartTypePane selectedPane = (AbstractChartTypePane) getSelectedPane();
+				ChartProvider newDefaultChart =(ChartProvider) ChartTypeManager.getInstanceWithCheck().getCharts(selectedPane.getPlotID())[0].clone();
 				if (!ComparatorUtils.equals(chart.getClass(), newDefaultChart.getClass())) {
 					//vanChart 和 chart 之间切换
 					//不同chart之间切换
@@ -135,7 +136,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
             }catch (CloneNotSupportedException e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-
 			//这一步会替换plot
             ((AbstractChartTypePane)getSelectedPane()).updateBean(chart);
 

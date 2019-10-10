@@ -39,6 +39,13 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
     }
 
     @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_New_HeatMap"),
+        };
+    }
+
+    @Override
     public String[] getDemoImagePath() {
         return new String[]{
                 "com/fr/plugin/chart/demo/image/42.png"

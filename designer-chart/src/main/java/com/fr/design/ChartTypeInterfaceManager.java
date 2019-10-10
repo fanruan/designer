@@ -165,7 +165,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         ChartWidgetOption[] child = new ChartWidgetOption[chartIDs.length];
         int index = 0;
         for (String chartID : chartIDs) {
-            ChartProvider[] rowChart = ChartTypeManager.getInstance().getChartTypes(chartID);
+            ChartProvider[] rowChart = ChartTypeManager.getInstance().getCharts(chartID);
             if (ArrayUtils.isEmpty(rowChart) && !ChartTypeManager.innerChart(chartID)) {
                 continue;
             }
@@ -364,7 +364,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         try {
             //兼容 图表类型选择界面会调到这边
-            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
+            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getCharts(chartID);
             result = new String[charts.length];
             for (int i = 0; i < charts.length; i++) {
                 //Chart && AbstractChart
@@ -403,7 +403,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
     //兼容
     private String[] getCompatibleSubName(String chartID, ChartTypeUIProvider provider) {
-        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
+        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getCharts(chartID);
 
         if (chartProviders.length == 1) {
             return new String[]{getName(chartID)};
@@ -453,7 +453,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
 
         try {
-            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID)[0];
+            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getCharts(chartID)[0];
             if (chartProvider instanceof Chart) {
                 //AbstractExtendedChartUIProvider
                 result = ((Chart) chartProvider).getChartName();

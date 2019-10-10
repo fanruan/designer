@@ -1,9 +1,9 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.data.UpdateConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.update.factory.DirectoryOperationFactory;
 import com.fr.design.update.ui.widget.ColorfulCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;

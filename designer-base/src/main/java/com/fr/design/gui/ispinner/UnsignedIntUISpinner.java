@@ -3,8 +3,6 @@ package com.fr.design.gui.ispinner;
 import com.fr.design.gui.itextfield.UIIntNumberField;
 import com.fr.design.gui.itextfield.UINumberField;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,7 +29,7 @@ public class UnsignedIntUISpinner extends UISpinner {
 
     @Override
     protected UINumberField initNumberField() {
-        final UIIntNumberField numberField = new UIIntNumberField() {
+        return new UIIntNumberField() {
             public boolean shouldResponseChangeListener() {
                 return false;
             }
@@ -44,29 +42,5 @@ public class UnsignedIntUISpinner extends UISpinner {
                 };
             }
         };
-        numberField.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-
-            /**
-             * 失去焦点后再做范围限制、不然最小值为 100 时，输个 1 都不让....
-             * @param e
-             */
-            @Override
-            public void focusLost(FocusEvent e) {
-                double value = numberField.getValue();
-                if (!isOverMaxOrMinValue(value)) {
-                    return;
-                }
-                numberField.setValue(value < minValue ? minValue : maxValue);
-            }
-
-            private boolean isOverMaxOrMinValue(double value) {
-                return value < minValue || value > maxValue;
-            }
-        });
-        return numberField;
     }
 }

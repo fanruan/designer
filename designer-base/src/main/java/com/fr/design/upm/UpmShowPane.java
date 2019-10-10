@@ -27,7 +27,7 @@ public class UpmShowPane extends BasicPane {
         return "UPM";
     }
 
-    public UpmShowPane() {
+    UpmShowPane() {
         setLayout(new BorderLayout());
         if (UpmFinder.checkUPMResourcesExist()) {
             modernUIPane = new ModernUIPane.Builder<>()
@@ -65,5 +65,4 @@ public class UpmShowPane extends BasicPane {
         }
         add(modernUIPane, BorderLayout.CENTER);
     }
-
 }
