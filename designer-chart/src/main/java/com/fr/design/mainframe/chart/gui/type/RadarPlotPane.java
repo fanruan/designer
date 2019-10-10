@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.RadarIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 
 
 /**
@@ -11,7 +11,7 @@ import com.fr.locale.InterProviderFactory;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-26 上午09:55:01
  */
-public class RadarPlotPane extends AbstractChartTypePane{
+public class RadarPlotPane extends AbstractDeprecatedChartTypePane {
 	private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int RADAR = 0;
@@ -20,13 +20,6 @@ public class RadarPlotPane extends AbstractChartTypePane{
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/design/images/chart/RadarPlot/type/0.png",
         };
-    }
-
-	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Radar")
-		};
     }
 
 	@Override
@@ -49,7 +42,7 @@ public class RadarPlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Radar");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Radar");
 	}
 
 	/**
@@ -67,7 +60,7 @@ public class RadarPlotPane extends AbstractChartTypePane{
 	 */
 	public void populateBean(Chart chart) {
 		typeDemo.get(RADAR).isPressing = true;
-		
+
 		checkDemosBackground();
 	}
 

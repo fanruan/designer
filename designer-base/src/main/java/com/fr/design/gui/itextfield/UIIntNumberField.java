@@ -1,11 +1,10 @@
 package com.fr.design.gui.itextfield;
 
-import com.fr.design.gui.itextfield.UINumberField;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
-import java.awt.*;
+import java.awt.Toolkit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,11 +14,11 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class UIIntNumberField extends UINumberField {
-    public void setFieldDocument(){
-        setDocument(new NumberDocument());
+    public void setFieldDocument() {
+        setDocument(createNumberDocument());
     }
 
-    class NumberDocument extends PlainDocument {
+    public class NumberDocument extends PlainDocument {
         public NumberDocument() {
         }
 
@@ -33,17 +32,30 @@ public class UIIntNumberField extends UINumberField {
 
             String strNew = str.substring(0, offset) + s + str.substring(offset, getLength());
 
-            if (isOverMaxOrMinValue(strNew)) {
+            if (isOverMaxOrMinValue(strNew) && !isContinueInsertWhenOverMaxOrMinValue()) {
                 Toolkit.getDefaultToolkit().beep();
                 return;
             }
 
-             setisContentChanged(true);
+            setisContentChanged(true);
             super.insertString(offset, s, a);
+        }
+
+        /**
+         * 是否继续插入输入的字符 - 当超出范围时
+         *
+         * @return true : 继续插入输入的字符
+         */
+        public boolean isContinueInsertWhenOverMaxOrMinValue() {
+            return false;
         }
 
         private boolean isOverMaxOrMinValue( String strNew) {
             return  (Double.parseDouble(strNew)<getMinValue() || Double.parseDouble(strNew)>getMaxValue());
         }
+    }
+
+    public NumberDocument createNumberDocument() {
+        return new NumberDocument();
     }
 }

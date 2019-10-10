@@ -13,6 +13,7 @@ import com.fr.design.style.color.ColorSelectDialog;
 import com.fr.design.style.color.ColorSelectable;
 import com.fr.plugin.chart.range.GradualIntervalConfig;
 import com.fr.plugin.chart.range.glyph.GradualColorDist;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JComponent;
 import javax.swing.event.ChangeEvent;
@@ -224,7 +225,7 @@ public class LegendGradientBar extends JComponent implements ColorSelectable, UI
     //防止位置重复，设置偏移
     private int setOffset(int x, int index, int offset) {
         for (int i = 0; i < selectColorPointBtnList.size(); i++){
-            if (i != index && x == selectColorPointBtnList.get(i).getX()){
+            if (i != index && AssistUtils.equals(x, selectColorPointBtnList.get(i).getX())) {
                 if (x >= (min+max)/2) {
                     x -= offset;
                     x = setOffset(x, index, offset+OFFSETSTEP);

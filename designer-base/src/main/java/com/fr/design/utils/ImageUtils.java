@@ -240,6 +240,7 @@ public class ImageUtils {
      * @param opacityCompatible 是否处理背景透明
      */
     public static BufferedImage scale(BufferedImage srcImg, float scale, boolean opacityCompatible) {
+        int scaleType;
         if (scale < 0) {
             // 自动修正负数
             scale = -scale;
@@ -247,7 +248,15 @@ public class ImageUtils {
 
         int width = mul(Integer.toString(srcImg.getWidth(null)), Float.toString(scale)).intValue(); // 得到源图宽
         int height = mul(Integer.toString(srcImg.getHeight(null)), Float.toString(scale)).intValue(); // 得到源图长
-        return CoreGraphHelper.toBufferedImage(scale(srcImg, width, height, opacityCompatible));
+        int srcHeight = srcImg.getHeight(null);
+        int srcWidth = srcImg.getWidth(null);
+        if (srcHeight < height || srcWidth < width) {
+            // 放大图片使用平滑模式
+            scaleType = Image.SCALE_SMOOTH;
+        } else {
+            scaleType = Image.SCALE_DEFAULT;
+        }
+        return CoreGraphHelper.toBufferedImage(scale(srcImg, width, height, opacityCompatible, scaleType));
     }
 
     private static BigDecimal mul(String v1, String v2) {
@@ -268,18 +277,12 @@ public class ImageUtils {
      * @param opacityCompatible 是否处理背景透明
      * @return {@link Image}
      */
-    private static Image scale(BufferedImage srcImg, int width, int height, boolean opacityCompatible) {
+    public static Image scale(BufferedImage srcImg, int width, int height, boolean opacityCompatible, int scaleType) {
         int srcHeight = srcImg.getHeight(null);
         int srcWidth = srcImg.getWidth(null);
-        int scaleType;
         if (srcHeight == height && srcWidth == width) {
             // 源与目标长宽一致返回原图
             return srcImg;
-        } else if (srcHeight < height || srcWidth < width) {
-            // 放大图片使用平滑模式
-            scaleType = Image.SCALE_SMOOTH;
-        } else {
-            scaleType = Image.SCALE_DEFAULT;
         }
         if (opacityCompatible) {//需要保留透明度背景
             BufferedImage toImg = CoreGraphHelper.createBufferedImage(width, height, srcImg.getType());

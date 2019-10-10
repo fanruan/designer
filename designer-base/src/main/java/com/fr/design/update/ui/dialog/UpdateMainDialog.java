@@ -1,5 +1,8 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.data.UpdateConstants;
+import com.fr.decision.update.info.UpdateCallBack;
+import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.UIDialog;
@@ -7,12 +10,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.update.actions.FileDownloader;
-import com.fr.design.update.domain.DownloadItem;
-import com.fr.design.update.domain.UpdateConstants;
+import com.fr.design.update.actions.FileProcess;
 import com.fr.design.update.domain.UpdateInfoCachePropertyManager;
 import com.fr.design.update.factory.DirectoryOperationFactory;
 import com.fr.design.update.ui.widget.LoadingLabel;
@@ -22,64 +24,37 @@ import com.fr.design.update.ui.widget.UpdateInfoTableCellRender;
 import com.fr.design.update.ui.widget.UpdateInfoTableModel;
 import com.fr.design.update.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.DateUtils;
-import com.fr.general.GeneralContext;
-import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
-import com.fr.general.SiteCenter;
-import com.fr.general.http.HttpClient;
+import com.fr.general.*;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
-import com.fr.stable.project.ProjectConstants;
-import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
+import com.fr.stable.*;
+import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
+import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
+
+import static java.nio.charset.StandardCharsets.*;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 /**
  * Created by XINZAI on 2018/8/21.
@@ -103,10 +78,9 @@ public class UpdateMainDialog extends UIDialog {
     private static final String UPDATE_CACHE_STATE_FAIL = "fail";
     private static final String UPDATE_CACHE_STATE_SUCCESS = "success";
 
-    private static final SimpleDateFormat CHANGELOG_FORMAT = new SimpleDateFormat("M/d/y, h:m:s a", Locale.ENGLISH);
-    private static final SimpleDateFormat UPDATE_INFO_TABLE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
+    private final SimpleDateFormat CHANGELOG_FORMAT = new SimpleDateFormat("M/d/y, h:m:s a", Locale.ENGLISH);
+    private final SimpleDateFormat UPDATE_INFO_TABLE_FORMAT = new SimpleDateFormat("yyyy.MM.dd");
 
-    private Set<DownloadItem> downloadItems = new HashSet<DownloadItem>();
     private JSONObject downloadFileConfig;
     //最新版本标签
     private LoadingLabel loadingLabel;
@@ -133,8 +107,6 @@ public class UpdateMainDialog extends UIDialog {
     private UIButton searchUpdateInfoBtn;
     //搜索更新信息关键词文本框
     private UITextField searchUpdateInfoKeyword;
-
-    private boolean updateSuccessful;
 
     private UpdateInfoTable updateInfoTable;
 
@@ -165,14 +137,12 @@ public class UpdateMainDialog extends UIDialog {
     public void setAutoUpdateAfterInit() {
         autoUpdateAfterInit = true;
     }
-
     private void initUpdateActionPane() {
         double[] rowUpdateSubContentPaneSize = {UPDATE_CONTENT_PANE_ROW_SIZE, TableLayout.PREFERRED, UPDATE_CONTENT_PANE_ROW_SIZE};
         double[] rowUpdateContentPaneSize = {TableLayout.PREFERRED};
         double[] columnUpdateSubContentPaneProgressSize = {TableLayout.FILL, TableLayout.PREFERRED};
         double[] columnUpdateSubContentPaneSize = {UPDATE_CONTENT_PANE_COLUMN_SIZE, TableLayout.FILL, TableLayout.PREFERRED};
         JPanel progressBarPane = new JPanel(new BorderLayout());
-
         progressBar = new JProgressBar();
         progressBar.setUI(new MotifProgressBarUI());
         progressBar.setForeground(UpdateConstants.BAR_COLOR);
@@ -263,12 +233,12 @@ public class UpdateMainDialog extends UIDialog {
 
         updateInfoTable.setShowGrid(false);
         updateInfoTable.setCellSelectionEnabled(false);
-        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<UpdateInfoTableModel>(updateInfoTable.getDataModel());
+        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<>(updateInfoTable.getDataModel());
         sorter.setSortable(updateTimeColIndex, true);
         sorter.setSortable(updateTitleColIndex, false);
         sorter.setSortable(updateSignColIndex, false);
         updateInfoTable.setRowSorter(sorter);
-        List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(updateTimeColIndex, SortOrder.DESCENDING));
         sorter.setSortKeys(sortKeys);
 
@@ -382,8 +352,10 @@ public class UpdateMainDialog extends UIDialog {
                 try {
                     downloadFileConfig = get();
                     showDownLoadInfo();
+                    afterInit();
                 } catch (InterruptedException e) {
                     stopLoading();
+                    Thread.currentThread().interrupt();
                 } catch (ExecutionException e) {
                     stopLoading();
                 } finally {
@@ -394,7 +366,7 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     private SwingWorker<JSONArray, Void> getUpdateInfo(final String keyword) {
-        updateInfoList = new ArrayList<Object[]>();
+        updateInfoList = new ArrayList<>();
         lastUpdateCacheTime = UpdateConstants.CHANGELOG_X_START;
         String cacheConfigPath = getUpdateCacheConfig();
         cacheProperty = new UpdateInfoCachePropertyManager(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), "resources", "offlineres", cacheConfigPath));
@@ -409,6 +381,8 @@ public class UpdateMainDialog extends UIDialog {
         return new SwingWorker<JSONArray, Void>() {
             @Override
             protected JSONArray doInBackground() {
+                CloseableHttpClient httpClient;
+                CloseableHttpResponse response;
                 try {
                     getUpdateInfoSuccess = false;
                     //step1:read from cache file
@@ -417,16 +391,15 @@ public class UpdateMainDialog extends UIDialog {
                     if (downloadFileConfig == null) {
                         throw new Exception("network error.");
                     }
-                    HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
-                    hc.asGet();
-                    hc.setTimeout(UpdateConstants.CONNECTION_TIMEOUT * 2);
-                    String responseText = hc.getResponseText();
+                    HttpGet get = new HttpGet(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    httpClient = HttpToolbox.getHttpClient(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    response = httpClient.execute(get);
+                    String responseText = CommonIOUtils.inputStream2String(response.getEntity().getContent(),EncodeConstants.ENCODING_UTF_8).trim();
                     JSONArray array = JSONArray.create();
                     //假如返回"-1"，说明socket出错了
                     if (!ComparatorUtils.equals(responseText, "-1")) {
                         array = new JSONArray(responseText);
                     }
-                    hc.release();
                     return array;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -444,7 +417,6 @@ public class UpdateMainDialog extends UIDialog {
                     getUpdateInfoSuccess = true;
                     //step4:update cache file,start from cacheRecordTime,end latest server jartime
                     updateCachedInfoFile(jsonArray);
-                    afterInit();
                 } catch (Exception e) {
                     getUpdateInfoSuccess = true;
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -455,6 +427,7 @@ public class UpdateMainDialog extends UIDialog {
 
     private void afterInit() {
         if (autoUpdateAfterInit) {
+            updateButton.setEnabled(true);
             updateButton.doClick();
         }
     }
@@ -468,30 +441,28 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
-            BufferedReader br = new BufferedReader(streamReader);
-            String readStr, updateTimeStr;
-
-            while ((readStr = br.readLine()) != null) {
-                String[] updateInfo = readStr.split("\\t");
-                if (updateInfo.length == 2) {
-                    updateTimeStr = updateInfo[0];
-                    Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
-                    //形如 Build#release-2018.07.31.03.03.52.80
-                    String currentNO = GeneralUtils.readBuildNO();
-                    Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
-                    if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
-                        if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
-                            continue;
+            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), StandardCharsets.UTF_8);
+                 BufferedReader br = new BufferedReader(streamReader)) {
+                String readStr, updateTimeStr;
+                while ((readStr = br.readLine()) != null) {
+                    String[] updateInfo = readStr.split("\\t");
+                    if (updateInfo.length == 2) {
+                        updateTimeStr = updateInfo[0];
+                        Date updateTime = CHANGELOG_FORMAT.parse(updateTimeStr);
+                        //形如 Build#release-2018.07.31.03.03.52.80
+                        String currentNO = GeneralUtils.readBuildNO();
+                        Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+                        if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
+                            if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateInfo[1], keyword)) {
+                                continue;
+                            }
                         }
-                    }
-                    if (isValidLogInfo(updateInfo[1])) {
-                        updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        if (isValidLogInfo(updateInfo[1])) {
+                            updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateInfo[1], updateTime.after(curJarDate)});
+                        }
                     }
                 }
             }
-            br.close();
-            streamReader.close();
         }
     }
 
@@ -515,16 +486,16 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), "UTF-8");
-        BufferedWriter bufferWriter = new BufferedWriter(writerStream);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jo = (JSONObject) jsonArray.get(i);
-            bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
-            bufferWriter.newLine();
-            bufferWriter.flush();
+        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), UTF_8)) {
+            try (BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jo = (JSONObject) jsonArray.get(i);
+                    bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
+                    bufferWriter.newLine();
+                    bufferWriter.flush();
+                }
+            }
         }
-        bufferWriter.close();
-        writerStream.close();
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
         lastUpdateCacheTime = endTime;
         cacheProperty.updateProperty("updateTime", lastUpdateCacheTime);
@@ -540,6 +511,9 @@ public class UpdateMainDialog extends UIDialog {
             //形如 Build#release-2018.07.31.03.03.52.80
             String currentNO = GeneralUtils.readBuildNO();
             Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+            if (curJarDate == null) {
+                curJarDate = updateTime;
+            }
             if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
                 if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateTitle, keyword)) {
                     continue;
@@ -549,7 +523,7 @@ public class UpdateMainDialog extends UIDialog {
                 updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateTitle, updateTime.after(curJarDate)});
             }
         }
-        return new ArrayList<Object[]>(updateInfoList);
+        return new ArrayList<>(updateInfoList);
     }
 
     private boolean containsKeyword(String str, String keyword) {
@@ -602,61 +576,6 @@ public class UpdateMainDialog extends UIDialog {
             }
             break;
         }
-
-        initMapWithInfo(downloadFileConfig);
-    }
-
-    public void initMapWithInfo(JSONObject result) {
-        addJarNameToMap(result, "designer");
-        addJarNameToMap(result, "server");
-    }
-
-    private void addJarNameToMap(JSONObject result, String category) {
-        JSONArray jsonArray = result.optJSONArray(category);
-        if (jsonArray != null) {
-            for (int i = 0, len = jsonArray.length(); i < len; i++) {
-                JSONObject jo = jsonArray.optJSONObject(i);
-                String downloadName = jo.optString("name");
-                String downloadUrl = jo.optString("url");
-                long downloadSize = jo.optLong("size");
-                if (ComparatorUtils.equals(category, "server")) {
-                    File currentJAR = new File(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, downloadName));
-                    String currentMD5 = getCurrentJarMD5(currentJAR);
-                    String downloadMD5 = jo.optString("md5");
-                    boolean exist = currentJAR.exists() && ComparatorUtils.equals(currentJAR.length(), downloadSize) && ComparatorUtils.equals(currentMD5, downloadMD5);
-                    if (exist) {
-                        // 如果jar包存在且MD5值和大小与oss上的一致 不下载
-                        continue;
-                    }
-                }
-                downloadItems.add(new DownloadItem(downloadName, downloadUrl, downloadSize));
-            }
-        }
-    }
-
-    /**
-     * 获取当前jar的md5
-     * @param currentJAR
-     * @return
-     */
-    private String getCurrentJarMD5(File currentJAR) {
-        String md5 = StringUtils.EMPTY;
-        FileInputStream input = null;
-        try {
-            input = new FileInputStream(currentJAR);
-            md5 = DigestUtils.md5Hex(input);
-        } catch (Exception ignore) {
-
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-        }
-        return md5;
     }
 
     /**
@@ -666,37 +585,28 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (updateSuccessful) {
-                    RestartHelper.restart();
-                } else {
-                    deletePreviousPropertyFile();
-                    updateButton.setEnabled(false);
+                String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
+                int a = JOptionPane.showOptionDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),
+                        Toolkit.i18nText("Fine-Design_Update_Info_Title"),JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
+                if (a == 0) {
                     progressBar.setVisible(true);
+                    progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
+                    UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
+                    updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
-
-                    new FileDownloader(
-                            downloadItems.toArray(new DownloadItem[downloadItems.size()]),
-                            StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DOWNLOAD_DIR)) {
-                        @Override
-                        protected void process(java.util.List<DownloadItem> chunks) {
-                            DownloadItem fileInfo = chunks.get(chunks.size() - 1);
-                            progressBar.setString(fileInfo.getName() + " " + fileInfo.getProgressString());
-                            progressBar.setValue(fileInfo.getProgressValue());
-                        }
-
+                    new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
-                            updateButton.setEnabled(true);
                             progressBar.setVisible(false);
-                            backup();
-                            putNewFiles();
-                            updateSuccessful = true;
-                            updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
+                            deleteForDesignerUpdate();
+                            RestartHelper.restart();
                         }
-
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
+                            deleteForDesignerUpdate();
+                            JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
+                            RestartHelper.restart();
                         }
                     }.execute();
                 }
@@ -704,122 +614,16 @@ public class UpdateMainDialog extends UIDialog {
         });
     }
 
-    /**
-     * 确保升级更新之前删除以前的配置文件
-     */
-    public static void deletePreviousPropertyFile() {
-        //在进行更新升级之前确保move和delete.properties删除
-        File moveFile = new File(RestartHelper.MOVE_FILE);
-        File delFile = new File(RestartHelper.RECORD_FILE);
-        if ((moveFile.exists()) && (!moveFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.MOVE_FILE + "delete failed!");
-        }
-        if ((delFile.exists()) && (!delFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.RECORD_FILE + "delete failed!");
-        }
-    }
-
-    /**
-     * JAR包更新的时候备份老的jar包，包括设计器相关的和服务器相关的几个
-     */
-    private void backup() {
-        String installHome = StableUtils.getInstallHome();
-        //jar包备份文件的目录为"backup/"+jar包当前版本号
-        String todayBackupDir = StableUtils.pathJoin(installHome, getBackupDirectory(), (GeneralUtils.readBuildNO()));
-        backupFilesFromInstallEnv(installHome, todayBackupDir, getJARList4Server());
-        backupFilesFromInstallLib(installHome, todayBackupDir, getJARList4Designer());
-        jarCurrentLabel.setText(downloadFileConfig.optString("buildNO"));
-    }
-
-    private void backupFilesFromInstallEnv(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
-            try {
-                IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file)),
-                        new File(StableUtils.pathJoin(todayBackupDir)));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
-            }
-        }
-    }
-
-    private void backupFilesFromInstallLib(String installHome, String todayBackupDir, List<String> files) {
-        for (String file : files) {
-            try {
-                IOUtils.copy(
-                        new File(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file)),
-                        new File(StableUtils.pathJoin(todayBackupDir)));
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage());
-            }
-        }
-    }
-
-    private void putNewFiles() {
-        Map<String, String> map = new HashMap<String, String>();
-        java.util.List<String> list = new ArrayList<String>();
-        String installHome = StableUtils.getInstallHome();
-        putNewFilesToInstallLib(installHome, getDownLoadJAR4Designer(), map, list);
-        putNewFilesToInstallEnv(installHome, getDownLoadJAR4Server(), map, list);
-        RestartHelper.saveFilesWhichToMove(map);
-        RestartHelper.saveFilesWhichToDelete(list.toArray(new String[list.size()]));
-    }
-
-    private void putNewFilesToInstallLib(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
-        }
-    }
-
-    private void putNewFilesToInstallEnv(String installHome, String[] files, Map<String, String> map, java.util.List<String> list) {
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOAD_DIR, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-        }
+    private void deleteForDesignerUpdate() {
+        File designerBackup = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DESIGNERBACKUPPATH));
+        CommonUtils.deleteFile(designerBackup);
+        File downloadForDesigner = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DOWNLOADPATH));
+        CommonUtils.deleteFile(downloadForDesigner);
     }
 
     //获取备份目录
     private String getBackupDirectory() {
         return UpdateConstants.DESIGNER_BACKUP_DIR;
-    }
-
-    //获取服务器jar包列表
-    private List<String> getJARList4Server() {
-        return UpdateConstants.JARS_FOR_SERVER_X;
-    }
-
-    //获取设计器jar包列表
-    private List<String> getJARList4Designer() {
-        return UpdateConstants.JARS_FOR_DESIGNER_X;
-    }
-
-    //获取服务器jar包下载列表
-    private String[] getDownLoadJAR4Server() {
-        ArrayList<String> jarList = new ArrayList<String>();
-        List<String> serverItems = getJARList4Server();
-        for (DownloadItem downloadItem : downloadItems) {
-            String downloadItemName = downloadItem.getName();
-            if (serverItems.contains(downloadItemName)) {
-                jarList.add(downloadItemName);
-            }
-        }
-        return jarList.toArray(new String[jarList.size()]);
-    }
-
-    //获取设计器jar包下载列表
-    private String[] getDownLoadJAR4Designer() {
-        ArrayList<String> jarList = new ArrayList<String>();
-        List<String> designerJarItems = getJARList4Designer();
-        for (DownloadItem downloadItem : downloadItems) {
-            String downloadItemName = downloadItem.getName();
-            if (designerJarItems.contains(downloadItemName)) {
-                jarList.add(downloadItemName);
-            }
-        }
-        return jarList.toArray(new String[jarList.size()]);
     }
 
     //获取更新日志缓存配置文件名
@@ -868,10 +672,8 @@ public class UpdateMainDialog extends UIDialog {
     /**
      * 检查有效性
      *
-     * @throws Exception
      */
     @Override
     public void checkValid() throws Exception {
-
     }
 }

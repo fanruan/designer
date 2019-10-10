@@ -89,16 +89,13 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
 import com.fr.workspace.WorkContext;
-
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -106,6 +103,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -470,7 +470,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             double creatorWidth = blockCreator.getEditorBounds().width;
             double areaHeight = polyDezi.polyArea.getHeight();
             double areaWidth = polyDezi.polyArea.getWidth();
-            if (creatorWidth == 0 || creatorHeight == 0) {
+            if(AssistUtils.equals(creatorWidth,0) || AssistUtils.equals(creatorHeight,0)){
                 return resolution;
             }
             double time = (areaHeight / creatorHeight) < (areaWidth / creatorWidth) ? (areaHeight / creatorHeight) : (areaWidth / creatorWidth);
@@ -487,7 +487,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             int row = reportPane.getSelection().getSelectedRows()[0];
             double rowLength = reportPane.getSelection().getSelectedRows().length;
             double rowExtent = reportPane.getGrid().getVerticalExtent();
-            if (columnLength == 0 || rowLength == 0) {
+            if(AssistUtils.equals(columnLength,0) || AssistUtils.equals(rowLength,0)){
                 return resolution;
             }
             double time = (columnExtent / columnLength) < (rowExtent / rowLength) ? (columnExtent / columnLength) : (rowExtent / rowLength);
@@ -1103,9 +1103,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         // 弹出输入参数
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
-        try {
-            String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
-            FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
+        String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fullPath)) {
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, tpl, parameterMap);
         } catch (Exception e1) {

@@ -21,6 +21,7 @@ import com.fr.design.gui.ibutton.UIPreviewButton;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.gui.itoolbar.UILargeToolbar;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.InformationCollector;
@@ -49,6 +50,7 @@ import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.server.ServerTray;
+import com.fr.third.org.apache.commons.lang3.time.StopWatch;
 import com.fr.workspace.WorkContext;
 
 import javax.swing.JComponent;
@@ -80,6 +82,7 @@ public class Designer extends BaseDesigner {
     private UIButton saveButton;
     private UIButton undo;
     private UIButton redo;
+    private UIButton[] upToolBar;
     private UIPreviewButton run;
 
     public Designer(String[] args) {
@@ -93,6 +96,8 @@ public class Designer extends BaseDesigner {
      */
     public static void main(String[] args) {
 
+        StopWatch watch = new StopWatch();
+        watch.start();
         //启动运行时
         FineRuntime.start();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
@@ -102,7 +107,7 @@ public class Designer extends BaseDesigner {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
             SplashContext.getInstance().hide();
-            JOptionPane.showMessageDialog(null, fatal.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
             System.exit(0);
         }
@@ -111,7 +116,8 @@ public class Designer extends BaseDesigner {
             //初始化一下serverTray
             ServerTray.init();
         }
-
+        FineLoggerFactory.getLogger().info("Designer started.Time used {} ms", watch.getTime());
+        watch.stop();
     }
 
     /**
@@ -205,11 +211,17 @@ public class Designer extends BaseDesigner {
      */
     @Override
     public UIButton[] createUp() {
-        return new UIButton[]{createSaveButton(), createUndoButton(), createRedoButton()};
+        if (upToolBar == null) {
+            createSaveButton();
+            createUndoButton();
+            createRedoButton();
+            return upToolBar = new UIButton[]{saveButton, undo, redo};
+        }
+        return upToolBar;
     }
 
 
-    private UIButton createSaveButton() {
+    private void createSaveButton() {
         saveButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/save.png"));
         saveButton.setToolTipText(KeySetUtils.SAVE_TEMPLATE.getMenuKeySetName());
         saveButton.set4ToolbarButton();
@@ -222,11 +234,10 @@ public class Designer extends BaseDesigner {
                 jt.requestFocus();
             }
         });
-        return saveButton;
     }
 
 
-    private UIButton createUndoButton() {
+    private void createUndoButton() {
         undo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/undo.png"));
         undo.setToolTipText(KeySetUtils.UNDO.getMenuKeySetName());
         undo.set4ToolbarButton();
@@ -239,10 +250,9 @@ public class Designer extends BaseDesigner {
                 }
             }
         });
-        return undo;
     }
 
-    private UIButton createRedoButton() {
+    private void createRedoButton() {
         redo = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/redo.png"));
         redo.setToolTipText(KeySetUtils.REDO.getMenuKeySetName());
         redo.set4ToolbarButton();
@@ -255,7 +265,6 @@ public class Designer extends BaseDesigner {
                 }
             }
         });
-        return redo;
     }
 
     private void createRunButton(UILargeToolbar largeToolbar) {

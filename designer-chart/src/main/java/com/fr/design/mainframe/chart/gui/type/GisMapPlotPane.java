@@ -8,25 +8,26 @@ import com.fr.chart.charttypes.GisMapIndependentChart;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
 
-public class GisMapPlotPane extends AbstractChartTypePane{
-	
+public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
+
 	private static final long serialVersionUID = 2595221900000305396L;
-	
+
 	private static final int GISMAP = 0;
 	
 	private UITextField keyInput;
-	
+
 	public GisMapPlotPane(){
 		double p = TableLayout.PREFERRED;
 		double f = TableLayout.FILL;
@@ -64,6 +65,11 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	
 	}
 
+	@Override
+	public void reLayout(String chartID){
+
+	}
+
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/design/images/chart/GisMapPlot/type/0.png",
@@ -73,7 +79,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 	@Override
 	protected String[] getTypeTipName() {
 		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map")
+				Toolkit.i18nText("Fine-Design_Chart_GIS_Map_OLD")
 		};
     }
 
@@ -139,9 +145,9 @@ public class GisMapPlotPane extends AbstractChartTypePane{
 			}
 		}else{
 			String key = this.keyInput.getText().trim();
-			if(plot.isGisType() && key != plot.getBaiduKey()){
+			if(plot.isGisType() && !AssistUtils.equals(key,plot.getBaiduKey())){
 				plot.setBaiduKey(key);
-			}else if(!plot.isGisType() && key != plot.getGoogleKey()){
+			}else if(!plot.isGisType() && !AssistUtils.equals(key,plot.getGoogleKey())){
 				plot.setGoogleKey(key);
 			}
 		}
@@ -173,7 +179,7 @@ public class GisMapPlotPane extends AbstractChartTypePane{
      * @return 标题
      */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_GIS_Map");
+		return Toolkit.i18nText("Fine-Design_Chart_GIS_Map_OLD");
 	}
 
     /**

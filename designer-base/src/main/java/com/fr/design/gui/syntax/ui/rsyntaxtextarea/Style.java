@@ -9,6 +9,7 @@
  */
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea;
 
+import com.fr.log.FineLoggerFactory;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -123,15 +124,15 @@ public class Style implements Cloneable {
 		Style clone = null;
 		try {
 			clone = (Style)super.clone();
+			clone.foreground = foreground;
+			clone.background = background;
+			clone.font = font;
+			clone.underline = underline;
+			clone.fontMetrics = fontMetrics;
 		} catch (CloneNotSupportedException cnse) { // Never happens
-			cnse.printStackTrace();
-			return null;
+			FineLoggerFactory.getLogger().error(cnse.getMessage(), cnse);
+			clone = null;
 		}
-		clone.foreground = foreground;
-		clone.background = background;
-		clone.font = font;
-		clone.underline = underline;
-		clone.fontMetrics = fontMetrics;
 		return clone;
 	}
 

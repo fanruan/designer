@@ -101,7 +101,7 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 			Dimension d = getSize();
 
 			g2d.setPaint(this.buttonTexturePaint);
-			GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, d.width - 1, d.height - 1));
+			GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, (double) d.width - 1, (double)d.height - 1));
 
 			if (ComparatorUtils.equals(texturePaint, this.buttonTexturePaint)) {// it's
 				// selected.
@@ -109,7 +109,7 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 			} else {
 				g2d.setPaint(null);
 			}
-			GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1, d.height - 1));
+			GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, (double)d.width - 1, (double) d.height - 1));
 		}
 
 		public Dimension getPreferredSize() {

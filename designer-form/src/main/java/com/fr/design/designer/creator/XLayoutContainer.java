@@ -572,4 +572,9 @@ public abstract class XLayoutContainer extends XBorderStyleWidgetCreator impleme
         return false;
     }
 
+    @Override
+    public boolean supportMobileStyle() {
+        return false;
+    }
+
 }

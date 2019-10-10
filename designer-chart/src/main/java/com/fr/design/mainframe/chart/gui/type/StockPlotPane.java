@@ -3,7 +3,7 @@ package com.fr.design.mainframe.chart.gui.type;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.StockIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 
 
 /**
@@ -11,8 +11,8 @@ import com.fr.locale.InterProviderFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-26 上午10:52:36
  */
-public class StockPlotPane extends AbstractChartTypePane {
-	
+public class StockPlotPane extends AbstractDeprecatedChartTypePane {
+
 	private static final int STOCK = 0;
 
 
@@ -20,13 +20,6 @@ public class StockPlotPane extends AbstractChartTypePane {
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/design/images/chart/StockPlot/type/0.png",
         };
-    }
-
-	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Stock")
-		};
     }
 
 	@Override
@@ -49,7 +42,7 @@ public class StockPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Stock");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Stock");
 	}
 
 	/**

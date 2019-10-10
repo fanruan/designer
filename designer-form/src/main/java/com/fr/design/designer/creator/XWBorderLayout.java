@@ -42,6 +42,7 @@ public class XWBorderLayout extends XLayoutContainer {
      * 默认名称
      * @return      名称
      */
+    @Override
 	public String createDefaultName() {
     	return "border";
     }
@@ -50,6 +51,7 @@ public class XWBorderLayout extends XLayoutContainer {
      * 转化成相应 WBorderLayout
      * @return   相应 WBorderLayout
      */
+    @Override
     public WBorderLayout toData() {
         return (WBorderLayout) data;
     }
@@ -62,6 +64,7 @@ public class XWBorderLayout extends XLayoutContainer {
      *  初始大小
      * @return   初始大小
      */
+    @Override
     public Dimension initEditorSize() {
         return new Dimension(WBorderLayout.DEFAULT_WIDTH, WBorderLayout.DEFAULT_HEIGHT);
     }
@@ -71,15 +74,18 @@ public class XWBorderLayout extends XLayoutContainer {
      * @return 属性名
      * @throws java.beans.IntrospectionException    抛错
      */
+    @Override
     public CRPropertyDescriptor[] supportedDescriptor() throws IntrospectionException {
         return  new CRPropertyDescriptor[] {
-                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name"))
+                new CRPropertyDescriptor("widgetName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Form_Widget_Name")),
+                new CRPropertyDescriptor("customTitleName", this.data.getClass()).setI18NName(Toolkit.i18nText("Fine-Design_Form_Title"))
         };
     }
 
     /**
      * 将WLayout转换为XLayoutContainer
      */
+    @Override
     public void convert() {
         isRefreshing = true;
         WBorderLayout wb = this.toData();
@@ -101,6 +107,7 @@ public class XWBorderLayout extends XLayoutContainer {
      * 设计界面中有组件添加时，要通知WLayout容器重新paint
      * @param e    事件
      */
+    @Override
     public void componentAdded(ContainerEvent e) {
         if (isRefreshing) {
             return;
@@ -158,6 +165,7 @@ public class XWBorderLayout extends XLayoutContainer {
     /**
      * 重新计算大小
      */
+    @Override
     public void recalculateChildrenSize() {
         Dimension d = getSize();
         WBorderLayout layout = toData();
@@ -173,6 +181,7 @@ public class XWBorderLayout extends XLayoutContainer {
      * @param comp        组件
      * @param constraints         方位
      */
+    @Override
     public void add(Component comp, Object constraints) {
         super.add(comp, constraints);
         if (comp == null) {

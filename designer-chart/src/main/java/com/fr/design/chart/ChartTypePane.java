@@ -1,29 +1,22 @@
 package com.fr.design.chart;
 /**
  * the Pane of the Chart
- *
  */
 
-import com.fr.chart.base.ChartInternationalNameContentBean;
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.ChartIcon;
-import com.fr.chart.chartattr.MapPlot;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.license.exception.RegistEditionException;
-import com.fr.license.function.VT4FR;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListCellRenderer;
@@ -35,28 +28,7 @@ import java.awt.Component;
 public class ChartTypePane extends ChartCommonWizardPane {
     private static final long serialVersionUID = -1175602484968520546L;
 
-    private ChartInternationalNameContentBean[] typeName = ChartTypeManager.getInstanceWithCheck().getAllChartBaseNames();
-    private Chart[][] charts4Icon = null;
-
-    {
-        charts4Icon = new Chart[this.typeName.length][];
-        for (int i = 0; i < this.typeName.length; i++) {
-            Chart[] rowCharts = ChartTypeManager.getInstanceWithCheck().getChartTypes(this.typeName[i].getPlotID());
-            int rowChartsCount = rowCharts.length;
-            charts4Icon[i] = new Chart[rowChartsCount];
-            for (int j = 0; j < rowChartsCount; j++) {
-                try {
-                    charts4Icon[i][j] = (Chart) rowCharts[j].clone();
-                    charts4Icon[i][j].setTitle(null);
-                    if(charts4Icon[i][j].getPlot() != null){
-                        charts4Icon[i][j].getPlot().setLegend(null);
-                    }
-                } catch (CloneNotSupportedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-        }
-    }
+    private String[] chartIDs = ChartTypeManager.getInstanceWithCheck().getAllChartIDs();
 
     private JList mainTypeList = null;
     private JList iconViewList = null;
@@ -67,8 +39,8 @@ public class ChartTypePane extends ChartCommonWizardPane {
         DefaultListModel defaultListModel = new DefaultListModel();
         mainTypeList = new JList(defaultListModel);
 
-        for (int i = 0; i < typeName.length; i++) {
-            defaultListModel.insertElementAt(InterProviderFactory.getProvider().getLocText(typeName[i].getName()), i);
+        for (int i = 0; i < chartIDs.length; i++) {
+            defaultListModel.insertElementAt(ChartTypeInterfaceManager.getInstance().getName(chartIDs[i]), i);
         }
         mainTypeList.addListSelectionListener(listSelectionListener);
 
@@ -121,66 +93,29 @@ public class ChartTypePane extends ChartCommonWizardPane {
     protected ListSelectionListener listSelectionListener = new ListSelectionListener() {
         public void valueChanged(ListSelectionEvent e) {
             int main_index = mainTypeList.getSelectedIndex();
-            Chart[] sub_charts = ChartTypePane.this.charts4Icon[main_index];
+            String id = ChartTypePane.this.chartIDs[main_index];
+
+            String[] demoImagePath = ChartTypeInterfaceManager.getInstance().getDemoImagePath(id);
+            String[] subName = ChartTypeInterfaceManager.getInstance().getSubName(id);
+
             ChartTypePane.this.iconListModel.clear();
-            for (int i = 0; i < sub_charts.length; i++) {
-                ChartTypePane.this.iconListModel.addElement(new ChartIcon(sub_charts[i]));
+            for (int i = 0, len = subName.length; i < len; i++) {
+                String ImagePath = demoImagePath.length > i ? demoImagePath[i] : StringUtils.EMPTY;
+                String chartName = subName[i];
+                ChartTypePane.this.iconListModel.addElement(new ChartIcon(ImagePath, chartName));
             }
             iconViewList.setSelectedIndex(0);
         }
     };
 
     public String getChartName(ChartIcon chartIcon) {
-        Chart chart = (Chart)chartIcon.getChart();
-        return chart.getChartName();
+        return chartIcon.getChartName();
     }
 
-    public void populate(Chart chart) {
-        if (chart == null) {
-            return;
-        }
-        Plot plot = chart.getPlot();
-
-        int mainIndex = 0;
-        int subIndex = 0;
-
-        for (int i = 0; i < typeName.length; i++) {
-            Chart[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(typeName[i].getPlotID());
-            for (int j = 0; j < charts.length; j++) {
-                if (charts[j].getPlot().match4GUI(plot)) {
-                    mainIndex = i;
-                    subIndex = j;
-                    // 一旦匹配 立马中断
-                    break;
-                }
-            }
-        }
-
-        mainTypeList.setSelectedIndex(mainIndex);
-        iconViewList.setSelectedIndex(subIndex);
+    public void populate(ChartProvider chart) {
     }
 
-    public void update(Chart oldChart) {
-        String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
-        Chart chart = ChartTypeManager.getInstanceWithCheck().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
-        if(chart.getPlot() != null){
-            if(chart.getPlot() instanceof MapPlot && !supportMap()){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Not_Supported"));
-                throw new RegistEditionException(VT4FR.ChartMap);
-            }
-
-            if (chart.getPlot() != null) {
-                try {
-                    oldChart.changePlotInNewType((Plot) chart.getPlot().clone());
-                } catch (CloneNotSupportedException e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                }
-            }
-        }
-    }
-
-    private boolean supportMap() {
-        return VT4FR.ChartMap.isSupport();
+    public void update(ChartProvider oldChart) {
     }
 
     public void update(ChartCollection cc) {
@@ -188,14 +123,14 @@ public class ChartTypePane extends ChartCommonWizardPane {
             return;
         }
 
-        Chart chart4Update = cc.getSelectedChart();
+        ChartProvider chart4Update = cc.getSelectedChartProvider();
         if (chart4Update == null) {
-            String plotID = typeName[mainTypeList.getSelectedIndex()].getPlotID();
-            Chart chart = ChartTypeManager.getInstance().getChartTypes(plotID)[iconViewList.getSelectedIndex()];
-            try{
-                chart4Update = (Chart)chart.clone();
+            String plotID = this.chartIDs[mainTypeList.getSelectedIndex()];
+            ChartProvider chart = ChartTypeManager.getInstance().getCharts(plotID)[iconViewList.getSelectedIndex()];
+            try {
+                chart4Update = (ChartProvider) chart.clone();
                 cc.addChart(chart4Update);
-            }catch (CloneNotSupportedException ex){
+            } catch (CloneNotSupportedException ex) {
                 FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
         }

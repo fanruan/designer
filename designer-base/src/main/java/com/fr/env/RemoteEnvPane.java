@@ -548,6 +548,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                     message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
                     uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                    Thread.currentThread().interrupt();
                 }
                 dialogDownPane.remove(cancelButton);
                 dialogDownPane.revalidate();

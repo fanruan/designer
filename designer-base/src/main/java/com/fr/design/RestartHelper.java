@@ -1,13 +1,16 @@
 package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.os.impl.RestartAction;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.OperatingSystem;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -154,12 +157,12 @@ public class RestartHelper {
             deleteWhenDebug();
             return;
         }
-
+        RandomAccessFile randomAccessFile = null;
         try {
             try {
                 File restartLockFile = new File(StableUtils.pathJoin(StableUtils.getInstallHome(), "restart.lock"));
                 StableUtils.makesureFileExist(restartLockFile);
-                RandomAccessFile randomAccessFile = new RandomAccessFile(restartLockFile,"rw");
+                randomAccessFile = new RandomAccessFile(restartLockFile,"rw");
                 FileChannel restartLockFC = randomAccessFile.getChannel();
                 FileLock restartLock = restartLockFC.tryLock();
                 if(restartLock == null) {
@@ -168,19 +171,23 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            if (OperatingSystem.isMacOS()) {
-                restartInMacOS(installHome, filesToBeDelete);
-            } else {
-                restartInWindows(installHome, filesToBeDelete);
-            }
+            OSBasedAction osBasedAction = OSSupportCenter.getAction(RestartAction.class);
+            osBasedAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
+            try {
+                if (null != randomAccessFile) {
+                    randomAccessFile.close();
+                }
+            } catch (IOException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
             DesignerContext.getDesignerFrame().exit();
         }
     }
 
-    private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
+ /*   private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
         commands.add("open");
@@ -203,4 +210,16 @@ public class RestartHelper {
         builder.command(commands);
         builder.start();
     }
+
+    private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
+        ProcessBuilder builder = new ProcessBuilder();
+        List<String> commands = new ArrayList<String>();
+        //现在先写的是restart.sh
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
+        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
+            commands.add(StableUtils.join(filesToBeDelete, "+"));
+        }
+        builder.command(commands);
+        builder.start();
+    }*/
 }

@@ -9,7 +9,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.AreaIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 
 
 /**
@@ -17,7 +16,7 @@ import com.fr.locale.InterProviderFactory;
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午06:57:36
  */
-public class AreaPlotPane extends AbstractChartTypePane{
+public class AreaPlotPane extends AbstractDeprecatedChartTypePane {
 
 	private static final int STACK_AREA_CHART = 0;
 	private static final int PERCENT_AREA_LINE_CHART = 1;
@@ -30,20 +29,6 @@ public class AreaPlotPane extends AbstractChartTypePane{
                 "/com/fr/design/images/chart/AreaPlot/type/1.png",
                 "/com/fr/design/images/chart/AreaPlot/type/2.png",
                 "/com/fr/design/images/chart/AreaPlot/type/3.png",
-		};
-	}
-
-	@Override
-	protected String[] getTypeTipName() {
-		String area = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
-		String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
-		String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-		String td = Toolkit.i18nText("Fine-Design_Chart_3D");
-		return new String[]{
-				stack + area,
-				percent + stack + area,
-				td + stack + area,
-				td + percent + stack + area
 		};
 	}
 
@@ -79,7 +64,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
 				} else {
 					typeDemo.get(STACK_AREA_CHART).isPressing = true;
 				}
-			} 
+			}
 		} else if(plot instanceof Area3DPlot) {
 			Area3DPlot threeDPlot = (Area3DPlot)plot;
 			if(threeDPlot.isStacked()) {
@@ -90,7 +75,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
 				}
 			}
 		}
-		
+
 		checkDemosBackground();
 	}
 
@@ -114,18 +99,20 @@ public class AreaPlotPane extends AbstractChartTypePane{
             ((Area3DPlot)plot).setStacked(true);
             ((Area3DPlot)plot).getyAxis().setPercentage(true);
         }
-        createAreaCondition(plot);
+        if(plot != null) {
+			createAreaCondition(plot);
+		}
         return plot;
     }
 
 	/**
-	 * 保存界面属性 
+	 * 保存界面属性
 	 */
 	public void updateBean(Chart chart) {
 		chart.switchPlot(getSelectedClonedPlot());
 		super.updateBean(chart);
 	}
-	
+
 	private void createAreaCondition(Plot plot) {
 		ConditionCollection collection = plot.getConditionCollection();
 		AttrAlpha alpha = (AttrAlpha) collection.getDefaultAttr().getExisted(AttrAlpha.class);
@@ -141,7 +128,7 @@ public class AreaPlotPane extends AbstractChartTypePane{
      * @return  界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Area");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Area");
 	}
 
     public Chart getDefaultChart() {

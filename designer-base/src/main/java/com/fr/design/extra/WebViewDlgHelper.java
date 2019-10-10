@@ -5,18 +5,16 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.CloudCenter;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-
-import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
-import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -260,21 +258,12 @@ public class WebViewDlgHelper {
         new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                try {
-                    PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
-                        @Override
-                        public void process(Double integer) {
-                            // 这个注释毫无意义，就是为了通过SonarQube
-                        }
-                    });
-                } catch (PluginVerifyException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
-                    return false;
-                } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                    return false;
-                }
-                return true;
+                return PluginUtils.downloadShopScripts(scriptsId, new Process<Double>() {
+                    @Override
+                    public void process(Double integer) {
+                        // 这个注释毫无意义，就是为了通过SonarQube
+                    }
+                });
             }
 
             @Override
@@ -290,7 +279,10 @@ public class WebViewDlgHelper {
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
                     }
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (InterruptedException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    Thread.currentThread().interrupt();
+                } catch (ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
 

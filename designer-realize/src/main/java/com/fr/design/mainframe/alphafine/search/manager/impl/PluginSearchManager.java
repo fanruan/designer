@@ -27,21 +27,20 @@ import java.net.URLEncoder;
  * Created by XiaXiang on 2017/3/27.
  */
 public class PluginSearchManager implements AlphaFineSearchProvider {
-    private static volatile PluginSearchManager instance;
     private SearchResult lessModelList;
     private SearchResult moreModelList;
 
+    private PluginSearchManager() {
+
+    }
 
     public static PluginSearchManager getInstance() {
-        if (instance == null) {
-            synchronized (PluginSearchManager.class) {
-                if (instance == null) {
-                    instance = new PluginSearchManager();
-                }
-            }
-        }
-        return instance;
+        return Holder.INSTANCE;
 
+    }
+
+    private static class Holder {
+        private static final PluginSearchManager INSTANCE = new PluginSearchManager();
     }
 
     private static boolean isCompatibleCurrentEnv(String envVersion) {
@@ -105,7 +104,7 @@ public class PluginSearchManager implements AlphaFineSearchProvider {
                 lessModelList.add(new MoreModel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Plugin_Addon")));
                 return lessModelList;
             }
-            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(Holder.INSTANCE);
             if(noConnectList != null){
                 return noConnectList;
             }

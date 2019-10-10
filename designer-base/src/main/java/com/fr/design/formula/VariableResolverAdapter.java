@@ -23,6 +23,7 @@ public abstract class VariableResolverAdapter implements VariableResolver {
      *
      * @return 内置参数
      */
+    @Override
     public String[] resolveCurReportVariables() {
         String[] variables = new String[]{
                 ScriptConstants.SUMMARY_TAG + "page_number",
@@ -38,10 +39,10 @@ public abstract class VariableResolverAdapter implements VariableResolver {
                 CalculatorProvider.SERVER_PORT, CalculatorProvider.SERVER_URL, CalculatorProvider.CONTEXT_PATH, CalculatorProvider.SESSION_ID
         };
         Set<BuiltInParametersProvider> set = ExtraClassManager.getInstance().getArray(BuiltInParametersProvider.XML_TAG);
-        for (BuiltInParametersProvider provider : set) {
-            return (String[]) ArrayUtils.addAll(variables, new String[]{
-                    ScriptConstants.DETAIL_TAG + provider.getParametersName()
-            });
+            for (BuiltInParametersProvider provider : set) {
+                ArrayUtils.addAll(variables, new String[]{
+                        ScriptConstants.DETAIL_TAG + provider.getParametersName()
+                });
         }
         return variables;
     }
@@ -65,6 +66,8 @@ public abstract class VariableResolverAdapter implements VariableResolver {
      *
      * @return 所有参数
      */
+    @Override
+    @SuppressWarnings("squid:S2259")
     public String[] resolveTableDataParameterVariables() {
         Parameter[] parameters = getCurrentModeParameters(TABLE_DATA_PARA);
         String[] parameterNames = new String[parameters.length];
@@ -79,6 +82,8 @@ public abstract class VariableResolverAdapter implements VariableResolver {
      *
      * @return 所有参数
      */
+    @Override
+    @SuppressWarnings("squid:S2259")
     public String[] resolveReportParameterVariables() {
         Parameter[] parameters = getCurrentModeParameters(REPORT_DATA_PARA);
         String[] parameterNames = new String[parameters.length];
@@ -93,6 +98,7 @@ public abstract class VariableResolverAdapter implements VariableResolver {
      *
      * @return 所有参数
      */
+    @Override
     public String[] resolveGlobalParameterVariables() {
         // 加上全局的参数
         Parameter[] globalParameters = ParameterConfig.getInstance().getGlobalParameters();

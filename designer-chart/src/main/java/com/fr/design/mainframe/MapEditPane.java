@@ -96,15 +96,6 @@ public class MapEditPane extends BasicBeanPane<MapSvgAttr>{
 
     }
 
-    /**
-   	 * 再图片面板设置类型和名字
-   	 * @param mapType 地图类型
-   	 */
-    public void dealWidthMap(String mapType){
-        areaPane.setTypeNameAndMapName(mapType,currentMapName);
-//        pointPane.setTypeNameAndMapName(mapType,currentMapName);
-   	}
-
     @Override
     public MapSvgAttr updateBean() {
         MapSvgAttr currentAttr = editingPane.updateCurrentAttr();

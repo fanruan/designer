@@ -1,24 +1,17 @@
 package com.fr.design.dialog;
 
+import com.fr.common.annotations.Open;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Window;
+import java.awt.*;
 
-/*
- * _denny: 这里的BasicPane通常会有populate & update方法
- * 记得populate 一定要在对应的dialog setVisible之前populate
- */
+@Open
 public abstract class BasicPane extends JPanel {
 
     /**

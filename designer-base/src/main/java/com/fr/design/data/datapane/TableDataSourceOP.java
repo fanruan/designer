@@ -56,14 +56,18 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
             return DesignTableDataManager.getEditingDataSet(tc.getBook());
         }
         List<Map<String, TableDataWrapper>> empty = new ArrayList<Map<String, TableDataWrapper>>();
-        empty.add(Collections.<String, TableDataWrapper>emptyMap());//数据集
-        empty.add(Collections.<String, TableDataWrapper>emptyMap());//服务器数据集
-        empty.add(Collections.<String, TableDataWrapper>emptyMap());//存储过程
+        //数据集
+        empty.add(Collections.<String, TableDataWrapper>emptyMap());
+        //服务器数据集
+        empty.add(Collections.<String, TableDataWrapper>emptyMap());
+        //存储过程
+        empty.add(Collections.<String, TableDataWrapper>emptyMap());
         return empty;
     }
 
     /**
      * ButtonEnabled intercept
+     *
      * @return interceptbuttonEnabled
      */
     @Override
@@ -73,8 +77,10 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
 
     /**
      * 移除名字是name的TableData
+     *
      * @param name tabledata name
      */
+    @Override
     public void removeAction(String name) {
         if (tc != null) {
             TableDataSource tds = tc.getBook();
@@ -85,7 +91,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     protected ExpandMutableTreeNode[] getNodeArrayFromMap(Map<String, TableDataWrapper> map) {
-        List<ExpandMutableTreeNode> dataList = new ArrayList<ExpandMutableTreeNode>();
+        List<ExpandMutableTreeNode> dataList = new ArrayList<>();
         Iterator<Entry<String, TableDataWrapper>> entryIt = map.entrySet().iterator();
         while (entryIt.hasNext()) {
             Entry<String, TableDataWrapper> entry = entryIt.next();
@@ -96,7 +102,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
             dataList.add(newChildTreeNode);
             newChildTreeNode.add(new ExpandMutableTreeNode());
         }
-        return dataList.toArray(new ExpandMutableTreeNode[dataList.size()]);
+        return dataList.toArray(new ExpandMutableTreeNode[0]);
     }
 
     private ExpandMutableTreeNode initTemplateDataNode(Map<String, TableDataWrapper> templateDataMap) {
@@ -124,22 +130,20 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
      */
     @Override
     public ExpandMutableTreeNode[] load() {
-        Map<String, TableDataWrapper> templateDataMap = null;
-        Map<String, TableDataWrapper> serverDataMap = null;
-        Map<String, TableDataWrapper> storeProcedureMap = null;
+        Map<String, TableDataWrapper> templateDataMap;
+        Map<String, TableDataWrapper> serverDataMap;
+        Map<String, TableDataWrapper> storeProcedureMap;
 
-        if (this != null) {
-            templateDataMap = this.init().get(0);
-            serverDataMap = this.init().get(1);
-            storeProcedureMap = this.init().get(2);
-        } else {
-            templateDataMap = Collections.emptyMap();
-            serverDataMap = Collections.emptyMap();
-            storeProcedureMap = Collections.emptyMap();
-        }
-        List<ExpandMutableTreeNode> list = new ArrayList<ExpandMutableTreeNode>(); //所有的数据集
-        List<ExpandMutableTreeNode> templist = new ArrayList<ExpandMutableTreeNode>(); //模板数据集
-        List<ExpandMutableTreeNode> serverlist = new ArrayList<ExpandMutableTreeNode>();   //服务器数据集
+        templateDataMap = this.init().get(0);
+        serverDataMap = this.init().get(1);
+        storeProcedureMap = this.init().get(2);
+
+        //所有的数据集
+        List<ExpandMutableTreeNode> list = new ArrayList<>();
+        //模板数据集
+        List<ExpandMutableTreeNode> templist = new ArrayList<>();
+        //服务器数据集
+        List<ExpandMutableTreeNode> serverlist = new ArrayList<>();
 
         list.add(initTemplateDataNode(templateDataMap));
         addNodeToList(templateDataMap, templist);
@@ -160,11 +164,11 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         }
         switch (dataMode) {
             case TEMPLATE_TABLE_DATA:
-                return templist.toArray(new ExpandMutableTreeNode[templist.size()]);
+                return templist.toArray(new ExpandMutableTreeNode[0]);
             case SERVER_TABLE_DATA:
-                return serverlist.toArray(new ExpandMutableTreeNode[serverlist.size()]);
+                return serverlist.toArray(new ExpandMutableTreeNode[0]);
             default:
-                return list.toArray(new ExpandMutableTreeNode[list.size()]);
+                return list.toArray(new ExpandMutableTreeNode[0]);
         }
     }
 
@@ -182,7 +186,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
     }
 
     protected void setStoreProcedureTree(TableData tableData, ExpandMutableTreeNode tmpNode) {
-        ArrayList<String> nodeName = new ArrayList<String>();
+        ArrayList<String> nodeName = new ArrayList<>();
         StoreProcedure storeProcedure = (StoreProcedure) tableData;
         String name = ((NameObject) tmpNode.getUserObject()).getName();
         StoreProcedureParameter[] parameters = StoreProcedure.getSortPara(storeProcedure.getParameters());
@@ -208,13 +212,13 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
         }
 
         if (!resultNames.isEmpty()) {
-            for (int i = 0; i < resultNames.size(); i++) {
-                if (!nodeName.contains(resultNames.get(i))) {
-                    nodeName.add(resultNames.get(i));
+            for (String resultName : resultNames) {
+                if (!nodeName.contains(resultName)) {
+                    nodeName.add(resultName);
                     hasChild = true;
-                    String parameterName = name + "_" + resultNames.get(i);
+                    String parameterName = name + "_" + resultName;
                     TableDataWrapper newTwd = new StoreProcedureDataWrapper(storeProcedure, name, parameterName, false);
-                    ExpandMutableTreeNode newChildNode = new ExpandMutableTreeNode(new NameObject(resultNames.get(i), newTwd));
+                    ExpandMutableTreeNode newChildNode = new ExpandMutableTreeNode(new NameObject(resultName, newTwd));
                     newChildNode.add(new ExpandMutableTreeNode());
                     tmpNode.add(newChildNode);
                 }
@@ -230,7 +234,7 @@ public class TableDataSourceOP implements UserObjectOP<TableDataWrapper> {
 
 
     public void setDataMode(int i) {
-        this.dataMode = i;
+        dataMode = i;
     }
 
     public int getDataMode() {

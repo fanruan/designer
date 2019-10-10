@@ -140,10 +140,11 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
 
     @Override
     public void populateBean(Listener listener) {
-        this.listener = listener;
-        if (this.listener == null) {
+        if (listener == null){
             this.listener = new Listener();
+            return;
         }
+        this.listener = listener;
         this.nameText.setText(listener.getEventName());
         JavaScript js = listener.getAction();
         for (int i = 0; i < this.cards.size(); i++) {

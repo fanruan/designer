@@ -10,11 +10,12 @@
  */
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea.modes;
 
-import java.io.*;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.AbstractJFlexTokenMaker;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.Token;
+import com.fr.design.gui.syntax.ui.rsyntaxtextarea.TokenImpl;
+import java.io.IOException;
 import java.util.Stack;
 import javax.swing.text.Segment;
-
-import com.fr.design.gui.syntax.ui.rsyntaxtextarea.*;
 
 
 /**
@@ -762,8 +763,8 @@ public final void yybegin(int newState) {
           { addToken(Token.LITERAL_CHAR);
           }
         case 25: break;
-        case 12: 
-          { if (!varDepths.empty() && varDepths.peek()==Boolean.TRUE) {
+        case 12:
+          { if (!varDepths.empty() && Boolean.TRUE.equals(varDepths.peek())) {
 								varDepths.pop();
 								if (varDepths.empty()) {
 									addToken(start,zzStartRead, Token.VARIABLE); yybegin(YYINITIAL);
@@ -771,8 +772,8 @@ public final void yybegin(int newState) {
 							}
           }
         case 26: break;
-        case 11: 
-          { if (!varDepths.empty() && varDepths.peek()==Boolean.FALSE) {
+        case 11:
+          { if (!varDepths.empty() && Boolean.FALSE.equals(varDepths.peek())) {
 								varDepths.pop();
 								if (varDepths.empty()) {
 									addToken(start,zzStartRead, Token.VARIABLE); yybegin(YYINITIAL);
