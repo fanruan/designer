@@ -16,12 +16,12 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.utils.ImageUtils;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 
 import com.fr.stable.Constants;
-import com.fr.stable.CoreGraphHelper;
 import com.fr.stable.ListMap;
 import com.fr.stable.StringUtils;
 import com.fr.transaction.Configurations;
@@ -39,6 +39,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * carl：自定义Icon编辑
@@ -452,13 +455,7 @@ public class CustomIconPane extends BasicPane {
                 String path = jf.getSelectedFile().getAbsolutePath();
                 // 图片存储有最大值48*48限制，没有超过最大值时，按原图大小存储，超过最大值后，压缩至最大值存储
                 Image image = BaseUtils.readImage(path);
-                BufferedImage bufferedImage = CoreGraphHelper.createBufferedImage(Math.min(image.getWidth(null), IconManager.MAXSTORAGE_ICONWIDTH),
-                        Math.min(image.getHeight(null), IconManager.MAXSTORAGE_ICONHEIGHT), BufferedImage.TYPE_INT_ARGB);
-                Graphics2D g2d = bufferedImage.createGraphics();
-                g2d.drawImage(image, 0, 0, Math.min(image.getWidth(null), IconManager.MAXSTORAGE_ICONWIDTH), Math.min(image.getHeight(null), IconManager.MAXSTORAGE_ICONHEIGHT), null);
-                bufferedImage.flush();
-                g2d.dispose();
-                iconImage = bufferedImage;
+                iconImage = ImageUtils.scale((BufferedImage) image, Math.min(image.getWidth(null), IconManager.MAXSTORAGE_ICONWIDTH), Math.min(image.getHeight(null), IconManager.MAXSTORAGE_ICONHEIGHT), true, Image.SCALE_SMOOTH);
                 if (iconImage != null) {
                     showImageLabel.setIcon(new ImageIcon(iconImage));
                 }
