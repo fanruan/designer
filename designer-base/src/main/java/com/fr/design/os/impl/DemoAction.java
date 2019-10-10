@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DemoAction implements OSBasedAction {
 
     @Override
-    public void execute() {
+    public void execute(Object... objects) {
         String installHome = StableUtils.getInstallHome();
         if (installHome == null) {
             FineLoggerFactory.getLogger().error("Can not find the install home, please check it.");

@@ -14,7 +14,7 @@ import com.fr.stable.os.support.OSBasedAction;
 public class UpdateDialogAction implements OSBasedAction {
     private static String UPDATE_ROUTE = "#management/backup";
     @Override
-    public void execute() {
+    public void execute(Object... objects) {
         if(!OperatingSystem.isLinux()) {
             UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
             dialog.showDialog();

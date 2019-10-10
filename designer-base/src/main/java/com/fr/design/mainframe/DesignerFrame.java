@@ -463,7 +463,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             final Component[] bbsLoginPane = {null};
             OSSupportCenter.buildAction(new OSBasedAction() {
                 @Override
-                public void execute() {
+                public void execute(Object... objects) {
                    bbsLoginPane[0] =  ad.createBBSLoginPane();
                 }
             }, SupportOSImpl.USERINFOPANE);
@@ -475,7 +475,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
-            public void execute() {
+            public void execute(Object... objects) {
                northEastPane.add(ad.createBBSLoginPane());
             }
         }, SupportOSImpl.USERINFOPANE);

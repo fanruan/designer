@@ -16,7 +16,7 @@ import com.fr.stable.os.support.OSBasedAction;
 public class PMDialogAction implements OSBasedAction {
     private static String PLUGIN_MANAGER_ROUTE = "#management/plugin";
     @Override
-    public void execute() {
+    public void execute(Object... objects) {
          if(Arch.getArch() == Arch.ARM){
              DesignUtils.visitEnvServerByParameters( PLUGIN_MANAGER_ROUTE,null,null);
              return;

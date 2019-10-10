@@ -33,7 +33,7 @@ public class ProgressDialog extends UIDialog {
         setLocationRelativeTo(null);
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
-            public void execute() {
+            public void execute(Object... objects) {
                 setOpacity(0.5f);
             }
         }, SupportOSImpl.OPACITY);

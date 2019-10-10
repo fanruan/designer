@@ -130,11 +130,10 @@ public class DesignerActivator extends Activator {
         DesignerSocketIO.update();
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
-            public void execute() {
+            public void execute(Object... objects) {
                 UserInfoPane.getInstance().updateBBSUserInfo();
             }
         }, SupportOSImpl.USERINFOPANE);
-
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
     }

@@ -546,7 +546,7 @@ public abstract class ToolBarMenuDock {
         if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
             OSSupportCenter.buildAction(new OSBasedAction() {
                 @Override
-                public void execute() {
+                public void execute(Object... objects) {
                     shortCuts.add(new FineUIAction());
                 }
             }, SupportOSImpl.FINEUI);

@@ -23,7 +23,7 @@ import static com.fr.design.actions.server.ConnectionListAction.doWithDatasource
 public class DatabaseDialogAction implements OSBasedAction {
 
     @Override
-    public void execute() {
+    public void execute(Object... objects) {
         if (ServerPreferenceConfig.getInstance().isUseUniverseDBM() && !OperatingSystem.isLinux()) {
             UniversalDatabaseOpener.showUniverseDatabaseDialog();
         } else {

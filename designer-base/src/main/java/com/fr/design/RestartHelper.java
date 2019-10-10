@@ -1,6 +1,7 @@
 package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.os.impl.RestartAction;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
@@ -8,6 +9,8 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -168,14 +171,8 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            if (OperatingSystem.isMacos()) {
-                restartInMacOS(installHome, filesToBeDelete);
-            } else if(OperatingSystem.isWindows()){
-                restartInWindows(installHome, filesToBeDelete);
-            }else{
-                //增加一个Linux系统
-                restartInLinux(installHome,filesToBeDelete);
-            }
+            OSBasedAction osBasedAction = OSSupportCenter.getAction(RestartAction.class);
+            osBasedAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
@@ -190,7 +187,7 @@ public class RestartHelper {
         }
     }
 
-    private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
+ /*   private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
         commands.add("open");
@@ -224,5 +221,5 @@ public class RestartHelper {
         }
         builder.command(commands);
         builder.start();
-    }
+    }*/
 }
