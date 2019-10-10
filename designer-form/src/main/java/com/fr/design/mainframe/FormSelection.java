@@ -11,6 +11,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
@@ -317,6 +318,9 @@ public class FormSelection {
         clipBoard.reset();
 
         for (XCreator root : selection) {
+            if(root.acceptType(XWTabFitLayout.class)){
+                continue;
+            }
             try {
                 XCreator creator = XCreatorUtils.createXCreator((Widget) root.toData().clone());
                 creator.setBounds(root.getBounds());

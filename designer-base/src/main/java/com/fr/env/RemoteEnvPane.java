@@ -644,6 +644,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         remoteWorkspaceURL.setPort(port);
         remoteWorkspaceURL.setWeb(web);
         remoteWorkspaceURL.setServlet(servlet);
+        remoteWorkspaceURL.resetUrl();
     }
 
 
