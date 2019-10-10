@@ -305,7 +305,6 @@ public class PreferencePane extends BasicPane {
                 gcButton.setEnabled(gcEnableCheckBox.isSelected());
             }
         });
-        gcEnableCheckBox.setSelected(GcConfig.getInstance().isGcEnable());
         //集群下禁用
         if (ClusterBridge.isClusterMode()) {
             gcEnableCheckBox.setEnabled(false);
