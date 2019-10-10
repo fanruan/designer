@@ -2,10 +2,10 @@ package com.fr.design.actions.server;
 
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.os.OSBasedAction;
-import com.fr.design.os.OSSupportCenter;
 import com.fr.design.os.impl.PMDialogAction;
 import com.fr.general.IOUtils;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

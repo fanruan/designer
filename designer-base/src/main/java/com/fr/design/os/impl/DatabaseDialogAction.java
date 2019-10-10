@@ -7,15 +7,19 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
-import com.fr.design.os.OSBasedAction;
 import com.fr.file.ConnectionConfig;
 import com.fr.stable.os.OperatingSystem;
+import com.fr.stable.os.support.OSBasedAction;
 import com.fr.transaction.CallBackAdaptor;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.WorkerFacade;
 import static com.fr.design.actions.server.ConnectionListAction.doWithDatasourceManager;
 
-//数据连接窗口
+/**
+ * 数据连接窗口
+ * @author pengda
+ * @date 2019/10/9
+ */
 public class DatabaseDialogAction implements OSBasedAction {
 
     @Override

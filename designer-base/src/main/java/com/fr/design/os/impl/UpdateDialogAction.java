@@ -1,12 +1,16 @@
 package com.fr.design.os.impl;
 
 import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.os.OSBasedAction;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.design.utils.DesignUtils;
 import com.fr.stable.os.OperatingSystem;
+import com.fr.stable.os.support.OSBasedAction;
 
-//更新升级窗口
+/**
+ * 更新升级窗口
+ * @author pengda
+ * @date 2019/10/9
+ */
 public class UpdateDialogAction implements OSBasedAction {
     private static String UPDATE_ROUTE = "#management/backup";
     @Override
@@ -18,5 +22,4 @@ public class UpdateDialogAction implements OSBasedAction {
             DesignUtils.visitEnvServerByParameters( UPDATE_ROUTE,null,null);
         }
     }
-
 }
