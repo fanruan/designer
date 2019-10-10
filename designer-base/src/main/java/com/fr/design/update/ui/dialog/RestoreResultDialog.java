@@ -1,16 +1,16 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.data.UpdateConstants;
 import com.fr.design.RestartHelper;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.ComparatorUtils;
-import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -45,7 +45,7 @@ public class RestoreResultDialog extends JDialog {
         initCommonComponents();
     }
 
-    public RestoreResultDialog(Frame parent, boolean modal, String jarDir) {
+    RestoreResultDialog(Frame parent, boolean modal, String jarDir) {
         super(parent, modal);
         this.jarRestoreDir = jarDir;
         if (ComparatorUtils.equals(jarDir, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restore_Old_Version"))) {
@@ -100,7 +100,7 @@ public class RestoreResultDialog extends JDialog {
         this.setTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Jar_Restore"));
     }
 
-    public static boolean deletePreviousPropertyFile() {
+    static boolean deletePreviousPropertyFile() {
         File moveFile = new File(RestartHelper.MOVE_FILE);
         File delFile = new File(RestartHelper.RECORD_FILE);
         if (StableUtils.mkdirs(moveFile) && StableUtils.mkdirs(delFile)) {
@@ -159,7 +159,7 @@ public class RestoreResultDialog extends JDialog {
 
     private void putJarBackupFiles() {
         Map<String, String> map = new HashMap<>();
-        java.util.List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         String installHome = StableUtils.getInstallHome();
 
         putJarBackupFilesToInstallLib(installHome, map, list);
@@ -168,23 +168,29 @@ public class RestoreResultDialog extends JDialog {
         RestartHelper.saveFilesWhichToDelete(list.toArray(new String[list.size()]));
     }
 
-    private void putJarBackupFilesToInstallLib(String installHome, Map<String, String> map, java.util.List<String> list) {
-        List<String> files = UpdateConstants.JARS_FOR_DESIGNER_X;
+    private void putJarBackupFilesToInstallLib(String installHome, Map<String, String> map, List<String> list) {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
-                    StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file));
+        File installLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.DESIGNERBACKUPPATH));
+        File[] files = installLib.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                map.put(file.getAbsolutePath(),
+                        StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+                list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+            }
         }
     }
 
-    private void putJarBackupFilesToInstallEnv(String installHome, Map<String, String> map, java.util.List<String> list) {
-        List<String> files = UpdateConstants.JARS_FOR_SERVER_X;
+    private void putJarBackupFilesToInstallEnv(String installHome, Map<String, String> map, List<String> list) {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
-        for (String file : files) {
-            map.put(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, file),
-                    StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
-            list.add(StableUtils.pathJoin(installHome, UpdateConstants.APPS_FOLDER_NAME, ProductConstants.getAppFolderName(), ProjectConstants.WEBINF_NAME, ProjectConstants.LIB_NAME, file));
+        File installEnv = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.BACKUPPATH));
+        File[] files = installEnv.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                map.put(file.getAbsolutePath(),
+                        StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, file.getName()));
+                list.add(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, file.getName()));
+            }
         }
     }
 }
