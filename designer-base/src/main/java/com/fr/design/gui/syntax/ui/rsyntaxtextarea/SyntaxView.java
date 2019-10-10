@@ -374,7 +374,7 @@ public class SyntaxView extends View implements TabExpander,
 				if (host.isCodeFoldingEnabled()) {
 					visibleLineCount -= host.getFoldManager().getHiddenLineCount();
 				}
-				return visibleLineCount * lineHeight;
+				return (float) visibleLineCount * lineHeight;
 			default:
 				throw new IllegalArgumentException("Invalid axis: " + axis);
 		}
