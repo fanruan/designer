@@ -54,6 +54,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import static java.nio.charset.StandardCharsets.*;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 /**
  * Created by XINZAI on 2018/8/21.
@@ -584,7 +585,9 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int a = JOptionPane.showConfirmDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),Toolkit.i18nText("Fine-Design_Update_Info_Title"), JOptionPane.OK_CANCEL_OPTION);
+                String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
+                int a = JOptionPane.showOptionDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),
+                        Toolkit.i18nText("Fine-Design_Update_Info_Title"),JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
                 if (a == 0) {
                     progressBar.setVisible(true);
                     progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
