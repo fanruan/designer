@@ -92,6 +92,9 @@ public class XCardAddButton extends XButton {
     	if(cardLayout == null && tagLayout ==null ){
     		initRelateLayout();
     	}
+		if (cardLayout == null) {
+			throw new IllegalArgumentException("cardLayout can not be null");
+		}
     	int index = cardLayout.toData().getWidgetCount();
     	
     	//添加新的tab，并将原来的设为未选中状态

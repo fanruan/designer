@@ -2,7 +2,9 @@ package com.fr.design.upm;
 
 import com.fr.base.FRContext;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
@@ -51,11 +53,24 @@ public class UpmFinder {
     }
 
     public static void showUPMDialog() {
-        UpmShowPane upmPane = new UpmShowPane();
-        if (dialog == null) {
-            dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+        boolean flag = true;
+        try {
+            Class.forName("com.teamdev.jxbrowser.chromium.Browser");
+        } catch (ClassNotFoundException e) {
+            flag = false;
         }
-        dialog.setVisible(true);
+        if (flag) {
+            UpmShowPane upmPane = new UpmShowPane();
+            if (dialog == null) {
+                dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+            }
+            dialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
+            UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
+            dialog.setAutoUpdateAfterInit();
+            dialog.showDialog();
+        }
     }
 
     public static void closeWindow() {

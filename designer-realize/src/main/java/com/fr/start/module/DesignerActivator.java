@@ -8,6 +8,7 @@ import com.fr.base.passport.FinePassportManager;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.MarketConfig;
+import com.fr.decision.update.backup.RecoverManager;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
@@ -57,6 +58,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
+import com.fr.design.update.actions.RecoverForDesigner;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.general.xml.GeneralXMLTools;
@@ -128,6 +130,7 @@ public class DesignerActivator extends Activator {
         UserInfoPane.getInstance().updateBBSUserInfo();
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
+        RecoverManager.register(new RecoverForDesigner());
     }
 
     @Override
