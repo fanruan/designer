@@ -28,7 +28,7 @@ import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
-import com.fr.design.update.push.DesignerPushUpdateManager;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -213,10 +213,15 @@ public class PreferencePane extends BasicPane {
         joinProductImproveCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImproveCheckBox);
 
-        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+        if(SupportOSImpl.AUTOPUSHUPDATE.support()){
             autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);
         }
+      /*
+        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+            autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
+            improvePane.add(autoPushUpdateCheckBox);
+        }*/
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
@@ -305,7 +310,6 @@ public class PreferencePane extends BasicPane {
                 gcButton.setEnabled(gcEnableCheckBox.isSelected());
             }
         });
-
         //集群下禁用
         if (ClusterBridge.isClusterMode()) {
             gcEnableCheckBox.setEnabled(false);

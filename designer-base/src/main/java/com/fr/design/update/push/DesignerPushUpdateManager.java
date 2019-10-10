@@ -4,6 +4,7 @@ import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
@@ -12,6 +13,9 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.workspace.WorkContext;
 
 import java.util.concurrent.ExecutorService;
@@ -82,21 +86,6 @@ public class DesignerPushUpdateManager {
     }
 
     /**
-     * "自动更新推送"选项是否生效
-     */
-    public boolean isAutoPushUpdateSupported() {
-        boolean isLocalEnv = WorkContext.getCurrent().isLocal();
-        boolean isChineseEnv = GeneralContext.isChineseEnv();
-
-        return isAutoPushUpdateSupported(isLocalEnv, isChineseEnv);
-    }
-
-    private boolean isAutoPushUpdateSupported(boolean isLocalEnv, boolean isChineseEnv) {
-        // 远程设计和非中文环境，都不生效
-        return isLocalEnv && isChineseEnv;
-    }
-
-    /**
      * 检查更新，如果有合适的更新版本，则弹窗
      */
     private void checkAndPop() {
@@ -129,8 +118,7 @@ public class DesignerPushUpdateManager {
                 initUpdateInfo(currentVersion, latestVersion);
             }
         }
-
-        return isAutoPushUpdateSupported() && updateInfo.hasNewPushVersion();
+        return SupportOSImpl.AUTOPUSHUPDATE.support() && updateInfo.hasNewPushVersion();
     }
 
     private boolean isValidJarVersion(String fullCurrentVersion, String fullLatestVersion) {

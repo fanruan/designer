@@ -40,6 +40,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
@@ -58,6 +59,8 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
@@ -83,6 +86,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -449,20 +453,33 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         return northEastPane;
     }
 
-    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
+    private void refreshNorthEastPane(final JPanel northEastPane, final ToolBarMenuDock ad) {
 
         northEastPane.removeAll();
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor != null) {
-            processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            final Component[] bbsLoginPane = {null};
+            OSSupportCenter.buildAction(new OSBasedAction() {
+                @Override
+                public void execute(Object... objects) {
+                   bbsLoginPane[0] =  ad.createBBSLoginPane();
+                }
+            }, SupportOSImpl.USERINFOPANE);
+            processor.hold(northEastPane, LogMessageBar.getInstance(), bbsLoginPane[0]);
         }
         northEastPane.add(ad.createAlphaFinePane());
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             ad.createAlphaFinePane().setVisible(false);
         }
-        northEastPane.add(ad.createBBSLoginPane());
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute(Object... objects) {
+               northEastPane.add(ad.createBBSLoginPane());
+            }
+        }, SupportOSImpl.USERINFOPANE);
+
     }
 
     public void initTitleIcon() {

@@ -463,9 +463,10 @@ public class RTextAreaUI extends BasicTextAreaUI {
 				if (textArea.getFadeCurrentLineHighlight()) {
 					Graphics2D g2d = (Graphics2D)g;
 					Color bg = textArea.getBackground();
+					float visibleWidth = (float)(visibleRect.x + visibleRect.width);
 					GradientPaint paint = new GradientPaint(
 						visibleRect.x,0, highlight,
-						visibleRect.x+visibleRect.width,0,
+							visibleWidth,0,
 								bg==null ? Color.WHITE : bg);
 					g2d.setPaint(paint);
 					g2d.fillRect(visibleRect.x,textArea.currentCaretY,

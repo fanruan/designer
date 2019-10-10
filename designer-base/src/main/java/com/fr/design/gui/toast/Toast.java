@@ -42,7 +42,7 @@ public class Toast extends JFrame {
         //int x = (int) (owner.getLocation().getX() + (owner.getWidth() / 2));
         int x = (int) (owner.getLocation().getX() + owner.getWidth() - textWidth);
 
-        int y = (int) (owner.getLocation().getY() + owner.getHeight() / 2);
+        int y = (int) (owner.getLocation().getY() + (double)owner.getHeight() / 2);
         setLocation(new Point(x, y));
 
 
@@ -110,7 +110,7 @@ public class Toast extends JFrame {
                 try {
                     Toast toastFrame = new Toast(owner, toastText);
                     toastFrame.fadeIn();
-                    Thread.sleep(durationSec * 1000);
+                    Thread.sleep((long)durationSec * 1000);
                     toastFrame.fadeOut();
                 } catch (Exception ex) {
                     ex.printStackTrace();
