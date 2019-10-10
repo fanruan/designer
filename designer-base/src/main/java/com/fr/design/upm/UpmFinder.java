@@ -1,6 +1,7 @@
 package com.fr.design.upm;
 
 import com.fr.base.FRContext;
+import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
@@ -8,6 +9,7 @@ import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.WorkspaceEvent;
@@ -60,11 +62,30 @@ public class UpmFinder {
             flag = false;
         }
         if (flag) {
-            UpmShowPane upmPane = new UpmShowPane();
-            if (dialog == null) {
-                dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+            if (!checkUPMResourcesExist()){
+                // upm下载
+                int val = JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
+                        Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                if (val == JOptionPane.OK_OPTION){
+                    try {
+                        UpmResourceLoader.INSTANCE.download();
+                        UpmResourceLoader.INSTANCE.install();
+                        JOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"),
+                                Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception e){
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                        JOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Updater_Download_Failed"),
+                                Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
-            dialog.setVisible(true);
+            else {
+                UpmShowPane upmPane = new UpmShowPane();
+                if (dialog == null) {
+                    dialog = new UpmShowDialog(DesignerContext.getDesignerFrame(), upmPane);
+                }
+                dialog.setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
             UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
