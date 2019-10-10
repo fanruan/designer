@@ -310,7 +310,6 @@ public class PreferencePane extends BasicPane {
                 gcButton.setEnabled(gcEnableCheckBox.isSelected());
             }
         });
-
         //集群下禁用
         if (ClusterBridge.isClusterMode()) {
             gcEnableCheckBox.setEnabled(false);
