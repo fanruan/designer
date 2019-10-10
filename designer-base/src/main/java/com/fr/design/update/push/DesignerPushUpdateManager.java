@@ -86,21 +86,6 @@ public class DesignerPushUpdateManager {
     }
 
     /**
-     * "自动更新推送"选项是否生效
-     */
-    public boolean isAutoPushUpdateSupported() {
-        boolean isLocalEnv = WorkContext.getCurrent().isLocal();
-        boolean isChineseEnv = GeneralContext.isChineseEnv();
-        boolean isLinux = OperatingSystem.isLinux();
-        return isAutoPushUpdateSupported(isLocalEnv, isChineseEnv,isLinux);
-    }
-
-    private boolean isAutoPushUpdateSupported(boolean isLocalEnv, boolean isChineseEnv,boolean isLinux) {
-        // 远程设计和非中文环境以及Linux环境，都不生效
-        return isLocalEnv && isChineseEnv && !isLinux;
-    }
-
-    /**
      * 检查更新，如果有合适的更新版本，则弹窗
      */
     private void checkAndPop() {
@@ -134,7 +119,6 @@ public class DesignerPushUpdateManager {
             }
         }
         return SupportOSImpl.AUTOPUSHUPDATE.support() && updateInfo.hasNewPushVersion();
-       // return isAutoPushUpdateSupported(). && updateInfo.hasNewPushVersion();
     }
 
     private boolean isValidJarVersion(String fullCurrentVersion, String fullLatestVersion) {
