@@ -3,6 +3,7 @@ package com.fr.design.update.actions;
 import com.fr.decision.update.backup.Recover;
 import com.fr.decision.update.data.UpdateConstants;
 import com.fr.decision.update.exception.UpdateException;
+import com.fr.general.CommonIOUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
@@ -24,11 +25,11 @@ public class RecoverForDesigner implements Recover {
     @Override
     public boolean recover() {
         try{
-            IOUtils.copyFilesInDirByPath(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DESIGNERBACKUPPATH),
+            CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DESIGNERBACKUPPATH),
                     StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
             return true;
-        } catch (IOException ignore) {
-            FineLoggerFactory.getLogger().error("Recover error for designer");
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage() + "Recover error for designer");
             return false;
         }
     }
