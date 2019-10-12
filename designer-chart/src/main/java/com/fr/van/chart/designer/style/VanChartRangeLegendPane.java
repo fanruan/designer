@@ -192,26 +192,13 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     public void populateBean(VanChartLegend legend) {
         VanChartRangeLegend scatterLegend = (VanChartRangeLegend)legend;
         if (scatterLegend != null) {
-            isLegendVisible.setSelected(scatterLegend.isLegendVisible());
-            textAttrPane.populate(scatterLegend.getFRFont());
-            borderPane.populate(scatterLegend);
-            backgroundPane.populate(scatterLegend);
-            if(!scatterLegend.isFloating()){
-                location.setSelectedItem(scatterLegend.getPosition());
-            }
-            customFloatPositionButton.setSelected(scatterLegend.isFloating());
-            customFloatPositionPane.setFloatPosition_x(scatterLegend.getFloatPercentX());
-            customFloatPositionPane.setFloatPosition_y(scatterLegend.getFloatPercentY());
-            limitSize.setSelectedIndex(scatterLegend.isLimitSize() ? 0 : 1);
-            maxProportion.setValue(scatterLegend.getMaxHeight());
+
+            super.populateBean(scatterLegend);
+
             //范围图例部分
             legendTypeButton.setSelectedItem(scatterLegend.getLegendType());
             gradualLegendPane.populate(scatterLegend.getGradualLegend());
             sectionLegendPane.populate(scatterLegend.getSectionLegend());
-
-            if(highlightButton != null){
-                highlightButton.setSelectedItem(legend.isHighlight());
-            }
         }
         checkAllUse();
         this.checkHighlightVisible();

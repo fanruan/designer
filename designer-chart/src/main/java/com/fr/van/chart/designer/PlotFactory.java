@@ -7,7 +7,6 @@ import com.fr.design.gui.icombobox.UIComboBoxRenderer;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.area.VanChartAreaPlot;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.column.VanChartColumnPlot;
@@ -86,14 +85,15 @@ public class PlotFactory {
         autoAdjustLabelPlots.add(VanChartStructurePlot.class);
     }
 
-    public static boolean plotAutoAdjustLabelPosition(Plot plot){
+    public static boolean plotAutoAdjustLabelPosition(Plot plot) {
         return autoAdjustLabelPlots.contains(plot.getClass());
     }
+
     /**
-     *
      * 标签Map
      */
     private static Map<Class<? extends Plot>, Class<? extends VanChartPlotLabelPane>> labelMap = new HashMap<Class<? extends Plot>, Class<? extends VanChartPlotLabelPane>>();
+
     static {
         labelMap.put(VanChartGaugePlot.class, VanChartGaugePlotLabelPane.class);
         labelMap.put(VanChartScatterPlot.class, VanChartScatterPlotLabelPane.class);
@@ -104,6 +104,7 @@ public class PlotFactory {
      * 图例Map
      */
     private static Map<Class<? extends Plot>, Class<? extends VanChartPlotLegendPane>> legendMap = new HashMap<Class<? extends Plot>, Class<? extends VanChartPlotLegendPane>>();
+
     static {
         legendMap.put(VanChartGaugePlot.class, VanLegendPaneWidthOutHighlight.class);
         legendMap.put(VanChartMultiPiePlot.class, VanLegendPaneWidthOutHighlight.class);
@@ -119,6 +120,7 @@ public class PlotFactory {
      * 数据点提示Map
      */
     private static Map<Class<? extends Plot>, Class<? extends VanChartPlotTooltipPane>> toolTipMap = new HashMap<Class<? extends Plot>, Class<? extends VanChartPlotTooltipPane>>();
+
     static {
         toolTipMap.put(VanChartGaugePlot.class, VanChartGaugePlotTooltipPane.class);
         toolTipMap.put(VanChartScatterPlot.class, VanChartScatterPlotTooltipPane.class);
@@ -156,18 +158,19 @@ public class PlotFactory {
     }
 
 
-
     /**
      * 监控刷新 自动数据点提示Map
      */
 
 
     private static Map<Class<? extends Plot>, Class<? extends VanChartPlotTooltipPane>> refreshToolTipMap = new HashMap<Class<? extends Plot>, Class<? extends VanChartPlotTooltipPane>>();
+
     static {
         refreshToolTipMap.put(VanChartGaugePlot.class, VanChartGaugePlotRefreshTooltipPane.class);
         refreshToolTipMap.put(VanChartBubblePlot.class, VanChartBubbleRefreshTooltipPane.class);
 
     }
+
     private static Map<Class<? extends Plot>, Class<? extends VanChartTooltipContentPane>> refreshTooltipContentMap = new HashMap<Class<? extends Plot>, Class<? extends VanChartTooltipContentPane>>();
 
     static {
@@ -186,18 +189,19 @@ public class PlotFactory {
 
     /**
      * 根据图表类型创建标签界面
-     * @param plot 图表
+     *
+     * @param plot      图表
      * @param stylePane 样式界面
      * @return 标签界面
      */
     public static VanChartPlotLabelPane createPlotLabelPane(Plot plot, VanChartStylePane stylePane) {
         Class<? extends Plot> key = plot.getClass();
-        if(labelMap.containsKey(key)){
-            try{
+        if (labelMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartPlotLabelPane> cl = labelMap.get(key);
-                Constructor<? extends VanChartPlotLabelPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
+                Constructor<? extends VanChartPlotLabelPane> constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -206,18 +210,19 @@ public class PlotFactory {
 
     /**
      * 根据图表类型创建图例界面
-     * @param plot 图表
+     *
+     * @param plot      图表
      * @param stylePane 样式界面
      * @return 图例界面
      */
     public static VanChartPlotLegendPane createPlotLegendPane(Plot plot, VanChartStylePane stylePane) {
         Class<? extends Plot> key = plot.getClass();
-        if(legendMap.containsKey(key)){
-            try{
+        if (legendMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartPlotLegendPane> cl = legendMap.get(key);
-                Constructor<? extends VanChartPlotLegendPane > constructor = cl.getConstructor(VanChartStylePane.class);
+                Constructor<? extends VanChartPlotLegendPane> constructor = cl.getConstructor(VanChartStylePane.class);
                 return constructor.newInstance(stylePane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -226,18 +231,19 @@ public class PlotFactory {
 
     /**
      * 根据图表类型创建数据点提示界面
-     * @param plot 图表
+     *
+     * @param plot      图表
      * @param stylePane 样式界面
      * @return 数据点提示界面
      */
-    public static VanChartPlotTooltipPane createPlotTooltipPane(Plot plot,  VanChartStylePane stylePane) {
+    public static VanChartPlotTooltipPane createPlotTooltipPane(Plot plot, VanChartStylePane stylePane) {
         Class<? extends Plot> key = plot.getClass();
-        if(toolTipMap.containsKey(key)){
-            try{
+        if (toolTipMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartPlotTooltipPane> cl = toolTipMap.get(key);
-                Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
+                Constructor<? extends VanChartPlotTooltipPane> constructor = cl.getConstructor(Plot.class, VanChartStylePane.class);
                 return constructor.newInstance(plot, stylePane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -246,19 +252,20 @@ public class PlotFactory {
 
     /**
      * 根据图表类型创建标签的具体内容界面.分类名系列名等
-     * @param plot 图表
-     * @param parent 样式界面
+     *
+     * @param plot       图表
+     * @param parent     样式界面
      * @param showOnPane formatpane用到
      * @return 标签的具体内容界面
      */
-    public static VanChartTooltipContentPane createPlotLabelContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane){
+    public static VanChartTooltipContentPane createPlotLabelContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane) {
         Class<? extends Plot> key = plot.getClass();
-        if(labelContentMap.containsKey(key)){
-            try{
+        if (labelContentMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartTooltipContentPane> cl = labelContentMap.get(key);
-                Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
+                Constructor<? extends VanChartTooltipContentPane> constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -267,19 +274,20 @@ public class PlotFactory {
 
     /**
      * 根据图表类型创建数据点提示的具体内容界面.分类名系列名等
-     * @param plot 图表
-     * @param parent 样式界面
+     *
+     * @param plot       图表
+     * @param parent     样式界面
      * @param showOnPane formatpane用到
      * @return 数据点提示的具体内容界面
      */
-    public static VanChartTooltipContentPane createPlotTooltipContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane){
+    public static VanChartTooltipContentPane createPlotTooltipContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane) {
         Class<? extends Plot> key = plot.getClass();
-        if(tooltipContentMap.containsKey(key)){
-            try{
+        if (tooltipContentMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartTooltipContentPane> cl = tooltipContentMap.get(key);
-                Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
+                Constructor<? extends VanChartTooltipContentPane> constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
@@ -287,56 +295,59 @@ public class PlotFactory {
     }
 
 
-
     /**
      * 根据图表类型创建数据点提示界面
+     *
      * @param plot 图表
      * @return 数据点提示界面
      */
     public static VanChartPlotTooltipPane createPlotRefreshTooltipPane(Plot plot) {
         Class<? extends Plot> key = plot.getClass();
-        if(refreshToolTipMap.containsKey(key)){
-            try{
+        if (refreshToolTipMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartPlotTooltipPane> cl = refreshToolTipMap.get(key);
-                Constructor<? extends VanChartPlotTooltipPane > constructor = cl.getConstructor(Plot.class);
+                Constructor<? extends VanChartPlotTooltipPane> constructor = cl.getConstructor(Plot.class);
                 return constructor.newInstance(plot);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartPlotRefreshTooltipPane(plot);
     }
+
     /**
      * 根据图表类型创建监控刷新中数据点提示的具体内容界面.分类名系列名等
-     * @param plot 图表
-     * @param parent 交互属性界面
+     *
+     * @param plot       图表
+     * @param parent     交互属性界面
      * @param showOnPane formatpane用到
      * @return 数据点提示的具体内容界面
      */
-    public static VanChartTooltipContentPane createPlotRefreshTooltipContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane){
+    public static VanChartTooltipContentPane createPlotRefreshTooltipContentPane(Plot plot, VanChartStylePane parent, JPanel showOnPane) {
         Class<? extends Plot> key = plot.getClass();
-        if(refreshTooltipContentMap.containsKey(key)){
-            try{
+        if (refreshTooltipContentMap.containsKey(key)) {
+            try {
                 Class<? extends VanChartTooltipContentPane> cl = refreshTooltipContentMap.get(key);
-                Constructor<? extends VanChartTooltipContentPane > constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
+                Constructor<? extends VanChartTooltipContentPane> constructor = cl.getConstructor(VanChartStylePane.class, JPanel.class);
                 return constructor.newInstance(parent, showOnPane);
-            } catch (Exception e){
+            } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
         }
         return new VanChartRefreshTooltipContentPane(parent, showOnPane);
     }
 
-    public static FormatPane createAutoFormatPane(){
-        FormatPane formatPane = new FormatPane(){
-            protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
+    public static FormatPane createAutoFormatPane() {
+        FormatPane formatPane = new FormatPane() {
+            protected Component[][] getComponent(JPanel fontPane, JPanel centerPane, JPanel typePane) {
                 typePane.setBorder(BorderFactory.createEmptyBorder());
                 return new Component[][]{
-                        new Component[]{typePane,null},
+                        new Component[]{typePane, null},
                         new Component[]{centerPane, null},
                 };
             }
-            protected UIComboBoxRenderer createComBoxRender(){
+
+            protected UIComboBoxRenderer createComBoxRender() {
                 return new UIComboBoxRenderer() {
                     @Override
                     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -361,12 +372,8 @@ public class PlotFactory {
     /**
      * 判断是否为大数据模式
      */
-    public static boolean largeDataModel(Plot plot){
-        return plot != null && plot.getDataProcessor().getMark() == LargeDataModel.MARK;
-    }
-
-    public static boolean lineMapLargeModel(Plot plot){
-        return plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getLineMapDataProcessor().getMark() == LargeDataModel.MARK;
+    public static boolean largeDataModel(Plot plot) {
+        return plot != null && plot.convertDataProcessor().getMark() == LargeDataModel.MARK;
     }
 }
 

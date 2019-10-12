@@ -8,6 +8,7 @@ import com.fr.base.passport.FinePassportManager;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.MarketConfig;
+import com.fr.decision.update.backup.RecoverManager;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
@@ -54,9 +55,11 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
+import com.fr.design.update.actions.RecoverForDesigner;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.general.xml.GeneralXMLTools;
@@ -91,6 +94,8 @@ import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
@@ -125,9 +130,15 @@ public class DesignerActivator extends Activator {
         designerModuleStart();
         loadLogAppender();
         DesignerSocketIO.update();
-        UserInfoPane.getInstance().updateBBSUserInfo();
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute(Object... objects) {
+                UserInfoPane.getInstance().updateBBSUserInfo();
+            }
+        }, SupportOSImpl.USERINFOPANE);
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
+        RecoverManager.register(new RecoverForDesigner());
     }
 
     @Override

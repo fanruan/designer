@@ -1,24 +1,17 @@
 package com.fr.design.actions.server;
 
-
-import com.fr.config.ServerPreferenceConfig;
 import com.fr.data.impl.Connection;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.data.datapane.connect.ConnectionManagerPane;
 import com.fr.design.data.datapane.connect.ConnectionShowPane;
 import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
 import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.NameInspector;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.dcm.UniversalDatabaseOpener;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
+import com.fr.design.os.impl.DatabaseDialogAction;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
-import com.fr.transaction.CallBackAdaptor;
-import com.fr.transaction.Configurations;
-import com.fr.transaction.WorkerFacade;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -60,14 +53,11 @@ public class ConnectionListAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        if (ServerPreferenceConfig.getInstance().isUseUniverseDBM()) {
-            UniversalDatabaseOpener.showUniverseDatabaseDialog();
-        } else {
-            openDesignDatabaseManager();
-        }
+        OSBasedAction osBasedAction =  OSSupportCenter.getAction(DatabaseDialogAction.class);
+        osBasedAction.execute();
     }
 
-    private void openDesignDatabaseManager() {
+   /* private void openDesignDatabaseManager() {
         DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
         final ConnectionConfig datasourceManager = ConnectionConfig.getInstance();
         final ConnectionManagerPane databaseManagerPane = new ConnectionManagerPane() {
@@ -108,7 +98,7 @@ public class ConnectionListAction extends UpdateAction {
         });
         databaseListDialog.setVisible(true);
     }
-
+*/
 
     /**
      * 更新datasourceManager
