@@ -172,11 +172,9 @@ public class UIComboBoxButton extends JButton {
             }
             c.setBackground(UIManager.getColor("ComboBox.focusBackground"));
             if (c instanceof JComponent) {
-                mustResetOpaque = true;
                 JComponent jc = (JComponent) c;
-                savedOpaque = jc.isOpaque();
+                jc.isOpaque();
                 jc.setOpaque(true);
-                paintFocus = true;
             }
         } else {
             c.setForeground(comboBox.getForeground());
