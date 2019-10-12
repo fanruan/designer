@@ -4,8 +4,13 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.van.chart.multilayer.data.MultiPiePlotReportDataContentPane;
+import com.fr.van.chart.multilayer.data.MultiPiePlotTableDataContentPane;
 import com.fr.van.chart.multilayer.other.VanChartMultiPieConditionPane;
 import com.fr.van.chart.multilayer.style.VanChartMultiPieSeriesPane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
@@ -34,6 +39,16 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         return new String[]{
                 "com/fr/plugin/chart/demo/image/32.png"
         };
+    }
+
+    @Override
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        return new MultiPiePlotTableDataContentPane(parent);
+    }
+
+    @Override
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        return new MultiPiePlotReportDataContentPane(parent);
     }
 
 //    @Override
