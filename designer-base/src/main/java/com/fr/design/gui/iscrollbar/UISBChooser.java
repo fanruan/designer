@@ -90,6 +90,7 @@ public class UISBChooser extends JDialog {
                         (frame.getHeight() - getSize().height) / 2);
     }
 
+    @SuppressWarnings("squid:S1226")
     private void initP3(JPanel p3, JPanel p1) {
         p3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 8));
         p3.add(new JLabel("R:"));
