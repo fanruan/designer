@@ -220,7 +220,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 	protected void paintOtherBorder(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(UIConstants.BS);
-		Shape shape = new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1, getHeight() - 1, UIConstants.ARC, UIConstants.ARC);
+		Shape shape = new RoundRectangle2D.Float(0.5f, 0.5f, getWidth() - 1F, getHeight() - 1F, UIConstants.ARC, UIConstants.ARC);
 		g2d.setColor(UIConstants.LINE_COLOR);
 		g2d.draw(shape);
 	}
