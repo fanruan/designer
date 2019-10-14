@@ -19,15 +19,15 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 /**
  * 图表 属性表, 类型选择 界面.
@@ -208,7 +208,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		//处理办法：这边除了重构 下拉项选项和cardNames 还需要把cards重构下（不需要init pane，只需要我需要的拿出来就好了）
 		private void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
-			ChartProvider chart = collection.getSelectedChartProvider();
+			ChartProvider chart = collection.getSelectedChart(ChartProvider.class);
 			String chartID = chart.getID();
 			String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
 			boolean enabledChart = ChartTypeManager.enabledChart(chartID);
@@ -294,7 +294,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * @param collection
 	 */
 	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChart(ChartProvider.class);
 		String plotID = chart.getID();
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
@@ -315,7 +315,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void populate(ChartCollection collection) {
 		editingCollection = collection;
 
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChart(ChartProvider.class);
 		this.remove(leftContentPane);
 		initContentPane();
 
@@ -333,7 +333,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void update(ChartCollection collection) {
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChart(ChartProvider.class);
 		chartTypeComBox.updateBean(chart);
 	}
 
