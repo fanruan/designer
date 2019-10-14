@@ -5,7 +5,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.style.color.NewColorSelectBox;
+import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.mobile.MobileStyle;
@@ -23,7 +23,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
     private Widget widget;
     private MobileStyleCustomDefinePane customBeanPane;
     private Class<? extends MobileStyle> mobileStyleClazz;
-    private NewColorSelectBox colorSelectBox;
+    private ColorSelectBox colorSelectBox;
     private Color titleColor = new Color(47, 142, 241);
 
     MobileStyleDefinePane(Widget widget, Class<? extends MobileStyleCustomDefinePane> customBeanPaneClass,
@@ -91,7 +91,7 @@ public class MobileStyleDefinePane extends BasicBeanPane<MobileStyle> {
         UILabel colorSelectLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Widget_Background"), UILabel.RIGHT);
         colorSelectLabel.setPreferredSize(new Dimension(65, 20));
 
-        colorSelectBox = new NewColorSelectBox(152);
+        colorSelectBox = new ColorSelectBox(152);
         colorSelectBox.addSelectChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
