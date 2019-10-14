@@ -1,8 +1,5 @@
 package com.fr.van.chart.designer.style.series;
 
-import com.fr.base.chart.chartdata.model.DataProcessor;
-import com.fr.base.chart.chartdata.model.LargeDataModel;
-import com.fr.base.chart.chartdata.model.NormalDataModel;
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBorder;
 import com.fr.chart.base.ChartConstants;
@@ -10,11 +7,9 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.gui.frpane.UINumberDragPane;
-import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
-
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
@@ -28,6 +23,7 @@ import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
 import com.fr.van.chart.custom.style.VanChartCustomStylePane;
+import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartAreaSeriesFillColorPane;
 import com.fr.van.chart.designer.component.VanChartBeautyPane;
@@ -41,8 +37,6 @@ import com.fr.van.chart.pie.RadiusCardLayoutPane;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 
 /**
@@ -73,11 +67,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     private RadiusCardLayoutPane radiusPane;//半径设置界面
     private JPanel radiusPaneWithTitle;
 
-    private UIButtonGroup<DataProcessor> largeDataModelGroup;//大数据模式
-
     protected JPanel contentPane;
 
-    public VanChartAbstractPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public VanChartAbstractPlotSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
 
@@ -110,17 +102,17 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     //获取颜色面板
-    protected JPanel getColorPane () {
+    protected JPanel getColorPane() {
         JPanel panel = new JPanel(new BorderLayout());
         stylePane = createStylePane();
         setColorPaneContent(panel);
         JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel.getComponentCount() == 0 ? null : colorPane;
     }
 
     //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
+    protected void setColorPaneContent(JPanel panel) {
         if (stylePane != null) {
             panel.add(stylePane, BorderLayout.CENTER);
         }
@@ -165,80 +157,26 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     protected JPanel createRadiusPane() {
         radiusPane = initRadiusPane();
         radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set"), radiusPane);
-        return ((VanChartPlot)plot).isInCustom() ? null : radiusPaneWithTitle;
+        return ((VanChartPlot) plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
-    protected JPanel createLargeDataModelPane() {
-        largeDataModelGroup = createLargeDataModelGroup();
-        largeDataModelGroup.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                checkLarge();
-            }
-        });
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), largeDataModelGroup);
-        return createLargeDataModelPane(panel);
-    }
-
-    protected void checkLarge() {
-        if(largeModel()) {
-            AttrLabel attrLabel = ((VanChartPlot) plot).getAttrLabelFromConditionCollection();
-            if (attrLabel == null) {
-                attrLabel = ((VanChartPlot) this.plot).getDefaultAttrLabel();
-                ConditionAttr defaultAttr = plot.getConditionCollection().getDefaultAttr();
-                defaultAttr.addDataSeriesCondition(attrLabel);
-            }
-            attrLabel.setEnable(false);
-
-            resetCustomCondition(plot.getConditionCollection());
-        }
-
-
-        checkCompsEnabledWithLarge();
-    }
-
-    protected void checkCompsEnabledWithLarge() {
-        if(markerPane != null && largeDataModelGroup != null){
-            markerPane.checkLargePlot(largeModel());
+    protected void checkCompsEnabledWithLarge(Plot plot) {
+        if (markerPane != null) {
+            markerPane.checkLargePlot(largeModel(plot));
         }
     }
 
     protected void checkLinePane() {
-        if(lineTypePane != null && largeDataModelGroup != null){
-            lineTypePane.checkLarge(largeModel());
+        if (lineTypePane != null) {
+            lineTypePane.checkLarge(largeModel(plot));
         }
     }
 
 
-    protected boolean largeModel() {
-        return largeDataModelGroup != null && largeDataModelGroup.getSelectedIndex() == 0;
+    protected boolean largeModel(Plot plot) {
+        return PlotFactory.largeDataModel(plot);
     }
 
-    protected void resetCustomCondition(ConditionCollection conditionCollection) {
-        for(int i = 0, len = conditionCollection.getConditionAttrSize(); i < len; i++){
-            ConditionAttr conditionAttr = conditionCollection.getConditionAttr(i);
-            conditionAttr.remove(AttrLabel.class);
-            conditionAttr.remove(ScatterAttrLabel.class);
-            conditionAttr.remove(AttrEffect.class);
-            conditionAttr.remove(AttrLineEffect.class);
-
-            VanChartAttrMarker attrMarker = conditionAttr.getExisted(VanChartAttrMarker.class);
-            if(attrMarker != null && !attrMarker.isCommon()){
-                conditionAttr.remove(VanChartAttrMarker.class);
-            }
-        }
-    }
-
-    protected JPanel createLargeDataModelPane(JPanel jPanel) {
-        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Data"), jPanel);
-        return panel;
-    }
-
-    protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
-        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")};
-        DataProcessor[] values = new DataProcessor[]{new LargeDataModel(), new NormalDataModel()};
-        return new UIButtonGroup<DataProcessor>(strings, values);
-    }
 
     protected RadiusCardLayoutPane initRadiusPane() {
         return new RadiusCardLayoutPane();
@@ -258,7 +196,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
         stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane();
-        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        stackAndAxisEditExpandablePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
         return stackAndAxisEditExpandablePane;
     }
 
@@ -272,7 +210,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * 更新Plot的属性到系列界面
      */
     public void populateBean(Plot plot) {
-        if(plot == null) {
+        if (plot == null) {
             return;
         }
 
@@ -280,24 +218,20 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
         super.populateBean(plot);//配色
 
-        if(stylePane != null){//风格
+        if (stylePane != null) {//风格
             stylePane.populateBean(plot.getPlotStyle());
         }
 
-        if(largeDataModelGroup != null){
-            largeDataModelGroup.setSelectedItem(plot.getDataProcessor());
-        }
-
-        if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
-            VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
-            if(rectanglePlot.isCustomChart()){
+        if (stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot) {//堆积和坐标轴
+            VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
+            if (rectanglePlot.isCustomChart()) {
                 stackAndAxisEditPane.populate(rectanglePlot);
             } else {
                 removeStackWholePane();
             }
         }
 
-        if(radiusPane != null && plot instanceof VanChartRadiusPlot){
+        if (radiusPane != null && plot instanceof VanChartRadiusPlot) {
             radiusPane.populateBean(plot);
             checkRadiusPane(plot);
         }
@@ -306,17 +240,18 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
         checkAreaSeriesFillColorPane(plot.getPlotStyle());
 
-        checkCompsEnabledWithLarge();
+        checkCompsEnabledWithLarge(plot);
     }
 
     /**
      * radius界面是否显示
+     *
      * @param plot
      */
     private void checkRadiusPane(Plot plot) {
         radiusPaneWithTitle.setVisible(true);
-        if (plot instanceof VanChartPlot){
-            if (((VanChartPlot) plot).isInCustom()){
+        if (plot instanceof VanChartPlot) {
+            if (((VanChartPlot) plot).isInCustom()) {
                 radiusPaneWithTitle.setVisible(false);
             }
         }
@@ -326,7 +261,7 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
      * 保存 系列界面的属性到Plot
      */
     public void updateBean(Plot plot) {
-        if(plot == null) {
+        if (plot == null) {
             return;
         }
 
@@ -335,22 +270,18 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
         super.updateBean(plot);//配色
 
-        if(stylePane != null){//风格
+        if (stylePane != null) {//风格
             plot.setPlotStyle(stylePane.updateBean());
         }
 
-        if(largeDataModelGroup != null){
-            plot.setDataProcessor(largeDataModelGroup.getSelectedItem());
-        }
-
-        if(stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot){//堆积和坐标轴
-            VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot)plot;
-            if(rectanglePlot.isCustomChart()){
+        if (stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot) {//堆积和坐标轴
+            VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
+            if (rectanglePlot.isCustomChart()) {
                 stackAndAxisEditPane.update(rectanglePlot);
             }
         }
 
-        if (radiusPane != null && plot instanceof VanChartRadiusPlot){
+        if (radiusPane != null && plot instanceof VanChartRadiusPlot) {
             radiusPane.updateBean(plot);
             checkRadiusPane(plot);
         }
@@ -360,47 +291,47 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         checkAreaSeriesFillColorPane(plot.getPlotStyle());
     }
 
-    protected void checkoutMapType(Plot plot){
+    protected void checkoutMapType(Plot plot) {
 
     }
 
-    protected void checkAreaSeriesFillColorPane(int plotStyle){
+    protected void checkAreaSeriesFillColorPane(int plotStyle) {
         if (areaSeriesFillColorPane != null) {
             areaSeriesFillColorPane.checkoutAlpha(plotStyle == ChartConstants.STYLE_NONE);
         }
     }
 
 
-    protected void populateCondition(ConditionAttr defaultAttr){
-        if(trendLinePane != null){//趋势线
-            VanChartAttrTrendLine attrTrendLine =(VanChartAttrTrendLine)defaultAttr.getExisted(VanChartAttrTrendLine.class);
+    protected void populateCondition(ConditionAttr defaultAttr) {
+        if (trendLinePane != null) {//趋势线
+            VanChartAttrTrendLine attrTrendLine = defaultAttr.getExisted(VanChartAttrTrendLine.class);
             trendLinePane.populate(attrTrendLine);
         }
-        if(lineTypePane != null){//线-线型、控制断开等
-            VanChartAttrLine attrLine = (VanChartAttrLine)defaultAttr.getExisted(VanChartAttrLine.class);
+        if (lineTypePane != null) {//线-线型、控制断开等
+            VanChartAttrLine attrLine = defaultAttr.getExisted(VanChartAttrLine.class);
             lineTypePane.populate(attrLine);
         }
-        if(markerPane != null){//标记点
-            VanChartAttrMarker attrMarker = (VanChartAttrMarker)defaultAttr.getExisted(VanChartAttrMarker.class);
+        if (markerPane != null) {//标记点
+            VanChartAttrMarker attrMarker = defaultAttr.getExisted(VanChartAttrMarker.class);
             markerPane.populate(attrMarker);
         }
-        if(areaSeriesFillColorPane != null){//填充颜色
-            AttrAreaSeriesFillColorBackground seriesFillColorBackground = (AttrAreaSeriesFillColorBackground)defaultAttr.getExisted(AttrAreaSeriesFillColorBackground.class);
+        if (areaSeriesFillColorPane != null) {//填充颜色
+            AttrAreaSeriesFillColorBackground seriesFillColorBackground = defaultAttr.getExisted(AttrAreaSeriesFillColorBackground.class);
             areaSeriesFillColorPane.populate(seriesFillColorBackground);
         }
-        if(borderPane != null){//边框
-            AttrBorder attrBorder = (AttrBorder)defaultAttr.getExisted(AttrBorder.class);
-            if(attrBorder != null){
+        if (borderPane != null) {//边框
+            AttrBorder attrBorder = defaultAttr.getExisted(AttrBorder.class);
+            if (attrBorder != null) {
                 borderPane.populate(attrBorder);
             }
         }
         populateAlpha(defaultAttr);
     }
 
-    protected void populateAlpha(ConditionAttr defaultAttr){
-        if(transparent != null){//不透明度
-            AttrAlpha attrAlpha = (AttrAlpha)defaultAttr.getExisted(AttrAlpha.class);
-            if(attrAlpha != null){
+    protected void populateAlpha(ConditionAttr defaultAttr) {
+        if (transparent != null) {//不透明度
+            AttrAlpha attrAlpha = defaultAttr.getExisted(AttrAlpha.class);
+            if (attrAlpha != null) {
                 transparent.populateBean(attrAlpha.getAlpha() * VanChartAttrHelper.PERCENT);
             } else {
                 //初始值为100
@@ -409,35 +340,35 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         }
     }
 
-    protected void updateCondition(ConditionAttr defaultAttr){
-        if(trendLinePane != null){
+    protected void updateCondition(ConditionAttr defaultAttr) {
+        if (trendLinePane != null) {
             VanChartAttrTrendLine newTrendLine = trendLinePane.update();
-            VanChartAttrTrendLine attrTrendLine =(VanChartAttrTrendLine)defaultAttr.getExisted(VanChartAttrTrendLine.class);
+            VanChartAttrTrendLine attrTrendLine = defaultAttr.getExisted(VanChartAttrTrendLine.class);
             defaultAttr.remove(attrTrendLine);
             defaultAttr.addDataSeriesCondition(newTrendLine);
         }
-        if(lineTypePane != null){
-            VanChartAttrLine attrLine = (VanChartAttrLine)defaultAttr.getExisted(VanChartAttrLine.class);
+        if (lineTypePane != null) {
+            VanChartAttrLine attrLine = defaultAttr.getExisted(VanChartAttrLine.class);
             defaultAttr.remove(attrLine);
             defaultAttr.addDataSeriesCondition(lineTypePane.update());
         }
-        if(markerPane != null){
+        if (markerPane != null) {
             VanChartAttrMarker newMarker = markerPane.update();
-            VanChartAttrMarker attrMarker = (VanChartAttrMarker)defaultAttr.getExisted(VanChartAttrMarker.class);
+            VanChartAttrMarker attrMarker = defaultAttr.getExisted(VanChartAttrMarker.class);
             defaultAttr.remove(attrMarker);
             defaultAttr.addDataSeriesCondition(newMarker);
         }
-        if(areaSeriesFillColorPane != null){
+        if (areaSeriesFillColorPane != null) {
             AttrAreaSeriesFillColorBackground newFillColorBackground = areaSeriesFillColorPane.update();
             AttrAreaSeriesFillColorBackground oldFillColorBackground = defaultAttr.getExisted(AttrAreaSeriesFillColorBackground.class);
-            if(oldFillColorBackground != null){
+            if (oldFillColorBackground != null) {
                 defaultAttr.remove(oldFillColorBackground);
             }
             defaultAttr.addDataSeriesCondition(newFillColorBackground);
         }
-        if(borderPane != null){
-            AttrBorder attrBorder = (AttrBorder)defaultAttr.getExisted(AttrBorder.class);
-            if(attrBorder == null){
+        if (borderPane != null) {
+            AttrBorder attrBorder = defaultAttr.getExisted(AttrBorder.class);
+            if (attrBorder == null) {
                 attrBorder = new AttrBorder();
                 defaultAttr.addDataSeriesCondition(attrBorder);
             }
@@ -446,14 +377,14 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         updateAlpha(defaultAttr);
     }
 
-    protected void updateAlpha(ConditionAttr defaultAttr){
-        if(transparent != null){
-            AttrAlpha attrAlpha = (AttrAlpha)defaultAttr.getExisted(AttrAlpha.class);
-            if(attrAlpha == null){
+    protected void updateAlpha(ConditionAttr defaultAttr) {
+        if (transparent != null) {
+            AttrAlpha attrAlpha = defaultAttr.getExisted(AttrAlpha.class);
+            if (attrAlpha == null) {
                 attrAlpha = new AttrAlpha();
                 defaultAttr.addDataSeriesCondition(attrAlpha);
             }
-            attrAlpha.setAlpha((float)(transparent.updateBean()/VanChartAttrHelper.PERCENT));
+            attrAlpha.setAlpha((float) (transparent.updateBean() / VanChartAttrHelper.PERCENT));
         }
     }
 }

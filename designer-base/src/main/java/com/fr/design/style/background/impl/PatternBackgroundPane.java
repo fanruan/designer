@@ -159,15 +159,15 @@ public class PatternBackgroundPane extends BPane {
 
             Dimension d = getSize();
             this.patternBackground.paint(g2d, new Rectangle2D.Double(0, 0,
-                d.width - 1, d.height - 1));
+                d.width - 1d, d.height - 1d));
 
             if (this.pIndex == patternIndex) {// it's selected.
                 g2d.setPaint(new Color(255, 51, 0));
             } else {
                 g2d.setPaint(Color.gray);
             }
-            GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1,
-                d.height - 1));
+            GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1d,
+                d.height - 1d));
         }
 
         public Dimension getPreferredSize() {

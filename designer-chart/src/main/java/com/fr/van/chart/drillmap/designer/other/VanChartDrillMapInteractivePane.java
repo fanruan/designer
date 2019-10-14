@@ -6,9 +6,9 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.background.VanChartBackgroundPaneWithOutImageAndShadow;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithMapZoom;
@@ -32,31 +32,31 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
     private JPanel drillPane;
 
     @Override
-    protected JPanel getInteractivePane(VanChartPlot plot){
+    protected JPanel getInteractivePane(VanChartPlot plot) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
         double[] rowSize = {p, p, p, p, p, p, p, p, p, p, p};
         Component[][] components = new Component[][]{
-                new Component[]{createToolBarPane(new double[]{p, p, p}, columnSize),null},
-                new Component[]{createAnimationPane(),null},
-                new Component[]{createZoomPane(new double[]{p,p,p}, columnSize, plot),null},
+                new Component[]{createToolBarPane(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createAnimationPane(), null},
+                new Component[]{createZoomPane(new double[]{p, p, p}, columnSize, plot), null},
                 new Component[]{createDrillToolsPane(), null},
-                new Component[]{createAutoRefreshPane(plot),null},
-                new Component[]{createHyperlinkPane(),null}
+                new Component[]{createAutoRefreshPane(plot), null},
+                new Component[]{createHyperlinkPane(), null}
         };
 
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     private JPanel createDrillToolsPane() {
         openOrClose = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
         JPanel openOrClosePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill_Dir"), openOrClose);
-        textAttrPane = new ChartTextAttrPane(){
+        textAttrPane = new ChartTextAttrPane() {
 
             @Override
-            protected JPanel getContentPane (JPanel buttonPane) {
+            protected JPanel getContentPane(JPanel buttonPane) {
                 double p = TableLayout.PREFERRED;
                 double e = TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH;
                 double[] columnSize = {e};
@@ -80,7 +80,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double[] columnSize = {f};
-        double[] rowSize = {p,p,p,p,p,p};
+        double[] rowSize = {p, p, p, p, p, p};
         Component[][] components = new Component[][]{
                 new Component[]{null},
                 new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), textAttrPane)},
@@ -88,7 +88,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
                 new Component[]{createTitlePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Select_Color"), selectBackgroundPane)},
                 new Component[]{catalogSuperLink}
         };
-        drillPane = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        drillPane = TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(openOrClosePane, BorderLayout.NORTH);
@@ -102,13 +102,13 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         });
 
         JPanel panel1 = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Drill"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
         return panel1;
     }
 
     private JPanel createTitlePane(String title, Component component) {
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(title, component, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
         return panel;
     }
 
@@ -123,9 +123,9 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
         if (chart == null || chart.getPlot() == null) {
             return;
         }
-        this.chart = chart;
-        VanChartPlot plot = (VanChartPlot)chart.getPlot();
-        if(plot instanceof VanChartDrillMapPlot){
+        this.chart = (VanChart) chart;
+        VanChartPlot plot = chart.getPlot();
+        if (plot instanceof VanChartDrillMapPlot) {
             DrillMapTools drillMapTools = ((VanChartDrillMapPlot) plot).getDrillMapTools();
             openOrClose.setSelectedIndex(drillMapTools.isEnable() ? 0 : 1);
             textAttrPane.populate(drillMapTools.getTextAttr());
@@ -145,9 +145,9 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             return;
         }
 
-        VanChartPlot plot = (VanChartPlot) chart.getPlot();
+        VanChartPlot plot = chart.getPlot();
 
-        if(plot instanceof VanChartDrillMapPlot){
+        if (plot instanceof VanChartDrillMapPlot) {
             DrillMapTools drillMapTools = ((VanChartDrillMapPlot) plot).getDrillMapTools();
             drillMapTools.setEnable(openOrClose.getSelectedIndex() == 0);
             drillMapTools.setTextAttr(textAttrPane.update());

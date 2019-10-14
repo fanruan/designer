@@ -17,7 +17,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.DateUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -78,6 +77,10 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    @Override
+    protected void addOverlapGroupButton(JPanel panel) {
     }
 
     private JPanel createValueDefinition(){

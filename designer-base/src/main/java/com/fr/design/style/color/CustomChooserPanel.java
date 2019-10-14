@@ -332,8 +332,8 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateS(Point p) {
-            float h = p.x * 1f / IMG_WIDTH;
-            float b = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
+            double h = p.x * 1D / IMG_WIDTH;
+            double b = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
 
             internalChange = true;
             hSpinner.setValue(new Integer((int) (h * H_MAX)));
@@ -349,8 +349,8 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateB(Point p) {
-            float h = p.x * 1f / IMG_WIDTH;
-            float s = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
+            double h = p.x * 1D / IMG_WIDTH;
+            double s = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
 
             internalChange = true;
             hSpinner.setValue(new Integer((int) (h * H_MAX)));
@@ -523,9 +523,9 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
 
     private void adjustHSLValue(float[] hsbVals) {
         if (!spinnerTrigger) {
-            hSpinner.setValue(new Integer((int) (hsbVals[0] * HSPINNER_VALUE)));
-            sSpinner.setValue(new Integer((int) (hsbVals[1] * SSPINNER_VALUE)));
-            bSpinner.setValue(new Integer((int) (hsbVals[2] * LSPINNER_VALUE)));
+            hSpinner.setValue(new Integer((int) ((double) hsbVals[0] * HSPINNER_VALUE)));
+            sSpinner.setValue(new Integer((int) ((double) hsbVals[1] * SSPINNER_VALUE)));
+            bSpinner.setValue(new Integer((int) ((double) hsbVals[2] * LSPINNER_VALUE)));
         }
         switch (locked) {
             case HLOCKED:
@@ -534,9 +534,9 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                 }
                 if (!handlingMouse) {
                     gradientPoint.x = (int) ((1
-                            - ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE) * IMG_WIDTH);
+                            - ((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE) * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) bSpinner.getValue()).intValue() / LSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
             case SLOCKED:
@@ -544,9 +544,9 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                     slider.setValue(((Number) sSpinner.getValue()).intValue());
                 }
                 if (!handlingMouse) {
-                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE * IMG_WIDTH);
+                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) bSpinner.getValue()).intValue() / LSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
             case BLOCKED:
@@ -554,18 +554,18 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                     slider.setValue(((Number) bSpinner.getValue()).intValue());
                 }
                 if (!handlingMouse) {
-                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE * IMG_WIDTH);
+                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
         }
     }
 
     private void updateImageAndTrack() {
-        float h = ((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE;
-        float s = ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE;
-        float b = ((Number) bSpinner.getValue()).intValue() / LSPINNER_VALUE;
+        float h = (float) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE);
+        float s = (float) (((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE);
+        float b = (float) (((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE);
 
         spinnerTrigger = true;
         getColorSelectionModel().setSelectedColor(new Color(Color.HSBtoRGB(h, s, b)));
@@ -837,12 +837,12 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
     private void updateHLockImage() {
         int index = 0;
         int[] pix = new int[IMG_WIDTH * IMG_HEIGHT];
-        float hValue = ((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE;
+        float hValue = (float)(((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE );
 
         for (int j = 0; j < IMG_HEIGHT; j++) {
             for (int i = 0; i < IMG_WIDTH; i++) {
-                pix[index++] = Color.HSBtoRGB(hValue, (IMG_WIDTH - i * 1f) / IMG_WIDTH,
-                        (IMG_HEIGHT - j * 1f) / IMG_HEIGHT) | (BINARY_FOR_EIGHT << TWENTY_FOUR);
+                pix[index++] = Color.HSBtoRGB(hValue, (float) ((IMG_WIDTH - i * 1D) / IMG_WIDTH),
+                        (float) ((IMG_HEIGHT - j * 1D) / IMG_HEIGHT)) | (BINARY_FOR_EIGHT << TWENTY_FOUR);
             }
         }
 

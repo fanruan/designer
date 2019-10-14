@@ -3,6 +3,10 @@ package com.fr.van.chart.structure.desinger;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.StructureCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.StructureDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -12,9 +16,10 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPaneWithOutMode;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotReportDataContentPane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotTableDataContentPane;
@@ -26,7 +31,7 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
 /**
  * Created by shine on 2017/2/15.
  */
-public class StructureIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartStructureTypePane();
@@ -84,16 +89,9 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
                 return new VanChartInteractivePaneWithOutSort(){
 
                     @Override
-                    protected String[] getNameArray() {
-                        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
-
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPaneWithOutMode();
                     }
-
-                    @Override
-                    protected String[] getValueArray() {
-                        return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
-                    }
-
                 };
             }
         };
@@ -105,8 +103,13 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
         return new VanChartStructureConditionPane(plot);
     }
 
-   /* @Override
+    @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new StructureChartDataPane(listener);
-    }*/
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
+            }
+        };
+    }
 }

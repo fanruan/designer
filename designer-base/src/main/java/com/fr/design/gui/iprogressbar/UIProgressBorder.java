@@ -72,6 +72,7 @@ public class UIProgressBorder extends UIRoundedBorder {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
     }
 
+    @SuppressWarnings("squid:S2164")
     private void paintBorderShadow(Graphics2D g2, int shadowWidth, int x, int y, int width, int height) {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         shadowWidth = Math.max(shadowWidth, 2);
@@ -85,6 +86,7 @@ public class UIProgressBorder extends UIRoundedBorder {
         }
     }
 
+    @SuppressWarnings("squid:S2164")
     private static Color getMixedColor(Color c1, float pct1, Color c2, float pct2) {
         float[] clr1 = c1.getComponents(null);
         float[] clr2 = c2.getComponents(null);
