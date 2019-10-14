@@ -35,6 +35,7 @@ public class UINumberField extends UITextField {
     private double maxValue = Double.MAX_VALUE;
 
     private boolean isContentChanged = false;
+    private boolean fillNegativeNumbers = true;
 
     public UINumberField() {
         this(MAX_INTEGERLENGTH_32, MAX_DECIMALLENGTH);
@@ -60,6 +61,10 @@ public class UINumberField extends UITextField {
     public void setFieldDocument() {
         setDocument(new NumberDocument());
         initListener();
+    }
+
+    public void canFillNegativeNumber(boolean canFillNegativeNumbers) {
+        this.fillNegativeNumbers = canFillNegativeNumbers;
     }
 
     public int getMaxIntegerLength() {
@@ -185,6 +190,9 @@ public class UINumberField extends UITextField {
         // kunsnat: 这种限制输入 有个不好的地方, 比如删除时: 10.1  最大值限定100, 那么就删除中间的小数点之后变为101, 超出了100.
         // 但是直接限制不能删除中间类似小数点, 那么也可能遇到: 最小值10 , 从100变化到其中的19, 就很难..
         private boolean notChange(String strNew) {
+            if (!fillNegativeNumbers && strNew.contains("-")) {
+                return true;
+            }
             boolean noChange = false;
             boolean isMinus = strNew.startsWith("-");
             strNew = strNew.replaceFirst("-", StringUtils.EMPTY); // 控制能输入负数
