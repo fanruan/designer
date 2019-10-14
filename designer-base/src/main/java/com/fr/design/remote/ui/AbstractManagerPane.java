@@ -67,6 +67,12 @@ public abstract class AbstractManagerPane extends BasicPane {
      */
     private List<RemoteDesignMember> addedMembers = new ArrayList<>();
 
+
+    /**
+     * 具有设计权限的角色/用户
+     */
+    private List<RemoteDesignMember> authorityMembers = new ArrayList<>();
+
     /**
      * 决策平台用户列表model
      */
@@ -211,6 +217,9 @@ public abstract class AbstractManagerPane extends BasicPane {
         resetAddedMembers();
         this.addedMembers.addAll(addedMembers);
 
+        resetAuthorityMembers();
+        this.authorityMembers.addAll(addedMembers);
+
         // 刷新右侧面板
         addToAddedMemberList();
 
@@ -314,15 +323,15 @@ public abstract class AbstractManagerPane extends BasicPane {
 
     private void addToMemberList() {
         addingListModel.clear();
-        for (RemoteDesignMember addingMember : addingMembers) {
+        for (RemoteDesignMember member : addingMembers) {
             // 如果包含在右侧列表中，那么左侧列表默认选中
-            for (RemoteDesignMember addedMember : addedMembers){
-                if (addingMember.equals(addedMember)){
-                    addingMember.setAuthority(addedMember.hasAuthority());
-                    addingMember.setSelected(true);
-                }
+            if (addedMembers.contains(member)) {
+                member.setSelected(true);
             }
-            addingListModel.addElement(addingMember);
+            else {
+                member.setSelected(false);
+            }
+            addingListModel.addElement(member);
         }
         addingList.revalidate();
         addingList.repaint();
@@ -348,6 +357,10 @@ public abstract class AbstractManagerPane extends BasicPane {
 
     private void resetAddedMembers() {
         addedMembers.clear();
+    }
+
+    private void resetAuthorityMembers() {
+        authorityMembers.clear();
     }
 
     protected abstract Collection<RemoteDesignMember> getMembers(String userName, String keyWord);
@@ -376,6 +389,7 @@ public abstract class AbstractManagerPane extends BasicPane {
 
             @Override
             protected void done() {
+                referAddingMemberList();
                 addToMemberList();
             }
         };
@@ -403,10 +417,20 @@ public abstract class AbstractManagerPane extends BasicPane {
 
             @Override
             protected void done() {
+                referAddingMemberList();
                 addToMemberList();
             }
         };
         loadMoreWorker.execute();
+    }
+
+    // 检查左侧列表角色/用户是否有权限
+    private void referAddingMemberList() {
+        for (RemoteDesignMember member : addingMembers) {
+            if (authorityMembers.contains(member)){
+                member.setAuthority(true);
+            }
+        }
     }
 
 
