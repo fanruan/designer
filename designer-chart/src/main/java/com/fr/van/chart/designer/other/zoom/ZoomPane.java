@@ -193,7 +193,9 @@ public class ZoomPane extends BasicBeanPane<ZoomAttribute> {
             rightFormulaPane.populateBean(ob.getRight().getContent());
         }
 
-        selectionZoomGroup.setSelectedItem(ob.isSelectionZoom());
+        if (selectionZoomGroup != null) {
+            selectionZoomGroup.setSelectedItem(ob.isSelectionZoom());
+        }
 
         checkInitialDisplayCardPane();
         checkCustomModePane();
@@ -212,7 +214,9 @@ public class ZoomPane extends BasicBeanPane<ZoomAttribute> {
         zoomAttribute.setLeft(new StringFormula(leftFormulaPane.updateBean()));
         zoomAttribute.setRight(new StringFormula(rightFormulaPane.updateBean()));
 
-        zoomAttribute.setSelectionZoom(selectionZoomGroup.getSelectedItem());
+        if (selectionZoomGroup != null) {
+            zoomAttribute.setSelectionZoom(selectionZoomGroup.getSelectedItem());
+        }
 
         return zoomAttribute;
     }

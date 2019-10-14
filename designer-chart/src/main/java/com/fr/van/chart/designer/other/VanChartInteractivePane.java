@@ -95,7 +95,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p};
 
 
         Component[][] components = new Component[][]{
