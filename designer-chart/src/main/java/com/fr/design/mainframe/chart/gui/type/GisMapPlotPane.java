@@ -88,7 +88,12 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 		return ChartConstants.GIS_CHAER;
 	}
 
-    protected String[] getTypeLayoutPath() {
+	@Override
+	public String getPlotID() {
+		return ChartConstants.GIS_CHAER;
+	}
+
+	protected String[] getTypeLayoutPath() {
         return new String[]{"/com/fr/design/images/chart/GisMapPlot/layout/0.png",
                 "/com/fr/design/images/chart/GisMapPlot/layout/1.png",
         };
@@ -157,7 +162,6 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	 * 更新界面内容
 	 */
 	public void populateBean(Chart chart) {
-		typeDemo.get(0).isPressing = true; 
 		GisMapPlot plot = (GisMapPlot) chart.getPlot();
 
 		if(plot.isGisType()){
