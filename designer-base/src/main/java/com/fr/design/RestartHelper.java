@@ -29,7 +29,7 @@ public class RestartHelper {
 
     public static final String RECORD_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "delete.properties");
     public static final String MOVE_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "move.properties");
-    private static   OSBasedAction osBasedAction;
+    private static  OSBasedAction restartAction;
     /**
      * 把要删除的文件都记录到delete.properties中
      *
@@ -166,7 +166,7 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            osBasedAction.execute(filesToBeDelete);
+            restartAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }finally {
@@ -185,6 +185,6 @@ public class RestartHelper {
      * 提前初始化重启动作
      */
     public static void initRestartAction(){
-        osBasedAction = OSSupportCenter.getAction(RestartAction.class);
+        restartAction = OSSupportCenter.getAction(RestartAction.class);
     }
 }
