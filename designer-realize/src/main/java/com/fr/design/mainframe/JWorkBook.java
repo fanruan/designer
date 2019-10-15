@@ -34,6 +34,7 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.fun.NewTemplateFileProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;

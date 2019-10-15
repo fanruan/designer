@@ -27,6 +27,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
+import com.fr.design.fun.NewTemplateFileProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;

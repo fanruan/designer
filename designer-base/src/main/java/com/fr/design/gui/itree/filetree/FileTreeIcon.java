@@ -3,7 +3,7 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.icon.LockIcon;
-import com.fr.design.mainframe.NewTemplateFileProvider;
+import com.fr.design.fun.NewTemplateFileProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
