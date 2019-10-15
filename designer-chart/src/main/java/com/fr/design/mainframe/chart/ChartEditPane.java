@@ -230,7 +230,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             return;
         }
 
-        ChartProvider chartProvider = collection.getSelectedChartProvider();
+        ChartProvider chartProvider = collection.getSelectedChart(ChartProvider.class);
         if (checkNeedsReLayout(chartProvider)) {
             String chartID = chartProvider.getID();
             if ("WaferChipChart".equals(chartID) || "BoxPlotChart".equals(chartID)) {
