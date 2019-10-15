@@ -55,12 +55,14 @@ public class FileNodeConstants {
     private static void initSupportedTypes() {
         try {
             rwl.writeLock().lock();
-            supportFileType = new ArrayList<>(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
+            supportFileType = new ArrayList<String>();
             //通过插件扩展的
             Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
             for (App app : apps) {
                 addAppExtensions(app.defaultExtensions());
             }
+            supportFileType.addAll(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
+
         } finally {
             rwl.writeLock().unlock();
         }

@@ -65,6 +65,7 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationPane;
 import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -1165,5 +1166,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public String route() {
         return ViewRequestConstants.REPORT_VIEW_PATH;
+    }
+
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+        super.addChooseFILEFilter(fileChooser);
+        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
+        for (NewTemplateFileProvider provider : providers) {
+            provider.addChooseFileFilter(fileChooser, this.suffix());
+        }
     }
 }

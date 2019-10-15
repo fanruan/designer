@@ -1,7 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.icon.LockIcon;
+import com.fr.design.mainframe.NewTemplateFileProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
@@ -11,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.util.Set;
 
 public class FileTreeIcon {
     private FileTreeIcon() {
@@ -146,14 +149,34 @@ public class FileTreeIcon {
                 if (node.isDirectory()) {
                     return FileTreeIcon.FOLDER_IMAGE_ICON;
                 }
-                return FileSystemView.getFileSystemView().getSystemIcon(new File(path));
+                return getLocalFileIcon(path);
             }
         }
         if (node.isDirectory()) {
             return FileTreeIcon.FOLDER_IMAGE_ICON;
         } else {
-            return FileTreeIcon.getIcon(FileTreeIcon.getFileType(node.getName()), isShowLock);
+            return getRemoteFileIcon(node, isShowLock);
         }
+    }
+
+    private static Icon getLocalFileIcon(String path) {
+        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
+        for (NewTemplateFileProvider provider : providers) {
+            if (provider.getLocalFileIcon(path) != null) {
+                return provider.getLocalFileIcon(path);
+            }
+        }
+        return FileSystemView.getFileSystemView().getSystemIcon(new File(path));
+    }
+
+    private static Icon getRemoteFileIcon(FileNode node, boolean isShowLock){
+        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
+        for (NewTemplateFileProvider provider : providers) {
+            if (provider.getRemoteFileIcon(node, isShowLock) != null) {
+                return provider.getRemoteFileIcon(node, isShowLock);
+            }
+        }
+        return FileTreeIcon.getIcon(FileTreeIcon.getFileType(node.getName()), isShowLock);
     }
 
     private static Icon getIcon(int fileType, boolean isLocked) {

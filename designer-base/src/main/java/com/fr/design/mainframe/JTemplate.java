@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.io.BaseBook;
 import com.fr.base.iofile.attr.DesignBanCopyAttrMark;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
@@ -12,7 +13,6 @@ import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.TableDataSourceAction;
 import com.fr.design.actions.edit.RedoAction;
 import com.fr.design.actions.edit.UndoAction;
@@ -49,6 +49,7 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.MemFILE;
+import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
@@ -575,6 +576,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         String oldName = this.getPath();
         // alex:如果是SaveAs的话需要让用户来选择路径了
         FILEChooserPane fileChooser = getFILEChooserPane(isShowLoc);
+        addChooseFILEFilter(fileChooser);
         fileChooser.setFileNameTextField(fileName, this.suffix());
         int chooseResult = fileChooser.showSaveDialog(DesignerContext.getDesignerFrame(), this.suffix());
 
@@ -625,6 +627,16 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
     }
 
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+        String appName = ProductConstants.APP_NAME;
+        fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        if (FileExtension.FRM.matchExtension(this.suffix())) {
+            // richer:form文件 daniel 改成三个字
+            fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        }
+
+    }
+
     // 保存新模板时会进入此方法（新建模板直接保存，或者另存为）
     protected boolean saveNewFile(FILE editingFILE, String oldName) {
         String originID = StringUtils.EMPTY;
@@ -635,13 +647,25 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         initForCollect();
 
         this.editingFILE = editingFILE;
-        boolean result = this.saveFile();
+        boolean result = this.saveToNewFile(oldName);
         if (result) {
             DesignerFrameFileDealerPane.getInstance().refresh();
             collectInfo(originID);
         }
-        //更换最近打开
-        DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
+        return result;
+    }
+
+    protected boolean saveToNewFile(String oldName){
+        boolean result = false;
+        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
+        for (NewTemplateFileProvider provider : providers) {
+            result = result || provider.saveToNewFile(this.editingFILE.getPath(), this);
+        }
+        if(!result && FileExtension.CPT.matchExtension(this.editingFILE.getPath())){
+            result = result || this.saveFile();
+            //更换最近打开
+            DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
+        }
         return result;
     }
 
