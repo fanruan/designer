@@ -1,12 +1,10 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.extension.FileExtension;
-import com.fr.base.io.BaseBook;
+import com.fr.decision.extension.report.ReportSupportedFileProvider;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.mainframe.AbstractAppProvider;
-import com.fr.design.mainframe.App;
-import com.fr.design.mainframe.JTemplate;
-import com.fr.file.FILE;
+import com.fr.design.fun.NewTemplateFileOptionProvider;
+import com.fr.design.fun.impl.AbstractNewTemplateFileOptionProvider;
 import com.fr.stable.fun.mark.Mutable;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -15,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,9 +25,9 @@ public class FileNodeConstantsTest {
     @Test
     public void supportFileTypesTest() {
         ExtraDesignClassManager extra = mockExtraDesignClassManager();
-        Assert.assertEquals(1, extra.getArray(App.MARK_STRING).size());
-        App app = (App) extra.getArray(App.MARK_STRING).iterator().next();
-        Assert.assertEquals("cptx", app.defaultExtensions()[0]);
+        Assert.assertEquals(1, extra.getArray(NewTemplateFileOptionProvider.XML_TAG).size());
+        NewTemplateFileOptionProvider option = (NewTemplateFileOptionProvider) extra.getArray(NewTemplateFileOptionProvider.XML_TAG).iterator().next();
+        Assert.assertEquals(FileExtension.CPTX, option.getSupportedFile().getFileExtensions()[0]);
     }
 
     @Test
@@ -46,29 +43,25 @@ public class FileNodeConstantsTest {
 
     private ExtraDesignClassManager mockExtraDesignClassManager() {
         ExtraDesignClassManager extra = EasyMock.mock(ExtraDesignClassManager.class);
-        Set<Mutable> apps = new HashSet<Mutable>() {{
-            add(new MockCptxApp());
+        Set<Mutable> options = new HashSet<Mutable>() {{
+            add(new MockNewTemplateFileOption());
         }};
-        EasyMock.expect(extra.getArray(App.MARK_STRING)).andReturn(apps).anyTimes();
+        EasyMock.expect(extra.getArray(NewTemplateFileOptionProvider.XML_TAG)).andReturn(options).anyTimes();
         EasyMock.replay(extra);
         return extra;
     }
 
-    private class MockCptxApp extends AbstractAppProvider {
-        @Override
-        public String[] defaultExtensions() {
-            return new String[]{FileExtension.CPTX.getExtension()};
-        }
+    private class MockNewTemplateFileOption extends AbstractNewTemplateFileOptionProvider {
 
         @Override
-        public JTemplate openTemplate(FILE tplFile) {
-            return null;
+        public ReportSupportedFileProvider getSupportedFile() {
+            ReportSupportedFileProvider supportedFileProvider = EasyMock.mock(ReportSupportedFileProvider.class);
+            EasyMock.expect(supportedFileProvider.getFileExtensions()).andReturn(new FileExtension[]{FileExtension.CPTX}).anyTimes();
+            EasyMock.replay(supportedFileProvider);
+            return supportedFileProvider;
         }
 
-        @Override
-        public BaseBook asIOFile(FILE tplFile) {
-            return null;
-        }
+
     }
 
 }

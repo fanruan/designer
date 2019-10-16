@@ -3,7 +3,7 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.icon.LockIcon;
-import com.fr.design.fun.NewTemplateFileProvider;
+import com.fr.design.fun.NewTemplateFileOptionProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
@@ -160,23 +160,29 @@ public class FileTreeIcon {
     }
 
     private static Icon getLocalFileIcon(String path) {
-        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
-        for (NewTemplateFileProvider provider : providers) {
-            if (provider.getLocalFileIcon(path) != null) {
-                return provider.getLocalFileIcon(path);
-            }
+        Icon icon = getExtraIcon(path, false);
+        if (icon != null) {
+            return icon;
         }
         return FileSystemView.getFileSystemView().getSystemIcon(new File(path));
     }
 
-    private static Icon getRemoteFileIcon(FileNode node, boolean isShowLock){
-        Set<NewTemplateFileProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileProvider.XML_TAG);
-        for (NewTemplateFileProvider provider : providers) {
-            if (provider.getRemoteFileIcon(node, isShowLock) != null) {
-                return provider.getRemoteFileIcon(node, isShowLock);
-            }
+    private static Icon getRemoteFileIcon(FileNode node, boolean isShowLock) {
+        Icon icon = getExtraIcon(node.getName(), isShowLock);
+        if (icon != null) {
+            return icon;
         }
         return FileTreeIcon.getIcon(FileTreeIcon.getFileType(node.getName()), isShowLock);
+    }
+
+    private static Icon getExtraIcon(String path, boolean isShowLock) {
+        Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
+        for (NewTemplateFileOptionProvider provider : providers) {
+            if (provider.getFileIcon(path, isShowLock) != null) {
+                return provider.getFileIcon(path, isShowLock);
+            }
+        }
+        return null;
     }
 
     private static Icon getIcon(int fileType, boolean isLocked) {

@@ -1,8 +1,9 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.mainframe.App;
+import com.fr.design.fun.NewTemplateFileOptionProvider;
 import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -44,10 +45,10 @@ public class FileNodeConstants {
         });
     }
 
-    private static void addAppExtensions(String[] extensions) {
+    private static void addAppExtensions(FileExtension[] extensions) {
         for (int i = 0, size = extensions.length; i < size; i++) {
-            if (!supportFileType.contains(extensions[i])) {
-                supportFileType.add(extensions[i]);
+            if (!supportFileType.contains(extensions[i].getExtension())) {
+                supportFileType.add(extensions[i].getExtension());
             }
         }
     }
@@ -57,9 +58,9 @@ public class FileNodeConstants {
             rwl.writeLock().lock();
             supportFileType = new ArrayList<String>();
             //通过插件扩展的
-            Set<App> apps = ExtraDesignClassManager.getInstance().getArray(App.MARK_STRING);
-            for (App app : apps) {
-                addAppExtensions(app.defaultExtensions());
+            Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
+            for (NewTemplateFileOptionProvider provider : providers) {
+                addAppExtensions(provider.getSupportedFile().getFileExtensions());
             }
             supportFileType.addAll(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
 
