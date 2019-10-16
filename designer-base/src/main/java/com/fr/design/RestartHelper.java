@@ -33,7 +33,7 @@ public class RestartHelper {
 
     public static final String RECORD_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "delete.properties");
     public static final String MOVE_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "move.properties");
-
+    private static OSBasedAction restartAction;
 
     /**
      * 把要删除的文件都记录到delete.properties中
@@ -171,8 +171,8 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            OSBasedAction osBasedAction = OSSupportCenter.getAction(RestartAction.class);
-            osBasedAction.execute(filesToBeDelete);
+
+            restartAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
@@ -187,39 +187,11 @@ public class RestartHelper {
         }
     }
 
- /*   private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
-        ProcessBuilder builder = new ProcessBuilder();
-        List<String> commands = new ArrayList<String>();
-        commands.add("open");
-        commands.add(installHome + File.separator + "bin" + File.separator + "restart.app");
-        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
-            commands.add("--args");
-            commands.add(StableUtils.join(filesToBeDelete, "+"));
-        }
-        builder.command(commands);
-        builder.start();
+    /**
+     * 提前初始化重启动作
+     */
+    public static void initRestartAction(){
+        restartAction = OSSupportCenter.getAction(RestartAction.class);
     }
 
-    private static void restartInWindows(String installHome, String[] filesToBeDelete) throws Exception {
-        ProcessBuilder builder = new ProcessBuilder();
-        List<String> commands = new ArrayList<String>();
-        commands.add(installHome + File.separator + "bin" + File.separator + "restart.exe");
-        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
-            commands.add(StableUtils.join(filesToBeDelete, "+"));
-        }
-        builder.command(commands);
-        builder.start();
-    }
-
-    private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
-        ProcessBuilder builder = new ProcessBuilder();
-        List<String> commands = new ArrayList<String>();
-        //现在先写的是restart.sh
-        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
-        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
-            commands.add(StableUtils.join(filesToBeDelete, "+"));
-        }
-        builder.command(commands);
-        builder.start();
-    }*/
 }
