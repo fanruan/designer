@@ -27,15 +27,7 @@ import com.fr.function.TIME;
 import com.fr.general.FRFont;
 import com.fr.log.FineLoggerFactory;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingWorker;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
@@ -48,6 +40,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -163,7 +156,7 @@ public class PreviewTablePane extends BasicPane {
 
         this.add(new JScrollPane(preveiwTable), BorderLayout.CENTER);
         if (this.dialog == null) {
-            this.dialog = this.showWindow(DesignerContext.getDesignerFrame());
+            this.dialog = this.showWindow(new JFrame());
         }
         progressBar = new AutoProgressBar(this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loading_Data"), "", 0, 100) {
             public void doMonitorCanceled() {
