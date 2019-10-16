@@ -438,7 +438,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         @Override
         public void actionPerformed(ActionEvent e) {
             FILEChooserPane fileChooser = FILEChooserPane.getInstance(true, false, new ChooseFileFilter(getFileSuffix()));
-            if (fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
+            if (fileChooser.showOpenDialog(FileTableDataPane.this) == FILEChooserPane.OK_OPTION) {
                 final FILE file = fileChooser.getSelectedFILE();
                 if (file == null) {// 选择的文件不能是 null
                     return;
