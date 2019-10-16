@@ -27,7 +27,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
-import com.fr.design.fun.NewTemplateFileOptionProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
@@ -658,8 +658,8 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     protected boolean saveToNewFile(String oldName){
         boolean result = false;
-        Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
-        for (NewTemplateFileOptionProvider provider : providers) {
+        Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+        for (ReportSupportedFileUIProvider provider : providers) {
             result = result || provider.saveToNewFile(this.editingFILE.getPath(), this);
         }
         if(!result && FileExtension.CPT.matchExtension(this.editingFILE.getPath())){

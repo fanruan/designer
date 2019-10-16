@@ -3,7 +3,7 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.NewTemplateFileOptionProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -58,8 +58,8 @@ public class FileNodeConstants {
             rwl.writeLock().lock();
             supportFileType = new ArrayList<String>();
             //通过插件扩展的
-            Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
-            for (NewTemplateFileOptionProvider provider : providers) {
+            Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+            for (ReportSupportedFileUIProvider provider : providers) {
                 addAppExtensions(provider.getSupportedFile().getFileExtensions());
             }
             supportFileType.addAll(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));

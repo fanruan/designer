@@ -3,7 +3,7 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.BaseUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.icon.LockIcon;
-import com.fr.design.fun.NewTemplateFileOptionProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
@@ -176,8 +176,8 @@ public class FileTreeIcon {
     }
 
     private static Icon getExtraIcon(String path, boolean isShowLock) {
-        Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
-        for (NewTemplateFileOptionProvider provider : providers) {
+        Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+        for (ReportSupportedFileUIProvider provider : providers) {
             if (provider.getFileIcon(path, isShowLock) != null) {
                 return provider.getFileIcon(path, isShowLock);
             }

@@ -34,7 +34,7 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.fun.NewTemplateFileOptionProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
@@ -1171,8 +1171,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
 
     protected void addChooseFILEFilter(FILEChooserPane fileChooser){
         super.addChooseFILEFilter(fileChooser);
-        Set<NewTemplateFileOptionProvider> providers = ExtraDesignClassManager.getInstance().getArray(NewTemplateFileOptionProvider.XML_TAG);
-        for (NewTemplateFileOptionProvider provider : providers) {
+        Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+        for (ReportSupportedFileUIProvider provider : providers) {
             provider.addChooseFileFilter(fileChooser, this.suffix());
         }
     }

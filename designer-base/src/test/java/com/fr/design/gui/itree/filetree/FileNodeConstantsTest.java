@@ -3,8 +3,8 @@ package com.fr.design.gui.itree.filetree;
 import com.fr.base.extension.FileExtension;
 import com.fr.decision.extension.report.ReportSupportedFileProvider;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.NewTemplateFileOptionProvider;
-import com.fr.design.fun.impl.AbstractNewTemplateFileOptionProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
+import com.fr.design.fun.impl.AbstractReportSupportedFileUIProvider;
 import com.fr.stable.fun.mark.Mutable;
 import org.easymock.EasyMock;
 import org.junit.Assert;
@@ -25,8 +25,8 @@ public class FileNodeConstantsTest {
     @Test
     public void supportFileTypesTest() {
         ExtraDesignClassManager extra = mockExtraDesignClassManager();
-        Assert.assertEquals(1, extra.getArray(NewTemplateFileOptionProvider.XML_TAG).size());
-        NewTemplateFileOptionProvider option = (NewTemplateFileOptionProvider) extra.getArray(NewTemplateFileOptionProvider.XML_TAG).iterator().next();
+        Assert.assertEquals(1, extra.getArray(ReportSupportedFileUIProvider.XML_TAG).size());
+        ReportSupportedFileUIProvider option = (ReportSupportedFileUIProvider) extra.getArray(ReportSupportedFileUIProvider.XML_TAG).iterator().next();
         Assert.assertEquals(FileExtension.CPTX, option.getSupportedFile().getFileExtensions()[0]);
     }
 
@@ -46,12 +46,12 @@ public class FileNodeConstantsTest {
         Set<Mutable> options = new HashSet<Mutable>() {{
             add(new MockNewTemplateFileOption());
         }};
-        EasyMock.expect(extra.getArray(NewTemplateFileOptionProvider.XML_TAG)).andReturn(options).anyTimes();
+        EasyMock.expect(extra.getArray(ReportSupportedFileUIProvider.XML_TAG)).andReturn(options).anyTimes();
         EasyMock.replay(extra);
         return extra;
     }
 
-    private class MockNewTemplateFileOption extends AbstractNewTemplateFileOptionProvider {
+    private class MockNewTemplateFileOption extends AbstractReportSupportedFileUIProvider {
 
         @Override
         public ReportSupportedFileProvider getSupportedFile() {
