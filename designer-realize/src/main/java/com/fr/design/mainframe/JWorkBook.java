@@ -671,11 +671,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         // Export - MenuDef
         MenuDef exportMenuDef = new MenuDef(KeySetUtils.EXPORT.getMenuName());
         exportMenuDef.setIconPath("/com/fr/design/images/m_file/export.png");
+        addShortCut(exportMenuDef, excelExportMenuDef);
+        return exportMenuDef;
+    }
 
+    protected void addShortCut(MenuDef exportMenuDef, MenuDef excelExportMenuDef) {
         exportMenuDef.addShortCut(excelExportMenuDef, new PDFExportAction(this), new WordExportAction(this), new SVGExportAction(this),
                 new CSVExportAction(this), new TextExportAction(this), new EmbeddedExportExportAction(this));
-
-        return exportMenuDef;
     }
 
     /**
@@ -1169,8 +1171,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         return ViewRequestConstants.REPORT_VIEW_PATH;
     }
 
-    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
-        super.addChooseFILEFilter(fileChooser);
+    protected void addExtraChooseFILEFilter(FILEChooserPane fileChooser){
         Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
         for (ReportSupportedFileUIProvider provider : providers) {
             provider.addChooseFileFilter(fileChooser, this.suffix());
