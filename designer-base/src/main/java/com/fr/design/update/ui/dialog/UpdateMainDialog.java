@@ -30,7 +30,6 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.*;
-import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
 import com.fr.third.org.apache.http.client.methods.HttpGet;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
@@ -594,20 +593,21 @@ public class UpdateMainDialog extends UIDialog {
                     updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
                     RestoreResultDialog.deletePreviousPropertyFile();
-                    final String installHome = StableUtils.getInstallHome();
+                    final JFrame frame = DesignerContext.getDesignerFrame();
+                    final RestartHelper helper = new RestartHelper();
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate();
-                            RestartHelper.restartForUpdate(installHome);
+                            helper.restartForUpdate(frame);
                         }
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate();
                             JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
-                            RestartHelper.restartForUpdate(installHome);
+                            helper.restartForUpdate(frame);
                         }
                     }.execute();
                 }

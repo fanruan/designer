@@ -11,7 +11,6 @@ import com.fr.config.MarketConfig;
 import com.fr.decision.update.backup.RecoverManager;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.BiasCellAction;
@@ -140,7 +139,6 @@ public class DesignerActivator extends Activator {
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
         RecoverManager.register(new RecoverForDesigner());
-        RestartHelper.initRestartAction();
     }
 
     @Override
