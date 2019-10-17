@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.cluster.ClusterBridge;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -367,7 +368,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         private void fireVcsActionChange() {
             if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
                     || VcsHelper.getInstance().isUnSelectedTemplate()
-                    || ClusterBridge.isClusterMode()) {
+                    || FineClusterConfig.getInstance().isCluster()) {
                 setEnabled(false);
                 return;
             }
