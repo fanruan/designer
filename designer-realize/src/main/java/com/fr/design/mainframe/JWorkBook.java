@@ -34,6 +34,7 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
@@ -65,6 +66,7 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationPane;
 import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
 import com.fr.general.ComparatorUtils;
@@ -1165,5 +1167,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public String route() {
         return ViewRequestConstants.REPORT_VIEW_PATH;
+    }
+
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+        super.addChooseFILEFilter(fileChooser);
+        Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+        for (ReportSupportedFileUIProvider provider : providers) {
+            provider.addChooseFileFilter(fileChooser, this.suffix());
+        }
     }
 }
