@@ -6,11 +6,12 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.os.support.OSBasedAction;
 import com.fr.stable.os.support.OSSupportCenter;
+import com.fr.workspace.WorkContext;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -146,6 +147,59 @@ public class RestartHelper {
         restart(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    public static void restartForUpdate(String installHome) {
+        try {
+            if (OperatingSystem.isMacos()) {
+                restartInMacOS(installHome, ArrayUtils.EMPTY_STRING_ARRAY);
+            } else if (OperatingSystem.isLinux()){
+                restartInLinux(installHome, ArrayUtils.EMPTY_STRING_ARRAY);
+            } else {
+                restartInWindows(installHome,ArrayUtils.EMPTY_STRING_ARRAY);
+            }
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
+        } finally {
+            WorkContext.getCurrent().close();
+            System.exit(0);
+        }
+    }
+
+    private static void restartInMacOS(String installHome, String[] filesToBeDelete) throws Exception {
+        ProcessBuilder builder = new ProcessBuilder();
+        List<String> commands = new ArrayList<>();
+        commands.add("open");
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart.app");
+        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
+            commands.add("--args");
+            commands.add(StableUtils.join(filesToBeDelete, "+"));
+        }
+        builder.command(commands);
+        builder.start();
+    }
+
+    private static void restartInWindows(String installHome, String[] filesToBeDelete) throws Exception {
+        ProcessBuilder builder = new ProcessBuilder();
+        List<String> commands = new ArrayList<>();
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart.exe");
+        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
+            commands.add(StableUtils.join(filesToBeDelete, "+"));
+        }
+        builder.command(commands);
+        builder.start();
+    }
+
+    private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
+        ProcessBuilder builder = new ProcessBuilder();
+        List<String> commands = new ArrayList<>();
+        //现在先写的是restart.sh
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
+        if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
+            commands.add(StableUtils.join(filesToBeDelete, "+"));
+        }
+        builder.command(commands);
+        builder.start();
+    }
+
     /**
      * 重启设计器并删除某些特定的文件
      *
@@ -171,7 +225,6 @@ public class RestartHelper {
             }catch (Exception e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-
             restartAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);

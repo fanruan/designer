@@ -3,6 +3,7 @@ package com.fr.design.update.actions;
 import com.fr.decision.update.backup.Recover;
 import com.fr.decision.update.data.UpdateConstants;
 import com.fr.decision.update.exception.UpdateException;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
@@ -46,8 +47,9 @@ public class RecoverForDesigner implements Recover {
             CommonUtils.mkdirs(file);
             IOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
                     StableUtils.pathJoin(installHome, UpdateConstants.DESIGNERBACKUPPATH));
+            DesignerContext.getDesignerFrame().prepareForExit();
             return true;
-        }catch (IOException e) {
+        } catch (IOException e) {
             UpdateException exception = new UpdateException("Backup Exception for designer" + e.getMessage());
             FineLoggerFactory.getLogger().error(exception.getMessage(),exception);
             return false;
