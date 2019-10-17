@@ -4,7 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -113,9 +112,9 @@ import java.util.Set;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
 
-    public static final String DESIGNER_FRAME_NAME = "designer_frame";
+    private static final String DESIGNER_FRAME_NAME = "designer_frame";
 
-    public static final Dimension MIN_SIZE = new Dimension(100, 100);
+    private static final Dimension MIN_SIZE = new Dimension(100, 100);
 
     private static final long serialVersionUID = -8732559571067484460L;
 
@@ -145,9 +144,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private UIToolbar combineUp;
 
-    private NewTemplatePane newWorkBookPane = null;
+    private NewTemplatePane newWorkBookPane;
 
-    private Icon closeMode = UIConstants.CLOSE_OF_AUTHORITY;
+    private Icon closeMode;
 
     private JLayeredPane layeredPane = this.getLayeredPane();
 
@@ -184,7 +183,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
-            if (HistoryTemplateListPane.getInstance().getHistoryCount() == 1) {
+            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
                 int choose = saveSomeTempaltePane.saveLastOneTemplate();
                 if (choose != JOptionPane.CANCEL_OPTION) {
                     DesignerFrame.this.exit();
@@ -318,7 +317,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             public void componentResized(ComponentEvent e) {
 
                 reCalculateFrameSize();
-                if (DesignerMode.isAuthorityEditing()) {
+                if (DesignModeContext.isAuthorityEditing()) {
                     doResize();
                 }
             }
@@ -334,9 +333,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     public void resizeFrame() {
 
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().setComposite();
         reCalculateFrameSize();
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().doResize();
     }
 
     public void closeAuthorityEditing() {
@@ -416,8 +415,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
 
     /**
-     * @param ad
-     * @return
+     * @param ad 菜单栏
+     * @return panel
      */
     protected JPanel initNorthEastPane(final ToolBarMenuDock ad) {
         //hugh: private修改为protected方便oem的时候修改右上的组件构成
@@ -515,7 +514,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     protected ArrayList<WindowListener> getFrameListeners() {
 
-        ArrayList<WindowListener> arrayList = new ArrayList<WindowListener>();
+        ArrayList<WindowListener> arrayList = new ArrayList<>();
         arrayList.add(windowAdapter);
         return arrayList;
     }
@@ -593,7 +592,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void refreshDottedLine() {
 
-        if (DesignerMode.isAuthorityEditing()) {
+        if (DesignModeContext.isAuthorityEditing()) {
             populateAuthorityArea();
             populateCloseButton();
             addDottedLine();
@@ -633,7 +632,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void fireAuthorityStateToNormal() {
 
-        java.util.List<JTemplate<?, ?>> opendedTemplate = HistoryTemplateListPane.getInstance().getHistoryList();
+        List<JTemplate<?, ?>> opendedTemplate = HistoryTemplateListCache.getInstance().getHistoryList();
         for (JTemplate<?, ?> jTemplate : opendedTemplate) {
             // 如果在权限编辑时做过操作，则将做过的操作作为一个整体状态赋给正在报表
             if (jTemplate.isDoSomethingInAuthority()) {
@@ -676,7 +675,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (UIButton fixButton : fixButtons) {
             combineUp.add(fixButton);
         }
-        if (!DesignerMode.isAuthorityEditing()) {
+        if (!DesignModeContext.isAuthorityEditing()) {
             combineUp.addSeparator(new Dimension(2, 16));
             if (toolbar4Form != null) {
                 for (JComponent jComponent : toolbar4Form) {
@@ -692,7 +691,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private void addExtraButtons() {
 
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
@@ -709,7 +708,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private void addShareButton() {
 
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
@@ -784,13 +783,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void needToAddAuhtorityPaint() {
 
-        newWorkBookPane.setButtonGray(DesignerMode.isAuthorityEditing());
+        newWorkBookPane.setButtonGray(DesignModeContext.isAuthorityEditing());
 
         // 进入或退出权限编辑模式，通知插件
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
-                shortCut.notifyFromAuhtorityChange(DesignerMode.isAuthorityEditing());
+                shortCut.notifyFromAuhtorityChange(DesignModeContext.isAuthorityEditing());
             }
         }
     }
@@ -811,7 +810,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void setTitle() {
 
-        JTemplate<?, ?> editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> editingTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         StringBuilder defaultTitleSB = new StringBuilder();
         defaultTitleSB.append(ProductConstants.PRODUCT_NAME);
         defaultTitleSB.append(" ");
@@ -909,7 +908,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     public void saveCurrentEditingTemplate() {
 
-        JTemplate<?, ?> editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> editingTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (editingTemplate == null) {
             return;
         }
@@ -1092,7 +1091,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (inValidDesigner(jt)) {
             this.addAndActivateJTemplate();
             MutilTempalteTabPane.getInstance().setTemTemplate(
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+                    HistoryTemplateListCache.getInstance().getCurrentEditingTemplate());
         } else {
             activeTemplate(jt);
         }
@@ -1106,8 +1105,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void activeTemplate(JTemplate jt) {
         // 如果该模板已经打开，则进行激活就可以了
-        int index = HistoryTemplateListPane.getInstance().contains(jt);
-        List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
+        int index = HistoryTemplateListCache.getInstance().contains(jt);
+        List<JTemplate<?, ?>> historyList = HistoryTemplateListCache.getInstance().getHistoryList();
         if (index != -1) {
             historyList.get(index).activeJTemplate(index, jt);
         } else {
@@ -1115,11 +1114,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
-    /**
-     * Exit退出
-     */
-    public void exit() {
-
+    public void prepareForExit() {
         Thread thread = new Thread() {
 
             @Override
@@ -1138,7 +1133,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
 
         DesignerEnvManager.getEnvManager().setLastOpenFile(
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
+                HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
 
         DesignerEnvManager.getEnvManager().setLastWestRegionToolPaneY(
                 WestRegionContainerPane.getInstance().getToolPaneY());
@@ -1150,6 +1145,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
+    }
+
+    /**
+     * Exit退出
+     */
+    public void exit() {
+        prepareForExit();
         //关闭当前环境
         WorkContext.getCurrent().close();
 
@@ -1251,7 +1253,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     /**
      * 更新进度框进度
      *
-     * @param progress
+     * @param progress 进度值
      */
     public void updateProgress(int progress) {
 

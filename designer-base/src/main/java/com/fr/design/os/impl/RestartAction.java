@@ -10,10 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestartAction implements OSBasedAction {
+
+    private static String installHome;
+
+    public RestartAction() {
+        installHome = StableUtils.getInstallHome();
+    }
+
     @Override
     public void execute(Object... objects) {
         String[] filesToBeDelete = (String[])objects;
-        String installHome = StableUtils.getInstallHome();
+        if (installHome == null) {
+            installHome = StableUtils.getInstallHome();
+        }
         try{
             if (OperatingSystem.isMacos()) {
                restartInMacOS(installHome, filesToBeDelete);

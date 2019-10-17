@@ -47,10 +47,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import static java.nio.charset.StandardCharsets.*;
@@ -594,19 +592,22 @@ public class UpdateMainDialog extends UIDialog {
                     UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
                     updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
+                    RestoreResultDialog.deletePreviousPropertyFile();
+                    final JFrame frame = DesignerContext.getDesignerFrame();
+                    final RestartHelper helper = new RestartHelper();
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate();
-                            RestartHelper.restart();
+                            helper.restartForUpdate(frame);
                         }
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate();
                             JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
-                            RestartHelper.restart();
+                            helper.restartForUpdate(frame);
                         }
                     }.execute();
                 }
