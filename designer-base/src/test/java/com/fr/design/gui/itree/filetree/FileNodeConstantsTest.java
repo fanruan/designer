@@ -1,7 +1,6 @@
 package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.extension.FileExtension;
-import com.fr.decision.extension.report.ReportSupportedFileProvider;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.impl.AbstractReportSupportedFileUIProvider;
@@ -27,7 +26,7 @@ public class FileNodeConstantsTest {
         ExtraDesignClassManager extra = mockExtraDesignClassManager();
         Assert.assertEquals(1, extra.getArray(ReportSupportedFileUIProvider.XML_TAG).size());
         ReportSupportedFileUIProvider option = (ReportSupportedFileUIProvider) extra.getArray(ReportSupportedFileUIProvider.XML_TAG).iterator().next();
-        Assert.assertEquals(FileExtension.CPTX, option.getSupportedFile().getFileExtensions()[0]);
+        Assert.assertEquals(FileExtension.CPTX, option.getFileExtensions()[0]);
     }
 
     @Test
@@ -54,13 +53,10 @@ public class FileNodeConstantsTest {
     private class MockNewTemplateFileOption extends AbstractReportSupportedFileUIProvider {
 
         @Override
-        public ReportSupportedFileProvider getSupportedFile() {
-            ReportSupportedFileProvider supportedFileProvider = EasyMock.mock(ReportSupportedFileProvider.class);
-            EasyMock.expect(supportedFileProvider.getFileExtensions()).andReturn(new FileExtension[]{FileExtension.CPTX}).anyTimes();
-            EasyMock.replay(supportedFileProvider);
-            return supportedFileProvider;
+        public FileExtension[] getFileExtensions() {
+            return new FileExtension[]{FileExtension.CPTX
+            };
         }
-
 
     }
 

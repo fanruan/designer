@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.decision.extension.report.ReportSupportedFileProvider;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILEChooserPane;
 import com.fr.stable.fun.mark.Mutable;
@@ -25,10 +25,11 @@ public interface ReportSupportedFileUIProvider extends Mutable {
 
 
     /**
-     * 获取对应的新增的支持文件类型
-     * @return ReportTemplateFileProvider
+     * 获取可支持的文件类型
+     * @return 文件扩展
      */
-    ReportSupportedFileProvider getSupportedFile();
+    FileExtension[] getFileExtensions();
+
 
     /**
      * 获取文件关联的icon
