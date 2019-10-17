@@ -1,6 +1,6 @@
 package com.fr.design.fun.impl;
 
-import com.fr.decision.extension.report.ReportSupportedFileProvider;
+import com.fr.base.extension.FileExtension;
 import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILEChooserPane;
@@ -20,9 +20,10 @@ public abstract class AbstractReportSupportedFileUIProvider extends AbstractProv
     }
 
     @Override
-    public ReportSupportedFileProvider getSupportedFile() {
-        return null;
+    public FileExtension[] getFileExtensions() {
+        return new FileExtension[0];
     }
+
 
     @Override
     public Icon getFileIcon(String path, boolean isShowLock) {

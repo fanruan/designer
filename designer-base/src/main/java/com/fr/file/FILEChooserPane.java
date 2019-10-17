@@ -725,11 +725,9 @@ public class FILEChooserPane extends BasicPane {
 
             // ben:filefilter设置初值为cpt过滤
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPTX, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
 
             // richer:form文件 daniel 改成三个字
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
-            this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRMX, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
         } else {
             if (type == JFileChooser.OPEN_DIALOG) {
                 this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));

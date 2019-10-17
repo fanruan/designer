@@ -628,13 +628,19 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
     }
 
-    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+    private void addChooseFILEFilter(FILEChooserPane fileChooser){
         String appName = ProductConstants.APP_NAME;
-        fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        if (FileExtension.CPT.matchExtension(this.suffix())){
+            fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        }
         if (FileExtension.FRM.matchExtension(this.suffix())) {
             // richer:form文件 daniel 改成三个字
             fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
         }
+        addExtraChooseFILEFilter(fileChooser);
+    }
+
+    protected void addExtraChooseFILEFilter(FILEChooserPane fileChooser){
 
     }
 

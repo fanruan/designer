@@ -60,7 +60,7 @@ public class FileNodeConstants {
             //通过插件扩展的
             Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
             for (ReportSupportedFileUIProvider provider : providers) {
-                addAppExtensions(provider.getSupportedFile().getFileExtensions());
+                addAppExtensions(provider.getFileExtensions());
             }
             supportFileType.addAll(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));
 
