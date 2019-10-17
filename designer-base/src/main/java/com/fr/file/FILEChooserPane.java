@@ -782,12 +782,7 @@ public class FILEChooserPane extends BasicPane {
             }
         }
         //jerry 26216 只保留.cpt .frm有用的格式，并且不可编辑
-        if (type == JFileChooser.OPEN_DIALOG) {
-            postfixComboBox.setEnabled(true);
-        } else {
-            postfixComboBox.setEnabled(false);
-        }
-
+        postfixComboBox.setEnabled(true);
         //只有一个类型时不可下拉
         if (filterList.size() == 1) {
             postfixComboBox.setEnabled(false);
@@ -841,14 +836,7 @@ public class FILEChooserPane extends BasicPane {
 
     private void saveDialog() {
         String filename = fileNameTextField.getText();
-        if (!filename.endsWith(suffix)) {
-            ChooseFileFilter chooseFileFilter = (ChooseFileFilter) (postfixComboBox.getSelectedItem());
-            if (chooseFileFilter != null && StringUtils.isNotEmpty(chooseFileFilter.getExtensionString())) {
-                fileNameTextField.setText(filename + chooseFileFilter.getExtensionString());
-            } else {
-                fileNameTextField.setText(filename + this.suffix);
-            }
-        }
+        fileNameTextField.setText(calFileNameText(filename, (ChooseFileFilter) (postfixComboBox.getSelectedItem())));
         option = OK_OPTION;
         FILE selectedFile = this.getSelectedFILE();
 
@@ -872,6 +860,15 @@ public class FILEChooserPane extends BasicPane {
             JOptionPane.showMessageDialog(FILEChooserPane.this, Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
 
         }
+    }
+
+    private String calFileNameText(String currentValue, ChooseFileFilter selectFileFilter) {
+        if (selectFileFilter == null || StringUtils.isEmpty(selectFileFilter.getExtensionString())) {
+            return currentValue + this.suffix;
+        } else if (!currentValue.endsWith(selectFileFilter.getExtensionString())) {
+            return currentValue + selectFileFilter.getExtensionString();
+        }
+        return currentValue;
     }
 
     private boolean access(FILE selectedFile) {

@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
 import com.fr.design.actions.FormMobileAttrAction;
@@ -34,6 +35,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPane;
 import com.fr.design.gui.xpane.FormHyperlinkGroupPaneNoPop;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.form.FormECCompositeProvider;
 import com.fr.design.mainframe.form.FormECDesignerProvider;
@@ -52,6 +54,8 @@ import com.fr.design.report.fit.menupane.ReportFitAttrAction;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
+import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.FormElementCaseContainerProvider;
 import com.fr.form.FormElementCaseProvider;
 import com.fr.form.main.Form;
@@ -66,6 +70,7 @@ import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.worksheet.FormElementCase;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.Constants;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.web.controller.ViewRequestConstants;
 
@@ -948,5 +953,14 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
     @Override
     public String route() {
         return ViewRequestConstants.FORM_VIEW_PATH;
+    }
+
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+        String appName = ProductConstants.APP_NAME;
+        if (FileExtension.FRM.matchExtension(this.suffix())) {
+            // richer:form文件 daniel 改成三个字
+            fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        }
+
     }
 }
