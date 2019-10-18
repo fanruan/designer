@@ -17,7 +17,7 @@ public class CellAttributeAction extends CellAttributeTableAction {
 
 	@Override
 	protected String getID() {
-		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Other_Attributes");
+		return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Datasource_Other_Attributes");
 	}
 
 }
