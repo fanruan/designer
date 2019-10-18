@@ -217,12 +217,6 @@ public class PreferencePane extends BasicPane {
             autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);
         }
-      /*
-        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
-            autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
-            improvePane.add(autoPushUpdateCheckBox);
-        }*/
-
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
         spaceUpPane.add(createMemoryPane(), BorderLayout.CENTER);
