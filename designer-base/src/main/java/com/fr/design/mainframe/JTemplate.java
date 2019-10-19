@@ -668,7 +668,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         for (ReportSupportedFileUIProvider provider : providers) {
             result = result || provider.saveToNewFile(this.editingFILE.getPath(), this);
         }
-        if(!result && FileExtension.CPT.matchExtension(this.editingFILE.getPath())){
+        if(!result){
             result = result || this.saveFile();
             //更换最近打开
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
