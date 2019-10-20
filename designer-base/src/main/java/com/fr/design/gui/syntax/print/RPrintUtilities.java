@@ -522,9 +522,8 @@ public abstract class RPrintUtilities {
 				return x;
 			int tabSizeInPixels = tabSizeInSpaces * fm.charWidth(' ');
 			int ntabs = (((int) x) - xOffset) / tabSizeInPixels;
-			int reFloat = xOffset + ((ntabs + 1) * tabSizeInPixels);
-			float ans = reFloat;
-			return ans;
+			double reFloat = (double) xOffset + (double) ((ntabs + 1) * tabSizeInPixels);
+			return (float) reFloat;
 		}
 
 	}
