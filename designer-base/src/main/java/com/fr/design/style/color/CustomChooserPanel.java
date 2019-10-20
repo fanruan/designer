@@ -314,8 +314,8 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateH(Point p) {
-            float s = (IMG_WIDTH - p.x * 1f) / IMG_WIDTH;
-            float b = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
+            double s = (IMG_WIDTH - p.x * 1D) / IMG_WIDTH;
+            double b = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
 
             // Avoid two changes to the model by changing internalChange to true.
             internalChange = true;
