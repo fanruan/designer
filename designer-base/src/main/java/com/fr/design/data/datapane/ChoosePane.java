@@ -438,6 +438,9 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
+            JOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Failed"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
