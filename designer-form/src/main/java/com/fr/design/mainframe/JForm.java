@@ -957,10 +957,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
 
     protected void addChooseFILEFilter(FILEChooserPane fileChooser){
         String appName = ProductConstants.APP_NAME;
-        if (FileExtension.FRM.matchExtension(this.suffix())) {
-            // richer:form文件 daniel 改成三个字
-            fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
-        }
-
+        // richer:form文件 daniel 改成三个字
+        fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
     }
 }
