@@ -4,12 +4,14 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -90,6 +92,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -475,13 +478,29 @@ public class FILEChooserPane extends BasicPane {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 Object ss = postfixComboBox.getSelectedItem();
-                if (ss instanceof FILEFilter) {
-                    setFILEFilter((FILEFilter) ss);
+                if (ss instanceof ChooseFileFilter) {
+                    setFILEFilter((ChooseFileFilter) ss);
+                    fileNameTextField.setText(calProperFileName(fileNameTextField.getText(), (ChooseFileFilter) ss));
                 } else {
                     setFILEFilter(null);
                 }
             }
         });
+    }
+
+    private String calProperFileName(String fileName, ChooseFileFilter fileFilter) {
+        if(fileFilter == null){
+            return fileName;
+        }
+        String filterExtension = fileFilter.getExtensionString();
+        int lastDotIndex = fileName.lastIndexOf(".") != -1 ? fileName.lastIndexOf(".") : fileName.length();
+        String fileNameWithOutExtension = fileName.substring(0, lastDotIndex);
+        String fileNameExtension = fileName.substring(lastDotIndex);
+        FileExtension fileExtension = FileExtension.parse(fileNameExtension);
+        if (StringUtils.isEmpty(fileName) || StringUtils.isEmpty(filterExtension) || fileFilter.containsExtension(fileExtension.getExtension())) {
+            return fileName;
+        }
+        return fileNameWithOutExtension + filterExtension;
     }
 
     private void doCancel() {
@@ -720,7 +739,14 @@ public class FILEChooserPane extends BasicPane {
         if (editing == null || !editing.isChartBook()) {
 
             if (type == JFileChooser.OPEN_DIALOG) {
-                this.addChooseFILEFilter(new ChooseFileFilter(FRContext.getFileNodes().getSupportedTypes(), appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+                ChooseFileFilter supportedTypes = new ChooseFileFilter(FRContext.getFileNodes().getSupportedTypes(), appName + Toolkit.i18nText("Fine-Design_Report_Template_File"));
+                Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+                for (ReportSupportedFileUIProvider provider : providers) {
+                    for (FileExtension fileExtension : provider.getFileExtensions()){
+                        supportedTypes.addExtension(fileExtension.getExtension());
+                    }
+                }
+                this.addChooseFILEFilter(supportedTypes);
             }
 
             // ben:filefilter设置初值为cpt过滤
@@ -728,6 +754,11 @@ public class FILEChooserPane extends BasicPane {
 
             // richer:form文件 daniel 改成三个字
             this.addChooseFILEFilter(new ChooseFileFilter(FileExtension.FRM, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+
+            Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+            for (ReportSupportedFileUIProvider provider : providers) {
+                provider.addChooseFileFilter(this, StringUtils.EMPTY);
+            }
         } else {
             if (type == JFileChooser.OPEN_DIALOG) {
                 this.addChooseFILEFilter(new ChooseFileFilter(EnumSet.of(FileExtension.XLS, FileExtension.XLSX), Toolkit.i18nText("Fine-Design_Basic_Import_Excel_Source")));
@@ -834,7 +865,8 @@ public class FILEChooserPane extends BasicPane {
 
     private void saveDialog() {
         String filename = fileNameTextField.getText();
-        fileNameTextField.setText(calFileNameText(filename, (ChooseFileFilter) (postfixComboBox.getSelectedItem())));
+        filename = calProperFileName(filename, (ChooseFileFilter) (postfixComboBox.getSelectedItem()));
+        fileNameTextField.setText(filename);
         option = OK_OPTION;
         FILE selectedFile = this.getSelectedFILE();
 
@@ -860,14 +892,6 @@ public class FILEChooserPane extends BasicPane {
         }
     }
 
-    private String calFileNameText(String currentValue, ChooseFileFilter selectFileFilter) {
-        if (selectFileFilter == null || StringUtils.isEmpty(selectFileFilter.getExtensionString())) {
-            return currentValue + this.suffix;
-        } else if (!currentValue.endsWith(selectFileFilter.getExtensionString())) {
-            return currentValue + selectFileFilter.getExtensionString();
-        }
-        return currentValue;
-    }
 
     private boolean access(FILE selectedFile) {
         boolean access = false;
