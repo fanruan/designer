@@ -161,13 +161,13 @@ public class RestoreResultDialog extends JDialog {
         List<String> list = new ArrayList<>();
         String installHome = StableUtils.getInstallHome();
 
-        putJarBackupFilesToInstallLib(installHome, map, list);
-        putJarBackupFilesToInstallEnv(list);
+        filesToMove(installHome, map);
+        filesToDelete(installHome, list);
         RestartHelper.saveFilesWhichToMove(map);
         RestartHelper.saveFilesWhichToDelete(list.toArray(new String[list.size()]));
     }
 
-    private void putJarBackupFilesToInstallLib(String installHome, Map<String, String> map, List<String> list) {
+    private void filesToMove(String installHome, Map<String, String> map) {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
         String envHome = WorkContext.getCurrent().getPath();
         File installLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.DESIGNERBACKUPPATH));
@@ -203,18 +203,9 @@ public class RestoreResultDialog extends JDialog {
                 }
             }
         }
-        installLib = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
-        files = installLib.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().equals(UpdateConstants.ASPECTJRT)) {
-                    list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
-                }
-            }
-        }
     }
 
-    private void putJarBackupFilesToInstallEnv(List<String> list) {
+    private void filesToDelete(String installHome, List<String> list) {
         String envHome = WorkContext.getCurrent().getPath();
         File installEnv = new File(StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME));
         File[] files = installEnv.listFiles();
@@ -222,6 +213,15 @@ public class RestoreResultDialog extends JDialog {
             for (File file : files) {
                 if (file.getName().startsWith(UpdateConstants.FINE)) {
                     list.add(StableUtils.pathJoin(envHome, ProjectConstants.LIB_NAME, file.getName()));
+                }
+            }
+        }
+        installEnv = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
+        files = installEnv.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().equals(UpdateConstants.ASPECTJRT)) {
+                    list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
                 }
             }
         }
