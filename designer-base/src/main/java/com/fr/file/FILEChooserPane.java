@@ -480,7 +480,9 @@ public class FILEChooserPane extends BasicPane {
                 Object ss = postfixComboBox.getSelectedItem();
                 if (ss instanceof ChooseFileFilter) {
                     setFILEFilter((ChooseFileFilter) ss);
-                    fileNameTextField.setText(calProperFileName(fileNameTextField.getText(), (ChooseFileFilter) ss));
+                    if (fileNameTextField.isShowing()) {
+                        fileNameTextField.setText(calProperFileName(fileNameTextField.getText(), (ChooseFileFilter) ss));
+                    }
                 } else {
                     setFILEFilter(null);
                 }
