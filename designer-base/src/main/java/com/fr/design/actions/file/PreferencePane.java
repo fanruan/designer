@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.cluster.ClusterBridge;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
@@ -263,7 +264,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 boolean selected = vcsEnableCheckBox.isSelected();
-                if (selected) {
+                if (selected && vcsEnableCheckBox.isEnabled()) {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
                     useIntervalCheckBox.setEnabled(true);
@@ -307,14 +308,9 @@ public class PreferencePane extends BasicPane {
         gcEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                gcButton.setEnabled(gcEnableCheckBox.isSelected());
+                gcButton.setEnabled(gcEnableCheckBox.isSelected() && gcEnableCheckBox.isEnabled());
             }
         });
-        //集群下禁用
-        if (ClusterBridge.isClusterMode()) {
-            gcEnableCheckBox.setEnabled(false);
-            gcButton.setEnabled(false);
-        }
         return gcControlPane;
     }
 
@@ -672,6 +668,11 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
+        if (FineClusterConfig.getInstance().isCluster()) {
+            vcsEnableCheckBox.setEnabled(false);
+            gcEnableCheckBox.setEnabled(false);
+        }
+
         if (VcsHelper.getInstance().needInit()) {
             vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
         } else {
