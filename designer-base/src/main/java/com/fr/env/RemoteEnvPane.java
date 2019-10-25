@@ -52,15 +52,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.concurrent.ExecutionException;
 
 import static com.fr.design.layout.TableLayout.FILL;
 import static com.fr.design.layout.TableLayout.PREFERRED;
+import static com.fr.env.TestConnectionResult.AUTH_FAILED;
 import static com.fr.third.guava.base.Optional.fromNullable;
 
 /**
  * @author yaohwu
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
     private static final Color TIPS_FONT_COLOR = new Color(0x8f8f92);
@@ -118,6 +119,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     /**
      * 主机位置
      */
+    @SuppressWarnings("squid:S1948")
     private RemoteWorkspaceURL remoteWorkspaceURL = new RemoteWorkspaceURL("");
     /**
      * https 配置面板
@@ -138,6 +140,7 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
     /**
      * 主机名，web应用，Servlet，端口监听器
      */
+    @SuppressWarnings("squid:S1948")
     private DocumentListener individualDocListener = new DocumentListener() {
 
         @Override
@@ -148,19 +151,32 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         @Override
         public void insertUpdate(DocumentEvent e) {
-            updateRemoteURL();
-            fillRemoteEnvURLField();
+            changedUpdate(e);
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            updateRemoteURL();
-            fillRemoteEnvURLField();
+            changedUpdate(e);
+        }
+
+        private void updateRemoteURL() {
+            boolean isHttps = httpsCheckbox.isSelected();
+            String host = hostNameInput.getText();
+            String port = portInput.getText();
+            String web = webAppNameInput.getText();
+            String servlet = servletNameInput.getText();
+            remoteWorkspaceURL.setHttps(isHttps);
+            remoteWorkspaceURL.setHost(host);
+            remoteWorkspaceURL.setPort(port);
+            remoteWorkspaceURL.setWeb(web);
+            remoteWorkspaceURL.setServlet(servlet);
+            remoteWorkspaceURL.resetUrl();
         }
     };
     /**
      * 路径输入框监听器
      */
+    @SuppressWarnings("squid:S1948")
     private DocumentListener overallDocListener = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -169,7 +185,6 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-
             actionURLInputChange();
         }
 
@@ -177,10 +192,22 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         public void changedUpdate(DocumentEvent e) {
             actionURLInputChange();
         }
+
+        private void actionURLInputChange() {
+            remoteWorkspaceURL = new RemoteWorkspaceURL(remoteEnvURLInput.getText());
+            fillIndividualField();
+
+            httpsCheckbox.setSelected(remoteWorkspaceURL.getHttps());
+            boolean isHttps = httpsCheckbox.isSelected();
+            DesignerEnvManager.getEnvManager().setHttps(isHttps);
+            fileChooserButton.setEnabled(isHttps);
+            updateHttpsConfigPanel();
+        }
     };
     /**
      * https checkbox listener
      */
+    @SuppressWarnings("squid:S1948")
     private ActionListener httpsCheckboxListener = new ActionListener() {
 
         @Override
@@ -523,17 +550,17 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         final RemoteDesignerWorkspaceInfo remoteEnv = updateBean();
         final WorkspaceConnectionInfo connection = remoteEnv.getConnection();
 
-        final SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+        final SwingWorker<TestConnectionResult, Void> worker = new SwingWorker<TestConnectionResult, Void>() {
 
             @Override
-            protected Boolean doInBackground() throws Exception {
+            protected TestConnectionResult doInBackground() throws Exception {
 
                 DesignerEnvManager.getEnvManager().setCertificatePath(connection.getCertPath());
                 DesignerEnvManager.getEnvManager().setCertificatePass(connection.getCertSecretKey());
                 try {
-                    return WorkContext.getConnector().testConnection(connection);
+                    return TestConnectionResult.parse(WorkContext.getConnector().testConnection(connection), connection);
                 } catch (WorkspaceAuthException ignored) {
-                    return null;
+                    return AUTH_FAILED;
                 }
             }
 
@@ -541,14 +568,13 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             protected void done() {
                 okButton.setEnabled(true);
                 try {
-                    TestConnectionResult result = TestConnectionResult.parse(get(), connection);
+                    TestConnectionResult result = get();
                     message.setText(result.getText());
                     uiLabel.setIcon(result.getIcon());
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                     message.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Failed"));
                     uiLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                    Thread.currentThread().interrupt();
                 }
                 dialogDownPane.remove(cancelButton);
                 dialogDownPane.revalidate();
@@ -633,36 +659,10 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
         enableSubDocListener();
     }
 
-    private void updateRemoteURL() {
-        boolean isHttps = httpsCheckbox.isSelected();
-        String host = hostNameInput.getText();
-        String port = portInput.getText();
-        String web = webAppNameInput.getText();
-        String servlet = servletNameInput.getText();
-        remoteWorkspaceURL.setHttps(isHttps);
-        remoteWorkspaceURL.setHost(host);
-        remoteWorkspaceURL.setPort(port);
-        remoteWorkspaceURL.setWeb(web);
-        remoteWorkspaceURL.setServlet(servlet);
-        remoteWorkspaceURL.resetUrl();
-    }
-
-
     private void updateHttpsConfigPanel() {
         httpsConfigPanel.removeAll();
         packHttpsConfigPanel();
         httpsConfigPanel.revalidate();
         httpsConfigPanel.repaint();
-    }
-
-    private void actionURLInputChange() {
-        remoteWorkspaceURL = new RemoteWorkspaceURL(remoteEnvURLInput.getText());
-        fillIndividualField();
-
-        httpsCheckbox.setSelected(remoteWorkspaceURL.getHttps());
-        boolean isHttps = httpsCheckbox.isSelected();
-        DesignerEnvManager.getEnvManager().setHttps(isHttps);
-        fileChooserButton.setEnabled(isHttps);
-        updateHttpsConfigPanel();
     }
 }
