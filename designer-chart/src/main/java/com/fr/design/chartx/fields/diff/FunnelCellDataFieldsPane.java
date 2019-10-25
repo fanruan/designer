@@ -1,8 +1,11 @@
 package com.fr.design.chartx.fields.diff;
 
+import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
-import com.fr.design.chartx.component.CategorySeriesFilterPane;
+import com.fr.design.chartx.component.AbstractSingleFilterPane;
 import com.fr.design.formula.TinyFormulaPane;
+import com.fr.design.i18n.Toolkit;
+import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -13,11 +16,16 @@ import java.awt.BorderLayout;
  */
 public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
-    private CategorySeriesFilterPane filterPane;
+    private AbstractSingleFilterPane filterPane;
 
     @Override
     protected void initComponents() {
-        filterPane = new CategorySeriesFilterPane();
+        filterPane = new AbstractSingleFilterPane() {
+            @Override
+            public String title4PopupWindow() {
+                return Toolkit.i18nText("Fine-Design_Chart_Series");
+            }
+        };
 
         JPanel northPane = new JPanel(new BorderLayout(0, 6));
         northPane.add(createCenterPane(), BorderLayout.CENTER);
@@ -25,7 +33,10 @@ public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesVa
 
         this.setLayout(new BorderLayout(0, 6));
         this.add(northPane, BorderLayout.NORTH);
-        this.add(filterPane, BorderLayout.CENTER);
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.add(new JPanel(), BorderLayout.NORTH);
+        contentPane.add(filterPane, BorderLayout.CENTER);
+        this.add(TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Data_Filter"), contentPane), BorderLayout.CENTER);
     }
 
     @Override
@@ -42,14 +53,16 @@ public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesVa
     public MultiCategoryColumnFieldCollection updateBean() {
         MultiCategoryColumnFieldCollection fieldCollection = new MultiCategoryColumnFieldCollection();
         updateSeriesValuePane(fieldCollection);
-        filterPane.updateMultiCategoryFieldCollection(fieldCollection);
+        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = fieldCollection.getSeriesValueCorrelationDefinition();
+        filterPane.updateBean(seriesValueCorrelationDefinition.getFilterProperties());
         return fieldCollection;
     }
 
     @Override
     public void populateBean(MultiCategoryColumnFieldCollection ob) {
         populateSeriesValuePane(ob);
-        filterPane.populateMultiCategoryFieldCollection(ob);
+        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = ob.getSeriesValueCorrelationDefinition();
+        filterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
     }
 
 }
