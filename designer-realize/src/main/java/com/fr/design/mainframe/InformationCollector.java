@@ -9,6 +9,7 @@ import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.messagecollect.impl.FocusPointMessageUploader;
+import com.fr.design.mainframe.messagecollect.solid.SolidCollector;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
@@ -230,6 +231,7 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         service.schedule(new Runnable() {
             @Override
             public void run() {
+                SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
                 sendUserInfo();
                 FocusPointMessageUploader.getInstance().sendToCloudCenter();
                 TemplateInfoCollector.getInstance().sendTemplateInfo();
