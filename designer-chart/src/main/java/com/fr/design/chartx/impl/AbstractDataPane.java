@@ -1,12 +1,12 @@
 package com.fr.design.chartx.impl;
 
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.impl.AbstractChartWithData;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.ChartDataDefinitionProvider;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -35,7 +35,7 @@ public abstract class AbstractDataPane extends ChartDataPane {
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getSelectedChart(AbstractChartWithData.class);
+        VanChart chart = collection.getSelectedChart(VanChart.class);
         if (chart == null) {
             return;
         }
@@ -57,7 +57,7 @@ public abstract class AbstractDataPane extends ChartDataPane {
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getSelectedChart(AbstractChartWithData.class);
+        VanChart chart = collection.getSelectedChart(VanChart.class);
         if (chart == null) {
             return;
         }
