@@ -661,6 +661,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             result = result || this.saveFile();
             //更换最近打开
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
+            this.refreshToolArea();
         }
         return result;
     }
