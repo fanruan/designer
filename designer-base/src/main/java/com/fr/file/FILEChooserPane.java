@@ -33,6 +33,8 @@ import com.fr.file.filter.FILEFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
+import com.fr.report.ExtraReportClassManager;
+import com.fr.report.fun.ReportSupportedFileProvider;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -742,8 +744,8 @@ public class FILEChooserPane extends BasicPane {
 
             if (type == JFileChooser.OPEN_DIALOG) {
                 ChooseFileFilter supportedTypes = new ChooseFileFilter(FRContext.getFileNodes().getSupportedTypes(), appName + Toolkit.i18nText("Fine-Design_Report_Template_File"));
-                Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
-                for (ReportSupportedFileUIProvider provider : providers) {
+                Set<ReportSupportedFileProvider> providers = ExtraReportClassManager.getInstance().getArray(ReportSupportedFileProvider.XML_TAG);
+                for (ReportSupportedFileProvider provider : providers) {
                     for (FileExtension fileExtension : provider.getFileExtensions()){
                         supportedTypes.addExtension(fileExtension.getExtension());
                     }

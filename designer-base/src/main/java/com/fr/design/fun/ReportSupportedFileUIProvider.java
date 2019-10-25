@@ -1,6 +1,5 @@
 package com.fr.design.fun;
 
-import com.fr.base.extension.FileExtension;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILEChooserPane;
 import com.fr.stable.fun.mark.Mutable;
@@ -22,13 +21,6 @@ public interface ReportSupportedFileUIProvider extends Mutable {
      * @param suffix 文件后缀
      */
     void addChooseFileFilter(FILEChooserPane fileChooser, String suffix);
-
-
-    /**
-     * 获取可支持的文件类型
-     * @return 文件扩展
-     */
-    FileExtension[] getFileExtensions();
 
 
     /**

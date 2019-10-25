@@ -1,6 +1,5 @@
 package com.fr.design.fun.impl;
 
-import com.fr.base.extension.FileExtension;
 import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.file.FILEChooserPane;
@@ -18,12 +17,6 @@ public abstract class AbstractReportSupportedFileUIProvider extends AbstractProv
     public void addChooseFileFilter(FILEChooserPane fileChooser, String suffix) {
 
     }
-
-    @Override
-    public FileExtension[] getFileExtensions() {
-        return new FileExtension[0];
-    }
-
 
     @Override
     public Icon getFileIcon(String path, boolean isShowLock) {
