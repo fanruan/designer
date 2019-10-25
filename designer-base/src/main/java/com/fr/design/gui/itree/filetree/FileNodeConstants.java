@@ -2,14 +2,14 @@ package com.fr.design.gui.itree.filetree;
 
 import com.fr.base.FRContext;
 import com.fr.base.extension.FileExtension;
-import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
+import com.fr.report.ExtraReportClassManager;
+import com.fr.report.fun.ReportSupportedFileProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +58,8 @@ public class FileNodeConstants {
             rwl.writeLock().lock();
             supportFileType = new ArrayList<String>();
             //通过插件扩展的
-            Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
-            for (ReportSupportedFileUIProvider provider : providers) {
+            Set<ReportSupportedFileProvider> providers = ExtraReportClassManager.getInstance().getArray(ReportSupportedFileProvider.XML_TAG);
+            for (ReportSupportedFileProvider provider : providers) {
                 addAppExtensions(provider.getFileExtensions());
             }
             supportFileType.addAll(Arrays.asList(FRContext.getFileNodes().getSupportedTypes()));

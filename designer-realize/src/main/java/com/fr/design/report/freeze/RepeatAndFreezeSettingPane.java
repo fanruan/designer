@@ -69,6 +69,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Title_Start_Row_Form")));
         repeatTitleRowPane = new RepeatRowPane();
         soverlapRowStartPane.add(repeatTitleRowPane);
+        soverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row")));
 
         return soverlapRowStartPane;
     }
@@ -85,6 +86,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         // 重复打印标题的结束列
         repeatTitleColPane = new RepeatColPane();
         soverlapColStartPane.add(repeatTitleColPane);
+        soverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column")));
 
         return soverlapColStartPane;
     }
@@ -100,6 +102,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Row_Form")));
         repeatFinisRowPane = new RepeatRowPane();
         foverlapRowStartPane.add(repeatFinisRowPane);
+        foverlapRowStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Row")));
 
         return foverlapRowStartPane;
     }
@@ -115,6 +118,7 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Finis_Start_Column_Form")));
         repeatFinisColPane = new RepeatColPane();
         foverlapColStartPane.add(repeatFinisColPane);
+        foverlapColStartPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Column")));
 
         return foverlapColStartPane;
     }
