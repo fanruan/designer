@@ -111,7 +111,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
-                VanChart vanChart = collection.getSelectedChart(VanChart.class);
+                VanChart vanChart = collection.getTheSelectedChart(VanChart.class);
                 if (vanChart != null) {
                     //此处画图
                     vanChart.demoImgEvent(true);
@@ -230,7 +230,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             return;
         }
 
-        ChartProvider chartProvider = collection.getSelectedChart(ChartProvider.class);
+        ChartProvider chartProvider = collection.getTheSelectedChart(ChartProvider.class);
         if (checkNeedsReLayout(chartProvider)) {
             String chartID = chartProvider.getID();
             if ("WaferChipChart".equals(chartID) || "BoxPlotChart".equals(chartID)) {

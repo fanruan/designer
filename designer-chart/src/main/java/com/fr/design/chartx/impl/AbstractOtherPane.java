@@ -18,7 +18,7 @@ public abstract class AbstractOtherPane<T extends AbstractChartWithData> extends
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getSelectedChart(AbstractChartWithData.class);
+        AbstractChartWithData chart = collection.getTheSelectedChart(AbstractChartWithData.class);
         if (chart == null) {
             return;
         }
@@ -32,7 +32,7 @@ public abstract class AbstractOtherPane<T extends AbstractChartWithData> extends
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getSelectedChart(AbstractChartWithData.class);
+        AbstractChartWithData chart = collection.getTheSelectedChart(AbstractChartWithData.class);
         if (chart == null) {
             return;
         }
