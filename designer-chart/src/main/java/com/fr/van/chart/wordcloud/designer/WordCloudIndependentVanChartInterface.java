@@ -3,9 +3,9 @@ package com.fr.van.chart.wordcloud.designer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.WordCloudCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.WordCloudDataSetFieldsPane;
-import com.fr.design.chartx.impl.AbstractDataPane;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.dialog.BasicPane;
@@ -100,7 +100,7 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractDataPane(listener) {
+        return new AbstractVanSingleDataPane(listener) {
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new WordCloudDataSetFieldsPane(), new WordCloudCellDataFieldsPane());

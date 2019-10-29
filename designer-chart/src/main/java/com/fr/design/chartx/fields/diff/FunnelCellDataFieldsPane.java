@@ -1,7 +1,7 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
-import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
+import com.fr.chartx.data.field.diff.AbstractColumnFieldCollectionWithSeriesValue;
 import com.fr.design.chartx.component.AbstractSingleFilterPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.i18n.Toolkit;
@@ -14,7 +14,7 @@ import java.awt.BorderLayout;
 /**
  * Created by Wim on 2019/10/23.
  */
-public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
+public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<AbstractColumnFieldCollectionWithSeriesValue> {
 
     private AbstractSingleFilterPane filterPane;
 
@@ -50,8 +50,8 @@ public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesVa
     }
 
     @Override
-    public MultiCategoryColumnFieldCollection updateBean() {
-        MultiCategoryColumnFieldCollection fieldCollection = new MultiCategoryColumnFieldCollection();
+    public AbstractColumnFieldCollectionWithSeriesValue updateBean() {
+        AbstractColumnFieldCollectionWithSeriesValue fieldCollection = new AbstractColumnFieldCollectionWithSeriesValue();
         updateSeriesValuePane(fieldCollection);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = fieldCollection.getSeriesValueCorrelationDefinition();
         filterPane.updateBean(seriesValueCorrelationDefinition.getFilterProperties());
@@ -59,7 +59,7 @@ public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesVa
     }
 
     @Override
-    public void populateBean(MultiCategoryColumnFieldCollection ob) {
+    public void populateBean(AbstractColumnFieldCollectionWithSeriesValue ob) {
         populateSeriesValuePane(ob);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = ob.getSeriesValueCorrelationDefinition();
         filterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
