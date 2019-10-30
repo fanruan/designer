@@ -169,7 +169,7 @@ public class RestoreResultDialog extends JDialog {
 
     private void filesToMove(String installHome, Map<String, String> map) {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
-        String envHome = WorkContext.getCurrent().getPath();
+        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         File installLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.DESIGNERBACKUPPATH));
         File envLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.BACKUPPATH));
         File[] files;

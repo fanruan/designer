@@ -6,12 +6,10 @@ import com.fr.decision.update.exception.UpdateException;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.GeneralUtils;
-import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.WorkContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,10 +21,13 @@ import java.io.IOException;
  */
 public class RecoverForDesigner implements Recover {
 
+    private final String installHome = StableUtils.getInstallHome();
+
     @Override
     public boolean recover() {
         try{
-            CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.DESIGNERBACKUPPATH),
+            CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome, ProjectConstants.LOGS_NAME,
+                    UpdateConstants.INSTALL_LIB, UpdateConstants.DESIGNERBACKUPPATH),
                     StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
             return true;
         } catch (IOException ignore) {
@@ -37,16 +38,20 @@ public class RecoverForDesigner implements Recover {
 
     @Override
     public boolean backup() {
-        String installHome = StableUtils.getInstallHome();
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, UpdateConstants.DESIGNER_BACKUP_DIR, (GeneralUtils.readBuildNO()));
-        backupFilesFromInstallEnv(todayBackupDir);
+        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        backupFilesFromInstallEnv(envHome, todayBackupDir);
         backupFilesFromInstallLib(installHome, todayBackupDir);
         try {
-            File file = new File(StableUtils.pathJoin(installHome, UpdateConstants.DOWNLOADPATH));
-            CommonUtils.mkdirs(file);
-            IOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
-                    StableUtils.pathJoin(installHome, UpdateConstants.DESIGNERBACKUPPATH));
+            String installBackup = StableUtils.pathJoin(installHome, ProjectConstants.LOGS_NAME,
+                    UpdateConstants.INSTALL_LIB);
+            File installLib = new File(installBackup);
+            CommonUtils.mkdirs(installLib);
+            File download = new File(StableUtils.pathJoin(installBackup,UpdateConstants.DOWNLOADPATH));
+            CommonUtils.mkdirs(download);
+            CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
+                    StableUtils.pathJoin(installBackup,UpdateConstants.DESIGNERBACKUPPATH));
             DesignerContext.getDesignerFrame().prepareForExit();
             return true;
         } catch (IOException e) {
@@ -56,11 +61,11 @@ public class RecoverForDesigner implements Recover {
         }
     }
 
-    private void backupFilesFromInstallEnv(String todayBackupDir) {
+    private void backupFilesFromInstallEnv(String envHome, String todayBackupDir) {
         try {
             CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH)));
-            IOUtils.copyFilesInDirByPath(
-                    StableUtils.pathJoin(WorkContext.getCurrent().getPath(),ProjectConstants.LIB_NAME),
+            CommonIOUtils.copyFilesInDirByPath(
+                    StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME),
                     StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
@@ -71,7 +76,7 @@ public class RecoverForDesigner implements Recover {
     private void backupFilesFromInstallLib(String installHome, String todayBackupDir) {
         try {
             CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH)));
-            IOUtils.copyFilesInDirByPath(
+            CommonIOUtils.copyFilesInDirByPath(
                     StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
                     StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
         } catch (IOException e) {
