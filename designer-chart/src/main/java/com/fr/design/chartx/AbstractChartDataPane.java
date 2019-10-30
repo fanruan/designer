@@ -26,7 +26,7 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
         if (collection == null) {
             return;
         }
-        VanChart chart = collection.getTheSelectedChart(VanChart.class);
+        VanChart chart = collection.getSelectedChartProvider(VanChart.class);
         if (chart == null) {
             return;
         }
@@ -48,7 +48,7 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
         if (collection == null) {
             return;
         }
-        VanChart chart = collection.getTheSelectedChart(VanChart.class);
+        VanChart chart = collection.getSelectedChartProvider(VanChart.class);
         if (chart == null) {
             return;
         }

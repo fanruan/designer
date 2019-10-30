@@ -35,7 +35,7 @@ public abstract class AbstractDataPane extends ChartDataPane {
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getTheSelectedChart(AbstractChartWithData.class);
+        AbstractChartWithData chart = collection.getSelectedChartProvider(AbstractChartWithData.class);
         if (chart == null) {
             return;
         }
@@ -57,7 +57,7 @@ public abstract class AbstractDataPane extends ChartDataPane {
         if (collection == null) {
             return;
         }
-        AbstractChartWithData chart = collection.getTheSelectedChart(AbstractChartWithData.class);
+        AbstractChartWithData chart = collection.getSelectedChartProvider(AbstractChartWithData.class);
         if (chart == null) {
             return;
         }

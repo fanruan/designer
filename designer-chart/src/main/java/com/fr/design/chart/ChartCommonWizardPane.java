@@ -12,7 +12,7 @@ public abstract class ChartCommonWizardPane extends ChartWizardPane {
 			return;
 		}
 
-        populate(cc.getTheSelectedChart(ChartProvider.class));
+        populate(cc.getSelectedChartProvider(ChartProvider.class));
 	}
 
 	public abstract void populate(ChartProvider chart);
