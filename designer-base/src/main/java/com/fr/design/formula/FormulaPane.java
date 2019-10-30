@@ -792,22 +792,18 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                         //有公式说明的条件：1.属于TextUserObject 2.parent是系统参数
                         if (ComparatorUtils.equals(((TextFolderUserObject) selectedParentValue).getText(),
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaPane_Variables"))) {
-                            descriptionTextArea.setText(getVariableDescription((TextUserObject) selectedValue));
+                            descriptionTextArea.setText(com.fr.design.i18n.Toolkit.i18nText(FormulaConstants.getValueByKey(((TextUserObject) selectedValue).getText())));
                         } else {
-                            descriptionTextArea.setText("");
+                            descriptionTextArea.setText(StringUtils.EMPTY);
                         }
                     } else if (selectedValue instanceof TextFolderUserObject) {
-                        descriptionTextArea.setText("");
+                        descriptionTextArea.setText(StringUtils.EMPTY);
                     }
                     descriptionTextArea.moveCaretPosition(0);
                 }
             });
         }
 
-        private String getVariableDescription(TextUserObject selectedValue) {
-
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_CurReport_Variable_" + FormulaConstants.getValueByKey(selectedValue.getText()));
-        }
 
         private void initVariablesTree() {
             // vairable.

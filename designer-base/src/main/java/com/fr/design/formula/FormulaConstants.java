@@ -2,6 +2,11 @@ package com.fr.design.formula;
 
 import com.fr.stable.StringUtils;
 
+/**
+ * @author Joe
+ * @version 10.0
+ * Created by Joe on 10/30/2019
+ */
 public enum FormulaConstants {
 
     PAGE_NUMBER("$$page_number", "Page_Number"),
@@ -21,13 +26,13 @@ public enum FormulaConstants {
     CONTEXT_PATH("contextPath", "Context_Path"),
     SESSION_ID("sessionID", "SessionID");
 
-
     private String key;
     private String value;
+    private static final String KEY_PREFIX = "Fine-Design_CurReport_Variable_";
 
     private FormulaConstants(String key, String value) {
         this.key = key;
-        this.value = value;
+        this.value = KEY_PREFIX + value;
     }
 
     public String getKey() {
@@ -46,5 +51,7 @@ public enum FormulaConstants {
         }
         return StringUtils.EMPTY;
     }
+
+
 
 }
