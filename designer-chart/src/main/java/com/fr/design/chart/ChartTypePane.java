@@ -123,7 +123,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
             return;
         }
 
-        ChartProvider chart4Update = cc.getSelectedChart(ChartProvider.class);
+        ChartProvider chart4Update = cc.getSelectedChartProvider(ChartProvider.class);
         if (chart4Update == null) {
             String plotID = this.chartIDs[mainTypeList.getSelectedIndex()];
             ChartProvider chart = ChartTypeManager.getInstance().getCharts(plotID)[iconViewList.getSelectedIndex()];
