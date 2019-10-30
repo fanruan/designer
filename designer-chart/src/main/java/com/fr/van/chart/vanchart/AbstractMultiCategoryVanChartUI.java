@@ -3,6 +3,10 @@ package com.fr.van.chart.vanchart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
@@ -59,5 +63,15 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
             }
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+            }
+        };
     }
 }

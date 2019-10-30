@@ -77,6 +77,7 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
 
     @Override
     public void populateBean(MultiPieColumnFieldCollection ob) {
+        nameField.setText(ob.getTargetName());
         levelComboBoxPane.populate(ob.getLevels());
         populateFunctionField(value, function, ob.getValue());
     }
@@ -84,6 +85,7 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
     @Override
     public MultiPieColumnFieldCollection updateBean() {
         MultiPieColumnFieldCollection result = new MultiPieColumnFieldCollection();
+        result.setTargetName(nameField.getName());
 
         levelComboBoxPane.update(result.getLevels());
 
