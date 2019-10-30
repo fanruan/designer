@@ -38,6 +38,7 @@ import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 
+import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.io.ByteArrayOutputStream;
@@ -422,7 +423,7 @@ public abstract class DesignTableDataManager {
         final Map<String, Object> parameterMap = new HashMap<>();
         if (needInputParams(isMustInputParameters, parameters)) {
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
-            pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+            pPane.showSmallWindow(new JFrame(), new DialogActionAdapter() {
                 @Override
                 public void doOk() {
                     parameterMap.putAll(pPane.update());
