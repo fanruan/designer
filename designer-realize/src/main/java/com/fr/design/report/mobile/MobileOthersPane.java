@@ -32,7 +32,7 @@ public class MobileOthersPane extends BasicBeanPane<ElementCaseMobileAttr> {
         contentPane.setBorder(BorderFactory.createEmptyBorder(0, IntervalConstants.INTERVAL_L1, 0, 0));
         appearRefreshCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Appear_Refresh"));
         contentPane.add(appearRefreshCheckPane, BorderLayout.WEST);
-        allowDoubleClickOrZoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("允许双击/双指缩放"));
+        allowDoubleClickOrZoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Attr_Allow_Zoom"));
         contentPane.add(allowDoubleClickOrZoomCheckPane, BorderLayout.CENTER);
         borderPane.add(contentPane);
         this.add(borderPane);
