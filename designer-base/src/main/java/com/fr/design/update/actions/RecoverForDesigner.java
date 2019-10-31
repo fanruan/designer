@@ -8,6 +8,7 @@ import com.fr.general.CommonIOUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CommonUtils;
+import com.fr.stable.ProjectLibrary;
 import com.fr.stable.StableUtils;
 import com.fr.stable.project.ProjectConstants;
 
@@ -30,8 +31,8 @@ public class RecoverForDesigner implements Recover {
                     UpdateConstants.INSTALL_LIB, UpdateConstants.DESIGNERBACKUPPATH),
                     StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
             return true;
-        } catch (IOException ignore) {
-            FineLoggerFactory.getLogger().error("Recover error for designer");
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error("Recover error for designer", e);
             return false;
         }
     }
@@ -40,7 +41,7 @@ public class RecoverForDesigner implements Recover {
     public boolean backup() {
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, UpdateConstants.DESIGNER_BACKUP_DIR, (GeneralUtils.readBuildNO()));
-        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        String envHome = ProjectLibrary.getInstance().getLibHome();
         backupFilesFromInstallEnv(envHome, todayBackupDir);
         backupFilesFromInstallLib(installHome, todayBackupDir);
         try {
@@ -63,25 +64,40 @@ public class RecoverForDesigner implements Recover {
 
     private void backupFilesFromInstallEnv(String envHome, String todayBackupDir) {
         try {
-            CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH)));
-            CommonIOUtils.copyFilesInDirByPath(
-                    StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME),
-                    StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            File file = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            CommonUtils.mkdirs(file);
+            file = new File(StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME));
+            File[] files = file.listFiles();
+            File dir = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            if (files != null) {
+                for (File file1 : files) {
+                    if (file1.getName().startsWith(UpdateConstants.FINE) && file1.getName().endsWith(UpdateConstants.JAR_FILE_SUFFIX)) {
+                        CommonIOUtils.copy(file1, dir);
+                    }
+                }
+            }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
-            FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in env failed");
+            FineLoggerFactory.getLogger().error(exception.getMessage() , "backup for Designer recover in env failed");
         }
     }
 
     private void backupFilesFromInstallLib(String installHome, String todayBackupDir) {
         try {
             CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH)));
-            CommonIOUtils.copyFilesInDirByPath(
-                    StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
-                    StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
+            File file = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
+            File[] files = file.listFiles();
+            File dir = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
+            if (files != null) {
+                for (File file1 : files) {
+                    if (file1.getName().startsWith(UpdateConstants.FINE) || file1.getName().contains(UpdateConstants.ASPECTJRT)) {
+                        CommonIOUtils.copy(file, dir);
+                    }
+                }
+            }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
-            FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in install failed");
+            FineLoggerFactory.getLogger().error(exception.getMessage() , "backup for Designer recover in install failed");
         }
     }
 }
