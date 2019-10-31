@@ -265,12 +265,18 @@ public class FormSelection {
      * @param designer 设计界面组件
      */
     public void fixCreator(FormDesigner designer) {
+        int i = 0;
         for (XCreator creator : selection) {
             LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(designer, creator);
             if (layoutAdapter != null) {
-                creator.setBackupBound(backupBounds);
+                if (creator.acceptType(XWAbsoluteLayout.class) && recs.size() > i) {
+                    creator.setBackupBound(recs.get(i));
+                } else {
+                    creator.setBackupBound(backupBounds);
+                }
                 layoutAdapter.fix(creator);
             }
+            i++;
         }
     }
 
