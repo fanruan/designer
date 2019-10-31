@@ -31,8 +31,8 @@ public class RecoverForDesigner implements Recover {
                     UpdateConstants.INSTALL_LIB, UpdateConstants.DESIGNERBACKUPPATH),
                     StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
             return true;
-        } catch (IOException ignore) {
-            FineLoggerFactory.getLogger().error("Recover error for designer");
+        } catch (IOException e) {
+            FineLoggerFactory.getLogger().error("Recover error for designer", e);
             return false;
         }
     }
@@ -78,7 +78,7 @@ public class RecoverForDesigner implements Recover {
             }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
-            FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in env failed");
+            FineLoggerFactory.getLogger().error(exception.getMessage() , "backup for Designer recover in env failed");
         }
     }
 
@@ -97,7 +97,7 @@ public class RecoverForDesigner implements Recover {
             }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
-            FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in install failed");
+            FineLoggerFactory.getLogger().error(exception.getMessage() , "backup for Designer recover in install failed");
         }
     }
 }
