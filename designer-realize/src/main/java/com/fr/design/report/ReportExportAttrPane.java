@@ -1,14 +1,13 @@
 package com.fr.design.report;
 
-import javax.swing.*;
-
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.beans.BasicStorePane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.fun.ExportAttrTabProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
-
 import com.fr.io.attr.ReportExportAttr;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +17,7 @@ public class ReportExportAttrPane extends BasicPane {
     private ExcelExportPane excelExportPane;
     private PDFExportPane pdfExportPane;
     private WordExportPane wordExportPane;
-    private List<AbstractExportPane> paneList;
+    private List<BasicStorePane<?>> paneList;
 
     public ReportExportAttrPane() {
         UITabbedPane uiTabbedPane = new UITabbedPane();
@@ -33,8 +32,9 @@ public class ReportExportAttrPane extends BasicPane {
         Set<ExportAttrTabProvider> providers = ExtraDesignClassManager.getInstance().getArray(ExportAttrTabProvider.XML_TAG);
         paneList = new ArrayList<>();
         for (ExportAttrTabProvider provider : providers) {
-            uiTabbedPane.addTab(provider.title(), provider.toSwingComponent());
-            paneList.add(provider.toExportPane());
+            BasicStorePane<?> storePane = provider.toServiceComponent();
+            uiTabbedPane.addTab(storePane.getTitle(), storePane);
+            paneList.add(storePane);
         }
         this.add(uiTabbedPane);
     }
@@ -61,8 +61,8 @@ public class ReportExportAttrPane extends BasicPane {
             this.wordExportPane.populate(reportExportAttr.getWordExportAttr());
         }
 
-        for (AbstractExportPane exportpane : paneList) {
-            exportpane.populate(reportExportAttr);
+        for (BasicStorePane exportpane : paneList) {
+            exportpane.populateBean(reportExportAttr);
         }
     }
 
@@ -81,8 +81,8 @@ public class ReportExportAttrPane extends BasicPane {
             reportExportAttr.setWordExportAttr(this.wordExportPane.update());
         }
 
-        for (AbstractExportPane exportPane : paneList) {
-            exportPane.update(reportExportAttr);
+        for (BasicStorePane exportPane : paneList) {
+            exportPane.updateBean(reportExportAttr);
         }
         return reportExportAttr;
     }

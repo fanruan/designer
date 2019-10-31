@@ -1,5 +1,6 @@
 package com.fr.start.fx;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.start.SplashFxActionListener;
 import com.fr.start.SplashStrategy;
@@ -21,7 +22,7 @@ import java.util.concurrent.Executors;
 public class SplashFx implements SplashStrategy {
 
     private SplashFxWindow fxWindow;
-    private static final ExecutorService SERVICE = Executors.newSingleThreadExecutor();
+    private static final ExecutorService SERVICE = Executors.newSingleThreadExecutor(new NamedThreadFactory("SplashFx"));
 
     @Override
     public void show() {

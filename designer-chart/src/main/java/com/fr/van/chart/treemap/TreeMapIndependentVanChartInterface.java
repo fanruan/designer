@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
@@ -20,6 +21,18 @@ public class TreeMapIndependentVanChartInterface extends MultiPieIndependentVanC
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartTreeMapPlotPane();
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_TreeMap");
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/40.png"
+        };
     }
 
     @Override
@@ -43,7 +56,4 @@ public class TreeMapIndependentVanChartInterface extends MultiPieIndependentVanC
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartTreeMapPlotPane.TITLE;
-    }
 }

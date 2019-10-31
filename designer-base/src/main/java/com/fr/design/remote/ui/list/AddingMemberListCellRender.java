@@ -1,11 +1,11 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -14,7 +14,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-public class AddingMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
+public abstract class AddingMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
 
     private UILabel label;
     private UICheckBox check;
@@ -27,7 +27,7 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
         label = new UILabel();
         label.setPreferredSize(new Dimension(260, 20));
         this.setPreferredSize(new Dimension(this.getPreferredSize().width, 25));
-        label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
+        label.setIcon(getMemberIcon());
 
         check = new UICheckBox();
         check.setSelected(false);
@@ -46,7 +46,7 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
             check.setVisible(false);
             fixLoadingDisplay();
         } else {
-            this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
+            this.setLabelText(getMemberName(member));
             check.setVisible(true);
             check.setSelected(member.isSelected());
             recoveryCommonDisplay();
@@ -64,7 +64,11 @@ public class AddingMemberListCellRender extends JPanel implements ListCellRender
     }
 
     private void recoveryCommonDisplay() {
-        label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
+        label.setIcon(getMemberIcon());
         label.setHorizontalAlignment(SwingConstants.LEFT);
     }
+
+    protected abstract Icon getMemberIcon();
+
+    protected abstract String getMemberName(RemoteDesignMember member);
 }

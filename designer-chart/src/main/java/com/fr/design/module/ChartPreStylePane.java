@@ -5,14 +5,12 @@ import com.fr.chart.base.ChartUtils;
 import com.fr.chart.chartattr.Bar2DPlot;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chart.gui.ChartComponent;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.FRGUIPaneFactory;
-
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -30,7 +28,8 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
 
 	private ChartPreFillStylePane fillStylePane;
 	private ChartComponent chartComponent;
-	
+	private Bar2DPlot demoPlot;
+
 	public ChartPreStylePane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
 		
@@ -50,8 +49,9 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
         this.add(boxPane, BorderLayout.CENTER);
 		
 		ChartCollection cc = new ChartCollection();
-		cc.addChart(new Chart(new Bar2DPlot()));
-		
+		demoPlot = new Bar2DPlot();
+		cc.addChart(new Chart(demoPlot));
+
 		chartComponent = new ChartComponent();
 		chartComponent.populate(cc);
 		chartComponent.setPreferredSize(new Dimension(400, 300));
@@ -82,8 +82,7 @@ public class ChartPreStylePane extends BasicBeanPane<ChartColorMatching> {
 
 	private void refreshWhenStyleChange(ChartColorMatching preStyle) {
 		if(chartComponent != null) {
-			Plot plot = (Plot) chartComponent.getEditingChart().getBasePlot();
-			plot.setPlotFillStyle(ChartUtils.chartColorMatching2AttrFillStyle(preStyle));
+			demoPlot.setPlotFillStyle(ChartUtils.chartColorMatching2AttrFillStyle(preStyle));
 			chartComponent.reset();
 		}
 	}

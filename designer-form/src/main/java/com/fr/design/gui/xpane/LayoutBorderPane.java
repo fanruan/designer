@@ -38,32 +38,17 @@ import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.WidgetTitle;
 import com.fr.general.Background;
 import com.fr.general.FRFont;
-
+import com.fr.general.act.TitlePacker;
 import com.fr.stable.Constants;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JToggleButton;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.plaf.basic.BasicToggleButtonUI;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -546,7 +531,7 @@ public class LayoutBorderPane extends BasicPane {
         style.setColor(currentLineColorPane.getColor());
         style.setBackground(backgroundPane.update());
         style.setAlpha((float)(numberDragPane.updateBean()/maxNumber));
-        WidgetTitle title = style.getTitle() == null ? new WidgetTitle() : style.getTitle();
+        TitlePacker title = style.getTitle() == null ? new WidgetTitle() : style.getTitle();
         title.setTextObject(formulaPane.updateBean());
         FRFont frFont = title.getFrFont();
         frFont = frFont.applySize((Integer)fontSizeComboBox.getSelectedItem());
@@ -644,10 +629,10 @@ public class LayoutBorderPane extends BasicPane {
     }
 
     protected void populateTitle(){
-        WidgetTitle widgetTitle = borderStyle == null ? new WidgetTitle() : borderStyle.getTitle();
+        TitlePacker widgetTitle = borderStyle == null ? new WidgetTitle() : borderStyle.getTitle();
         widgetTitle = widgetTitle == null ? new WidgetTitle() : widgetTitle;
 
-        populateFourmula(widgetTitle);
+        populateFormula(widgetTitle);
         populateFont(widgetTitle);
 
         underline.addMouseListener(new MouseAdapter() {
@@ -683,7 +668,7 @@ public class LayoutBorderPane extends BasicPane {
         paintPreviewPane();
     }
 
-    protected void populateFont(WidgetTitle widgetTitle){
+    protected void populateFont(TitlePacker widgetTitle){
         FRFont frFont = widgetTitle.getFrFont();
         this.fontSizeComboBox.setSelectedItem(frFont.getSize());
         this.fontSizeComboBox.addItemListener(new ItemListener() {
@@ -756,7 +741,7 @@ public class LayoutBorderPane extends BasicPane {
     }
 
 
-    private void populateFourmula(WidgetTitle widgetTitle) {
+    private void populateFormula(TitlePacker widgetTitle) {
         this.formulaPane.populateBean(widgetTitle.getTextObject().toString());
         this.formulaPane.getUITextField().getDocument()
                 .addDocumentListener(new DocumentListener() {

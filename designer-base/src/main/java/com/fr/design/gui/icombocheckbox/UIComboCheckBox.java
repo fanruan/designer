@@ -11,14 +11,23 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 设计器下拉复选框组件
@@ -125,7 +134,7 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     private UITextField createEditor() {
         UITextField editor = new UITextField();
         editor.setEditable(false);
-        editor.setPreferredSize(new Dimension(180, 20));
+        editor.setPreferredSize(new Dimension(110, 20));
         addPopupListener(editor);
 
         return editor;
@@ -138,6 +147,7 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
      */
     private void addPopupListener(Component component) {
         component.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 togglePopup();
             }
@@ -166,6 +176,7 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
 
     private class PopupAction implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getActionCommand().equals(UICheckListPopup.COMMIT_EVENT)) {
                 selectedValues = popup.getSelectedValues();
@@ -292,19 +303,25 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     }
 
     public void addActionListener(ActionListener listener) {
-        if (!listeners.contains(listener))
+        if (!listeners.contains(listener)) {
             listeners.add(listener);
+        }
     }
 
     public void removeActionListener(ActionListener listener) {
-        if (listeners.contains(listener))
+        if (listeners.contains(listener)) {
             listeners.remove(listener);
+        }
     }
 
     protected void fireActionPerformed(ActionEvent e) {
         for (ActionListener l : listeners) {
             l.actionPerformed(e);
         }
+    }
+
+    public void setSelectedValues(Map<Object, Boolean> map) {
+        popup.setSelectedValue(map);
     }
 
     /**

@@ -17,6 +17,7 @@ public interface ParameterWidgetOptionProvider extends Mutable {
 
     /**
      * 自定义参数控件的实际类，该类需要继承自com.fr.form.ui.Widget
+     * 如果有控件值属性，该类需要实现DataControl接口，否则可能有部分功能无法使用，比如：值编辑器选择控件的时候无法找到插件里的控件
      * @return 控件类
      */
     Class<? extends Widget> classForWidget();

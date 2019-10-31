@@ -76,6 +76,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     private static final int TEXT = 0;
@@ -126,12 +127,12 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     private static final int GAP = 23;
 
 
-    public FileTableDataPane(){
-        this(SETPANELWIDTH,WIDTH,HEIGHT,GAP);
+    public FileTableDataPane() {
+        this(SETPANELWIDTH, WIDTH, HEIGHT, GAP);
     }
 
-    public FileTableDataPane(int setPanelWidth,int width,int height,int gap) {
-        this.setLayout(new BorderLayout(gap,0));
+    public FileTableDataPane(int setPanelWidth, int width, int height, int gap) {
+        this.setLayout(new BorderLayout(gap, 0));
         JPanel northPanel = new JPanel(new BorderLayout());
         JPanel type = new JPanel();
         type.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_File_Type") + ":"));
@@ -163,16 +164,16 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         southPanel.add(setPanel, BorderLayout.CENTER);
         setPanel.setPreferredSize(new Dimension(setPanelWidth, 460));
         setPanel.setBorder(BorderFactory.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set")));
-        JPanel controlPane = textSetPanel(width,height);
+        JPanel controlPane = textSetPanel(width, height);
         setPanel.add(controlPane, BorderLayout.NORTH);
-        fileTypeComboBox.addActionListener(getFileTypeListener(setPanel,width,height));
+        fileTypeComboBox.addActionListener(getFileTypeListener(setPanel, width, height));
 
         this.add(northPanel, BorderLayout.NORTH);
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(southPanel, BorderLayout.EAST);
     }
 
-    private void addToCenterPanel(JPanel centerPanel){
+    private void addToCenterPanel(JPanel centerPanel) {
         localFileRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Local_File") + ":", true);
         urlFileRadioButton = new UIRadioButton("URL:", false);
         ButtonGroup bg = new ButtonGroup();
@@ -217,8 +218,9 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private ActionListener testConnectionListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent arg0) {
-            String uri = ParameterHelper.analyze4Templatee( urlText.getText(), params);
+            String uri = ParameterHelper.analyze4Templatee(urlText.getText(), params);
             if (!checkURL(uri)) {
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
                 return;
@@ -245,10 +247,11 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
     };
 
-    private void previewPanel(JPanel jPanel){
+    private void previewPanel(JPanel jPanel) {
         JPanel previewPanel = new JPanel(new BorderLayout());
         UIButton preview = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
         preview.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 preview();
             }
@@ -257,48 +260,47 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         jPanel.add(previewPanel, BorderLayout.SOUTH);
     }
 
-    private JPanel xmlSetPanel(int width,int height) {
+    private JPanel xmlSetPanel(int width, int height) {
         // xml设置pane
         JPanel controlPane = new JPanel();
-        JPanel northPane = new JPanel(new BorderLayout(8,8));
-        JPanel northTopPane = new JPanel(new BorderLayout(8,8));
-        JPanel southPane = new JPanel(new BorderLayout(8,8));
-        JPanel southTopPane = new JPanel(new BorderLayout(8,8));
-        JPanel westPane = new JPanel(new BorderLayout());
-        controlPane.setLayout(new BorderLayout(8,8));
+        JPanel northPane = new JPanel(new BorderLayout(8, 8));
+        JPanel northTopPane = new JPanel(new BorderLayout(8, 8));
+        JPanel southPane = new JPanel(new BorderLayout(8, 8));
+        JPanel southTopPane = new JPanel(new BorderLayout(8, 8));
+        controlPane.setLayout(new BorderLayout(8, 8));
         controlPane.setPreferredSize(new Dimension(width, height));
-        JPanel comboboxPanel = new JPanel(new BorderLayout(8,8));
+        JPanel comboboxPanel = new JPanel(new BorderLayout(8, 8));
         encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Encoding_Type") + ":");
         encodingComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         encodingComboBox.setSelectedIndex(4);
         encodingComboBox.setPreferredSize(new Dimension(90, 20));
 
         JPanel treeContainerPane = new JPanel();
-        treeContainerPane.setLayout(new BorderLayout(8,8));
+        treeContainerPane.setLayout(new BorderLayout(8, 8));
         nodeTreePane = new XMLNodeTreePane();
-        treeContainerPane.add(nodeTreePane,BorderLayout.CENTER);
+        treeContainerPane.add(nodeTreePane, BorderLayout.CENTER);
 
 
         comboboxPanel.add(encodeLabel, BorderLayout.WEST);
         comboboxPanel.add(encodingComboBox, BorderLayout.CENTER);
 
-        northPane.add(comboboxPanel,BorderLayout.EAST);
-        northTopPane.add(northPane,BorderLayout.WEST);
-        southTopPane.add(southPane,BorderLayout.WEST);
-        southTopPane.add(treeContainerPane,BorderLayout.CENTER);
+        northPane.add(comboboxPanel, BorderLayout.EAST);
+        northTopPane.add(northPane, BorderLayout.WEST);
+        southTopPane.add(southPane, BorderLayout.WEST);
+        southTopPane.add(treeContainerPane, BorderLayout.CENTER);
         controlPane.add(northTopPane, BorderLayout.NORTH);
-        controlPane.add(southTopPane,BorderLayout.CENTER);
+        controlPane.add(southTopPane, BorderLayout.CENTER);
         previewPanel(controlPane);
         return controlPane;
     }
 
-    private JPanel excelSetPanel(int width,int height) {
+    private JPanel excelSetPanel(int width, int height) {
         // excel设置pane
         int checkBoxWidth = width - EIGHT;
         JPanel controlPane = new JPanel();
-        JPanel northPane = new JPanel(new BorderLayout(8,8));
+        JPanel northPane = new JPanel(new BorderLayout(8, 8));
         controlPane.setLayout(new BorderLayout());
-        controlPane.setPreferredSize(new Dimension(width,height));
+        controlPane.setPreferredSize(new Dimension(width, height));
         needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FirstRow_IS_Column_Name"), false);
         needColumnNameCheckBox.setPreferredSize(new Dimension(checkBoxWidth, 20));
         northPane.add(needColumnNameCheckBox, BorderLayout.EAST);
@@ -321,6 +323,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
      *
      * @throws Exception
      */
+    @Override
     public void checkValid() throws Exception {
         if (urlFileRadioButton.isSelected()) {
             String url = urlText.getText().trim();
@@ -331,33 +334,33 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     }
 
-    private boolean checkURL(String uri){
+    private boolean checkURL(String uri) {
         try {
             new URL(uri);
             return true;
         } catch (MalformedURLException e) {
             return false;
         }
-       // return (uri.matches("https*://.+|\\$\\{.+\\}.*"));
+        // return (uri.matches("https*://.+|\\$\\{.+\\}.*"));
     }
 
-    private JPanel textSetPanel(int width,int height) {
+    private JPanel textSetPanel(int width, int height) {
         // text设置pane
         JPanel controlPane = new JPanel();
         controlPane.setLayout(new BorderLayout());
-        controlPane.setPreferredSize(new Dimension(width,height));
-        JPanel northPane = new JPanel(new BorderLayout(8,8));
+        controlPane.setPreferredSize(new Dimension(width, height));
+        JPanel northPane = new JPanel(new BorderLayout(8, 8));
         addToNorthPane(northPane);
-        controlPane.add(northPane,BorderLayout.WEST);
+        controlPane.add(northPane, BorderLayout.WEST);
         previewPanel(controlPane);
         return controlPane;
     }
 
-    private void addToNorthPane(JPanel northPane){
+    private void addToNorthPane(JPanel northPane) {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double columnSize[] = {f, p, p};
-        double rowSize[] = {B, B, B, B, B, B, B};
+        double[] columnSize = {f, p, p};
+        double[] rowSize = {B, B, B, B, B, B, B};
         needColumnNameCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FirstRow_IS_Column_Name"), true);
         dismenberLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Dismenber") + ":");
         tableDismemberRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Table_Dismember"), false);
@@ -390,18 +393,19 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         encodeLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Encoding_Type") + ":");
         charsetComboBox = new UIComboBox(EncodeConstants.ALL_ENCODING_ARRAY);
         Component[][] comps = {
-                {encodeLabel,charsetComboBox,null},
-                {needColumnNameCheckBox,null,null},
-                {dismenberLabel,tableDismemberRadioButton,null},
-                {null,spaceDismenberRadioButton,null},
-                {null,commaDismenberRadioButton,null},
-                {null,otherDismenberRadioButton,otherDismenberTextField},
-                {ignoreOneMoreDelimiterCheckBox,null,null}
+                {encodeLabel, charsetComboBox, null},
+                {needColumnNameCheckBox, null, null},
+                {dismenberLabel, tableDismemberRadioButton, null},
+                {null, spaceDismenberRadioButton, null},
+                {null, commaDismenberRadioButton, null},
+                {null, otherDismenberRadioButton, otherDismenberTextField},
+                {ignoreOneMoreDelimiterCheckBox, null, null}
         };
-        northPane.add(TableLayoutHelper.createTableLayoutPane(comps, rowSize, columnSize),BorderLayout.EAST);
+        northPane.add(TableLayoutHelper.createTableLayoutPane(comps, rowSize, columnSize), BorderLayout.EAST);
     }
 
     private ActionListener radioActionListener = new ActionListener() {
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (localFileRadioButton.isSelected()) {
                 localRadioSelectAction();
@@ -438,7 +442,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         @Override
         public void actionPerformed(ActionEvent e) {
             FILEChooserPane fileChooser = FILEChooserPane.getInstance(true, false, new ChooseFileFilter(getFileSuffix()));
-            if (fileChooser.showOpenDialog(DesignerContext.getDesignerFrame()) == FILEChooserPane.OK_OPTION) {
+            if (fileChooser.showOpenDialog(FileTableDataPane.this) == FILEChooserPane.OK_OPTION) {
                 final FILE file = fileChooser.getSelectedFILE();
                 if (file == null) {// 选择的文件不能是 null
                     return;
@@ -456,8 +460,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     private String[] getFileSuffix() {
         List<String> suffixList = new ArrayList<String>();
-        String suffix = fileTypeComboBox.getSelectedItem().toString().toLowerCase();
-        if (suffix.equalsIgnoreCase("excel")) {
+        String suffix = Objects.requireNonNull(fileTypeComboBox.getSelectedItem()).toString().toLowerCase();
+        if ("excel".equalsIgnoreCase(suffix)) {
             suffixList.add("xls");
             suffixList.add("xlsx");
         } else {
@@ -467,8 +471,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private String getFileSuffixToString() {
-        String suffixToString = fileTypeComboBox.getSelectedItem().toString().toLowerCase();
-        if (suffixToString.equalsIgnoreCase("excel")) {
+        String suffixToString = Objects.requireNonNull(fileTypeComboBox.getSelectedItem()).toString().toLowerCase();
+        if ("excel".equalsIgnoreCase(suffixToString)) {
             suffixToString = "xls";
         }
         return suffixToString;
@@ -476,16 +480,17 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
     private ActionListener getFileTypeListener(final JPanel setPanel, final int width, final int height) {
         ActionListener fileTypeListener = new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 setPanel.removeAll();
                 localText.setText("");
                 urlText.setText("");
                 if (fileTypeComboBox.getSelectedIndex() == XML) {
-                    setPanel.add(xmlSetPanel(width,height), BorderLayout.NORTH);
+                    setPanel.add(xmlSetPanel(width, height), BorderLayout.NORTH);
                 } else if (fileTypeComboBox.getSelectedIndex() == EXCEL) {
-                    setPanel.add(excelSetPanel(width,height), BorderLayout.NORTH);
+                    setPanel.add(excelSetPanel(width, height), BorderLayout.NORTH);
                 } else {
-                    setPanel.add(textSetPanel(width,height), BorderLayout.NORTH);
+                    setPanel.add(textSetPanel(width, height), BorderLayout.NORTH);
                 }
                 String tipContent = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Type_Parameter") + "reportlets/excel/FineReport${abc}." + getFileSuffixToString() + "<br>"
                         + "http://192.168.100.120:8080/XXServer/Report/excel${abc}.jsp<br>" + "&nbsp</body> </html> ";
@@ -503,6 +508,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             String[] paramTexts = new String[1];
             paramTexts[0] = getFilePathFromUrlOrLocal();
@@ -545,25 +551,25 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         setTextField(xtd);
         editorPane.populate(xtd.getParams());
         encodingComboBox.setSelectedItem(xtd.getCharSet());
-        if (!ComparatorUtils.equals(xtd,new XMLTableData())) {
+        if (!ComparatorUtils.equals(xtd, new XMLTableData())) {
             xmlNodeTree.initData();
             String[] path = xtd.getXPath();
             String[] paths;
             if (path != null && path.length > 0) {
-                DefaultTreeModel treeModel = (DefaultTreeModel)xmlNodeTree.getModel();
+                DefaultTreeModel treeModel = (DefaultTreeModel) xmlNodeTree.getModel();
                 ExpandMutableTreeNode root = (ExpandMutableTreeNode) treeModel.getRoot();
                 if (treeModel != null) {
-                    if(!ComparatorUtils.equals(treeModel.getRoot().toString(),"")){
-                       paths = new String[path.length - 1];
-                       for(int i = 1;i< path.length;i++){
-                           paths[i -1] = path[i];
-                       }
-                    }else{
+                    if (!ComparatorUtils.equals(treeModel.getRoot().toString(), "")) {
+                        paths = new String[path.length - 1];
+                        for (int i = 1; i < path.length; i++) {
+                            paths[i - 1] = path[i];
+                        }
+                    } else {
                         paths = path;
                         root.setUserObject(ROOTTAG);
                     }
                     if (treeModel.getRoot() instanceof ExpandMutableTreeNode) {
-                        selectNode((ExpandMutableTreeNode)treeModel.getRoot(), 0, paths);
+                        selectNode((ExpandMutableTreeNode) treeModel.getRoot(), 0, paths);
                         if (selectedNode != null) {
                             TreePath treepath = new TreePath(treeModel.getPathToRoot(selectedNode));
                             xmlNodeTree.setSelectionPath(treepath);
@@ -571,8 +577,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                         }
                     }
                     //防止某种操作导致添加的tag作为root出现。
-                    if(ComparatorUtils.equals(root.toString(),ROOTTAG)){
-                            root.setUserObject(StringUtils.EMPTY);
+                    if (ComparatorUtils.equals(root.toString(), ROOTTAG)) {
+                        root.setUserObject(StringUtils.EMPTY);
                     }
                 }
             }
@@ -638,7 +644,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         ttd.setDelimiter(this.showDelimiter());
         ttd.setIgnoreOneMoreDelimiter(ignoreOneMoreDelimiterCheckBox.isSelected());
         ttd.setNeedColumnName(needColumnNameCheckBox.isSelected());
-        ttd.setCharset((String)charsetComboBox.getSelectedItem());
+        ttd.setCharset((String) charsetComboBox.getSelectedItem());
         fileTableData = ttd;
         return ttd;
     }
@@ -667,12 +673,12 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             xmlColumnsList.clear();
             ExpandMutableTreeNode treeNode;
             boolean flag = true;
-            for(int i = 0;i < selectedNode.getChildCount();i++){
+            for (int i = 0; i < selectedNode.getChildCount(); i++) {
                 treeNode = (ExpandMutableTreeNode) selectedNode.getChildAt(i);
-                if(treeNode.isLeaf()){
+                if (treeNode.isLeaf()) {
                     xmlColumnsList.add(treeNode.toString());
-                }else{
-                    if(flag){
+                } else {
+                    if (flag) {
                         flag = false;
                         finalSelectedNode = treeNode;
                         leafNode(treeNode);
@@ -692,34 +698,34 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     //wikky:构建树时为了美观把添加的根节点值赋为空显示，现在还得该回去使得预览时能够顺利取到数据。
-    private String[] getPaths(){
+    private String[] getPaths() {
         TreePath treePath = GUICoreUtils.getTreePath(finalSelectedNode);
         String path = StringUtils.EMPTY;
         if (treePath != null) {
             Object[] paths = treePath.getPath();
             for (int i = 0; i < paths.length; i++) {
-                path+="/" + paths[i];
+                path += "/" + paths[i];
             }
         }
         if (path.startsWith("/")) {
             path = path.substring(1);
         }
         String[] paths = path.split("/");
-        if(ComparatorUtils.equals(paths[0],StringUtils.EMPTY)){
+        if (ComparatorUtils.equals(paths[0], StringUtils.EMPTY)) {
             paths[0] = ROOTTAG;
         }
         return paths;
     }
 
-    private void leafNode(ExpandMutableTreeNode treeNode){
+    private void leafNode(ExpandMutableTreeNode treeNode) {
         boolean flag = true;
         ExpandMutableTreeNode firstNode;
-        for(int i = 0;i < treeNode.getChildCount();i++){
+        for (int i = 0; i < treeNode.getChildCount(); i++) {
             firstNode = (ExpandMutableTreeNode) treeNode.getChildAt(i);
-            if(firstNode.isLeaf()){
+            if (firstNode.isLeaf()) {
                 xmlColumnsList.add(firstNode.toString());
-            }else{
-                if(flag){
+            } else {
+                if (flag) {
                     flag = false;
                     finalSelectedNode = treeNode;
                     leafNode(firstNode);
@@ -729,16 +735,16 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private void selectNode(ExpandMutableTreeNode node, int layer, String[] paths) {
-        if (selectedNode != null || node == null){
+        if (selectedNode != null || node == null) {
             return;
         }
-        if (layer < paths.length && paths[layer] != null && ComparatorUtils.equals(paths[layer],node.getUserObject())) {
-            if (layer == paths.length -1) {
+        if (layer < paths.length && paths[layer] != null && ComparatorUtils.equals(paths[layer], node.getUserObject())) {
+            if (layer == paths.length - 1) {
                 selectedNode = node;
                 return;
             }
             for (int i = 0; i < node.getChildCount(); i++) {
-                selectNode((ExpandMutableTreeNode)node.getChildAt(i), layer + 1, paths);
+                selectNode((ExpandMutableTreeNode) node.getChildAt(i), layer + 1, paths);
             }
         }
     }
@@ -800,8 +806,8 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             toolbarDef.addShortCut(refreshAction);
             UIToolbar toolBar = ToolBarDef.createJToolBar();
             toolbarDef.updateToolBar(toolBar);
-            toolbarPanel.add(keyPointLaber,BorderLayout.WEST);
-            toolbarPanel.add(toolBar,BorderLayout.EAST);
+            toolbarPanel.add(keyPointLaber, BorderLayout.WEST);
+            toolbarPanel.add(toolBar, BorderLayout.EAST);
             this.add(toolbarPanel, BorderLayout.NORTH);
         }
 
@@ -817,6 +823,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
             }
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 xmlNodeTree.waitRefresh();
                 xmlNodeTree.refreshData();
@@ -845,8 +852,9 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
 
         private MouseListener treeMouseListener = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
-                if (XMLNodeTree.this.getModel() != treeModel){
+                if (XMLNodeTree.this.getModel() != treeModel) {
                     return;
                 }
                 int selRow = XMLNodeTree.this.getRowForLocation(e.getX(), e.getY());
@@ -858,12 +866,12 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                     return;//没有选中某个树节点，就直接返回啦
                 }
                 Object selObject = selPath.getLastPathComponent();
-                if (selObject instanceof ExpandMutableTreeNode ) {
+                if (selObject instanceof ExpandMutableTreeNode) {
                     ExpandMutableTreeNode expandMutableTreeNode = (ExpandMutableTreeNode) selObject;
                     if (!expandMutableTreeNode.isLeaf()) {
                         selectedNode = expandMutableTreeNode;
                     } else {
-                        selectedNode = (ExpandMutableTreeNode)expandMutableTreeNode.getParent();
+                        selectedNode = (ExpandMutableTreeNode) expandMutableTreeNode.getParent();
                     }
                 }
             }
@@ -906,7 +914,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             DataSource dataSource = null;
             if (localFileRadioButton.isSelected()) {
                 String localTextString = StringUtils.trimToNull(localText.getText());
-                if(StringUtils.isEmpty(localTextString)){
+                if (StringUtils.isEmpty(localTextString)) {
                     FineLoggerFactory.getLogger().info("The file path is empty.");
                     loadedTreeModel();
                     return;
@@ -914,7 +922,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 dataSource = new FileDataSource(localTextString, params);
             } else {
                 String urlTextString = StringUtils.trimToNull(urlText.getText());
-                if (StringUtils.isEmpty(urlTextString)){
+                if (StringUtils.isEmpty(urlTextString)) {
                     FineLoggerFactory.getLogger().info("The url path is empty.");
                     loadedTreeModel();
                     return;
@@ -922,7 +930,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 dataSource = new URLDataSource(urlTextString, params);
             }
             try {
-                InputStream in,input;
+                InputStream in, input;
                 if ((in = dataSource.getSourceStream(params)) != null) {
                     String xmlString = Utils.inputStream2String(in, (String) encodingComboBox.getSelectedItem());
                     String stringXml = addTag(xmlString);
@@ -941,16 +949,20 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 loadedTreeModel();
             }
-            if(treeModel.getChildCount(treeModel.getRoot()) == 1){
-                treeModel = new DefaultTreeModel((ExpandMutableTreeNode) treeModel.getChild(treeModel.getRoot(),0));
-            }else{
+            if (treeModel == null) {
+                FineLoggerFactory.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
+                return;
+            }
+            if (treeModel.getChildCount(treeModel.getRoot()) == 1) {
+                treeModel = new DefaultTreeModel((ExpandMutableTreeNode) treeModel.getChild(treeModel.getRoot(), 0));
+            } else {
                 ExpandMutableTreeNode root = (ExpandMutableTreeNode) treeModel.getRoot();
                 root.setUserObject(StringUtils.EMPTY);
             }
             this.setModel(treeModel);
         }
 
-        private void loadedTreeModel(){
+        private void loadedTreeModel() {
             ExpandMutableTreeNode rootTreeNode = new ExpandMutableTreeNode(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Loaded_Tree_Model"));
             rootTreeNode.setExpanded(false);
             rootTreeNode.setAllowsChildren(false);
@@ -958,14 +970,14 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
             XMLNodeTree.this.setModel(loadedTreeModel);
         }
 
-        private String addTag(String string){
+        private String addTag(String string) {
             String stringWithTag;
             int beginIndex = 0;
             int firstIndex = string.indexOf(">");
             int endIndex = string.length();
-            String firstPart = string.substring(beginIndex,firstIndex + 1);
+            String firstPart = string.substring(beginIndex, firstIndex + 1);
             String secondPart = STARTTAG;
-            String thirdPart = string.substring(firstIndex + 1,endIndex);
+            String thirdPart = string.substring(firstIndex + 1, endIndex);
             String lastPart = ENDTAG;
             stringWithTag = firstPart + secondPart + thirdPart + lastPart;
             return stringWithTag;
@@ -986,6 +998,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 this.layer = layer;
             }
 
+            @Override
             public void readXML(XMLableReader reader) {
                 String nodeName;
                 if (this.layer < 0) {

@@ -179,4 +179,9 @@ public class XWScaleLayout extends DedicateLayoutContainer {
 		}
 		return super.getWidgetPropertyUIProviders();
 	}
+
+	@Override
+	public boolean supportMobileStyle() {
+		return true;
+	}
 }

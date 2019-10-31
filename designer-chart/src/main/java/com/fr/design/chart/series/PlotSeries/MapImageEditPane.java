@@ -245,7 +245,11 @@ public class MapImageEditPane extends BasicBeanPane<String> {
 
 			g2d.translate(moveLeft, moveTop);
 			g2d.setStroke(new BasicStroke(1));
-			if (resultAreaShape != null && !resultAreaShape.isEmpty()) {
+
+			if (resultAreaShape == null) {
+				throw new IllegalArgumentException("resultAreaShape can not be null!");
+			}
+			if (!resultAreaShape.isEmpty()) {
 				for (String key : resultAreaShape.keySet()) {
 
 					GeneralPath selectShape = getSelectedNodePath(key);

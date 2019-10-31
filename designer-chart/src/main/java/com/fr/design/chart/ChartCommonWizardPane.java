@@ -1,7 +1,7 @@
 package com.fr.design.chart;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 
 public abstract class ChartCommonWizardPane extends ChartWizardPane {
 	private static final long serialVersionUID = 2467967841657570498L;
@@ -11,12 +11,12 @@ public abstract class ChartCommonWizardPane extends ChartWizardPane {
 		if (cc == null) {
 			return;
 		}
-		
-		populate(cc.getSelectedChart());
+
+        populate(cc.getSelectedChartProvider(ChartProvider.class));
 	}
-	
-	public abstract void populate(Chart chart);
-	
-	public abstract void update(Chart oldChart);
+
+	public abstract void populate(ChartProvider chart);
+
+	public abstract void update(ChartProvider oldChart);
 
 }

@@ -438,11 +438,6 @@ public class UIResizableContainer extends JPanel {
 
                     containerWidth = containerWidth > MAX_WIDTH ? MAX_WIDTH : containerWidth;
                     containerWidth = containerWidth < MIN_WIDTH ? MIN_WIDTH : containerWidth;
-                    if (containerWidth < MIN_WIDTH) {
-                        upPane.setVisible(false);
-                        downPane.setVisible(false);
-                        containerWidth = toolPaneHeight;
-                    }
                     refreshContainer();
                     if (DesignerMode.isAuthorityEditing()) {
                         DesignerContext.getDesignerFrame().doResize();

@@ -64,7 +64,7 @@ public class UICheckBoxUI extends MetalCheckBoxUI {
         }
     }
 
-    static BasicStroke focusStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1.0f, new float[]{1.0f / 1.0f}, 1.0f);
+    static BasicStroke focusStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1.0f, new float[]{1.0f}, 1.0f);
 
     protected void paintFocus(Graphics g, Rectangle t, Dimension arg2) {
         if (!ThemeUtils.BUTTON_FOCUS) {

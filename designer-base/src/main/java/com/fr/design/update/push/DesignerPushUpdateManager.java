@@ -1,8 +1,10 @@
 package com.fr.design.update.push;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
@@ -11,7 +13,13 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.workspace.WorkContext;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by plough on 2019/4/8.
@@ -19,6 +27,8 @@ import com.fr.workspace.WorkContext;
 public class DesignerPushUpdateManager {
     private static final String SPLIT_CHAR = "-";
     private static DesignerPushUpdateManager singleton;
+    private final ExecutorService checkUpdateService = Executors.newSingleThreadExecutor(new NamedThreadFactory("DesignerCheckUpdate"));
+    private final ExecutorService updateService = Executors.newSingleThreadExecutor(new NamedThreadFactory("DesignerUpdate"));
 
     private DesignerUpdateInfo updateInfo;
 
@@ -76,25 +86,10 @@ public class DesignerPushUpdateManager {
     }
 
     /**
-     * "自动更新推送"选项是否生效
-     */
-    public boolean isAutoPushUpdateSupported() {
-        boolean isLocalEnv = WorkContext.getCurrent().isLocal();
-        boolean isChineseEnv = GeneralContext.isChineseEnv();
-
-        return isAutoPushUpdateSupported(isLocalEnv, isChineseEnv);
-    }
-
-    private boolean isAutoPushUpdateSupported(boolean isLocalEnv, boolean isChineseEnv) {
-        // 远程设计和非中文环境，都不生效
-        return isLocalEnv && isChineseEnv;
-    }
-
-    /**
      * 检查更新，如果有合适的更新版本，则弹窗
      */
     private void checkAndPop() {
-        new Thread() {
+        checkUpdateService.execute(new Runnable() {
             @Override
             public void run() {
                 if (!shouldPopUp()) {
@@ -104,7 +99,8 @@ public class DesignerPushUpdateManager {
                 final DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
                 DesignerPushUpdateDialog.createAndShow(designerFrame, updateInfo);
             }
-        }.start();
+        });
+        checkUpdateService.shutdown();
     }
 
     private boolean shouldPopUp() {
@@ -122,8 +118,7 @@ public class DesignerPushUpdateManager {
                 initUpdateInfo(currentVersion, latestVersion);
             }
         }
-
-        return isAutoPushUpdateSupported() && updateInfo.hasNewPushVersion();
+        return SupportOSImpl.AUTOPUSHUPDATE.support() && updateInfo.hasNewPushVersion();
     }
 
     private boolean isValidJarVersion(String fullCurrentVersion, String fullLatestVersion) {
@@ -146,14 +141,15 @@ public class DesignerPushUpdateManager {
      * 跳转到更新升级窗口，并自动开始更新
      */
     void doUpdate() {
-        new Thread() {
+        updateService.execute(new Runnable() {
             @Override
             public void run() {
                 UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
                 dialog.setAutoUpdateAfterInit();
                 dialog.showDialog();
             }
-        }.start();
+        });
+        updateService.shutdown();
     }
 
     /**

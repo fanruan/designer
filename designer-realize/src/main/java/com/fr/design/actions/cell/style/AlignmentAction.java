@@ -110,8 +110,10 @@ public class AlignmentAction extends ButtonGroupAction implements StyleActionInt
             group.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_StyleAlignment_Right")});
         }
         for (int i = 0; i < 3; i++) {
-            group.getButton(i).setRoundBorder(true, UIConstants.ARC);
-            group.getButton(i).setBorderPainted(true);
+            if (group != null) {
+                group.getButton(i).setRoundBorder(true, UIConstants.ARC);
+                group.getButton(i).setBorderPainted(true);
+            }
         }
         return group;
     }

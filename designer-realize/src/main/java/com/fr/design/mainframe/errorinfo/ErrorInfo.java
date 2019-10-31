@@ -2,14 +2,17 @@ package com.fr.design.mainframe.errorinfo;
 
 import com.fr.base.FRContext;
 import com.fr.general.IOUtils;
-import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.core.UUID;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -32,6 +35,9 @@ public class ErrorInfo {
         this.uuid = uuid;
         this.activekey = activekey;
         this.uploadtime = dateToString();
+    }
+
+    public ErrorInfo() {
     }
 
     public String getUsername() {
@@ -120,17 +126,18 @@ public class ErrorInfo {
         saveFileToCache(jo);
     }
 
-    private void saveFileToCache(JSONObject jo) {
+    public void saveFileToCache(JSONObject jo) {
         String content = jo.toString();
         String fileName = UUID.randomUUID() + ErrorInfoUploader.SUFFIX;
         File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), ErrorInfoUploader.FOLDER_NAME, fileName));
-        try {
+        FileOutputStream out = null;
+        try (InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
             StableUtils.makesureFileExist(file);
-            FileOutputStream out = new FileOutputStream(file);
-            InputStream in = new ByteArrayInputStream(content.getBytes(EncodeConstants.ENCODING_UTF_8));
+            out = new FileOutputStream(file);
             IOUtils.copyBinaryTo(in, out);
-            out.close();
         } catch (IOException ignore) {
+        } finally {
+            IOUtils.close(out);
         }
     }
 }

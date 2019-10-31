@@ -84,6 +84,7 @@ public abstract class LazyComboBox extends UIComboBox implements PopupMenuListen
                     LazyComboBox.this.loadList(get());
                 } catch (InterruptedException | ExecutionException exception) {
                     FineLoggerFactory.getLogger().debug(exception.getMessage());
+                    Thread.currentThread().interrupt();
                 }
                 LazyComboBox.this.showPopup();
             }

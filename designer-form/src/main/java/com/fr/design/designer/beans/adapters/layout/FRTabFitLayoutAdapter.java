@@ -7,18 +7,16 @@ package com.fr.design.designer.beans.adapters.layout;
 import com.fr.design.beans.GroupModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
-import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.designer.properties.FRTabFitLayoutPropertiesGroupModel;
-import com.fr.design.mainframe.widget.editors.ParameterEditor;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.ui.LayoutBorderStyle;
-import com.fr.form.ui.container.WBorderLayout;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.act.BorderPacker;
 
 import java.awt.*;
 
@@ -90,7 +88,7 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
     // TODO 可以直接在这边将x，y都变成相对坐标，这样在后面判断拖进来的新控件放置方式的时候就不用再判断了
     private int adjustY(int y, XWTabFitLayout tabLayout) {
         XWCardLayout cardLayout = (XWCardLayout) tabLayout.getBackupParent();
-        LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
+        BorderPacker style = cardLayout.toData().getBorderStyle();
         y = y - this.getParaEditorYOffset();
         if (ComparatorUtils.equals(style.getType(), LayoutBorderStyle.TITLE)) {
             y = y - WCardMainBorderLayout.TAB_HEIGHT;

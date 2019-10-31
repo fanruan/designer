@@ -6,6 +6,7 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.gui.chart.BaseChartPropertyPane;
@@ -14,11 +15,12 @@ import com.fr.design.gui.frpane.UITitlePanel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itabpane.TitleChangeListener;
 import com.fr.design.mainframe.chart.ChartEditPane;
-
 import com.fr.stable.StableUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import java.awt.BorderLayout;
 
 public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
 
@@ -91,7 +93,7 @@ public abstract class MiddleChartPropertyPane extends BaseChartPropertyPane{
      * @param ePane  面板
      */
 	public void populateChartPropertyPane(ChartCollection collection, TargetComponent<?> ePane) {
-		addChartEditPane(collection.getSelectedChart().getPlot().getPlotID());
+		addChartEditPane(collection.getSelectedChartProvider(ChartProvider.class).getID());
 		setSupportCellData(true);
 		this.container.setEPane(ePane);
 		chartEditPane.populate(collection);

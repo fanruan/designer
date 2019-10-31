@@ -5,19 +5,16 @@
 package com.fr.design;
 
 import com.fr.base.BaseUtils;
+import com.fr.common.annotations.Open;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
-import com.fr.design.fun.CellWidgetOptionProvider;
-import com.fr.design.fun.FormWidgetOptionProvider;
-import com.fr.design.fun.ParameterWidgetOptionProvider;
-import com.fr.design.fun.ServerTableDataDefineProvider;
-import com.fr.design.fun.TableDataDefineProvider;
-import com.fr.design.fun.ToolbarItemProvider;
+import com.fr.design.fun.*;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.widget.Appearance;
 import com.fr.design.widget.mobile.WidgetMobilePane;
 import com.fr.form.ui.Widget;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.plugin.AbstractExtraClassManager;
 import com.fr.plugin.injectable.PluginModule;
@@ -39,6 +36,7 @@ import java.util.Set;
  * @since : 8.0
  * 用于设计器扩展的管理类
  */
+@Open
 public class ExtraDesignClassManager extends AbstractExtraClassManager implements ExtraDesignClassManagerProvider {
 
     private static ExtraDesignClassManager classManager = new ExtraDesignClassManager();
@@ -218,6 +216,20 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
             map.put(provider.classForWidget(), provider.classForMobilePane());
         }
         return map;
+    }
+
+    public MobileWidgetStyleProvider[] getMobileStyleOfWidget(String xType) {
+        Set<MobileWidgetStyleProvider> set = getArray(MobileWidgetStyleProvider.XML_TAG);
+        if (set.isEmpty()) {
+            return new MobileWidgetStyleProvider[0];
+        }
+        List<MobileWidgetStyleProvider> providers = new ArrayList<>();
+        for (MobileWidgetStyleProvider provider: set) {
+            if(ComparatorUtils.equalsIgnoreCase(provider.xTypeForWidget(), xType)) {
+                providers.add(provider);
+            }
+        }
+        return providers.toArray(new MobileWidgetStyleProvider[providers.size()]);
     }
 
     @Override

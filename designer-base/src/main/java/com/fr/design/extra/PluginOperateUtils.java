@@ -96,7 +96,7 @@ public class PluginOperateUtils {
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Confirmed"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
                         JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE
+                        JOptionPane.WARNING_MESSAGE
                 );
                 if (rv == JOptionPane.OK_OPTION) {
                     PluginMarker pluginMarker = PluginUtils.createPluginMarker(pluginInfo);

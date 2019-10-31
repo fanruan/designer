@@ -206,6 +206,7 @@ public class DrawRoutines {
             grabber.grabPixels();
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error("PixelGrabber interrupted waiting for pixels");
+            Thread.currentThread().interrupt();
         }
 
         if ((grabber.getStatus() & ImageObserver.ABORT) != 0) {

@@ -517,6 +517,10 @@ class ParameterizedCompletionContext {
             }
         }
 
+        if (currentNext == null) {
+            return;
+        }
+
         // No params after caret - go to first one
         if (currentNext.getStartOffset() + 1 <= dot) {
             int nextIndex = getFirstHighlight(highlights);

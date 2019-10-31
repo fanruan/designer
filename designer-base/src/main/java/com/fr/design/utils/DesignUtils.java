@@ -2,6 +2,7 @@ package com.fr.design.utils;
 
 import com.fr.base.FeedBackInfo;
 import com.fr.base.ServerConfig;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
@@ -55,7 +56,7 @@ public class DesignUtils {
         DesignUtils.port = port;
     }
 
-    public static int getPort() {
+    public synchronized static int getPort() {
         return port;
     }
 
@@ -66,8 +67,7 @@ public class DesignUtils {
      * @return 启动了返回true
      */
     public static boolean isStarted() {
-        try {
-            new Socket("localhost", port);
+        try (Socket socket = new Socket("localhost", port)) {
             return true;
         } catch (Exception ignored) {
         }
@@ -115,8 +115,9 @@ public class DesignUtils {
      * @param startPort 端口
      * @param suffixs   文件后缀
      */
+    @SuppressWarnings("squid:S2095")
     public static void createListeningServer(final int startPort, final String[] suffixs) {
-        ExecutorService service = Executors.newSingleThreadExecutor();
+        ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("DesignClientListener"));
         service.execute(new Runnable() {
             @Override
             public void run() {
@@ -129,7 +130,8 @@ public class DesignUtils {
                 while (true) {
                     try {
                         if (serverSocket != null) {
-                            Socket socket = serverSocket.accept(); // 接收客户连接
+                            // 接收客户连接
+                            Socket socket = serverSocket.accept();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
                             String line;
                             while ((line = reader.readLine()) != null) {
@@ -141,8 +143,8 @@ public class DesignUtils {
                                     String path = f.getAbsolutePath();
 
                                     boolean isMatch = false;
-                                    for (int i = 0; i < suffixs.length; i++) {
-                                        isMatch = isMatch || path.endsWith(suffixs[i]);
+                                    for (String suffix : suffixs) {
+                                        isMatch = isMatch || path.endsWith(suffix);
                                     }
                                     if (isMatch) {
                                         DesignerContext.getDesignerFrame().openTemplate(new FileFILE(f));

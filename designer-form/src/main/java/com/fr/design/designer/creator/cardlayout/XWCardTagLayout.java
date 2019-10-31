@@ -27,21 +27,18 @@ import com.fr.design.mainframe.EditingMouseListener;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.CardSwitchButton;
-import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetTitle;
 import com.fr.form.ui.container.WCardLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.form.ui.container.cardlayout.WTabFitLayout;
+import com.fr.general.act.BorderPacker;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.cardtag.DefaultTemplateStyle;
 
 import javax.swing.border.Border;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ContainerEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -363,9 +360,8 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
             if (this.cardLayout == null) {
                 initCardLayout();
             }
-            LayoutBorderStyle borderStyle = this.cardLayout.toData().getBorderStyle();
-            WidgetTitle title = borderStyle.getTitle();
-            FRFont f = title.getFrFont();
+            BorderPacker borderStyle = this.cardLayout.toData().getBorderStyle();
+            FRFont f = borderStyle.getTitle().getFrFont();
             FontMetrics fm = GraphHelper.getFontMetrics(f);
 
             switch (wCardTagLayout.getTextDirection()) {

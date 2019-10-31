@@ -22,13 +22,13 @@ public class FRBorderConstraintsItems implements ItemProvider {
 	public static Item[] createItems(String[] directions) {
 		Item[] items = new Item[directions.length];
 		for (int i = 0; i < directions.length; i++) {
-			if (WBorderLayout.NORTH == directions[i]) {
+			if (WBorderLayout.NORTH.equals(directions[i])) {
 				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_North"), WBorderLayout.NORTH);
-			} else if (WBorderLayout.SOUTH == directions[i]) {
+			} else if (WBorderLayout.SOUTH.equals(directions[i])) {
 				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_South"), WBorderLayout.SOUTH);
-			} else if (WBorderLayout.WEST == directions[i]) {
+			} else if (WBorderLayout.WEST.equals(directions[i])) {
 				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_West"), WBorderLayout.WEST);
-			} else if (WBorderLayout.EAST == directions[i]) {
+			} else if (WBorderLayout.EAST.equals(directions[i])) {
 				items[i] = new Item(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_BorderLayout_East"), WBorderLayout.EAST);
 			}
 		}

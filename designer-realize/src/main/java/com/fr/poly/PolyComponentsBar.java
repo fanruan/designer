@@ -1,10 +1,10 @@
 package com.fr.poly;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.chart.BaseChart;
+import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.chart.BaseChartGetter;
-import com.fr.base.chart.BaseChartNameID;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
@@ -12,7 +12,6 @@ import com.fr.design.gui.itooltip.MultiLineToolTip;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.dnd.SerializableTransferable;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.poly.PolyECBlock;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
@@ -54,8 +53,8 @@ public class PolyComponentsBar extends JToolBar {
         setFloatable(false);
         setBackground(UIConstants.TOOLBARUI_BACKGROUND);
         setLayout(FRGUIPaneFactory.create1ColumnGridLayout());
-        BaseChartNameID[] typeName = BaseChartGetter.getStaticAllChartBaseNames();
-        int typeLen = typeName.length < MAX_BAR_NUM ? typeName.length : MAX_BAR_NUM;
+        String[] iDs = ChartTypeManager.getInstance().getAllChartIDs();
+        int typeLen = iDs.length < MAX_BAR_NUM ? iDs.length : MAX_BAR_NUM;
         serIcons = new SerIcon[typeLen + 1];
         serIcons[0] = new SerIcon(
                 PolyECBlock.class,
@@ -64,9 +63,10 @@ public class PolyComponentsBar extends JToolBar {
         );
         this.add(serIcons[0]);
         for (int i = 0; i < typeLen; i++) {
-            BaseChart[] rowChart = BaseChartGetter.getStaticChartTypes(typeName[i].getPlotID());
-            String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(typeName[i].getPlotID());
-            serIcons[i + 1] = new SerIcon(rowChart[0], InterProviderFactory.getProvider().getLocText(typeName[i].getName()), iconPath);
+            String chartID = iDs[i];
+            String iconPath = ChartTypeInterfaceManager.getInstance().getIconPath(chartID);
+            BaseChartCollection chartCollection = BaseChartGetter.createChartCollection(chartID);
+            serIcons[i + 1] = new SerIcon(chartCollection, ChartTypeInterfaceManager.getInstance().getName(chartID), iconPath);
             this.add(serIcons[i + 1]);
         }
 

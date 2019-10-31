@@ -9,14 +9,14 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.MapIndependentChart;
 import com.fr.design.chart.series.PlotSeries.MapGroupExtensionPane;
 import com.fr.design.chart.series.PlotStyle.ChartSelectDemoPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
-public class MapPlotPane extends AbstractChartTypePane {
+public class MapPlotPane extends AbstractDeprecatedChartTypePane {
 
 
 	private boolean isSvgMap = true; // 默认是svg地图
@@ -72,7 +72,7 @@ public class MapPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_SVG_MAP");
+		return Toolkit.i18nText("Fine-Design_Chart_SVG_MAP");
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package com.fr.start.fx;
 
+import com.fr.concurrent.NamedThreadFactory;
+import com.fr.log.FineLoggerFactory;
 import com.sun.javafx.iio.ImageFrame;
 import com.sun.javafx.iio.ImageLoadListener;
 import com.sun.javafx.iio.ImageLoader;
@@ -14,6 +16,8 @@ import com.sun.prism.impl.PrismSettings;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 边加载边播放的gif加载器
@@ -36,7 +40,8 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         delayTimes = new int[gifCount];
         this.width = width;
         this.height = height;
-        new Thread() {
+        ExecutorService es = Executors.newSingleThreadExecutor(new NamedThreadFactory("PrismImageLoader2"));
+        es.execute(new Runnable() {
             @Override
             public void run() {
                 InputStream inputStream = null;
@@ -47,14 +52,16 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
                     e.printStackTrace();
                 } finally {
                     try {
-                        inputStream.close();
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        }.start();
-
+        });
+        es.shutdown();
     }
 
     @Override
@@ -73,6 +80,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
     @Override
+    @SuppressWarnings("squid:S2142")
     public PlatformImage getFrame(int index) {
         while (images[index] == null) {
             synchronized (this) {
@@ -80,7 +88,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
                     try {
                         this.wait();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     }
                 }
             }
@@ -108,6 +116,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
         return 40;
     }
 
+    @Override
     public int getLoopCount() {
         return 0;
     }
@@ -118,6 +127,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
     }
 
 
+    @SuppressWarnings("squid:S244")
     private void loadAll(InputStream stream, int w, int h,
                          boolean preserveRatio, boolean smooth) {
         ImageLoadListener listener = new PrismLoadListener();
