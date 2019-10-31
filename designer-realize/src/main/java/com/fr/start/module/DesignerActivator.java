@@ -9,7 +9,7 @@ import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.MarketConfig;
 import com.fr.decision.update.backup.RecoverManager;
-import com.fr.decision.update.data.LibPathManager;
+import com.fr.decision.workspace.EnvPathManager;
 import com.fr.decision.update.data.UpdateConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -142,7 +142,7 @@ public class DesignerActivator extends Activator {
         }, SupportOSImpl.USERINFOPANE);
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
-        LibPathManager.getInstance().setEnvHome(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.WEBAPPS,
+        EnvPathManager.getInstance().setEnvHome(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.WEBAPPS,
                 ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME));
         RecoverManager.register(new RecoverForDesigner());
     }
