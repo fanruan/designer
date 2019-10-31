@@ -1,7 +1,7 @@
 package com.fr.design.update.actions;
 
 import com.fr.decision.update.backup.Recover;
-import com.fr.decision.update.backup.RecoverPathManager;
+import com.fr.decision.update.data.LibPathManager;
 import com.fr.decision.update.data.UpdateConstants;
 import com.fr.decision.update.exception.UpdateException;
 import com.fr.design.mainframe.DesignerContext;
@@ -41,7 +41,7 @@ public class RecoverForDesigner implements Recover {
     public boolean backup() {
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, UpdateConstants.DESIGNER_BACKUP_DIR, (GeneralUtils.readBuildNO()));
-        String envHome = RecoverPathManager.getInstance().getEnvHome();
+        String envHome = LibPathManager.getInstance().getEnvHome();
         backupFilesFromInstallEnv(envHome, todayBackupDir);
         backupFilesFromInstallLib(installHome, todayBackupDir);
         try {
