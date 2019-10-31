@@ -1,6 +1,7 @@
 package com.fr.design.update.actions;
 
 import com.fr.decision.update.backup.Recover;
+import com.fr.decision.update.backup.RecoverPathManager;
 import com.fr.decision.update.data.UpdateConstants;
 import com.fr.decision.update.exception.UpdateException;
 import com.fr.design.mainframe.DesignerContext;
@@ -40,7 +41,7 @@ public class RecoverForDesigner implements Recover {
     public boolean backup() {
         //jar包备份文件的目录为"backup/"+jar包当前版本号
         String todayBackupDir = StableUtils.pathJoin(installHome, UpdateConstants.DESIGNER_BACKUP_DIR, (GeneralUtils.readBuildNO()));
-        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        String envHome = RecoverPathManager.getInstance().getEnvHome();
         backupFilesFromInstallEnv(envHome, todayBackupDir);
         backupFilesFromInstallLib(installHome, todayBackupDir);
         try {
@@ -63,10 +64,18 @@ public class RecoverForDesigner implements Recover {
 
     private void backupFilesFromInstallEnv(String envHome, String todayBackupDir) {
         try {
-            CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH)));
-            CommonIOUtils.copyFilesInDirByPath(
-                    StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME),
-                    StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            File file = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            CommonUtils.mkdirs(file);
+            file = new File(StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME));
+            File[] files = file.listFiles();
+            File dir = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.BACKUPPATH));
+            if (files != null) {
+                for (File file1 : files) {
+                    if (file1.getName().startsWith(UpdateConstants.FINE) && file1.getName().endsWith(UpdateConstants.JAR_FILE_SUFFIX)) {
+                        CommonIOUtils.copy(file1, dir);
+                    }
+                }
+            }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
             FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in env failed");
@@ -76,9 +85,16 @@ public class RecoverForDesigner implements Recover {
     private void backupFilesFromInstallLib(String installHome, String todayBackupDir) {
         try {
             CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH)));
-            CommonIOUtils.copyFilesInDirByPath(
-                    StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
-                    StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
+            File file = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
+            File[] files = file.listFiles();
+            File dir = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
+            if (files != null) {
+                for (File file1 : files) {
+                    if (file1.getName().startsWith(UpdateConstants.FINE) || file1.getName().contains(UpdateConstants.ASPECTJRT)) {
+                        CommonIOUtils.copy(file, dir);
+                    }
+                }
+            }
         } catch (IOException e) {
             UpdateException exception = new UpdateException(e.getMessage());
             FineLoggerFactory.getLogger().error(exception.getMessage() + "backup for Designer recover in install failed");

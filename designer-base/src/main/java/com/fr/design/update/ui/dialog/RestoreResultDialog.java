@@ -10,7 +10,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.WorkContext;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -206,7 +205,7 @@ public class RestoreResultDialog extends JDialog {
     }
 
     private void filesToDelete(String installHome, List<String> list) {
-        String envHome = WorkContext.getCurrent().getPath();
+        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         File installEnv = new File(StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME));
         File[] files = installEnv.listFiles();
         if (files != null) {
