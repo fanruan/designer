@@ -9,6 +9,8 @@ import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.MarketConfig;
 import com.fr.decision.update.backup.RecoverManager;
+import com.fr.decision.update.backup.RecoverPathManager;
+import com.fr.decision.update.data.UpdateConstants;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
@@ -93,10 +95,12 @@ import com.fr.report.cell.painter.BiasTextPainter;
 import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
+import com.fr.stable.StableUtils;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.os.support.OSBasedAction;
 import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
@@ -138,6 +142,8 @@ public class DesignerActivator extends Activator {
         }, SupportOSImpl.USERINFOPANE);
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
+        RecoverPathManager.getInstance().setEnvHome(StableUtils.pathJoin(StableUtils.getInstallHome(), UpdateConstants.WEBAPPS,
+                ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME));
         RecoverManager.register(new RecoverForDesigner());
     }
 
