@@ -883,7 +883,7 @@ public class PreferencePane extends BasicPane {
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                 }
-                updateGcDialogPanelInfo(i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
+                updateGcDialogPanelInfo(size <= 0 ? i18nText("Fine-Design_Vcs_No_Optimizable_File") : i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
                 gcDialogDownPane.revalidate();
                 gcDialogDownPane.repaint();
                 gcDialogDownPane.add(gcOkButton);
