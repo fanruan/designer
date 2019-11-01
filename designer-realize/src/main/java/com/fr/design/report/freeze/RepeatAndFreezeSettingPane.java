@@ -216,12 +216,12 @@ public class RepeatAndFreezeSettingPane extends BasicPane {
         JPanel freezePanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
 
         //自适应插件
-        if (shouldShowTip()) {
+/*        if (shouldShowTip()) {
             JPanel infoPane = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Attention"));
             BoxCenterAligmentPane actionLabel = getURLActionLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Form_Fit_Tip"));
             infoPane.add(actionLabel, BorderLayout.SOUTH);
             this.add(infoPane, BorderLayout.SOUTH);
-        }
+        }*/
         outfreezePanel.add(freezePanel);
         // 重复打印部分
         // 重复打印标题的起始行
