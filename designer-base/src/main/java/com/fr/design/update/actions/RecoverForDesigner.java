@@ -85,12 +85,12 @@ public class RecoverForDesigner implements Recover {
     private void backupFilesFromInstallLib(String installHome, String todayBackupDir) {
         try {
             CommonUtils.mkdirs(new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH)));
-            File file = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
-            File[] files = file.listFiles();
+            File lib = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
+            File[] files = lib.listFiles();
             File dir = new File(StableUtils.pathJoin(todayBackupDir,UpdateConstants.DESIGNERBACKUPPATH));
             if (files != null) {
-                for (File file1 : files) {
-                    if (file1.getName().startsWith(UpdateConstants.FINE) || file1.getName().contains(UpdateConstants.ASPECTJRT)) {
+                for (File file : files) {
+                    if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().contains(UpdateConstants.ASPECTJRT)) {
                         CommonIOUtils.copy(file, dir);
                     }
                 }
