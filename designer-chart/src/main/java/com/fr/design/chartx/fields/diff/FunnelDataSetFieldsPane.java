@@ -1,7 +1,7 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
-import com.fr.chartx.data.field.diff.AbstractColumnFieldCollectionWithSeriesValue;
+import com.fr.chartx.data.field.diff.ColumnFieldCollectionWithSeriesValue;
 import com.fr.design.chartx.component.AbstractSingleFilterPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.i18n.Toolkit;
@@ -15,7 +15,7 @@ import java.awt.BorderLayout;
 /**
  * Created by Wim on 2019/10/23.
  */
-public class FunnelDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<AbstractColumnFieldCollectionWithSeriesValue> {
+public class FunnelDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<ColumnFieldCollectionWithSeriesValue> {
 
 
     private AbstractSingleFilterPane filterPane;
@@ -53,8 +53,8 @@ public class FunnelDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValu
     }
 
     @Override
-    public AbstractColumnFieldCollectionWithSeriesValue updateBean() {
-        AbstractColumnFieldCollectionWithSeriesValue collection = new AbstractColumnFieldCollectionWithSeriesValue();
+    public ColumnFieldCollectionWithSeriesValue updateBean() {
+        ColumnFieldCollectionWithSeriesValue collection = new ColumnFieldCollectionWithSeriesValue();
         updateSeriesValuePane(collection);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = collection.getSeriesValueCorrelationDefinition();
         filterPane.updateBean(seriesValueCorrelationDefinition.getFilterProperties());
@@ -62,7 +62,7 @@ public class FunnelDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValu
     }
 
     @Override
-    public void populateBean(AbstractColumnFieldCollectionWithSeriesValue ob) {
+    public void populateBean(ColumnFieldCollectionWithSeriesValue ob) {
         populateSeriesValuePane(ob);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = ob.getSeriesValueCorrelationDefinition();
         filterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
