@@ -16,6 +16,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.other.zoom.ZoomPane;
@@ -107,7 +108,7 @@ public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane() {
+            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
                 return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
             }
         };

@@ -3,6 +3,7 @@ package com.fr.design.chartx;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 
@@ -18,12 +19,12 @@ public abstract class AbstractVanSingleDataPane extends AbstractChartDataPane<Ab
     }
 
     @Override
-    protected JPanel createContentPane() {
-        singleDataPane = createSingleDataPane();
+    protected JPanel createContentPane(VanChart vanChart) {
+        singleDataPane = createSingleDataPane(vanChart);
         return singleDataPane;
     }
 
-    protected abstract SingleDataPane createSingleDataPane();
+    protected abstract SingleDataPane createSingleDataPane(VanChart vanChart);
 
     @Override
     protected void populate(AbstractDataDefinition dataDefinition) {

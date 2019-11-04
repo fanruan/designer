@@ -10,6 +10,7 @@ import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,10 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	protected JPanel createContentPane() {
 		contentsPane = new NormalChartDataPane(listener, ChartDataPane.this);
 		return contentsPane;
+	}
+
+	protected JPanel createContentPane(VanChart vanChart){
+		return createContentPane();
 	}
 
 	/**

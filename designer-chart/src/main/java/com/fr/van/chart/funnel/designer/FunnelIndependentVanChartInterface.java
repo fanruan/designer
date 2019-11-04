@@ -17,6 +17,7 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.PiePlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.data.OneDimensionalPlotReportDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -98,7 +99,7 @@ public class FunnelIndependentVanChartInterface extends AbstractIndependentVanCh
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane() {
+            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
                 return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
             }
         };

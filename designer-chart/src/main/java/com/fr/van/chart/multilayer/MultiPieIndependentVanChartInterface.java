@@ -12,6 +12,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.multilayer.other.VanChartMultiPieConditionPane;
 import com.fr.van.chart.multilayer.style.VanChartMultiPieSeriesPane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
@@ -46,7 +47,7 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane() {
+            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
                 return new SingleDataPane(new MultiPieDataSetFieldsPane(), new MultiPieCellDataFieldsPane());
             }
         };

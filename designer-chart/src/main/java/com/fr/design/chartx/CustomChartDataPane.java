@@ -5,6 +5,8 @@ import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
@@ -71,7 +73,7 @@ public class CustomChartDataPane extends ChartDataPane {
             final VanChartPlot vanChartPlot = customPlotList.get(i);
             paneList.add(new AbstractVanSingleDataPane(listener) {
                 @Override
-                protected SingleDataPane createSingleDataPane() {
+                protected SingleDataPane createSingleDataPane(VanChart vanChart) {
                     return createSingleDataPaneByPlot(vanChartPlot);
                 }
             });
@@ -88,8 +90,7 @@ public class CustomChartDataPane extends ChartDataPane {
                 return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
             case SCATTER:
             case BUBBLE:
-                //todo 散点图没写好
-                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
             default:
                 return StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType()) ?
                         new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane()) :
