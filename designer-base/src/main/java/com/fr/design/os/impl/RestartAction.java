@@ -65,7 +65,6 @@ public class RestartAction implements OSBasedAction {
     private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
-        //现在先写的是restart.sh
         commands.add(installHome + File.separator + "bin" + File.separator + "restart");
         if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
             commands.add(StableUtils.join(filesToBeDelete, "+"));

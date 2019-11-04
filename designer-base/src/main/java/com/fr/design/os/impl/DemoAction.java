@@ -21,7 +21,6 @@ public class DemoAction implements OSBasedAction {
         }
 
         String executorPath;
-
         if (OperatingSystem.isMacos()) {
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.app");
         } else if(OperatingSystem.isWindows()){
