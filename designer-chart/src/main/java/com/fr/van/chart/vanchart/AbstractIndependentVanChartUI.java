@@ -13,7 +13,6 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -56,7 +55,7 @@ public abstract class AbstractIndependentVanChartUI extends AbstractIndependentC
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
+            protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
             }
         };

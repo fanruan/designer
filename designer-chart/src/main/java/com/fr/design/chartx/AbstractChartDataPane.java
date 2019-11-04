@@ -32,7 +32,7 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
         }
 
         this.removeAll();
-        this.add(createContentPane(chart), BorderLayout.CENTER);
+        this.add(createContentPane(), BorderLayout.CENTER);
 
         ChartDataDefinitionProvider dataSetCollection = chart.getChartDataDefinition();
 

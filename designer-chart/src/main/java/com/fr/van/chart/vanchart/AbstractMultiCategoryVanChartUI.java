@@ -15,7 +15,6 @@ import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataConte
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.data.VanChartMoreCateReportDataContentPane;
 import com.fr.van.chart.designer.data.VanChartMoreCateTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePane;
@@ -70,7 +69,7 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
+            protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
             }
         };

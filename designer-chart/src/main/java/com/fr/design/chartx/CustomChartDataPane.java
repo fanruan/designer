@@ -24,13 +24,13 @@ import com.fr.van.chart.custom.component.VanChartCustomPlotUITabGroup;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
 
 /**
  * @author Bjorn
@@ -73,7 +73,7 @@ public class CustomChartDataPane extends ChartDataPane {
             final VanChartPlot vanChartPlot = customPlotList.get(i);
             paneList.add(new AbstractVanSingleDataPane(listener) {
                 @Override
-                protected SingleDataPane createSingleDataPane(VanChart vanChart) {
+                protected SingleDataPane createSingleDataPane() {
                     return createSingleDataPaneByPlot(vanChartPlot);
                 }
             });

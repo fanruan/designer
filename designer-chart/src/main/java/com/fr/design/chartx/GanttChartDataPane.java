@@ -5,7 +5,6 @@ import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.map.designer.VanChartGroupPane;
 
 import javax.swing.JPanel;
@@ -22,13 +21,13 @@ public class GanttChartDataPane extends AbstractChartDataPane<GanttChartDataDefi
     protected JPanel createContentPane() {
         dataPane = new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
+            protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
             }
         };
         linkPane = new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
+            protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
             }
         };

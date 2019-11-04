@@ -6,8 +6,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -20,7 +18,6 @@ import com.fr.design.mainframe.chart.gui.data.report.BubblePlotReportDataContent
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.bubble.data.VanChartBubblePlotTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -127,13 +124,8 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
             @Override
-            protected SingleDataPane createSingleDataPane(VanChart vanChart) {
-                VanChartBubblePlot bubblePlot = vanChart.getPlot();
-                if (bubblePlot.isForceBubble()) {
-                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
-                } else {
-                    return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
-                }
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
             }
         };
     }
