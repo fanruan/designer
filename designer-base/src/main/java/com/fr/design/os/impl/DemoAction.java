@@ -27,7 +27,7 @@ public class DemoAction implements OSBasedAction {
         } else if(OperatingSystem.isWindows()){
             executorPath = StableUtils.pathJoin(installHome, "bin", "designer.exe demo");
         }else{
-            executorPath = StableUtils.pathJoin(installHome, "bin", "designer.sh demo");
+            executorPath = StableUtils.pathJoin(installHome, "bin", "designer demo");
         }
 
         if (OperatingSystem.isMacos()) {

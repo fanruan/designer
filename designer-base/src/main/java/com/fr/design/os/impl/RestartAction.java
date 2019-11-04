@@ -66,7 +66,7 @@ public class RestartAction implements OSBasedAction {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
         //现在先写的是restart.sh
-        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart");
         if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
             commands.add(StableUtils.join(filesToBeDelete, "+"));
         }
