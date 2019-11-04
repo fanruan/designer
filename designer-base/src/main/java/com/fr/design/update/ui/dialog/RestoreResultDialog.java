@@ -219,7 +219,7 @@ public class RestoreResultDialog extends JDialog {
         files = installEnv.listFiles();
         if (files != null) {
             for (File file : files) {
-                if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().equals(UpdateConstants.ASPECTJRT)) {
+                if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().contains(UpdateConstants.ASPECTJRT)) {
                     list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
                 }
             }
