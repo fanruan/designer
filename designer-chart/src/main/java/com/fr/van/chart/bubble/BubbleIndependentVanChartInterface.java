@@ -3,6 +3,10 @@ package com.fr.van.chart.bubble;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -114,5 +118,15 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartBubbleConditionPane(plot);
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+            }
+        };
     }
 }

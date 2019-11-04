@@ -1,6 +1,6 @@
 package com.fr.design.chartx.fields.diff;
 
-import com.fr.chartx.data.field.diff.AbstractColumnFieldCollectionWithSeriesValue;
+import com.fr.chartx.data.field.diff.ColumnFieldCollectionWithSeriesValue;
 import com.fr.design.chartx.component.CellDataSeriesValueCorrelationPane;
 import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 
@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 /**
  * Created by shine on 2019/6/4.
  */
-public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends AbstractColumnFieldCollectionWithSeriesValue>
+public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends ColumnFieldCollectionWithSeriesValue>
         extends AbstractCellDataFieldsPane<T> {
 
     private CellDataSeriesValueCorrelationPane seriesValueFieldsPane;
@@ -41,11 +41,11 @@ public abstract class AbstractCellDataFieldsWithSeriesValuePane<T extends Abstra
         this.seriesValueFieldsPane = seriesValueFieldsPane;
     }
 
-    protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+    protected void populateSeriesValuePane(ColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
         seriesValueFieldsPane.populateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 
-    protected void updateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+    protected void updateSeriesValuePane(ColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
         seriesValueFieldsPane.updateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 
