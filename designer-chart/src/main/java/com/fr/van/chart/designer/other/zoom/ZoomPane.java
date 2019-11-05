@@ -165,10 +165,17 @@ public class ZoomPane extends BasicBeanPane<ZoomAttribute> {
     }
 
     private void checkCustomModePane() {
+        if (customModePane == null){
+            return;
+        }
         customModePane.setVisible(modeTypeButtonGroup.getSelectedItem() == ZoomModeType.CUSTOM);
     }
 
     private void checkInitialDisplayCardPane() {
+        if (initialDisplayCardPane == null){
+            return;
+        }
+
         CardLayout cardLayout = (CardLayout) initialDisplayCardPane.getLayout();
         if (ComparatorUtils.equals(initialDisplayTypeComboBox.getSelectedItem(), ZoomInitialDisplayType.TOP_CATEGORY)) {
             cardLayout.show(initialDisplayCardPane, ZoomInitialDisplayType.TOP_CATEGORY.toString());
@@ -180,16 +187,22 @@ public class ZoomPane extends BasicBeanPane<ZoomAttribute> {
 
     @Override
     public void populateBean(ZoomAttribute ob) {
-        modeTypeButtonGroup.setSelectedItem(ob.getModeType());
+        if (modeTypeButtonGroup != null) {
+            modeTypeButtonGroup.setSelectedItem(ob.getModeType());
+        }
 
-        initialDisplayTypeComboBox.setSelectedItem(ob.getInitialDisplayType());
+        if (initialDisplayTypeComboBox != null){
+            initialDisplayTypeComboBox.setSelectedItem(ob.getInitialDisplayType());
+        }
 
-        topCategorySpinner.setValue(ob.getTopCategory());
+        if (topCategorySpinner != null) {
+            topCategorySpinner.setValue(ob.getTopCategory());
+        }
 
-        if (ob.getLeft() != null) {
+        if (ob.getLeft() != null && leftFormulaPane != null) {
             leftFormulaPane.populateBean(ob.getLeft().getContent());
         }
-        if (ob.getRight() != null) {
+        if (ob.getRight() != null && rightFormulaPane != null) {
             rightFormulaPane.populateBean(ob.getRight().getContent());
         }
 
@@ -205,14 +218,25 @@ public class ZoomPane extends BasicBeanPane<ZoomAttribute> {
     public ZoomAttribute updateBean() {
         ZoomAttribute zoomAttribute = new ZoomAttribute();
 
-        zoomAttribute.setModeType(modeTypeButtonGroup.getSelectedItem());
+        if (modeTypeButtonGroup != null) {
+            zoomAttribute.setModeType(modeTypeButtonGroup.getSelectedItem());
+        }
 
-        zoomAttribute.setInitialDisplayType((ZoomInitialDisplayType) initialDisplayTypeComboBox.getSelectedItem());
+        if (initialDisplayTypeComboBox != null) {
+            zoomAttribute.setInitialDisplayType((ZoomInitialDisplayType) initialDisplayTypeComboBox.getSelectedItem());
+        }
 
-        zoomAttribute.setTopCategory((int) topCategorySpinner.getValue());
+        if (topCategorySpinner != null){
+            zoomAttribute.setTopCategory((int) topCategorySpinner.getValue());
+        }
 
-        zoomAttribute.setLeft(new StringFormula(leftFormulaPane.updateBean()));
-        zoomAttribute.setRight(new StringFormula(rightFormulaPane.updateBean()));
+        if (leftFormulaPane != null){
+            zoomAttribute.setLeft(new StringFormula(leftFormulaPane.updateBean()));
+        }
+
+        if (rightFormulaPane != null){
+            zoomAttribute.setRight(new StringFormula(rightFormulaPane.updateBean()));
+        }
 
         if (selectionZoomGroup != null) {
             zoomAttribute.setSelectionZoom(selectionZoomGroup.getSelectedItem());
