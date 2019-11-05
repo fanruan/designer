@@ -593,26 +593,26 @@ public class FRBodyLayoutAdapter extends AbstractLayoutAdapter {
         switch (position) {
             case COMP_TOP:
                 dim.width = maxWidth;
-                dim.height = maxHeight / 2;
-                finalY = yL + dim.height;
-                finalH = maxHeight - dim.height;
+                dim.height = maxHeight / 2  - actualVal / 2;
+                finalY = yL + dim.height +  actualVal;
+                finalH = maxHeight - dim.height - actualVal;
                 break;
             case COMP_BOTTOM:
-                dim.height = maxHeight / 2;
+                dim.height = maxHeight / 2 -  actualVal / 2;
                 dim.width = maxWidth;
-                finalH = maxHeight - dim.height;
-                yL = yL + finalH;
+                finalH = maxHeight - dim.height - actualVal;
+                yL = yL + finalH + actualVal;
                 break;
             case COMP_LEFT:
-                dim.width = maxWidth / 2;
+                dim.width = maxWidth / 2 -  actualVal / 2;
                 dim.height = maxHeight;
-                finalX = xL + dim.width;
-                finalW = maxWidth - dim.width;
+                finalX = xL + dim.width + actualVal;
+                finalW = maxWidth - dim.width - actualVal;
                 break;
             default:
-                finalW = maxWidth / 2;
-                xL = xL + finalW;
-                dim.width = maxWidth - finalW;
+                finalW = maxWidth / 2 -  actualVal / 2;
+                xL = xL + finalW + actualVal;
+                dim.width = maxWidth - finalW - actualVal;
                 dim.height = maxHeight;
         }
         if (isCalculateChildPos) {
