@@ -62,7 +62,9 @@ public class ExtraDesignClassManagerTest extends TestCase {
                     return toolbarItemProvider.accept(jTemplate);
                 }
             });
+            WidgetOption[] widgetOptions1 = ExtraDesignClassManager.getInstance().getWebWidgetOptions(set, null);
             Assert.assertEquals(1, widgetOptions.length);
+            Assert.assertEquals(2, widgetOptions1.length);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
