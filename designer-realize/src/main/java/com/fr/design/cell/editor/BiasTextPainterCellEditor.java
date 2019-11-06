@@ -10,6 +10,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.utils.gui.FineDesignScreen;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.Grid;
 import com.fr.report.cell.TemplateCellElement;
@@ -35,7 +36,7 @@ import java.awt.event.ActionListener;
 public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
     private BiasTextPainterPane biasTextPainterPane = null;
-    private static final double MULTIPLE = 1.5;
+    private static final double MULTIPLE = FineDesignScreen.isHighDPI() ? 2 : 1.5;
 
     /**
      * Constructor.
@@ -114,7 +115,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
             //center
             JPanel centerPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
-            defaultPane.add(centerPane, BorderLayout.CENTER);
+            defaultPane.add(centerPane, BorderLayout.NORTH);
 
             //text
             JPanel textPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
