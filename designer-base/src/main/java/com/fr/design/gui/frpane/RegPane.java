@@ -111,8 +111,8 @@ public class RegPane extends BasicPane {
                         cardPane.setPreferredSize(new Dimension(0,0 ));
                         detailedCardLayout.show(cardPane, "Default");
                     }
-                    fireRegChangeAction();
                 }
+                fireRegChangeAction();
             }
         });
     }

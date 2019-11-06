@@ -30,6 +30,7 @@ import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.*;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
 import com.fr.third.org.apache.http.client.methods.HttpGet;
 import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
@@ -47,10 +48,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import static java.nio.charset.StandardCharsets.*;
@@ -594,19 +593,23 @@ public class UpdateMainDialog extends UIDialog {
                     UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
                     updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
+                    RestoreResultDialog.deletePreviousPropertyFile();
+                    final String installLib = StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LOGS_NAME, UpdateConstants.INSTALL_LIB);
+                    final JFrame frame = DesignerContext.getDesignerFrame();
+                    final RestartHelper helper = new RestartHelper();
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
                             progressBar.setVisible(false);
-                            deleteForDesignerUpdate();
-                            RestartHelper.restart();
+                            deleteForDesignerUpdate(installLib);
+                            helper.restartForUpdate(frame);
                         }
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
-                            deleteForDesignerUpdate();
+                            deleteForDesignerUpdate(installLib);
                             JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
-                            RestartHelper.restart();
+                            helper.restartForUpdate(frame);
                         }
                     }.execute();
                 }
@@ -614,11 +617,9 @@ public class UpdateMainDialog extends UIDialog {
         });
     }
 
-    private void deleteForDesignerUpdate() {
-        File designerBackup = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DESIGNERBACKUPPATH));
-        CommonUtils.deleteFile(designerBackup);
-        File downloadForDesigner = new File(StableUtils.pathJoin(StableUtils.getInstallHome(),UpdateConstants.DOWNLOADPATH));
-        CommonUtils.deleteFile(downloadForDesigner);
+    private void deleteForDesignerUpdate(String installLib) {
+        File dir = new File(installLib);
+        CommonUtils.deleteFile(dir);
     }
 
     //获取备份目录

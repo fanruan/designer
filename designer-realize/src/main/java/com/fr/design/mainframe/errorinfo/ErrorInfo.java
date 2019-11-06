@@ -37,6 +37,9 @@ public class ErrorInfo {
         this.uploadtime = dateToString();
     }
 
+    public ErrorInfo() {
+    }
+
     public String getUsername() {
         return username;
     }
@@ -123,7 +126,7 @@ public class ErrorInfo {
         saveFileToCache(jo);
     }
 
-    private void saveFileToCache(JSONObject jo) {
+    public void saveFileToCache(JSONObject jo) {
         String content = jo.toString();
         String fileName = UUID.randomUUID() + ErrorInfoUploader.SUFFIX;
         File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), ErrorInfoUploader.FOLDER_NAME, fileName));

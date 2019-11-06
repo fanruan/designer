@@ -1,6 +1,5 @@
 package com.fr.design.mainframe.widget.accessibles;
 
-import com.fr.design.dialog.BasicPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -58,7 +57,7 @@ public class TemplateStylePane extends AbstractTemplateStylePane<TemplateStyle> 
         centerPane.setBorder(GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null));
         centerPane.add(previewPane);
         styleList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 previewPane.repaint((TemplateStyle) styleList.getSelectedValue());
             }
         });

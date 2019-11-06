@@ -10,10 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RestartAction implements OSBasedAction {
+
+    private static String installHome;
+
+    public RestartAction() {
+        installHome = StableUtils.getInstallHome();
+    }
+
     @Override
     public void execute(Object... objects) {
         String[] filesToBeDelete = (String[])objects;
-        String installHome = StableUtils.getInstallHome();
+        if (installHome == null) {
+            installHome = StableUtils.getInstallHome();
+        }
         try{
             if (OperatingSystem.isMacos()) {
                restartInMacOS(installHome, filesToBeDelete);
@@ -56,8 +65,7 @@ public class RestartAction implements OSBasedAction {
     private static void restartInLinux(String installHome, String[] filesToBeDelete) throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
         List<String> commands = new ArrayList<String>();
-        //现在先写的是restart.sh
-        commands.add(installHome + File.separator + "bin" + File.separator + "restart.sh");
+        commands.add(installHome + File.separator + "bin" + File.separator + "restart");
         if (ArrayUtils.isNotEmpty(filesToBeDelete)) {
             commands.add(StableUtils.join(filesToBeDelete, "+"));
         }

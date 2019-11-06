@@ -14,6 +14,8 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -21,6 +23,8 @@ import com.fr.van.chart.designer.other.zoom.ZoomPane;
 import com.fr.van.chart.designer.other.zoom.ZoomPaneWithOutMode;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
+import com.fr.van.chart.wordcloud.designer.data.WordCloudPlotReportDataContentPane;
+import com.fr.van.chart.wordcloud.designer.data.WordCloudPlotTableDataContentPane;
 import com.fr.van.chart.wordcloud.designer.other.VanChartWordCloudConditionPane;
 import com.fr.van.chart.wordcloud.designer.style.VanChartWordCloudSeriesPane;
 import com.fr.van.chart.wordcloud.designer.type.VanChartWordCloudTypePane;
@@ -61,6 +65,16 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/wordcloud.png";
+    }
+
+    @Override
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        return new WordCloudPlotReportDataContentPane();
+    }
+
+    @Override
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        return new WordCloudPlotTableDataContentPane();
     }
 
     @Override
