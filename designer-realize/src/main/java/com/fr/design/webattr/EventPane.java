@@ -168,7 +168,7 @@ public class EventPane extends BasicPane {
 				return;
 			}
 
-			int val = JOptionPane.showConfirmDialog(EventPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message",
+			int val = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EventPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message",
 					JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;

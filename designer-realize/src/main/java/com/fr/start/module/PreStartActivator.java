@@ -5,6 +5,7 @@ import com.fr.design.RestartHelper;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.DesignUtils;
 import com.fr.event.EventDispatcher;
+import com.fr.file.TmpFileUtils;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
 import com.fr.module.Activator;
@@ -17,6 +18,8 @@ public class PreStartActivator extends Activator {
 
     @Override
     public void start() {
+        //清空临时文件
+        TmpFileUtils.cleanUpInnerTmpFiles();
         RestartHelper.deleteRecordFilesWhenStart();
         //初始化
         EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Basic_Initializing"));

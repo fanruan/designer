@@ -10,7 +10,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.project.ProjectConstants;
-import com.fr.workspace.WorkContext;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -143,7 +142,6 @@ public class RestoreResultDialog extends JDialog {
         jTextArea.setFont(new Font("Default", Font.PLAIN, 12));
         infoPane.add(jTextArea);
         pane.add(infoPane, BorderLayout.CENTER);
-
         this.setSize(RESTORE_OLD_VERSION);
         this.setTitle(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Updater_Restore_to_V8"));
     }
@@ -162,34 +160,68 @@ public class RestoreResultDialog extends JDialog {
         List<String> list = new ArrayList<>();
         String installHome = StableUtils.getInstallHome();
 
-        putJarBackupFilesToInstallLib(installHome, map, list);
-        putJarBackupFilesToInstallEnv(installHome, map, list);
+        filesToMove(installHome, map);
+        filesToDelete(installHome, list);
         RestartHelper.saveFilesWhichToMove(map);
         RestartHelper.saveFilesWhichToDelete(list.toArray(new String[list.size()]));
     }
 
-    private void putJarBackupFilesToInstallLib(String installHome, Map<String, String> map, List<String> list) {
+    private void filesToMove(String installHome, Map<String, String> map) {
         String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
+        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
         File installLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.DESIGNERBACKUPPATH));
-        File[] files = installLib.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                map.put(file.getAbsolutePath(),
-                        StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
-                list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+        File envLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.BACKUPPATH));
+        File[] files;
+        if (installLib.exists() && envLib.exists()) {
+            files = installLib.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    map.put(file.getAbsolutePath(),
+                            StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+                }
+            }
+            files = envLib.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    map.put(file.getAbsolutePath(),
+                            StableUtils.pathJoin(envHome, ProjectConstants.LIB_NAME, file.getName()));
+                }
+            }
+        } else {
+            installLib = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir));
+            files = installLib.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().contains(UpdateConstants.DESIGNER) || file.getName().equals(UpdateConstants.ASPECTJRT)) {
+                        map.put(file.getAbsolutePath(),
+                                StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+                    } else {
+                        map.put(file.getAbsolutePath(),
+                                StableUtils.pathJoin(envHome, ProjectConstants.LIB_NAME, file.getName()));
+                    }
+                }
             }
         }
     }
 
-    private void putJarBackupFilesToInstallEnv(String installHome, Map<String, String> map, List<String> list) {
-        String backupDir = UpdateConstants.DESIGNER_BACKUP_DIR;
-        File installEnv = new File(StableUtils.pathJoin(installHome, backupDir, jarRestoreDir, UpdateConstants.BACKUPPATH));
+    private void filesToDelete(String installHome, List<String> list) {
+        String envHome = StableUtils.pathJoin(installHome, UpdateConstants.WEBAPPS, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME);
+        File installEnv = new File(StableUtils.pathJoin(envHome,ProjectConstants.LIB_NAME));
         File[] files = installEnv.listFiles();
         if (files != null) {
             for (File file : files) {
-                map.put(file.getAbsolutePath(),
-                        StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, file.getName()));
-                list.add(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), ProjectConstants.LIB_NAME, file.getName()));
+                if (file.getName().startsWith(UpdateConstants.FINE)) {
+                    list.add(StableUtils.pathJoin(envHome, ProjectConstants.LIB_NAME, file.getName()));
+                }
+            }
+        }
+        installEnv = new File(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME));
+        files = installEnv.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().startsWith(UpdateConstants.FINE) || file.getName().contains(UpdateConstants.ASPECTJRT)) {
+                    list.add(StableUtils.pathJoin(installHome, ProjectConstants.LIB_NAME, file.getName()));
+                }
             }
         }
     }

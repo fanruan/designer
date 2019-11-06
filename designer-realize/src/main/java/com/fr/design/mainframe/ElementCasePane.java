@@ -863,7 +863,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 // those that are interested in this event
                 for (int i = listeners.length - 2; i >= 0; i -= 2) {
                     if (listeners[i] == SelectionListener.class) {
-                        ((SelectionListener) listeners[i + 1]).selectionChanged(new SelectionEvent(this));
+                        ((SelectionListener) listeners[i + 1]).selectionChanged(new SelectionEvent(ElementCasePane.this));
                     }
                 }
             }
