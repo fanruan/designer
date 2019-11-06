@@ -10,7 +10,7 @@ import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
 
 /**
- * Created by Fangjie on 2016/6/15.
+ * Created by Fangjie on 2016/6/15. 
  */
 public class VanChartMultiPiePlotPane extends AbstractVanChartTypePane {
     @Override
