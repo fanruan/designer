@@ -115,7 +115,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
 
             //center
             JPanel centerPane =FRGUIPaneFactory.createBorderLayout_S_Pane();
-            defaultPane.add(centerPane, BorderLayout.NORTH);
+            defaultPane.add(centerPane, BorderLayout.CENTER);
 
             //text
             JPanel textPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
