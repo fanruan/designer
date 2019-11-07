@@ -477,7 +477,14 @@ public class GridUI extends ComponentUI {
                     this.tmpRectangle.getHeight() - 1);
             // peter:对于合并的单元格,需要先白色的背景来清除背景.
             if (tmpCellElement.getColumnSpan() > 1 || tmpCellElement.getRowSpan() > 1) {
-                WHITE_Backgorund.paint(g2d, this.cell_back_rect);
+                // REPORT-23492 要看下是否设置了纸张背景 如果设置了按照背景来画
+                ReportSettingsProvider reportSettings = getReportSettings(report);
+                Background currentBackground = reportSettings.getBackground();
+                if (currentBackground != null) {
+                    currentBackground.paint(g2d, this.cell_back_rect);
+                } else {
+                    WHITE_Backgorund.paint(g2d, this.cell_back_rect);
+                }
                 //daniel:上面这里就有问题了啊....报表的背景在这个之前画的 会覆盖报表背景....不过只是设计器中看到预览浏览没问题
             }
             // peter:将这个元素添加到需要paint的元素列表当中去,留着画边框线..
