@@ -4,12 +4,8 @@ import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.stable.StableUtils;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by vito on 2017/5/5.
@@ -41,5 +37,6 @@ public class LoginDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
+        // do nothing
     }
 }
