@@ -20,7 +20,7 @@ public class FormToolBar {
     }
 
     public void setButtonlist(List<FormToolBarButton> buttonlist) {
-        if (buttonlist == null || buttonlist.size() < 0) {
+        if (buttonlist == null) {
             this.buttonlist = new ArrayList<FormToolBarButton>();
         } else {
             this.buttonlist = buttonlist;

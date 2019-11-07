@@ -164,11 +164,11 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
             Graphics2D g2d = (Graphics2D) g;
 
             Dimension d = getSize();
-            this.patternBackground.paint(g2d, new Rectangle2D.Double(0, 0, d.width - 1, d.height - 1));
+            this.patternBackground.paint(g2d, new Rectangle2D.Double(0, 0, (double)d.width - 1, (double)d.height - 1));
 
             if (this.pIndex == patternIndex) {// it's selected.
                 g2d.setPaint(UIConstants.LINE_COLOR);
-                GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1, d.height - 1));
+                GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, (double)d.width - 1, (double)d.height - 1));
             }
         }
 

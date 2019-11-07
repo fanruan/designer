@@ -2,10 +2,9 @@ package com.fr.design.mainframe.chart.gui;
 
 import com.fr.base.BaseUtils;
 import com.fr.chart.base.AttrChangeConfig;
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
@@ -19,6 +18,7 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.mainframe.chart.gui.ChartTypePane.ComboBoxPane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -42,6 +42,8 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 图表 类型 增删 控制按钮界面.
@@ -55,6 +57,12 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private static final int COL_COUNT = 3;
     private static final int P_W = 300;
     private static final int P_H = 400;
+
+    private static Set<Class<? extends ChartProvider>> supportChangeConfigChartClassSet = new HashSet<Class<? extends ChartProvider>>();
+
+    static {
+        registerSupportChangeConfigChartClass(VanChart.class);
+    }
 
     private UIButton addButton;
     private UIButton configButton;
@@ -109,6 +117,10 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
      //   Toolkit.getDefaultToolkit().addAWTEventListener(awt, AWTEvent.MOUSE_EVENT_MASK);
     }
 
+    public static void registerSupportChangeConfigChartClass(Class<? extends ChartProvider> cls) {
+        supportChangeConfigChartClassSet.add(cls);
+    }
+
     private void initConfigCreator() {
         configCreator = new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Change_Config_Attributes"), new AttrChangeConfig(), ChangeConfigPane.class);
     }
@@ -135,9 +147,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
             if (editingCollection != null) {
                 //点击添加按钮，则会触发切换状态
-                Chart chart = editingCollection.getChangeStateNewChart();
+                ChartProvider chart = getChangeStateNewChart();
                 try {
-                    Chart newChart = (Chart) chart.clone();
+                    ChartProvider newChart = (ChartProvider) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
@@ -150,12 +162,44 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
     //获取图表收集器的状态
     private void checkoutChange(){
-        editingCollection.calculateMultiChartMode();
+        calculateMultiChartMode();
         if (parent != null){
             parent.relayoutChartTypePane(editingCollection);
         }
         //检查是否可以配置切换
-        configButton.setEnabled(editingCollection.changeEnable());
+        configButton.setEnabled(changeEnable());
+    }
+
+    /**
+     * 获取切花状态下的图表
+     *
+     * @return
+     */
+    public ChartProvider getChangeStateNewChart() {
+        ChartProvider chart = editingCollection.getSelectedChartProvider(ChartProvider.class);
+        String chartID = chart.getID();
+        String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
+        return ChartTypeManager.getInstanceWithCheck().getFirstChart(priority);
+    }
+
+    //图表收集器模式状态改变
+    private void calculateMultiChartMode() {
+        //设置切换功能是否可用
+        editingCollection.getChangeConfigAttr().setEnable(changeEnable());
+    }
+
+    /**
+     * 是否支持图表切换的配置
+     *
+     * @return
+     */
+    private boolean changeEnable() {
+        return editingCollection.getChartCount() > 1
+                && supportChange();
+    }
+
+    private boolean supportChange() {
+        return supportChangeConfigChartClassSet.contains(editingCollection.getSelectedChartProvider(ChartProvider.class).getClass());
     }
 
     ActionListener configListener = new ActionListener() {
@@ -310,11 +354,11 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void checkConfigButtonVisible() {
-        addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChart().getPlot().getPlotID()));
+        addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChartProvider(ChartProvider.class).getID()));
         //新建一个collection
-        if(editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChart() != null){
+        if (editingCollection.getChartCount() == 1 && editingCollection.getSelectedChartProvider(ChartProvider.class) != null) {
             //Chart 不支持图表切换
-            configButton.setVisible(editingCollection.getSelectedChart().supportChange());
+            configButton.setVisible(supportChange());
         }
     }
 
@@ -440,7 +484,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         private void deleteAButton() {
             //先重构属性，在重构面板，否则面板在重构过程中，会重新将属性中的切换图表加到indexList中，导致面板无法删除
             //记录改变前的plotID
-            String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
+            String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider(ChartProvider.class).getID();
             if (editingCollection != null) {
                 int count = editingCollection.getChartCount();
                 for (int i = 0; i < count; i++) {
@@ -520,7 +564,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             if (isEnabled()) {
                 noSelected();
                 //记录改变前的plotID
-                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChart().getPlot().getPlotID();
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider(ChartProvider.class).getID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();

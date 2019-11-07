@@ -3,7 +3,6 @@ package com.fr.design.widget.ui.designer.mobile.component;
 import com.fr.base.iofile.attr.AttrMarkFactory;
 import com.fr.base.iofile.attr.FormBodyPaddingAttrMark;
 import com.fr.design.designer.IntervalConstants;
-import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -29,24 +28,17 @@ public class MobileComponentLayoutIntervalPane extends XmlRelationedBasicPane {
         super(xmlTag);
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         UILabel intervalLabel = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Component_Interval"));
-
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
-        double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}};
         componentIntervel = new UISpinner(0, Integer.MAX_VALUE, 1, FormBodyPaddingAttrMark.DEFAULT_SIZE);
-        JPanel componentIntervelPane = UIComponentUtils.wrapWithBorderLayoutPane(componentIntervel);
+        JPanel componentIntervalPane = UIComponentUtils.wrapWithBorderLayoutPane(componentIntervel);
 
         Component[][] components = new Component[][]{
-                new Component[]{intervalLabel, componentIntervelPane}
+                new Component[]{intervalLabel, componentIntervalPane}
         };
-        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 0, 0));
+        JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(components, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        centerPane.setBorder(BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, IntervalConstants.INTERVAL_L5, 10, 0));
         JPanel holder = FRGUIPaneFactory.createBorderLayout_S_Pane();
         holder.add(centerPane, BorderLayout.NORTH);
-        UIExpandablePane layoutExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, holder);
-        this.add(layoutExpandablePane, BorderLayout.NORTH);
+        this.add(holder, BorderLayout.NORTH);
     }
 
     @Override

@@ -19,7 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author alex sung
@@ -52,13 +54,15 @@ public class FileEntityBuilder {
             return null;
         }
         File zipFile = null;
+        ZipOutputStream zipOut = null;
         try {
             zipFile = new File(pathName + ".zip");
-            java.util.zip.ZipOutputStream zipOut = new java.util.zip.ZipOutputStream(new FileOutputStream(zipFile));
+            zipOut = new ZipOutputStream(new FileOutputStream(zipFile));
             IOUtils.zip(zipOut, new File(pathName));
-            zipOut.close();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            IOUtils.close(zipOut);
         }
         return zipFile;
     }
@@ -67,18 +71,18 @@ public class FileEntityBuilder {
         if (jsonArray.size() == 0) {
             return;
         }
-        try {
-            String content = jsonArray.toString();
+        FileOutputStream out = null;
+        String content = jsonArray.toString();
+        try (InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
             String fileName = String.valueOf(UUID.randomUUID());
             File file = new File(folderName + File.separator + fileName + ".json");
             StableUtils.makesureFileExist(file);
-            FileOutputStream out = new FileOutputStream(file);
-            InputStream in = new ByteArrayInputStream(content.getBytes(EncodeConstants.ENCODING_UTF_8));
+            out = new FileOutputStream(file);
             IOUtils.copyBinaryTo(in, out);
-            in.close();
-            out.close();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        } finally {
+            IOUtils.close(out);
         }
     }
 

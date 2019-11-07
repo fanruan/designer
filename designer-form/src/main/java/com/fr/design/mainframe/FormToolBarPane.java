@@ -118,7 +118,7 @@ public class FormToolBarPane extends BasicBeanPane<ToolBar> {
     }
 
     private void setToolBar(List<FormToolBarButton> list) {
-        if (list == null || list.size() < 0) {
+        if (list == null) {
             return;
         }
         this.removeAll();

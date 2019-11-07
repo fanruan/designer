@@ -9,9 +9,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.utils.gui.GUIPaintUtils;
+import com.fr.stable.CommonUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
 
+import com.fr.stable.collections.utils.MathUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -37,6 +39,7 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
     private String spinnerName = StringUtils.EMPTY;
     private UIObserverListener uiObserverListener;
     private GlobalNameListener globalNameListener = null;
+    private boolean lessMinValue = false;
 
 
     public UISpinner(double minValue, double maxValue, double dierta) {
@@ -91,6 +94,18 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         return textField;
     }
 
+    public UIButton getNextButton() {
+        return nextButton;
+    }
+
+    public boolean isLessMinValue() {
+        return lessMinValue;
+    }
+
+    public void resetLessMinValue() {
+        lessMinValue = false;
+    }
+
     public void setValue(double value) {
         setValue(value, true);
     }
@@ -107,9 +122,10 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(spinnerName);
         }
-        value = value < minValue ? minValue : value;
+        lessMinValue = value < minValue;
+        value = lessMinValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
-        if (value == this.value) {
+        if (CommonUtils.equals(value, this.value)) {
             return;
         }
         this.value = value;
@@ -129,10 +145,11 @@ public class UISpinner extends JPanel implements UIObserver, GlobalNameObserver 
         if (globalNameListener != null && shouldResponseNameListener()) {
             globalNameListener.setGlobalName(spinnerName);
         }
-        value = value < minValue ? minValue : value;
+        lessMinValue = value < minValue;
+        value = lessMinValue ? minValue : value;
         value = value > maxValue ? maxValue : value;
 
-        if (value == this.value) {
+        if (CommonUtils.equals(value, this.value)) {
             return;
         }
         this.value = value;

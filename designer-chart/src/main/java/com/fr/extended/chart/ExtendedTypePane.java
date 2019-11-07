@@ -1,14 +1,15 @@
 package com.fr.extended.chart;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.charttypes.ChartTypeManager;
+import com.fr.chartx.attr.ChartProvider;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 
 /**
  * Created by shine on 2018/3/5.
  */
-public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartTypePane {
+public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartTypePane<AbstractChart> {
 
     @Override
     protected String[] getTypeIconPath() {
@@ -34,7 +35,7 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     }
 
     @Override
-    public void populateBean(Chart chart) {
+    public void populateBean(AbstractChart chart) {
         if (getTypeIconPath().length > 0) {
             for (ChartImagePane imagePane : typeDemo) {
                 imagePane.isPressing = false;
@@ -46,7 +47,7 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     }
 
     @Override
-    public void updateBean(Chart chart) {
+    public void updateBean(AbstractChart chart) {
         update((T) chart);
 
         if (getTypeIconPath().length > 0) {
@@ -65,13 +66,13 @@ public class ExtendedTypePane<T extends AbstractChart> extends AbstractChartType
     }
 
     @Override
-    public Chart getDefaultChart() {
-        return ChartTypeManager.getInstance().getChartTypes(getPlotID())[0];
+    public ChartProvider getDefaultChart() {
+        return ChartTypeManager.getInstance().getCharts(getPlotID())[0];
     }
 
     @Override
     public String title4PopupWindow() {
-        return ChartTypeManager.getInstance().getChartName(getPlotID());
+        return ChartTypeInterfaceManager.getInstance().getName(getPlotID());
     }
 
     @Override

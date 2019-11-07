@@ -102,11 +102,7 @@ public class EnvChangeEntrance {
                 return false;
             }
 
-            //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
-            JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-            if (template != null) {
-                template.refreshToolArea();
-            }
+        
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
@@ -119,6 +115,11 @@ public class EnvChangeEntrance {
                     }
                 }
             });
+            //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
+            JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+            if (template != null) {
+                template.refreshToolArea();
+            }
 
         } catch (WorkspaceAuthException | RegistEditionException e) {
             // String title = Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed");

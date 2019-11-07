@@ -55,6 +55,7 @@ public class SplashFxWindow extends Application {
      *
      * @return 运行实例
      */
+    @SuppressWarnings("squid:S2142")
     public static SplashFxWindow waitForStartUpTest() {
         try {
             LATCH.await();

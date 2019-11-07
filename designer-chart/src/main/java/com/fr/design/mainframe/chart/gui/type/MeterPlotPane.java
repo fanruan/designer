@@ -7,7 +7,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.MeterStyle;
 import com.fr.chart.charttypes.MeterIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -16,9 +15,9 @@ import com.fr.log.FineLoggerFactory;
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2012-12-26 上午10:48:57
  */
-public class MeterPlotPane extends AbstractChartTypePane {
-	
-	private static final int METER = 0;
+public class MeterPlotPane extends AbstractDeprecatedChartTypePane {
+
+    private static final int METER = 0;
     private static final int BLUE_METER =1;
     private static final int SIMPLE_METER = 2;
 
@@ -28,16 +27,6 @@ public class MeterPlotPane extends AbstractChartTypePane {
         return new String[]{"/com/fr/design/images/chart/MeterPlot/type/0.png",
                 "/com/fr/design/images/chart/MeterPlot/type/1.png",
                 "/com/fr/design/images/chart/MeterPlot/type/2.png",
-        };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        String meter = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
-        return new String[]{
-                Toolkit.i18nText("Fine-Design_Chart_Mode_Custom") + meter,
-                meter + "1",
-                meter + "2"
         };
     }
 
@@ -66,10 +55,12 @@ public class MeterPlotPane extends AbstractChartTypePane {
         }
 
         Plot cloned = null;
-        try {
-            cloned = (Plot)newPlot.clone();
-        } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error("Error In ColumnChart");
+        if(newPlot != null) {
+            try {
+                cloned = (Plot) newPlot.clone();
+            } catch (CloneNotSupportedException e) {
+                FineLoggerFactory.getLogger().error("Error In ColumnChart");
+            }
         }
         return cloned;
     }
@@ -79,7 +70,7 @@ public class MeterPlotPane extends AbstractChartTypePane {
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Meter");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Meter");
     }
 
     /**

@@ -19,6 +19,7 @@ import com.fr.grid.Grid;
 import com.fr.grid.GridUtils;
 import com.fr.report.ReportHelper;
 import com.fr.report.worksheet.FormElementCase;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -128,7 +129,7 @@ public class FormReportComponentComposite extends JComponent implements TargetMo
         int row = reportPane.getSelection().getSelectedRows()[0];
         double rowLength = reportPane.getSelection().getSelectedRows().length;
         double rowExtent = reportPane.getGrid().getVerticalExtent();
-        if (columnLength == 0 || rowLength == 0) {
+        if (AssistUtils.equals(columnLength, 0d) || AssistUtils.equals(rowLength, 0d)) {
             return ScreenResolution.getScreenResolution();
         }
         double time = (columnExtent / columnLength) < (rowExtent / rowLength) ? (columnExtent / columnLength) : (rowExtent / rowLength);

@@ -3,7 +3,6 @@ package com.fr.van.chart.wordcloud.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.WordCloudIndependentVanChart;
@@ -13,18 +12,11 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
  * Created by Mitisky on 16/11/29.
  */
 public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
-    public static final String TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Cloud");
+
     @Override
     protected String[] getTypeIconPath() {
         return new String[]{
                 "/com/fr/van/chart/wordcloud/images/wordcloud.png"
-        };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Word_Cloud")
         };
     }
 

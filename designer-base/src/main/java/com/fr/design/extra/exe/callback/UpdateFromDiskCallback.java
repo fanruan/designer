@@ -51,7 +51,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
                     null,
                     null
             );
-            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+            if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                 return;
             }
             List<PluginTask> pluginTasks = result.getPreTasks();
@@ -71,7 +71,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
                     null,
                     null
             );
-            if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
+            if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
                 return;
             }
             PluginOperateUtils.installPluginFromDisk(zipFile, jsCallback);

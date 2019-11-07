@@ -14,6 +14,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 
 import com.fr.plugin.chart.multilayer.data.MultiPieReportDataDefinition;
+import com.fr.stable.AssistUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -81,7 +82,7 @@ public class MultiPiePlotReportDataContentPane extends AbstractReportDataContent
             @Override
             public void setTextFieldValue(double value) {
                 //如果为0，则没有改变值
-                if (value == 0){
+                if (AssistUtils.equals(0, value)) {
                     return;
                 }
                 super.setTextFieldValue(value);

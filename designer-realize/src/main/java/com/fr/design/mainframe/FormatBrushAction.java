@@ -157,7 +157,7 @@ public class FormatBrushAction extends ElementCaseAction {
                     }
                     Style style = cellElement.getStyle();
                     if (style == null) {
-                        style = style.DEFAULT_STYLE;
+                        style = Style.DEFAULT_STYLE;
                     }
 
                     referencedStyle[i][j] = style;

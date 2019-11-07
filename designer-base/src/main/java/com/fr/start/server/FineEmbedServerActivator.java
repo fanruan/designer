@@ -38,7 +38,7 @@ public class FineEmbedServerActivator extends Activator {
 
         } catch (LifecycleException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }finally {
+        } finally {
             FineEmbedServerMonitor.getInstance().setComplete();
         }
     }
@@ -87,7 +87,7 @@ public class FineEmbedServerActivator extends Activator {
 
     private void stopSpring() {
 
-        AnnotationConfigWebApplicationContext context = ModuleRole.ServerRoot.getSingleton(AnnotationConfigWebApplicationContext.class);
+        AnnotationConfigWebApplicationContext context = ModuleRole.ServerRoot.findSingleton(AnnotationConfigWebApplicationContext.class);
         if (context != null) {
             context.stop();
             context.destroy();

@@ -18,6 +18,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
 
     private MobileRadioCheckPane appearRefreshCheckPane;  // 页面再现时刷新
     private MobileRadioCheckPane promptWhenLeaveWithoutSubmitCheckPane;  // 数据未提交离开提示
+    private MobileRadioCheckPane allowDoubleClickOrZoomCheckPane;   // 允许双击/双指缩放
 
     public FormMobileOthersPane() {
         this.initComponents();
@@ -32,6 +33,8 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         contentPane.add(appearRefreshCheckPane, BorderLayout.WEST);
         promptWhenLeaveWithoutSubmitCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Prompt_When_Leave_Without_Submit"));
         contentPane.add(promptWhenLeaveWithoutSubmitCheckPane, BorderLayout.CENTER);
+        allowDoubleClickOrZoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Attr_Allow_Zoom"));
+        contentPane.add(allowDoubleClickOrZoomCheckPane, BorderLayout.EAST);
         borderPane.add(contentPane);
         this.add(borderPane);
     }
@@ -43,6 +46,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         }
         this.appearRefreshCheckPane.populateBean(ob.isAppearRefresh());
         this.promptWhenLeaveWithoutSubmitCheckPane.populateBean(ob.isPromptWhenLeaveWithoutSubmit());
+        this.allowDoubleClickOrZoomCheckPane.populateBean(ob.isAllowDoubleClickOrZoom());
     }
 
     @Override
@@ -55,6 +59,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         if(mobileAttr != null) {
             mobileAttr.setAppearRefresh(this.appearRefreshCheckPane.updateBean());
             mobileAttr.setPromptWhenLeaveWithoutSubmit(this.promptWhenLeaveWithoutSubmitCheckPane.updateBean());
+            mobileAttr.setAllowDoubleClickOrZoom(this.allowDoubleClickOrZoomCheckPane.updateBean());
         }
     }
 

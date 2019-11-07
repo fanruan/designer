@@ -10,19 +10,19 @@ import com.fr.chart.chartattr.PiePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.PieIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 import com.fr.stable.Constants;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
+import java.awt.Color;
 
 /**
  * 饼图 属性表 选择类型 布局界面.
 * @author kunsnat E-mail:kunsnat@gmail.com
 * @version 创建时间：2012-12-25 下午06:55:33
  */
-public class PiePlotPane extends AbstractChartTypePane{
-	private static final long serialVersionUID = -601566194238908115L;
+public class PiePlotPane extends AbstractDeprecatedChartTypePane {
+    private static final long serialVersionUID = -601566194238908115L;
 
 	private static final int PIE_CHART = 0;
 	private static final int THREE_D_PIE_CHART = 1;
@@ -33,15 +33,6 @@ public class PiePlotPane extends AbstractChartTypePane{
                 "/com/fr/design/images/chart/PiePlot/type/1.png",
         };
     }
-
-	@Override
-	protected String[] getTypeTipName() {
-		String pie = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie");
-		return new String[]{
-                pie,
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_3D") + pie
-        };
-	}
 
 	@Override
     protected String[] getTypeLayoutPath() {
@@ -63,7 +54,7 @@ public class PiePlotPane extends AbstractChartTypePane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Pie");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Pie");
 	}
 
     private void createPieCondition(Plot plot) {

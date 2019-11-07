@@ -54,6 +54,9 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
 				@Override
 				public boolean equals(Object o) {
+					if (o == null) {
+						return false;
+					}
 					return ComparatorUtils.equals(o.getClass().getName(), this.getClass().getName());
 				}
 			});
@@ -81,7 +84,7 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
 	//默认大小, 报表块默认3列6行, 图表块默认330*240
 	public abstract UnitRectangle getDefaultBlockBounds();
-	
+
 	// 不同的Block有不同的显示器
 	protected abstract JComponent initMonitor();
 
@@ -97,9 +100,9 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
 	/**
 	 * 检测按钮状态
-	 * 
+	 *
 	 * @date 2015-2-5-上午11:33:46
-	 * 
+	 *
 	 */
 	public abstract void checkButtonEnable();
 
@@ -134,31 +137,31 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
 	/**
 	 * 获取当前工具栏组
-	 * 
+	 *
 	 * @return 工具栏组
-	 * 
+	 *
 	 * @date 2015-2-5-上午11:29:07
-	 * 
+	 *
 	 */
 	public abstract ToolBarDef[] toolbars4Target();
 
 	/**
 	 * 在Form的工具栏组
-	 * 
+	 *
 	 * @return 组件数组
-	 * 
+	 *
 	 * @date 2015-2-5-上午11:31:46
-	 * 
+	 *
 	 */
 	public abstract JComponent[] toolBarButton4Form();
-	
+
 	/**
 	 * 获取当前菜单栏组
-	 * 
+	 *
 	 * @return 菜单栏组
-	 * 
+	 *
 	 * @date 2015-2-5-上午11:29:07
-	 * 
+	 *
 	 */
 	public abstract MenuDef[] menus4Target();
 
@@ -167,11 +170,11 @@ public abstract class BlockCreator<T extends TemplateBlock> extends JComponent i
 
     /**
 	 * 获取菜单里的快捷方式数组
-	 * 
+	 *
 	 * @return 菜单里的快捷方式数组
-	 * 
+	 *
 	 * @date 2015-2-5-上午11:27:08
-	 * 
+	 *
 	 */
 	public abstract ShortCut[] shortcut4TemplateMenu();
 

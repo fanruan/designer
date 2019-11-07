@@ -11,6 +11,7 @@ import com.fr.stable.CoreConstants;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.authority.AuthorityOperator;
+import com.fr.workspace.server.authority.decision.DecisionOperator;
 
 import java.util.ArrayList;
 
@@ -39,14 +40,15 @@ public class NodeAuthProcessor {
         authPaths.clear();
         if (!WorkContext.getCurrent().isLocal()) {
             try {
-                String username = WorkContext.getCurrent().getConnection().getUserName();
-                // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
+                String userName = WorkContext.getCurrent().getConnection().getUserName();
+                String userId = WorkContext.getCurrent().get(DecisionOperator.class).getUserIdByName(userName);
+                // 远程设计获取设计成员的权限列表
+                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities(userId);
                 DesignAuthority authority = null;
 
                 if (authorities != null) {
                     for (DesignAuthority designAuthority : authorities) {
-                        if (ComparatorUtils.equals(designAuthority.getUsername(), username)) {
+                        if (ComparatorUtils.equals(designAuthority.getUsername(), userName)) {
                             authority = designAuthority;
                         }
                     }

@@ -8,6 +8,7 @@ import com.fr.design.fun.JavaScriptActionProvider;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.form.ui.WebContentUtils;
 import com.fr.js.JavaScript;
@@ -149,7 +150,8 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
 
         @Override
         public DBManipulationPane createDBManipulationPane() {
-            return new DBManipulationPane();
+            JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+            return jTemplate == null ? new DBManipulationPane() : jTemplate.createDBManipulationPane();
         }
 
         @Override

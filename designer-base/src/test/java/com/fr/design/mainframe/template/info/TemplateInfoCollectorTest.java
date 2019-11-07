@@ -56,6 +56,8 @@ public class TemplateInfoCollectorTest {
         initialFileContent = FileUtils.readFileToString(new File(filePath), "utf-8");
 
         Reflect.on(TemplateInfoCollector.class).set("instance", null);
+        // 后执行 testReadXML 用例时，之前保留的单例会造成影响
+        Reflect.on(DesignerOpenHistory.class).set("singleton", null);
     }
 
     @After
@@ -89,7 +91,7 @@ public class TemplateInfoCollectorTest {
 
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":1,\"widget_count\":0," +
                 "\"cell_count\":13,\"block_count\":3,\"report_type\":0," +
-                "\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}",templateInfo.getProcessMapJsonString());
+                "\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}", templateInfo.getProcessMapJsonString());
 
         assertJsonStringEquals("{\"activitykey\":\"2e0ea413-fa9c241e0-9723-4354fce51e81\"," +
                 "\"jar_time\":\"不是安装版本\",\"create_time\":\"2019-03-26 16:13\"," +
@@ -118,7 +120,7 @@ public class TemplateInfoCollectorTest {
 
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":1,\"widget_count\":0," +
                 "\"cell_count\":13,\"block_count\":3,\"report_type\":0," +
-                "\"templateID\":\"73a97777-8jnk-47cd-b57c-2ee89991279796\"}",templateInfo.getProcessMapJsonString());
+                "\"templateID\":\"73a97777-8jnk-47cd-b57c-2ee89991279796\"}", templateInfo.getProcessMapJsonString());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
         assertEquals(templateID, consumingMap.get("templateID"));

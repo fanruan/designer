@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.errorinfo;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.mainframe.SiteCenterToken;
 import com.fr.general.CloudCenter;
 import com.fr.general.CommonIOUtils;
@@ -24,6 +25,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Administrator on 2017/7/24 0024.
@@ -81,8 +84,8 @@ public class ErrorInfoUploader {
             return;
         }
 
-
-        Thread updateThread = new Thread(new Runnable() {
+        ExecutorService es = Executors.newSingleThreadExecutor(new NamedThreadFactory("ErrorInfoUploader"));
+        es.submit(new Runnable() {
             @Override
             public void run() {
                 String localCacheFilePath = StableUtils.pathJoin(ProductConstants.getEnvHome(), "solution", "solution.zip");
@@ -92,7 +95,7 @@ public class ErrorInfoUploader {
                 }
             }
         });
-        updateThread.start();
+        es.shutdown();
     }
 
     private void downloadSolution(File localCacheZip) {

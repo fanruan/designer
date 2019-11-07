@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
@@ -20,6 +21,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -109,12 +111,14 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
-                //此处画图
-                Chart chart = collection.getSelectedChart();
-                chart.demoImgEvent(true);
+                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
+                if (vanChart != null) {
+                    //此处画图
+                    vanChart.demoImgEvent(true);
+                }
 
                 try {
-                    lastCollection = (ChartCollection) collection.clone();
+                    lastCollection = collection.clone();
                 } catch (CloneNotSupportedException e) {
                     FineLoggerFactory.getLogger().error("error in clone ChartEditPane");
                 }
@@ -127,11 +131,15 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     };
 
+    @Deprecated
+    public void reLayout(Chart currentChart) {
+    }
+
     /**
      * 重新构造面板
      * @param currentChart 图表
      */
-    public void reLayout(Chart currentChart){
+    public void reLayout(ChartProvider currentChart) {
         if(currentChart != null){
             int chartIndex = getSelectedChartIndex(currentChart);
             this.removeAll();
@@ -139,12 +147,8 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             paneList = new ArrayList<AbstractChartAttrPane>();
             addTypePane();
 
-            boolean isDefault = true;
-            String plotID = "";
-            if(currentChart.getPlot() != null){
-                plotID = currentChart.getPlot().getPlotID();
-                isDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
-            }
+            String chartID = currentChart.getID();
+            boolean isDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
 
             if(isDefault){
                 paneList.add(dataPane4SupportCell);
@@ -152,11 +156,11 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 paneList.add(otherPane);
                 this.isDefaultPane = true;
             }else{
-                ChartDataPane chartDataPane = createChartDataPane(plotID);
+                ChartDataPane chartDataPane = createChartDataPane(chartID);
                 if (chartDataPane != null) {
                     paneList.add(chartDataPane);
                 }
-                AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(plotID, listener);
+                AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(chartID, listener);
                 for(int i = 0; i < otherPaneList.length; i++){
                     otherPaneList[i].addAttributeChangeListener(listener);
                     paneList.add(otherPaneList[i]);
@@ -226,8 +230,14 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             return;
         }
 
-        if(checkNeedsReLayout(collection.getSelectedChart())){
-            reLayout(collection.getSelectedChart());
+        ChartProvider chartProvider = collection.getSelectedChartProvider(ChartProvider.class);
+        if (checkNeedsReLayout(chartProvider)) {
+            String chartID = chartProvider.getID();
+            if ("WaferChipChart".equals(chartID) || "BoxPlotChart".equals(chartID)) {
+                reLayout((Chart)chartProvider);
+            } else {
+                reLayout(chartProvider);
+            }
         }
 
         this.collection = collection;
@@ -253,7 +263,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     }
 
-    public int getSelectedChartIndex(Chart chart){
+    public int getSelectedChartIndex(ChartProvider chart) {
         int index = 0;
         if(typePane != null){
             FurtherBasicBeanPane[] paneList = typePane.getPaneList();
@@ -267,15 +277,13 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
     }
 
     //populate的时候看看要不要重构面板
-    private boolean checkNeedsReLayout(Chart chart){
+    private boolean checkNeedsReLayout(ChartProvider chart) {
         if(chart != null){
             int lastIndex = typePane.getSelectedIndex();
             int currentIndex = getSelectedChartIndex(chart);
-            boolean currentPane = true;
-            if(chart.getPlot() != null){
-                String plotID = chart.getPlot().getPlotID();
-                currentPane = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
-            }
+            String chartID = chart.getID();
+            boolean currentPane = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
+
             return (currentPane != isDefaultPane) || (!currentPane && lastIndex != currentIndex);
         }
         return false;

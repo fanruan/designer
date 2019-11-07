@@ -16,6 +16,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.upm.event.CertificateEvent;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -28,10 +29,8 @@ import com.fr.general.DateUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.EncodeConstants;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
-
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -142,7 +141,8 @@ public class UserInfoLabel extends UILabel {
             @Override
             public void run() {
                 // vito:最新mac10.12和javafx弹出框初始化时会有大几率卡死在native方法，这里先屏蔽一下。
-                if (!FRContext.isChineseEnv() || OperatingSystem.isMacOS()) {
+                //ARM下暂时也不能用javafx
+                if (!SupportOSImpl.BBSDIALOG.support()) {
                     return;
                 }
                 String lastBBSNewsTime = DesignerEnvManager.getEnvManager().getLastShowBBSNewsTime();

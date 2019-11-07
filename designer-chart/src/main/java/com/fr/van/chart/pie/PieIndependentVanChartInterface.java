@@ -3,6 +3,7 @@ package com.fr.van.chart.pie;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
@@ -22,6 +23,30 @@ public class PieIndependentVanChartInterface extends AbstractIndependentVanChart
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/pie.png";
     }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Pie");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_New_Pie"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_SameArc_Pie"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_DifferArc_Pie")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/0.png",
+                "com/fr/plugin/chart/demo/image/1.png",
+                "com/fr/plugin/chart/demo/image/2.png"
+        };
+    }
+
 
     @Override
     public AbstractChartTypePane getPlotTypePane() {
@@ -47,9 +72,5 @@ public class PieIndependentVanChartInterface extends AbstractIndependentVanChart
     @Override
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
         return (parent instanceof VanChartDataPane) ? new CategoryCustomPlotTableDataContentPane(parent) : new CategoryPlotTableDataContentPane(parent);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartPiePlotPane.TITLE;
     }
 }

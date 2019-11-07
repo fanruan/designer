@@ -192,7 +192,11 @@ public class UITreeComboBox extends UIComboBox {
 
         @Override
         public boolean equals(Object o) {
-            return o.getClass() == this.getClass();
+            if (o != null) {
+                return o.getClass() == this.getClass();
+            } else {
+                return false;
+            }
         }
     }
 

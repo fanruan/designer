@@ -47,7 +47,7 @@ import java.util.ArrayList;
  */
 public class PolyDesignUI extends ComponentUI {
     private static final Color PAGINATE_LINE_COLOR = Color.GRAY;
-    
+
     private static final double SCROLL_POINT = 50;
     private static final int SCROLL_DISTANCE = 15;
     private static final int TEN = 10;
@@ -65,11 +65,11 @@ public class PolyDesignUI extends ComponentUI {
 
     /**
 	 * 从组件中获取设计器, 并赋值
-	 * 
+	 *
 	 * @param c 组件对象
-	 * 
+	 *
 	 * @date 2015-2-12-下午2:38:05
-	 * 
+	 *
 	 */
     public void installUI(JComponent c) {
         designer = ((PolyArea) c).getPolyDesigner();
@@ -137,7 +137,7 @@ public class PolyDesignUI extends ComponentUI {
             }
         }
     }
-    
+
     private void changeForbiddenWindowVisibility(BlockCreator creator){
 		Rectangle pixRec = creator.getBounds();
 		boolean intersected = designer.intersectsAllBlock(creator);
@@ -145,12 +145,12 @@ public class PolyDesignUI extends ComponentUI {
 			creator.getEditor().hideForbiddenWindow();
 			return;
 		}
-		
+
         int x = (int) (designer.getAreaLocationX() + pixRec.getCenterX()*time - designer.getHorizontalValue());
         int y = (int) (designer.getAreaLocationY() + pixRec.getCenterY()*time - designer.getVerticalValue());
 		creator.getEditor().showForbiddenWindow(x, y);
     }
-    
+
 	private Rectangle getCreatorPixRectangle(BlockCreator creator, Point location){
 		int width = creator.getWidth();
 		int height = creator.getHeight();
@@ -158,21 +158,22 @@ public class PolyDesignUI extends ComponentUI {
 		int resy = location.y - height / 2 + designer.getVerticalValue();
 		return new Rectangle(resx, resy, width, height);
 	}
-    
+
+	@SuppressWarnings("squid:S2142")
     private void scrollWhenCreatorAtCorner(final BlockCreator creator){
     	Thread scrollThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
 					Thread.sleep(100);
-					
+
 					int rightCornerX = creator.getX() + creator.getWidth();
 					int rightCornerY = creator.getY() + creator.getHeight();
 
 					JScrollBar horizonBar = designer.getHorizontalScrollBar();
 					JScrollBar verticalBar = designer.getVerticalScrollBar();
-					
+
 					int scrollX = designer.getWidth() + horizonBar.getValue();
 					int scrollY = designer.getHeight() + verticalBar.getValue();
 
@@ -180,7 +181,7 @@ public class PolyDesignUI extends ComponentUI {
 					if(rightCornerX > scrollX - SCROLL_POINT){
 						horizonBar.setValue(horizonBar.getValue() + SCROLL_DISTANCE);
 					}
-					
+
 					if(rightCornerY > scrollY - SCROLL_POINT){
 						verticalBar.setValue(verticalBar.getValue() + SCROLL_DISTANCE);
 					}
@@ -200,7 +201,7 @@ public class PolyDesignUI extends ComponentUI {
 		GraphHelper.drawString(g, convertUnit(y), 0, resy);
 		GraphHelper.drawString(g, convertUnit(x), resx, 10);
     }
-    
+
 	private String convertUnit(int i) {
 		short unit = designer.getRulerLengthUnit();
 //		int resolution = ScreenResolution.getScreenResolution();
