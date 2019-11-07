@@ -478,7 +478,7 @@ public class GridUI extends ComponentUI {
             // peter:对于合并的单元格,需要先白色的背景来清除背景.
             if (tmpCellElement.getColumnSpan() > 1 || tmpCellElement.getRowSpan() > 1) {
                 // REPORT-23492 要看下是否设置了纸张背景 如果设置了按照背景来画
-                ReportSettingsProvider reportSettings = getReportSettings(reportPane.getEditingElementCase());
+                ReportSettingsProvider reportSettings = getReportSettings(report);
                 Background currentBackground = reportSettings.getBackground();
                 if (currentBackground != null) {
                     currentBackground.paint(g2d, this.cell_back_rect);
