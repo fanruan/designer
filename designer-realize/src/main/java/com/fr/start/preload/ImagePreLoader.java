@@ -1,5 +1,6 @@
 package com.fr.start.preload;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.general.IOUtils;
 
 import java.util.concurrent.ExecutorService;
@@ -13,7 +14,7 @@ public class ImagePreLoader {
     public static final int THRESHOLD = 50;
 
     public ImagePreLoader() {
-        ExecutorService service = Executors.newCachedThreadPool();
+        ExecutorService service = Executors.newCachedThreadPool(new NamedThreadFactory("ImagePreLoader"));
 
         int len = preLoadImages.length;
         int start = 0;

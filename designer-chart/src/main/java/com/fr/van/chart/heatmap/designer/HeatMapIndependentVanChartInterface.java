@@ -5,6 +5,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
@@ -30,6 +31,25 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/heatmap.png";
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_HeatMap");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_New_HeatMap"),
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/42.png"
+        };
     }
 
     public AbstractChartTypePane getPlotTypePane() {
@@ -61,9 +81,5 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
             }
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartHeatMapTypePane.TITLE;
     }
 }

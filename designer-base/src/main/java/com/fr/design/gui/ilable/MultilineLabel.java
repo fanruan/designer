@@ -19,15 +19,15 @@ import com.fr.design.gui.itextarea.UITextArea;
  */
 public class MultilineLabel extends UITextArea {
     public MultilineLabel() {
-        initComponents();
+        initCurrentComponents();
     }
 
     public MultilineLabel(String s) {
         super(s);
-        initComponents();
+        initCurrentComponents();
     }
 
-    private void initComponents() {
+    private void initCurrentComponents() {
         adjustUI();
     }
 

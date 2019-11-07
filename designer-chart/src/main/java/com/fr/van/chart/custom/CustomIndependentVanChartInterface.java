@@ -1,6 +1,7 @@
 package com.fr.van.chart.custom;
 
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
@@ -14,6 +15,31 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
  * Created by Mitisky on 16/2/16.
  */
 public class CustomIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Combine");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_New_Column_Line"),
+                Toolkit.i18nText("Fine-Design_Chart_New_Column_Area"),
+                Toolkit.i18nText("Fine-Design_Chart_New_StackColumn_Line"),
+                Toolkit.i18nText("Fine-Design_Chart_New_Custom_Combine")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/28.png",
+                "com/fr/plugin/chart/demo/image/29.png",
+                "com/fr/plugin/chart/demo/image/30.png",
+                "com/fr/plugin/chart/demo/image/31.png"
+        };
+    }
+
     /**
      * 图表的类型定义界面类型，就是属性表的第一个界面
      *
@@ -48,9 +74,5 @@ public class CustomIndependentVanChartInterface extends AbstractIndependentVanCh
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
         return new VanChartCustomDataPane(listener);
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartCustomPlotPane.TITLE;
     }
 }

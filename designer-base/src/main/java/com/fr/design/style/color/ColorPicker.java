@@ -4,7 +4,8 @@ package com.fr.design.style.color;
  * Created by plough on 2016/12/22.
  */
 
-import com.fr.base.BaseUtils;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 
 import javax.swing.*;
@@ -19,8 +20,7 @@ import java.awt.image.BufferedImage;
 /**
  * 取色框
  */
-public class ColorPicker extends JDialog implements ActionListener
-{
+public class ColorPicker extends JDialog implements ActionListener {
     private Container container = getContentPane();  // 主容器
     private int setCoordinateX;  // 取色框x坐标
     private int setCoordinateY;  // 取色框y坐标
@@ -42,8 +42,7 @@ public class ColorPicker extends JDialog implements ActionListener
     /**
      * 构造函数，创建一个取色框窗体
      */
-    public ColorPicker(ColorSelectable colorSelectable, Boolean setColorRealTime)
-    {
+    public ColorPicker(ColorSelectable colorSelectable, Boolean setColorRealTime) {
         setUndecorated(true); // 去掉窗体边缘
         setResizable(false);
         Shape shape = new Ellipse2D.Double(0, 0, colorPickerSize, colorPickerSize);
@@ -74,10 +73,10 @@ public class ColorPicker extends JDialog implements ActionListener
                 Thread.sleep(100);  // 等待弹窗关闭
             } catch (InterruptedException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                Thread.currentThread().interrupt();
             }
             colorPickerPanel.captureScreen();
         }
-//        System.out.println(KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow());
     }
 
     /**
@@ -94,11 +93,33 @@ public class ColorPicker extends JDialog implements ActionListener
 
     public void updateLocation() {
         mousePos = MouseInfo.getPointerInfo().getLocation();
-        setCoordinateX = mousePos.x - getSize().width/2;
-        setCoordinateY = mousePos.y- getSize().height/2;
+        updateCoordinate();
+        setLocation(setCoordinateX, setCoordinateY);
+        updateMousePos();
+        updateCoordinate();
         colorPickerPanel.setMagnifierLocation(setCoordinateX,
                 setCoordinateY);
-        setLocation(setCoordinateX, setCoordinateY);
+
+    }
+
+    private void updateCoordinate() {
+        setCoordinateX = mousePos.x - getSize().width / 2;
+        setCoordinateY = mousePos.y - getSize().height / 2;
+    }
+
+    /**
+     * 兼容多屏下鼠标位置的计算
+     */
+    private void updateMousePos() {
+        Rectangle bounds = GUICoreUtils.getRectScreen();
+        mousePos.x -= bounds.x;
+        mousePos.y -= bounds.y;
+        if (mousePos.x < 0) {
+            mousePos.x *= -1;
+        }
+        if (mousePos.y < 0) {
+            mousePos.y *= -1;
+        }
     }
 
     /**
@@ -106,8 +127,7 @@ public class ColorPicker extends JDialog implements ActionListener
      *
      * @param colorPickerSize 取色框尺寸
      */
-    public void updateSize(int colorPickerSize)
-    {
+    public void updateSize(int colorPickerSize) {
         colorPickerPanel.setColorPickerSize(colorPickerSize);
         setSize(colorPickerSize, colorPickerSize);
         validate();    // 更新所有子控件
@@ -124,20 +144,19 @@ public class ColorPicker extends JDialog implements ActionListener
     // 隐藏鼠标光标
     public void hideCursor() {
         Image imageCursor = Toolkit.getDefaultToolkit().getImage("");
-        Cursor cu = Toolkit.getDefaultToolkit().createCustomCursor(imageCursor, new Point(0,0), "cursor");
+        Cursor cu = Toolkit.getDefaultToolkit().createCustomCursor(imageCursor, new Point(0, 0), "cursor");
         setCursor(cu);
     }
 
-    private class MouseFunctions extends MouseAdapter
-    {
+    private class MouseFunctions extends MouseAdapter {
+        @Override
         public void mousePressed(MouseEvent e) {
-            pickComplete(e.getButton() == e.BUTTON1);  // 左键确定
+            pickComplete(e.getButton() == MouseEvent.BUTTON1);  // 左键确定
         }
     }
 }
 
-class ColorPickerPanel extends JPanel
-{
+class ColorPickerPanel extends JPanel {
     private BufferedImage screenImage;
     private Image colorPickerFrame;  // 取色框的边框图案
     private int colorPickerSize;  // 取色框尺寸
@@ -154,11 +173,11 @@ class ColorPickerPanel extends JPanel
 
     /**
      * 带参数的构造函数
-     * @param scaleFactor  放大倍数
+     *
+     * @param scaleFactor 放大倍数
      */
-    public ColorPickerPanel(int scaleFactor)
-    {
-        colorPickerFrame = BaseUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPickerFrame.png");
+    public ColorPickerPanel(int scaleFactor) {
+        colorPickerFrame = IOUtils.readImage("/com/fr/design/images/gui/colorPicker/colorPickerFrame.png");
         this.scaleFactor = scaleFactor;
         captureScreen();
     }
@@ -167,26 +186,22 @@ class ColorPickerPanel extends JPanel
      * 截屏
      */
     public void captureScreen() {
-        try
-        {
+        try {
             robot = new Robot();
-        }
-        catch (AWTException e)
-        {
+        } catch (AWTException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         // 截屏幕
-        screenImage = robot.createScreenCapture(new Rectangle(0, 0, Toolkit
-                .getDefaultToolkit().getScreenSize().width, Toolkit
-                .getDefaultToolkit().getScreenSize().height));
+        screenImage = robot.createScreenCapture(GUICoreUtils.getRectScreen());
     }
 
     /**
      * 设置取色框的位置
-     * @param locationX  x坐标
-     * @param locationY  y坐标
+     *
+     * @param locationX x坐标
+     * @param locationY y坐标
      */
-    public void setMagnifierLocation(int locationX, int locationY)
-    {
+    public void setMagnifierLocation(int locationX, int locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
         repaint();        // 注意重画控件
@@ -200,17 +215,16 @@ class ColorPickerPanel extends JPanel
         return new Color(R, G, B);
     }
 
-    public void setColorPickerSize(int colorPickerSize)
-    {
+    public void setColorPickerSize(int colorPickerSize) {
         this.colorPickerSize = colorPickerSize;
     }
 
-    public void paintComponent(Graphics g)
-    {
+    @Override
+    public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        double pixelCount = (double)colorPickerSize / scaleFactor;  // 取色器一条边上的放大后的像素点个数（可以是小数）
+        double pixelCount = (double) colorPickerSize / scaleFactor;  // 取色器一条边上的放大后的像素点个数（可以是小数）
         // 关键处理代码
         g2d.drawImage(
                 screenImage,                 // 要画的图片
@@ -218,10 +232,10 @@ class ColorPickerPanel extends JPanel
                 0,                    // 目标矩形的第一个角的y坐标
                 colorPickerSize,                 // 目标矩形的第二个角的x坐标
                 colorPickerSize,                 // 目标矩形的第二个角的y坐标
-                locationX + (int)((colorPickerSize - pixelCount) * 0.5) + 1,     // 源矩形的第一个角的x坐标
-                locationY + (int)((colorPickerSize - pixelCount) * 0.5) + 1,    // 源矩形的第一个角的y坐标
-                locationX + (int)((colorPickerSize + pixelCount) * 0.5) + 1,     // 源矩形的第二个角的x坐标
-                locationY + (int)((colorPickerSize + pixelCount) * 0.5) + 1,     // 源矩形的第二个角的y坐标
+                locationX + (int) ((colorPickerSize - pixelCount) * 0.5) + 1,     // 源矩形的第一个角的x坐标
+                locationY + (int) ((colorPickerSize - pixelCount) * 0.5) + 1,    // 源矩形的第一个角的y坐标
+                locationX + (int) ((colorPickerSize + pixelCount) * 0.5) + 1,     // 源矩形的第二个角的x坐标
+                locationY + (int) ((colorPickerSize + pixelCount) * 0.5) + 1,     // 源矩形的第二个角的y坐标
                 this
         );
         g2d.drawImage(colorPickerFrame, 0, 0, this);

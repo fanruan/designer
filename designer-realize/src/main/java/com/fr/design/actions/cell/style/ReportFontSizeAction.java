@@ -15,6 +15,7 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.stable.AssistUtils;
 
 
 /**
@@ -51,7 +52,7 @@ public class ReportFontSizeAction extends AbstractStyleAction {
             if (style.getFRFont().getSize() == defStyle.getFRFont().getSize()) {
             	style = StyleUtils.setReportFontSize(style, defStyle.getFRFont().getSize());
             }
-            if (selectedFontSize == style.getFRFont().getSize()) {
+            if (AssistUtils.equals(selectedFontSize, style.getFRFont().getSize())){
                 return style;
             }
             style = StyleUtils.setReportFontSize(style, selectedFontSize);

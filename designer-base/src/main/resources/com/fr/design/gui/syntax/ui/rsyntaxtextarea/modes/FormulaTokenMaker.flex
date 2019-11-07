@@ -578,7 +578,13 @@ FunctionNames = "ABS"|
                 "YEAR"|
                 "year"|
                 "YEARDELTA"|
-                "yeardelta"
+                "yeardelta"|
+                "SUMPRECISE"|
+                "sumprecise"|
+                "QUERY"|
+                "query"|
+                "WEBIMAGE"|
+                "webimage"
 
 
 %state MLC

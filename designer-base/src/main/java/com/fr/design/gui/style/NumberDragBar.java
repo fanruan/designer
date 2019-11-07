@@ -127,6 +127,7 @@ public class NumberDragBar extends JComponent {
 					revalidate();
 				} catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e.toString());
+					Thread.currentThread().interrupt();
 				}
 			}
 		});

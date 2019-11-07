@@ -64,7 +64,7 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
     }
 
     public void addSiteInfo(String siteKind, String localDir, double megaBits) {
-    
+
         if (new File(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), localDir)).exists()) {
             //本地有这个资源，不下载
             return;
@@ -86,12 +86,14 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
             initDialog();
 
             dialog.addWindowListener(new WindowAdapter() {
+                @Override
                 public void windowClosing(WindowEvent e) {
                     //取消下载
                     result = false;
                     exitDialog();
                 }
 
+                @Override
                 public void windowOpened(WindowEvent e) {
                     downloadAndInstallPluginDependenceFile();
                     exitDialog();
@@ -119,25 +121,22 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
                 httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind(siteInfo.siteKind));
                 if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    InputStream reader = httpClient.getResponseStream();
                     String temp = StableUtils.pathJoin(PluginConstants.DOWNLOAD_PATH, PluginConstants.TEMP_FILE);
                     File file = new File(temp);
                     StableUtils.makesureFileExist(file);
-                    FileOutputStream writer = new FileOutputStream(temp);
-                    byte[] buffer = new byte[PluginConstants.BYTES_NUM];
-                    int bytesRead;
-                    while ((bytesRead = reader.read(buffer)) > 0 && result) {
-                        writer.write(buffer, 0, bytesRead);
-                        buffer = new byte[PluginConstants.BYTES_NUM];
+                    try (InputStream reader = httpClient.getResponseStream();
+                         FileOutputStream writer = new FileOutputStream(temp)) {
+                        byte[] buffer = new byte[PluginConstants.BYTES_NUM];
+                        int bytesRead;
+                        while ((bytesRead = reader.read(buffer)) > 0 && result) {
+                            writer.write(buffer, 0, bytesRead);
+                            buffer = new byte[PluginConstants.BYTES_NUM];
 
-                        currentBytesRead += bytesRead;
-                        setProgress(currentBytesRead);
+                            currentBytesRead += bytesRead;
+                            setProgress(currentBytesRead);
+                        }
+                        writer.flush();
                     }
-                    reader.close();
-                    writer.flush();
-                    writer.close();
-
-
                     if (result) {
                         //安装文件
                         IOUtils.unZipFilesGBK(temp, StableUtils.pathJoin(WorkContext.getCurrent().getPath(), siteInfo.localDir));

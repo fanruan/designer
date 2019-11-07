@@ -149,7 +149,7 @@ public class HtmlFoldParser implements FoldParser {
 						}
 
 						// ?> or %>
-						else if (t.startsWith(LANG_END[language])) {
+						else if (currentFold != null && t.startsWith(LANG_END[language])) {
 							int phpEnd = t.getEndOffset() - 1;
 							currentFold.setEndOffset(phpEnd);
 							Fold parentFold = currentFold.getParent();

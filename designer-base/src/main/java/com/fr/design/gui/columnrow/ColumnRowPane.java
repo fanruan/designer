@@ -146,6 +146,8 @@ public class ColumnRowPane extends JPanel implements UIObserver {
         if (cftf != null) {
             cftf.setColumns(3); // specify more width than we need
             cftf.setHorizontalAlignment(UITextField.LEFT);
+        }else {
+            throw new IllegalArgumentException("Spinner'Editor can not be null!");
         }
 
         ((AbstractDocument) cftf.getDocument()).setDocumentFilter(new DocumentFilter() {

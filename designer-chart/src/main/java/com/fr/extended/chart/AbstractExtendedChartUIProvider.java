@@ -2,7 +2,7 @@ package com.fr.extended.chart;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chart.fun.IndependentChartUIProvider;
+import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -13,17 +13,26 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.stable.StringUtils;
 import com.fr.stable.fun.impl.AbstractProvider;
 
 /**
  * Created by shine on 2018/3/2.
  */
-public abstract class AbstractExtendedChartUIProvider extends AbstractProvider implements IndependentChartUIProvider {
+public abstract class AbstractExtendedChartUIProvider extends AbstractProvider implements ChartTypeUIProvider {
 
     protected abstract AbstractExtendedChartTableDataPane getTableDataSourcePane();
 
     protected abstract AbstractReportDataContentPane getReportDataSourcePane();
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[0];
+    }
 
     @Override
     public boolean needChartChangePane() {
@@ -83,10 +92,6 @@ public abstract class AbstractExtendedChartUIProvider extends AbstractProvider i
     @Override
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return null;
-    }
-
-    public String getPlotTypeTitle4PopupWindow(){
-        return StringUtils.EMPTY;
     }
 
     @Override

@@ -244,7 +244,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
                     FineLoggerFactory.getLogger().error(ee.getMessage(), ee);
 				}
 			}
-			if (getRowCount() < 1 || selectedRow.length < 0) {
+			if (getRowCount() < 1) {
 				return;
 			}
 			

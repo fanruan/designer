@@ -157,7 +157,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 	/**
 	 * 设置当前选择的日期
 	 */
-	public void setSelectedDate(Date date) throws ParseException {
+	public synchronized void setSelectedDate(Date date) throws ParseException {
 	    if (date == null) {
             this.setSelectedItem(null);
         } else {
@@ -165,6 +165,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
         }
 	}
 
+	@Override
 	public void setSelectedItem(Object anObject) {
 		model.setSelectedItem(anObject);
 		super.setSelectedItem(anObject);
@@ -192,12 +193,14 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 			setBorder(BorderFactory.createEmptyBorder());
 		}
 
+		@Override
         public void hide() {
             if (isWillHide) {
                 super.hide();
             }
         }
 
+        @Override
         public void show() {
             if (isWillHide || UIDatePicker.this.isEnabled() == false) {
                 return;
@@ -211,6 +214,7 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 		/**
 		 * 显示弹出面板
 		 */
+		@Override
 		protected void firePropertyChange(String propertyName,
 										  Object oldValue,
 										  Object newValue) {
@@ -250,12 +254,14 @@ public class UIDatePicker extends UIComboBox implements Serializable {
 		}
 	}
 
+	@Override
 	protected ComboBoxUI getUIComboBoxUI() {
 		return new UIComboBoxUI() {
+			@Override
             protected ComboPopup createPopup() {
                 return new DatePopup(comboBox);
             }
-
+            @Override
             public void mousePressed(MouseEvent e) {
                 if (UIDatePicker.this.isPopupVisible()) {
                     isWillHide = true;

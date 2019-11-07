@@ -5,11 +5,11 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.LinePlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.LineIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 import com.fr.log.FineLoggerFactory;
 
 
-public class LinePlotPane extends AbstractChartTypePane{
+public class LinePlotPane extends AbstractDeprecatedChartTypePane {
 
 	private static final int LINE_CHART = 0;
 
@@ -17,13 +17,6 @@ public class LinePlotPane extends AbstractChartTypePane{
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/design/images/chart/LinePlot/type/0.png"
         };
-    }
-
-	@Override
-	protected String[] getTypeTipName() {
-		return new String[]{
-				InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Line")
-		};
     }
 
 	@Override
@@ -84,7 +77,7 @@ public class LinePlotPane extends AbstractChartTypePane{
 	}
 
 	public String title4PopupWindow() {
-		return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Line");
+		return Toolkit.i18nText("Fine-Design_Chart_Type_Line");
 	}
 
 	public Chart getDefaultChart() {

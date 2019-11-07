@@ -4,6 +4,7 @@ import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.js.JavaScript;
 import com.fr.stable.Filter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 基础的超级链接类型, 不包括图表相关超链.
@@ -18,6 +19,8 @@ public class BaseHyperlinkGroup implements HyperlinkGroupType {
      *
      * @return NameableCreator[]
      */
+    @NotNull
+    @Override
     public NameableCreator[] getHyperlinkCreators() {
         return DesignModuleFactory.getCreators4Hyperlink();
     }

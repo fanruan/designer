@@ -182,11 +182,7 @@ public class GisMapReportDataContentPane extends FurtherBasicBeanPane<GisMapRepo
 
         String addressName = addressNamePane.updateBean();
         if (addressName != null && !StringUtils.isBlank(addressName)) {
-            if (StableUtils.canBeFormula(addressName)) {
-                reportDefinition.setAddressName(addressName);
-            } else {
-                reportDefinition.setAddressName(addressName);
-            }
+            reportDefinition.setAddressName(addressName);
         }
         List values = seriesPane.updateBean();
         if (values != null && !values.isEmpty()) {

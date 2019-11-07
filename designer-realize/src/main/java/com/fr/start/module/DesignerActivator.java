@@ -8,6 +8,7 @@ import com.fr.base.passport.FinePassportManager;
 import com.fr.base.process.ProcessOperator;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.config.MarketConfig;
+import com.fr.decision.update.backup.RecoverManager;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.NewFormAction;
@@ -25,7 +26,7 @@ import com.fr.design.actions.insert.flot.FormulaFloatAction;
 import com.fr.design.actions.insert.flot.ImageFloatAction;
 import com.fr.design.actions.insert.flot.TextBoxFloatAction;
 import com.fr.design.bridge.DesignToolbarProvider;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.constants.DesignerLaunchStatus;
 import com.fr.design.form.parameter.FormParaDesigner;
 import com.fr.design.fun.ElementUIProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -38,9 +39,6 @@ import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
 import com.fr.design.javascript.ProcessTransitionAdapter;
 import com.fr.design.mainframe.BaseJForm;
-import com.fr.design.mainframe.CellElementPropertyPane;
-import com.fr.design.mainframe.DesignerFrameFileDealerPane;
-import com.fr.design.mainframe.EastRegionContainerPane;
 import com.fr.design.mainframe.ElementCaseThumbnail;
 import com.fr.design.mainframe.FormHierarchyTreePane;
 import com.fr.design.mainframe.InformationCollector;
@@ -55,15 +53,15 @@ import com.fr.design.mainframe.form.FormECDesignerProvider;
 import com.fr.design.mainframe.form.FormElementCaseDesigner;
 import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
-import com.fr.design.mainframe.loghandler.LogMessageBar;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
+import com.fr.design.update.actions.RecoverForDesigner;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
-import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.JavaScriptImpl;
@@ -96,6 +94,8 @@ import com.fr.report.cell.painter.CellImagePainter;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
 import com.fr.stable.bridge.StableFactory;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 import com.fr.stable.script.CalculatorProviderContext;
 import com.fr.stable.script.ValueConverter;
@@ -104,13 +104,11 @@ import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
 import com.fr.xml.ReportXMLUtils;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by juhaoyu on 2018/1/31.
@@ -123,21 +121,31 @@ public class DesignerActivator extends Activator {
 
     @Override
     public void start() {
-        List<LocaleMarker> markers = rightCollectMutable(InterMutableKey.Path);
+        List<LocaleMarker> markers = findMutable(InterMutableKey.Path);
         for (LocaleMarker marker : markers) {
             if (marker.match(LocaleScope.DESIGN)) {
                 DesignI18nImpl.getInstance().addResource(marker.getPath());
             }
         }
         designerModuleStart();
-        preLoadPane();
         loadLogAppender();
         DesignerSocketIO.update();
-        UserInfoPane.getInstance().updateBBSUserInfo();
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute(Object... objects) {
+                UserInfoPane.getInstance().updateBBSUserInfo();
+            }
+        }, SupportOSImpl.USERINFOPANE);
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
+        RecoverManager.register(new RecoverForDesigner());
     }
-    
+
+    @Override
+    public void afterAllStart() {
+        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.DESIGNER_INIT_COMPLETE);
+    }
+
     private void loadLogAppender() {
         logHandler = new LogHandler<DesignerLogAppender>() {
             final DesignerLogAppender logAppender = new DesignerLogAppender();
@@ -173,49 +181,6 @@ public class DesignerActivator extends Activator {
         designerRegister();
 
         InformationCollector.getInstance().collectStartTime();
-    }
-
-    private static void preLoadPane() {
-        ExecutorService service = Executors.newCachedThreadPool();
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                LogMessageBar.getInstance();
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                HistoryTemplateListPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                WidgetInfoConfig.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                CellElementPropertyPane.getInstance();
-            }
-        });
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                DesignerFrameFileDealerPane.getInstance();//这边会涉及到TemplateTreePane
-            }
-        });
-
-        service.submit(new Runnable() {
-            @Override
-            public void run() {
-                EastRegionContainerPane.getInstance();
-            }
-        });
-        service.shutdown();
     }
 
     private static Class<?>[] actionsForInsertCellElement() {

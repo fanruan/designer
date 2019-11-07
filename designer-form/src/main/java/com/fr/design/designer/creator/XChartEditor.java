@@ -176,16 +176,21 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 * @return 控件.
 	 */
 	public JComponent createToolPane(final BaseJForm jform, final FormDesigner formDesigner) {
-		getDesignerEditorTarget().addStopEditingListener(new PropertyChangeAdapter() {
-			public void propertyChange() {
-				JComponent pane = jform.getEditingPane();
-				if (pane instanceof BaseChartPropertyPane) {
-					((BaseChartPropertyPane) pane).setSupportCellData(true);
-					((BaseChartPropertyPane) pane).populateChartPropertyPane(getDesignerEditorTarget().update(), formDesigner);
+		MiddleChartComponent middleChartComponent = getDesignerEditorTarget();
+		if (null != middleChartComponent) {
+			middleChartComponent.addStopEditingListener(new PropertyChangeAdapter() {
+				public void propertyChange() {
+					JComponent pane = jform.getEditingPane();
+					if (pane instanceof BaseChartPropertyPane) {
+						((BaseChartPropertyPane) pane).setSupportCellData(true);
+						MiddleChartComponent middleChartComponent = getDesignerEditorTarget();
+						if (null != middleChartComponent) {
+							((BaseChartPropertyPane) pane).populateChartPropertyPane(middleChartComponent.update(), formDesigner);
+						}
+					}
 				}
-			}
-		});
-
+			});
+		}
 		if (isEditing){
 			final BaseChartPropertyPane propertyPane = DesignModuleFactory.getChartPropertyPane();
 			SwingUtilities.invokeLater(new Runnable() {
@@ -193,7 +198,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 				public void run() {
 					if (getDesignerEditor().getEditorTarget() != null) {
 						propertyPane.setSupportCellData(true);
-						propertyPane.populateChartPropertyPane(getDesignerEditorTarget().update(), formDesigner);
+						MiddleChartComponent middleChartComponent = getDesignerEditorTarget();
+						if (null != middleChartComponent) {
+							propertyPane.populateChartPropertyPane(middleChartComponent.update(), formDesigner);
+						}
 					}
 				}
 			});
@@ -338,5 +346,10 @@ public class XChartEditor extends XBorderStyleWidgetCreator {
 	 */
 	public boolean isSupportShared() {
 		return true;
+	}
+
+	@Override
+	public boolean supportMobileStyle() {
+		return false;
 	}
 }

@@ -37,6 +37,7 @@ class DesignerPushUpdateDialog extends UIDialog {
 
     static void createAndShow(final Frame parent, final DesignerUpdateInfo updateInfo) {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 DesignerPushUpdateDialog dialog = new DesignerPushUpdateDialog(parent);
                 dialog.populate(updateInfo);

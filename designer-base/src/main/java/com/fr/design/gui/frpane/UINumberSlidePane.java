@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.gui.style.NumberDragBar;
+import com.fr.stable.AssistUtils;
 
 /**
  * 拖拽的滑条和对应滑条值的数字
@@ -65,7 +66,7 @@ public class UINumberSlidePane extends BasicBeanPane<Double> {
 	public void checkValue(double value) {
 		value = Math.max(value, minValue);
 		value = Math.min(value, maxValue);
-		if (this.value == value) {
+		if (AssistUtils.equals(this.value, value)) {
 			return;
 		}
 		double diff = Math.abs(value - this.value);

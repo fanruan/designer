@@ -121,6 +121,11 @@ public class XElementCase extends XBorderStyleWidgetCreator implements FormEleme
 		return ArrayUtils.add(extraTableEditor, reportFitEditor);
 	}
 
+	@Override
+	public boolean supportMobileStyle() {
+		return false;
+	}
+
 	private CRPropertyDescriptor getReportFitEditor() {
 		this.designer = WidgetPropertyPane.getInstance().getEditingFormDesigner();
 		FitProvider wbTpl = designer.getTarget();

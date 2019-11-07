@@ -179,12 +179,8 @@ public class MapMoreTableIndexPane extends BasicBeanPane<MapSingleLayerTableDefi
 						tabPane.stopCellEditing();
 					}
 				});
-				
-				if (value != null && StringUtils.isNotEmpty(value.toString())) {
-					box.setSelectedItem(value);
-				} else {
-					box.setSelectedItem(value);
-				}
+
+				box.setSelectedItem(value);
 				
 				editorComponent = box;
 			}

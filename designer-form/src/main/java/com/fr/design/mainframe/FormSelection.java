@@ -11,6 +11,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
+import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.form.ui.Widget;
@@ -264,12 +265,18 @@ public class FormSelection {
      * @param designer 设计界面组件
      */
     public void fixCreator(FormDesigner designer) {
+        int i = 0;
         for (XCreator creator : selection) {
             LayoutAdapter layoutAdapter = AdapterBus.searchLayoutAdapter(designer, creator);
             if (layoutAdapter != null) {
-                creator.setBackupBound(backupBounds);
+                if (creator.acceptType(XWAbsoluteLayout.class) && recs.size() > i) {
+                    creator.setBackupBound(recs.get(i));
+                } else {
+                    creator.setBackupBound(backupBounds);
+                }
                 layoutAdapter.fix(creator);
             }
+            i++;
         }
     }
 
@@ -317,6 +324,9 @@ public class FormSelection {
         clipBoard.reset();
 
         for (XCreator root : selection) {
+            if(root.acceptType(XWTabFitLayout.class)){
+                continue;
+            }
             try {
                 XCreator creator = XCreatorUtils.createXCreator((Widget) root.toData().clone());
                 creator.setBounds(root.getBounds());
