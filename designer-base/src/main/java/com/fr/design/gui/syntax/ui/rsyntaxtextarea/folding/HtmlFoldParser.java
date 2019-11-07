@@ -172,7 +172,7 @@ public class HtmlFoldParser implements FoldParser {
 							// Continuing an MLC from a previous line
 							if (inMLC) {
 								// Found the end of the MLC starting on a previous line...
-								if (t.endsWith(MLC_END)) {
+								if (currentFold != null && t.endsWith(MLC_END)) {
 									int mlcEnd = t.getEndOffset() - 1;
 									currentFold.setEndOffset(mlcEnd);
 									Fold parentFold = currentFold.getParent();
