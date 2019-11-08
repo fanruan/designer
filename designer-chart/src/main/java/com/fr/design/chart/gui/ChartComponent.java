@@ -55,12 +55,12 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         this();
         populate(cc);
     }
-    
+
     public ChartComponent(BaseChartCollection cc) {
     	this();
     	populate(cc);
     }
-    
+
     public ChartComponent(ChartCollection cc, PropertyChangeListener l) {
     	this();
     	populate(cc);
@@ -72,6 +72,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
      * 右键编辑 图表编辑层的监听事件, 在停止编辑时 响应整个编辑模板(form, sheet)的改变.
      * @param l   监听事件
      */
+    @Override
     public void addStopEditingListener(PropertyChangeListener l) {
     	 if (!listeners.contains(l)) {
              listeners.add(l);
@@ -87,6 +88,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     /**
       * 停止编辑, 通知事情, 刷新画出新界面.
       */
+    @Override
     public void reset() {
         fireStopEditing();
 
@@ -97,6 +99,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         repaint();
     }
 
+    @Override
     public void populate(BaseChartCollection cc) { // kunsnat_bug: 5471 实现设置的即时预览
     	try {// clone 为了判断编辑前后的值.
     		this.chartCollection4Design = (ChartCollection)cc;
@@ -107,6 +110,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         reset();
     }
 
+    @Override
     public BaseChartCollection update() {
         return this.chartCollection4Design;
     }
@@ -180,53 +184,63 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
      * @param event    鼠标事件
      * 不设置鼠标点击跳转事件
      */
+    @Override
     public void mouseClicked(MouseEvent event) {
+        //do nothing
     }
 
     /**
      * 鼠标按压
      * @param e    鼠标事件
      */
+    @Override
     public void mousePressed(MouseEvent e) {
-
-        
+        //do nothing
     }
 
     /**
      * 鼠标松开
      * @param e    鼠标事件
      */
-	public void mouseReleased(MouseEvent e) { 
+	@Override
+    public void mouseReleased(MouseEvent e) {
+        //do nothing
 	}
 
     /**
      * 鼠标进入
      * @param e    鼠标事件
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
-
+        //do nothing
     }
 
     /**
      * 鼠标退出
      * @param e    鼠标事件
      */
+    @Override
     public void mouseExited(MouseEvent e) {
-
+        //do nothing
     }
 
     /**
      * 鼠标拖拽
      * @param e    鼠标事件
      */
-	public void mouseDragged(MouseEvent e) {
+	@Override
+    public void mouseDragged(MouseEvent e) {
+	    //do nothing
 	}
 
     /**
      * 鼠标移动
      * @param e    鼠标事件
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
+        //do nothing
     }
 
     private boolean needRefreshChartGlyph() {

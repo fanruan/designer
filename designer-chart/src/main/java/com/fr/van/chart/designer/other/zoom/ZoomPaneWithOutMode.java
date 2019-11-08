@@ -13,5 +13,6 @@ public class ZoomPaneWithOutMode extends ZoomPane {
 
     @Override
     protected void initCustomModePane(double[] columnSize, double p) {
+        //do nothing
     }
 }

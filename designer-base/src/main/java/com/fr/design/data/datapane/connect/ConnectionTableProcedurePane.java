@@ -98,7 +98,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	}
 
 	protected void addKeyMonitor() {
-
+		//do nothing
 	}
 
 	protected JPanel createCheckBoxgroupPane() {
@@ -137,7 +137,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 
 	/**
 	 * 给 itemComboBox 加上 itemListener
-	 * 
+	 *
 	 * @param itemListener
 	 */
 	public void addItemListener(ItemListener itemListener) {
@@ -214,7 +214,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	public static interface DoubleClickSelectedNodeOnTreeListener {
 		/**
 		 * 处理双击事件
-		 * 
+		 *
 		 * @param target
 		 */
 		public void actionPerformed(TableProcedure target);
