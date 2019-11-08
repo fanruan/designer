@@ -21,26 +21,9 @@ import com.fr.third.javax.annotation.Nonnull;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.AWTEvent;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -854,7 +837,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
-
+            // do nothing
         }
 
         /**
@@ -877,6 +860,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -886,6 +870,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -957,6 +942,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
+            // do nothing
         }
 
         /**
