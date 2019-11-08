@@ -135,7 +135,7 @@ public class NodeAuthProcessor {
      * @param fileNode file nodes
      * @return 带权限信息的文件节点
      */
-    public boolean fixFileNodeAuth(FileNode fileNode) {
+    public boolean checkFileNodeAuth(FileNode fileNode) {
 
         boolean isLocal = WorkContext.getCurrent().isLocal();
         boolean isRoot = WorkContext.getCurrent().isRoot();
