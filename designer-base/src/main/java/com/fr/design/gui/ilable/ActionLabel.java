@@ -1,14 +1,12 @@
 package com.fr.design.gui.ilable;
 
+import javax.swing.event.MouseInputAdapter;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
-import com.fr.design.gui.ilable.UILabel;
-import javax.swing.event.MouseInputAdapter;
 
 /**
  * Action label
@@ -31,6 +29,7 @@ public class ActionLabel extends UILabel {
     /**
      * Repaints the text.
      */
+    @Override
     public void paintComponent(Graphics _gfx) {
         super.paintComponent(_gfx);
 
@@ -39,12 +38,17 @@ public class ActionLabel extends UILabel {
     }
 
     private MouseInputAdapter mouseInputAdapter = new MouseInputAdapter() {
+        @Override
         public void mouseClicked(MouseEvent e) {
+            //do nothing
         }
 
+        @Override
         public void mousePressed(MouseEvent e) {
+            //do nothing
         }
 
+        @Override
         public void mouseReleased(MouseEvent evt) {
             Object source = evt.getSource();
 
@@ -65,6 +69,7 @@ public class ActionLabel extends UILabel {
             }
         }
 
+        @Override
         public void mouseExited(MouseEvent evt) {
             Object source = evt.getSource();
 
@@ -73,6 +78,7 @@ public class ActionLabel extends UILabel {
             }
         }
 
+        @Override
         public void mouseDragged(MouseEvent e) {
         }
 

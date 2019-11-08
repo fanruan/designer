@@ -14,10 +14,8 @@ import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
-import java.awt.Color;
-import java.awt.Desktop;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URI;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -221,5 +219,6 @@ public class LoginWebBridge {
     }
 
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
+        // do nothing
     }
 }

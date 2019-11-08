@@ -38,6 +38,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
         this.setDefaultEditor(ParameterTableModel.ParameterEditor.class, new ParameterTableModel().new ParameterEditor());
         this.setDefaultRenderer(StoreProcedureParameterValueEditor.class, new ProcedureParameterValueRenderer());
     }
+    @Override
     public boolean isCellEditable(int row, int col) {
         if (ComparatorUtils.equals(getValueAt(row, col -1), "OUT")) {
             return false;
@@ -48,6 +49,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
         return false;
     }
 
+    @Override
     public boolean shouldResponseDoubleClickAction () {
         return false;
     }
@@ -77,15 +79,16 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
                     }, 100);
                 }
 
+                @Override
                 public void popupMenuCanceled(PopupMenuEvent e) {
-
+                    //do nothing
                 }
             });
             this.addCellEditorListener(new CellEditorListener() {
 
                 @Override
                 public void editingCanceled(ChangeEvent e) {
-
+                    //do nothing
                 }
 
                 @Override
@@ -147,6 +150,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
             editor = ValueEditorPaneFactory.createStoreProcedValueEditorPane();
         }
 
+        @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             editor.setCurrentEditor(0);
             editor.populate(value);
