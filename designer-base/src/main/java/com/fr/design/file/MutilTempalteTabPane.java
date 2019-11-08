@@ -21,26 +21,9 @@ import com.fr.third.javax.annotation.Nonnull;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.AWTEvent;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -398,8 +381,8 @@ public class MutilTempalteTabPane extends JComponent {
         //画下面的那条线
         if (templateStartX < maxWidth) {
             GeneralPath generalPath = new GeneralPath(Path2D.WIND_EVEN_ODD, 2);
-            generalPath.moveTo((float) templateStartX, getHeight() - 1.0F);
-            generalPath.lineTo((float) maxWidth, getHeight() - 1.0F);
+            generalPath.moveTo((float) templateStartX, (float) (getHeight() - 1.0D));
+            generalPath.lineTo((float) maxWidth, (float) (getHeight() - 1.0D));
             g2d.fill(generalPath);
             //TODO hzzz delete
 //            g2d.setPaint(UIConstants.LINE_COLOR);
@@ -409,7 +392,7 @@ public class MutilTempalteTabPane extends JComponent {
 
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND, 1, getHeight() - 1.0F, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND, 1, (float) (getHeight() - 1.0D), UIConstants.TEMPLATE_TAB_PANE_BACKGROUND));
         g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 
@@ -535,7 +518,7 @@ public class MutilTempalteTabPane extends JComponent {
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
         double[] y = {1, getHeight() + 1, getHeight() + 1, 1, 1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(templateStartX, 1, this.getWidth(), this.getHeight(), 7, 7);
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, getHeight() - 1.0F, UIConstants.SELECT_TAB));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, (float) (getHeight() - 1.0D), UIConstants.SELECT_TAB));
         //选了30度和60度的特殊角度的x,y作为经过的两个点的坐标
         double specialLocation1 = 2.5;
         double specialLocation2 = 4.330127;
@@ -590,9 +573,9 @@ public class MutilTempalteTabPane extends JComponent {
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
         double[] y = {-1, getHeight() - 1, getHeight() - 1, -1, -1};
         if (selfIndex == mouseOveredIndex) {
-            g2d.setPaint(new GradientPaint(1, 1, UIConstants.HOVER_BLUE, 1, getHeight() - 1.0F, UIConstants.HOVER_BLUE));
+            g2d.setPaint(new GradientPaint(1, 1, UIConstants.HOVER_BLUE, 1, (float) (getHeight() - 1.0D), UIConstants.HOVER_BLUE));
         } else {
-            g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, getHeight() - 1.0F, UIConstants.SHADOW_GREY));
+            g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, (float) (getHeight() - 1.0D), UIConstants.SHADOW_GREY));
         }
 
 
@@ -854,7 +837,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
-
+            // do nothing
         }
 
         /**
@@ -877,6 +860,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -886,6 +870,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -957,6 +942,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
+            // do nothing
         }
 
         /**

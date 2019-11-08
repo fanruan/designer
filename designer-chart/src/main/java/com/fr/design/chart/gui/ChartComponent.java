@@ -13,6 +13,8 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.script.Calculator;
 import com.fr.stable.core.PropertyChangeListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,8 +24,6 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
 * @author kunsnat E-mail:kunsnat@gmail.com
@@ -250,7 +250,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     private void drawChart(Graphics2D g2d) {
         if (chartCollection4Design != null) {
 
-            BaseChartPainter painter = chartCollection4Design.createResultChartPainter(Calculator.createCalculator(),
+            BaseChartPainter painter = chartCollection4Design.createResultChartPainterWithOutDealFormula(Calculator.createCalculator(),
                     WebChartIDInfo.createEmptyDesignerInfo(), chartWidth, chartHeight);
 
             int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();

@@ -168,7 +168,7 @@ public class JWizardPanel extends BasicPane {
 	public void addNotify() {
 		if (firstNotify) {
 			Font font = stepTitleLabel.getFont();
-			font = font.deriveFont(Font.BOLD, font.getSize() * 14 / 10.0F);
+			font = font.deriveFont(Font.BOLD, (float) (font.getSize() * 14 / 10.0D));
 			stepTitleLabel.setFont(font);
 			firstNotify = false;
 		}

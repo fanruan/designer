@@ -33,7 +33,7 @@ public class FormMobileOthersPane extends BasicBeanPane<FormMobileAttr> {
         contentPane.add(appearRefreshCheckPane, BorderLayout.WEST);
         promptWhenLeaveWithoutSubmitCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Prompt_When_Leave_Without_Submit"));
         contentPane.add(promptWhenLeaveWithoutSubmitCheckPane, BorderLayout.CENTER);
-        allowDoubleClickOrZoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("允许双击/双指缩放"));
+        allowDoubleClickOrZoomCheckPane = new MobileRadioCheckPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Attr_Allow_Zoom"));
         contentPane.add(allowDoubleClickOrZoomCheckPane, BorderLayout.EAST);
         borderPane.add(contentPane);
         this.add(borderPane);

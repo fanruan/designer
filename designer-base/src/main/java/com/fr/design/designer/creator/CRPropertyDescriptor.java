@@ -4,7 +4,7 @@
 package com.fr.design.designer.creator;
 
 import com.fr.stable.StringUtils;
-import com.fr.stable.core.PropertyChangeAdapter;
+import com.fr.stable.core.PropertyChangeListener;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -17,7 +17,7 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
     public static final String RENDERER = "renderer";
     private boolean isSubProperty = false;
 
-    private PropertyChangeAdapter l;
+    private PropertyChangeListener l;
 
     public CRPropertyDescriptor(String name, Class<?> beanClass) throws IntrospectionException {
         super(name, beanClass);
@@ -35,7 +35,7 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
         return this;
     }
 
-    public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeAdapter l) {
+    public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeListener l) {
         this.l = l;
         return this;
     }

@@ -126,7 +126,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
     }
 
     private boolean canAdd() {
-        return categoryComponentList.size() < 3;
+        return categoryComponentList.size() < 2;
     }
 
     public List<T> componentList() {

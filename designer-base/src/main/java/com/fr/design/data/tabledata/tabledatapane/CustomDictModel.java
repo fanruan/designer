@@ -1,22 +1,21 @@
 package com.fr.design.data.tabledata.tabledatapane;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import com.fr.design.gui.itableeditorpane.ActionStyle;
+import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
+import com.fr.design.gui.itableeditorpane.UITableEditAction;
+import com.fr.design.gui.itableeditorpane.UITableModelAdapter;
+import com.fr.design.gui.itextfield.UITextField;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
-
-import com.fr.design.gui.itableeditorpane.ActionStyle;
-import com.fr.design.gui.itableeditorpane.UIArrayTableModel;
-import com.fr.design.gui.itableeditorpane.UITableEditAction;
-import com.fr.design.gui.itableeditorpane.UITableModelAdapter;
-import com.fr.design.gui.itextfield.UITextField;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomDictModel extends UITableModelAdapter<Object[]> implements ActionStyle {
 	/**
@@ -34,11 +33,13 @@ public class CustomDictModel extends UITableModelAdapter<Object[]> implements Ac
 		this.setDefaultEditor(ParameterEditor.class, new ParameterEditor());
 	}
 
+	@Override
 	public Object getValueAt(int row, int column) {
 		Object[] os = this.getList().get(row);
 		return os[column];
 	}
 
+	@Override
 	public void setValueAt(Object value, int row, int column) {
 		Object[] os = this.getList().get(row);
 		os[column] = value;
@@ -104,7 +105,7 @@ public class CustomDictModel extends UITableModelAdapter<Object[]> implements Ac
 
 				@Override
 				public void editingCanceled(ChangeEvent e) {
-
+					//do nothing
 				}
 
 				@Override

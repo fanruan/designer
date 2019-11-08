@@ -79,6 +79,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -966,5 +968,17 @@ public final class GUICoreUtils {
 			components[i][0] = comps[i];
 		}
 		return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 0, 10);
+	}
+
+	/**
+	 * 获取当前所有显示器设备的总长总宽
+	 * @return
+	 */
+	public static Rectangle getRectScreen() {
+		Rectangle rectangle = new Rectangle(0, 0, 0, 0);
+		for (GraphicsDevice gd : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+			rectangle = rectangle.union(gd.getDefaultConfiguration().getBounds());
+		}
+		return rectangle;
 	}
 }

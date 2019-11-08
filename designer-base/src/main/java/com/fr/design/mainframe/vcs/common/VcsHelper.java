@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.vcs.common;
 
 import com.fr.cluster.ClusterBridge;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
@@ -173,7 +174,7 @@ public class VcsHelper implements JTemplateActionListener {
     public void templateSaved(JTemplate<?, ?> jt) {
         if (needInit()
                 && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
-                && !ClusterBridge.isClusterMode()) {
+                && !FineClusterConfig.getInstance().isCluster()) {
             fireVcs(jt);
         }
     }

@@ -4,10 +4,19 @@ import com.fr.chartx.data.field.diff.MultiPieColumnFieldCollection;
 import com.fr.design.chartx.component.MultiTinyFormulaPaneWithUISpinner;
 import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 import com.fr.design.formula.TinyFormulaPane;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by shine on 2019/6/18.
@@ -30,7 +39,18 @@ public class MultiPieCellDataFieldsPane extends AbstractCellDataFieldsPane<Multi
 
     @Override
     protected JPanel createNorthPane() {
-        return levelPane;
+        double p = TableLayout.PREFERRED;
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name"), SwingConstants.LEFT), nameField}
+        };
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, new double[]{p}, new double[]{ChartDataPane.LABEL_WIDTH, 122}, 0, 6);
+        panel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 15));
+
+        JPanel northPane = new JPanel(new BorderLayout(0, 6));
+        northPane.add(panel, BorderLayout.NORTH);
+        northPane.add(new JSeparator(), BorderLayout.CENTER);
+        northPane.add(levelPane, BorderLayout.SOUTH);
+        return northPane;
     }
 
     @Override

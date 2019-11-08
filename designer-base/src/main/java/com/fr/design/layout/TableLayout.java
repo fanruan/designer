@@ -1747,7 +1747,7 @@ public class TableLayout implements LayoutManager2, Serializable {
         for (counter = 0; counter < numCr; counter++)
             if ((crSpec[z][counter] > 0.0) && (crSpec[z][counter] < 1.0))
                 fillSizeRatio -= crSpec[z][counter];
-            else if (crSpec[z][counter] == FILL)
+            else if (AssistUtils.equals(crSpec[z][counter], FILL))
                 numFillSize++;
 
         // Adjust fill ratios to reflect number of fill rows/columns
@@ -1773,8 +1773,8 @@ public class TableLayout implements LayoutManager2, Serializable {
         int crPrefMin[] = new int[numCr];
 
         for (counter = 0; counter < numCr; counter++)
-            if ((crSpec[z][counter] == PREFERRED) ||
-                    (crSpec[z][counter] == MINIMUM)) {
+            if ((AssistUtils.equals(crSpec[z][counter], PREFERRED)) ||
+                    (AssistUtils.equals(crSpec[z][counter], MINIMUM))) {
                 crPrefMin[counter] = crSize[z][counter];
             }
 

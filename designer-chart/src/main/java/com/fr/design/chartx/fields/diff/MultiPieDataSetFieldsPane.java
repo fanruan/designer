@@ -4,11 +4,19 @@ import com.fr.chartx.data.field.diff.MultiPieColumnFieldCollection;
 import com.fr.design.chartx.component.MultiComboBoxPaneWithUISpinner;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
+import com.fr.design.layout.TableLayout;
+import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.CalculateComboBox;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.List;
 
@@ -35,7 +43,20 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
 
     @Override
     protected JPanel createNorthPane() {
-        return levelComboBoxPane;
+        double p = TableLayout.PREFERRED;
+
+        Component[][] components = new Component[][]{
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_MultiPie_Series_Name"), SwingConstants.LEFT), nameField}
+        };
+
+        JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, new double[]{p}, new double[]{ChartDataPane.LABEL_WIDTH, 122}, 0, 6);
+        panel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 15));
+
+        JPanel northPane = new JPanel(new BorderLayout(0, 6));
+        northPane.add(panel, BorderLayout.NORTH);
+        northPane.add(new JSeparator(), BorderLayout.CENTER);
+        northPane.add(levelComboBoxPane, BorderLayout.SOUTH);
+        return northPane;
     }
 
 
@@ -77,6 +98,7 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
 
     @Override
     public void populateBean(MultiPieColumnFieldCollection ob) {
+        nameField.setText(ob.getTargetName());
         levelComboBoxPane.populate(ob.getLevels());
         populateFunctionField(value, function, ob.getValue());
     }
@@ -84,6 +106,7 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
     @Override
     public MultiPieColumnFieldCollection updateBean() {
         MultiPieColumnFieldCollection result = new MultiPieColumnFieldCollection();
+        result.setTargetName(nameField.getText());
 
         levelComboBoxPane.update(result.getLevels());
 

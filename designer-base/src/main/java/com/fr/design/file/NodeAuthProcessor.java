@@ -13,6 +13,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.authority.AuthorityOperator;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
 
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 
 public class NodeAuthProcessor {
@@ -41,9 +42,15 @@ public class NodeAuthProcessor {
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 String userName = WorkContext.getCurrent().getConnection().getUserName();
-                String userId = WorkContext.getCurrent().get(DecisionOperator.class).getUserIdByName(userName);
+                DesignAuthority[] authorities = null;
+                try {
+                    String userId = WorkContext.getCurrent().get(DecisionOperator.class).getUserIdByName(userName);
+                    authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities(userId);
+                } catch(UndeclaredThrowableException e) {
+                    // 兼容旧版本的服务器
+                    authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
+                }
                 // 远程设计获取设计成员的权限列表
-                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities(userId);
                 DesignAuthority authority = null;
 
                 if (authorities != null) {
@@ -128,7 +135,7 @@ public class NodeAuthProcessor {
      * @param fileNode file nodes
      * @return 带权限信息的文件节点
      */
-    public boolean fixFileNodeAuth(FileNode fileNode) {
+    public boolean checkFileNodeAuth(FileNode fileNode) {
 
         boolean isLocal = WorkContext.getCurrent().isLocal();
         boolean isRoot = WorkContext.getCurrent().isRoot();

@@ -7,8 +7,11 @@ import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.mainframe.DesignerFrameFileDealerPane;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JTemplateProvider;
+import com.fr.form.ui.DataControl;
+import com.fr.form.ui.MultiFileEditor;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StringUtils;
 import com.fr.stable.js.WidgetName;
 
 import java.util.Iterator;
@@ -213,6 +216,17 @@ public abstract class DesignModelAdapter<T extends BaseBook, S extends JTemplate
     public abstract Widget[] getLinkableWidgets();
 
     public abstract List<WidgetName> getWidgetsName();
+
+    /**
+     * 判断是否是值编辑器可以设置的控件类型
+     * @param widget 控件
+     * @return 可以设置返回true，否则返回false
+     */
+    public boolean widgetAccepted(Widget widget) {
+        return widget != null
+                && StringUtils.isNotEmpty(widget.getWidgetName())
+                && (widget instanceof DataControl || widget instanceof MultiFileEditor);
+    }
 
     /**
      * 更新缓存的参数

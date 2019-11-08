@@ -1,6 +1,7 @@
 package com.fr.design.actions.file;
 
 import com.fr.cluster.ClusterBridge;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
@@ -133,7 +134,6 @@ public class PreferencePane extends BasicPane {
     private IntegerEditor portEditor;
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
-    private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
     private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
@@ -193,11 +193,6 @@ public class PreferencePane extends BasicPane {
         JPanel oraclePane = FRGUIPaneFactory.createTitledBorderPane("Oracle" + i18nText("Fine-Design_Basic_Oracle_All_Tables"));
         oracleSpace = new UICheckBox(i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
-
-        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Develop_Tools"));
-        openDebugComboBox = new UICheckBox(i18nText("Fine-Design_Basic_Open_Debug_Window"));
-        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
-        advancePane.add(debuggerPane);
 
         JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
         useOptimizedUPMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
@@ -263,7 +258,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 boolean selected = vcsEnableCheckBox.isSelected();
-                if (selected) {
+                if (selected && vcsEnableCheckBox.isEnabled()) {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
                     useIntervalCheckBox.setEnabled(true);
@@ -307,14 +302,9 @@ public class PreferencePane extends BasicPane {
         gcEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                gcButton.setEnabled(gcEnableCheckBox.isSelected());
+                gcButton.setEnabled(gcEnableCheckBox.isSelected() && gcEnableCheckBox.isEnabled());
             }
         });
-        //集群下禁用
-        if (ClusterBridge.isClusterMode()) {
-            gcEnableCheckBox.setEnabled(false);
-            gcButton.setEnabled(false);
-        }
         return gcControlPane;
     }
 
@@ -672,6 +662,11 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
+        if (FineClusterConfig.getInstance().isCluster()) {
+            vcsEnableCheckBox.setEnabled(false);
+            gcEnableCheckBox.setEnabled(false);
+        }
+
         if (VcsHelper.getInstance().needInit()) {
             vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
         } else {
@@ -707,7 +702,6 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
         useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
@@ -776,8 +770,6 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setReportLengthUnit((short) reportLengthComboBox.getSelectedIndex());
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
-
-        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
@@ -891,7 +883,7 @@ public class PreferencePane extends BasicPane {
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                 }
-                updateGcDialogPanelInfo(i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
+                updateGcDialogPanelInfo(size <= 0 ? i18nText("Fine-Design_Vcs_No_Optimizable_File") : i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
                 gcDialogDownPane.revalidate();
                 gcDialogDownPane.repaint();
                 gcDialogDownPane.add(gcOkButton);
@@ -1070,3 +1062,4 @@ public class PreferencePane extends BasicPane {
     }
 
 }
+

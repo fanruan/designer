@@ -8,9 +8,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.form.main.Form;
 import com.fr.form.main.WidgetGatherAdapter;
 import com.fr.form.ui.BaseChartEditor;
-import com.fr.form.ui.DataControl;
 import com.fr.form.ui.ElementCaseEditor;
-import com.fr.form.ui.MultiFileEditor;
 import com.fr.form.ui.Widget;
 import com.fr.script.Calculator;
 import com.fr.stable.ParameterProvider;
@@ -74,7 +72,7 @@ public class FormModelAdapter extends DesignModelAdapter<Form, BaseJForm<Form>> 
 
             @Override
             public void dealWith(Widget widget) {
-                if (widget instanceof DataControl || widget instanceof MultiFileEditor) {
+                if (widgetAccepted(widget)) {
                     list.add(new WidgetName(widget.getWidgetName()));
                 }
             }
