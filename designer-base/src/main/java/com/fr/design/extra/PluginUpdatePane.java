@@ -4,7 +4,6 @@ import com.fr.config.MarketConfig;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
-
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
@@ -192,7 +191,7 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
         PluginManager.getController().update(chosenFile, new ProgressCallback() {
             @Override
             public void updateProgress(String description, double progress) {
-
+                // do nothing
             }
 
             @Override
