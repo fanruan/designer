@@ -10,10 +10,10 @@ package com.fr.design.extra;
 public class AppStoreBuilder {
 
     public void checkStoreJavaSciptVersion() {
-
+        //do nothing
     }
 
     public void updateStoreJavaScript() {
-
+        //do nothing
     }
 }

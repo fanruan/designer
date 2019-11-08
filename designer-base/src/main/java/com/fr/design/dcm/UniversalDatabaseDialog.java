@@ -27,6 +27,6 @@ public class UniversalDatabaseDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
-
+        //do nothing
     }
 }

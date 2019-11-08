@@ -521,6 +521,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
         @Override
         public void checkEnabled() {
+            //do nothing
         }
     }
 
@@ -832,7 +833,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private class XMLNodeTree extends JTree {
-        private DefaultTreeModel treeModel;
+        private DefaultTreeModel xmlTreeModel;
 
         private DefaultTreeModel waitTreeModel = null;
 
@@ -854,7 +855,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         private MouseListener treeMouseListener = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (XMLNodeTree.this.getModel() != treeModel) {
+                if (XMLNodeTree.this.getModel() != xmlTreeModel) {
                     return;
                 }
                 int selRow = XMLNodeTree.this.getRowForLocation(e.getX(), e.getY());
@@ -891,7 +892,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
 
         public DefaultTreeModel getTreeModel() {
-            return treeModel;
+            return xmlTreeModel;
         }
 
         //防止界面卡死。
@@ -908,7 +909,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         //wikky:为满足706设计时对不合法的xml文件（有多个根节点）的处理，把拿到的InputStream强制在最外层添加<XML></XML>作为唯一根节点而将文件转换为合法的xml。
         private void initData() {
             params = getEditorPaneParameter();  // 生成tree结构放哪儿呢？放这里感觉不对撒
-            treeModel = null;
+            xmlTreeModel = null;
             selectedNode = null;
             xmlColumnsList.clear();
             DataSource dataSource = null;
@@ -949,17 +950,17 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 loadedTreeModel();
             }
-            if (treeModel == null) {
+            if (xmlTreeModel == null) {
                 FineLoggerFactory.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
                 return;
             }
-            if (treeModel.getChildCount(treeModel.getRoot()) == 1) {
-                treeModel = new DefaultTreeModel((ExpandMutableTreeNode) treeModel.getChild(treeModel.getRoot(), 0));
+            if (xmlTreeModel.getChildCount(xmlTreeModel.getRoot()) == 1) {
+                xmlTreeModel = new DefaultTreeModel((ExpandMutableTreeNode) xmlTreeModel.getChild(xmlTreeModel.getRoot(), 0));
             } else {
-                ExpandMutableTreeNode root = (ExpandMutableTreeNode) treeModel.getRoot();
+                ExpandMutableTreeNode root = (ExpandMutableTreeNode) xmlTreeModel.getRoot();
                 root.setUserObject(StringUtils.EMPTY);
             }
-            this.setModel(treeModel);
+            this.setModel(xmlTreeModel);
         }
 
         private void loadedTreeModel() {
@@ -1011,7 +1012,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                     }
                     currentNode = new ExpandMutableTreeNode(nodeName);
                     if (layer == 0) {
-                        treeModel = new DefaultTreeModel(currentNode);
+                        xmlTreeModel = new DefaultTreeModel(currentNode);
                     } else {
                         boolean conflict = false;
                         for (int i = 0; i < parentNode.getChildCount(); i++) {
