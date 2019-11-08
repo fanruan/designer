@@ -518,6 +518,8 @@ public class RSyntaxUtilities implements SwingConstants {
                                 }
                                 numEmbedded--;
                             }
+                        } else {
+                            //do nothing
                         }
 
                     } // End of for (int i=segOffset; i<segOffset+charSegment.count; i++).
@@ -584,6 +586,8 @@ public class RSyntaxUtilities implements SwingConstants {
                                 }
                                 numEmbedded--;
                             }
+                        } else {
+                            //do nothing
                         }
 
                     }
@@ -961,6 +965,8 @@ public class RSyntaxUtilities implements SwingConstants {
                     i--;
                 }
                 offs = lineStart + i;
+            } else {
+                //do nothing
             }
 
         }
