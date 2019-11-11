@@ -10,12 +10,12 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.fun.CustomStyleUIConfigProvider;
+import com.fr.design.fun.MultiStyleUIConfigProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.style.background.BackgroundPane;
-import com.fr.design.style.preference.PreferenceConfigProvider;
-import com.fr.design.style.preference.PreferenceTabConfig;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
@@ -63,13 +63,13 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 	private FRFontPane frFontPane = null;
 	private BorderPane borderPane = null;
 	private BackgroundPane backgroundPane = null;
-	private static List<PreferenceTabConfig> configList = PluginSandboxCollections.newSandboxList();
+	private static List<CustomStyleUIConfigProvider> configList = PluginSandboxCollections.newSandboxList();
 	private PreivewArea previewArea;
 	private JPanel previewPane;
 
 	static {
-		Set<PreferenceConfigProvider> preferenceConfigProviders = ExtraDesignClassManager.getInstance().getArray(PreferenceConfigProvider.XML_TAG);
-		for (PreferenceConfigProvider provider : preferenceConfigProviders) {
+		Set<MultiStyleUIConfigProvider> preferenceConfigProviders = ExtraDesignClassManager.getInstance().getArray(MultiStyleUIConfigProvider.XML_TAG);
+		for (MultiStyleUIConfigProvider provider : preferenceConfigProviders) {
 			configList.addAll(provider.getConfigList());
 		}
 	}
@@ -99,8 +99,8 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
-		for (PreferenceTabConfig config : configList) {
-			mainTabbedPane.addTab(config.tabName(), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
+		for (CustomStyleUIConfigProvider config : configList) {
+			mainTabbedPane.addTab(config.configName(), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		}
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
 		this.setPreferredSize(new Dimension(450, 480));
@@ -362,8 +362,8 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		if (this.backgroundPane != null) {
 			this.backgroundPane.populate(editing.getBackground());
 		}
-		for(PreferenceTabConfig tabConfig : configList){
-			tabConfig.populateTabConfig(this.editing);
+		for(CustomStyleUIConfigProvider tabConfig : configList){
+			tabConfig.populateConfig(this.editing);
 		}
 		updatePreviewArea();
 	}
@@ -399,8 +399,8 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		if (this.backgroundPane != null) {
 			style = style.deriveBackground(this.backgroundPane.update());
 		}
-		for(PreferenceTabConfig tabConfig : configList){
-			style = tabConfig.updateTabConfig();
+		for(CustomStyleUIConfigProvider tabConfig : configList){
+			style = tabConfig.updateConfig();
 		}
 
 		return style;
@@ -426,8 +426,8 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 				} else if (selectedIndex == BACKGROUND_INDEX) {
 					tabbedPane.setComponentAt(selectedIndex, StylePane.this.getBackgroundPane());
 				} else if (configList.size() + NEXT_TAB_INDEX > selectedIndex && configList.get(selectedIndex - NEXT_TAB_INDEX) != null) {
-					tabbedPane.setComponentAt(selectedIndex, configList.get(selectedIndex - NEXT_TAB_INDEX).tabComponent(StylePane.this));
-					configList.get(selectedIndex - NEXT_TAB_INDEX).populateTabConfig(StylePane.this.editing);
+					tabbedPane.setComponentAt(selectedIndex, configList.get(selectedIndex - NEXT_TAB_INDEX).uiComponent(StylePane.this));
+					configList.get(selectedIndex - NEXT_TAB_INDEX).populateConfig(StylePane.this.editing);
 				}
 			}
 			updatePreviewArea();
