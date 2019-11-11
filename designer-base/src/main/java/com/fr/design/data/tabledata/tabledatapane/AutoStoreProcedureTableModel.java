@@ -60,7 +60,7 @@ public class AutoStoreProcedureTableModel extends StoreProcedureTableModel {
             editor = ValueEditorPaneFactory.createStoreProcedValueEditorPane();
             editor.getMenu().addPopupMenuListener(new PopupMenuListener() {
                 public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-
+                    // Do nothing
                 }
 
                 public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
