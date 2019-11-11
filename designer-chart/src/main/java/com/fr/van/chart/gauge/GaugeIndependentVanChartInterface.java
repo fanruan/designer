@@ -1,7 +1,14 @@
 package com.fr.van.chart.gauge;
 
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -15,6 +22,7 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.design.mainframe.chart.gui.data.table.MeterPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.custom.component.CategoryCustomPlotTableDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotReportDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotTableDataContentPane;
@@ -106,5 +114,35 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new VanChartGaugeSeriesPane(parent, plot);
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+
+            VanChartGaugePlot gaugePlot;
+
+            @Override
+            public void populate(ChartCollection collection) {
+                if (collection == null) {
+                    return;
+                }
+                VanChart chart = collection.getSelectedChartProvider(VanChart.class);
+                if (chart == null) {
+                    return;
+                }
+                gaugePlot = chart.getPlot();
+
+                super.populate(collection);
+            }
+
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
+                    return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
+                }
+                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+            }
+        };
     }
 }
