@@ -11,6 +11,8 @@ import com.fr.design.web.CustomIconPane;
 import com.fr.form.ui.WidgetInfoConfig;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.stable.StringUtils;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 
 public class TabIconConfigPane extends JPanel {
     private UIButton editIconButton;
+    private UIButton deleteIconButton;
     private String curIconName;
     private IconButton selectIconButton;
     private ArrayList<IconButton> iconButtons = new ArrayList<IconButton>();
@@ -43,7 +46,7 @@ public class TabIconConfigPane extends JPanel {
 
     public void initComp(int count) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        JPanel panel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        JPanel panel = FRGUIPaneFactory.createTinyHGapFlowInnerContainer_M_Pane_First0();
         panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         editIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit"));
         editIconButton.setFont(FRFont.getInstance("Helvetica", Font.PLAIN, 12, Color.decode("#3A383A")));
@@ -63,12 +66,28 @@ public class TabIconConfigPane extends JPanel {
                         curIconName = cip.update();
                         setShowIconImage();
                         TabIconConfigPane.this.repaint();
+                        deleteIconButton.setEnabled(true);
                     }
                 });
                 editDialog.setVisible(true);
             }
         });
         editIconButton.setEnabled(false);
+
+        deleteIconButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Delete"));
+        deleteIconButton.setFont(FRFont.getInstance("Helvetica", Font.PLAIN, 12, Color.decode("#3A383A")));
+        deleteIconButton.setPreferredSize(new Dimension(62, 20));
+        panel.add(deleteIconButton);
+        deleteIconButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                curIconName = "";
+                setShowIconImage();
+                TabIconConfigPane.this.repaint();
+                deleteIconButton.setEnabled(false);
+            }
+        });
+        deleteIconButton.setEnabled(false);
+
         this.add(panel, BorderLayout.CENTER);
 
         JPanel northPane = new JPanel();
@@ -163,6 +182,7 @@ public class TabIconConfigPane extends JPanel {
         public void actionPerformed(ActionEvent evt) {
             selectIconButton = this;
             editIconButton.setEnabled(true);
+            deleteIconButton.setEnabled(StringUtils.isNotEmpty(this.getIconName()));
             TabIconConfigPane.this.repaint();// repaint
         }
 

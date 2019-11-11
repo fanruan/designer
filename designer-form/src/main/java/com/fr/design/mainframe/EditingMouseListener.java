@@ -573,8 +573,8 @@ public class EditingMouseListener extends MouseInputAdapter {
                     GUICoreUtils.showPopupMenu(cellPopupMenu, designer, e.getX(), e.getY());
                 }
             }
+            creator.doLayout();
         }
-        creator.doLayout();
         LayoutUtils.layoutRootContainer(designer.getRootComponent());
     }
 

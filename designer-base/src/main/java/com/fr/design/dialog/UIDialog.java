@@ -25,13 +25,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: 小灰灰
- * Date: 13-7-16
- * Time: 下午2:17
- * To change this template use File | Settings | File Templates.
- */
+
 public abstract class UIDialog extends JDialog {
     public static final String OK_BUTTON = "basic_ok";
     public static final String CANCEL_BUTTON = "basic_cancel";

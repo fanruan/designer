@@ -1,5 +1,6 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.log.FineLoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,12 +12,12 @@ import java.io.FileInputStream;
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * EncodingDetect.java<br>
  * 自动获取文件的编码
  * @author Mata
  * @since Create on 2018-08-23
- * @version 1.0 
+ * @version 1.0
  */
 public class EncodingDetect {
 	/**
@@ -25,11 +26,11 @@ public class EncodingDetect {
 	 * @return 文件的编码
 	 */
 	public static String getJavaEncode(File file){
-		BytesEncodingDetect s = new BytesEncodingDetect(); 
+		BytesEncodingDetect s = new BytesEncodingDetect();
 		String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(file)];
 		return fileCode;
 	}
-	
+
 
 }
 
@@ -75,17 +76,13 @@ class BytesEncodingDetect extends Encoding {
 	   * type. The encoding type with the highest probability is returned.
 	   */
 	  public int detectEncoding(File testfile) {
-	    FileInputStream chinesefile;
-	    byte[] rawtext;
-	    rawtext = new byte[(int) testfile.length()];
-	    try {
-	      chinesefile = new FileInputStream(testfile);
-	      chinesefile.read(rawtext);
-	      chinesefile.close();
-	    } catch (Exception e) {
-	      System.err.println("Error: " + e);
-	    }
-	    return detectEncoding(rawtext);
+		  byte[] rawtext = new byte[(int) testfile.length()];
+		  try (FileInputStream chinesefile = new FileInputStream(testfile))  {
+			  chinesefile.read(rawtext);
+		  } catch (Exception e) {
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
+		  }
+		  return detectEncoding(rawtext);
 	  }
 
 	  /**
@@ -450,11 +447,7 @@ class BytesEncodingDetect extends Encoding {
 	          bfchars++;
 	          totalfreq += 500;
 	          row = rawtext[i] - 0x81;
-	          if (0x40 <= rawtext[i + 1] && rawtext[i + 1] <= 0x7E) {
-	            column = rawtext[i + 1] - 0x40;
-	          } else {
-	            column = rawtext[i + 1] - 0x40;
-	          }
+	          column = rawtext[i + 1] - 0x40;
 	          // System.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
 	          if (Big5PFreq[row][column] != 0) {
 	            bffreq += Big5PFreq[row][column];
@@ -647,7 +640,7 @@ class BytesEncodingDetect extends Encoding {
 	     * (byte)0xDF) == rawtext[i]) { // Two bytes if (i+1 < rawtextlen && (rawtext[i+1] & (byte)0xBF) == rawtext[i+1]) {
 	     * goodbytes += 2; i++; } } else if ((rawtext[i] & (byte)0xEF) == rawtext[i]) { // Three bytes if (i+2 < rawtextlen &&
 	     * (rawtext[i+1] & (byte)0xBF) == rawtext[i+1] && (rawtext[i+2] & (byte)0xBF) == rawtext[i+2]) { goodbytes += 3; i+=2; } } }
-	     * 
+	     *
 	     * score = (int)(100 * ((float)goodbytes/(float)rawtext.length)); // An all ASCII file is also a good UTF8 file, but I'd
 	     * rather it // get identified as ASCII. Can delete following 3 lines otherwise if (goodbytes == asciibytes) { score = 0; } //
 	     * If not above 90, reduce to zero to prevent coincidental matches if (score > 90) { return score; } else { return 0; }
@@ -4551,5 +4544,5 @@ class BytesEncodingDetect extends Encoding {
 	    nicename[ASCII] = "ASCII";
 	    nicename[OTHER] = "OTHER";
 	  }
-	 
+
 	}

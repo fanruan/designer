@@ -7,14 +7,14 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.chartglyph.DataSheet;
+import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.general.Background;
-import com.fr.log.FineLoggerFactory;
-
 import com.fr.js.NameJavaScriptGroup;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.base.VanChartZoom;
@@ -25,7 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
-public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
+public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Chart> {
     private static final long serialVersionUID = 7743244512351499265L;
     private UICheckBox largeModelCheckBox;
 
@@ -44,6 +44,21 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane{
     @Override
     protected String[] getTypeLayoutTipName() {
         return new String[0];
+    }
+
+    @Override
+    protected String[] getTypeTipName() {
+        return ChartTypeInterfaceManager.getInstance().getSubName(getPlotID());
+    }
+
+    @Override
+    public String title4PopupWindow() {
+        return ChartTypeInterfaceManager.getInstance().getName(getPlotID());
+    }
+
+    @Override
+    protected String getPlotTypeID() {
+        return getPlotID();
     }
 
     protected Component[][] getComponentsWithLargeData(JPanel typePane){

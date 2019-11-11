@@ -25,6 +25,7 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WTabDisplayPosition;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.act.BorderPacker;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -285,7 +286,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
         backupBound.x -= rec.x;
         backupBound.y -= rec.y;
         XWCardLayout cardLayout = mainLayout.getCardPart();
-        LayoutBorderStyle style = cardLayout.toData().getBorderStyle();
+        BorderPacker style = cardLayout.toData().getBorderStyle();
         XWCardTitleLayout xwCardTitleLayout = mainLayout.getTitlePart();
         Dimension titleDimension = xwCardTitleLayout.getSize();
 

@@ -15,6 +15,7 @@ import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -142,6 +143,7 @@ public class PluginControlPane extends BasicPane {
         }
     }
 
+    @Nullable
     public PluginView getSelectedPlugin() {
         return (PluginView) pluginList.getSelectedValue();
     }

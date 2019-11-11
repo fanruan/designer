@@ -26,6 +26,7 @@ import com.fr.main.FineBook;
 import com.fr.page.PaperSettingProvider;
 import com.fr.page.ReportSettingsProvider;
 import com.fr.page.WatermarkPainter;
+import com.fr.page.stable.PaperSetting;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.FloatElement;
@@ -46,6 +47,7 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
+import com.fr.stable.AssistUtils;
 import com.fr.third.antlr.ANTLRException;
 
 import javax.swing.JComponent;
@@ -118,7 +120,7 @@ public class GridUI extends ComponentUI {
     protected ReportSettingsProvider getReportSettings(ElementCase elementCase) {
         if (elementCase instanceof Report) {
             return ReportUtils.getReportSettings((Report) elementCase);
-        } else if(elementCase instanceof FormElementCase){
+        } else if (elementCase instanceof FormElementCase) {
             return ((FormElementCase) elementCase).getReportSettings();
         } else {
             return new ReportSettings();
@@ -141,6 +143,9 @@ public class GridUI extends ComponentUI {
         // richer;聚合报表设计中，最初的ElementCase还没有加到Report中,所以elementCase.getReport()可能为空
         ReportSettingsProvider reportSettings = getReportSettings(elementCase);
         PaperSettingProvider psetting = reportSettings.getPaperSetting();
+        if (psetting == null) {
+            psetting = new PaperSetting();
+        }
         if (grid.getPaginateLineShowType() != Grid.NO_PAGINATE_LINE) {// paint paper margin line.
             PaperSize paperSize = psetting.getPaperSize();
             Margin margin = psetting.getMargin();
@@ -620,10 +625,10 @@ public class GridUI extends ComponentUI {
                 tmpLine2D = (Line2D) paginateLineList.get(j);// 直接强制转换，因为List中肯定都是Line2D型的
                 for (int k = j + 1; k < paginateLineList.size(); k++) {
                     tmpLine2D2 = (Line2D) paginateLineList.get(k);
-                    if (tmpLine2D2.getX1() == tmpLine2D.getX1()
-                            && tmpLine2D2.getX2() == tmpLine2D.getX2()
-                            && tmpLine2D2.getY1() == tmpLine2D.getY1()
-                            && tmpLine2D2.getY2() == tmpLine2D.getY2()) {
+                    if (AssistUtils.equals(tmpLine2D2.getX1() ,tmpLine2D.getX1())
+                            && AssistUtils.equals(tmpLine2D2.getX2() , tmpLine2D.getX2())
+                            && AssistUtils.equals(tmpLine2D2.getY1() , tmpLine2D.getY1())
+                            && AssistUtils.equals(tmpLine2D2.getY2() , tmpLine2D.getY2())) {
                         paginateLineList.remove(k);
                     }
                 }

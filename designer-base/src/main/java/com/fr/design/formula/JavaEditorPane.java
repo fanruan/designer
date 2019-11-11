@@ -194,6 +194,7 @@ public class JavaEditorPane extends BasicPane {
                         JOptionPane.showMessageDialog(null, message);
                     } catch (InterruptedException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
+                        Thread.currentThread().interrupt();
                     } catch (ExecutionException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                     }

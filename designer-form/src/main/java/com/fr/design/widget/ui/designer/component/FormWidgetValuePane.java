@@ -1,7 +1,11 @@
 package com.fr.design.widget.ui.designer.component;
 
 import com.fr.design.constants.LayoutConstants;
-import com.fr.design.editor.editor.*;
+import com.fr.design.editor.editor.BooleanEditor;
+import com.fr.design.editor.editor.DateEditor;
+import com.fr.design.editor.editor.DoubleEditor;
+import com.fr.design.editor.editor.Editor;
+import com.fr.design.editor.editor.FormulaEditor;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.widget.editors.DataBindingEditor;
 import com.fr.design.mainframe.widget.editors.DataTableEditor;
@@ -9,8 +13,8 @@ import com.fr.design.mainframe.widget.editors.ServerDataBindingEditor;
 import com.fr.design.mainframe.widget.editors.ServerDataTableEditor;
 import com.fr.form.ui.DataControl;
 import com.fr.form.ui.WidgetValue;
+import com.fr.form.ui.concept.data.ValueInitializer;
 import com.fr.general.ComparatorUtils;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,7 +116,7 @@ public class FormWidgetValuePane extends JPanel {
     }
 
     public void populate(DataControl ob) {
-        WidgetValue widgetValue = ob.getWidgetValue();
+        ValueInitializer widgetValue = ob.getWidgetValue();
         if (widgetValue != null) {
             for (int i = 0; i < editor.length; i++) {
                 if (editor[i].accept(widgetValue.getValue())) {

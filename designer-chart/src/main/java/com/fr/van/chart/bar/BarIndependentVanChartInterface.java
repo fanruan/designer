@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
@@ -17,6 +18,35 @@ import com.fr.van.chart.vanchart.AbstractMultiCategoryVanChartUI;
  * Created by Mitisky on 15/10/20.
  */
 public class BarIndependentVanChartInterface extends AbstractMultiCategoryVanChartUI {
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Bar");
+    }
+
+    @Override
+    public String[] getSubName() {
+        String bar = Toolkit.i18nText("Fine-Design_Chart_New_Bar");
+        String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
+        String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
+        return new String[]{
+                bar,
+                stack + bar,
+                percent + stack + bar,
+                Toolkit.i18nText("Fine-Design_Chart_Mode_Custom")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/7.png",
+                "com/fr/plugin/chart/demo/image/8.png",
+                "com/fr/plugin/chart/demo/image/9.png",
+                "com/fr/plugin/chart/demo/image/10.png",
+        };
+    }
+
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/bar.png";
@@ -43,14 +73,6 @@ public class BarIndependentVanChartInterface extends AbstractMultiCategoryVanCha
         VanChartStylePane stylePane = new VanChartBarStylePane(listener);
         VanChartOtherPane otherPane = new VanChartOtherPane();
         return new AbstractChartAttrPane[]{stylePane, otherPane};
-    }
-
-    /**
-     * plot面板的标题
-     * 插件兼容
-     */
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartBarPlotPane.TITLE;
     }
 
 }

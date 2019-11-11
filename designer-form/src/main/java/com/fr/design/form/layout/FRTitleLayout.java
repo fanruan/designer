@@ -126,11 +126,13 @@ public class FRTitleLayout implements FRLayoutManager, LayoutManager{
 			int titleH = title==null ? 0 : WTitleLayout.TITLE_HEIGHT;
 			for (int i=0; i< target.getComponentCount(); i++) {
 				Component comp = target.getComponent(i);
-				if (comp == title) {
-					comp.setBounds(0, 0, width, WTitleLayout.TITLE_HEIGHT);
-				} else if (comp == body) {
-					int y = titleH+gap;
-					comp.setBounds(0, y, width, height-y);
+				if (comp != null) {
+					if (comp == title) {
+						comp.setBounds(0, 0, width, WTitleLayout.TITLE_HEIGHT);
+					} else if (comp == body) {
+						int y = titleH + gap;
+						comp.setBounds(0, y, width, height-y);
+					}
 				}
 			}
 		}

@@ -3,7 +3,6 @@ package com.fr.design.upm;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.stable.StableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,5 +29,6 @@ public class UpmShowDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
+
     }
 }

@@ -46,7 +46,7 @@ public class QuickEditorRegion extends JPanel {
      */
     public void populate(final QuickEditor currentEditor) {
         this.removeAll();
-        if (currentEditor.getComponentCount() == 0) {
+        if (currentEditor == null || currentEditor.getComponentCount() == 0) {
             this.add(getEmptyEditor(), BorderLayout.CENTER);
         } else {
             this.add(currentEditor, BorderLayout.CENTER);

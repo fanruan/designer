@@ -25,22 +25,22 @@ import java.util.List;
  * Created by XiaXiang on 2017/3/31.
  */
 public class RecommendSearchManager implements AlphaFineSearchProvider {
-    private static volatile RecommendSearchManager instance;
     private SearchResult modelList = new SearchResult();
     private SearchResult recommendModelList = new SearchResult();
 
     private SearchResult complementAdviceModelList;
     private SearchResult moreModelList = new SearchResult();
 
+    private RecommendSearchManager() {
+
+    }
+
     public static RecommendSearchManager getInstance() {
-        if (instance == null) {
-            synchronized (RecentSearchManager.class) {
-                if (instance == null) {
-                    instance = new RecommendSearchManager();
-                }
-            }
-        }
-        return instance;
+        return Holder.INSTANCE;
+    }
+
+    private static class Holder {
+        private static final RecommendSearchManager INSTANCE = new RecommendSearchManager();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RecommendSearchManager implements AlphaFineSearchProvider {
             if (ArrayUtils.isEmpty(searchText)) {
                 return new SearchResult();
             }
-            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(instance);
+            SearchResult noConnectList = AlphaFineHelper.getNoConnectList(Holder.INSTANCE);
             if (noConnectList != null) {
                 return noConnectList;
             }

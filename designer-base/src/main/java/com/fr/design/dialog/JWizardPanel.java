@@ -48,7 +48,7 @@ public class JWizardPanel extends BasicPane {
 
 		// Set the layout for the content area
 		contentPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
-		
+
 		contentPane.setBorder(BorderFactory.createEmptyBorder(2, 2, 4, 4));
 
 		// Step title
@@ -60,16 +60,16 @@ public class JWizardPanel extends BasicPane {
 		add(titlePanel, BorderLayout.NORTH);
 		add(contentPane, BorderLayout.CENTER);
 	}
-	
+
 	@Override
 	protected String title4PopupWindow() {
 		return "wizard";
 	}
-	
+
 	/**
 	 * Set the title to use for this step. Normally this title would be unique
 	 * for each wizards step.
-	 * 
+	 *
 	 * @param stepTitle The title to use for this step.
 	 */
 	public void setStepTitle(String stepTitle) {
@@ -82,7 +82,7 @@ public class JWizardPanel extends BasicPane {
 
 	/**
 	 * Get the step title to use for this step.
-	 * 
+	 *
 	 * @return The step title to use for this step.
 	 */
 	public String getStepTitle() {
@@ -93,7 +93,7 @@ public class JWizardPanel extends BasicPane {
 	 * Get a JPanel to use for adding your own components to this WizardPanel.
 	 * Do not add components directly to the JWizardPanel. The JPanel uses the
 	 * layout given in the JWizardPanel constructor.
-	 * 
+	 *
 	 * @return The JPanel to use for adding components for this wizard step.
 	 */
 	public JPanel getContentPane() {
@@ -102,7 +102,7 @@ public class JWizardPanel extends BasicPane {
 
 	/**
 	 * Get the wizard step to go to when the Back button is pressed.
-	 * 
+	 *
 	 * @return The wizard step to go to when the Back button is pressed.
 	 */
 
@@ -114,7 +114,7 @@ public class JWizardPanel extends BasicPane {
 	 * Set the wizard step to go to when the Back button is pressed. This should
 	 * be set in the constructor of the JWizardPanel subclass since it
 	 * determines whether the Back button is enabled or not.
-	 * 
+	 *
 	 * @param backStep
 	 *            The wizard step to go to when the Back button is pressed.
 	 */
@@ -129,7 +129,7 @@ public class JWizardPanel extends BasicPane {
 
 	/**
 	 * Get the wizard step to go to when the Next button is pressed.
-	 * 
+	 *
 	 * @return The wizard step to go to when the Next button is pressed.
 	 */
 	public int getNextStep() {
@@ -140,7 +140,7 @@ public class JWizardPanel extends BasicPane {
 	 * Set the wizard step to go to when the Next button is pressed. This should
 	 * be set in the constructor of the JWizardPanel subclass since it
 	 * determines whether the Next and Finish buttons are enabled or not.
-	 * 
+	 *
 	 * @param nextStep The wizard step to go to when the Next button is pressed.
 	 */
 	public void setNextStep(int nextStep) {
@@ -154,7 +154,7 @@ public class JWizardPanel extends BasicPane {
 	/**
 	 * Returns the JWizardDialog in which this JWizardPanel resides. This is
 	 * valid only after the panel has been added to the dialog.
-	 * 
+	 *
 	 * @return The JWizardDialog in which this JWizardPanel resides.
 	 */
 
@@ -168,7 +168,7 @@ public class JWizardPanel extends BasicPane {
 	public void addNotify() {
 		if (firstNotify) {
 			Font font = stepTitleLabel.getFont();
-			font = font.deriveFont(Font.BOLD, font.getSize() * 14 / 10);
+			font = font.deriveFont(Font.BOLD, font.getSize() * 14 / 10.0F);
 			stepTitleLabel.setFont(font);
 			firstNotify = false;
 		}
@@ -177,7 +177,7 @@ public class JWizardPanel extends BasicPane {
 
 	/**
 	 * Set the JWizardDialog parent for this JWizardPanel.
-	 * 
+	 *
 	 * @param dialogParent
 	 *            The JWizardPanel parent for this JWizardPanel.
 	 */
@@ -188,7 +188,7 @@ public class JWizardPanel extends BasicPane {
 	/**
 	 * Calls back(). This allows the JWizardDialog to call the protected method
 	 * back().
-	 * 
+	 *
 	 * @see #back()
 	 */
 
@@ -199,7 +199,7 @@ public class JWizardPanel extends BasicPane {
 	/**
 	 * Calls next(). This allows the JWizardDialog to call the protected method
 	 * next().
-	 * 
+	 *
 	 * @see #next()
 	 */
 	void doNext() {
@@ -209,7 +209,7 @@ public class JWizardPanel extends BasicPane {
 	/**
 	 * Called when the Back button is pressed. By default this displays the
 	 * wizard step set by setBackStep().
-	 * 
+	 *
 	 * @see #setBackStep(int)
 	 */
 	protected void back() {
@@ -219,7 +219,7 @@ public class JWizardPanel extends BasicPane {
 	/**
 	 * Called when the Next button is pressed. By default this displays the
 	 * wizard step set by setNextStep().
-	 * 
+	 *
 	 * @see #setNextStep(int)
 	 */
 	protected void next() {

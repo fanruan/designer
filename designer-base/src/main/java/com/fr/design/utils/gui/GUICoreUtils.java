@@ -31,6 +31,7 @@ import com.fr.design.style.color.ColorFactory;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.style.color.ColorSelectable;
 import com.fr.general.FRFont;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.Constants;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.StringUtils;
@@ -730,12 +731,16 @@ public final class GUICoreUtils {
 	 * @return 布尔值
 	 */
 	public static boolean removeJListSelectedNodes(Window ancestorWindow, JList nodeList) {
+		return removeJListSelectedNodes(ancestorWindow, nodeList, "Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item");
+	}
+
+	public static boolean removeJListSelectedNodes(Window ancestorWindow, JList nodeList, String key) {
 		int selectedIndex = nodeList.getSelectedIndex();
 		if (selectedIndex == -1) {
 			return false;
 		}
 
-		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
+		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText(key), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (returnVal == JOptionPane.OK_OPTION) {
 			int minSelectedIndex = nodeList.getMinSelectionIndex();
@@ -892,10 +897,10 @@ public final class GUICoreUtils {
 	 * @return 同上
 	 */
 	public static boolean isTheSameRect(Rectangle oneRect, Rectangle otherRect) {
-		return oneRect.getX() == otherRect.getX()
-				&& oneRect.getY() == otherRect.getY()
-				&& oneRect.getWidth() == otherRect.getWidth()
-				&& oneRect.getHeight() == otherRect.getHeight();
+		return AssistUtils.equals(oneRect.getX(), otherRect.getX())
+				&& AssistUtils.equals(oneRect.getY(), otherRect.getY())
+				&& AssistUtils.equals(oneRect.getWidth(), otherRect.getWidth())
+				&& AssistUtils.equals(oneRect.getHeight(), otherRect.getHeight());
 	}
 
 	/**

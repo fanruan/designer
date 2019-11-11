@@ -117,6 +117,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import java.awt.AWTEvent;
 import java.awt.Adjustable;
 import java.awt.Dimension;
@@ -526,7 +527,10 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
             try {
                 //旧选中内容编辑器释放模板对象
-                this.getCurrentEditor().release();
+                QuickEditor editor = this.getCurrentEditor();
+                if (editor != null) {
+                    editor.release();
+                }
             } catch (UnsupportedOperationException e) {
                 FineLoggerFactory.getLogger().info("Nothing to release");
             }
@@ -850,15 +854,20 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
      */
     public void fireSelectionChangeListener() {
         // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = listenerList.getListenerList();
 
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == SelectionListener.class) {
-                ((SelectionListener) listeners[i + 1]).selectionChanged(new SelectionEvent(this));
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                // Process the listeners last to first, notifying
+                // those that are interested in this event
+                for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                    if (listeners[i] == SelectionListener.class) {
+                        ((SelectionListener) listeners[i + 1]).selectionChanged(new SelectionEvent(ElementCasePane.this));
+                    }
+                }
             }
-        }
+        });
     }
 
     /**

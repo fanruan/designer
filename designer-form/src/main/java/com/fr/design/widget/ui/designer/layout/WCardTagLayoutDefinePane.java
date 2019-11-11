@@ -107,7 +107,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
     public void populateBean(WCardTagLayout ob) {
         //标题背景和字体属性设置在WCardLayout上做兼容
         XLayoutContainer topLayout = creator.getTopLayout();
-        LayoutBorderStyle layoutBorderStyle = ((XWCardMainBorderLayout) topLayout).getCardPart().toData().getBorderStyle();
+        LayoutBorderStyle layoutBorderStyle = (LayoutBorderStyle) ((XWCardMainBorderLayout) topLayout).getCardPart().toData().getBorderStyle();
 
         displayPositionGroup.setSelectedIndex(ob.getDisplayPosition().getType());
         textDirectionGroup.setSelectedIndex(ob.getTextDirection().getType());
@@ -125,7 +125,7 @@ public class WCardTagLayoutDefinePane extends AbstractDataModify<WCardTagLayout>
         //标题背景和字体属性设置在WCardLayout上做兼容
         XLayoutContainer topLayout = creator.getTopLayout();
         XWCardLayout xCardLayout = ((XWCardMainBorderLayout) topLayout).getCardPart();
-        LayoutBorderStyle layoutBorderStyle = xCardLayout.toData().getBorderStyle();
+        LayoutBorderStyle layoutBorderStyle = (LayoutBorderStyle) xCardLayout.toData().getBorderStyle();
         FRFont frFont = layoutBorderStyle.getTitle().getFrFont() == null ? FRFont.getInstance() : layoutBorderStyle.getTitle().getFrFont();
         FRFont titleFont = frFontPane.update(frFont);
         layoutBorderStyle.getTitle().setFrFont(titleFont);

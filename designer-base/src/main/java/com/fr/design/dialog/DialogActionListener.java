@@ -1,8 +1,11 @@
 package com.fr.design.dialog;
 
+import com.fr.common.annotations.Open;
+
+@Open
 public interface DialogActionListener {
-	
-	public void doOk();
-	
-	public void doCancel();
+
+    void doOk();
+
+    void doCancel();
 }

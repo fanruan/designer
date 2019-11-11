@@ -124,7 +124,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	}
 
 	private void setToolBar(List<ToolBarButton> list) {
-		if (list == null || list.size() < 0) {
+		if (list == null ) {
 			return;
 		}
 		this.removeAll();

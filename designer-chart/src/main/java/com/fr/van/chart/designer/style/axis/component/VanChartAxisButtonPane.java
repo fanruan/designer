@@ -92,8 +92,9 @@ public class VanChartAxisButtonPane extends BasicBeanPane<VanChartAxisPlot> {
                 pane = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
                 buttonPane.add(pane);
             }
-
-            pane.add(indexList_Y.get(i));
+            if(pane != null) {
+                pane.add(indexList_Y.get(i));
+            }
         }
 
         if(popupMenu != null){

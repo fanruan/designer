@@ -325,7 +325,7 @@ public class MutilTempalteTabPane extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        double maxWidth = getWidth() - LIST_BUTTON_WIDTH; //最大宽度
+        double maxWidth = getWidth() - LIST_BUTTON_WIDTH * 1.0D; //最大宽度
         Graphics2D g2d = (Graphics2D) g;
         paintBackgroundAndLine(g2d, maxWidth);
     }
@@ -398,8 +398,8 @@ public class MutilTempalteTabPane extends JComponent {
         //画下面的那条线
         if (templateStartX < maxWidth) {
             GeneralPath generalPath = new GeneralPath(Path2D.WIND_EVEN_ODD, 2);
-            generalPath.moveTo((float) templateStartX, getHeight() - 1);
-            generalPath.lineTo((float) maxWidth, getHeight() - 1);
+            generalPath.moveTo((float) templateStartX, getHeight() - 1.0F);
+            generalPath.lineTo((float) maxWidth, getHeight() - 1.0F);
             g2d.fill(generalPath);
             //TODO hzzz delete
 //            g2d.setPaint(UIConstants.LINE_COLOR);
@@ -409,7 +409,7 @@ public class MutilTempalteTabPane extends JComponent {
 
     private void paintDefaultBackground(Graphics2D g2d) {
         //画默认背景
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND, 1, getHeight() - 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND, 1, getHeight() - 1.0F, UIConstants.TEMPLATE_TAB_PANE_BACKGROUND));
         g2d.fillRect(0, 0, getWidth(), getHeight());
     }
 
@@ -535,7 +535,7 @@ public class MutilTempalteTabPane extends JComponent {
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
         double[] y = {1, getHeight() + 1, getHeight() + 1, 1, 1};
         RoundRectangle2D.Double rect1 = new RoundRectangle2D.Double(templateStartX, 1, this.getWidth(), this.getHeight(), 7, 7);
-        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, getHeight() - 1, UIConstants.SELECT_TAB));
+        g2d.setPaint(new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, getHeight() - 1.0F, UIConstants.SELECT_TAB));
         //选了30度和60度的特殊角度的x,y作为经过的两个点的坐标
         double specialLocation1 = 2.5;
         double specialLocation2 = 4.330127;
@@ -590,9 +590,9 @@ public class MutilTempalteTabPane extends JComponent {
         double[] x = {templateStartX, templateStartX, templateStartX + realWidth, templateStartX + realWidth, templateStartX};
         double[] y = {-1, getHeight() - 1, getHeight() - 1, -1, -1};
         if (selfIndex == mouseOveredIndex) {
-            g2d.setPaint(new GradientPaint(1, 1, UIConstants.HOVER_BLUE, 1, getHeight() - 1, UIConstants.HOVER_BLUE));
+            g2d.setPaint(new GradientPaint(1, 1, UIConstants.HOVER_BLUE, 1, getHeight() - 1.0F, UIConstants.HOVER_BLUE));
         } else {
-            g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, getHeight() - 1, UIConstants.SHADOW_GREY));
+            g2d.setPaint(new GradientPaint(1, 1, UIConstants.SHADOW_GREY, 1, getHeight() - 1.0F, UIConstants.SHADOW_GREY));
         }
 
 

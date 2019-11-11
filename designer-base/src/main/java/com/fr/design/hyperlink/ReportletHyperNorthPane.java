@@ -368,6 +368,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         sizeJPanel.add(heightLabel);
         UINumberField heightTextFiled = new UINumberField();
         heightTextFiled.setMinValue(0);
+        heightTextFiled.canFillNegativeNumber(false);
         heightTextFiled.setText(String.valueOf(DEFAULT_H_VALUE));
         heightTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(heightTextFiled);
@@ -377,6 +378,7 @@ public class ReportletHyperNorthPane extends AbstractHyperNorthPane<ReportletHyp
         sizeJPanel.add(widthLabel);
         UINumberField widthTextFiled = new UINumberField();
         widthTextFiled.setMinValue(0);
+        widthTextFiled.canFillNegativeNumber(false);
         widthTextFiled.setText(String.valueOf(DEFAULT_V_VALUE));
         widthTextFiled.setPreferredSize(new Dimension(40, 20));
         sizeJPanel.add(widthTextFiled);

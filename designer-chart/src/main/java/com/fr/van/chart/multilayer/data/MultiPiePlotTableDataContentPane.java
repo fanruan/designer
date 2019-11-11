@@ -18,6 +18,7 @@ import com.fr.general.ComparatorUtils;
 
 import com.fr.plugin.chart.multilayer.data.MultiPieValueDefinition;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
 import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
@@ -170,7 +171,7 @@ public class MultiPiePlotTableDataContentPane extends AbstractTableDataContentPa
             @Override
             public void setTextFieldValue(double value) {
                 //如果为0，则没有改变值
-                if (value == 0){
+                if (AssistUtils.equals(0, value)) {
                     return;
                 }
                 super.setTextFieldValue(value);

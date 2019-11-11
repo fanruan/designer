@@ -76,7 +76,6 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("Table.background", ThemeUtils.TEXT_BG_COLOR);
         table.put("Table.selectionForeground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("Table.selectionBackground", new ColorUIResource(200, 221, 233));
-        table.put("Table.gridColor", new ColorUIResource(200, 221, 233));
         table.put("TableHeader.background", new ColorUIResource(229, 229, 229));
         table.put("ProgressBar.foreground", ThemeUtils.PROCESS_COLOR);
         table.put("ProgressBar.background", ThemeUtils.TEXT_BG_COLOR);
@@ -85,7 +84,6 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("ProgressBar.selectionForeground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("ProgressBar.selectionBackground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("PopupMenu.background", ThemeUtils.NORMAL_BG);
-        table.put("TabbedPane.background", ThemeUtils.TEXT_BG_COLOR);
         table.put("TabbedPane.background", ThemeUtils.NORMAL_BG);
         table.put("TabbedPane.tabAreaInsets", new InsetsUIResource(4, 2, 0, 0));
         table.put("TabbedPane.tabInsets", new InsetsUIResource(1, 6, 4, 6));
@@ -108,7 +106,6 @@ public class UIDefaultTheme extends DefaultMetalTheme {
         table.put("ComboBox.foreground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("ComboBox.background", ThemeUtils.TEXT_BG_COLOR);
         table.put("ComboBox.disabledBackground", ThemeUtils.TEXT_DISABLED_BG_COLOR);
-        table.put("EditorPane.background", ThemeUtils.TEXT_BG_COLOR);
         table.put("EditorPane.foreground", ThemeUtils.NORMAL_FOREGROUND);
         table.put("PasswordField.background", ThemeUtils.TEXT_BG_COLOR);
         table.put("PasswordField.foreground", ThemeUtils.NORMAL_FOREGROUND);

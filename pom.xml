@@ -16,6 +16,7 @@
         <module>designer-chart</module>
         <module>designer-form</module>
         <module>designer-realize</module>
+        <module>designer-sdk</module>
     </modules>
     <groupId>com.fr.report</groupId>
     <artifactId>design</artifactId>

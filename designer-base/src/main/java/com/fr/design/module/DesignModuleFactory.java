@@ -15,7 +15,9 @@ import com.fr.design.parameter.ParameterDesignerProvider;
 import com.fr.design.parameter.ParameterReader;
 import com.fr.form.ui.Widget;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.solution.sandbox.collection.PluginSandboxCollections;
 import com.fr.stable.StableUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.Dialog;
 import java.awt.Frame;
@@ -65,8 +67,9 @@ public class DesignModuleFactory {
         instance.creators4Hyperlink = nameableCreators;
     }
 
+    @NotNull
     public static NameableCreator[] getCreators4Hyperlink() {
-        return instance.creators4Hyperlink;
+        return instance.creators4Hyperlink == null? new NameableCreator[0]:instance.creators4Hyperlink;
     }
 
     public static void registerExtraWidgetOptions(WidgetOption[] options) {
@@ -233,7 +236,7 @@ public class DesignModuleFactory {
 
     public static void registerParameterReader(ParameterReader reader) {
         if (instance.parameterReaderList == null) {
-            instance.parameterReaderList = new ArrayList<ParameterReader>();
+            instance.parameterReaderList = PluginSandboxCollections.newSandboxList();
         }
         instance.parameterReaderList.add(reader);
     }

@@ -4,9 +4,7 @@
 package com.fr.poly;
 
 import com.fr.base.ScreenResolution;
-import com.fr.base.chart.BaseChart;
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.base.chart.BasePlot;
 import com.fr.log.FineLoggerFactory;
 import com.fr.poly.creator.BlockCreator;
 import com.fr.poly.creator.ChartBlockCreator;
@@ -15,7 +13,6 @@ import com.fr.poly.model.AddedData;
 import com.fr.report.poly.PolyChartBlock;
 import com.fr.report.poly.PolyECBlock;
 import com.fr.report.poly.TemplateBlock;
-import com.fr.stable.bridge.StableFactory;
 
 import java.awt.Point;
 import java.lang.reflect.Constructor;
@@ -35,6 +32,9 @@ public class PolyUtils {
 	}
 
 	public static BlockCreator createCreator(TemplateBlock block) {
+		if (block == null) {
+			return null;
+		}
 		Class cls = block.getClass();
 		Class clazz = blockMapCls.get(cls);
 		if (clazz == null) {
@@ -53,33 +53,18 @@ public class PolyUtils {
 	public static BlockCreator createCreator(Class clazz) {
 		return createCreator(blockGenerate(clazz));
 	}
-	
-	public static BlockCreator createCreator(BaseChart chart) {
-		BaseChartCollection cc = (BaseChartCollection)StableFactory.createXmlObject(BaseChartCollection.XML_TAG);
-		cc.addChart(chart);
+
+	public static BlockCreator createCreator(BaseChartCollection cc) {
 		TemplateBlock block = new PolyChartBlock(cc);
 		return createCreator(block);
 	}
-	
+
 	private static TemplateBlock blockGenerate(Class clazz) {
 		TemplateBlock block = null;
 		try {
 			block = (TemplateBlock) clazz.newInstance();
 		} catch (Exception e) {
-			try {
-				BasePlot plot = (BasePlot)clazz.newInstance();
-				BaseChartCollection  cc = (BaseChartCollection)StableFactory.createXmlObject(BaseChartCollection.XML_TAG);
-				
-				BaseChart chart = (BaseChart)StableFactory.createXmlObject(BaseChart.XML_TAG);
-				chart.initChart(plot);
-				cc.addChart(chart);
-				
-				block = new PolyChartBlock(cc);
-			} catch (InstantiationException e1) {
-                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
-			} catch (IllegalAccessException e1) {
-                FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
-			}
+			FineLoggerFactory.getLogger().error(e.getMessage(), e);
 		}
 		return block;
 	}
@@ -103,7 +88,7 @@ public class PolyUtils {
 	public static int converty2Designer(PolyDesigner designer, int y) {
 		return y += designer.getVerticalValue();
 	}
-	
+
 	/**
 	 * 获取所处(x,y)位置的聚合块，如果没有，就返回null
 	 * @param designer

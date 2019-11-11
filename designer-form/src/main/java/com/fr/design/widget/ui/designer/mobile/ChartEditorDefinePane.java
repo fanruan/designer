@@ -48,6 +48,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
     private AttributeChangeListener changeListener;
     private UILabel tipLabel;
     private UICheckBox allowFullCheckBox;//允许全屏
+    private UICheckBox functionalWhenUnactivatedCheckBox;//组件未激活时可使用组件内功能
 
     public ChartEditorDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -88,6 +89,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
         panel.add(allowFullCheckBox);
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
+        panel.add(functionalWhenUnactivatedCheckBox);
         return panel;
     }
 
@@ -98,19 +101,21 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
                 new Component[] {tipLabel, null},
-                new Component[] {allowFullCheckBox}
+                new Component[] {allowFullCheckBox, null},
+                new Component[] {functionalWhenUnactivatedCheckBox, null}
         };
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
+        double[] rowSize = {p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -154,6 +159,8 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         BaseChartEditor chartEditor = (BaseChartEditor)xCreator.toData();
         boolean allowFullScreen = chartEditor.getMobileAttr().isAllowFullScreen();
         this.allowFullCheckBox.setSelected(allowFullScreen);
+        boolean isFunctionalWhenUnactivated = chartEditor.getMobileAttr().isFunctionalWhenUnactivated();
+        this.functionalWhenUnactivatedCheckBox.setSelected(!isFunctionalWhenUnactivated);
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
 
@@ -188,8 +195,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
             mobileAttr.setZoomInAttr(ChartMobileFitAttrState.PROPORTION);
             mobileAttr.setZoomOutAttr((ChartMobileFitAttrState) ((Item) zoomOutComboBox.getSelectedItem()).getValue());
             mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
+            mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }else {
             mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
+            mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }

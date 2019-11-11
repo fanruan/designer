@@ -30,20 +30,20 @@ import com.fr.stable.unit.UnitRectangle;
  * @since 6.5.4 创建于2011-5-5 聚合报表块编辑器
  */
 public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> extends JComponent{
-	
+
 	protected PolyDesigner designer;
 	protected BlockCreator<U> creator;
 	protected int resolution = ScreenResolution.getScreenResolution();
 	protected T editComponent;
-	
+
 	private JComponent addHeightTool;// 改变高度的组件
 	private JComponent addWidthTool; // 改变宽度的组件
 	private JComponent moveTool; // 拖动聚合块的组件
-	
+
 	private boolean isDragging;
 	private Absorptionline lineInX;
 	private Absorptionline lineInY;
-	
+
 	private BlockForbiddenWindow forbiddenWindow;
 
 	public BlockEditor(PolyDesigner designer, BlockCreator<U> creator) {
@@ -74,16 +74,16 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 
 		this.moveTool = new BlockControlButton();
 		this.add(BlockEditorLayout.BOTTOMCORNER, this.moveTool);
-		
+
 		this.forbiddenWindow = new BlockForbiddenWindow();
 	}
-	
+
 	/**
 	 * 重置当前鼠标选中状态
-	 * 
+	 *
 	 */
 	public abstract void resetSelectionAndChooseState();
-	
+
 	protected abstract T createEffective();
 
 	protected abstract Dimension getAddHeigthPreferredSize();
@@ -91,9 +91,9 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 	protected abstract Dimension getAddWidthPreferredSize();
 
 	protected abstract void initDataChangeListener();
-	
+
 	protected abstract RowOperationMouseHandler createRowOperationMouseHandler();
-	
+
 	protected abstract ColumnOperationMouseHandler createColumnOperationMouseHandler();
 
 	protected void addColumnRowListeners() {
@@ -122,28 +122,31 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 				initSize();
 				LayoutUtils.layoutRootContainer(BlockEditor.this);
 			}
-			
+
 			@Override
 			public boolean equals(Object o) {
+				if (o == null) {
+					return false;
+				}
 				return ComparatorUtils.equals(o.getClass().getName(), this.getClass().getName());
 			}
 		});
 	}
-	
+
 	public void setDragging(boolean isDragging) {
 		this.isDragging = isDragging;
 	}
-	
+
 	/**
 	 * 当前是否处于拖动状态
-	 * 
+	 *
 	 * @return 是否处于拖动状态
-	 * 
+	 *
 	 */
 	public boolean isDragging() {
 		return this.isDragging;
 	}
-	
+
 	public void setXAbsorptionline(Absorptionline line) {
 		this.lineInX = line;
 	}
@@ -151,27 +154,27 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 	public void setYAbsorptionline(Absorptionline line) {
 		this.lineInY = line;
 	}
-	
-	
+
+
 	/**
 	 * 显示禁止重叠窗口
-	 * 
+	 *
 	 * @param x x坐标
 	 * @param y y坐标
-	 * 
+	 *
 	 */
 	public void showForbiddenWindow(int x, int y){
 		this.forbiddenWindow.showWindow(x, y);
 	}
-	
+
 	/**
 	 * 隐藏禁止重叠窗口
-	 * 
+	 *
 	 */
 	public void hideForbiddenWindow(){
 		this.forbiddenWindow.hideWindow();
 	}
-	
+
 	public void paintAbsorptionline(Graphics g) {
 		if(lineInX != null) {
 			lineInX.paint(g,designer);
@@ -202,7 +205,7 @@ public abstract class BlockEditor<T extends JComponent,U extends TemplateBlock> 
 	public Dimension getCornerSize() {
 		return new Dimension();
 	}
-	
+
 	private class BlockControlButton extends UIButton {
         @Override
         public ButtonUI getUI() {
