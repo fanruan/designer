@@ -19,5 +19,5 @@ public interface MultiStyleUIConfigProvider extends Mutable {
      *
      * @return 配置项list
      */
-    List<CustomStyleUIConfigProvider> getConfigList();
+    List<StyleUIConfigProvider> getConfigList();
 }

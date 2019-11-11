@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
  * Created by kerry on 2019-11-11
  */
 @Open
-public interface CustomStyleUIConfigProvider extends Mutable {
+public interface StyleUIConfigProvider extends Mutable {
     String XML_TAG = "CustomStyleUIConfigProvider";
 
     int CURRENT_LEVEL = 1;

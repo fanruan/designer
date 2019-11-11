@@ -1,6 +1,6 @@
 package com.fr.design.fun.impl;
 
-import com.fr.design.fun.CustomStyleUIConfigProvider;
+import com.fr.design.fun.StyleUIConfigProvider;
 import com.fr.design.fun.MultiStyleUIConfigProvider;
 import com.fr.stable.fun.mark.API;
 
@@ -13,8 +13,8 @@ import java.util.List;
 @API(level = MultiStyleUIConfigProvider.CURRENT_LEVEL)
 public abstract class AbstractMultiStyleUIConfigProvider implements MultiStyleUIConfigProvider {
     @Override
-    public List<CustomStyleUIConfigProvider> getConfigList() {
-        return new ArrayList<CustomStyleUIConfigProvider>();
+    public List<StyleUIConfigProvider> getConfigList() {
+        return new ArrayList<StyleUIConfigProvider>();
     }
 
     @Override

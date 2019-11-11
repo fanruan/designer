@@ -1,7 +1,7 @@
 package com.fr.design.fun.impl;
 
 import com.fr.base.Style;
-import com.fr.design.fun.CustomStyleUIConfigProvider;
+import com.fr.design.fun.StyleUIConfigProvider;
 import com.fr.stable.StringUtils;
 import com.fr.stable.fun.mark.API;
 
@@ -11,8 +11,8 @@ import javax.swing.event.ChangeListener;
 /**
  * Created by kerry on 2019-11-11
  */
-@API(level = CustomStyleUIConfigProvider.CURRENT_LEVEL)
-public class AbstractCustomStyleUIConfigProvider implements CustomStyleUIConfigProvider {
+@API(level = StyleUIConfigProvider.CURRENT_LEVEL)
+public class AbstractStyleUIConfigProvider implements StyleUIConfigProvider {
     @Override
     public int currentAPILevel() {
         return CURRENT_LEVEL;

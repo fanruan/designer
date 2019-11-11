@@ -10,7 +10,7 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.fun.CustomStyleUIConfigProvider;
+import com.fr.design.fun.StyleUIConfigProvider;
 import com.fr.design.fun.MultiStyleUIConfigProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -63,7 +63,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 	private FRFontPane frFontPane = null;
 	private BorderPane borderPane = null;
 	private BackgroundPane backgroundPane = null;
-	private static List<CustomStyleUIConfigProvider> configList = PluginSandboxCollections.newSandboxList();
+	private static List<StyleUIConfigProvider> configList = PluginSandboxCollections.newSandboxList();
 	private PreivewArea previewArea;
 	private JPanel previewPane;
 
@@ -99,7 +99,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
-		for (CustomStyleUIConfigProvider config : configList) {
+		for (StyleUIConfigProvider config : configList) {
 			mainTabbedPane.addTab(config.configName(), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		}
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
@@ -362,7 +362,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		if (this.backgroundPane != null) {
 			this.backgroundPane.populate(editing.getBackground());
 		}
-		for(CustomStyleUIConfigProvider tabConfig : configList){
+		for(StyleUIConfigProvider tabConfig : configList){
 			tabConfig.populateConfig(this.editing);
 		}
 		updatePreviewArea();
@@ -399,7 +399,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		if (this.backgroundPane != null) {
 			style = style.deriveBackground(this.backgroundPane.update());
 		}
-		for(CustomStyleUIConfigProvider tabConfig : configList){
+		for(StyleUIConfigProvider tabConfig : configList){
 			style = tabConfig.updateConfig();
 		}
 
