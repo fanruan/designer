@@ -741,10 +741,10 @@ public class RTextAreaEditorKit extends DefaultEditorKit {
 		public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
 			Font font = textArea.getFont();
 			float oldSize = font.getSize2D();
-			float newSize = oldSize - decreaseAmount;
+			double newSize = (double)oldSize - (double)decreaseAmount;
 			if (newSize>=MINIMUM_SIZE) {
 				// Shrink by decreaseAmount.
-				font = font.deriveFont(newSize);
+				font = font.deriveFont((float)newSize);
 				textArea.setFont(font);
 			}
 			else if (oldSize>MINIMUM_SIZE) {
@@ -1329,10 +1329,10 @@ public class RTextAreaEditorKit extends DefaultEditorKit {
 		public void actionPerformedImpl(ActionEvent e, RTextArea textArea) {
 			Font font = textArea.getFont();
 			float oldSize = font.getSize2D();
-			float newSize = oldSize + increaseAmount;
+			double newSize = (double)oldSize + (double)increaseAmount;
 			if (newSize<=MAXIMUM_SIZE) {
 				// Grow by increaseAmount.
-				font = font.deriveFont(newSize);
+				font = font.deriveFont((float)newSize);
 				textArea.setFont(font);
 			}
 			else if (oldSize<MAXIMUM_SIZE) {

@@ -7,7 +7,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartValueAxis;
 import com.fr.stable.StringUtils;
@@ -39,6 +38,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         super(isXAxis);
     }
 
+    @Override
     protected JPanel createContentPane(boolean isXAxis){
 
         double p = TableLayout.PREFERRED;
@@ -59,6 +59,11 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    @Override
+    protected void addOverlapGroupButton(JPanel panel) {
+        //do nothing
     }
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
@@ -123,6 +128,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Axis");
     }
 
+    @Override
     public void populateBean(VanChartAxis axis){
         VanChartValueAxis valueAxis = (VanChartValueAxis)axis;
         super.populateBean(valueAxis);
@@ -150,6 +156,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         }
     }
 
+    @Override
     public VanChartValueAxis updateBean(String axisName, int position){
         VanChartValueAxis axis = new VanChartValueAxis(axisName, position);
         updateBean(axis);

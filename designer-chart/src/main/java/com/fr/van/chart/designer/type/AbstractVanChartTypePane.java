@@ -7,6 +7,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.chartglyph.DataSheet;
+import com.fr.chartx.attr.ZoomAttribute;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
@@ -17,7 +18,6 @@ import com.fr.js.NameJavaScriptGroup;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
-import com.fr.plugin.chart.base.VanChartZoom;
 import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
@@ -116,7 +116,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
     protected void resetChartAttr(Chart chart, Plot newPlot){
         chart.setPlot(newPlot);
         if(newPlot.isSupportZoomDirection() && !newPlot.isSupportZoomCategoryAxis()){
-            ((VanChart)chart).setVanChartZoom(new VanChartZoom());
+            ((VanChart) chart).setZoomAttribute(new ZoomAttribute());
         }
         //重置工具栏选项
         ((VanChart)chart).setVanChartTools(createVanChartTools());

@@ -11,8 +11,8 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 public class ChartDataPane extends AbstractChartAttrPane {
 
@@ -34,6 +34,7 @@ public class ChartDataPane extends AbstractChartAttrPane {
 		contentsPane = new NormalChartDataPane(listener, ChartDataPane.this);
 		return contentsPane;
 	}
+
 
 	/**
 	 * 界面标题

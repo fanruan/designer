@@ -39,6 +39,13 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
     }
 
     @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_New_HeatMap"),
+        };
+    }
+
+    @Override
     public String[] getDemoImagePath() {
         return new String[]{
                 "com/fr/plugin/chart/demo/image/42.png"
@@ -50,27 +57,33 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
     }
 
     @Override
-    protected boolean areaPlot(Plot plot){
+    protected boolean areaPlot(Plot plot) {
         return false;
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartHeatMapSeriesPane(parent, plot);
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartHeatMapConditionPane(plot);
     }
 
     /**
      * 图表的属性界面数组
+     *
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartMapStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane(){
+        VanChartOtherPane otherPane = new VanChartOtherPane() {
             protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartInteractivePaneWithMapZoom();
+                return new VanChartInteractivePaneWithMapZoom() {
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
+                    }
+                };
             }
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};

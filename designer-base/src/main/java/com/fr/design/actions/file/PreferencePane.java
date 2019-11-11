@@ -1,5 +1,6 @@
 package com.fr.design.actions.file;
 
+import com.fr.cluster.ClusterBridge;
 import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
@@ -28,7 +29,7 @@ import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
-import com.fr.design.update.push.DesignerPushUpdateManager;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -133,7 +134,6 @@ public class PreferencePane extends BasicPane {
     private IntegerEditor portEditor;
     private UICheckBox oracleSpace;
     private UISpinner cachingTemplateSpinner;
-    private UICheckBox openDebugComboBox;
     private UICheckBox useOptimizedUPMCheckbox;
     private UICheckBox useUniverseDBMCheckbox;
     private UICheckBox joinProductImproveCheckBox;
@@ -194,11 +194,6 @@ public class PreferencePane extends BasicPane {
         oracleSpace = new UICheckBox(i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-        JPanel debuggerPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Develop_Tools"));
-        openDebugComboBox = new UICheckBox(i18nText("Fine-Design_Basic_Open_Debug_Window"));
-        debuggerPane.add(openDebugComboBox, BorderLayout.CENTER);
-        advancePane.add(debuggerPane);
-
         JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
         useOptimizedUPMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
         upmSelectorPane.add(useOptimizedUPMCheckbox);
@@ -213,10 +208,15 @@ public class PreferencePane extends BasicPane {
         joinProductImproveCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImproveCheckBox);
 
-        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+        if(SupportOSImpl.AUTOPUSHUPDATE.support()){
             autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);
         }
+      /*
+        if (DesignerPushUpdateManager.getInstance().isAutoPushUpdateSupported()) {
+            autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
+            improvePane.add(autoPushUpdateCheckBox);
+        }*/
 
         JPanel spaceUpPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         spaceUpPane.add(oraclePane, BorderLayout.NORTH);
@@ -258,7 +258,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 boolean selected = vcsEnableCheckBox.isSelected();
-                if (selected) {
+                if (selected && vcsEnableCheckBox.isEnabled()) {
                     saveCommitCheckBox.setEnabled(true);
                     saveIntervalEditor.setEnabled(true);
                     useIntervalCheckBox.setEnabled(true);
@@ -302,15 +302,9 @@ public class PreferencePane extends BasicPane {
         gcEnableCheckBox.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                gcButton.setEnabled(gcEnableCheckBox.isSelected());
+                gcButton.setEnabled(gcEnableCheckBox.isSelected() && gcEnableCheckBox.isEnabled());
             }
         });
-
-        //集群下禁用
-        if (FineClusterConfig.getInstance().isCluster()) {
-            gcEnableCheckBox.setEnabled(false);
-            gcButton.setEnabled(false);
-        }
         return gcControlPane;
     }
 
@@ -668,6 +662,11 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
+        if (FineClusterConfig.getInstance().isCluster()) {
+            vcsEnableCheckBox.setEnabled(false);
+            gcEnableCheckBox.setEnabled(false);
+        }
+
         if (VcsHelper.getInstance().needInit()) {
             vcsEnableCheckBox.setSelected(vcsConfigManager.isVcsEnable());
         } else {
@@ -703,7 +702,6 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-        openDebugComboBox.setSelected(designerEnvManager.isOpenDebug());
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
         useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
@@ -772,8 +770,6 @@ public class PreferencePane extends BasicPane {
         designerEnvManager.setReportLengthUnit((short) reportLengthComboBox.getSelectedIndex());
 
         designerEnvManager.setJettyServerPort(portEditor.getValue().intValue());
-
-        designerEnvManager.setOpenDebug(openDebugComboBox.isSelected());
 
         designerEnvManager.setOracleSystemSpace(this.oracleSpace.isSelected());
         designerEnvManager.setCachingTemplateLimit((int) this.cachingTemplateSpinner.getValue());
@@ -887,7 +883,7 @@ public class PreferencePane extends BasicPane {
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e, e.getMessage());
                 }
-                updateGcDialogPanelInfo(i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
+                updateGcDialogPanelInfo(size <= 0 ? i18nText("Fine-Design_Vcs_No_Optimizable_File") : i18nText("Fine-Design_Vcs_Reduce_File_Size") + fileSizeConvert(size));
                 gcDialogDownPane.revalidate();
                 gcDialogDownPane.repaint();
                 gcDialogDownPane.add(gcOkButton);
@@ -1050,7 +1046,7 @@ public class PreferencePane extends BasicPane {
         if (size > Math.pow(n, 2)) {
             return df.format(size / Math.pow(n, 2)) + "MB";
         }
-        return new StringBuilder().append(df.format(size / n)).append("KB").toString();
+        return df.format(size / n) + "KB";
     }
 
     /**
@@ -1066,3 +1062,4 @@ public class PreferencePane extends BasicPane {
     }
 
 }
+

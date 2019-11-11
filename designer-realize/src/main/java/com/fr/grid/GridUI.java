@@ -1209,7 +1209,7 @@ public class GridUI extends ComponentUI {
      * @return 有效返回true
      */
     public static boolean validate(Rectangle2D rect) {
-        return rect != null && rect.getX() != INVALID_INTEGER;
+        return rect != null && !ComparatorUtils.equals(rect.getX(), INVALID_INTEGER);
     }
 
 

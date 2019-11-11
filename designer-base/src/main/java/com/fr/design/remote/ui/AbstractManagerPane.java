@@ -67,6 +67,12 @@ public abstract class AbstractManagerPane extends BasicPane {
      */
     private List<RemoteDesignMember> addedMembers = new ArrayList<>();
 
+
+    /**
+     * 具有设计权限的角色/用户
+     */
+    private List<RemoteDesignMember> authorityMembers = new ArrayList<>();
+
     /**
      * 决策平台用户列表model
      */
@@ -211,6 +217,9 @@ public abstract class AbstractManagerPane extends BasicPane {
         resetAddedMembers();
         this.addedMembers.addAll(addedMembers);
 
+        resetAuthorityMembers();
+        this.authorityMembers.addAll(addedMembers);
+
         // 刷新右侧面板
         addToAddedMemberList();
 
@@ -317,10 +326,9 @@ public abstract class AbstractManagerPane extends BasicPane {
         for (RemoteDesignMember member : addingMembers) {
             // 如果包含在右侧列表中，那么左侧列表默认选中
             if (addedMembers.contains(member)) {
-                member.setAuthority(true);
                 member.setSelected(true);
-            } else {
-                member.setAuthority(false);
+            }
+            else {
                 member.setSelected(false);
             }
             addingListModel.addElement(member);
@@ -351,6 +359,10 @@ public abstract class AbstractManagerPane extends BasicPane {
         addedMembers.clear();
     }
 
+    private void resetAuthorityMembers() {
+        authorityMembers.clear();
+    }
+
     protected abstract Collection<RemoteDesignMember> getMembers(String userName, String keyWord);
 
     protected abstract Collection<RemoteDesignMember> getMembers(String userName, String keyWord, int pageNum, int count);
@@ -377,6 +389,7 @@ public abstract class AbstractManagerPane extends BasicPane {
 
             @Override
             protected void done() {
+                referAddingMemberList();
                 addToMemberList();
             }
         };
@@ -404,10 +417,20 @@ public abstract class AbstractManagerPane extends BasicPane {
 
             @Override
             protected void done() {
+                referAddingMemberList();
                 addToMemberList();
             }
         };
         loadMoreWorker.execute();
+    }
+
+    // 检查左侧列表角色/用户是否有权限
+    private void referAddingMemberList() {
+        for (RemoteDesignMember member : addingMembers) {
+            if (authorityMembers.contains(member)){
+                member.setAuthority(true);
+            }
+        }
     }
 
 

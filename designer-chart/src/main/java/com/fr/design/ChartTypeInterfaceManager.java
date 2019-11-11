@@ -11,6 +11,18 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chart.fun.ChartTypeUIProvider;
 import com.fr.design.chart.gui.ChartWidgetOption;
+import com.fr.design.condition.ConditionAttributesPane;
+import com.fr.design.gui.core.WidgetOption;
+import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.ChartEditPane;
+import com.fr.design.mainframe.chart.ChartsConfigPane;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
+import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.type.ui.AreaChartTypeUI;
 import com.fr.design.type.ui.BarChartTypeUI;
 import com.fr.design.type.ui.BubbleChartTypeUI;
@@ -28,18 +40,6 @@ import com.fr.design.type.ui.RadarChartTypeUI;
 import com.fr.design.type.ui.RangeChartTypeUI;
 import com.fr.design.type.ui.StockChartTypeUI;
 import com.fr.design.type.ui.XYScatterChartTypeUI;
-import com.fr.design.condition.ConditionAttributesPane;
-import com.fr.design.gui.core.WidgetOption;
-import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.mainframe.chart.AbstractChartAttrPane;
-import com.fr.design.mainframe.chart.ChartEditPane;
-import com.fr.design.mainframe.chart.ChartsConfigPane;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
-import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.design.module.DesignModuleFactory;
 import com.fr.extended.chart.AbstractChart;
 import com.fr.form.ui.ChartEditor;
 import com.fr.general.GeneralContext;
@@ -80,7 +80,7 @@ import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
 import com.fr.van.chart.area.AreaIndependentVanChartInterface;
 import com.fr.van.chart.bar.BarIndependentVanChartInterface;
 import com.fr.van.chart.bubble.BubbleIndependentVanChartInterface;
-import com.fr.van.chart.column.ColumnIndependentVanChartInterface;
+import com.fr.van.chart.column.VanColumnChartTypeUI;
 import com.fr.van.chart.custom.CustomIndependentVanChartInterface;
 import com.fr.van.chart.drillmap.DrillMapIndependentVanChartInterface;
 import com.fr.van.chart.funnel.designer.FunnelIndependentVanChartInterface;
@@ -93,7 +93,7 @@ import com.fr.van.chart.multilayer.MultiPieIndependentVanChartInterface;
 import com.fr.van.chart.pie.PieIndependentVanChartInterface;
 import com.fr.van.chart.radar.RadarIndependentVanChartInterface;
 import com.fr.van.chart.scatter.ScatterIndependentVanChartInterface;
-import com.fr.van.chart.structure.desinger.StructureIndependentVanChartInterface;
+import com.fr.van.chart.structure.desinger.VanStructureChartTypeUI;
 import com.fr.van.chart.treemap.TreeMapIndependentVanChartInterface;
 import com.fr.van.chart.wordcloud.designer.WordCloudIndependentVanChartInterface;
 
@@ -165,7 +165,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         ChartWidgetOption[] child = new ChartWidgetOption[chartIDs.length];
         int index = 0;
         for (String chartID : chartIDs) {
-            ChartProvider[] rowChart = ChartTypeManager.getInstance().getChartTypes(chartID);
+            ChartProvider[] rowChart = ChartTypeManager.getInstance().getCharts(chartID);
             if (ArrayUtils.isEmpty(rowChart) && !ChartTypeManager.innerChart(chartID)) {
                 continue;
             }
@@ -182,7 +182,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
     private static void readVanChart() {
 
         addChartTypeInterface(VAN_CHART_PRIORITY, PiePlot4VanChart.VAN_CHART_PIE_PLOT, new PieIndependentVanChartInterface());
-        addChartTypeInterface(VAN_CHART_PRIORITY, VanChartColumnPlot.VAN_CHART_COLUMN_PLOT_ID, new ColumnIndependentVanChartInterface());
+        addChartTypeInterface(VAN_CHART_PRIORITY, VanChartColumnPlot.VAN_CHART_COLUMN_PLOT_ID, new VanColumnChartTypeUI());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartColumnPlot.VAN_CHART_BAR_PLOT_ID, new BarIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartLinePlot.VAN_CHART_LINE_PLOT, new LineIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartAreaPlot.VAN_CHART_AREA_PLOT_ID, new AreaIndependentVanChartInterface());
@@ -199,7 +199,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartHeatMapPlot.VAN_CHART_HEAT_MAP_ID, new HeatMapIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartWordCloudPlot.WORD_CLOUD_PLOT_ID, new WordCloudIndependentVanChartInterface());
         addChartTypeInterface(VAN_CHART_PRIORITY, VanChartGanttPlot.VAN_CHART_GANTT_PLOT_ID, new GanttIndependentVanChartInterface());
-        addChartTypeInterface(VAN_CHART_PRIORITY, VanChartStructurePlot.STRUCTURE_PLOT_ID, new StructureIndependentVanChartInterface());
+        addChartTypeInterface(VAN_CHART_PRIORITY, VanChartStructurePlot.STRUCTURE_PLOT_ID, new VanStructureChartTypeUI());
     }
 
 
@@ -364,7 +364,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
         try {
             //兼容 图表类型选择界面会调到这边
-            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
+            ChartProvider[] charts = ChartTypeManager.getInstanceWithCheck().getCharts(chartID);
             result = new String[charts.length];
             for (int i = 0; i < charts.length; i++) {
                 //Chart && AbstractChart
@@ -403,7 +403,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
     //兼容
     private String[] getCompatibleSubName(String chartID, ChartTypeUIProvider provider) {
-        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID);
+        ChartProvider[] chartProviders = ChartTypeManager.getInstanceWithCheck().getCharts(chartID);
 
         if (chartProviders.length == 1) {
             return new String[]{getName(chartID)};
@@ -453,7 +453,7 @@ public class ChartTypeInterfaceManager implements ExtraChartDesignClassManagerPr
 
 
         try {
-            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getChartTypes(chartID)[0];
+            ChartProvider chartProvider = ChartTypeManager.getInstanceWithCheck().getCharts(chartID)[0];
             if (chartProvider instanceof Chart) {
                 //AbstractExtendedChartUIProvider
                 result = ((Chart) chartProvider).getChartName();

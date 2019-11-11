@@ -6,9 +6,9 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
+import com.fr.chartx.attr.ZoomAttribute;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.base.VanChartTools;
-import com.fr.plugin.chart.base.VanChartZoom;
 import com.fr.plugin.chart.bubble.BubbleIndependentVanChart;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
@@ -116,8 +116,7 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
      */
     @Override
     protected void resetChartAttr4SamePlot(Chart chart){
-        VanChartZoom vanChartZoom = new VanChartZoom();
-        ((VanChart)chart).setVanChartZoom(vanChartZoom);
+        ((VanChart) chart).setZoomAttribute(new ZoomAttribute());
         //重置监控刷新选项
         resetRefreshMoreLabelAttr((VanChart)chart);
     }

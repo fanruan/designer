@@ -374,7 +374,7 @@ public class SyntaxView extends View implements TabExpander,
 				if (host.isCodeFoldingEnabled()) {
 					visibleLineCount -= host.getFoldManager().getHiddenLineCount();
 				}
-				return visibleLineCount * lineHeight;
+				return (float) visibleLineCount * lineHeight;
 			default:
 				throw new IllegalArgumentException("Invalid axis: " + axis);
 		}
@@ -656,7 +656,7 @@ public class SyntaxView extends View implements TabExpander,
 		if (tabSize == 0)
 			return x;
 		int ntabs = (((int) x) - tabBase) / tabSize;
-		return tabBase + ((ntabs + 1) * tabSize);
+		return (float) (tabBase + ((ntabs + 1) * tabSize));
 	}
 
 

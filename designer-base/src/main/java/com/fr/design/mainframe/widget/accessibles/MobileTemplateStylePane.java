@@ -66,7 +66,7 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         attrConfPane.add(right, BorderLayout.CENTER);
         centerPane.add(attrConfPane, BorderLayout.CENTER);
         styleList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 String selectedValue = (String)styleList.getSelectedValue();
                 card.show(right, selectedValue);
             }

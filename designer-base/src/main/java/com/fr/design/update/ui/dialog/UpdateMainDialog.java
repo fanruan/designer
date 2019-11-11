@@ -1,5 +1,6 @@
 package com.fr.design.update.ui.dialog;
 
+import com.fr.decision.update.data.UpdateConstants;
 import com.fr.decision.update.info.UpdateCallBack;
 import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
@@ -9,11 +10,11 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.update.actions.FileProcess;
-import com.fr.design.update.domain.UpdateConstants;
 import com.fr.design.update.domain.UpdateInfoCachePropertyManager;
 import com.fr.design.update.factory.DirectoryOperationFactory;
 import com.fr.design.update.ui.widget.LoadingLabel;
@@ -23,22 +24,16 @@ import com.fr.design.update.ui.widget.UpdateInfoTableCellRender;
 import com.fr.design.update.ui.widget.UpdateInfoTableModel;
 import com.fr.design.update.ui.widget.UpdateInfoTextAreaCellRender;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.DateUtils;
-import com.fr.general.GeneralContext;
-import com.fr.general.GeneralUtils;
-import com.fr.general.SiteCenter;
-import com.fr.general.http.HttpClient;
+import com.fr.general.*;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.EncodeConstants;
-import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
-import com.fr.stable.StringUtils;
+import com.fr.stable.*;
+import com.fr.stable.project.ProjectConstants;
+import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
+import com.fr.third.org.apache.http.client.methods.HttpGet;
+import com.fr.third.org.apache.http.impl.client.CloseableHttpClient;
 import com.fr.workspace.WorkContext;
 import com.sun.java.swing.plaf.motif.MotifProgressBarUI;
 
@@ -46,28 +41,19 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+
+import static java.nio.charset.StandardCharsets.*;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 /**
  * Created by XINZAI on 2018/8/21.
@@ -120,8 +106,6 @@ public class UpdateMainDialog extends UIDialog {
     private UIButton searchUpdateInfoBtn;
     //搜索更新信息关键词文本框
     private UITextField searchUpdateInfoKeyword;
-
-    private boolean updateSuccessful;
 
     private UpdateInfoTable updateInfoTable;
 
@@ -248,12 +232,12 @@ public class UpdateMainDialog extends UIDialog {
 
         updateInfoTable.setShowGrid(false);
         updateInfoTable.setCellSelectionEnabled(false);
-        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<UpdateInfoTableModel>(updateInfoTable.getDataModel());
+        TableRowSorter<UpdateInfoTableModel> sorter = new TableRowSorter<>(updateInfoTable.getDataModel());
         sorter.setSortable(updateTimeColIndex, true);
         sorter.setSortable(updateTitleColIndex, false);
         sorter.setSortable(updateSignColIndex, false);
         updateInfoTable.setRowSorter(sorter);
-        List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
         sortKeys.add(new RowSorter.SortKey(updateTimeColIndex, SortOrder.DESCENDING));
         sorter.setSortKeys(sortKeys);
 
@@ -367,6 +351,7 @@ public class UpdateMainDialog extends UIDialog {
                 try {
                     downloadFileConfig = get();
                     showDownLoadInfo();
+                    afterInit();
                 } catch (InterruptedException e) {
                     stopLoading();
                     Thread.currentThread().interrupt();
@@ -380,7 +365,7 @@ public class UpdateMainDialog extends UIDialog {
     }
 
     private SwingWorker<JSONArray, Void> getUpdateInfo(final String keyword) {
-        updateInfoList = new ArrayList<Object[]>();
+        updateInfoList = new ArrayList<>();
         lastUpdateCacheTime = UpdateConstants.CHANGELOG_X_START;
         String cacheConfigPath = getUpdateCacheConfig();
         cacheProperty = new UpdateInfoCachePropertyManager(StableUtils.pathJoin(WorkContext.getCurrent().getPath(), "resources", "offlineres", cacheConfigPath));
@@ -395,6 +380,8 @@ public class UpdateMainDialog extends UIDialog {
         return new SwingWorker<JSONArray, Void>() {
             @Override
             protected JSONArray doInBackground() {
+                CloseableHttpClient httpClient;
+                CloseableHttpResponse response;
                 try {
                     getUpdateInfoSuccess = false;
                     //step1:read from cache file
@@ -403,16 +390,15 @@ public class UpdateMainDialog extends UIDialog {
                     if (downloadFileConfig == null) {
                         throw new Exception("network error.");
                     }
-                    HttpClient hc = new HttpClient(SiteCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
-                    hc.asGet();
-                    hc.setTimeout(UpdateConstants.CONNECTION_TIMEOUT * 2);
-                    String responseText = hc.getResponseText();
+                    HttpGet get = new HttpGet(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    httpClient = HttpToolbox.getHttpClient(CloudCenter.getInstance().acquireUrlByKind("changelog10") + "&start=" + lastUpdateCacheTime + "&end=" + getLatestJARTimeStr());
+                    response = httpClient.execute(get);
+                    String responseText = CommonIOUtils.inputStream2String(response.getEntity().getContent(),EncodeConstants.ENCODING_UTF_8).trim();
                     JSONArray array = JSONArray.create();
                     //假如返回"-1"，说明socket出错了
                     if (!ComparatorUtils.equals(responseText, "-1")) {
                         array = new JSONArray(responseText);
                     }
-                    hc.release();
                     return array;
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -430,7 +416,6 @@ public class UpdateMainDialog extends UIDialog {
                     getUpdateInfoSuccess = true;
                     //step4:update cache file,start from cacheRecordTime,end latest server jartime
                     updateCachedInfoFile(jsonArray);
-                    afterInit();
                 } catch (Exception e) {
                     getUpdateInfoSuccess = true;
                     FineLoggerFactory.getLogger().error(e.getMessage());
@@ -441,6 +426,7 @@ public class UpdateMainDialog extends UIDialog {
 
     private void afterInit() {
         if (autoUpdateAfterInit) {
+            updateButton.setEnabled(true);
             updateButton.doClick();
         }
     }
@@ -454,7 +440,7 @@ public class UpdateMainDialog extends UIDialog {
             return;
         }
         if (cacheFile.exists()) {
-            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), "UTF-8");
+            try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(cacheFile), StandardCharsets.UTF_8);
                  BufferedReader br = new BufferedReader(streamReader)) {
                 String readStr, updateTimeStr;
                 while ((readStr = br.readLine()) != null) {
@@ -499,13 +485,14 @@ public class UpdateMainDialog extends UIDialog {
         if (endTime.equals(lastUpdateCacheTime) || jsonArray.length() == 0 || ComparatorUtils.compare(endTime, lastUpdateCacheTime) <= 0) {
             return;
         }
-        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), EncodeConstants.ENCODING_UTF_8);
-             BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jo = (JSONObject) jsonArray.get(i);
-                bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
-                bufferWriter.newLine();
-                bufferWriter.flush();
+        try (OutputStreamWriter writerStream = new OutputStreamWriter(new FileOutputStream(cacheFile), UTF_8)) {
+            try (BufferedWriter bufferWriter = new BufferedWriter(writerStream)) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jo = (JSONObject) jsonArray.get(i);
+                    bufferWriter.write((String) jo.get("update") + '\t' + jo.get("title"));
+                    bufferWriter.newLine();
+                    bufferWriter.flush();
+                }
             }
         }
         lastUpdateCacheState = UPDATE_CACHE_STATE_SUCCESS;
@@ -523,6 +510,9 @@ public class UpdateMainDialog extends UIDialog {
             //形如 Build#release-2018.07.31.03.03.52.80
             String currentNO = GeneralUtils.readBuildNO();
             Date curJarDate = UPDATE_INFO_TABLE_FORMAT.parse(currentNO, new ParsePosition(currentNO.indexOf("-") + 1));
+            if (curJarDate == null) {
+                curJarDate = updateTime;
+            }
             if (!ComparatorUtils.equals(keyword, StringUtils.EMPTY)) {
                 if (!containsKeyword(UPDATE_INFO_TABLE_FORMAT.format(updateTime), keyword) && !containsKeyword(updateTitle, keyword)) {
                     continue;
@@ -532,7 +522,7 @@ public class UpdateMainDialog extends UIDialog {
                 updateInfoList.add(new Object[]{UPDATE_INFO_TABLE_FORMAT.format(updateTime), updateTitle, updateTime.after(curJarDate)});
             }
         }
-        return new ArrayList<Object[]>(updateInfoList);
+        return new ArrayList<>(updateInfoList);
     }
 
     private boolean containsKeyword(String str, String keyword) {
@@ -594,25 +584,32 @@ public class UpdateMainDialog extends UIDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (updateSuccessful) {
-                    RestartHelper.restart();
-                } else {
+                String[] option = {Toolkit.i18nText("Fine-Design_Report_Yes"), Toolkit.i18nText("Fine-Design_Report_No")};
+                int a = JOptionPane.showOptionDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Information"),
+                        Toolkit.i18nText("Fine-Design_Update_Info_Title"),JOptionPane.YES_NO_OPTION, QUESTION_MESSAGE, UIManager.getIcon("OptionPane.warningIcon"), option, 1);
+                if (a == 0) {
                     progressBar.setVisible(true);
+                    progressBar.setString(Toolkit.i18nText("Fine-Design_Update_Info_Wait_Message"));
                     UpdateCallBack callBack = new UpdateProgressCallBack(progressBar);
-                    deletePreviousPropertyFile();
                     updateButton.setEnabled(false);
                     updateLabel.setVisible(false);
+                    RestoreResultDialog.deletePreviousPropertyFile();
+                    final String installLib = StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LOGS_NAME, UpdateConstants.INSTALL_LIB);
+                    final JFrame frame = DesignerContext.getDesignerFrame();
+                    final RestartHelper helper = new RestartHelper();
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
-                            updateButton.setEnabled(true);
                             progressBar.setVisible(false);
-                            updateSuccessful = true;
-                            updateButton.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Updater_Restart_Designer"));
+                            deleteForDesignerUpdate(installLib);
+                            helper.restartForUpdate(frame);
                         }
                         @Override
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
+                            deleteForDesignerUpdate(installLib);
+                            JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
+                            helper.restartForUpdate(frame);
                         }
                     }.execute();
                 }
@@ -620,21 +617,10 @@ public class UpdateMainDialog extends UIDialog {
         });
     }
 
-    /**
-     * 确保升级更新之前删除以前的配置文件
-     */
-    public static void deletePreviousPropertyFile() {
-        //在进行更新升级之前确保move和delete.properties删除
-        File moveFile = new File(RestartHelper.MOVE_FILE);
-        File delFile = new File(RestartHelper.RECORD_FILE);
-        if ((moveFile.exists()) && (!moveFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.MOVE_FILE + "delete failed!");
-        }
-        if ((delFile.exists()) && (!delFile.delete())) {
-            FineLoggerFactory.getLogger().error(RestartHelper.RECORD_FILE + "delete failed!");
-        }
+    private void deleteForDesignerUpdate(String installLib) {
+        File dir = new File(installLib);
+        CommonUtils.deleteFile(dir);
     }
-
 
     //获取备份目录
     private String getBackupDirectory() {
@@ -687,10 +673,8 @@ public class UpdateMainDialog extends UIDialog {
     /**
      * 检查有效性
      *
-     * @throws Exception
      */
     @Override
     public void checkValid() throws Exception {
-
     }
 }

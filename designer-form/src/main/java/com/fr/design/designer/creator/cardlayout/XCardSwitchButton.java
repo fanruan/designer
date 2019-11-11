@@ -31,6 +31,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.act.TitlePacker;
 import com.fr.general.cardtag.TemplateStyle;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.unit.PT;
 
 import javax.swing.*;
@@ -210,7 +211,7 @@ public class XCardSwitchButton extends XButton {
 	private void deleteCard(XCardSwitchButton button, int index){
 		String titleName = button.getContentLabel().getText();
 		int value = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Confirm_Dialog_Content") + "“" + titleName + "”",
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ConfirmDialog_Title"), JOptionPane.YES_NO_OPTION);
+				ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION);
 		if (value != JOptionPane.OK_OPTION) {
 			return;
 		}
@@ -352,7 +353,7 @@ public class XCardSwitchButton extends XButton {
 	private void deleteTabLayout(SelectionModel selectionModel, FormDesigner designer){
 		String titleName = this.getContentLabel().getText();
 		int value = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Confirm_Dialog_Content") + "“" + titleName + "”",
-				com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_ConfirmDialog_Title"),JOptionPane.YES_NO_OPTION);
+				ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION);
 		if (value != JOptionPane.OK_OPTION) {
 			return;
 		}

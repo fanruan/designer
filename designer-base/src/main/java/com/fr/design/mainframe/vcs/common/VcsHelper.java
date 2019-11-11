@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.vcs.common;
 
+import com.fr.cluster.ClusterBridge;
 import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
@@ -25,9 +27,9 @@ import com.fr.workspace.server.vcs.git.config.GcConfig;
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.util.Date;
 
-import static com.fr.stable.StableUtils.pathJoin;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by XiaXiang on 2019/4/17.
@@ -49,10 +51,10 @@ public class VcsHelper implements JTemplateActionListener {
     public final static int OFFSET = 2;
     private static final int MINUTE = 60 * 1000;
     private final static String VCS_PLUGIN_ID = "com.fr.plugin.vcs.v10";
-    private static final VcsHelper instance = new VcsHelper();
+    private static final VcsHelper INSTANCE = new VcsHelper();
 
     public static VcsHelper getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private int containsFolderCounts() {
@@ -111,7 +113,7 @@ public class VcsHelper implements JTemplateActionListener {
         if (configManager.isSaveCommit() && StringUtils.isNotBlank(entity.getCommitMsg())) {
             return false;
         }
-        return new Date().getTime() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE;
+        return System.currentTimeMillis() - entity.getTime().getTime() < DesignerEnvManager.getEnvManager().getVcsConfigManager().getSaveInterval() * MINUTE;
     }
 
     public boolean needInit() {
@@ -125,7 +127,8 @@ public class VcsHelper implements JTemplateActionListener {
      * @param jt
      */
     public void fireVcs(final JTemplate jt) {
-        new Thread(new Runnable() {
+        ExecutorService fireVcs = Executors.newSingleThreadExecutor(new NamedThreadFactory("fireVcs"));
+        fireVcs.execute(new Runnable() {
             @Override
             public void run() {
 
@@ -152,8 +155,8 @@ public class VcsHelper implements JTemplateActionListener {
                 }
 
             }
-        }).start();
-
+        });
+        fireVcs.shutdown();
     }
 
 
@@ -169,7 +172,9 @@ public class VcsHelper implements JTemplateActionListener {
      */
     @Override
     public void templateSaved(JTemplate<?, ?> jt) {
-        if (needInit() && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable() && !FineClusterConfig.getInstance().isCluster()) {
+        if (needInit()
+                && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
+                && !FineClusterConfig.getInstance().isCluster()) {
             fireVcs(jt);
         }
     }
