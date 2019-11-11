@@ -7,7 +7,14 @@ package com.fr.design;
 import com.fr.base.BaseUtils;
 import com.fr.common.annotations.Open;
 import com.fr.design.data.datapane.TableDataNameObjectCreator;
-import com.fr.design.fun.*;
+import com.fr.design.fun.CellWidgetOptionProvider;
+import com.fr.design.fun.FormWidgetOptionProvider;
+import com.fr.design.fun.MobileWidgetStyleProvider;
+import com.fr.design.fun.ParameterWidgetOptionProvider;
+import com.fr.design.fun.PreviewProvider;
+import com.fr.design.fun.ServerTableDataDefineProvider;
+import com.fr.design.fun.TableDataDefineProvider;
+import com.fr.design.fun.ToolbarItemProvider;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.core.WidgetOptionFactory;
 import com.fr.design.menu.ShortCut;
@@ -24,6 +31,7 @@ import com.fr.stable.Filter;
 import com.fr.stable.plugin.ExtraDesignClassManagerProvider;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -127,21 +135,25 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     }
 
     public WidgetOption[] getWebWidgetOptions(Set<ToolbarItemProvider> set, Filter<ToolbarItemProvider> filter) {
-        if (set == null || set.isEmpty()) {
-            return new WidgetOption[0];
-        }
-        List<WidgetOption> list = new ArrayList<>();
-        for (ToolbarItemProvider provider : set) {
-            if (filter != null && filter.accept(provider)) {
-                WidgetOption option = WidgetOptionFactory.createByWidgetClass(
+        return new DesignExtraBridge<WidgetOption, ToolbarItemProvider>() {
+
+            @Override
+            WidgetOption createT(ToolbarItemProvider provider) {
+                return WidgetOptionFactory.createByWidgetClass(
                         provider.nameForWidget(),
                         IOUtils.readIcon(provider.iconPathForWidget()),
                         provider.classForWidget()
                 );
-                list.add(option);
             }
-        }
-        return list.toArray(new WidgetOption[list.size()]);
+
+            @Override
+            WidgetOption[] toArray(Collection<?> sCollection) {
+                if (sCollection == null) {
+                    return new WidgetOption[0];
+                }
+                return sCollection.toArray(new WidgetOption[sCollection.size()]);
+            }
+        }.filterSAndTransformT(set, filter);
     }
 
 
@@ -224,8 +236,8 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
             return new MobileWidgetStyleProvider[0];
         }
         List<MobileWidgetStyleProvider> providers = new ArrayList<>();
-        for (MobileWidgetStyleProvider provider: set) {
-            if(ComparatorUtils.equalsIgnoreCase(provider.xTypeForWidget(), xType)) {
+        for (MobileWidgetStyleProvider provider : set) {
+            if (ComparatorUtils.equalsIgnoreCase(provider.xTypeForWidget(), xType)) {
                 providers.add(provider);
             }
         }
@@ -255,5 +267,56 @@ public class ExtraDesignClassManager extends AbstractExtraClassManager implement
     public Set<ShortCut> getExtraShortCuts() {
 
         return Collections.unmodifiableSet(shortCuts);
+    }
+
+    public PreviewProvider[] getTemplatePreviews(Filter<PreviewProvider> filter) {
+        Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
+        return new DesignExtraBridge<PreviewProvider, PreviewProvider>() {
+
+            @Override
+            PreviewProvider createT(PreviewProvider previewProvider) {
+                return previewProvider;
+            }
+
+            @Override
+            PreviewProvider[] toArray(Collection<?> sCollection) {
+                if (sCollection == null) {
+                    return new PreviewProvider[0];
+                }
+                return sCollection.toArray(new PreviewProvider[sCollection.size()]);
+            }
+        }.filterSAndTransformT(set, filter);
+    }
+
+    /**
+     * 抽了一个可能用到的公用逻辑出来：通过filter过滤接口实现（Set<s>）并将对外接口实例转成内部实例S转成T,比如ToolItemProvider转成WidgetOption,当然也可以不转
+     *
+     * @param <T> 你想要得到的类型，可以跟S相同
+     * @param <S> 待转换的目标类型
+     */
+    abstract class DesignExtraBridge<T, S> {
+        T[] filterSAndTransformT(Set<S> set, Filter<S> filter) {
+            if (set == null || set.isEmpty()) {
+                return toArray(set);
+            }
+            List<T> list = new ArrayList<>();
+            for (S provider : set) {
+                if (filter == null || filter.accept(provider)) {
+                    list.add(createT(provider));
+                }
+            }
+
+            return toArray(list);
+        }
+
+        /**
+         * S转T
+         * @param s
+         * @return
+         */
+        abstract T createT(S s);
+
+        abstract T[] toArray(Collection<?> sCollection);
+
     }
 }
