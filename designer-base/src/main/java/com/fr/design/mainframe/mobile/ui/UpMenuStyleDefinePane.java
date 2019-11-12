@@ -75,7 +75,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         wrapTabWidthPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 15, 20));
         wrapTabWidthPanel.setPreferredSize(new Dimension(200, 20));
         JPanel outerPane = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 10);
-        outerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));;
+        outerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
         outerPane.add(centerPane);
         outerPane.add(wrapTabWidthPanel);
         panel.add(outerPane);
