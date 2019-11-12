@@ -1,24 +1,24 @@
 package com.fr.design.widget.ui.designer.mobile;
 
 import com.fr.base.mobile.MobileScanCodeAttr;
-import com.fr.base.mobile.ScanCodeState;
+import com.fr.base.mobile.TextInputMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.ibutton.ModeButtonGroup;
+import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.form.ui.TextEditor;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import javax.swing.*;
+import java.awt.*;
 
 public class ScanCodeMobileDefinePane extends MobileWidgetDefinePane {
 
     private XCreator xCreator;
-    private UICheckBox appScanCodeCheck;
+    private ModeButtonGroup<TextInputMode> buttonGroup;
 
     public ScanCodeMobileDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -33,14 +33,31 @@ public class ScanCodeMobileDefinePane extends MobileWidgetDefinePane {
     }
 
     private UIExpandablePane getMobileSettingsPane() {
-        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        appScanCodeCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Support_Scan_Code"), true);
-        appScanCodeCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        JPanel panel = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 10);
+        buttonGroup = new ModeButtonGroup<>();
+        UIRadioButton scanCodeAndManualInput = new UIRadioButton(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design__Mobile_Support_Scan_Code_And_Manual_Input"), true);
+        UIRadioButton onlyManualInput = new UIRadioButton(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Only_Support_Manual_Input"), false);
+        UIRadioButton onlyScanCodeInput = new UIRadioButton(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Only_Support_Scan_Code_Input"), false);
+        scanCodeAndManualInput.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        onlyManualInput.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        onlyScanCodeInput.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        buttonGroup.put(TextInputMode.SUPPORT_SCAN_CODE_And_MANUAL, scanCodeAndManualInput);
+        buttonGroup.put(TextInputMode.ONLY_SUPPORT_MANUAL, onlyManualInput);
+        buttonGroup.put(TextInputMode.ONLY_SUPPORT_SCAN_CODE, onlyScanCodeInput);
+        buttonGroup.add(scanCodeAndManualInput);
+        buttonGroup.add(onlyManualInput);
+        buttonGroup.add(onlyScanCodeInput);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        panel.add(appScanCodeCheck);
+        panel.add(scanCodeAndManualInput);
+        panel.add(onlyManualInput);
+        panel.add(onlyScanCodeInput);
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panelWrapper.add(panel, BorderLayout.NORTH);
-        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, panelWrapper);
+        return new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20,
+                                    panelWrapper);
     }
 
     private void bindListeners2Widgets() {
@@ -61,15 +78,14 @@ public class ScanCodeMobileDefinePane extends MobileWidgetDefinePane {
     @Override
     public void populate(FormDesigner designer) {
         MobileScanCodeAttr mobileScanCodeAttr = ((TextEditor) xCreator.toData()).getMobileScanCodeAttr();
-        ScanCodeState scanCodeState = mobileScanCodeAttr.getScanCodeState();
-        appScanCodeCheck.setSelected(scanCodeState.getState());
+        buttonGroup.setSelectButton(mobileScanCodeAttr.getTextInputMode());
         this.bindListeners2Widgets();
     }
 
     @Override
     public void update() {
         MobileScanCodeAttr mobileScanCodeAttr = ((TextEditor) xCreator.toData()).getMobileScanCodeAttr();
-        mobileScanCodeAttr.setScanCodeState(ScanCodeState.parse(appScanCodeCheck.isSelected()));
+        mobileScanCodeAttr.setTextInputMode(buttonGroup.getCurrentSelected());
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
     }
 
