@@ -1,6 +1,8 @@
 package com.fr.van.chart.multilayer;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.field.diff.MultiPieColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.MultiPieCellDataFieldsPane;
@@ -45,6 +47,15 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
+
+            @Override
+            protected void populate(AbstractDataDefinition dataDefinition) {
+                if (!(dataDefinition.getColumnFieldCollection() instanceof MultiPieColumnFieldCollection)) {
+                    dataDefinition.setColumnFieldCollection(new MultiPieColumnFieldCollection());
+                }
+                super.populate(dataDefinition);
+            }
+
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiPieDataSetFieldsPane(), new MultiPieCellDataFieldsPane());
