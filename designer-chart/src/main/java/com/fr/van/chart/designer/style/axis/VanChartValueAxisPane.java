@@ -38,6 +38,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         super(isXAxis);
     }
 
+    @Override
     protected JPanel createContentPane(boolean isXAxis){
 
         double p = TableLayout.PREFERRED;
@@ -62,6 +63,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
 
     @Override
     protected void addOverlapGroupButton(JPanel panel) {
+        //do nothing
     }
 
     protected JPanel createMinMaxValuePane(double[] row, double[] col){
@@ -126,6 +128,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Axis");
     }
 
+    @Override
     public void populateBean(VanChartAxis axis){
         VanChartValueAxis valueAxis = (VanChartValueAxis)axis;
         super.populateBean(valueAxis);
@@ -153,6 +156,7 @@ public class VanChartValueAxisPane extends VanChartBaseAxisPane {
         }
     }
 
+    @Override
     public VanChartValueAxis updateBean(String axisName, int position){
         VanChartValueAxis axis = new VanChartValueAxis(axisName, position);
         updateBean(axis);
