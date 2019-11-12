@@ -72,7 +72,8 @@ public class FRTabFitLayoutAdapter extends FRFitLayoutAdapter {
                 XWTabFitLayout tabLayout = (XWTabFitLayout) backUpContainer;
                 y = adjustY(y, tabLayout);
             }
-            addComp(creator, x, y);
+            //这时候应该要用计算后的父fit布局添加
+            this.container.getLayoutAdapter().addBean(creator, x, y);
             ((XWidgetCreator) creator).recalculateChildrenSize();
             return true;
         }

@@ -10,6 +10,7 @@ import com.fr.design.designer.beans.painters.FRFitLayoutPainter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWFitLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardMainBorderLayout;
@@ -151,7 +152,7 @@ public class FRFitLayoutAdapter extends FRBodyLayoutAdapter {
 
         //布局控件要先判断是不是可编辑
         XLayoutContainer topLayout = XCreatorUtils.getHotspotContainer((XCreator) comp).getTopLayout();
-        if (topLayout != null && !isMatchEdge && !topLayout.isEditable()) {
+        if (topLayout != null && !isMatchEdge && !topLayout.isEditable() && !topLayout.acceptType(XWAbsoluteLayout.class)) {
             return false;
         }
 

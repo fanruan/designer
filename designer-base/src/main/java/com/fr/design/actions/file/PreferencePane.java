@@ -199,10 +199,11 @@ public class PreferencePane extends BasicPane {
         upmSelectorPane.add(useOptimizedUPMCheckbox);
         advancePane.add(upmSelectorPane);
 
-        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
-        useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
-        dbmSelectorPane.add(useUniverseDBMCheckbox);
-        advancePane.add(dbmSelectorPane);
+      	//REPORT-23578 先屏蔽掉
+        //JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
+        //useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        //dbmSelectorPane.add(useUniverseDBMCheckbox);
+        //advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Join_Product_Improve"));
@@ -704,7 +705,7 @@ public class PreferencePane extends BasicPane {
 
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
-        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
+        //useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -817,7 +818,7 @@ public class PreferencePane extends BasicPane {
             @Override
             public void run() {
                 ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
-                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
+                //ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
             @Override
