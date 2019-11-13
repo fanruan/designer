@@ -385,6 +385,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkAllUse() {
         checkCardPane();
         checkLabelPane();
+        limitPane.checkMaxProPortionUse();
     }
 
     protected void checkCardPane() {
