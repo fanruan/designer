@@ -50,7 +50,7 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
 
             @Override
             protected void populate(AbstractDataDefinition dataDefinition) {
-                if (!(dataDefinition.getColumnFieldCollection() instanceof MultiPieColumnFieldCollection)) {
+                if (dataDefinition != null && !(dataDefinition.getColumnFieldCollection() instanceof MultiPieColumnFieldCollection)) {
                     dataDefinition.setColumnFieldCollection(new MultiPieColumnFieldCollection());
                 }
                 super.populate(dataDefinition);

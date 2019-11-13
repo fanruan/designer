@@ -2,6 +2,8 @@ package com.fr.van.chart.structure.desinger;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.field.diff.StructureColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.StructureCellDataFieldsPane;
@@ -106,6 +108,16 @@ public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
+
+            @Override
+            protected void populate(AbstractDataDefinition dataDefinition) {
+                if (dataDefinition != null && !(dataDefinition.getColumnFieldCollection() instanceof StructureColumnFieldCollection)) {
+                    dataDefinition.setColumnFieldCollection(new StructureColumnFieldCollection());
+                }
+
+                super.populate(dataDefinition);
+            }
+
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());

@@ -2,6 +2,8 @@ package com.fr.van.chart.vanchart;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -68,6 +70,15 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
+
+            @Override
+            protected void populate(AbstractDataDefinition dataDefinition) {
+                if (dataDefinition != null && !(dataDefinition.getColumnFieldCollection() instanceof MultiCategoryColumnFieldCollection)) {
+                    dataDefinition.setColumnFieldCollection(new MultiCategoryColumnFieldCollection());
+                }
+                super.populate(dataDefinition);
+            }
+
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
