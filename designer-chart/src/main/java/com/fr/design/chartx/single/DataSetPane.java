@@ -1,6 +1,7 @@
 package com.fr.design.chartx.single;
 
 import com.fr.chartx.data.DataSetDefinition;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
 import com.fr.data.impl.NameTableData;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
@@ -11,9 +12,13 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.log.FineLoggerFactory;
+import com.fr.stable.AssistUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -100,9 +105,18 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         refreshBoxList();
         checkBoxUse();
 
-        tableDataPane.populateBean(ob.getNameTableData());
+        try {
+            Type dataType = ((ParameterizedType) dataSetFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            if (ob.getColumnFieldCollection() != null && !AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
+                Object fieldCollection = Class.forName(((Class) dataType).getName()).newInstance();
+                ob.setColumnFieldCollection((AbstractColumnFieldCollection) fieldCollection);
+            }
+            tableDataPane.populateBean(ob.getNameTableData());
+            dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
 
-        dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
     }
 
     @Override

@@ -3,9 +3,6 @@ package com.fr.van.chart.bubble;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
-import com.fr.chartx.data.AbstractDataDefinition;
-import com.fr.chartx.data.field.diff.BubbleColumnFieldCollection;
-import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
@@ -144,22 +141,6 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
                 }
                 plot = chart.getPlot();
                 super.populate(collection);
-            }
-
-            @Override
-            protected void populate(AbstractDataDefinition dataDefinition) {
-                if (dataDefinition != null) {
-                    if (plot != null && plot.isForceBubble()) {
-                        if (!(dataDefinition.getColumnFieldCollection() instanceof MultiCategoryColumnFieldCollection)) {
-                            dataDefinition.setColumnFieldCollection(new MultiCategoryColumnFieldCollection());
-                        }
-                    } else {
-                        if (!(dataDefinition.getColumnFieldCollection() instanceof BubbleColumnFieldCollection)) {
-                            dataDefinition.setColumnFieldCollection(new BubbleColumnFieldCollection());
-                        }
-                    }
-                }
-                super.populate(dataDefinition);
             }
 
             @Override

@@ -2,9 +2,6 @@ package com.fr.van.chart.gauge;
 
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
-import com.fr.chartx.data.AbstractDataDefinition;
-import com.fr.chartx.data.field.diff.GaugeColumnFieldCollection;
-import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
@@ -137,23 +134,6 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
                 gaugePlot = chart.getPlot();
 
                 super.populate(collection);
-            }
-
-            @Override
-            protected void populate(AbstractDataDefinition dataDefinition) {
-                if (dataDefinition != null) {
-                    if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
-                        if (!(dataDefinition.getColumnFieldCollection() instanceof GaugeColumnFieldCollection)){
-                            dataDefinition.setColumnFieldCollection(new GaugeColumnFieldCollection());
-                        }
-                    } else{
-                        if (!(dataDefinition.getColumnFieldCollection() instanceof MultiCategoryColumnFieldCollection)){
-                            dataDefinition.setColumnFieldCollection(new MultiCategoryColumnFieldCollection());
-                        }
-                    }
-                }
-
-                super.populate(dataDefinition);
             }
 
             @Override

@@ -2,8 +2,6 @@ package com.fr.van.chart.wordcloud.designer;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.chartx.data.AbstractDataDefinition;
-import com.fr.chartx.data.field.diff.WordCloudColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.WordCloudCellDataFieldsPane;
@@ -117,16 +115,6 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
-
-            @Override
-            protected void populate(AbstractDataDefinition dataDefinition) {
-                if (dataDefinition != null && !(dataDefinition.getColumnFieldCollection() instanceof WordCloudColumnFieldCollection)){
-                    dataDefinition.setColumnFieldCollection(new WordCloudColumnFieldCollection());
-                }
-
-                super.populate(dataDefinition);
-            }
-
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new WordCloudDataSetFieldsPane(), new WordCloudCellDataFieldsPane());
