@@ -3,10 +3,15 @@ package com.fr.van.chart.heatmap.designer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.PointMapCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.PointMapDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithMapZoom;
@@ -15,13 +20,13 @@ import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.heatmap.designer.other.VanChartHeatMapConditionPane;
 import com.fr.van.chart.heatmap.designer.style.VanChartHeatMapSeriesPane;
 import com.fr.van.chart.heatmap.designer.type.VanChartHeatMapTypePane;
-import com.fr.van.chart.map.MapIndependentVanChartInterface;
+import com.fr.van.chart.map.VanMapChartTypeUI;
 import com.fr.van.chart.map.designer.style.VanChartMapStylePane;
 
 /**
  * Created by Mitisky on 16/10/20.
  */
-public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartInterface {
+public class VanHeatMapChartTypeUI extends VanMapChartTypeUI {
 
     /**
      * 图标路径
@@ -57,8 +62,13 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
     }
 
     @Override
-    protected boolean areaPlot(Plot plot) {
-        return false;
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                return new SingleDataPane(new PointMapDataSetFieldsPane(), new PointMapCellDataFieldsPane());
+            }
+        };
     }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {

@@ -1,5 +1,6 @@
 package com.fr.van.chart.drillmap;
 
+import com.fr.design.chartx.data.drillMap.DrillMapChartDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -7,16 +8,15 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
-import com.fr.van.chart.drillmap.designer.data.VanChartDrillMapDataPane;
 import com.fr.van.chart.drillmap.designer.other.VanChartDrillMapOtherPane;
 import com.fr.van.chart.drillmap.designer.type.VanChartDrillMapPlotPane;
-import com.fr.van.chart.map.MapIndependentVanChartInterface;
+import com.fr.van.chart.map.VanMapChartTypeUI;
 import com.fr.van.chart.map.designer.style.VanChartMapStylePane;
 
 /**
  * Created by Mitisky on 16/6/20.
  */
-public class DrillMapIndependentVanChartInterface extends MapIndependentVanChartInterface {
+public class VanDrillMapChartTypeUI extends VanMapChartTypeUI {
     @Override
     public String getName() {
         return Toolkit.i18nText("Fine-Design_Chart_Drill_Map");
@@ -61,7 +61,7 @@ public class DrillMapIndependentVanChartInterface extends MapIndependentVanChart
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new VanChartDrillMapDataPane(listener);
+        return new DrillMapChartDataPane(listener);
     }
 
     /**
