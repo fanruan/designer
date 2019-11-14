@@ -13,6 +13,12 @@ import java.awt.BorderLayout;
  */
 public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvider> extends ChartDataPane {
 
+    private VanChart vanChart;
+
+    protected VanChart getVanChart() {
+        return vanChart;
+    }
+
     public AbstractChartDataPane(AttributeChangeListener listener) {
         super(listener);
     }
@@ -26,15 +32,15 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
         if (collection == null) {
             return;
         }
-        VanChart chart = collection.getSelectedChartProvider(VanChart.class);
-        if (chart == null) {
+        vanChart = collection.getSelectedChartProvider(VanChart.class);
+        if (vanChart == null) {
             return;
         }
 
         this.removeAll();
         this.add(createContentPane(), BorderLayout.CENTER);
 
-        ChartDataDefinitionProvider dataSetCollection = chart.getChartDataDefinition();
+        ChartDataDefinitionProvider dataSetCollection = vanChart.getChartDataDefinition();
 
         populate((T) dataSetCollection);
 
