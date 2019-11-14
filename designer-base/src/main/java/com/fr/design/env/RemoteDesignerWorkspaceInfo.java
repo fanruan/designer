@@ -79,6 +79,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     }
 
     @Override
+    @SuppressWarnings("squid:S2975")
     public Object clone() throws CloneNotSupportedException {
 
         RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo) super.clone();

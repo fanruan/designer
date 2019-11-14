@@ -31,7 +31,7 @@ public class RemindDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
-
+        // Do nothing
     }
 
     public RemindPane getRemindPane() {

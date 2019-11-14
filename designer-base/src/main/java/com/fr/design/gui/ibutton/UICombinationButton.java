@@ -18,11 +18,11 @@ public class UICombinationButton extends JPanel{
 	protected UIButton rightButton;
 	
 	protected void leftButtonClickEvent() {
-		
+		// 左边按钮点击事件
 	}
 	
 	protected void rightButtonClickEvent() {
-		
+		// 右边按钮点击事件
 	}
 	
 	public UICombinationButton() {

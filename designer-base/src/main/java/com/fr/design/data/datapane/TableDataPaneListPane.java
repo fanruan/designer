@@ -255,6 +255,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     }
 
     protected void checkRepeatedDSName(List<String> exsitTableDataNameList) {
+        // Do nothing
     }
 
     /**

@@ -121,12 +121,12 @@ public abstract class BasicScrollPane<T> extends BasicBeanPane<T>{
 
 		@Override
 		public void addLayoutComponent(String name, Component comp) {
-
+			//do nothing
 		}
 
 		@Override
 		public void removeLayoutComponent(Component comp) {
-
+			//do nothing
 		}
 
 		@Override

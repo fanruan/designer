@@ -5,9 +5,9 @@ import com.fr.base.Utils;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.style.FRFontPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
@@ -16,12 +16,12 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralUtils;
-
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAlertValue;
-import com.fr.plugin.chart.base.VanChartConstants;
+import com.fr.plugin.chart.type.LineType;
 import com.fr.stable.Constants;
 import com.fr.stable.StableUtils;
+import com.fr.van.chart.designer.component.LineTypeComboBox;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -42,7 +42,8 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     private static final long serialVersionUID = -1208941770684286439L;
     private UIButtonGroup alertAxis;
     protected TinyFormulaPane alertValue;
-    protected LineComboBox alertLineStyle;
+    protected LineTypeComboBox alertLineStyle;//线型
+    private UISpinner lineWidthSpinner;//线宽
     protected ColorSelectBox alertLineColor;
 
     private UIButtonGroup alertTextPosition;
@@ -63,7 +64,8 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         //設置大小，防止文本過長導致界面“變形”
         alertValue.setPreferredSize(new Dimension(VALUE_WD, HT));
 
-        alertLineStyle = new LineComboBox(VanChartConstants.ALERT_LINE_STYLE);
+        alertLineStyle = new LineTypeComboBox(new LineType[]{LineType.NORMAL, LineType.DASH});
+        lineWidthSpinner = new UISpinner(0.5, Integer.MAX_VALUE, 0.5, 2);
         alertLineColor = new ColorSelectBox(100);
         alertTextPosition = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Top"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Bottom")});
         alertText = new TinyFormulaPane();
@@ -95,7 +97,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
     {
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p,p};
-        double[] rowSize = {p,p,p,p};
+        double[] rowSize = {p,p,p,p,p};
         Component[][] components = getTopPaneComponents();
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
@@ -106,6 +108,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),alertAxis},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Value")),alertValue},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Style")),alertLineStyle},
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Line_Width")), lineWidthSpinner},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")),alertLineColor},
         };
     }
@@ -154,7 +157,8 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         checkPositionPane();
 
         alertValue.populateBean(Utils.objectToString(chartAlertValue.getAlertValueFormula()));
-        alertLineStyle.setSelectedLineStyle(chartAlertValue.getLineStyle().getLineStyle());
+        alertLineStyle.setSelectedItem(chartAlertValue.getLineStyle().getLineType());
+        lineWidthSpinner.setValue(chartAlertValue.getLineStyle().getLineWidth());
         alertLineColor.setSelectObject(chartAlertValue.getLineColor().getSeriesColor());
 
         if(VanChartAttrHelper.isXAxis(chartAlertValue.getAxisName())){
@@ -178,7 +182,8 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
 
         chartAlertValue.setAlertValueFormula(BaseFormula.createFormulaBuilder().build(alertValue.updateBean()));
         chartAlertValue.getLineColor().setSeriesColor(alertLineColor.getSelectObject());
-        chartAlertValue.getLineStyle().setLineStyle(alertLineStyle.getSelectedLineStyle());
+        chartAlertValue.getLineStyle().setLineType((LineType) alertLineStyle.getSelectedItem());
+        chartAlertValue.getLineStyle().setLineWidth(lineWidthSpinner.getValue());
 
         String contentString = alertText.updateBean();
         Object contentObj;

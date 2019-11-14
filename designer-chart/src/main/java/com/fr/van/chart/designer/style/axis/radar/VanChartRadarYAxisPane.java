@@ -54,6 +54,7 @@ public class VanChartRadarYAxisPane extends VanChartValueAxisPane {
         return new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
     }
 
+    @Override
     protected JPanel createMinMaxValuePane(double[] row, double[] col) {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
