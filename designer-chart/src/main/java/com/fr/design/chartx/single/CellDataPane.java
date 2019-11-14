@@ -1,11 +1,9 @@
 package com.fr.design.chartx.single;
 
 import com.fr.chartx.data.CellDataDefinition;
-import com.fr.chartx.data.field.AbstractColumnFieldCollection;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 import com.fr.design.i18n.Toolkit;
-import com.fr.log.FineLoggerFactory;
 import com.fr.stable.AssistUtils;
 
 import java.awt.BorderLayout;
@@ -48,15 +46,10 @@ public class CellDataPane extends FurtherBasicBeanPane<CellDataDefinition> {
 
     @Override
     public void populateBean(CellDataDefinition ob) {
-        try {
-            Type dataType = ((ParameterizedType) cellDataFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-            if (ob.getColumnFieldCollection() != null && !AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
-                Object fieldCollection = Class.forName(((Class) dataType).getName()).newInstance();
-                ob.setColumnFieldCollection((AbstractColumnFieldCollection) fieldCollection);
-            }
+
+        Type dataType = ((ParameterizedType) cellDataFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        if (AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
             cellDataFieldsPane.populateBean(ob.getColumnFieldCollection());
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
 
