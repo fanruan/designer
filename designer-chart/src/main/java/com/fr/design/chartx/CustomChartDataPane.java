@@ -3,6 +3,8 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
+import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
@@ -86,8 +88,7 @@ public class CustomChartDataPane extends ChartDataPane {
             case RING:
             case SLOT:
             case CUVETTE:
-                //todo 仪表板没写好
-                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
             case SCATTER:
             case BUBBLE:
                 return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
