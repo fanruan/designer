@@ -37,7 +37,7 @@ public class CellDataSeriesXYValueCorrelationPane extends AbstractCorrelationPan
                     field.getSeriesName().getFieldName(),
                     field.getXField().getFieldName(),
                     field.getYField().getFieldName(),
-                    field.getValueField().getFieldName()
+                    field.getSizeField().getFieldName()
             };
             result.add(array);
         }
@@ -57,7 +57,7 @@ public class CellDataSeriesXYValueCorrelationPane extends AbstractCorrelationPan
             bubbleColumnField.setSeriesName(series);
             bubbleColumnField.setXField(xField);
             bubbleColumnField.setYField(yField);
-            bubbleColumnField.setValueField(value);
+            bubbleColumnField.setSizeField(value);
             bubbleColumnFieldList.add(bubbleColumnField);
         }
 
