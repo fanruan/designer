@@ -25,10 +25,6 @@ import java.awt.Dimension;
  */
 public class SingleCategoryDataSetFieldsPane
         extends AbstractDataSetFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
-
-    private UIComboBox categoryPane;
-
-    private CategorySeriesFilterPane filterPane;
     
     private static final int HGAP = 0;
     private static final int VGAP = 6;
@@ -36,6 +32,10 @@ public class SingleCategoryDataSetFieldsPane
     private static final int LEFT = 24;
     private static final int BOTTOM = 0;
     private static final int RIGHT = 15;
+    
+    private UIComboBox categoryPane;
+
+    private CategorySeriesFilterPane filterPane;
     
     
     public SingleCategoryDataSetFieldsPane() {
