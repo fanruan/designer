@@ -23,12 +23,29 @@ import java.awt.Dimension;
  * @version 10.0
  * Created by Bjorn on 2019-10-24
  */
-public class SingleCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
+public class SingleCategoryDataSetFieldsPane
+        extends AbstractDataSetFieldsWithSeriesValuePane<MultiCategoryColumnFieldCollection> {
 
     private UIComboBox categoryPane;
 
     private CategorySeriesFilterPane filterPane;
-
+    
+    private static final int HGAP = 0;
+    private static final int VGAP = 6;
+    private static final int TOP = 4;
+    private static final int LEFT = 24;
+    private static final int BOTTOM = 0;
+    private static final int RIGHT = 15;
+    
+    
+    public SingleCategoryDataSetFieldsPane() {
+    }
+    
+    public SingleCategoryDataSetFieldsPane(UIComboBox categoryPane, CategorySeriesFilterPane filterPane) {
+        this.categoryPane = categoryPane;
+        this.filterPane = filterPane;
+    }
+    
     @Override
     protected void initComponents() {
         categoryPane = new UIComboBoxWithNone();
@@ -37,13 +54,13 @@ public class SingleCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSe
         UILabel label = new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Style_Category"));
         label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
 
-        JPanel northPane = new JPanel(new BorderLayout(0, 6));
+        JPanel northPane = new JPanel(new BorderLayout(HGAP, VGAP));
         northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{categoryPane, null, null, label, null}), BorderLayout.NORTH);
         northPane.add(new JSeparator(), BorderLayout.CENTER);
         northPane.add(createCenterPane(), BorderLayout.SOUTH);
-        northPane.setBorder(BorderFactory.createEmptyBorder(4, 24, 0, 15));
+        northPane.setBorder(BorderFactory.createEmptyBorder(TOP, LEFT, BOTTOM, RIGHT));
 
-        this.setLayout(new BorderLayout(0, 6));
+        this.setLayout(new BorderLayout(HGAP, VGAP));
         this.add(northPane, BorderLayout.NORTH);
         this.add(filterPane, BorderLayout.CENTER);
     }
