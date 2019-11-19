@@ -11,7 +11,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.form.ui.container.WAbsoluteLayout;
 
 import javax.swing.BorderFactory;
