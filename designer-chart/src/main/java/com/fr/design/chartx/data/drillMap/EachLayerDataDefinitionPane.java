@@ -83,7 +83,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<DrillMapChartDataD
     public void populateBean(DrillMapChartDataDefinition drillMapChartDataDefinition) {
         List<AbstractDataDefinition> eachLayerDataDefinitionList = drillMapChartDataDefinition.getEachLayerDataDefinitionList();
 
-        if (eachLayerDataDefinitionList == null || eachLayerDataDefinitionList.size() == 0) {
+        if (eachLayerDataDefinitionList == null) {
             return;
         }
 
