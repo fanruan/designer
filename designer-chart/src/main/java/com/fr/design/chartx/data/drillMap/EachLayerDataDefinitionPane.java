@@ -87,7 +87,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<DrillMapChartDataD
             return;
         }
 
-        for (int i = 0, len = paneList.size(); i < len; i++) {
+        for (int i = 0, len = Math.min(paneList.size(), eachLayerDataDefinitionList.size()); i < len; i++) {
             BasicPane basicPane = paneList.get(i);
             if (basicPane instanceof SingleDataPane) {
                 ((SingleDataPane) basicPane).populateBean(eachLayerDataDefinitionList.get(i));
