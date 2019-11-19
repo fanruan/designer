@@ -34,6 +34,7 @@ import com.fr.form.ui.container.WAbsoluteBodyLayout;
 import com.fr.form.ui.container.WAbsoluteLayout;
 import com.fr.form.ui.container.WBodyLayoutType;
 import com.fr.form.ui.container.WFitLayout;
+import com.fr.form.ui.container.WSortLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.core.ReportUtils;
@@ -48,7 +49,7 @@ import java.awt.Dimension;
 /**
  * Created by ibm on 2017/8/2.
  */
-public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
+public class FRFitLayoutDefinePane extends AbstractFRLayoutDefinePane<WFitLayout> {
     private static final int ADAPT_LABEL_MAX_WIDTH = 80;
     private XWFitLayout xWFitLayout;
     private WFitLayout wFitLayout;
@@ -208,6 +209,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                     }
                     xwAbsoluteBodyLayout.add(component);
                 }
+                copyLayoutAttr(wFitLayout, wAbsoluteBodyLayout);
                 xWFitLayout.setBackupParent(xwAbsoluteBodyLayout);
                 FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                 formDesigner.getSelectionModel().setSelectedCreators(

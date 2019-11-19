@@ -131,7 +131,9 @@ public class FRAbsoluteBodyLayoutDefinePane extends FRAbsoluteLayoutDefinePane {
         if (layoutType == WBodyLayoutType.ABSOLUTE) {
             ((XWFitLayout) creator.getBackupParent()).toData().resetStyle();
             if (state == WBodyLayoutType.FIT.getTypeValue()) {
-                ((XWFitLayout)creator.getBackupParent()).switch2FitBodyLayout(creator);
+               XWFitLayout xwFitLayout = ((XWFitLayout)creator.getBackupParent());
+               xwFitLayout.switch2FitBodyLayout(creator);
+               copyLayoutAttr(layout, xwFitLayout.toData());
             }
         }
         layout.setBorderStyle((LayoutBorderStyle) borderStyleEditor.getValue());

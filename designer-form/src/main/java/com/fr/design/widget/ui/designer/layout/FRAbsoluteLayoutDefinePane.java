@@ -23,7 +23,7 @@ import java.awt.Component;
 /**
  * Created by ibm on 2017/8/2.
  */
-public class FRAbsoluteLayoutDefinePane extends AbstractDataModify<WAbsoluteLayout> {
+public class FRAbsoluteLayoutDefinePane extends AbstractFRLayoutDefinePane<WAbsoluteLayout> {
     protected UIComboBox comboBox;
 
     public FRAbsoluteLayoutDefinePane(XCreator xCreator) {
