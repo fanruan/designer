@@ -51,29 +51,29 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         gapFix.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         titleWidthFix.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         buttonGroup.add(titleWidthFix);
-        gapFix.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                updatePreviewPane();
-            }
-        });
-        titleWidthFix.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                updatePreviewPane();
-            }
-        });
-
-
         JPanel flowLeft = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         flowLeft.add(gapFix);
         flowLeft.add(titleWidthFix);
         JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{displayGap, flowLeft}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
         centerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 15, 20));
         centerPane.setPreferredSize(new Dimension(500, 20));
-        JPanel wrapTabWidthPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{tabWidthLabel, tabWidthPanel}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
+        final JPanel wrapTabWidthPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{tabWidthLabel, tabWidthPanel}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
         wrapTabWidthPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 15, 20));
         wrapTabWidthPanel.setPreferredSize(new Dimension(200, 20));
+        gapFix.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updatePreviewPane();
+                wrapTabWidthPanel.setVisible(titleWidthFix.isSelected());
+            }
+        });
+        titleWidthFix.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updatePreviewPane();
+                wrapTabWidthPanel.setVisible(titleWidthFix.isSelected());
+            }
+        });
         JPanel outerPane = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 10);
         outerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
         outerPane.add(centerPane);
