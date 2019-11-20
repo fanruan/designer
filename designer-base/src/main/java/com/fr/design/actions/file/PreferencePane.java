@@ -1,7 +1,5 @@
 package com.fr.design.actions.file;
 
-import com.fr.cluster.ClusterBridge;
-import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
@@ -47,10 +45,36 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.vcs.VcsOperator;
 import com.fr.workspace.server.vcs.git.config.GcConfig;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Locale;
@@ -663,7 +687,7 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (FineClusterConfig.getInstance().isCluster()) {
+        if (WorkContext.getCurrent().isCluster()) {
             vcsEnableCheckBox.setEnabled(false);
             gcEnableCheckBox.setEnabled(false);
         }
