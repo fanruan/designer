@@ -24,7 +24,6 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
     private UIComboBox yField;
     private UIComboBoxWithNone size;
 
-    //todo 数据筛选
     private AbstractSingleFilterPane filterPane;
 
 
@@ -81,7 +80,7 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
         updateField(xField, field.getXField());
         updateField(yField, field.getYField());
         updateField(size, field.getSizeField());
-        filterPane.updateBean(field.getSeriesName().getFilterProperties());
+        field.getSeriesName().setFilterProperties(filterPane.updateBean());
         return collection;
     }
 

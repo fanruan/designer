@@ -57,7 +57,7 @@ public class FunnelDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValu
         ColumnFieldCollectionWithSeriesValue collection = new ColumnFieldCollectionWithSeriesValue();
         updateSeriesValuePane(collection);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = collection.getSeriesValueCorrelationDefinition();
-        filterPane.updateBean(seriesValueCorrelationDefinition.getFilterProperties());
+        seriesValueCorrelationDefinition.setFilterProperties(filterPane.updateBean());
         return collection;
     }
 
