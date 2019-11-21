@@ -5,8 +5,11 @@ import com.fr.chartx.data.ChartDataDefinitionProvider;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.vanchart.VanChart;
+import com.fr.stable.AssistUtils;
 
 import java.awt.BorderLayout;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Created by shine on 2019/4/15.
@@ -42,10 +45,29 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
 
         ChartDataDefinitionProvider dataSetCollection = vanChart.getChartDataDefinition();
 
-        populate((T) dataSetCollection);
+        if (isMatchedDataType(dataSetCollection)) {
+            populate((T) dataSetCollection);
+        }
 
         this.initAllListeners();
         this.validate();
+    }
+
+    private boolean isMatchedDataType(ChartDataDefinitionProvider dataDefinition) {
+        if (dataDefinition == null) {
+            return true;
+        }
+
+        Type dataType = this.getClass().getGenericSuperclass();
+        if (dataType instanceof ParameterizedType) {
+            dataType = ((ParameterizedType) dataType).getActualTypeArguments()[0];
+            return AssistUtils.equals(dataDefinition.getClass(), dataType);
+        } else if (dataType instanceof Class) {
+            dataType = ((ParameterizedType) (((Class) dataType).getGenericSuperclass())).getActualTypeArguments()[0];
+            return ((Class) dataType).isAssignableFrom(dataDefinition.getClass());
+        }
+
+        return true;
     }
 
 
