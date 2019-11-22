@@ -20,7 +20,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataFactory;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -160,13 +160,20 @@ public abstract class DesignTableDataManager {
         }
     }
 
+    public static void addDsChangeListener(ChangeListener l) {
+        addDsChangeListener(l, HistoryTemplateListCache.getInstance().getCurrentEditingTemplate());
+    }
+
+    public static void addGlobalDsChangeListener(ChangeListener l) {
+        addDsChangeListener(l, null);
+    }
+
     /**
      * 添加模板数据集改变 监听事件.
      *
      * @param l ChangeListener监听器
      */
-    public static void addDsChangeListener(ChangeListener l) {
-        JTemplate<?, ?> template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+    private static void addDsChangeListener(ChangeListener l, JTemplate<?, ?> template) {
         String key = StringUtils.EMPTY;
         if (template != null) {
             key = template.getPath();
@@ -178,7 +185,6 @@ public abstract class DesignTableDataManager {
         }
         dsListeners.add(l);
     }
-
     /**
      * 获取数据源source中dsName的所有字段
      *

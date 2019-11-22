@@ -5,6 +5,7 @@ import com.fr.data.impl.DynamicSQLDict;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.data.DataCreatorUI;
+import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
@@ -20,7 +21,7 @@ import java.util.List;
  * @author zhou
  * @since 2012-5-31下午12:20:41
  */
-public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCreatorUI {
+public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCreatorUI, Prepare4DataSourceChange {
     private TableDataDictPane tableDataDictPane;
 
     @Override
@@ -76,5 +77,10 @@ public class DictionaryPane extends UIComboBoxPane<Dictionary> implements DataCr
         paneList.add(new CustomDictPane());
         paneList.add(new FormulaDictPane());
         return paneList;
+    }
+
+    @Override
+    public void registerDSChangeListener() {
+        tableDataDictPane.registerDSChangeListener();
     }
 }
