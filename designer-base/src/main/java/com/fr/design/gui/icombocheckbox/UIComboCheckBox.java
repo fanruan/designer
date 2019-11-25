@@ -132,8 +132,17 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     }
 
     private UITextField createEditor() {
-        UITextField editor = new UITextField();
-        editor.setEditable(false);
+        UITextField editor = new UITextField() {
+            @Override
+            protected void initListener() {
+                this.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        attributeChange();
+                    }
+                });
+            }
+        };        editor.setEditable(false);
         editor.setPreferredSize(new Dimension(110, 20));
         addPopupListener(editor);
 
