@@ -73,7 +73,7 @@ public abstract class DesignTableDataManager {
      */
     private static java.util.Map<String, TableDataWrapper> globalDsCache = new java.util.HashMap<String, TableDataWrapper>();
     private static java.util.Map<String, String> dsNameChangedMap = new HashMap<String, String>();
-//    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
+    private static List<ChangeListener> globalDsListeners = new ArrayList<>();
 
     private static Map<String, List<ChangeListener>> dsListenersMap = new HashMap<String, List<ChangeListener>>();
 
@@ -95,15 +95,19 @@ public abstract class DesignTableDataManager {
      * 响应数据集改变.
      */
     private static void fireDsChanged() {
+        fireDsChanged(globalDsListeners);
         for (Entry<String, List<ChangeListener>> listenerEntry : dsListenersMap.entrySet()) {
             List<ChangeListener> dsListeners = listenerEntry.getValue();
-            for (int i = 0; i < dsListeners.size(); i++) {
-                //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
-                // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
-//        for (ChangeListener l : dsListeners) {
-                ChangeEvent e = null;
-                dsListeners.get(i).stateChanged(e);
-            }
+            fireDsChanged(dsListeners);
+        }
+    }
+
+    private static void fireDsChanged(List<ChangeListener> dsListeners) {
+        for (int i = 0; i < dsListeners.size(); i++) {
+            //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
+            // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
+            ChangeEvent e = null;
+            dsListeners.get(i).stateChanged(e);
         }
     }
 
@@ -160,12 +164,8 @@ public abstract class DesignTableDataManager {
         }
     }
 
-    public static void addDsChangeListener(ChangeListener l) {
-        addDsChangeListener(l, HistoryTemplateListCache.getInstance().getCurrentEditingTemplate());
-    }
-
     public static void addGlobalDsChangeListener(ChangeListener l) {
-        addDsChangeListener(l, null);
+        globalDsListeners.add(l);
     }
 
     /**
@@ -173,7 +173,8 @@ public abstract class DesignTableDataManager {
      *
      * @param l ChangeListener监听器
      */
-    private static void addDsChangeListener(ChangeListener l, JTemplate<?, ?> template) {
+    public static void addDsChangeListener(ChangeListener l) {
+        JTemplate<?, ?> template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String key = StringUtils.EMPTY;
         if (template != null) {
             key = template.getPath();
