@@ -47,6 +47,10 @@ public class CellDataPane extends FurtherBasicBeanPane<CellDataDefinition> {
     @Override
     public void populateBean(CellDataDefinition ob) {
 
+        if (ob == null || ob.getColumnFieldCollection() == null) {
+            return;
+        }
+
         Type dataType = ((ParameterizedType) cellDataFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         if (AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
             cellDataFieldsPane.populateBean(ob.getColumnFieldCollection());

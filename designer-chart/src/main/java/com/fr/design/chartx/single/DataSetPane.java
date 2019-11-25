@@ -100,6 +100,10 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
 
     @Override
     public void populateBean(DataSetDefinition ob) {
+        if (ob == null || ob.getColumnFieldCollection() == null) {
+            return;
+        }
+
         refreshBoxList();
         checkBoxUse();
 
