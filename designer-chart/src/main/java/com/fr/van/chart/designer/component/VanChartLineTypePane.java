@@ -33,6 +33,7 @@ public class VanChartLineTypePane extends BasicPane {
     private UIButtonGroup nullValueBreak;//空值断开
 
     private JPanel lineWidthPane;
+    private JPanel lineStylePane;
 
     public VanChartLineTypePane() {
 
@@ -41,13 +42,6 @@ public class VanChartLineTypePane extends BasicPane {
         createLineStyle();
 
         nullValueBreak = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Open"), Toolkit.i18nText("Fine-Design_Chart_Close")});
-
-        lineTypeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkLineWidth();
-            }
-        });
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -62,11 +56,11 @@ public class VanChartLineTypePane extends BasicPane {
         Arrays.fill(row, p);
         double[] col = {f, e};
 
-        JPanel contentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
+        lineStylePane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
         this.setLayout(new BorderLayout(0, 6));
         this.add(typeAndWidthPane, BorderLayout.NORTH);
-        this.add(contentPane, BorderLayout.CENTER);
+        this.add(lineStylePane, BorderLayout.CENTER);
     }
 
     private JPanel createTypeAndWidthPane() {
@@ -79,6 +73,7 @@ public class VanChartLineTypePane extends BasicPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkLineWidth();
+                checkLineStyle();
             }
         });
 
@@ -121,6 +116,12 @@ public class VanChartLineTypePane extends BasicPane {
     private void checkLineWidth() {
         if (lineWidthPane != null && lineTypeComboBox != null) {
             lineWidthPane.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(), LineType.NONE));
+        }
+    }
+
+    private void checkLineStyle() {
+        if (lineStylePane != null && lineTypeComboBox != null) {
+            lineStylePane.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(),LineType.NONE));
         }
     }
 

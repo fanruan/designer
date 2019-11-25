@@ -1,9 +1,8 @@
 package com.fr.env;
 
+import com.fr.stable.AssistUtils;
 import com.fr.stable.FCloneable;
 import com.fr.stable.StringUtils;
-
-import java.util.Objects;
 
 /**
  * @author yaohwu
@@ -42,6 +41,7 @@ public class RemoteWorkspaceURL implements FCloneable {
     private String port;
     private String web;
     private String servlet;
+    private String url;
 
 
     /**
@@ -51,7 +51,7 @@ public class RemoteWorkspaceURL implements FCloneable {
      * @param url x:x/x/x/x
      */
     public RemoteWorkspaceURL(String url) {
-
+        this.url = url;
         // 没有写协议名称 默认 使用 http 协议
         if (!url.startsWith(HTTPS) && !url.startsWith(HTTP)) {
             url = HTTP + url;
@@ -116,11 +116,15 @@ public class RemoteWorkspaceURL implements FCloneable {
     }
 
     public String getURL() {
+        if (this.url != null) {
+            return url;
+        }
         String prefix = isHttps ? HTTPS : HTTP;
         String portColon = StringUtils.isNotEmpty(port) ? ":" : StringUtils.EMPTY;
         String webAppNameSlash = StringUtils.isNotEmpty(web) ? "/" : StringUtils.EMPTY;
         String servletNameSlash = StringUtils.isNotEmpty(servlet) ? "/" : StringUtils.EMPTY;
-        return prefix + host + portColon + port + webAppNameSlash + web + servletNameSlash + servlet;
+        this.url = prefix + host + portColon + port + webAppNameSlash + web + servletNameSlash + servlet;
+        return this.url;
     }
 
 
@@ -164,26 +168,24 @@ public class RemoteWorkspaceURL implements FCloneable {
         return servlet;
     }
 
+    public void resetUrl() {
+        this.url = null;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        RemoteWorkspaceURL that = (RemoteWorkspaceURL) o;
-        return isHttps == that.isHttps &&
-                Objects.equals(host, that.host) &&
-                Objects.equals(port, that.port) &&
-                Objects.equals(web, that.web) &&
-                Objects.equals(servlet, that.servlet);
+        return o instanceof RemoteWorkspaceURL && AssistUtils.equals(isHttps, ((RemoteWorkspaceURL) o).isHttps)
+                && AssistUtils.equals(host, ((RemoteWorkspaceURL) o).host)
+                && AssistUtils.equals(port, ((RemoteWorkspaceURL) o).port)
+                && AssistUtils.equals(web, ((RemoteWorkspaceURL) o).web)
+                && AssistUtils.equals(servlet, ((RemoteWorkspaceURL) o).servlet)
+                && AssistUtils.equals(url, ((RemoteWorkspaceURL) o).url);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(isHttps, host, port, web, servlet);
+        return AssistUtils.hashCode(isHttps, host, port, web, servlet, url);
     }
 
     @Override
@@ -194,6 +196,7 @@ public class RemoteWorkspaceURL implements FCloneable {
                 ", port='" + port + '\'' +
                 ", web='" + web + '\'' +
                 ", servlet='" + servlet + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 

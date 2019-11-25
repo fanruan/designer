@@ -11,7 +11,6 @@ import com.fr.config.MarketConfig;
 import com.fr.decision.update.backup.RecoverManager;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
-import com.fr.design.RestartHelper;
 import com.fr.design.actions.NewFormAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.actions.insert.cell.BiasCellAction;
@@ -56,7 +55,6 @@ import com.fr.design.mainframe.form.FormReportComponentComposite;
 import com.fr.design.mainframe.loghandler.DesignerLogAppender;
 import com.fr.design.mainframe.socketio.DesignerSocketIO;
 import com.fr.design.module.DesignModuleFactory;
-import com.fr.design.os.impl.RestartAction;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
@@ -138,11 +136,9 @@ public class DesignerActivator extends Activator {
                 UserInfoPane.getInstance().updateBBSUserInfo();
             }
         }, SupportOSImpl.USERINFOPANE);
-
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
         RecoverManager.register(new RecoverForDesigner());
-        RestartHelper.initRestartAction();
     }
 
     @Override

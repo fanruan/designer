@@ -3,8 +3,12 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
+import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
@@ -22,13 +26,13 @@ import com.fr.van.chart.custom.component.VanChartCustomPlotUITabGroup;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Dimension;
 
 /**
  * @author Bjorn
@@ -84,12 +88,10 @@ public class CustomChartDataPane extends ChartDataPane {
             case RING:
             case SLOT:
             case CUVETTE:
-                //todo 仪表板没写好
-                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
             case SCATTER:
             case BUBBLE:
-                //todo 散点图没写好
-                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
             default:
                 return StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType()) ?
                         new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane()) :

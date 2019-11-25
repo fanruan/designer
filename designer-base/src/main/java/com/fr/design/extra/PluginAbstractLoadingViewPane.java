@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -88,7 +87,7 @@ public abstract class PluginAbstractLoadingViewPane<V, T> extends PluginAbstract
 
             @Override
             public void pressInstallButton() {
-
+                // do nothing
             }
 
             @Override

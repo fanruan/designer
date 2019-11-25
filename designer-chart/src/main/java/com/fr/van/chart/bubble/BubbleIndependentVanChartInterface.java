@@ -1,8 +1,15 @@
 package com.fr.van.chart.bubble;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -14,6 +21,7 @@ import com.fr.design.mainframe.chart.gui.data.report.BubblePlotReportDataContent
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.bubble.data.VanChartBubblePlotTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
@@ -114,5 +122,34 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
 
     public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartBubbleConditionPane(plot);
+    }
+
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+
+            VanChartBubblePlot plot;
+
+            @Override
+            public void populate(ChartCollection collection) {
+                if (collection == null) {
+                    return;
+                }
+                VanChart chart = collection.getSelectedChartProvider(VanChart.class);
+                if (chart == null) {
+                    return;
+                }
+                plot = chart.getPlot();
+                super.populate(collection);
+            }
+
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                if (plot != null && plot.isForceBubble()) {
+                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                }
+                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+            }
+        };
     }
 }

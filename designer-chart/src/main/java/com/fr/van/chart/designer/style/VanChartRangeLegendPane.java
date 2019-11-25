@@ -193,12 +193,11 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
         VanChartRangeLegend scatterLegend = (VanChartRangeLegend)legend;
         if (scatterLegend != null) {
 
-            super.populateBean(scatterLegend);
-
             //范围图例部分
             legendTypeButton.setSelectedItem(scatterLegend.getLegendType());
             gradualLegendPane.populate(scatterLegend.getGradualLegend());
             sectionLegendPane.populate(scatterLegend.getSectionLegend());
+            super.populateBean(scatterLegend);
         }
         checkAllUse();
         this.checkHighlightVisible();

@@ -1,5 +1,6 @@
 package com.fr.van.chart.custom;
 
+import com.fr.design.chartx.CustomChartDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -73,6 +74,6 @@ public class CustomIndependentVanChartInterface extends AbstractIndependentVanCh
     }
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
-        return new VanChartCustomDataPane(listener);
+        return new CustomChartDataPane(listener);
     }
 }

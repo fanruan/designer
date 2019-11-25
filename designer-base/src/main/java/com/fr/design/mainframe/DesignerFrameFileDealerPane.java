@@ -1,8 +1,10 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.cluster.ClusterBridge;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
@@ -367,17 +369,18 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         private void fireVcsActionChange() {
             if (!DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
                     || VcsHelper.getInstance().isUnSelectedTemplate()
-                    || ClusterBridge.isClusterMode()) {
+                    || FineClusterConfig.getInstance().isCluster()) {
                 setEnabled(false);
                 return;
             }
 
 
             if (WorkContext.getCurrent() != null) {
+                boolean pathSupportVcsAction = selectedOperation.getFilePath() != null && pathSupportVcsAction(selectedOperation.getFilePath());
                 if (!WorkContext.getCurrent().isLocal()) {
                     //当前环境为远程环境时
                     FileNode node = TemplateTreePane.getInstance().getTemplateFileTree().getSelectedFileNode();
-                    if (selectedOperation.getFilePath() != null) {
+                    if (pathSupportVcsAction) {
                         if (node.getLock() != null && !ComparatorUtils.equals(node.getUserID(), node.getLock())) {
                             setEnabled(false);
                         } else {
@@ -388,9 +391,16 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                     }
                 } else {
                     //当前环境为本地环境时
-                    setEnabled(selectedOperation.getFilePath() != null);
+                    setEnabled(pathSupportVcsAction);
                 }
             }
+        }
+
+        private boolean pathSupportVcsAction(String path) {
+            if (FileExtension.CPT.matchExtension(path) || FileExtension.FRM.matchExtension(path)) {
+                return true;
+            }
+            return false;
         }
 
         private void closeOpenedTemplate(String path, boolean isCurrentEditing) {

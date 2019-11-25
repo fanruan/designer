@@ -3,6 +3,7 @@
  */
 package com.fr.design.mainframe;
 
+import com.fr.file.FILEChooserPane;
 import com.fr.main.impl.WorkBook;
 import com.fr.report.poly.PolyWorkSheet;
 
@@ -43,5 +44,9 @@ public class JPolyWorkBook extends JWorkBook {
     @Override
     public void refreshEastPropertiesPane() {
         EastRegionContainerPane.getInstance().switchMode(EastRegionContainerPane.PropertyMode.POLY);
+    }
+
+    protected void addExtraChooseFILEFilter(FILEChooserPane fileChooser) {
+
     }
 }

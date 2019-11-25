@@ -110,7 +110,10 @@ public class CellWidgetPropertyPane extends BasicPane {
             if (tplEC.getTemplateCellElement(cellElement.getColumn(), cellElement.getRow()) == null) {//cellElement未加入到report中时要添加进去
                 tplEC.addCellElement(cellElement);
             } else {
-                cellElement = tplEC.getTemplateCellElement(finalCS.getColumn(), finalCS.getRow());
+                TemplateCellElement newCellElement = tplEC.getTemplateCellElement(finalCS.getColumn(), finalCS.getRow());
+                if (newCellElement != null) {
+                    cellElement = newCellElement;
+                }
             }
             setCellWidget(cellWidget, cellElement);
         } else {

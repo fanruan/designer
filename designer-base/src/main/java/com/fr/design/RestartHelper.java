@@ -1,7 +1,7 @@
 package com.fr.design;
 
-import com.fr.design.os.impl.RestartAction;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.os.impl.RestartAction;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
@@ -9,7 +9,9 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.support.OSBasedAction;
-import com.fr.stable.os.support.OSSupportCenter;
+import com.fr.workspace.WorkContext;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +31,8 @@ public class RestartHelper {
 
     public static final String RECORD_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "delete.properties");
     public static final String MOVE_FILE = StableUtils.pathJoin(StableUtils.getInstallHome(), "move.properties");
-    private static  OSBasedAction restartAction;
+    private static final OSBasedAction restartAction = new RestartAction();
+
     /**
      * 把要删除的文件都记录到delete.properties中
      *
@@ -141,6 +144,20 @@ public class RestartHelper {
         restart(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    public static void restartForUpdate(JFrame frame) {
+        try {
+            restartAction.execute(ArrayUtils.EMPTY_STRING_ARRAY);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage());
+        } finally {
+            WorkContext.getCurrent().close();
+            frame.dispose();
+            System.exit(0);
+        }
+    }
+
+
+
     /**
      * 重启设计器并删除某些特定的文件
      *
@@ -169,7 +186,7 @@ public class RestartHelper {
             restartAction.execute(filesToBeDelete);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }finally {
+        } finally {
             try {
                 if (null != randomAccessFile) {
                     randomAccessFile.close();
@@ -179,12 +196,5 @@ public class RestartHelper {
             }
             DesignerContext.getDesignerFrame().exit();
         }
-
-    }
-    /**
-     * 提前初始化重启动作
-     */
-    public static void initRestartAction(){
-        restartAction = OSSupportCenter.getAction(RestartAction.class);
     }
 }

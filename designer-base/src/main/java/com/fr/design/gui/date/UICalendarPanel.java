@@ -437,18 +437,18 @@ public class UICalendarPanel extends JPanel {
         };
     }
 
-    protected EventListenerList listenerList = new EventListenerList();
+    protected EventListenerList eventlistenerList = new EventListenerList();
 
     public void addDateChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+        eventlistenerList.add(ChangeListener.class, l);
     }
 
     public void removeDateChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+        eventlistenerList.remove(ChangeListener.class, l);
     }
 
     protected void fireDateChanged(ChangeEvent e) {
-        Object[] listeners = listenerList.getListenerList();
+        Object[] listeners = eventlistenerList.getListenerList();
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
             if (listeners[i] == ChangeListener.class) {
                 ((ChangeListener) listeners[i + 1]).stateChanged(e);
