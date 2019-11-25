@@ -54,7 +54,7 @@ public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesVa
         ColumnFieldCollectionWithSeriesValue fieldCollection = new ColumnFieldCollectionWithSeriesValue();
         updateSeriesValuePane(fieldCollection);
         SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = fieldCollection.getSeriesValueCorrelationDefinition();
-        filterPane.updateBean(seriesValueCorrelationDefinition.getFilterProperties());
+        seriesValueCorrelationDefinition.setFilterProperties(filterPane.updateBean());
         return fieldCollection;
     }
 

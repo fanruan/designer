@@ -69,7 +69,7 @@ public class GaugeCellDataFieldsPane extends AbstractCellDataFieldsPane<GaugeCol
         GaugeColumnFieldCollection gauge = new GaugeColumnFieldCollection();
         updateField(category, gauge.getCategory());
         updateField(value, gauge.getValue());
-        filterPane.updateBean(gauge.getCategory().getFilterProperties());
+        gauge.getCategory().setFilterProperties(filterPane.updateBean());
         return gauge;
     }
 
