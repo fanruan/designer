@@ -33,17 +33,6 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
         GUICoreUtils.setColumnForSpinner(spinner, 5);
         this.spinner.setValue(new Integer(0));
         this.locString = locString;
-        final JFormattedTextField textField = ((JSpinner.NumberEditor) this.spinner.getEditor()).getTextField();
-        textField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                try {
-                    textField.commitEdit();
-                } catch (ParseException ignore) {
-
-                }
-            }
-        });
     }
 
     @Override
