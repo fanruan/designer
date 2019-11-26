@@ -562,7 +562,7 @@ public class FRGUIPaneFactory {
         double n = (double)(width + WIDTH_OFFSET_N ) / (double)WIDTH_PARA_F;
         double i = Math.abs(((double) ((int) m + (int) (m + 1)) / WIDTHABS_PARA_F) - m);
         double j = Math.abs(((double) ((int) n + (int) (n + 1)) / WIDTHABS_PARA_F) - n);
-        double x = i > j ? i : j;
+        double x = Math.max(i,j);
         if (AssistUtils.equals(x, i)) {
             w = (int) (Math.round(m) * WIDTH_PARA_INT - WIDTH_OFFSET_M);
         } else if (AssistUtils.equals(x, j)) {
