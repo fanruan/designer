@@ -9,8 +9,8 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import java.awt.BorderLayout;
 import java.util.List;
+import java.awt.BorderLayout;
 
 
 /**
@@ -47,6 +47,12 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
     protected UIComboBox[] filedComboBoxes() {
         List<UIComboBox> list = multiCategoryPane.componentList();
         return list.toArray(new UIComboBox[list.size()]);
+    }
+
+    @Override
+    public void checkBoxUse(boolean hasUse) {
+        super.checkBoxUse(hasUse);
+        multiCategoryPane.setHasUse(hasUse);
     }
 
     @Override

@@ -13,6 +13,8 @@ import java.util.List;
 public class MultiComboBoxPaneWithUISpinner extends AbstractMultiComponentPaneWithUISpinner<UIComboBox> {
     private List currentBoxList = new ArrayList();
 
+    private boolean hasUse = false;
+
     @Override
     protected void initComps() {
         currentBoxList = new ArrayList();
@@ -23,9 +25,15 @@ public class MultiComboBoxPaneWithUISpinner extends AbstractMultiComponentPaneWi
         this.currentBoxList = currentBoxList;
     }
 
+    public void setHasUse(boolean hasUse) {
+        this.hasUse = hasUse;
+    }
+
     @Override
     protected UIComboBox createJComponent() {
-        return new UIComboBox(currentBoxList.toArray(new Object[currentBoxList.size()]));
+        UIComboBox uiComboBox = new UIComboBox(currentBoxList.toArray(new Object[currentBoxList.size()]));
+        uiComboBox.setEnabled(hasUse);
+        return uiComboBox;
     }
 
     @Override
