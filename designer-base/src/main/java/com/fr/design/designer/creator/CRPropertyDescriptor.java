@@ -4,6 +4,7 @@
 package com.fr.design.designer.creator;
 
 import com.fr.stable.StringUtils;
+import com.fr.stable.core.PropertyChangeAdapter;
 import com.fr.stable.core.PropertyChangeListener;
 
 import java.beans.IntrospectionException;
@@ -36,6 +37,12 @@ public final class CRPropertyDescriptor extends PropertyDescriptor {
     }
 
     public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeListener l) {
+        this.l = l;
+        return this;
+    }
+
+    @Deprecated
+    public CRPropertyDescriptor setPropertyChangeListener(PropertyChangeAdapter l) {
         this.l = l;
         return this;
     }
