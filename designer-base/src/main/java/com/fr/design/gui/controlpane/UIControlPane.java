@@ -9,18 +9,9 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -34,6 +25,14 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -72,7 +71,6 @@ abstract class UIControlPane extends JControlPane {
         this.creators = this.createNameableCreators();
 
         initCardPane();
-
         if (isNewStyle()) {
             getPopupEditDialog(cardPane);
             this.add(getLeftPane(), BorderLayout.CENTER);
@@ -148,9 +146,7 @@ abstract class UIControlPane extends JControlPane {
         topToolBar.setLayout(new BorderLayout());
         ShortCut addItem = shortCutFactory.addItemShortCut().getShortCut();
         addItem.intoJToolBar(topToolBar);
-
         JPanel leftTopPane = getLeftTopPane(topToolBar);
-
         leftTopPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
         leftPane.add(leftTopPane, BorderLayout.NORTH);
 
@@ -171,7 +167,6 @@ abstract class UIControlPane extends JControlPane {
         JPanel leftTopPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         leftTopPane.add(toolBarPane, BorderLayout.EAST);
         leftTopPane.add(addItemLabel, BorderLayout.CENTER);
-
         return leftTopPane;
     }
 
@@ -202,7 +197,6 @@ abstract class UIControlPane extends JControlPane {
         topToolBar.validate();
         this.controlUpdatePane = createControlUpdatePane();//REPORT-4841 刷新一下编辑面板
         cardPane.add(controlUpdatePane, "EDIT");
-
         this.repaint();
     }
 
@@ -248,7 +242,6 @@ abstract class UIControlPane extends JControlPane {
                     return;
                 }
             }
-
             // 要隐藏 先检查有没有非法输入
             // 非法输入检查放在最后，因为可能出现面板弹出新弹框而失去焦点的情况，比如 输入公式时，弹出公式编辑对话框
             try {
@@ -268,6 +261,8 @@ abstract class UIControlPane extends JControlPane {
             addWindowFocusListener(new WindowAdapter() {
                 @Override
                 public void windowLostFocus(WindowEvent e) {
+                    //在Linux上拉回焦点，不然导致一些面板关不掉
+                    requestFocus();
                     hideDialog();
                 }
             });
