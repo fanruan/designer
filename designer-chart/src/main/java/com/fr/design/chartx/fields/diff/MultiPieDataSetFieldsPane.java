@@ -93,7 +93,7 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
     @Override
     public void checkBoxUse(boolean hasUse) {
         super.checkBoxUse(hasUse);
-        levelComboBoxPane.setHasUse(hasUse);
+        levelComboBoxPane.checkEnable(hasUse);
     }
 
     @Override

@@ -14,14 +14,9 @@ import java.util.List;
 public class MultiComboBoxPane extends AbstractMultiComponentPane<UIComboBox> {
     private List currentBoxItems = new ArrayList();
 
-    private boolean hasUse = false;
 
     public void setCurrentBoxItems(List currentBoxItems) {
         this.currentBoxItems = currentBoxItems;
-    }
-
-    public void setHasUse(boolean hasUse) {
-        this.hasUse = hasUse;
     }
 
     @Override
@@ -31,9 +26,7 @@ public class MultiComboBoxPane extends AbstractMultiComponentPane<UIComboBox> {
 
     @Override
     protected UIComboBox createOtherFieldComponent() {
-        UIComboBox uiComboBox = new UIComboBox(currentBoxItems.toArray(new Object[currentBoxItems.size()]));
-        uiComboBox.setEnabled(hasUse);
-        return uiComboBox;
+        return new UIComboBox(currentBoxItems.toArray(new Object[currentBoxItems.size()]));
     }
 
     @Override

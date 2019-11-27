@@ -52,7 +52,7 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
     @Override
     public void checkBoxUse(boolean hasUse) {
         super.checkBoxUse(hasUse);
-        multiCategoryPane.setHasUse(hasUse);
+        multiCategoryPane.checkEnable(hasUse);
     }
 
     @Override
