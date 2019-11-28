@@ -11,8 +11,8 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.data.DataContentsPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 public class ChartDataPane extends AbstractChartAttrPane {
 
@@ -35,6 +35,7 @@ public class ChartDataPane extends AbstractChartAttrPane {
 		return contentsPane;
 	}
 
+
 	/**
 	 * 界面标题
 	 */
@@ -56,7 +57,10 @@ public class ChartDataPane extends AbstractChartAttrPane {
 		}
 		
 		this.setLayout(new BorderLayout(0, 0));
-		if (collection != null && collection.getChartCount() <= 0) {
+		if (collection == null) {
+			throw new IllegalArgumentException("ChartCollection can not be null!");
+		}
+		if (collection.getChartCount() <= 0) {
 			contentsPane = new NormalChartDataPane(listener, ChartDataPane.this);
 		} else if (collection.getSelectedChart().getPlot() instanceof MapPlot) {
 			contentsPane = new MapDataPane(listener);

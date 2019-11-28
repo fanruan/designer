@@ -7,7 +7,6 @@ import com.fr.design.gui.ilist.UIList;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
-
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.license.Licensed;
 import com.fr.plugin.manage.PluginManager;
@@ -15,6 +14,7 @@ import com.fr.plugin.manage.control.PluginTaskCallback;
 import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -22,7 +22,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -142,6 +142,7 @@ public class PluginControlPane extends BasicPane {
         }
     }
 
+    @Nullable
     public PluginView getSelectedPlugin() {
         return (PluginView) pluginList.getSelectedValue();
     }
@@ -153,7 +154,7 @@ public class PluginControlPane extends BasicPane {
         PluginManager.getController().uninstall(PluginMarker.create(id, version), true, new PluginTaskCallback() {
             @Override
             public void done(PluginTaskResult result) {
-
+                // do nothing
             }
         });
     }

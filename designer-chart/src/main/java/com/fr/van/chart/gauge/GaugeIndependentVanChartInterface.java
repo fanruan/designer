@@ -1,8 +1,16 @@
 package com.fr.van.chart.gauge;
 
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.chartx.AbstractVanSingleDataPane;
+import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
+import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -14,6 +22,7 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.design.mainframe.chart.gui.data.table.MeterPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.custom.component.CategoryCustomPlotTableDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotReportDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotTableDataContentPane;
@@ -29,6 +38,33 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
     @Override
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/gauge.png";
+    }
+
+    @Override
+    public String getName() {
+        return Toolkit.i18nText("Fine-Design_Chart_New_Gauge");
+    }
+
+    @Override
+    public String[] getSubName() {
+        return new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Pointer180"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Ring"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Slot"),
+                Toolkit.i18nText("Fine-Design_Chart_Gauge_Cuvette")
+        };
+    }
+
+    @Override
+    public String[] getDemoImagePath() {
+        return new String[]{
+                "com/fr/plugin/chart/demo/image/18.png",
+                "com/fr/plugin/chart/demo/image/19.png",
+                "com/fr/plugin/chart/demo/image/20.png",
+                "com/fr/plugin/chart/demo/image/21.png",
+                "com/fr/plugin/chart/demo/image/22.png"
+        };
     }
 
     @Override
@@ -80,7 +116,33 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
         return new VanChartGaugeSeriesPane(parent, plot);
     }
 
-    public String getPlotTypeTitle4PopupWindow(){
-        return VanChartGaugePlotPane.TITLE;
+    @Override
+    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        return new AbstractVanSingleDataPane(listener) {
+
+            VanChartGaugePlot gaugePlot;
+
+            @Override
+            public void populate(ChartCollection collection) {
+                if (collection == null) {
+                    return;
+                }
+                VanChart chart = collection.getSelectedChartProvider(VanChart.class);
+                if (chart == null) {
+                    return;
+                }
+                gaugePlot = chart.getPlot();
+
+                super.populate(collection);
+            }
+
+            @Override
+            protected SingleDataPane createSingleDataPane() {
+                if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
+                    return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
+                }
+                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+            }
+        };
     }
 }

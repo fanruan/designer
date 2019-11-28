@@ -4,7 +4,6 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.DesignerEnvManager;
@@ -40,6 +39,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
@@ -58,11 +58,14 @@ import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.start.OemHandler;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -82,6 +85,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -108,9 +112,9 @@ import java.util.Set;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
 
-    public static final String DESIGNER_FRAME_NAME = "designer_frame";
+    private static final String DESIGNER_FRAME_NAME = "designer_frame";
 
-    public static final Dimension MIN_SIZE = new Dimension(100, 100);
+    private static final Dimension MIN_SIZE = new Dimension(100, 100);
 
     private static final long serialVersionUID = -8732559571067484460L;
 
@@ -140,9 +144,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private UIToolbar combineUp;
 
-    private NewTemplatePane newWorkBookPane = null;
+    private NewTemplatePane newWorkBookPane;
 
-    private Icon closeMode = UIConstants.CLOSE_OF_AUTHORITY;
+    private Icon closeMode;
 
     private JLayeredPane layeredPane = this.getLayeredPane();
 
@@ -169,6 +173,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private WindowAdapter windowAdapter = new WindowAdapter() {
 
+        @Override
         public void windowOpened(WindowEvent e) {
 
         }
@@ -178,7 +183,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
-            if (HistoryTemplateListPane.getInstance().getHistoryCount() == 1) {
+            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
                 int choose = saveSomeTempaltePane.saveLastOneTemplate();
                 if (choose != JOptionPane.CANCEL_OPTION) {
                     DesignerFrame.this.exit();
@@ -194,6 +199,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private JComponent closeButton = new JComponent() {
 
+        @Override
         protected void paintComponent(Graphics g) {
 
             g.setColor(UIConstants.NORMAL_BACKGROUND);
@@ -205,6 +211,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private MouseListener closeMouseListener = new MouseAdapter() {
 
+        @Override
         public void mousePressed(MouseEvent e) {
 
             closeMode = UIConstants.CLOSE_PRESS_AUTHORITY;
@@ -212,6 +219,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             closeButton.repaint();
         }
 
+        @Override
         public void mouseExited(MouseEvent e) {
 
             closeMode = UIConstants.CLOSE_OF_AUTHORITY;
@@ -219,6 +227,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             closeButton.repaint();
         }
 
+        @Override
         public void mouseMoved(MouseEvent e) {
 
             closeMode = UIConstants.CLOSE_OVER_AUTHORITY;
@@ -226,12 +235,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             closeButton.repaint();
         }
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             if (DesignModeContext.isAuthorityEditing()) {
                 closeAuthorityEditing();
             }
         }
 
+        @Override
         public void mouseEntered(MouseEvent e) {
 
             closeMode = UIConstants.CLOSE_OVER_AUTHORITY;
@@ -255,6 +266,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         basePane.setLayout(new BorderLayout());
         toolbarPane = new JPanel() {
 
+            @Override
             public Dimension getPreferredSize() {
 
                 Dimension dim = super.getPreferredSize();
@@ -266,7 +278,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         JPanel eastPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         eastPane.add(ad.createLargeToolbar(), BorderLayout.WEST);
         eastCenterPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        eastCenterPane.add(combineUp = combineUpTooBar(null), BorderLayout.NORTH);
+        combineUpTooBar();
+        eastCenterPane.add(combineUp, BorderLayout.NORTH);
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.add(newWorkBookPane = ad.getNewTemplatePane(), BorderLayout.WEST);
         panel.add(MutilTempalteTabPane.getInstance(), BorderLayout.CENTER);
@@ -300,10 +313,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         this.addComponentListener(new ComponentAdapter() {
 
+            @Override
             public void componentResized(ComponentEvent e) {
 
                 reCalculateFrameSize();
-                if (DesignerMode.isAuthorityEditing()) {
+                if (DesignModeContext.isAuthorityEditing()) {
                     doResize();
                 }
             }
@@ -316,14 +330,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         initMenuPane();
         this.progressDialog = new ProgressDialog(this);
     }
-    
+
     public void resizeFrame() {
-        
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().setComposite();
+
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().setComposite();
         reCalculateFrameSize();
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().doResize();
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().doResize();
     }
-    
+
     public void closeAuthorityEditing() {
         DesignModeContext.switchTo(com.fr.design.base.mode.DesignerMode.NORMAL);
         WestRegionContainerPane.getInstance().replaceDownPane(
@@ -333,7 +347,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getToolBarMenuDockPlus());
         needToAddAuhtorityPaint();
         refreshDottedLine();
-        fireAuthorityStateToNomal();
+        fireAuthorityStateToNormal();
         EventDispatcher.fire(DesignAuthorityEventType.StopEdit, DesignerFrame.this);
     }
 
@@ -401,8 +415,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
 
     /**
-     * @param ad
-     * @return
+     * @param ad 菜单栏
+     * @return panel
      */
     protected JPanel initNorthEastPane(final ToolBarMenuDock ad) {
         //hugh: private修改为protected方便oem的时候修改右上的组件构成
@@ -438,20 +452,33 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         return northEastPane;
     }
 
-    private void refreshNorthEastPane(JPanel northEastPane, ToolBarMenuDock ad) {
+    private void refreshNorthEastPane(final JPanel northEastPane, final ToolBarMenuDock ad) {
 
         northEastPane.removeAll();
         northEastPane.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         northEastPane.add(LogMessageBar.getInstance());
         TitlePlaceProcessor processor = ExtraDesignClassManager.getInstance().getSingle(TitlePlaceProcessor.MARK_STRING);
         if (processor != null) {
-            processor.hold(northEastPane, LogMessageBar.getInstance(), ad.createBBSLoginPane());
+            final Component[] bbsLoginPane = {null};
+            OSSupportCenter.buildAction(new OSBasedAction() {
+                @Override
+                public void execute(Object... objects) {
+                   bbsLoginPane[0] =  ad.createBBSLoginPane();
+                }
+            }, SupportOSImpl.USERINFOPANE);
+            processor.hold(northEastPane, LogMessageBar.getInstance(), bbsLoginPane[0]);
         }
         northEastPane.add(ad.createAlphaFinePane());
         if (!DesignerEnvManager.getEnvManager().getAlphaFineConfigManager().isEnabled()) {
             ad.createAlphaFinePane().setVisible(false);
         }
-        northEastPane.add(ad.createBBSLoginPane());
+        OSSupportCenter.buildAction(new OSBasedAction() {
+            @Override
+            public void execute(Object... objects) {
+               northEastPane.add(ad.createBBSLoginPane());
+            }
+        }, SupportOSImpl.USERINFOPANE);
+
     }
 
     public void initTitleIcon() {
@@ -487,7 +514,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     protected ArrayList<WindowListener> getFrameListeners() {
 
-        ArrayList<WindowListener> arrayList = new ArrayList<WindowListener>();
+        ArrayList<WindowListener> arrayList = new ArrayList<>();
         arrayList.add(windowAdapter);
         return arrayList;
     }
@@ -565,7 +592,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void refreshDottedLine() {
 
-        if (DesignerMode.isAuthorityEditing()) {
+        if (DesignModeContext.isAuthorityEditing()) {
             populateAuthorityArea();
             populateCloseButton();
             addDottedLine();
@@ -603,13 +630,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     /**
      * 退出权限编辑时，将所有的做过权限编辑的状态，作为一个状态赋给报、报表主体
      */
-    private void fireAuthorityStateToNomal() {
+    private void fireAuthorityStateToNormal() {
 
-        java.util.List<JTemplate<?, ?>> opendedTemplate = HistoryTemplateListPane.getInstance().getHistoryList();
-        for (int i = 0; i < opendedTemplate.size(); i++) {
+        List<JTemplate<?, ?>> opendedTemplate = HistoryTemplateListCache.getInstance().getHistoryList();
+        for (JTemplate<?, ?> jTemplate : opendedTemplate) {
             // 如果在权限编辑时做过操作，则将做过的操作作为一个整体状态赋给正在报表
-            if (opendedTemplate.get(i).isDoSomethingInAuthority()) {
-                opendedTemplate.get(i).fireAuthorityStateToNomal();
+            if (jTemplate.isDoSomethingInAuthority()) {
+                jTemplate.fireAuthorityStateToNomal();
             }
         }
     }
@@ -619,44 +646,60 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.closeMode = closeMode;
     }
 
-    private UIToolbar combineUpTooBar(JComponent[] toolbar4Form) {
-
+    /**
+     * 创建上工具栏
+     */
+    private void combineUpTooBar() {
         combineUp = new UIToolbar(FlowLayout.LEFT);
         combineUp.setBorder(new MatteBorder(new Insets(0, LEFT_ALIGN_GAP, 1, 0), UIConstants.LINE_COLOR));
         combineUp.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 2));
+        setUpUpToolBar(null);
+
+    }
+
+    /**
+     * 重置上工具栏
+     */
+    private void resetCombineUpTooBar(JComponent[] toolbar4Form) {
+        combineUp.removeAll();
+        setUpUpToolBar(toolbar4Form);
+    }
+
+    /**
+     * 填充上工具栏的中的工具
+     *
+     * @param toolbar4Form 目标组件
+     */
+    private void setUpUpToolBar(@Nullable JComponent[] toolbar4Form) {
         UIButton[] fixButtons = ad.createUp();
-        for (int i = 0; i < fixButtons.length; i++) {
-            combineUp.add(fixButtons[i]);
+        for (UIButton fixButton : fixButtons) {
+            combineUp.add(fixButton);
         }
-        if (!DesignerMode.isAuthorityEditing()) {
+        if (!DesignModeContext.isAuthorityEditing()) {
             combineUp.addSeparator(new Dimension(2, 16));
             if (toolbar4Form != null) {
-                for (int i = 0; i < toolbar4Form.length; i++) {
-                    combineUp.add(toolbar4Form[i]);
+                for (JComponent jComponent : toolbar4Form) {
+                    combineUp.add(jComponent);
                 }
             }
         }
-
         //添加分享按钮
         addShareButton();
-
         //添加插件中的按钮
         addExtraButtons();
-
-        return combineUp;
     }
 
     private void addExtraButtons() {
 
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
 
 
         UIButton[] extraButtons = jt.createExtraButtons();
-        for (int i = 0; i < extraButtons.length; i++) {
-            combineUp.add(extraButtons[i]);
+        for (UIButton extraButton : extraButtons) {
+            combineUp.add(extraButton);
         }
         if (extraButtons.length > 0) {
             combineUp.addSeparator(new Dimension(2, 16));
@@ -665,15 +708,15 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     private void addShareButton() {
 
-        JTemplate<?, ?> jt = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (jt == null) {
             return;
         }
 
         combineUp.addSeparator(new Dimension(2, 16));
         UIButton[] shareButtons = jt.createShareButton();
-        for (int i = 0; i < shareButtons.length; i++) {
-            combineUp.add(shareButtons[i]);
+        for (UIButton shareButton : shareButtons) {
+            combineUp.add(shareButton);
         }
     }
 
@@ -710,18 +753,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         DesignState designState = new DesignState(plus);
         MenuManager.getInstance().setMenus4Designer(designState);
-        if (menuBar != null) {
-            menuPane.remove(menuBar);
-        }
-        menuPane.add(menuBar = ad.createJMenuBar(plus), BorderLayout.CENTER);
-
-        if (combineUp != null) {
-            eastCenterPane.remove(combineUp);
-            combineUp = null;
+        if (menuBar == null) {
+            menuPane.add(menuBar = ad.createJMenuBar(plus), BorderLayout.CENTER);
+        } else {
+            ad.resetJMenuBar(menuBar, plus);
         }
 
-        // 保存撤销那些按钮的面板
-        eastCenterPane.add(combineUp = combineUpTooBar(ad.resetUpToolBar(plus)), BorderLayout.NORTH);
+        resetCombineUpTooBar(ad.resetUpToolBar(plus));
 
         if (toolbarComponent != null) {
             toolbarPane.remove(toolbarComponent);
@@ -745,13 +783,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void needToAddAuhtorityPaint() {
 
-        newWorkBookPane.setButtonGray(DesignerMode.isAuthorityEditing());
+        newWorkBookPane.setButtonGray(DesignModeContext.isAuthorityEditing());
 
         // 进入或退出权限编辑模式，通知插件
         Set<ShortCut> extraShortCuts = ExtraDesignClassManager.getInstance().getExtraShortCuts();
         for (ShortCut shortCut : extraShortCuts) {
             if (shortCut instanceof AbstractTemplateTreeShortCutProvider) {
-                ((AbstractTemplateTreeShortCutProvider) shortCut).notifyFromAuhtorityChange(DesignerMode.isAuthorityEditing());
+                shortCut.notifyFromAuhtorityChange(DesignModeContext.isAuthorityEditing());
             }
         }
     }
@@ -772,7 +810,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     public void setTitle() {
 
-        JTemplate<?, ?> editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> editingTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         StringBuilder defaultTitleSB = new StringBuilder();
         defaultTitleSB.append(ProductConstants.PRODUCT_NAME);
         defaultTitleSB.append(" ");
@@ -870,7 +908,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
     public void saveCurrentEditingTemplate() {
 
-        JTemplate<?, ?> editingTemplate = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> editingTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         if (editingTemplate == null) {
             return;
         }
@@ -949,6 +987,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      *
      * @param e 事件
      */
+    @Override
     public void targetModified(TargetModifiedEvent e) {
 
         this.checkToolbarMenuEnable();
@@ -959,6 +998,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      *
      * @param jt 模板
      */
+    @Override
     public void templateClosed(JTemplate<?, ?> jt) {
 
     }
@@ -968,6 +1008,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      *
      * @param jt 模板
      */
+    @Override
     public void templateOpened(JTemplate<?, ?> jt) {
 
     }
@@ -977,6 +1018,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      *
      * @param jt 模板
      */
+    @Override
     public void templateSaved(JTemplate<?, ?> jt) {
 
         this.checkToolbarMenuEnable();
@@ -1049,7 +1091,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (inValidDesigner(jt)) {
             this.addAndActivateJTemplate();
             MutilTempalteTabPane.getInstance().setTemTemplate(
-                    HistoryTemplateListPane.getInstance().getCurrentEditingTemplate());
+                    HistoryTemplateListCache.getInstance().getCurrentEditingTemplate());
         } else {
             activeTemplate(jt);
         }
@@ -1063,8 +1105,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void activeTemplate(JTemplate jt) {
         // 如果该模板已经打开，则进行激活就可以了
-        int index = HistoryTemplateListPane.getInstance().contains(jt);
-        List<JTemplate<?, ?>> historyList = HistoryTemplateListPane.getInstance().getHistoryList();
+        int index = HistoryTemplateListCache.getInstance().contains(jt);
+        List<JTemplate<?, ?>> historyList = HistoryTemplateListCache.getInstance().getHistoryList();
         if (index != -1) {
             historyList.get(index).activeJTemplate(index, jt);
         } else {
@@ -1072,11 +1114,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
     }
 
-    /**
-     * Exit退出
-     */
-    public void exit() {
-
+    public void prepareForExit() {
         Thread thread = new Thread() {
 
             @Override
@@ -1091,10 +1129,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             thread.join();
         } catch (InterruptedException e) {
             FineLoggerFactory.getLogger().error("Map Thread Error");
+            Thread.currentThread().interrupt();
         }
 
         DesignerEnvManager.getEnvManager().setLastOpenFile(
-                HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
+                HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
 
         DesignerEnvManager.getEnvManager().setLastWestRegionToolPaneY(
                 WestRegionContainerPane.getInstance().getToolPaneY());
@@ -1106,6 +1145,13 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 EastRegionContainerPane.getInstance().getContainerWidth());
 
         DesignerEnvManager.getEnvManager().saveXMLFile();
+    }
+
+    /**
+     * Exit退出
+     */
+    public void exit() {
+        prepareForExit();
         //关闭当前环境
         WorkContext.getCurrent().close();
 
@@ -1207,7 +1253,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     /**
      * 更新进度框进度
      *
-     * @param progress
+     * @param progress 进度值
      */
     public void updateProgress(int progress) {
 

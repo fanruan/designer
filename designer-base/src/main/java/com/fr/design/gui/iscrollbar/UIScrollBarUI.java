@@ -1,5 +1,26 @@
 package com.fr.design.gui.iscrollbar;
 
+import com.fr.design.constants.UIConstants;
+import com.fr.stable.StringUtils;
+import sun.swing.DefaultLookup;
+
+import javax.swing.BoundedRangeModel;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.ScrollBarUI;
+import javax.swing.plaf.UIResource;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -20,27 +41,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import javax.swing.BoundedRangeModel;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.ScrollBarUI;
-import javax.swing.plaf.UIResource;
-
-import com.fr.design.constants.UIConstants;
-import sun.swing.DefaultLookup;
 
 /**
  * Like BasicScrollBarUI,but without two buttons
@@ -148,6 +148,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
      *
      * @param c
      */
+    @Override
     public void installUI(JComponent c) {
         scrollbar = (JScrollBar) c;
         thumbRect = new Rectangle(0, 0, 0, 0);
@@ -163,6 +164,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
      *
      * @param c
      */
+    @Override
     public void uninstallUI(JComponent c) {
         scrollbar = (JScrollBar) c;
         uninstallListeners();
@@ -357,6 +359,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
     /**
      * 只画Thumb
      */
+    @Override
     public void paint(Graphics g, JComponent c) {
         Rectangle thumbBounds = getThumbBounds();
         if (thumbBounds.intersects(g.getClipBounds())) {
@@ -380,6 +383,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
      * @see #getMaximumSize
      * @see #getMinimumSize
      */
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return (scrollbar.getOrientation() == JScrollBar.VERTICAL) ? new Dimension(scrollBarWidth, 48) : new Dimension(48, scrollBarWidth);
     }
@@ -390,6 +394,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
      * @see #getMinimumSize
      * @see #getPreferredSize
      */
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
@@ -586,6 +591,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
       		 * will cause a repaint.
       		 */
 
+    @SuppressWarnings("squid:S2164")
     protected void layoutVScrollbar(JScrollBar sb) {
         Dimension sbSize = sb.getSize();
         Insets sbInsets = sb.getInsets();
@@ -668,6 +674,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
     		 * Make sure the thumb fits between the buttons. Note that setting the
     		 * thumbs bounds causes a repaint.
     		 */
+    @SuppressWarnings("squid:S2164")
     protected void layoutHScrollbar(JScrollBar sb) {
         Dimension sbSize = sb.getSize();
         Insets sbInsets = sb.getInsets();
@@ -937,6 +944,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
         private transient int direction = +1;
 
 
+        @Override
         public void mouseReleased(MouseEvent e) {
             isPressing = false;
             if (isDragging) {
@@ -968,6 +976,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
          * one page. If there is no thumb then page up if the mouse is in the
          * upper half of the track.
          */
+        @Override
         public void mousePressed(MouseEvent e) {
             boolean isMiddle = !isSupportsAbsolutePositioning() && SwingUtilities.isMiddleMouseButton(e);
             if (SwingUtilities.isRightMouseButton(e) || isMiddle) {
@@ -1074,7 +1083,7 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
 
             scrollbar.repaint();
         }
-
+        @SuppressWarnings("squid:S2164")
         private void setValueFrom(MouseEvent e) {
             boolean active = isThumbRollover();
             BoundedRangeModel model = scrollbar.getModel();
@@ -1313,16 +1322,16 @@ public class UIScrollBarUI extends ScrollBarUI implements LayoutManager, SwingCo
         public void propertyChange(PropertyChangeEvent e) {
             String propertyName = e.getPropertyName();
 
-            if ("model" == propertyName) {
+            if (StringUtils.equals("model", propertyName)) {
                 BoundedRangeModel oldModel = (BoundedRangeModel) e.getOldValue();
                 BoundedRangeModel newModel = (BoundedRangeModel) e.getNewValue();
                 oldModel.removeChangeListener(modelListener);
                 newModel.addChangeListener(modelListener);
                 scrollbar.repaint();
                 scrollbar.revalidate();
-            } else if ("orientation" == propertyName) {
+            } else if (StringUtils.equals("orientation", propertyName)) {
                 updateButtonDirections();
-            } else if ("componentOrientation" == propertyName) {
+            } else if (StringUtils.equals("componentOrientation", propertyName)) {
                 updateButtonDirections();
                 InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
                 SwingUtilities.replaceUIInputMap(scrollbar, JComponent.WHEN_FOCUSED, inputMap);

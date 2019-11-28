@@ -7,6 +7,7 @@ package com.fr.design.gui.imenu;
 import com.fr.design.utils.ColorRoutines;
 import com.fr.design.utils.ThemeUtils;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.StringUtils;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -286,7 +287,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
         if (v != null) {
             d = getPreferredSize(c);
-            d.width -= v.getPreferredSpan(View.X_AXIS) - v.getMinimumSpan(View.X_AXIS);
+            d.width -= (double) v.getPreferredSpan(View.X_AXIS) - (double) v.getMinimumSpan(View.X_AXIS);
         }
         return d;
     }
@@ -344,7 +345,7 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         View v = (View) c.getClientProperty(BasicHTML.propertyKey);
         if (v != null) {
             d = getPreferredSize(c);
-            d.width += v.getMaximumSpan(View.X_AXIS) - v.getPreferredSpan(View.X_AXIS);
+            d.width += (double) v.getMaximumSpan(View.X_AXIS) - (double) v.getPreferredSpan(View.X_AXIS);
         }
         return d;
     }
@@ -579,7 +580,8 @@ public class UIBasicMenuItemUI extends MenuItemUI {
      */
     private boolean isInternalFrameSystemMenu() {
         String actionCommand = menuItem.getActionCommand();
-        return (actionCommand == "Close") || (actionCommand == "Minimize") || (actionCommand == "Restore") || (actionCommand == "Maximize");
+        return (StringUtils.equals(actionCommand,"Close") || StringUtils.equals(actionCommand,"Minimize")
+                || StringUtils.equals(actionCommand,"Restore") || StringUtils.equals(actionCommand,"Maximize"));
     }
 
     //////////////////////////////////////////////////////////
@@ -814,7 +816,6 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         // get Accelerator text
         KeyStroke accelerator = b.getAccelerator();
         String acceleratorText = "";
-        drawMenu(acceleratorText, accelerator, c, ic, maxValue, offset, paintIcon, b);
         String text = layoutMenuItem(fm, b.getText(), fmAccel, acceleratorText, ic, null,
                 arrowIcon, b.getVerticalAlignment(), b.getHorizontalAlignment(),
                 b.getVerticalTextPosition(), b.getHorizontalTextPosition(), viewRect,
@@ -831,43 +832,6 @@ public class UIBasicMenuItemUI extends MenuItemUI {
         g.setColor(holdc);
         g.setFont(holdf);
     }
-
-    private void drawMenu(String acceleratorText, KeyStroke accelerator, JComponent c,
-                          Icon ic, int maxValue, int offset, Icon paintIcon, JMenuItem b) {
-        if (accelerator != null) {
-            int modifiers = accelerator.getModifiers();
-            if (modifiers > 0) {
-                acceleratorText = KeyEvent.getKeyModifiersText(modifiers);
-                //acceleratorText += "-";
-                acceleratorText += acceleratorDelimiter;
-            }
-
-            int keyCode = accelerator.getKeyCode();
-            if (keyCode != 0) {
-                acceleratorText += KeyEvent.getKeyText(keyCode);
-            } else {
-                acceleratorText += accelerator.getKeyChar();
-            }
-        }
-        if (!isTopLevelMenu()) {
-            if (c instanceof JCheckBoxMenuItem || c instanceof JRadioButtonMenuItem) {
-                ic = checkIcon;
-                if (checkIcon.getIconWidth() < maxValue) {
-                    ic = new EmptyIcon(maxValue, checkIcon.getIconHeight());
-                    offset = (maxValue - checkIcon.getIconWidth()) / 2;
-                }
-                paintIcon = null;
-            } else if (c instanceof JMenuItem) {
-                if (ic == null || ic.getIconWidth() < maxValue) {
-                    int height = (ic == null) ? 2 : b.getIcon().getIconHeight();
-                    int width = (ic == null) ? 2 : b.getIcon().getIconWidth();
-                    offset = (maxValue - width) / 2;
-                    ic = new EmptyIcon(maxValue, height);
-                }
-            }
-        }
-    }
-
 
     private void drawAccText(String acceleratorText, Graphics g, JComponent p, ButtonModel model, FontMetrics fmAccel, JComponent c) {
         if (acceleratorText != null && !ComparatorUtils.equals(acceleratorText, "")) {

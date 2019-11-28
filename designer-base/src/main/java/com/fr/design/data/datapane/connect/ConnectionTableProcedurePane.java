@@ -35,7 +35,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	private ConnectionComboBoxPanel connectionComboBox;
 	private UICheckBox tableCheckBox;
 	private UICheckBox viewCheckBox;
-	private UITextField searchField;
+	protected UITextField searchField;
 	private TableViewList tableViewList;
 	private java.util.List<DoubleClickSelectedNodeOnTreeListener> listeners = new java.util.ArrayList<DoubleClickSelectedNodeOnTreeListener>();
 
@@ -90,10 +90,15 @@ public class ConnectionTableProcedurePane extends BasicPane {
 		this.add(tableViewListPane, BorderLayout.CENTER);
 		this.add(filterPane, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(WIDTH, getPreferredSize().height));
+		addKeyMonitor();
 	}
 
 	protected void filter(Connection connection, String conName, List<String> nameList) {
 		connection.addConnection(nameList, conName, new Class[]{AbstractDatabaseConnection.class});
+	}
+
+	protected void addKeyMonitor() {
+		//do nothing
 	}
 
 	protected JPanel createCheckBoxgroupPane() {
@@ -132,7 +137,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 
 	/**
 	 * 给 itemComboBox 加上 itemListener
-	 * 
+	 *
 	 * @param itemListener
 	 */
 	public void addItemListener(ItemListener itemListener) {
@@ -209,7 +214,7 @@ public class ConnectionTableProcedurePane extends BasicPane {
 	public static interface DoubleClickSelectedNodeOnTreeListener {
 		/**
 		 * 处理双击事件
-		 * 
+		 *
 		 * @param target
 		 */
 		public void actionPerformed(TableProcedure target);

@@ -10,16 +10,15 @@ import com.fr.start.DesignerInitial;
  * Created by juhaoyu on 2019-06-14.
  */
 public class DesignerShowActivator extends Activator {
-    
+
     @Override
     public void start() {
-    
-        EventDispatcher.fire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Module_Name_Designer"));
-        DesignerInitial.show();
+        EventDispatcher.asyncFire(ModuleEvent.MajorModuleStarting, Toolkit.i18nText("Fine-Design_Module_Name_Designer"));
+        DesignerInitial.prepare();
     }
-    
+
     @Override
     public void stop() {
-    
+        // void
     }
 }

@@ -5,17 +5,16 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.general.CloudCenter;
 import com.fr.general.CommonIOUtils;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
-
-import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.PluginStoreConstants;
-import com.fr.plugin.PluginVerifyException;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
@@ -280,7 +279,10 @@ public class WebViewDlgHelper {
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
                         JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
                     }
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (InterruptedException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    Thread.currentThread().interrupt();
+                } catch (ExecutionException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
 
@@ -292,10 +294,9 @@ public class WebViewDlgHelper {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update") + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
-                httpClient.asGet();
-                if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    String text = httpClient.getResponseText();
+                String url = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update");
+                if (url != null) {
+                    String text = HttpToolbox.get(url + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
                     JSONObject resultJSONObject = new JSONObject(text);
                     String isLatest = resultJSONObject.optString("result");
                     if (!ComparatorUtils.equals(isLatest, LATEST)) {

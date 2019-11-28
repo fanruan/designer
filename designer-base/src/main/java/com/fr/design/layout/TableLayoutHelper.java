@@ -372,7 +372,8 @@ public class TableLayoutHelper {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         JPanel jp1 = TableLayoutHelper.createTableLayoutPane(createTestComponents("jp1"), TableLayoutHelper.FILL_NONE);
-        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(createTestComponents("jp2"), TableLayoutHelper.FILL_LASTCOL_AND_ROW, 2 * TEN, 2 * TEN);
+        JPanel jp2 = TableLayoutHelper.createGapTableLayoutPane(createTestComponents("jp2"),
+                TableLayoutHelper.FILL_LASTCOL_AND_ROW, (double)2 * TEN, (double)2 * TEN);
         JPanel jp3 = TableLayoutHelper.createGapTableLayoutPane(createTestComponents("jp3"),
                 new double[]{f, p, f, p}, new double[]{f, f}, 4, 4);
         JPanel jp4 = TableLayoutHelper.createGapTableLayoutPane(createTestComponents("jp4"),

@@ -11,12 +11,11 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartTitle;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -27,8 +26,8 @@ import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartFloatPositionPane;
 import com.fr.van.chart.designer.component.background.VanChartBackgroundWithOutShadowWithRadiusPane;
+import com.fr.van.chart.designer.style.component.LimitPane;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -60,9 +59,8 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     private UIToggleButton useHtml;
     private UIToggleButton customFloatPositionButton;
     private VanChartFloatPositionPane customFloatPositionPane;
-    private UIButtonGroup<Integer> limitSize;
-    private UISpinner maxProportion;
-    private JPanel maxProportionPane;
+
+    private LimitPane limitPane;
 
     protected VanChartStylePane parent;
 
@@ -162,7 +160,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         initPositionListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Layout"), panel);
     }
 
     private JPanel createTitleStylePane(){
@@ -171,24 +169,8 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
     }
 
     private JPanel createDisplayStrategy(){
-        maxProportion = new UISpinner(0,100,1,30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
-
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"),limitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"),maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
-        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0,12,0,0));
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(limitSizePane, BorderLayout.NORTH);
-        panel.add(maxProportionPane, BorderLayout.CENTER);
-
-        limitSize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkMaxProPortionUse();
-            }
-        });
-
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
+        limitPane = new LimitPane();
+        return limitPane;
     }
 
     private void initPositionListener(){
@@ -250,15 +232,10 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
 
     //检查显示策略界面是否可用
     private void checkDisplayStrategyUse() {
-        limitSize.setEnabled(!customFloatPositionButton.isSelected());
-        checkMaxProPortionUse();
+        GUICoreUtils.setEnabled(limitPane, !customFloatPositionButton.isSelected());
+        limitPane.checkMaxProPortionUse();
     }
 
-    //检查最大显示占比是否可用
-    private void checkMaxProPortionUse() {
-        maxProportion.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
-        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
-    }
 
     /**
      * 弹出框的界面标题
@@ -301,8 +278,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         customFloatPositionButton.setSelected(title.isFloating());
         customFloatPositionPane.setFloatPosition_x(title.getFloatPercentX());
         customFloatPositionPane.setFloatPosition_y(title.getFloatPercentY());
-        limitSize.setSelectedIndex(title.isLimitSize() ? 0 : 1);
-        maxProportion.setValue(title.getMaxHeight());
+        limitPane.populateBean(title.getLimitAttribute());
 
         checkAllUse();
     }
@@ -335,8 +311,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         }
         title.setUseHtml(useHtml.isSelected());
         title.setFloating(customFloatPositionButton.isSelected());
-        title.setLimitSize(limitSize.getSelectedIndex() == 0);
-        title.setMaxHeight(maxProportion.getValue());
+        title.setLimitAttribute(limitPane.updateBean());
         title.setFloatPercentX(customFloatPositionPane.getFloatPosition_x());
         title.setFloatPercentY(customFloatPositionPane.getFloatPosition_y());
         textAttrPane.update(textAttr);

@@ -7,7 +7,6 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.BarIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 
 
@@ -32,23 +31,6 @@ public class BarPlotPane extends AbstractBarPane{
 	}
 
     @Override
-    protected String[] getTypeTipName() {
-        String bar = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Bar");
-        String stack = Toolkit.i18nText("Fine-Design_Chart_Stacked");
-        String percent = Toolkit.i18nText("Fine-Design_Chart_Use_Percent");
-        String td = Toolkit.i18nText("Fine-Design_Chart_3D");
-        return new String[]{
-                bar,
-                stack + bar,
-                percent + stack + bar,
-                td + bar,
-                td + bar + "(" + Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal") + ")",
-                td + stack + bar,
-                td + percent + stack + bar
-        };
-    }
-
-    @Override
 	protected String[] getTypeLayoutPath() {
 		return new String[]{"/com/fr/design/images/chart/ColumnPlot/layout/0.png",
                 "/com/fr/design/images/chart/ColumnPlot/layout/1.png",
@@ -67,7 +49,7 @@ public class BarPlotPane extends AbstractBarPane{
      * @return 界面标题
 	 */
 	public String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Bar");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Bar");
     }
 
     protected Plot getSelectedClonedPlot(){
@@ -97,10 +79,12 @@ public class BarPlotPane extends AbstractBarPane{
         }
 
         Plot cloned = null;
-        try {
-            cloned = (Plot)newPlot.clone();
-        } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error("Error In ColumnChart");
+        if(newPlot != null) {
+            try {
+                cloned = (Plot) newPlot.clone();
+            } catch (CloneNotSupportedException e) {
+                FineLoggerFactory.getLogger().error("Error In ColumnChart");
+            }
         }
         return cloned;
     }

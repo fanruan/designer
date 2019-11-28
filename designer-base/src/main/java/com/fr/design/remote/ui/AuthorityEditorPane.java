@@ -19,12 +19,15 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 右面板
+ */
 public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
 
     private FileAuthorityTree tree = new FileAuthorityTree();
 
-
+    // 模板设计权限配置
     public AuthorityEditorPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(
@@ -47,6 +50,7 @@ public class AuthorityEditorPane extends BasicBeanPane<DesignAuthority> {
 
     @Override
     protected String title4PopupWindow() {
+        // 编辑文件权限
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Configure_Authority");
     }
 

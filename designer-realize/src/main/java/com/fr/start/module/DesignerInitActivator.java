@@ -4,18 +4,22 @@ import com.fr.module.Activator;
 import com.fr.start.DesignerInitial;
 
 /**
- * Created by juhaoyu on 2019-06-14.
+ * 设计器界面初始化
+ *
+ * @author vito
+ * @version 10.0
+ * Created by vito on 2019/9/25
  */
 public class DesignerInitActivator extends Activator {
-    
+
+
     @Override
     public void start() {
-        
-        DesignerInitial.init(upFindSingleton(StartupArgs.class).get());
+        DesignerInitial.init(findSingleton(StartupArgs.class).get());
     }
-    
+
     @Override
     public void stop() {
-    
+        // void
     }
 }

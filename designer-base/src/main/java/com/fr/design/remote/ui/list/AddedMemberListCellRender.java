@@ -1,11 +1,11 @@
 package com.fr.design.remote.ui.list;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.remote.button.IconButton;
 import com.fr.workspace.server.authority.RemoteDesignMember;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -13,7 +13,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-public class AddedMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
+public abstract class AddedMemberListCellRender extends JPanel implements ListCellRenderer<RemoteDesignMember> {
 
 
     private UILabel label;
@@ -25,7 +25,7 @@ public class AddedMemberListCellRender extends JPanel implements ListCellRendere
         label = new UILabel();
         label.setPreferredSize(new Dimension(264, 20));
         this.setPreferredSize(new Dimension(this.getPreferredSize().width, 25));
-        label.setIcon(BaseUtils.readIcon("com/fr/design/remote/images/icon_Member_normal@1x.png"));
+        label.setIcon(getMemberIcon());
 
         this.add(label);
         this.add(new IconButton());
@@ -33,12 +33,16 @@ public class AddedMemberListCellRender extends JPanel implements ListCellRendere
 
     @Override
     public Component getListCellRendererComponent(JList<? extends RemoteDesignMember> list, RemoteDesignMember member, int index, boolean isSelected, boolean cellHasFocus) {
-        this.setLabelText(member.getRealName() + "(" + member.getUsername() + ")");
+        this.setLabelText(getMemberName(member));
         return this;
     }
 
     private void setLabelText(String name) {
         label.setText(name);
     }
+
+    protected abstract Icon getMemberIcon();
+
+    protected abstract String getMemberName(RemoteDesignMember member);
 
 }

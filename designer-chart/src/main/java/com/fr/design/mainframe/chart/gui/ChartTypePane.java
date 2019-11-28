@@ -1,8 +1,6 @@
 package com.fr.design.mainframe.chart.gui;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
@@ -126,7 +124,8 @@ public class ChartTypePane extends AbstractChartAttrPane{
 			String lastPlotID = chart.getID();
 
             try{
-				ChartProvider newDefaultChart = (ChartProvider) ((AbstractChartTypePane) getSelectedPane()).getDefaultChart().clone();
+				AbstractChartTypePane selectedPane = (AbstractChartTypePane) getSelectedPane();
+				ChartProvider newDefaultChart =(ChartProvider) ChartTypeManager.getInstanceWithCheck().getCharts(selectedPane.getPlotID())[0].clone();
 				if (!ComparatorUtils.equals(chart.getClass(), newDefaultChart.getClass())) {
 					//vanChart 和 chart 之间切换
 					//不同chart之间切换
@@ -137,7 +136,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
             }catch (CloneNotSupportedException e){
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-
 			//这一步会替换plot
             ((AbstractChartTypePane)getSelectedPane()).updateBean(chart);
 
@@ -145,12 +143,6 @@ public class ChartTypePane extends AbstractChartAttrPane{
 
 			//chartID改变的话图表类型就算改变了
 			if (StringUtils.isNotEmpty(chartID)) {
-
-				if (chart instanceof Chart) {
-					//todo@shinerefactor: 这边看下是否可以删除
-					((Chart) chart).setWrapperName(ChartTypeManager.getInstanceWithCheck().getWrapperName(chartID));
-					((Chart) chart).setChartImagePath(ChartTypeManager.getInstanceWithCheck().getChartImagePath(chartID));
-				}
 
 				boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
 
@@ -216,24 +208,22 @@ public class ChartTypePane extends AbstractChartAttrPane{
 		//处理办法：这边除了重构 下拉项选项和cardNames 还需要把cards重构下（不需要init pane，只需要我需要的拿出来就好了）
 		private void relayout(ChartCollection collection){
 			//重构需要重构下拉框选项和cardNames
-			ChartProvider chart = collection.getSelectedChartProvider();
-			String priority = ChartTypeManager.VAN_CHART_PRIORITY;
-			//TODO@shinerefactor
-			//	chart.getPriority();
-			String plotID = chart.getID();
-			boolean enabledChart = ChartTypeManager.enabledChart(plotID);
-			String item = ChartTypeInterfaceManager.getInstance().getTitle4PopupWindow(priority, plotID);
+			ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
+			String chartID = chart.getID();
+			String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
+			boolean enabledChart = ChartTypeManager.enabledChart(chartID);
+			String item = ChartTypeInterfaceManager.getInstance().getName(chartID);
 
 			//第一步就是重构cards
 			cards.clear();
 			if (enabledChart) {
-				if (collection.getState() == SwitchState.DEFAULT) {
+				if (collection.getChartCount() == 1) {
 					addAllCards();
 				} else {
 					addOnePriorityCards(priority);
 				}
 			} else {
-				addOnePlotIDCards(priority, plotID);
+				addOnePlotIDCards(priority, chartID);
 			}
 
 			//下拉框重构开始。为了防止重构是触发update
@@ -304,11 +294,13 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * @param collection
 	 */
 	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
 		String plotID = chart.getID();
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
 		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
 			editPane.reLayout(chart);
+		}else {
+			throw new IllegalArgumentException("editPane can not be null.");
 		}
 	}
 
@@ -323,7 +315,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void populate(ChartCollection collection) {
 		editingCollection = collection;
 
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
 		this.remove(leftContentPane);
 		initContentPane();
 
@@ -341,7 +333,7 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	public void update(ChartCollection collection) {
         editingCollection = collection;
 		buttonPane.update(collection);// 内部操作时 已经做过处理.
-		ChartProvider chart = collection.getSelectedChartProvider();
+		ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
 		chartTypeComBox.updateBean(chart);
 	}
 

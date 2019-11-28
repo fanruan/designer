@@ -46,6 +46,7 @@ import java.awt.event.KeyEvent;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Coder: zack
@@ -70,6 +71,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
      *
      * @return 返回位置
      */
+    @Override
     public Location preferredLocation() {
         return Location.WEST_ABOVE;
     }
@@ -97,6 +99,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
     /**
      * 响应数据集改变
      */
+    @Override
     public void fireDSChanged() {
         fireDSChanged(new HashMap<String, String>());
     }
@@ -107,6 +110,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
      *
      * @param map 数据集变化Map
      */
+    @Override
     public void fireDSChanged(Map<String, String> map) {
         DesignTableDataManager.fireDSChanged(map);
     }
@@ -151,6 +155,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
 
     public abstract TableDataTree getDataTree();
 
+    @Override
     public abstract void refreshDockingView();
 
     protected void checkButtonEnabled(UpdateAction editAction, UpdateAction previewTableDataAction, UpdateAction removeAction, TableDataSourceOP op, TableDataTree dataTree) {
@@ -267,10 +272,12 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
          */
         @Override
         public void editingCanceled(ChangeEvent e) {
+            // Do nothing
         }
 
         @Override
         public void editingStopped(ChangeEvent e) {
+            // Do nothing
         }
     }
 
@@ -320,6 +327,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
             this.setSmallIcon(this.getTDIcon());
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             dgEdit(getTableDataInstance().creatTableDataPane(), createDsName(getNamePrefix()), false);
         }
@@ -400,7 +408,7 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
                 data = selectedNO.getObject();
             }
             try {
-                if (((TableDataWrapper) data).getTableData() instanceof StoreProcedure) {
+                if (((TableDataWrapper) Objects.requireNonNull(data)).getTableData() instanceof StoreProcedure) {
                     ((StoreProcedure) (((TableDataWrapper) data).getTableData())).resetDataModelList();
                     if (data instanceof StoreProcedureDataWrapper) {
                         StoreProcedureDataWrapper oldSdw = ((StoreProcedureDataWrapper) data);

@@ -1,10 +1,14 @@
 package com.fr.design.gui.style;
 
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.module.ModuleContext;
+import com.fr.value.ClearableLazyValue;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,31 +18,35 @@ import java.util.TimerTask;
  * To change this template use File | Settings | File Templates.
  */
 public class FormatePaneNumField extends UITextField {
-    private Timer timer;
+    private ClearableLazyValue<ScheduledExecutorService> ses = new ClearableLazyValue<ScheduledExecutorService>() {
+        @NotNull
+        @Override
+        protected ScheduledExecutorService compute() {
+            return ModuleContext.getExecutor()
+                    .newSingleThreadScheduledExecutor(new NamedThreadFactory("FormatePaneNumFieldRunChange"));
+        }
+    };
+
     public FormatePaneNumField() {
         super();
     }
 
+    @Override
     protected void attributeChange() {
         if (!AbstractAttrNoScrollPane.isHasChangeListener()) {
             return;
         }
-        if(timer != null){
-            timer.cancel();
-        }
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
+        ses.getValue().schedule(new Runnable() {
             @Override
             public void run() {
                 runChange();
             }
-        },100);
-
+        }, 100, TimeUnit.MILLISECONDS);
     }
 
-    protected void runChange(){
+    protected void runChange() {
         super.attributeChange();
-        timer.cancel();
-
+        ses.getValue().shutdown();
+        ses.drop();
     }
 }

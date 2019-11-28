@@ -2,38 +2,28 @@ package com.fr.design.chart.gui;
 
 import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChartCollection;
-import com.fr.base.chart.BaseChartGlyph;
+import com.fr.base.chart.BaseChartPainter;
 import com.fr.base.chart.chartdata.CallbackEvent;
+import com.fr.base.chart.result.WebChartIDInfo;
 import com.fr.chart.base.ChartConstants;
-import com.fr.chart.chartattr.Axis;
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartglyph.AxisGlyph;
-import com.fr.chartx.attr.ChartProvider;
-import com.fr.design.chart.gui.active.ActiveGlyph;
-import com.fr.design.chart.gui.active.ChartActiveGlyph;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.chart.MiddleChartComponent;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ArrayUtils;
+import com.fr.script.Calculator;
 import com.fr.stable.core.PropertyChangeListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Paint;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
 * @author kunsnat E-mail:kunsnat@gmail.com
@@ -45,21 +35,10 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
 	private static final long serialVersionUID = 744164838619052097L;
 	private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
     private ChartCollection chartCollection4Design;
-    private Chart editingChart;
-    private BaseChartGlyph chartGlyph;
     private int chartWidth = -1;
     private int chartHeight = -1;
-    private Point point;
-    private int resolution = ScreenResolution.getScreenResolution();
-    private ActiveGlyph activeGlyph;
-    
-    private boolean supportEdit = true;
 
-    private final int[] resizeCursors = new int[]{
-            Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
-            Cursor.E_RESIZE_CURSOR, Cursor.W_RESIZE_CURSOR,
-            Cursor.SE_RESIZE_CURSOR, Cursor.S_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR
-    };
+    private boolean supportEdit = true;
 
     public ChartComponent() {
         super();
@@ -76,12 +55,12 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         this();
         populate(cc);
     }
-    
+
     public ChartComponent(BaseChartCollection cc) {
     	this();
     	populate(cc);
     }
-    
+
     public ChartComponent(ChartCollection cc, PropertyChangeListener l) {
     	this();
     	populate(cc);
@@ -93,6 +72,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
      * 右键编辑 图表编辑层的监听事件, 在停止编辑时 响应整个编辑模板(form, sheet)的改变.
      * @param l   监听事件
      */
+    @Override
     public void addStopEditingListener(PropertyChangeListener l) {
     	 if (!listeners.contains(l)) {
              listeners.add(l);
@@ -108,23 +88,18 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
     /**
       * 停止编辑, 通知事情, 刷新画出新界面.
       */
+    @Override
     public void reset() {
         fireStopEditing();
 
-        this.editingChart = null;
-        this.chartGlyph = null;
-        this.activeGlyph = null;
-        this.point = null;
         this.chartHeight = this.chartWidth = -1;
 
-        this.editingChart = this.chartCollection4Design.getSelectedChart();
-
         refreshChartGlyph();
-        this.activeGlyph = ActiveGlyphFactory.createActiveGlyph(this, chartGlyph);
 
         repaint();
     }
 
+    @Override
     public void populate(BaseChartCollection cc) { // kunsnat_bug: 5471 实现设置的即时预览
     	try {// clone 为了判断编辑前后的值.
     		this.chartCollection4Design = (ChartCollection)cc;
@@ -135,6 +110,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         reset();
     }
 
+    @Override
     public BaseChartCollection update() {
         return this.chartCollection4Design;
     }
@@ -162,14 +138,6 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         return (this.chartCollection4Design == null) ? 0 : this.chartCollection4Design.getChartCount();
     }
 
-    public ChartProvider getEditingChart() {
-        return editingChart;
-    }
-
-	public BaseChartGlyph getChartGlyph() {
-        return chartGlyph;
-    }
-
     public void paintComponent(Graphics g) {  //
         super.paintComponent(g);
 
@@ -192,12 +160,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //画图
-        drawChartGlyph(g2d);
-
-        ActiveGlyph ag = this.getActiveGlyph();
-		if (ag != null) {
-			ag.paint4ActiveGlyph(g2d, chartGlyph);
-		}
+        drawChart(g2d);
 
         g2d.translate(-ChartConstants.PREGAP4BOUNDS/2, -ChartConstants.PREGAP4BOUNDS/2);
         if (lastHint == null) {
@@ -212,22 +175,8 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
       */
     private void refreshChartGlyph() {
         Dimension d = getBounds().getSize();
-        this.editingChart = this.chartCollection4Design.getSelectedChart();// kunsnat: 切换选中时 同步切换Plot
-        if (editingChart != null) {
-            this.chartGlyph = editingChart.createGlyph(editingChart.defaultChartData());
-            this.activeGlyph = ActiveGlyphFactory.createActiveGlyph(this, chartGlyph);
-        }
         this.chartWidth = d.width - ChartConstants.PREGAP4BOUNDS;
         this.chartHeight = d.height - ChartConstants.PREGAP4BOUNDS;
-    }
-
-    private ActiveGlyph getActiveGlyph() {
-        if (point == null) {
-        	this.activeGlyph = new ChartActiveGlyph(this, chartGlyph);
-        } else {
-        	this.activeGlyph = new ChartActiveGlyph(this, chartGlyph).findActionGlyphFromChildren(point.x, point.y);
-        }
-        return this.activeGlyph;
     }
 
     /**
@@ -235,103 +184,80 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
      * @param event    鼠标事件
      * 不设置鼠标点击跳转事件
      */
+    @Override
     public void mouseClicked(MouseEvent event) {
+        //do nothing
     }
 
     /**
      * 鼠标按压
      * @param e    鼠标事件
      */
+    @Override
     public void mousePressed(MouseEvent e) {
-    	point = new Point(e.getX(),e.getY());
-       if (!ArrayUtils.contains(resizeCursors, this.getCursor().getType())) {
-    	   this.activeGlyph = new ChartActiveGlyph(this, chartGlyph).findActionGlyphFromChildren(point.x, point.y);
-        }
-
-       if (this.activeGlyph == null) {
-            return;
-        }
-
-        repaint();
-        
+        //do nothing
     }
 
     /**
      * 鼠标松开
      * @param e    鼠标事件
      */
-	public void mouseReleased(MouseEvent e) { 
+	@Override
+    public void mouseReleased(MouseEvent e) {
+        //do nothing
 	}
 
     /**
      * 鼠标进入
      * @param e    鼠标事件
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
-
+        //do nothing
     }
 
     /**
      * 鼠标退出
      * @param e    鼠标事件
      */
+    @Override
     public void mouseExited(MouseEvent e) {
-
+        //do nothing
     }
 
     /**
      * 鼠标拖拽
      * @param e    鼠标事件
      */
-	public void mouseDragged(MouseEvent e) {
+	@Override
+    public void mouseDragged(MouseEvent e) {
+	    //do nothing
 	}
 
     /**
      * 鼠标移动
      * @param e    鼠标事件
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
-    	ActiveGlyph ag = this.getActiveGlyph();
-		if (ag != null) {
-			ag.onMouseMove(e);
-		}
-    }
-
-    public AxisGlyph getActiveAxisGlyph() {
-        return (AxisGlyph) activeGlyph.getGlyph();
-    }
-
-    public Axis getActiveAxis() {
-        AxisGlyph axisGlyph = getActiveAxisGlyph();
-        if (editingChart.getPlot() != null) {
-            return editingChart.getPlot().getAxis(axisGlyph.getAxisType());
-        }
-        return null;
+        //do nothing
     }
 
     private boolean needRefreshChartGlyph() {
-        return chartGlyph == null || chartWidth != this.getBounds().width || chartHeight != this.getBounds().height;
+        return chartWidth != this.getBounds().width || chartHeight != this.getBounds().height;
     }
 
-    public void drawChartGlyph(Graphics2D g2d) {
-        if (chartGlyph != null) {
-            if (chartGlyph.isRoundBorder()) {
-                chartGlyph.setBounds(new RoundRectangle2D.Double(0, 0, chartWidth, chartHeight, 10, 10));
-            } else {
-                chartGlyph.setBounds(new Rectangle2D.Double(0, 0, chartWidth, chartHeight));
-            }
+    private void drawChart(Graphics2D g2d) {
+        if (chartCollection4Design != null) {
 
-            //不直接画chartGlyph而画image的原因是表单的柱形图会溢出表单
-            //其他图都ok，其实感觉应该是柱形图画的不对，应该也可以改那边
-            //处理画图事件
+            BaseChartPainter painter = chartCollection4Design.createResultChartPainterWithOutDealFormula(Calculator.createCalculator(),
+                    WebChartIDInfo.createEmptyDesignerInfo(), chartWidth, chartHeight);
 
-            resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();
+            int resolution = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution();
             if (resolution == 0){
                 resolution = ScreenResolution.getScreenResolution();
             }
-            Image chartImage =  chartGlyph.toImage(chartWidth,chartHeight,resolution, this, null);
-
-            g2d.drawImage(chartImage, 0, 0,  null);
+            painter.paint(g2d, chartWidth, chartHeight, resolution, null);
         }
     }
 

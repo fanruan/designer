@@ -13,11 +13,7 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -28,8 +24,6 @@ import java.util.List;
  * @since 8.0
  */
 public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<PluginView>, Void> {
-    private static final int LISTNUM1 = 1;
-    private static final int LISTNUM100 = 100;
     private UILabel errorMsgLabel;
     private UITabbedPane tabbedPane;
     private PluginControlPane controlPane;
@@ -45,6 +39,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      *
      * @return 创建的页面对象
      */
+    @Override
     public JPanel createSuccessPane() {
         return new PluginStatusCheckCompletePane() {
 
@@ -99,7 +94,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public void pressInstallButton() {
-
+                // do nothing
             }
 
             @Override
@@ -130,8 +125,8 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      *
      * @return 插件
      */
+    @Override
     public List<PluginView> loadData() throws Exception {
-        //Thread.sleep(3000);
         return PluginsReaderFromStore.readPlugins();
     }
 
@@ -140,6 +135,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      *
      * @param plugins 插件
      */
+    @Override
     public void loadOnSuccess(List<PluginView> plugins) {
         controlPane.loadPlugins(plugins);
         tabbedPane.setTitleAt(2, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_All_Plugins") + "(" + plugins.size() + ")");
@@ -150,10 +146,12 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      *
      * @param e 异常消息
      */
+    @Override
     public void loadOnFailed(Exception e) {
         errorMsgLabel.setText(e.getCause().getMessage());
     }
 
+    @Override
     protected void installFromDiskFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -172,7 +170,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
             PluginManager.getController().install(chosenFile, new ProgressCallback() {
                 @Override
                 public void updateProgress(String description, double progress) {
-
+                    // do nothing
                 }
 
                 @Override
@@ -196,10 +194,11 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
         }
         if (StringUtils.isNotEmpty(MarketConfig.getInstance().getBbsUsername())) {
             PluginView plugin = controlPane.getSelectedPlugin();
-            String id = null;
-            if (plugin != null) {
-                id = plugin.getID();
+            if (plugin == null) {
+                FineLoggerFactory.getLogger().error("selected plugin is null");
+                return;
             }
+            String id = plugin.getID();
 
             try {
                 PluginMarker pluginMarker = PluginMarker.create(id, plugin.getVersion());
@@ -219,6 +218,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
      *
      * @return 标题字符串
      */
+    @Override
     public String textForLoadingLabel() {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Load_Plugins_From_Server");
     }

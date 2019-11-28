@@ -46,7 +46,7 @@ public class UIModeControlContainer extends JLayeredPane {
     private boolean isHideMode = false;
     private boolean isSheeetCovered = false;
 
-    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 30 / 100.0F);
+    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 
     public UIModeControlContainer() {
         this(new JPanel(), new JPanel());

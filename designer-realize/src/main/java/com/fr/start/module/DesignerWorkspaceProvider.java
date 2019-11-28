@@ -5,10 +5,14 @@ import com.fr.design.EnvChangeEntrance;
 import com.fr.design.constants.DesignerLaunchStatus;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
+import com.fr.stable.StringUtils;
+import com.fr.value.NotNullLazyValue;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -17,17 +21,33 @@ import com.fr.workspace.Workspace;
  */
 public class DesignerWorkspaceProvider extends Activator {
 
+    private static final String SPECIFY_WORKSPACE = "fr.designer.workspace";
+
+    private NotNullLazyValue<StartupArgs> startupArgs = new NotNullLazyValue<StartupArgs>() {
+        @NotNull
+        @Override
+        protected StartupArgs compute() {
+            return findSingleton(StartupArgs.class);
+        }
+    };
+
     @Override
     public void start() {
         //检查环境
         DesignerEnvManager.checkNameEnvMap();
 
-        if (getModule().leftFindSingleton(StartupArgs.class) != null && getModule().leftFindSingleton(StartupArgs.class).isDemo()) {
+        if (startupArgs.getValue().isDemo()) {
             DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
         } else {
             try {
                 String current = DesignerEnvManager.getEnvManager().getCurEnvName();
-                DesignerWorkspaceInfo workspaceInfo = DesignerEnvManager.getEnvManager().getWorkspaceInfo(current);
+                String workspacePath;
+                DesignerWorkspaceInfo workspaceInfo;
+                if (StringUtils.isNotEmpty(workspacePath = System.getProperty(SPECIFY_WORKSPACE))) {
+                    workspaceInfo = LocalDesignerWorkspaceInfo.create(StringUtils.EMPTY, workspacePath);
+                } else {
+                    workspaceInfo = DesignerEnvManager.getEnvManager().getWorkspaceInfo(current);
+                }
                 Workspace workspace = DesignerWorkspaceGenerator.generate(workspaceInfo);
                 boolean checkValid = workspace != null && workspaceInfo.checkValid();
                 if (!checkValid) {
@@ -40,12 +60,15 @@ public class DesignerWorkspaceProvider extends Activator {
                 EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
             }
         }
-        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE);
     }
 
     @Override
     public void stop() {
-
+        // void
     }
 
+    @Override
+    public void afterAllStart() {
+        DesignerLaunchStatus.setStatus(DesignerLaunchStatus.WORKSPACE_INIT_COMPLETE);
+    }
 }

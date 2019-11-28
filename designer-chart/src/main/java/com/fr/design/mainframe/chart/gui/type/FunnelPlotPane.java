@@ -7,7 +7,7 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.FunnelPlot;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.charttypes.FunnelIndependentChart;
-import com.fr.locale.InterProviderFactory;
+import com.fr.design.i18n.Toolkit;
 
 import java.text.DecimalFormat;
 
@@ -29,13 +29,6 @@ public class FunnelPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
     @Override
-    protected String[] getTypeTipName() {
-        return new String[]{
-                InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel")
-        };
-    }
-
-    @Override
     protected String[] getTypeLayoutPath() {
         return new String[0];
     }
@@ -50,7 +43,7 @@ public class FunnelPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 界面标题
      */
     public String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Funnel");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Funnel");
     }
 
     /**

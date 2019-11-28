@@ -47,6 +47,7 @@ import com.fr.stable.ColumnRow;
 import com.fr.stable.Constants;
 import com.fr.stable.script.CalculatorUtils;
 import com.fr.stable.unit.FU;
+import com.fr.stable.AssistUtils;
 import com.fr.third.antlr.ANTLRException;
 
 import javax.swing.JComponent;
@@ -617,10 +618,10 @@ public class GridUI extends ComponentUI {
                 tmpLine2D = (Line2D) paginateLineList.get(j);// 直接强制转换，因为List中肯定都是Line2D型的
                 for (int k = j + 1; k < paginateLineList.size(); k++) {
                     tmpLine2D2 = (Line2D) paginateLineList.get(k);
-                    if (tmpLine2D2.getX1() == tmpLine2D.getX1()
-                            && tmpLine2D2.getX2() == tmpLine2D.getX2()
-                            && tmpLine2D2.getY1() == tmpLine2D.getY1()
-                            && tmpLine2D2.getY2() == tmpLine2D.getY2()) {
+                    if (AssistUtils.equals(tmpLine2D2.getX1() ,tmpLine2D.getX1())
+                            && AssistUtils.equals(tmpLine2D2.getX2() , tmpLine2D.getX2())
+                            && AssistUtils.equals(tmpLine2D2.getY1() , tmpLine2D.getY1())
+                            && AssistUtils.equals(tmpLine2D2.getY2() , tmpLine2D.getY2())) {
                         paginateLineList.remove(k);
                     }
                 }
@@ -1208,7 +1209,7 @@ public class GridUI extends ComponentUI {
      * @return 有效返回true
      */
     public static boolean validate(Rectangle2D rect) {
-        return rect != null && rect.getX() != INVALID_INTEGER;
+        return rect != null && !ComparatorUtils.equals(rect.getX(), INVALID_INTEGER);
     }
 
 

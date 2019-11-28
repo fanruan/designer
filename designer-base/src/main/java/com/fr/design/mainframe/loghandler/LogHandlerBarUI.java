@@ -69,7 +69,7 @@ public class LogHandlerBarUI extends ComponentUI implements MouseListener, Focus
 		int w = button.getWidth();
 		int h = button.getHeight();
 		Graphics2D g2d = (Graphics2D) g;
-		GradientPaint gp = new GradientPaint(1, 1, darkColor, 1, h - 1, darkColor);
+		GradientPaint gp = new GradientPaint(1, 1, darkColor, 1, (float)(h - 1), darkColor);
 		g2d.setPaint(gp);
 		g2d.fillRect(0, 0, w, h);
 	}

@@ -11,11 +11,10 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.charttypes.DonutIndependentChart;
 import com.fr.design.i18n.Toolkit;
-import com.fr.locale.InterProviderFactory;
 import com.fr.stable.Constants;
 
-import java.awt.Color;
 import java.text.DecimalFormat;
+import java.awt.Color;
 
 /**
  * 圆环图的类型界面
@@ -31,15 +30,6 @@ public class DonutPlotPane extends AbstractDeprecatedChartTypePane {
     protected String[] getTypeIconPath() {
         return new String[]{"/com/fr/design/images/chart/DonutPlot/type/0.png",
                 "/com/fr/design/images/chart/DonutPlot/type/1.png",
-        };
-    }
-
-    @Override
-    protected String[] getTypeTipName() {
-        String donut = InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
-        return new String[]{
-                donut,
-                Toolkit.i18nText("Fine-Design_Chart_3D") + donut
         };
     }
 
@@ -104,7 +94,7 @@ public class DonutPlotPane extends AbstractDeprecatedChartTypePane {
      * @return 标题
      */
     public String title4PopupWindow() {
-        return InterProviderFactory.getProvider().getLocText("Fine-Engine_Chart_Type_Donut");
+        return Toolkit.i18nText("Fine-Design_Chart_Type_Donut");
     }
 
     /**

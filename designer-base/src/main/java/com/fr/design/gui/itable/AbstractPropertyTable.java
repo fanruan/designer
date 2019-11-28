@@ -3,11 +3,15 @@
  */
 package com.fr.design.gui.itable;
 
-import java.awt.*;
+import com.fr.general.ComparatorUtils;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
@@ -15,9 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
-import com.fr.general.ComparatorUtils;
-
 
 /**
  * @author richer
@@ -109,8 +110,8 @@ public abstract class AbstractPropertyTable extends JTable {
 
     @Override
     public TableCellEditor getCellEditor(int row, int column) {
-        if (groups != null) {
-            Point pIndex = getGroupIndex(row);
+        Point pIndex = getGroupIndex(row);
+        if (groups != null && pIndex != null) {
             PropertyGroup group = groups.get(pIndex.x);
             if (pIndex.y == 0) {
                 return super.getCellEditor(row, column);
@@ -162,7 +163,7 @@ public abstract class AbstractPropertyTable extends JTable {
                     int row = AbstractPropertyTable.super.rowAtPoint(e.getPoint());
                     if (row != -1) {
                         Point pIndex = getGroupIndex(row);
-                        if (pIndex.y == 0 && e.getClickCount() > 1) {
+                        if (pIndex != null && pIndex.y == 0 && e.getClickCount() > 1) {
                             toggleCollapse(pIndex.x);
                         }
                     }
@@ -180,7 +181,7 @@ public abstract class AbstractPropertyTable extends JTable {
                     int row = AbstractPropertyTable.super.rowAtPoint(e.getPoint());
                     if (row != -1) {
                         Point pIndex = getGroupIndex(row);
-                        if (pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < PROPERTY_ICON_WIDTH) {
+                        if (pIndex != null && pIndex.y == 0 && e.getClickCount() == 1 && e.getX() < PROPERTY_ICON_WIDTH) {
                             toggleCollapse(pIndex.x);
                         }
                     }
@@ -263,6 +264,9 @@ public abstract class AbstractPropertyTable extends JTable {
         @Override
         public void setValueAt(Object aValue, int row, int column) {
             Point pIndex = getGroupIndex(row);
+            if (pIndex == null) {
+                return;
+            }
             PropertyGroup group = groups.get(pIndex.x);
             if (pIndex.y != 0) {
                 Object old_value = getValueAt(row, column);
@@ -276,16 +280,11 @@ public abstract class AbstractPropertyTable extends JTable {
         @Override
         public boolean isCellEditable(int row, int column) {
             Point pIndex = getGroupIndex(row);
-            PropertyGroup group = groups.get(pIndex.x);
-            if (pIndex.y == 0) {
-                if (column == 0) {
-                    return false;
-                } else {
-                    return false;
-                }
-            } else {
-                return column == 1 && group.getModel().isEditable(pIndex.y - 1);
+            if (pIndex == null) {
+                return false;
             }
+            PropertyGroup group = groups.get(pIndex.x);
+            return pIndex.y != 0 && (column == 1 && group.getModel().isEditable(pIndex.y - 1));
         }
     }
 }

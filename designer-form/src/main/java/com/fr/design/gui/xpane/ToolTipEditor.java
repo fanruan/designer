@@ -15,7 +15,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.form.ui.DataControl;
 import com.fr.form.ui.EditorHolder;
 import com.fr.form.ui.Widget;
-import com.fr.form.ui.WidgetValue;
+import com.fr.form.ui.WidgetValueUtils;
 import com.fr.general.Background;
 import com.fr.general.GeneralContext;
 import com.fr.plugin.context.PluginContext;
@@ -77,7 +77,7 @@ public class ToolTipEditor extends JWindow {
 		createWidget.setWidgetName(widget.getWidgetName());
 		createWidget.setEnabled(widget.isEnabled());
 		createWidget.setVisible(widget.isVisible());
-		WidgetValue.convertWidgetValue((DataControl) createWidget, widget.getWidgetValue().getValue());
+		WidgetValueUtils.convertWidgetValue((DataControl) createWidget, widget.getWidgetValue().getValue());
 		XCreator creator = null;
 		creator = parent.replace(createWidget, holder);
 		Component designer = holder.getDesignerEditor().getEditorTarget().getParent();

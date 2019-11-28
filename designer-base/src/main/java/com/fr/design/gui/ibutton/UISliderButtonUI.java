@@ -176,11 +176,11 @@ public class UISliderButtonUI extends BasicButtonUI {
     private void fillNormal(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted) {
         GradientPaint gp;
         if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
-            gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.AUTHORITY_DARK_BLUE);
+            gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1F, UIConstants.AUTHORITY_DARK_BLUE);
         } else if (isPressedPainted) {
-            gp = new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, height - 1, UIConstants.SELECT_TAB);
+            gp = new GradientPaint(1, 1, UIConstants.SELECT_TAB, 1, height - 1F, UIConstants.SELECT_TAB);
         }else{
-            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1, UIConstants.POP_DIALOG_BORDER);
+            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1F, UIConstants.POP_DIALOG_BORDER);
         }
 
         fillPaint(g2d, x, y, width, height, isRound, rectDirection, gp, UIConstants.ARC);
@@ -189,11 +189,11 @@ public class UISliderButtonUI extends BasicButtonUI {
     private void fillRollOver(Graphics2D g2d, int x, int y, int width, int height, boolean isRound, int rectDirection, boolean isAuthorityEdited, boolean isPressedPainted) {
         GradientPaint gp;
         if (DesignerMode.isAuthorityEditing() && isAuthorityEdited) {
-            gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1, UIConstants.HOVER_BLUE);
+            gp = new GradientPaint(1, 1, UIConstants.AUTHORITY_BLUE, 1, height - 1F, UIConstants.HOVER_BLUE);
         } else if (isPressedPainted) {
-            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1, UIConstants.POP_DIALOG_BORDER);
+            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1F, UIConstants.POP_DIALOG_BORDER);
         }else {
-            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1, UIConstants.POP_DIALOG_BORDER);
+            gp = new GradientPaint(1, 1, UIConstants.POP_DIALOG_BORDER, 1, height - 1F, UIConstants.POP_DIALOG_BORDER);
         }
         fillPaint(g2d, x, y, width, height, isRound, rectDirection, gp, UIConstants.ARC);
     }

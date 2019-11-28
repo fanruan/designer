@@ -57,6 +57,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +96,30 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
             protected void filter(Connection connection, String conName, List<String> nameList) {
 
                 connection.addConnection(nameList, conName, new Class[]{JDBCDatabaseConnection.class, JNDIDatabaseConnection.class});
+            }
+
+            @Override
+            protected void addKeyMonitor() {
+                searchField.addKeyListener(new KeyListener() {
+
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        //do nothing
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            e.setKeyCode(KeyEvent.VK_UP);
+                            DBTableDataPane.this.connectionTableProcedurePane.requestFocus();
+                        }
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        //do nothing
+                    }
+                });
             }
         };
         connectionTableProcedurePane.addDoubleClickListener(new DoubleClickSelectedNodeOnTreeListener() {

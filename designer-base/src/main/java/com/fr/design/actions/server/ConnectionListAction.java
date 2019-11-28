@@ -1,24 +1,17 @@
 package com.fr.design.actions.server;
 
-
-import com.fr.config.ServerPreferenceConfig;
 import com.fr.data.impl.Connection;
 import com.fr.design.actions.UpdateAction;
-import com.fr.design.data.datapane.connect.ConnectionManagerPane;
 import com.fr.design.data.datapane.connect.ConnectionShowPane;
 import com.fr.design.data.datapane.connect.DatabaseConnectionPane;
 import com.fr.design.dialog.BasicDialog;
-import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.gui.NameInspector;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.menu.MenuKeySet;
-import com.fr.design.dcm.UniversalDatabaseOpener;
+import com.fr.stable.os.support.OSBasedAction;
+import com.fr.stable.os.support.OSSupportCenter;
+import com.fr.design.os.impl.DatabaseDialogAction;
 import com.fr.file.ConnectionConfig;
 import com.fr.general.IOUtils;
-import com.fr.transaction.CallBackAdaptor;
-import com.fr.transaction.Configurations;
-import com.fr.transaction.WorkerFacade;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -60,55 +53,9 @@ public class ConnectionListAction extends UpdateAction {
      * @param evt 事件
      */
     public void actionPerformed(ActionEvent evt) {
-        if (ServerPreferenceConfig.getInstance().isUseUniverseDBM()) {
-            UniversalDatabaseOpener.showUniverseDatabaseDialog();
-        } else {
-            openDesignDatabaseManager();
-        }
+        OSBasedAction osBasedAction =  OSSupportCenter.getAction(DatabaseDialogAction.class);
+        osBasedAction.execute();
     }
-
-    private void openDesignDatabaseManager() {
-        DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
-        final ConnectionConfig datasourceManager = ConnectionConfig.getInstance();
-        final ConnectionManagerPane databaseManagerPane = new ConnectionManagerPane() {
-            public void complete() {
-                ConnectionConfig connectionConfig = datasourceManager.mirror();
-                populate(connectionConfig);
-            }
-
-            protected void renameConnection(String oldName, String newName) {
-                datasourceManager.renameConnection(oldName, newName);
-            }
-        };
-        final BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
-        databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
-            public void doOk() {
-                if (!databaseManagerPane.isNamePermitted()) {
-                    databaseListDialog.setDoOKSucceed(false);
-                    return;
-                }
-                Configurations.modify(new WorkerFacade(ConnectionConfig.class) {
-                    @Override
-                    public void run() {
-                        databaseManagerPane.update(datasourceManager);
-                    }
-                }.addCallBack(new CallBackAdaptor() {
-                    @Override
-                    public boolean beforeCommit() {
-                        //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                        return doWithDatasourceManager(datasourceManager, databaseManagerPane, databaseListDialog);
-                    }
-
-                    @Override
-                    public void afterCommit() {
-                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
-                    }
-                }));
-            }
-        });
-        databaseListDialog.setVisible(true);
-    }
-
 
     /**
      * 更新datasourceManager

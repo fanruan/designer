@@ -3,7 +3,6 @@ package com.fr.design.mainframe.chart.gui;
 import com.fr.base.BaseUtils;
 import com.fr.chart.base.AttrChangeConfig;
 import com.fr.chart.chartattr.ChartCollection;
-import com.fr.chart.chartattr.SwitchState;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
@@ -177,10 +176,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
      * @return
      */
     public ChartProvider getChangeStateNewChart() {
-        ChartProvider chart = editingCollection.getSelectedChartProvider();
-        String priority = ChartTypeManager.VAN_CHART_PRIORITY;
-        //todo@shinerefactor
-        // chart.getPriority();
+        ChartProvider chart = editingCollection.getSelectedChartProvider(ChartProvider.class);
+        String chartID = chart.getID();
+        String priority = ChartTypeManager.getInstanceWithCheck().getPriority(chartID);
         return ChartTypeManager.getInstanceWithCheck().getFirstChart(priority);
     }
 
@@ -188,12 +186,6 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     private void calculateMultiChartMode() {
         //设置切换功能是否可用
         editingCollection.getChangeConfigAttr().setEnable(changeEnable());
-        //多图表切换模式
-        if (editingCollection.getChartCount() > 1) {
-            editingCollection.setState(SwitchState.CHANGE);
-        } else {
-            editingCollection.setState(SwitchState.DEFAULT);
-        }
     }
 
     /**
@@ -207,7 +199,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private boolean supportChange() {
-        return supportChangeConfigChartClassSet.contains(editingCollection.getSelectedChartProvider().getClass());
+        return supportChangeConfigChartClassSet.contains(editingCollection.getSelectedChartProvider(ChartProvider.class).getClass());
     }
 
     ActionListener configListener = new ActionListener() {
@@ -362,9 +354,9 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
     }
 
     private void checkConfigButtonVisible() {
-        addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChartProvider().getID()));
+        addButton.setVisible(ChartTypeManager.enabledChart(editingCollection.getSelectedChartProvider(ChartProvider.class).getID()));
         //新建一个collection
-        if (editingCollection.getState() == SwitchState.DEFAULT && editingCollection.getSelectedChartProvider() != null) {
+        if (editingCollection.getChartCount() == 1 && editingCollection.getSelectedChartProvider(ChartProvider.class) != null) {
             //Chart 不支持图表切换
             configButton.setVisible(supportChange());
         }
@@ -492,7 +484,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
         private void deleteAButton() {
             //先重构属性，在重构面板，否则面板在重构过程中，会重新将属性中的切换图表加到indexList中，导致面板无法删除
             //记录改变前的plotID
-            String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider().getID();
+            String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider(ChartProvider.class).getID();
             if (editingCollection != null) {
                 int count = editingCollection.getChartCount();
                 for (int i = 0; i < count; i++) {
@@ -572,7 +564,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
             if (isEnabled()) {
                 noSelected();
                 //记录改变前的plotID
-                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider().getID();
+                String lastPlotID = editingCollection == null ? StringUtils.EMPTY : editingCollection.getSelectedChartProvider(ChartProvider.class).getID();
                 changeCollectionSelected(getButtonName());
                 setSelectedWithFireListener(true);
                 fireSelectedChanged();

@@ -3,6 +3,7 @@ package com.fr.design.layout;
 import com.fr.design.border.UITitledBorder;
 import com.fr.design.gui.ilable.UILabel;
 
+import com.fr.stable.AssistUtils;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -214,6 +215,18 @@ public class FRGUIPaneFactory {
         JPanel jp = new JPanel();
         jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jp.setLayout(new FRLeftFlowLayout(0, 20, 5));
+        return jp;
+    }
+
+    /**
+     * 创建一个靠左空边框面板，间隔小，firsthgap 为0
+     *
+     * @return JPanel对象
+     */
+    public static JPanel createTinyHGapFlowInnerContainer_M_Pane_First0() {
+        JPanel jp = new JPanel();
+        jp.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jp.setLayout(new FRLeftFlowLayout(0, 5, 0));
         return jp;
     }
 
@@ -545,15 +558,15 @@ public class FRGUIPaneFactory {
      */
     public static int caculateWidth(int width) {
         int w = 0;
-        float m = (width + WIDTH_OFFSET_M) / WIDTH_PARA_F;
-        float n = (width + WIDTH_OFFSET_N) / WIDTH_PARA_F;
-        float i = Math.abs((((int) m + (int) (m + 1)) / WIDTHABS_PARA_F) - m);
-        float j = Math.abs((((int) n + (int) (n + 1)) / WIDTHABS_PARA_F) - n);
-        float x = i > j ? i : j;
-        if (x == i) {
-            w = Math.round(m) * WIDTH_PARA_INT - WIDTH_OFFSET_M;
-        } else if (x == j) {
-            w = Math.round(n) * WIDTH_PARA_INT - WIDTH_OFFSET_N;
+        double m = (double)(width + WIDTH_OFFSET_M) / (double)WIDTH_PARA_F;
+        double n = (double)(width + WIDTH_OFFSET_N ) / (double)WIDTH_PARA_F;
+        double i = Math.abs(((double) ((int) m + (int) (m + 1)) / WIDTHABS_PARA_F) - m);
+        double j = Math.abs(((double) ((int) n + (int) (n + 1)) / WIDTHABS_PARA_F) - n);
+        double x = Math.max(i,j);
+        if (AssistUtils.equals(x, i)) {
+            w = (int) (Math.round(m) * WIDTH_PARA_INT - WIDTH_OFFSET_M);
+        } else if (AssistUtils.equals(x, j)) {
+            w = (int) (Math.round(n) * WIDTH_PARA_INT - WIDTH_OFFSET_N);
         }
         return w;
     }
@@ -566,7 +579,7 @@ public class FRGUIPaneFactory {
      */
     public static int caculateHeight(int height) {
         int h = 0;
-        float x = (height + HEIGHT_OFFSET) / HEIGHT_PARA;
+        double x = (double)(height + HEIGHT_OFFSET) / HEIGHT_PARA;
         h = ((int) x + 1) * HEIGHT_PARA;
         return h;
     }

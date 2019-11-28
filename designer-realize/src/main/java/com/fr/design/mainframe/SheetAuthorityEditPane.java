@@ -13,6 +13,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.main.impl.WorkBook;
 import com.fr.privilege.finegrain.WorkSheetPrivilegeControl;
 import com.fr.report.worksheet.WorkSheet;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,7 +116,7 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         populateName();
         populateType();
         checkPane.removeAll();
-        if (name.getText() == "") {
+        if (StringUtils.isEmpty(name.getText())){
             return;
         }
         checkPane.add(populateCheckPane(), BorderLayout.CENTER);

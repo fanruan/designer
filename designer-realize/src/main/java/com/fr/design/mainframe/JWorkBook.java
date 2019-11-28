@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
+import com.fr.base.extension.FileExtension;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.ExtraDesignClassManager;
@@ -34,12 +35,14 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
 import com.fr.design.gui.imenu.UIMenuItem;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.cell.QuickEditorRegion;
 import com.fr.design.mainframe.template.info.JWorkBookProcessInfo;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
@@ -65,8 +68,10 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationInWidgetEventPane;
 import com.fr.design.write.submit.SmartInsertDBManipulationPane;
 import com.fr.file.FILE;
+import com.fr.file.FILEChooserPane;
 import com.fr.file.FileNodeFILE;
 import com.fr.file.filetree.FileNode;
+import com.fr.file.filter.ChooseFileFilter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.ModuleContext;
 import com.fr.grid.Grid;
@@ -89,16 +94,14 @@ import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.worksheet.WorkSheet;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.AssistUtils;
+import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
 import com.fr.workspace.WorkContext;
-
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -106,6 +109,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -470,7 +476,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             double creatorWidth = blockCreator.getEditorBounds().width;
             double areaHeight = polyDezi.polyArea.getHeight();
             double areaWidth = polyDezi.polyArea.getWidth();
-            if (creatorWidth == 0 || creatorHeight == 0) {
+            if(AssistUtils.equals(creatorWidth,0) || AssistUtils.equals(creatorHeight,0)){
                 return resolution;
             }
             double time = (areaHeight / creatorHeight) < (areaWidth / creatorWidth) ? (areaHeight / creatorHeight) : (areaWidth / creatorWidth);
@@ -487,7 +493,7 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             int row = reportPane.getSelection().getSelectedRows()[0];
             double rowLength = reportPane.getSelection().getSelectedRows().length;
             double rowExtent = reportPane.getGrid().getVerticalExtent();
-            if (columnLength == 0 || rowLength == 0) {
+            if(AssistUtils.equals(columnLength,0) || AssistUtils.equals(rowLength,0)){
                 return resolution;
             }
             double time = (columnExtent / columnLength) < (rowExtent / rowLength) ? (columnExtent / columnLength) : (rowExtent / rowLength);
@@ -669,11 +675,13 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         // Export - MenuDef
         MenuDef exportMenuDef = new MenuDef(KeySetUtils.EXPORT.getMenuName());
         exportMenuDef.setIconPath("/com/fr/design/images/m_file/export.png");
+        addShortCut(exportMenuDef, excelExportMenuDef);
+        return exportMenuDef;
+    }
 
+    protected void addShortCut(MenuDef exportMenuDef, MenuDef excelExportMenuDef) {
         exportMenuDef.addShortCut(excelExportMenuDef, new PDFExportAction(this), new WordExportAction(this), new SVGExportAction(this),
                 new CSVExportAction(this), new TextExportAction(this), new EmbeddedExportExportAction(this));
-
-        return exportMenuDef;
     }
 
     /**
@@ -1103,9 +1111,8 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
         // 弹出输入参数
         java.util.Map<String, Object> parameterMap = inputParameters(tpl);
 
-        try {
-            String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
-            FileOutputStream fileOutputStream = new FileOutputStream(fullPath);
+        String fullPath = StableUtils.pathJoin(WorkContext.getCurrent().getPath(), newFile.getPath());
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fullPath)) {
             EmbeddedTableDataExporter exporter = new EmbeddedTableDataExporter();
             exporter.export(fileOutputStream, tpl, parameterMap);
         } catch (Exception e1) {
@@ -1166,5 +1173,18 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
     @Override
     public String route() {
         return ViewRequestConstants.REPORT_VIEW_PATH;
+    }
+
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser) {
+        String appName = ProductConstants.APP_NAME;
+        fileChooser.addChooseFILEFilter(new ChooseFileFilter(FileExtension.CPT, appName + Toolkit.i18nText("Fine-Design_Report_Template_File")));
+        addExtraChooseFILEFilter(fileChooser);
+    }
+
+    protected void addExtraChooseFILEFilter(FILEChooserPane fileChooser){
+        Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
+        for (ReportSupportedFileUIProvider provider : providers) {
+            provider.addChooseFileFilter(fileChooser, this.suffix());
+        }
     }
 }

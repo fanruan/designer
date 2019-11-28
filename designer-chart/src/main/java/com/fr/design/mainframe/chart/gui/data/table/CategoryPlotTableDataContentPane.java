@@ -140,7 +140,7 @@ public class CategoryPlotTableDataContentPane extends AbstractTableDataContentPa
         } else if(data!= null && !this.boxItemsContainsObject(categoryCombox,data.getCategoryName())){
 		     categoryCombox.setSelectedItem(null);
         }else {
-			combineCustomEditValue(categoryCombox, data == null ? null : data.getCategoryName());
+			combineCustomEditValue(categoryCombox, data.getCategoryName());
 		}
 
 		seriesTypeComboxPane.populateBean(collection,this.isNeedSummaryCaculateMethod());

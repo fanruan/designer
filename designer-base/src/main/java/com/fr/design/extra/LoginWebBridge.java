@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.passport.FinePassportManager;
+import com.fr.concurrent.NamedThreadFactory;
 import com.fr.config.MarketConfig;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.extra.exe.PluginLoginExecutor;
@@ -8,47 +9,28 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
 import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.io.UnsupportedEncodingException;
+
+import javax.swing.*;
+import java.awt.*;
 import java.net.URI;
-import java.net.URLEncoder;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author vito
  */
 public class LoginWebBridge {
 
-    //默认查询消息时间, 30s
-    private static final long CHECK_MESSAGE_TIME = 30 * 1000L;
-    //数据查询正常的标志 ok
-    private static final String SUCCESS_MESSAGE_STATUS = "ok";
-    //数据通讯失败
-    private static final String FAILED_MESSAGE_STATUS = "error";
     //最低消息的条数
     private static final int MIN_MESSAGE_COUNT = 0;
-    //登录成功
-    private static final String LOGININ = "0";
-    //用户名不存在
-    private static final String USERNAME_NOT_EXSIT = "-1";
-    //密码错误
-    private static final String PASSWORD_ERROR = "-2";
-    //未知错误
-    private static final String UNKNOWN_ERROR = "-3";
     //网络连接失败
     private static final String NET_FAILED = "-4";
     //用户名，密码为空
     private static final String LOGIN_INFO_EMPTY = "-5";
-    private static final int TIME_OUT = 10000;
-    private static final String LOGIN_SUCCESS = "ok";
-    private static final String LOGIN_FAILED = "failed";
     private static final Color LOGIN_BACKGROUND = new Color(184, 220, 242);
     private static LoginWebBridge helper;
     //消息条数
@@ -131,22 +113,6 @@ public class LoginWebBridge {
         return client.isServerAlive();
     }
 
-    private String encode(String str) {
-        try {
-            return URLEncoder.encode(str, EncodeConstants.ENCODING_UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            return str;
-        }
-    }
-
-    private void sleep(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-        }
-    }
-
     /**
      * 注册页面
      */
@@ -178,7 +144,9 @@ public class LoginWebBridge {
      */
     public void defaultLogin(String username, String password, final JSObject callback) {
         Task<Void> task = new PluginTask<>(webEngine, callback, new PluginLoginExecutor(username, password));
-        new Thread(task).start();
+        ExecutorService es = Executors.newSingleThreadExecutor(new NamedThreadFactory("bbsDefaultLogin"));
+        es.submit(task);
+        es.shutdown();
     }
 
     /**
@@ -250,10 +218,7 @@ public class LoginWebBridge {
         }
     }
 
-
     public void openUrlAtLocalWebBrowser(WebEngine eng, String url) {
-        if (url.indexOf("qqLogin.html") > 0) {
-            return;
-        }
+        // do nothing
     }
 }

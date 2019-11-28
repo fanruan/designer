@@ -143,7 +143,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
         this.maxHeightSpinner.setVisible(elementCaseEditor.isHeightRestrict());
         this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
         this.allowFullCheckBox.setSelected(elementCaseEditor.isAllowFullScreen());
-        this.functionalWhenUnactivatedCheckBox.setSelected(elementCaseEditor.isFunctionalWhenUnactivated());
+        this.functionalWhenUnactivatedCheckBox.setSelected(!elementCaseEditor.isFunctionalWhenUnactivated());
     }
 
     @Override
@@ -168,8 +168,9 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
                 break;
             case "allowFullCheckBox":
                 ((ElementCaseEditor) xCreator.toData()).setAllowFullScreen(allowFullCheckBox.isSelected());
+                break;
             case "functionalWhenUnactivatedCheckBox":
-                ((ElementCaseEditor) xCreator.toData()).setFunctionalWhenUnactivated(functionalWhenUnactivatedCheckBox.isSelected());
+                ((ElementCaseEditor) xCreator.toData()).setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
     }
 
