@@ -16,9 +16,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.util.List;
 
 /**
  * Created by shine on 2019/6/18.
@@ -88,6 +88,12 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
         result[len] = value;
 
         return result;
+    }
+
+    @Override
+    public void checkBoxUse(boolean hasUse) {
+        super.checkBoxUse(hasUse);
+        levelComboBoxPane.checkEnable(hasUse);
     }
 
     @Override

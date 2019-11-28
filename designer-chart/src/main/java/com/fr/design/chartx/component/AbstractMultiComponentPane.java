@@ -10,13 +10,13 @@ import com.fr.general.IOUtils;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -167,5 +167,9 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
             categoryList.add(temp);
             updateField(comboBox, temp);
         }
+    }
+
+    public void checkEnable(boolean hasUse){
+        addButton.setEnabled(hasUse);
     }
 }

@@ -43,6 +43,9 @@ import java.util.Map;
  */
 public class CustomChartDataPane extends ChartDataPane {
 
+    private static final int HGAP = 0;
+    private static final int VGAP = 6;
+
     public CustomChartDataPane(AttributeChangeListener listener) {
         super(listener);
     }
@@ -101,9 +104,11 @@ public class CustomChartDataPane extends ChartDataPane {
             case POINTER_360:
                 return new SingleDataPane(new SeriesValueDataSetFieldsPane(), new SeriesValueCellDataFieldsPane());
             default:
-                return StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType()) ?
-                        new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane()) :
-                        new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+                if (StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType())){
+                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                } else {
+                    return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+                }
         }
     }
 
@@ -155,7 +160,7 @@ public class CustomChartDataPane extends ChartDataPane {
         JPanel tabPanel = new JPanel(new BorderLayout());
         tabPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, getBackground()));
         tabPanel.add(tabPane, BorderLayout.CENTER);
-        this.setLayout(new BorderLayout(0, 6));
+        this.setLayout(new BorderLayout(HGAP, VGAP));
         this.add(tabPanel, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
     }
