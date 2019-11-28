@@ -9,6 +9,8 @@ import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.SeriesValueCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.SeriesValueDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
@@ -92,6 +94,12 @@ public class CustomChartDataPane extends ChartDataPane {
             case SCATTER:
             case BUBBLE:
                 return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+            case PIE:
+            case SAME_PIE:
+            case DIFFERENT_PIE:
+            case POINTER_180:
+            case POINTER_360:
+                return new SingleDataPane(new SeriesValueDataSetFieldsPane(), new SeriesValueCellDataFieldsPane());
             default:
                 return StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType()) ?
                         new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane()) :
