@@ -145,6 +145,11 @@ public abstract class RefreshableJTree extends CheckBoxTree {
         refresh((ExpandMutableTreeNode) this.getModel().getRoot(), StringUtils.EMPTY);
     }
 
+    //REPORT-24085，只刷新父节点
+    public void refreshParent(TreePath path) {
+        refresh((ExpandMutableTreeNode) path.getParentPath().getLastPathComponent(), StringUtils.EMPTY);
+    }
+
     public void refreshChildByName(String childName) {
         refresh((ExpandMutableTreeNode) this.getModel().getRoot(), childName);
     }
