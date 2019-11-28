@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Label;
 
 /**
  * Created by shine on 2019/07/18.
@@ -76,7 +77,7 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
         JPanel panel1 = new JPanel(new BorderLayout());
         JPanel panel2 = new JPanel(new BorderLayout());
         panel1.add(useTopCheckBox, BorderLayout.NORTH);
-        topNumTextField = new UITextField();
+        topNumTextField = new UITextField("0");
         UILabel label = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
         mergeOtherCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Data_CombineOther"));
         mergeOtherCheckBox.setSelected(true);
@@ -108,7 +109,11 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
                 fire();
             }
         };
-        JPanel presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present"), present);
+        JPanel presentPane = new JPanel(new BorderLayout(30, 0));
+        presentPane.add(new Label(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present")), BorderLayout.WEST);
+        presentPane.add(present,BorderLayout.CENTER);
+        presentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
         panel2.add(presentPane, BorderLayout.SOUTH);
 
         double[] column = {f};
