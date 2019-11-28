@@ -133,6 +133,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     @Deprecated
     public void reLayout(Chart currentChart) {
+        //do nothing
     }
 
     /**
