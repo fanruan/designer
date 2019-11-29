@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 
 /**
  * Created by Wim on 2019/10/23.
+ * 饼图、多指针仪表盘 在组合图中 没有分类配置项, 也用这个。
  */
 public class FunnelCellDataFieldsPane extends AbstractCellDataFieldsWithSeriesValuePane<ColumnFieldCollectionWithSeriesValue> {
 

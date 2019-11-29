@@ -3,6 +3,8 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
+import com.fr.design.chartx.fields.diff.FunnelCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.FunnelDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -95,6 +97,12 @@ public class CustomChartDataPane extends ChartDataPane {
             case SCATTER:
             case BUBBLE:
                 return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+            case PIE:
+            case SAME_PIE:
+            case DIFFERENT_PIE:
+            case POINTER_180:
+            case POINTER_360:
+                return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
             default:
                 if (StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType())){
                     return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
