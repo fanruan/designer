@@ -4,11 +4,8 @@ import com.fr.chartx.data.CellDataDefinition;
 import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.chartx.fields.AbstractCellDataFieldsPane;
 import com.fr.design.i18n.Toolkit;
-import com.fr.stable.AssistUtils;
 
 import java.awt.BorderLayout;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * Created by shine on 2019/5/21.
@@ -51,10 +48,7 @@ public class CellDataPane extends FurtherBasicBeanPane<CellDataDefinition> {
             return;
         }
 
-        Type dataType = ((ParameterizedType) cellDataFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        if (AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
-            cellDataFieldsPane.populateBean(ob.getColumnFieldCollection());
-        }
+        cellDataFieldsPane.populateBean(ob.getColumnFieldCollection());
     }
 
     @Override

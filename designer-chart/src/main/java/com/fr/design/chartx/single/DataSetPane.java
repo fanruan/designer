@@ -11,10 +11,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.design.utils.gui.UIComponentUtils;
-import com.fr.stable.AssistUtils;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -109,11 +106,8 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         checkBoxUse();
 
         tableDataPane.populateBean(ob.getNameTableData());
-        Type dataType = ((ParameterizedType) dataSetFieldsPane.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        if (AssistUtils.equals(ob.getColumnFieldCollection().getClass(), dataType)) {
-            dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
-        }
 
+        dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
     }
 
     @Override

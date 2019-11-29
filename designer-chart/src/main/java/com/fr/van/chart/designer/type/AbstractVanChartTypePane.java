@@ -107,6 +107,10 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
 
         }
+        if(chart instanceof VanChart
+                && oldPlot.getDefinitionType()!=newPlot.getDefinitionType()) {
+            ((VanChart) chart).setChartDataDefinition(null);
+        }
     }
 
     protected void resetChartAttr4SamePlot(Chart chart){
