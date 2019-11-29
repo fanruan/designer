@@ -3,14 +3,14 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
+import com.fr.design.chartx.fields.diff.FunnelCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.FunnelDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
-import com.fr.design.chartx.fields.diff.SeriesValueCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.SeriesValueDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
@@ -102,7 +102,7 @@ public class CustomChartDataPane extends ChartDataPane {
             case DIFFERENT_PIE:
             case POINTER_180:
             case POINTER_360:
-                return new SingleDataPane(new SeriesValueDataSetFieldsPane(), new SeriesValueCellDataFieldsPane());
+                return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
             default:
                 if (StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType())){
                     return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
