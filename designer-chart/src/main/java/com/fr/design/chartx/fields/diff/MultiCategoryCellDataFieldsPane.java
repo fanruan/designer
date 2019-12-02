@@ -8,8 +8,8 @@ import com.fr.design.formula.TinyFormulaPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.util.List;
+import java.awt.BorderLayout;
 
 /**
  * Created by shine on 2019/4/12.
@@ -52,6 +52,8 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
         List<ColumnField> categoryList = multiCategoryColumnFieldCollection.getCategoryList();
 
         multiCategoryPane.populate(categoryList);
+
+        multiCategoryPane.setIsCategoryAxis(multiCategoryColumnFieldCollection.isCategoryAxis());
 
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 

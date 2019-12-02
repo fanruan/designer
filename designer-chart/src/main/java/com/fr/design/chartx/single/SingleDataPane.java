@@ -89,4 +89,8 @@ public class SingleDataPane extends BasicBeanPane<AbstractDataDefinition> {
     protected String title4PopupWindow() {
         return null;
     }
+
+    public void setSelectedIndex(int index) {
+        comboBoxPane.setSelectedIndex(index);
+    }
 }

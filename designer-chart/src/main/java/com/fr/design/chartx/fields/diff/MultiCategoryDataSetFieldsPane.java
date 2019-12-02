@@ -67,6 +67,8 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         multiCategoryPane.populate(categoryList);
 
+        multiCategoryPane.setIsCategoryAxis(multiCategoryColumnFieldCollection.isCategoryAxis());
+
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 
         filterPane.populateMultiCategoryFieldCollection(multiCategoryColumnFieldCollection);

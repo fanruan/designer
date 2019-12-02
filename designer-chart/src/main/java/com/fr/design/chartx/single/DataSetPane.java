@@ -50,7 +50,6 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         this.setLayout(new BorderLayout());
         this.add(tableDataPane, BorderLayout.NORTH);
         this.add(dataSetFieldsPane, BorderLayout.CENTER);
-        checkBoxUse();
     }
 
     /**
@@ -108,6 +107,8 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         tableDataPane.populateBean(ob.getNameTableData());
 
         dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
+
+        checkBoxUse();
     }
 
     @Override

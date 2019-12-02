@@ -34,4 +34,8 @@ public abstract class AbstractVanSingleDataPane extends AbstractChartDataPane<Ab
     protected AbstractDataDefinition update() {
         return singleDataPane.updateBean();
     }
+
+    public void setSelectedIndex(int index) {
+        singleDataPane.setSelectedIndex(index);
+    }
 }

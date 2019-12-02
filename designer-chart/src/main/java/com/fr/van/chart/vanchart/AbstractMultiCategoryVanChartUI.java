@@ -1,7 +1,13 @@
 package com.fr.van.chart.vanchart;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.CellDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.DataSetDefinition;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -14,7 +20,13 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContentPane;
+import com.fr.general.ComparatorUtils;
+import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
+import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
+import com.fr.plugin.chart.column.VanChartColumnPlot;
+import com.fr.plugin.chart.type.AxisType;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.data.VanChartMoreCateReportDataContentPane;
 import com.fr.van.chart.designer.data.VanChartMoreCateTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePane;
@@ -71,6 +83,58 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
             @Override
             protected SingleDataPane createSingleDataPane() {
                 return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+            }
+
+            @Override
+            public void populate(ChartCollection collection) {
+                if (collection == null) {
+                    return;
+                }
+                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
+                if (vanChart == null) {
+                    return;
+                }
+
+                VanChartRectanglePlot plot = vanChart.getPlot();
+                VanChartAxis axis = plot.getDefaultXAxis();
+                if (plot instanceof VanChartColumnPlot
+                        && ((VanChartColumnPlot) plot).isBar()) {
+                    axis = plot.getDefaultYAxis();
+                }
+
+                boolean isCategoryAxis = ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY);
+                MultiCategoryColumnFieldCollection multiCategoryColumnFieldCollection = new MultiCategoryColumnFieldCollection();
+                multiCategoryColumnFieldCollection.setCategoryAxis(isCategoryAxis);
+
+                //如果DataDefinition为空，对数据集数据源配置面板和单元格数据源配置面板进行更新。
+                ChartDataDefinitionProvider definition = vanChart.getChartDataDefinition();
+                if (definition == null) {
+                    CellDataDefinition cellDataDefinition = new CellDataDefinition();
+                    cellDataDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
+                    populate(cellDataDefinition);
+
+                    DataSetDefinition dataSetDefinition = new DataSetDefinition();
+                    dataSetDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
+                    populate(dataSetDefinition);
+                    return;
+                }
+
+                MultiCategoryColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection(MultiCategoryColumnFieldCollection.class);
+                columnFieldCollection.setCategoryAxis(isCategoryAxis);
+                super.populate(collection);
+
+                //如果DataDefinition不为空，对另一种数据源配置进行更新
+                if (definition instanceof DataSetDefinition) {
+                    CellDataDefinition cellDataDefinition = new CellDataDefinition();
+                    cellDataDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
+                    populate(cellDataDefinition);
+                    setSelectedIndex(0);
+                } else {
+                    DataSetDefinition dataSetDefinition = new DataSetDefinition();
+                    dataSetDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
+                    populate(dataSetDefinition);
+                    setSelectedIndex(1);
+                }
             }
         };
     }

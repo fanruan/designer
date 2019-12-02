@@ -20,7 +20,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Label;
 
 /**
  * Created by shine on 2019/07/18.
@@ -110,7 +109,7 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
             }
         };
         JPanel presentPane = new JPanel(new BorderLayout(30, 0));
-        presentPane.add(new Label(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present")), BorderLayout.WEST);
+        presentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present")), BorderLayout.WEST);
         presentPane.add(present,BorderLayout.CENTER);
         presentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
