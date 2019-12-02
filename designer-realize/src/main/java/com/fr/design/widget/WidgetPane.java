@@ -243,9 +243,20 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
             if (item.getValue() instanceof Integer) {
                 return getWidgetOptions()[(Integer) item.getValue()].createWidget();
             } else if (item.getValue() instanceof String) {
-                return new NameWidget((String) item.getValue());
+                return getPredefinedWidget((String) item.getValue());
             }
             return null;
+        }
+
+        private NameWidget getPredefinedWidget(String name) {
+            NameWidget nameWidget = new NameWidget(name);
+            WidgetInfoConfig mgr = WidgetInfoConfig.getInstance();
+            WidgetConfig widgetConfig = mgr.getWidgetConfig(name);
+            nameWidget.setEnabled(widgetConfig.toWidget().isEnabled());
+            nameWidget.setVisible(widgetConfig.toWidget().isVisible());
+            nameWidget.setWidgetName(widgetConfig.toWidget().getWidgetName());
+
+            return nameWidget;
         }
 
         private WidgetOption[] getWidgetOptions() {
