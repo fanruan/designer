@@ -185,7 +185,9 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         positionPane.setLayout(new BorderLayout());
         positionPane.add(getLabelPositionPane(comps, row, col), BorderLayout.CENTER);
 
-        parent.initListener(positionPane);
+        if (parent != null) {
+            parent.initListener(positionPane);
+        }
     }
 
 
