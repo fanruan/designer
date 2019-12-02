@@ -106,6 +106,7 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
     }
 
     public void checkBoxUse(boolean hasUse) {
+        jcb.setEnabled(hasUse);
         useFieldValuePane.checkBoxUse(hasUse);
     }
 
