@@ -1,6 +1,6 @@
 package com.fr.design.env;
 
-import com.fr.cluster.engine.remote.ClusterOperator;
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.i18n.Toolkit;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
@@ -70,7 +70,7 @@ public class RemoteWorkspace implements Workspace {
 
     @Override
     public boolean isCluster() {
-        return WorkContext.getCurrent().get(ClusterOperator.class).isCluster();
+        return FineClusterConfig.getInstance().isCluster();
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 
 import com.fr.base.present.DictPresent;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.present.dict.DictionaryPane;
 
 
@@ -13,7 +14,7 @@ import com.fr.design.present.dict.DictionaryPane;
  * @author zhou
  * @since 2012-5-31上午10:54:20
  */
-public class DictPresentPane extends FurtherBasicBeanPane<DictPresent> {
+public class DictPresentPane extends FurtherBasicBeanPane<DictPresent> implements Prepare4DataSourceChange {
 	private DictionaryPane dictionaryPane;
 
 	public DictPresentPane() {
@@ -50,4 +51,8 @@ public class DictPresentPane extends FurtherBasicBeanPane<DictPresent> {
 		dictionaryPane.reset();
 	}
 
+	@Override
+	public void registerDSChangeListener() {
+		dictionaryPane.registerDSChangeListener();
+	}
 }

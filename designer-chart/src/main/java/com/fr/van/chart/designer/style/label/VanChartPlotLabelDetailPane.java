@@ -1,6 +1,7 @@
 package com.fr.van.chart.designer.style.label;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.TwoTuple;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -11,6 +12,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
 
+import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.attr.plot.VanChartLabelPositionPlot;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.base.AttrTooltipContent;
@@ -47,11 +49,16 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     protected ColorSelectBox backgroundColor;
 
     private JPanel tractionLinePane;
+    private JPanel positionPane;
+    private Integer[] oldPositionValues;
 
     protected VanChartStylePane parent;
+    private Plot plot;
 
     public VanChartPlotLabelDetailPane(Plot plot, VanChartStylePane parent) {
         this.parent = parent;
+        this.plot = plot;
+
         this.setLayout(new BorderLayout());
         initToolTipContentPane(plot);
         JPanel contentPane = createLabelPane(plot);
@@ -105,41 +112,82 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
     }
 
-    protected JPanel createLabelPositionPane(double[] row, double[] col, Plot plot) {
-        if(plot instanceof VanChartLabelPositionPlot){
+    private TwoTuple<String[], Integer[]> getPositionNamesAndValues() {
+        if (plot instanceof VanChartLabelPositionPlot) {
+
             String[] names = ((VanChartLabelPositionPlot) plot).getLabelLocationNameArray();
-            Integer[] values =  ((VanChartLabelPositionPlot) plot).getLabelLocationValueArray();
+            Integer[] values = ((VanChartLabelPositionPlot) plot).getLabelLocationValueArray();
 
-            if(names == null || names.length == 0){
-                return new JPanel();
+            if (names == null || names.length == 0) {
+                return null;
             }
-            if(values == null || values.length == 0){
-                return new JPanel();
+            if (values == null || values.length == 0) {
+                return null;
             }
 
-            position = new UIButtonGroup<Integer>(names, values);
-            autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
-
-
-            Component[][] comps = new Component[2][2];
-
-            comps[0] = new Component[]{null,null};
-            comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position"), SwingConstants.LEFT), position};
-
-            JPanel panel =new JPanel(new BorderLayout());
-            panel.add(getLabelPositionPane(comps,row,col),BorderLayout.CENTER);
-            if(plot.isSupportLeadLine()){
-                tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
-                tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("",tractionLine);
-                panel.add(tractionLinePane, BorderLayout.SOUTH);
-                initPositionListener();
-            } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"),autoAdjust), BorderLayout.SOUTH);
-            }
-            return panel;
+            return new TwoTuple<>(names, values);
         }
-        return new JPanel();
+        return null;
     }
+
+    private JPanel createLabelPositionPane(double[] row, double[] col, Plot plot) {
+
+        if (getPositionNamesAndValues() == null) {
+            return new JPanel();
+        }
+
+        autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        positionPane = new JPanel();
+        checkPositionPane();
+        panel.add(positionPane, BorderLayout.CENTER);
+
+
+        if (plot.isSupportLeadLine()) {
+            tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
+            tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("", tractionLine);
+            panel.add(tractionLinePane, BorderLayout.SOUTH);
+            initPositionListener();
+        } else if (PlotFactory.plotAutoAdjustLabelPosition(plot)) {
+            panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"), autoAdjust), BorderLayout.SOUTH);
+        }
+        return panel;
+    }
+
+    private void checkPositionPane() {
+        if (positionPane == null) {
+            return;
+        }
+        TwoTuple<String[], Integer[]> result = getPositionNamesAndValues();
+        if (result == null) {
+            return;
+        }
+
+        Integer[] values = result.getSecond();
+        if (ComparatorUtils.equals(values, oldPositionValues)) {
+            return;
+        }
+        oldPositionValues = values;
+
+        position = new UIButtonGroup<Integer>(result.getFirst(), values);
+
+        Component[][] comps = new Component[2][2];
+
+        comps[0] = new Component[]{null, null};
+        comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position"), SwingConstants.LEFT), position};
+
+        double[] row = new double[]{TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED};
+        double[] col = new double[]{TableLayout.FILL, TableLayout4VanChartHelper.EDIT_AREA_WIDTH};
+
+        positionPane.removeAll();
+        positionPane.setLayout(new BorderLayout());
+        positionPane.add(getLabelPositionPane(comps, row, col), BorderLayout.CENTER);
+
+        parent.initListener(positionPane);
+    }
+
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
         JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
@@ -228,6 +276,8 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     public void populate(AttrLabelDetail detail) {
+        checkPositionPane();
+
         dataLabelContentPane.populateBean(detail.getContent());
         if(position != null){
             position.setSelectedItem(detail.getPosition());
