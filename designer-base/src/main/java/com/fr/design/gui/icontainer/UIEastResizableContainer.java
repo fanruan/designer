@@ -1,12 +1,11 @@
 package com.fr.design.gui.icontainer;
 
-import com.fr.base.BaseUtils;
-import com.fr.base.vcs.DesignerMode;
+
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.stable.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -174,6 +173,7 @@ public class UIEastResizableContainer extends JPanel {
 
         @Override
         public void addLayoutComponent(String name, Component comp) {
+            // do nothing
         }
     };
 
@@ -238,6 +238,7 @@ public class UIEastResizableContainer extends JPanel {
      * 伸缩右子面板时，触发此方法
      */
     public void onResize() {
+        // do nothing here
     }
 
     private class TopToolPane extends JPanel {
@@ -261,6 +262,7 @@ public class UIEastResizableContainer extends JPanel {
 
                 @Override
                 public void mouseDragged(MouseEvent e) {
+                    // do nothing
                 }
             });
             addMouseListener(new MouseAdapter() {
@@ -282,7 +284,7 @@ public class UIEastResizableContainer extends JPanel {
                         }
                         onResize();
                         refreshContainer();
-                        if (DesignerMode.isAuthorityEditing()) {
+                        if (DesignModeContext.isAuthorityEditing()) {
                             DesignerContext.getDesignerFrame().doResize();
                         }
                     }
