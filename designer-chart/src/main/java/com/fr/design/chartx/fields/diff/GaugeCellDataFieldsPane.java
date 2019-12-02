@@ -34,7 +34,7 @@ public class GaugeCellDataFieldsPane extends AbstractCellDataFieldsPane<GaugeCol
 
         JPanel northPane = new JPanel(new BorderLayout(0, 6));
         northPane.add(createCenterPane(), BorderLayout.CENTER);
-        northPane.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
+        northPane.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
 
         this.setLayout(new BorderLayout(0, 6));
         this.add(northPane, BorderLayout.NORTH);
@@ -69,7 +69,7 @@ public class GaugeCellDataFieldsPane extends AbstractCellDataFieldsPane<GaugeCol
         GaugeColumnFieldCollection gauge = new GaugeColumnFieldCollection();
         updateField(category, gauge.getCategory());
         updateField(value, gauge.getValue());
-        filterPane.updateBean(gauge.getCategory().getFilterProperties());
+        gauge.getCategory().setFilterProperties(filterPane.updateBean());
         return gauge;
     }
 

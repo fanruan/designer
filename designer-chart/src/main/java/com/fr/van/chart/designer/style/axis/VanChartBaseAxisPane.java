@@ -118,7 +118,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 new Component[]{createLabelPane(new double[]{p, p}, column), null},
                 new Component[]{createLineStylePane(new double[]{p, p, p, p, p}, columnSize), null},
                 new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis), null},
-                new Component[]{createDisplayStrategy(new double[]{p, p, p}, columnSize), null},
+                new Component[]{createDisplayStrategy(), null},
                 new Component[]{createValueStylePane(), null},
         };
 
@@ -326,7 +326,7 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         }
     }
 
-    protected JPanel createDisplayStrategy(double[] row, double[] col){
+    protected JPanel createDisplayStrategy(){
         limitPane = new LimitPane();
         return limitPane;
     }
@@ -385,7 +385,9 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkAllUse() {
         checkCardPane();
         checkLabelPane();
-        limitPane.checkMaxProPortionUse();
+        if (limitPane != null){
+            limitPane.checkMaxProPortionUse();
+        }
     }
 
     protected void checkCardPane() {

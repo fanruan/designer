@@ -47,7 +47,7 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
             this.add(south, BorderLayout.SOUTH);
         }
 
-        this.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 8));
+        this.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
     }
 
     protected JPanel createCenterPane() {
@@ -66,7 +66,7 @@ public abstract class AbstractCellDataFieldsPane<T extends AbstractColumnFieldCo
         }
 
         double p = TableLayout.PREFERRED;
-        double[] columnSize = {ChartDataPane.LABEL_WIDTH, 124};
+        double[] columnSize = {ChartDataPane.LABEL_WIDTH, 122};
         double[] rowSize = new double[len];
         Arrays.fill(rowSize, p);
 

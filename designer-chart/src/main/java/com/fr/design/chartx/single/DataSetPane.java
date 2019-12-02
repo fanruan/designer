@@ -13,11 +13,11 @@ import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.stable.AssistUtils;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 /**
  * Created by shine on 2019/5/21.
@@ -53,6 +53,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         this.setLayout(new BorderLayout());
         this.add(tableDataPane, BorderLayout.NORTH);
         this.add(dataSetFieldsPane, BorderLayout.CENTER);
+        checkBoxUse();
     }
 
     /**
