@@ -88,10 +88,7 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
             @Override
             public void populate(ChartCollection collection) {
                 super.populate(collection);
-                if (collection == null) {
-                    return;
-                }
-                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
+                VanChart vanChart = this.getVanChart();
                 if (vanChart == null) {
                     return;
                 }
