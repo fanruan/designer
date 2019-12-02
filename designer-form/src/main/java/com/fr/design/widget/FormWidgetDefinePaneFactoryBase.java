@@ -106,7 +106,6 @@ public class FormWidgetDefinePaneFactoryBase {
         defineMap.put(FreeButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(FormSubmitButton.class, new Appearance(FreeButtonDefinePane.class, WidgetConstants.BUTTON + ""));
         defineMap.put(WFitLayout.class, new Appearance(FRFitLayoutDefinePane.class, "wFitLayout"));
-        defineMap.put(WCardMainBorderLayout.class, new Appearance(WCardMainLayoutDefinePane.class, "wCardMainBorderLayout"));
         if (StableFactory.getMarkedClass(BridgeMark.CHART_EDITOR, AbstractBorderStyleWidget.class) != null) {
             defineMap.put(StableFactory.getMarkedClass(BridgeMark.CHART_EDITOR, AbstractBorderStyleWidget.class), new Appearance(BorderStyleWidgetDefinePane.class, "chartEditor"));
         }
