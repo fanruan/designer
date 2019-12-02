@@ -53,8 +53,6 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
 
         multiCategoryPane.populate(categoryList);
 
-        multiCategoryPane.setIsCategoryAxis(multiCategoryColumnFieldCollection.isCategoryAxis());
-
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 
         filterPane.populateMultiCategoryFieldCollection(multiCategoryColumnFieldCollection);
@@ -73,5 +71,9 @@ public class MultiCategoryCellDataFieldsPane extends AbstractCellDataFieldsWithS
         filterPane.updateMultiCategoryFieldCollection(fieldCollection);
 
         return fieldCollection;
+    }
+
+    public void setCategoryAxis(boolean categoryAxis){
+        multiCategoryPane.setCategoryAxis(categoryAxis);
     }
 }

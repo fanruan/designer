@@ -67,8 +67,6 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         multiCategoryPane.populate(categoryList);
 
-        multiCategoryPane.setIsCategoryAxis(multiCategoryColumnFieldCollection.isCategoryAxis());
-
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 
         filterPane.populateMultiCategoryFieldCollection(multiCategoryColumnFieldCollection);
@@ -87,5 +85,9 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
         filterPane.updateMultiCategoryFieldCollection(columnFieldCollection);
 
         return columnFieldCollection;
+    }
+
+    public void setCategoryAxis(boolean categoryAxis){
+        multiCategoryPane.setCategoryAxis(categoryAxis);
     }
 }

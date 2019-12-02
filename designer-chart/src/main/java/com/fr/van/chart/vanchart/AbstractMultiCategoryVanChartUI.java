@@ -3,11 +3,6 @@ package com.fr.van.chart.vanchart;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
-import com.fr.chartx.data.AbstractDataDefinition;
-import com.fr.chartx.data.CellDataDefinition;
-import com.fr.chartx.data.ChartDataDefinitionProvider;
-import com.fr.chartx.data.DataSetDefinition;
-import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -80,13 +75,19 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
+            MultiCategoryDataSetFieldsPane multiCategoryDataSetFieldsPane;
+            MultiCategoryCellDataFieldsPane multiCategoryCellDataFieldsPane;
+
             @Override
             protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+                multiCategoryDataSetFieldsPane = new MultiCategoryDataSetFieldsPane();
+                multiCategoryCellDataFieldsPane = new MultiCategoryCellDataFieldsPane();
+                return new SingleDataPane(multiCategoryDataSetFieldsPane, multiCategoryCellDataFieldsPane);
             }
 
             @Override
             public void populate(ChartCollection collection) {
+                super.populate(collection);
                 if (collection == null) {
                     return;
                 }
@@ -102,39 +103,8 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
                     axis = plot.getDefaultYAxis();
                 }
 
-                boolean isCategoryAxis = ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY);
-                MultiCategoryColumnFieldCollection multiCategoryColumnFieldCollection = new MultiCategoryColumnFieldCollection();
-                multiCategoryColumnFieldCollection.setCategoryAxis(isCategoryAxis);
-
-                //如果DataDefinition为空，对数据集数据源配置面板和单元格数据源配置面板进行更新。
-                ChartDataDefinitionProvider definition = vanChart.getChartDataDefinition();
-                if (definition == null) {
-                    CellDataDefinition cellDataDefinition = new CellDataDefinition();
-                    cellDataDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
-                    populate(cellDataDefinition);
-
-                    DataSetDefinition dataSetDefinition = new DataSetDefinition();
-                    dataSetDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
-                    populate(dataSetDefinition);
-                    return;
-                }
-
-                MultiCategoryColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection(MultiCategoryColumnFieldCollection.class);
-                columnFieldCollection.setCategoryAxis(isCategoryAxis);
-                super.populate(collection);
-
-                //如果DataDefinition不为空，对另一种数据源配置进行更新
-                if (definition instanceof DataSetDefinition) {
-                    CellDataDefinition cellDataDefinition = new CellDataDefinition();
-                    cellDataDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
-                    populate(cellDataDefinition);
-                    setSelectedIndex(0);
-                } else {
-                    DataSetDefinition dataSetDefinition = new DataSetDefinition();
-                    dataSetDefinition.setColumnFieldCollection(multiCategoryColumnFieldCollection);
-                    populate(dataSetDefinition);
-                    setSelectedIndex(1);
-                }
+                multiCategoryDataSetFieldsPane.setCategoryAxis(ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY));
+                multiCategoryCellDataFieldsPane.setCategoryAxis(ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY));
             }
         };
     }
