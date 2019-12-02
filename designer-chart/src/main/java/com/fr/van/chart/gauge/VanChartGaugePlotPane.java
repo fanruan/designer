@@ -2,9 +2,16 @@ package com.fr.van.chart.gauge;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.GaugeColumnFieldCollection;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.gauge.GaugeIndependentVanChart;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
 
 /**
@@ -72,5 +79,24 @@ public class VanChartGaugePlotPane extends AbstractVanChartTypePane {
                 super.cloneHotHyperLink(oldPlot, newPlot);
             }
         }
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if(definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            GaugeStyle gaugeStyle = ((VanChartGaugePlot) vanChartPlot).getGaugeStyle();
+            switch (gaugeStyle) {
+                case RING:
+                case SLOT:
+                case THERMOMETER:
+                    return columnFieldCollection instanceof GaugeColumnFieldCollection;
+                case POINTER:
+                case POINTER_SEMI:
+                default:
+                    return columnFieldCollection instanceof MultiCategoryColumnFieldCollection;
+            }
+        }
+        return false;
     }
 }

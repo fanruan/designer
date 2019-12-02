@@ -7,7 +7,13 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chartx.attr.ZoomAttribute;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.BubbleColumnFieldCollection;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.bubble.BubbleIndependentVanChart;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
@@ -33,26 +39,26 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
         };
     }
 
-    private void removeDefaultAttr(ConditionAttr conditionAttr, Class <? extends DataSeriesCondition> targetClass) {
+    private void removeDefaultAttr(ConditionAttr conditionAttr, Class<? extends DataSeriesCondition> targetClass) {
         DataSeriesCondition attr = conditionAttr.getExisted(targetClass);
-        if (attr != null){
+        if (attr != null) {
             conditionAttr.remove(targetClass);
         }
     }
 
-    protected Plot getSelectedClonedPlot(){
+    protected Plot getSelectedClonedPlot() {
         VanChartBubblePlot newPlot = null;
         Chart[] bubbleChart = BubbleIndependentVanChart.BubbleVanChartTypes;
-        for(int i = 0, len = bubbleChart.length; i < len; i++){
-            if(typeDemo.get(i).isPressing){
-                newPlot = (VanChartBubblePlot)bubbleChart[i].getPlot();
+        for (int i = 0, len = bubbleChart.length; i < len; i++) {
+            if (typeDemo.get(i).isPressing) {
+                newPlot = (VanChartBubblePlot) bubbleChart[i].getPlot();
             }
         }
         Plot cloned = null;
         try {
-             if(newPlot != null) {
-                 cloned = (Plot) newPlot.clone();
-             }
+            if (newPlot != null) {
+                cloned = (Plot) newPlot.clone();
+            }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In BubbleChart");
         }
@@ -64,16 +70,16 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
     }
 
     @Override
-     /**
-      * 力學氣泡圖切換到其他氣泡圖時，刪除條件屬性
-      * 并且将bubbleAttr属性重置
-      */
-     protected void cloneOldConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
+    /**
+     * 力學氣泡圖切換到其他氣泡圖時，刪除條件屬性
+     * 并且将bubbleAttr属性重置
+     */
+    protected void cloneOldConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
         cloneOldDefaultAttrConditionCollection(oldPlot, newPlot);
     }
 
     @Override
-    protected void cloneOldDefaultAttrConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
+    protected void cloneOldDefaultAttrConditionCollection(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
         if (oldPlot.getConditionCollection() != null) {
             ConditionCollection newCondition = new ConditionCollection();
             newCondition.setDefaultAttr((ConditionAttr) oldPlot.getConditionCollection().getDefaultAttr().clone());
@@ -88,7 +94,7 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
             removeDefaultAttr(attrList, ScatterAttrLabel.class);
 
             AttrAlpha attrAlpha = new AttrAlpha();
-            attrAlpha.setAlpha(((VanChartBubblePlot)newPlot).isForceBubble() ? FORCE_ALPHA : ALPHA);
+            attrAlpha.setAlpha(((VanChartBubblePlot) newPlot).isForceBubble() ? FORCE_ALPHA : ALPHA);
 
             attrList.addDataSeriesCondition(attrAlpha);
         }
@@ -96,8 +102,8 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
 
     @Override
     protected void cloneHotHyperLink(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
-        if(oldPlot instanceof VanChartBubblePlot && newPlot instanceof VanChartBubblePlot){
-            if(((VanChartBubblePlot) oldPlot).isForceBubble() == ((VanChartBubblePlot) newPlot).isForceBubble()){
+        if (oldPlot instanceof VanChartBubblePlot && newPlot instanceof VanChartBubblePlot) {
+            if (((VanChartBubblePlot) oldPlot).isForceBubble() == ((VanChartBubblePlot) newPlot).isForceBubble()) {
                 super.cloneHotHyperLink(oldPlot, newPlot);
             }
         }
@@ -112,12 +118,27 @@ public class VanChartBubblePlotPane extends AbstractVanChartTypePane {
 
     /**
      * 气泡图相同图表类型之间切换的时候，chart的部分属性也需要重置
+     *
      * @param chart
      */
     @Override
-    protected void resetChartAttr4SamePlot(Chart chart){
+    protected void resetChartAttr4SamePlot(Chart chart) {
         ((VanChart) chart).setZoomAttribute(new ZoomAttribute());
         //重置监控刷新选项
-        resetRefreshMoreLabelAttr((VanChart)chart);
+        resetRefreshMoreLabelAttr((VanChart) chart);
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if (definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            boolean isForce = ((VanChartBubblePlot) vanChartPlot).isForceBubble();
+            if (isForce) {
+                return columnFieldCollection instanceof MultiCategoryColumnFieldCollection;
+            }
+            return columnFieldCollection instanceof BubbleColumnFieldCollection;
+
+        }
+        return false;
     }
 }
