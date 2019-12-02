@@ -157,6 +157,9 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     private void checkPositionPane() {
+        if (positionPane == null) {
+            return;
+        }
         TwoTuple<String[], Integer[]> result = getPositionNamesAndValues();
         if (result == null) {
             return;
