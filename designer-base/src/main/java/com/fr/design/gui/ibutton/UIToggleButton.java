@@ -187,7 +187,7 @@ public class UIToggleButton extends UIButton implements GlobalNameObserver{
 
 	@Override
 	protected void fireStateChanged() {
-
+		// do nothing
 	}
 
 

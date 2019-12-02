@@ -36,7 +36,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 	private EventListenerList colorChangeListenerList = new EventListenerList();
 	private boolean isEventBanned = false;
 	private String colorButtonName = "";
-	private UIObserverListener uiObserverListener;
+	private UIObserverListener uiColorObserverListener;
 	private GlobalNameListener globalNameListener = null;
 
 	public UIColorButton() {
@@ -60,13 +60,13 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 			this.addColorChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
-					if (uiObserverListener == null) {
+					if (uiColorObserverListener == null) {
 						return;
 					}
 					if (globalNameListener != null && shouldResponseNameListener()) {
 						globalNameListener.setGlobalName(colorButtonName);
 					}
-					uiObserverListener.doChange();
+					uiColorObserverListener.doChange();
 				}
 			});
 		}
@@ -199,7 +199,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
 	 * @param listener 观察者监听事件
 	 */
 	public void registerChangeListener(UIObserverListener listener) {
-		uiObserverListener = listener;
+		uiColorObserverListener = listener;
 	}
 
 	/**
