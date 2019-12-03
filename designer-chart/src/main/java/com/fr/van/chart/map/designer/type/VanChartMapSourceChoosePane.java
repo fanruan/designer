@@ -3,6 +3,8 @@ package com.fr.van.chart.map.designer.type;
 import com.fr.base.Parameter;
 import com.fr.base.Utils;
 import com.fr.decision.webservice.v10.map.WMSFactory;
+import com.fr.decision.webservice.v10.map.geojson.helper.GEOJSONHelper;
+import com.fr.design.constants.LayoutConstants;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -19,6 +21,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.base.GisLayer;
 import com.fr.plugin.chart.base.ViewCenter;
@@ -34,6 +37,7 @@ import com.fr.plugin.chart.type.ZoomLevel;
 import com.fr.stable.ArrayUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.drillmap.designer.data.comp.MapDataTree;
+import com.fr.workspace.WorkContext;
 
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -223,17 +227,33 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
 
         sourceTitleLabel = createSourceTitleLabel();
 
+        boolean hasRefreshButton = !WorkContext.getCurrent().isLocal();
+
+        UIButton button = new UIButton(IOUtils.readIcon("/com/fr/design/images/control/refresh.png"));
+        button.setToolTipText("更新服务器地图资源文件");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GEOJSONHelper.reset();
+                GEOJSONHelper.getInstance();
+            }
+        });
+
+
         double p = TableLayout.PREFERRED;
         double d = TableLayout4VanChartHelper.DESCRIPTION_AREA_WIDTH;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] columnSize = {d, e};
         double[] rowSize = {p, p};
+
+        double[] columnSize = hasRefreshButton ? new double[]{d + 10, e - 20, 20} : new double[]{d, e};
+        Component[] comps = hasRefreshButton ? new Component[]{sourceTitleLabel, sourceComboBox, button} : new Component[]{sourceTitleLabel, sourceComboBox};
+        double hGap = hasRefreshButton ? 0 : TableLayout4VanChartHelper.COMPONENT_INTERVAL;
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{sourceTitleLabel,sourceComboBox},
+                comps,
 
         };
-        return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize, columnSize);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, hGap, LayoutConstants.VGAP_LARGE);
     }
 
     private JPanel createGISLayerPane() {
