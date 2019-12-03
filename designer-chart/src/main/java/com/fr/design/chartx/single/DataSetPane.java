@@ -103,11 +103,12 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         }
 
         refreshBoxList();
-        checkBoxUse();
 
         tableDataPane.populateBean(ob.getNameTableData());
 
         dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
+
+        checkBoxUse();
     }
 
     @Override

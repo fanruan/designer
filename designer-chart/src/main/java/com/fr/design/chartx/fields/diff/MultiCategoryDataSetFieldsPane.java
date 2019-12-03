@@ -86,4 +86,8 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         return columnFieldCollection;
     }
+
+    public void setCategoryAxis(boolean categoryAxis){
+        multiCategoryPane.setCategoryAxis(categoryAxis);
+    }
 }

@@ -34,6 +34,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
 
     private List<T> categoryComponentList = new ArrayList<T>();
 
+    private boolean categoryAxis = true;
 
     protected abstract T createFirstFieldComponent();
 
@@ -42,6 +43,16 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
     protected abstract void populateField(T component, ColumnField field);
 
     protected abstract void updateField(T component, ColumnField field);
+
+    public void setCategoryAxis(boolean categoryAxis) {
+        this.categoryAxis = categoryAxis;
+        if(!categoryAxis){
+            addButton.setEnabled(false);
+            for (JComponent component : categoryComponentList) {
+                component.setEnabled(false);
+            }
+        }
+    }
 
     public AbstractMultiComponentPane() {
 
@@ -126,7 +137,7 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
     }
 
     private boolean canAdd() {
-        return categoryComponentList.size() < 2;
+        return categoryComponentList.size() < 2 && categoryAxis;
     }
 
     public List<T> componentList() {
@@ -169,7 +180,15 @@ public abstract class AbstractMultiComponentPane<T extends JComponent> extends J
         }
     }
 
-    public void checkEnable(boolean hasUse){
-        addButton.setEnabled(hasUse);
+    public void checkEnable(boolean hasUse) {
+        //增加按钮是否灰化要根据是否选择了数据源，是否分类轴，分类数量是否超标三个判断
+        boolean buttonUse = hasUse && categoryAxis && categoryComponentList.size() < 2;
+        //额外的分类是否灰化根据是否选择了数据源，是否分类轴判断
+        boolean categoryUse = hasUse && categoryAxis;
+
+        addButton.setEnabled(buttonUse);
+        for (JComponent component : categoryComponentList) {
+            component.setEnabled(categoryUse);
+        }
     }
 }

@@ -22,11 +22,11 @@ import com.fr.stable.StringUtils;
 
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by shine on 2018/9/12.
@@ -171,7 +171,6 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         public void checkBoxUse(boolean hasUse) {
             series.setEnabled(hasUse);
             value.setEnabled(hasUse);
-            function.setEnabled(hasUse);
         }
 
         public void clearAllBoxList() {
