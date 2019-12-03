@@ -17,6 +17,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextarea.UITextArea;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.JTemplate;
@@ -230,7 +231,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         boolean hasRefreshButton = !WorkContext.getCurrent().isLocal();
 
         UIButton button = new UIButton(IOUtils.readIcon("/com/fr/design/images/control/refresh.png"));
-        button.setToolTipText("refresh remote map json");
+        button.setToolTipText(Toolkit.i18nText("Fine-Design_Chart_Update_Remote_Map_JSON"));
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
