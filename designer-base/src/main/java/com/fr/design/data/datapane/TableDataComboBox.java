@@ -34,6 +34,7 @@ public class TableDataComboBox extends UIComboBox implements Prepare4DataSourceC
     private static final long serialVersionUID = 1L;
 	private boolean refresModel = false;
     private String treeName; //树数据集本身的名字
+	private ChangeListener changeListener;
 
     public TableDataComboBox(TableDataSource source){
         this(source,StringUtils.EMPTY);
@@ -136,15 +137,22 @@ public class TableDataComboBox extends UIComboBox implements Prepare4DataSourceC
 		}
 	}
 
-    /**
-     *注册listener,相应数据集改变
-     */
-    public void registerDSChangeListener() {
-        DesignTableDataManager.addDsChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                TableDataComboBox.this.refresh(DesignTableDataManager.getEditingTableDataSource());
-            }
-        });
-    }
+	/**
+	 *注册listener,相应数据集改变
+	 */
+	@Override
+	public void registerDSChangeListener() {
+		changeListener = new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				TableDataComboBox.this.refresh(DesignTableDataManager.getEditingTableDataSource());
+			}
+		};
+		DesignTableDataManager.addDsChangeListener(changeListener);
+	}
+
+	public void registerGlobalDSChangeListener() {
+		DesignTableDataManager.addGlobalDsChangeListener(changeListener);
+	}
 
 }

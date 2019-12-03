@@ -9,11 +9,14 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.remote.ui.AuthorityManagerPane;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.DesignAuthority;
+import com.fr.report.constant.RoleType;
 import com.fr.stable.ArrayUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.authority.AuthorityOperator;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author yaohwu
@@ -38,13 +41,24 @@ public class RemoteDesignAuthManagerAction extends UpdateAction {
         if (!WorkContext.getCurrent().isLocal()) {
             try {
                 // 远程设计获取全部设计成员的权限列表
-                DesignAuthority[] userAuthorities = WorkContext.getCurrent().get(AuthorityOperator.class).getUserAuthorities();
-                DesignAuthority[] customAuthorities = WorkContext.getCurrent().get(AuthorityOperator.class).getCustomRoleAuthorities();
-                if (userAuthorities != null && userAuthorities.length != 0) {
-                    managerPane.populateByUser(userAuthorities);
-                }
-                if (customAuthorities != null && customAuthorities.length != 0) {
-                    managerPane.populateByCustom(customAuthorities);
+                DesignAuthority[] authorities = WorkContext.getCurrent().get(AuthorityOperator.class).getAuthorities();
+                List<DesignAuthority> userAuthorities = new ArrayList<DesignAuthority>();
+                List<DesignAuthority> customAuthorities = new ArrayList<DesignAuthority>();
+                if (authorities != null) {
+                    for (DesignAuthority authority : authorities) {
+                        if (authority.getRoleType() == RoleType.CUSTOM) {
+                            customAuthorities.add(authority);
+                        }
+                        else {
+                            userAuthorities.add(authority);
+                        }
+                    }
+                    if (userAuthorities.size() != 0) {
+                        managerPane.populateByUser(userAuthorities.toArray(new DesignAuthority[userAuthorities.size()]));
+                    }
+                    if (customAuthorities.size() != 0) {
+                        managerPane.populateByCustom(customAuthorities.toArray(new DesignAuthority[customAuthorities.size()]));
+                    }
                 }
             } catch (Exception exception) {
                 FineLoggerFactory.getLogger().error(exception.getMessage(), exception);

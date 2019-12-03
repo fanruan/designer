@@ -1,14 +1,12 @@
 package com.fr.start.common;
 
-import com.fr.base.BaseUtils;
 import com.fr.design.fun.OemProcessor;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.os.OperatingSystem;
 import com.fr.start.OemHandler;
-import com.sun.awt.AWTUtilities;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;
@@ -41,8 +39,6 @@ public class SplashWindow extends JFrame {
 
         this.setAlwaysOnTop(false);
         this.setUndecorated(true);
-        AWTUtilities.setWindowOpaque(this, false);
-
         //使窗体背景透明
         if (OperatingSystem.isWindows()) {
             this.setBackground(new Color(0, 0, 0, 0));
@@ -73,7 +69,7 @@ public class SplashWindow extends JFrame {
             this.setIconImages(image);
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
+            this.setIconImage(IOUtils.readImage("/com/fr/base/images/oem/logo.png"));
         }
     }
 

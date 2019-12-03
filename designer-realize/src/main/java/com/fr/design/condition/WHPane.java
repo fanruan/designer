@@ -10,7 +10,10 @@ import com.fr.stable.Constants;
 import com.fr.stable.unit.*;
 
 import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.math.BigDecimal;
+import java.text.ParseException;
 
 /**
 * @author richie

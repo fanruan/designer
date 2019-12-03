@@ -12,14 +12,11 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JPanel;
 import javax.swing.JWindow;
-
 import com.fr.design.constants.UIConstants;
-import com.fr.design.designer.beans.location.Location;
 import com.fr.design.gui.core.WidgetOption;
-import com.fr.stable.OperatingSystem;
+import com.fr.stable.os.OperatingSystem;
 
 //august:
 public class FormWidgetPopWindow extends JWindow {
@@ -52,23 +49,27 @@ public class FormWidgetPopWindow extends JWindow {
 			if (event instanceof MouseEvent) {
 				MouseEvent mv = (MouseEvent) event;
 				if (mv.getClickCount() > 0) {
-					Point point = new Point((int) (mv.getLocationOnScreen().getX()), (int) mv.getLocationOnScreen().getY());
-                    if (OperatingSystem.isWindows()) {
-                        if(!FormWidgetPopWindow.this.contains(point)) {
-                            FormWidgetPopWindow.this.setVisible(false);
-                        }
-                    } else if (OperatingSystem.isMacOS()) {
-                        Dimension d = FormWidgetPopWindow.this.getSize();
-                        Point p = FormWidgetPopWindow.this.getLocation();
-                        Rectangle rect = new Rectangle(p, d);
-                        if (!rect.contains(point)) {
-                            FormWidgetPopWindow.this.setVisible(false);
-                        }
-                    }
+					hideWindow(mv);
 				}
 			}
 		}
 	};
+
+	private void hideWindow(MouseEvent mv){
+		Point point = new Point((int) (mv.getLocationOnScreen().getX()), (int) mv.getLocationOnScreen().getY());
+		if (OperatingSystem.isWindows()) {
+			if (!FormWidgetPopWindow.this.contains(point)) {
+				FormWidgetPopWindow.this.setVisible(false);
+			}
+		}else if(OperatingSystem.isMacos() || OperatingSystem.isLinux()){
+			Dimension d = FormWidgetPopWindow.this.getSize();
+			Point p = FormWidgetPopWindow.this.getLocation();
+			Rectangle rect = new Rectangle(p, d);
+			if (!rect.contains(point)) {
+				FormWidgetPopWindow.this.setVisible(false);
+			}
+		}
+	}
 
 	private class EditorChoosePane extends JPanel {
 		public EditorChoosePane() {
