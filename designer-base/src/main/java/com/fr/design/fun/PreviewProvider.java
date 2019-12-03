@@ -1,6 +1,7 @@
 package com.fr.design.fun;
 
 import com.fr.design.mainframe.JTemplate;
+import com.fr.stable.Filter;
 import com.fr.stable.fun.mark.Mutable;
 
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  * @since 8.0
  * 自定义预览方式接口
  */
-public interface PreviewProvider extends Mutable {
+public interface PreviewProvider extends Mutable, Filter<JTemplate> {
 
     String MARK_STRING = "PreviewProvider";
 

@@ -64,7 +64,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
     	// 行号显示
         TableColumn tableColumn = dataJTable.getColumnModel().getColumn(0);
         tableColumn.setCellRenderer(new CellRenderer());
-        tableColumn.setMaxWidth(30);
+        tableColumn.setMaxWidth(dataJTable.getColumnCount());
         
         // 控制按钮
         add = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));

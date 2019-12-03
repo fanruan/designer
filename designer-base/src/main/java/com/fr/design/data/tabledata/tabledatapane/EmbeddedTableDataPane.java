@@ -220,7 +220,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 		// 行号显示,每次dateJTable的表结构发生变化时都要调用
 		TableColumn tableColumn = dataJTable.getColumnModel().getColumn(0);
 		tableColumn.setCellRenderer(new CellRenderer());
-		tableColumn.setMaxWidth(30);
+		tableColumn.setMaxWidth(dataJTable.getColumnCount());
 	}
 
 	private class DoubleRenderer extends DefaultTableCellRenderer {

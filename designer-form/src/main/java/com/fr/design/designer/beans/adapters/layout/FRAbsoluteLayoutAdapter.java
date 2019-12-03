@@ -38,7 +38,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 	public HoverPainter getPainter() {
 		return painter;
 	}
-    
+
     /**
      * 是否能在指定位置添加组件
      * @param creator 组件
@@ -240,7 +240,8 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 			updateCreatorBackBound();
 			LayoutUtils.layoutRootContainer(container);
 		}else{
-			fixAbsolute(creator, x, y);
+			//添加到其父组件布局中的时候，要用其父组件布局添加
+			container.getLayoutAdapter().addBean(creator, x, y);
 			if (creator.shouldScaleCreator() || creator.hasTitleStyle()) {
 				addParentCreator(creator);
 			} else {
@@ -303,7 +304,7 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 		XWAbsoluteLayout layout = (XWAbsoluteLayout) container;
 		layout.updateBoundsWidget(creator);
     }
-    
+
     /**
      * 调整组件大小到合适尺寸位置
      * @param creator 组件

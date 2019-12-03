@@ -1,7 +1,9 @@
 package com.fr.design.fun.impl;
 
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.fun.PreviewProvider;
 import com.fr.design.mainframe.JTemplate;
+import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.web.ParameterConstants;
 import com.fr.stable.fun.impl.AbstractProvider;
@@ -51,5 +53,13 @@ public abstract class AbstractPreviewProvider extends AbstractProvider implement
     @Override
     public String getActionType() {
         return ParameterConstants.VIEWLET;
+    }
+
+    @Override
+    public boolean accept(JTemplate jTemplate) {
+        if (jTemplate == null) {
+            jTemplate = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        }
+        return jTemplate == null || jTemplate.isJWorkBook() || jTemplate instanceof JVirtualTemplate;
     }
 }

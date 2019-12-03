@@ -75,6 +75,7 @@ public class PresentPane extends UIComboBoxPane<Present> {
 		displays.add(none.title4PopupWindow());
 
 		dictPresentPane = new DictPresentPane();
+		dictPresentPane.registerDSChangeListener();
 		paneList.add(dictPresentPane);
 		keys.add(DictPresent.class.getName());
 		displays.add(dictPresentPane.title4PopupWindow());
