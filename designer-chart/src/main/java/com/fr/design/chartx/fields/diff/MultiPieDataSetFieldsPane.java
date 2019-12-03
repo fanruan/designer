@@ -38,6 +38,8 @@ public class MultiPieDataSetFieldsPane extends AbstractDataSetFieldsPane<MultiPi
         levelComboBoxPane = new MultiComboBoxPaneWithUISpinner();
         value = new UIComboBox();
         function = new CalculateComboBox();
+
+        initValueAndCalComboBox(value, function);
         super.initComponents();
     }
 

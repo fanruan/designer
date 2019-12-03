@@ -27,6 +27,8 @@ import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Created by shine on 2018/9/12.
@@ -148,9 +150,18 @@ public abstract class AbstractCustomFieldComboBoxPane<T> extends UIComboBoxPane<
         private void initComponents() {
 
             series = new UIComboBox();
+
             value = valueComboBoxHasNone() ? new UIComboBoxWithNone() : new UIComboBox();
+            value.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    function.setEnabled(value.getSelectedItem() != null);
+                }
+            });
+
 
             function = new CalculateComboBox();
+            function.setEnabled(false);
 
             Component[][] components = new Component[][]{
                     new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Series_Name"), SwingConstants.LEFT), series},
