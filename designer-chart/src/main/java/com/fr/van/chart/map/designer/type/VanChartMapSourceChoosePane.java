@@ -230,7 +230,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
         boolean hasRefreshButton = !WorkContext.getCurrent().isLocal();
 
         UIButton button = new UIButton(IOUtils.readIcon("/com/fr/design/images/control/refresh.png"));
-        button.setToolTipText("更新服务器地图资源文件");
+        button.setToolTipText("refresh remote map json");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
