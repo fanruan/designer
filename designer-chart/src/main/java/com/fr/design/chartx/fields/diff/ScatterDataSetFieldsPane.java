@@ -80,7 +80,7 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
         updateField(xField, field.getXField());
         updateField(yField, field.getYField());
         updateField(size, field.getSizeField());
-        field.getSeriesName().setFilterProperties(filterPane.updateBean());
+        collection.setFilterProperties(filterPane.updateBean());
         collection.add(field);
         return collection;
     }
@@ -95,6 +95,6 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
         populateField(xField, field.getXField());
         populateField(yField, field.getYField());
         populateField(size, field.getSizeField());
-        filterPane.populateBean(field.getSeriesName().getFilterProperties());
+        filterPane.populateBean(ob.getFilterProperties());
     }
 }
