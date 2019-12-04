@@ -251,12 +251,13 @@ public class WidgetPane extends AbstractAttrNoScrollPane implements ItemListener
         //为了保持预定义控件的配置界面不变，返回类型必须为NameWidget
         private NameWidget getPredefinedWidget(String name) {
             NameWidget nameWidget = new NameWidget(name);
-            WidgetInfoConfig mgr = WidgetInfoConfig.getInstance();
-            Widget widget = mgr.getWidgetConfig(name).toWidget();
-            nameWidget.setEnabled(widget.isEnabled());
-            nameWidget.setVisible(widget.isVisible());
-            nameWidget.setWidgetName(widget.getWidgetName());
-            nameWidget.setWidgetPrivilegeControl(widget.getWidgetPrivilegeControl());
+            WidgetInfoConfig manager = WidgetInfoConfig.getInstance();
+            if (manager.getWidgetConfig(name) != null) {
+                Widget widget = manager.getWidgetConfig(name).toWidget();
+                nameWidget.setWidgetName(widget.getWidgetName());
+                nameWidget.setEnabled(widget.isEnabled());
+                nameWidget.setVisible(widget.isVisible());
+            }
             return nameWidget;
         }
 
