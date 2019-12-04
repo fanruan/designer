@@ -88,9 +88,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         unavailableTipLabel.setForeground(Color.gray);
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
-        panel.add(allowFullCheckBox);
+        panel.add(allowFullCheckBox,BorderLayout.CENTER);
         functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
-        panel.add(functionalWhenUnactivatedCheckBox);
+        panel.add(functionalWhenUnactivatedCheckBox, BorderLayout.SOUTH);
         return panel;
     }
 
