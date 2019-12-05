@@ -64,6 +64,7 @@ public class TableDataSourceAction extends TemplateComponentAction<JTemplate<?, 
      * 撤销
      */
     public void prepare4Undo() {
+        //do nothing
     }
 
     /**

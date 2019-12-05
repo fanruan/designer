@@ -23,6 +23,8 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -132,7 +134,23 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     }
 
     private UITextField createEditor() {
-        UITextField editor = new UITextField();
+        UITextField editor = new UITextField() {
+            @Override
+            protected void initListener() {
+                this.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        attributeChange();
+                    }
+                });
+                this.addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        attributeChange();
+                    }
+                });
+            }
+        };
         editor.setEditable(false);
         editor.setPreferredSize(new Dimension(110, 20));
         addPopupListener(editor);

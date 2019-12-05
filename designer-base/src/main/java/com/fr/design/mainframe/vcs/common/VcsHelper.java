@@ -1,7 +1,5 @@
 package com.fr.design.mainframe.vcs.common;
 
-import com.fr.cluster.ClusterBridge;
-import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
@@ -27,7 +25,6 @@ import com.fr.workspace.server.vcs.git.config.GcConfig;
 import javax.swing.Icon;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -174,7 +171,7 @@ public class VcsHelper implements JTemplateActionListener {
     public void templateSaved(JTemplate<?, ?> jt) {
         if (needInit()
                 && DesignerEnvManager.getEnvManager().getVcsConfigManager().isVcsEnable()
-                && !FineClusterConfig.getInstance().isCluster()) {
+                && !WorkContext.getCurrent().isCluster()) {
             fireVcs(jt);
         }
     }

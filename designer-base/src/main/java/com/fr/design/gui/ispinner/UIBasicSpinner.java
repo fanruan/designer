@@ -7,6 +7,9 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.text.ParseException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,7 +59,17 @@ public class UIBasicSpinner extends JSpinner implements UIObserver {
                 }
             });
         }
+        final JFormattedTextField textField = ((JSpinner.DefaultEditor) this.getEditor()).getTextField();
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    textField.commitEdit();
+                } catch (ParseException ignore) {
 
+                }
+            }
+        });
     }
 
 

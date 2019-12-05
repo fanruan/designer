@@ -16,6 +16,7 @@ import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.datapane.preview.PreviewLabel;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
+import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.editor.DoubleDeckValueEditorPane;
@@ -48,7 +49,7 @@ import java.util.List;
  * @editor zhou
  * @since 2012-3-29下午1:49:24
  */
-public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary> implements Previewable, UIObserver {
+public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary> implements Previewable, UIObserver, Prepare4DataSourceChange {
     private static final int BEGIN = 1;
     private static final int END = 10;
     private static final int VGAP = 24;
@@ -367,5 +368,10 @@ public class TableDataDictPane extends FurtherBasicBeanPane<TableDataDictionary>
      */
     public boolean shouldResponseChangeListener() {
         return true;
+    }
+
+    @Override
+    public void registerDSChangeListener() {
+        tableDataNameComboBox.registerGlobalDSChangeListener();
     }
 }

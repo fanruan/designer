@@ -5,10 +5,12 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.mainframe.widget.preview.MobileTemplatePreviewPane;
+import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.form.ui.CardSwitchButton;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.FRFont;
@@ -20,21 +22,14 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
 
 public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
     private UIRadioButton gapFix;
     private UIRadioButton titleWidthFix;
     private LinePane bottomBorderPane;
     private LinePane underLinePane;
+    private UISpinner minTabWidth;
 
     public UpMenuStyleDefinePane(WCardTagLayout tagLayout) {
         super(tagLayout);
@@ -44,6 +39,10 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         JPanel panel = super.createCenterPane();
         UILabel displayGap = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Display_Gap"));
         displayGap.setPreferredSize(new Dimension(55, 20));
+        UILabel tabWidthLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Tab_Min_Width"));
+        tabWidthLabel.setPreferredSize(new Dimension(75, 20));
+        minTabWidth = new UISpinner(0, Integer.MAX_VALUE, 1, 92);
+        JPanel tabWidthPanel = UIComponentUtils.wrapWithBorderLayoutPane(minTabWidth);
         gapFix = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Gap_Fix"));
         titleWidthFix = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Title_Width_Fix"));
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -52,29 +51,33 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         gapFix.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         titleWidthFix.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         buttonGroup.add(titleWidthFix);
-        gapFix.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                updatePreviewPane();
-            }
-        });
-        titleWidthFix.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                updatePreviewPane();
-            }
-        });
-
-
         JPanel flowLeft = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         flowLeft.add(gapFix);
         flowLeft.add(titleWidthFix);
         JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{displayGap, flowLeft}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
         centerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 15, 20));
         centerPane.setPreferredSize(new Dimension(500, 20));
-        JPanel outerPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        outerPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
-        outerPane.add(centerPane, BorderLayout.CENTER);
+        final JPanel wrapTabWidthPanel = TableLayoutHelper.createGapTableLayoutPane(new Component[][]{new Component[]{tabWidthLabel, tabWidthPanel}}, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.VGAP_MEDIUM);
+        wrapTabWidthPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 15, 20));
+        wrapTabWidthPanel.setPreferredSize(new Dimension(200, 20));
+        gapFix.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updatePreviewPane();
+                wrapTabWidthPanel.setVisible(titleWidthFix.isSelected());
+            }
+        });
+        titleWidthFix.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                updatePreviewPane();
+                wrapTabWidthPanel.setVisible(titleWidthFix.isSelected());
+            }
+        });
+        JPanel outerPane = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 10);
+        outerPane.setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
+        outerPane.add(centerPane);
+        outerPane.add(wrapTabWidthPanel);
         panel.add(outerPane);
         return panel;
     }
@@ -125,6 +128,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         UpMenuStyle style = (UpMenuStyle) ob;
         gapFix.setSelected(style.isGapFix());
         titleWidthFix.setSelected(style.isTitleWidthFix());
+        minTabWidth.setValueWithoutEvent(style.getMinTabWidth());
         bottomBorderPane.populate(style.getBottomBorder());
         underLinePane.populate(style.getUnderline());
     }
@@ -140,6 +144,7 @@ public class UpMenuStyleDefinePane extends StyleDefinePaneWithSelectConf {
         UpMenuStyle style = new UpMenuStyle();
         style.setGapFix(gapFix.isSelected());
         style.setTitleWidthFix(titleWidthFix.isSelected());
+        style.setMinTabWidth((int) minTabWidth.getValue());
         style.setBottomBorder(bottomBorderPane.update());
         style.setUnderline(underLinePane.update());
         return style;
