@@ -35,8 +35,8 @@ import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
-import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -102,6 +102,10 @@ import com.fr.stable.module.Module;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.web.controller.ViewRequestConstants;
 import com.fr.workspace.WorkContext;
+
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
@@ -109,9 +113,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
  * JWorkBook used to edit WorkBook.
@@ -900,10 +901,10 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
      */
     @Override
     public PreviewProvider[] supportPreview() {
-        Set<PreviewProvider> set = ExtraDesignClassManager.getInstance().getArray(PreviewProvider.MARK_STRING);
+        PreviewProvider[] templatePreviews = super.supportPreview();
         return ArrayUtils.addAll(new PreviewProvider[]{
                 new PagePreview(), new WritePreview(), new ViewPreview(), new WriteEnhancePreview(), new MobilePreview()
-        }, set.toArray(new PreviewProvider[set.size()]));
+        }, templatePreviews);
     }
 
     /**

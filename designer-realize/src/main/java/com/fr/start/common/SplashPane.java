@@ -28,10 +28,10 @@ public class SplashPane extends JPanel {
 
     private static final Color MODULE_COLOR = new Color(255, 255, 255);
     private static final int MODULE_INFO_X = uiScale(36);
-    private static final int MODULE_INFO_Y = uiScale(339);
+    private static final int MODULE_INFO_Y = uiScale(300);
 
     private static final Color THANK_COLOR = new Color(255, 255, 255, (int) (0.6 * 255 + 0.5));
-    private static final int THANK_INFO_X = uiScale(470);
+    private static final int THANK_INFO_Y = uiScale(340);
     private static final int FONT_SIZE = uiScale(12);
 
     private static final int MODULE_INFO_WIDTH = uiScale(150);
@@ -84,7 +84,7 @@ public class SplashPane extends JPanel {
         //感谢用户信息
         if (StringUtils.isNotEmpty(thanksLog)) {
             g.setPaint(THANK_COLOR);
-            GraphHelper.drawString(g, thanksLog, THANK_INFO_X, MODULE_INFO_Y);
+            GraphHelper.drawString(g, thanksLog, MODULE_INFO_X, THANK_INFO_Y);
         }
         config.restore();
     }
@@ -114,7 +114,7 @@ public class SplashPane extends JPanel {
 
     void updateThanksLog(String text) {
         thanksLog = text;
-        repaint(THANK_INFO_X, MODULE_INFO_Y - FONT_SIZE, MODULE_INFO_WIDTH, MODULE_INFO_HEIGHT);
+        repaint(MODULE_INFO_X, THANK_INFO_Y - FONT_SIZE, MODULE_INFO_WIDTH, MODULE_INFO_HEIGHT);
     }
 
 }
