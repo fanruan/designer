@@ -9,6 +9,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
@@ -358,7 +359,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 				this.alignmentPane.checkValid();
 			}
 		} catch (Exception exp) {
-			JOptionPane.showMessageDialog(this, exp.getMessage());
+			FineJOptionPane.showMessageDialog(this, exp.getMessage());
 			return editing;
 		}
 

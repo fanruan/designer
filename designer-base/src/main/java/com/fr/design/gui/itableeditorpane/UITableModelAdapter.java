@@ -208,7 +208,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			final int selectedRow = table.getSelectedRow();
 			if (selectedRow > table.getRowCount() - 1 || selectedRow < 0) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No-Alternatives"));
+				FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No-Alternatives"));
 				return;
 			}
 			stopCellEditing();

@@ -929,7 +929,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return;
             }
 
-            String newName = JOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
+            String newName = FineJOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
             if (newName != null) {
                 // marks：判断是否重名
                 boolean isExisted = false;
