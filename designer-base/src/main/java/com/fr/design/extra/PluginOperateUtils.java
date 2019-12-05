@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.config.MarketConfig;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
 import com.fr.design.extra.exe.callback.InstallOnlineCallback;
 import com.fr.design.bridge.exec.JSCallback;
@@ -91,7 +92,7 @@ public class PluginOperateUtils {
 
             @Override
             public void run() {
-                int rv = JOptionPane.showConfirmDialog(
+                int rv = FineJOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Confirmed"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),

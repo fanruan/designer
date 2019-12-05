@@ -4,6 +4,7 @@ import com.fr.data.impl.Connection;
 import com.fr.data.impl.JDBCDatabaseConnection;
 import com.fr.data.impl.JNDIDatabaseConnection;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.ConnectionProvider;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameObjectCreator;
@@ -43,7 +44,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
                 String tempName = getEditingName();
                 if (StringUtils.isEmpty(tempName)) {
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Empty_Name"));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connection_Empty_Name"));
                     setIllegalIndex(editingIndex);
                     isNamePermitted = false;
                     return;
@@ -53,7 +54,7 @@ public class ConnectionListPane extends JListControlPane implements ConnectionSh
                     isNamePermitted = false;
                     nameableList.stopEditing();
                     String message = Toolkit.i18nText("Fine-Design_Basic_Connection_Duplicate_Name", tempName);
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), message);
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ConnectionListPane.this), message);
                     setIllegalIndex(editingIndex);
                 }
                 if (isNamePermitted && !ComparatorUtils.equals(tempName, selectedName)) {

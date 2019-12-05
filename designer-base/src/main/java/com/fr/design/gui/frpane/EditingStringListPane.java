@@ -1,6 +1,7 @@
 package com.fr.design.gui.frpane;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -127,7 +128,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 						setAddEnabled(false);
 					}
 				} else {
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Already_Exists_Not_Add_Repeat")+"!");
+					FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), newvalue + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Already_Exists_Not_Add_Repeat")+"!");
 				}
 			}
 		});
@@ -149,7 +150,7 @@ public abstract class EditingStringListPane extends BasicBeanPane<List<String>> 
 			public void actionPerformed(ActionEvent e) {
 				Object selected = jlist.getSelectedValue();
 				if (selected != null) {
-					int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sure_To_Delete") + selected.toString() + "?");
+					int re = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EditingStringListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Sure_To_Delete") + selected.toString() + "?");
 					if (re == JOptionPane.OK_OPTION) {
 						JListUtils.removeSelectedListItems(jlist);
 					}

@@ -1,6 +1,7 @@
 package com.fr.design.report;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.FRExplainLabel;
@@ -150,8 +151,8 @@ public class LayerReportPane extends BasicBeanPane<LayerReportAttr> {
 	public void checkValid() throws Exception {
 		if (isLayerReportBox.isSelected()) {
 			if (!ReportUtils.isLayerReportUsable(worksheet)) {
-				int value = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_After_Changed_Some_Attributes_Are_Different") + "?",
-						ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION);
+				int value = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_After_Changed_Some_Attributes_Are_Different") + "?",
+						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION);
 				if (value != JOptionPane.YES_OPTION) {
 					isLayerReportBox.setSelected(false);
 				}

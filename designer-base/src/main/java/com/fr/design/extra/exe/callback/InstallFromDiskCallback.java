@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.bridge.exec.JSCallback;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
 
@@ -41,7 +42,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
             String switchedInfo = PluginOperateUtils.getSwitchedInfo(result);
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
-            JOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
+            FineJOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
@@ -50,7 +51,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
@@ -70,7 +71,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
@@ -80,7 +81,7 @@ public class InstallFromDiskCallback extends AbstractPluginTaskCallback {
         }else {
             jsCallback.execute("failed");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Failed"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Failed"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

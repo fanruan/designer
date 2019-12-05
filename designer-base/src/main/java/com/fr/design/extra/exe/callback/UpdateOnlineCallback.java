@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.bridge.exec.JSCallback;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginOperateUtils;
 
 import com.fr.log.FineLoggerFactory;
@@ -33,11 +34,11 @@ public class UpdateOnlineCallback extends AbstractDealPreTaskCallback {
         if (result.isSuccess()) {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null,pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
+            FineJOptionPane.showMessageDialog(null,pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
         } else {
             jsCallback.execute("failed");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, pluginInfo, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

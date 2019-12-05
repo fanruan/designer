@@ -3,6 +3,7 @@ package com.fr.design.editor;
 import com.fr.base.BaseFormula;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.editor.editor.ColumnIndexEditor;
 import com.fr.design.editor.editor.ColumnNameEditor;
 import com.fr.design.editor.editor.Editor;
@@ -302,8 +303,8 @@ public class DoubleDeckValueEditorPane extends BasicPane implements UIObserver, 
             DesignerEnvManager designerEnvManager = DesignerEnvManager.getEnvManager();
             if (designerEnvManager.isSupportStringToFormula()) {
                 if (!designerEnvManager.isDefaultStringToFormula()) {
-                    int returnValue = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit_String_To_Formula")
-                            + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.YES_NO_OPTION);
+                    int returnValue = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Edit_String_To_Formula")
+                            + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION);
                     if (returnValue == JOptionPane.OK_OPTION) {
 
                         setCurrentEditor(j);

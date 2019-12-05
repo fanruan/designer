@@ -2,6 +2,7 @@ package com.fr.design.report;
 
 import com.fr.base.core.KV;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -62,7 +63,7 @@ public class SubReportPane extends BasicPane {
 					if (chooseFILE != null && chooseFILE.exists()) {
 						pathTextField.setText(chooseFILE.prefix() + chooseFILE.getPath());
 					} else {
-						JOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Message1"),
+						FineJOptionPane.showConfirmDialog(SubReportPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_Message1"),
 								com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Sub_Report_ToolTips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 			    		chooseFILE = null;
 						pathTextField.setText("");

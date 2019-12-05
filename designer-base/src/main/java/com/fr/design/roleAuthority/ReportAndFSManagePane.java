@@ -6,6 +6,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -159,7 +160,7 @@ public class ReportAndFSManagePane extends DockingView implements Prepare4DataSo
      */
     private void checkChanges() {
         //如若有变化，则弹出下面的对话框
-        int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Role_changed_Is_Refresh") + "?",
+        int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Role_changed_Is_Refresh") + "?",
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (returnVal == JOptionPane.OK_OPTION) {
             roleTree.refreshTreeNode();
