@@ -42,7 +42,7 @@ public class UpdateOnlineCallback implements ProgressCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {

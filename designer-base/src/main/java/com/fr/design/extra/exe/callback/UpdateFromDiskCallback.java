@@ -49,7 +49,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
@@ -69,7 +69,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.NO_OPTION || rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
