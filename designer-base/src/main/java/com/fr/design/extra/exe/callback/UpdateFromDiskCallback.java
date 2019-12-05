@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.bridge.exec.JSCallback;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginOperateUtils;
 import com.fr.design.extra.PluginUtils;
 
@@ -39,7 +40,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
         } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
@@ -78,7 +79,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
         }else {
             jsCallback.execute("failed");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }
