@@ -128,7 +128,7 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
 
-            VanChartBubblePlot plot;
+            private VanChartBubblePlot plot;
 
             @Override
             public void populate(ChartCollection collection) {

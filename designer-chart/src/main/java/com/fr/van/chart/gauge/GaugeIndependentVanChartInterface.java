@@ -120,7 +120,7 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
 
-            VanChartGaugePlot gaugePlot;
+            private VanChartGaugePlot gaugePlot;
 
             @Override
             public void populate(ChartCollection collection) {
