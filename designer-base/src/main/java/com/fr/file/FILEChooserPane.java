@@ -7,6 +7,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
@@ -846,7 +847,7 @@ public class FILEChooserPane extends BasicPane {
                     saveDictionary();
                     dialogExit();
                 } else {
-                    JOptionPane.showMessageDialog(this, Toolkit.i18nText("Fine-Design_Basic_App_Template_Report_Not_Exist"));
+                    FineJOptionPane.showMessageDialog(this, Toolkit.i18nText("Fine-Design_Basic_App_Template_Report_Not_Exist"));
                     return;
                 }
             }
@@ -876,8 +877,8 @@ public class FILEChooserPane extends BasicPane {
 
         if (access(selectedFile) && access(currentDirectory)) {
             if (selectedFile.exists()) {
-                int selVal = JOptionPane.showConfirmDialog(dialog, Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Cover_The_Current_File") + " ?",
-                        ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                int selVal = FineJOptionPane.showConfirmDialog(dialog, Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Cover_The_Current_File") + " ?",
+                        Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (selVal == JOptionPane.YES_OPTION) {
                     option = JOPTIONPANE_OK_OPTION;
                     saveDictionary();
@@ -891,7 +892,7 @@ public class FILEChooserPane extends BasicPane {
                 saveDictionary();
             }
         } else {
-            JOptionPane.showMessageDialog(FILEChooserPane.this, Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
+            FineJOptionPane.showMessageDialog(FILEChooserPane.this, Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!", Toolkit.i18nText("Fine-Design_Basic_App_File_Message"), JOptionPane.WARNING_MESSAGE);
 
         }
     }
@@ -1553,7 +1554,7 @@ public class FILEChooserPane extends BasicPane {
                 if (access(currentDirectory)) {
                     new MkdirDialog();
                 } else {
-                    JOptionPane.showMessageDialog(
+                    FineJOptionPane.showMessageDialog(
                             FILEChooserPane.this,
                             Toolkit.i18nText("Fine-Design_Basic_App_Privilege_No") + "!",
                             Toolkit.i18nText("Fine-Design_Basic_App_File_Message"),
@@ -1715,9 +1716,9 @@ public class FILEChooserPane extends BasicPane {
                 scrollPane.getVerticalScrollBar().setValue(value);
 
             } else {
-                JOptionPane.showConfirmDialog(FILEChooserPane.this,
+                FineJOptionPane.showConfirmDialog(FILEChooserPane.this,
                         Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
-                        UIManager.getString("OptionPane.messageDialogTitle"),
+                        Toolkit.i18nText("Fine-Design_Basic_Error"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }

@@ -3,6 +3,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.javascript.Commit2DBJavaScriptPane;
@@ -408,7 +409,7 @@ public  class CommitTabbedPane extends JComponent implements MouseListener, Mous
             selectedIndex = dbManipulationPaneList.size()-1;
             commit2DBJavaScriptPane.updateCardPane();
         } else if (isOverCloseIcon(x)){
-            int re = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Sure_To_Delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Remove")
+            int re = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Sure_To_Delete")+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_CommitTab_Remove")
                     , JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (re == JOptionPane.OK_OPTION) {
                 dbManipulationPaneList.remove(getTabIndex(x));

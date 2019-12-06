@@ -17,6 +17,7 @@ import com.fr.design.data.datapane.sqlpane.SQLEditPane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.data.tabledata.StoreProcedureWorkerListener;
 import com.fr.design.data.tabledata.wrapper.StoreProcedureDataWrapper;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -239,7 +240,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             try {
                 throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(ProcedureDataPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
+                FineJOptionPane.showMessageDialog(ProcedureDataPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
             }
         }
 

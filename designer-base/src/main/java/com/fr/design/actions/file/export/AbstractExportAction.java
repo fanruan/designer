@@ -2,6 +2,7 @@ package com.fr.design.actions.file.export;
 
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.base.mode.DesignModeContext;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.iprogressbar.FRProgressBar;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
@@ -132,10 +133,10 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
         E e = getEditingComponent();
         if (!e.isALLSaved() && !DesignModeContext.isVcsMode()) {
             e.stopEditing();
-            int returnVal = JOptionPane.showConfirmDialog(
+            int returnVal = FineJOptionPane.showConfirmDialog(
                     DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + e.getEditingFILE() + "\" ?",
-                    ProductConstants.PRODUCT_NAME,
+                    Toolkit.i18nText("Fine-Design_Basic_Confirm"),
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE
             );
@@ -171,7 +172,7 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     this.setProgress(100);
 
                     FineLoggerFactory.getLogger().info("\"" + name + "\"" + Toolkit.i18nText("Fine-Design_Report_Finish_Export") + "!");
-                    JOptionPane.showMessageDialog(
+                    FineJOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Design_Report_Exported_Successfully") + "\n" + name);
 
@@ -180,10 +181,10 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     this.setProgress(100);
                     target.closeTemplate();
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(
+                    FineJOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Engine_Remote_Design_Permission_Denied"),
-                            UIManager.getString("OptionPane.messageDialogTitle"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"),
                             JOptionPane.ERROR_MESSAGE,
                             UIManager.getIcon("OptionPane.errorIcon")
                     );
@@ -191,10 +192,10 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                     this.setProgress(100);
                     target.closeTemplate();
                     FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                    JOptionPane.showMessageDialog(
+                    FineJOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Design_Report_Export_Failed") + "\n" + path,
-                            UIManager.getString("OptionPane.messageDialogTitle"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"),
                             JOptionPane.ERROR_MESSAGE,
                             UIManager.getIcon("OptionPane.errorIcon")
                     );

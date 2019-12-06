@@ -5,6 +5,7 @@ import com.fr.decision.update.info.UpdateCallBack;
 import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -608,7 +609,7 @@ public class UpdateMainDialog extends UIDialog {
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate(installLib);
-                            JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
+                            FineJOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
                             helper.restartForUpdate(frame);
                         }
                     }.execute();

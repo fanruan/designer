@@ -14,6 +14,7 @@ import com.fr.design.DesignerEnvManager;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -303,7 +304,7 @@ public class PreviewTablePane extends BasicPane {
             return;
         }
         FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), columnErrMessage, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
     }
 
     private void populate(TableData tableData) throws Exception {
@@ -394,8 +395,8 @@ public class PreviewTablePane extends BasicPane {
                 } catch (Exception e) {
                     if (!(e instanceof CancellationException)) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(),
-                                null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage(),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
                     }
                     dialog.setVisible(false);
                 } finally {

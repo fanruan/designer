@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
@@ -109,7 +110,7 @@ public class PluginUtils {
                 throw new com.fr.plugin.PluginVerifyException(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Connect_Server_Error"));
             }
         } catch (PluginVerifyException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, e.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);

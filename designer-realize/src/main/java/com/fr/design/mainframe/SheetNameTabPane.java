@@ -26,6 +26,7 @@ import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
@@ -875,7 +876,8 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_At_Least_One_Visual_Worksheet") + "！");
                 return;
             }
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Des_Remove_Work_Sheet"), ProductConstants.APP_NAME,
+            int returnValue = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Des_Remove_Work_Sheet"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue == JOptionPane.OK_OPTION) {
                 if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
