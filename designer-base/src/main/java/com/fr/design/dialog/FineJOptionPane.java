@@ -1,6 +1,9 @@
 package com.fr.design.dialog;
 
+import com.fr.invoke.Reflect;
+
 import javax.swing.Icon;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.HeadlessException;
@@ -35,6 +38,7 @@ public class FineJOptionPane extends JOptionPane {
 
     private final static String MESSAGE_DIALOG_TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message");
     private final static String CONFIRM_DIALOG_TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm");
+    private final static String INPUT_DIALOG_TITLE = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips");
 
     /**
      * 使用默认 标题 和 消息类型 的消息提示弹出框
@@ -79,7 +83,7 @@ public class FineJOptionPane extends JOptionPane {
     }
 
     /**
-     * 完全自定义的消息提示弹出框
+     * 自定义的消息提示弹出框
      * @param parentComponent 父容器
      * @param message 具体的提示消息
      * @param title 标题
@@ -159,7 +163,7 @@ public class FineJOptionPane extends JOptionPane {
     }
 
     /**
-     * 完全自定义的确认弹出框
+     * 自定义的确认弹出框
      * @param parentComponent 父容器
      * @param message 具体的提示消息
      * @param title 标题
@@ -178,5 +182,108 @@ public class FineJOptionPane extends JOptionPane {
                 messageType, icon, options, initialValue);
     }
 
+    /**
+     * 指定消息内容的输入弹出框
+     * @param message 消息内容
+     * @return
+     * @throws HeadlessException
+     */
+    public static String showInputDialog(Object message)
+            throws HeadlessException {
+        return showInputDialog(null, message);
+    }
+
+    /**
+     * 使用默认 标题 和 消息类型 的输入弹出框
+     * @param parentComponent 父容器
+     * @param message 消息内容
+     * @return
+     * @throws HeadlessException
+     */
+    public static String showInputDialog(Component parentComponent,
+                                         Object message) throws HeadlessException {
+        return showInputDialog(parentComponent, message, INPUT_DIALOG_TITLE, QUESTION_MESSAGE);
+    }
+
+    /**
+     * 使用默认 标题、消息类型、Icon 和 选项 的输入弹出框
+     * @param parentComponent 父容器
+     * @param message 消息类型
+     * @param initialSelectionValue 初始选项
+     * @return
+     */
+    public static String showInputDialog(Component parentComponent, Object message,
+                                         Object initialSelectionValue) {
+        return (String)showInputDialog(parentComponent, message,
+                INPUT_DIALOG_TITLE, QUESTION_MESSAGE, null, null,
+                initialSelectionValue);
+    }
+
+    /**
+     * 使用默认 父容器、消息内容 和 初始选项 的输入弹出框
+     * @param message 消息内容
+     * @param initialSelectionValue 初始选项
+     * @return
+     */
+    public static String showInputDialog(Object message, Object initialSelectionValue) {
+        return showInputDialog(null, message, initialSelectionValue);
+    }
+
+    /**
+     * 使用默认 Icon、选项 和 初始选项 的输入弹出框
+     * @param parentComponent 父容器
+     * @param message 消息内容
+     * @param title 标题
+     * @param messageType 消息类型
+     * @return
+     * @throws HeadlessException
+     */
+    public static String showInputDialog(Component parentComponent,
+                                         Object message, String title, int messageType)
+            throws HeadlessException {
+        return (String)showInputDialog(parentComponent, message, title,
+                messageType, null, null, null);
+    }
+
+    /**
+     * 自定义的输入弹出框
+     * @param parentComponent 父容器
+     * @param message 消息内容
+     * @param title 标题
+     * @param messageType 消息类型
+     * @param icon 图标
+     * @param selectionValues 选项
+     * @param initialSelectionValue 初始选项
+     * @return
+     * @throws HeadlessException
+     */
+    public static Object showInputDialog(Component parentComponent,
+                                         Object message, String title, int messageType, Icon icon,
+                                         Object[] selectionValues, Object initialSelectionValue)
+            throws HeadlessException {
+        JOptionPane    pane = new JOptionPane(message, messageType,
+                OK_CANCEL_OPTION, icon,
+                OPTION_OK_CANCEL, null);
+
+        pane.setWantsInput(true);
+        pane.setSelectionValues(selectionValues);
+        pane.setInitialSelectionValue(initialSelectionValue);
+        pane.setComponentOrientation(((parentComponent == null) ?
+                getRootFrame() : parentComponent).getComponentOrientation());
+
+        int style = Reflect.on(JOptionPane.class).call("styleFromMessageType", messageType).get();
+        JDialog dialog = Reflect.on(pane).call("createDialog", parentComponent, title, style).get();
+
+        pane.selectInitialValue();
+        dialog.show();
+        dialog.dispose();
+
+        Object value = pane.getInputValue();
+
+        if (value == UNINITIALIZED_VALUE) {
+            return null;
+        }
+        return value;
+    }
 
 }

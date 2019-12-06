@@ -13,6 +13,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.event.ChangeEvent;
 import com.fr.design.event.ChangeListener;
 import com.fr.design.event.UIObserver;
@@ -327,15 +328,15 @@ public class MapGroupExtensionPane extends BasicPane implements UIObserver {
 	}
 
 	private void showRenameWaring(String newName){
-		JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
-				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
+		FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
+				+ "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
 	}
 
 	private JMenuItem createRenameItem() {
 		JMenuItem renameItem = new JMenuItem(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"));
 		renameItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String newName = JOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(),
+				String newName = FineJOptionPane.showInputDialog(DesignerContext.getDesignerFrame().getContentPane(),
 						com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Map_Rename"), groupExtensionPane.getSelectedObject());
 				if (StringUtils.isNotBlank(newName)) {
 					String oldName = Utils.objectToString(groupExtensionPane.getSelectedObject());
