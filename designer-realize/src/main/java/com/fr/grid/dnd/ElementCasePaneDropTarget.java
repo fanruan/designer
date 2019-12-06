@@ -2,6 +2,7 @@ package com.fr.grid.dnd;
 
 import com.fr.design.actions.ToggleButtonUpdateAction;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -192,13 +193,13 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (direction == RIGHT_2_LEFT) {
                 int k = cs.getColumn() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Left_Side_Of_Border"));
+                    FineJOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Left_Side_Of_Border"));
                     return false;
                 }
             } else if (direction == BOTTOM_2_TOP) {
                 int k = cs.getRow() - columnCount + 1;
                 if (k < 0) {
-                    JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Top_Side_Of_Border"));
+                    FineJOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Top_Side_Of_Border"));
                     return false;
                 }
             }
@@ -206,12 +207,12 @@ public class ElementCasePaneDropTarget extends DropTargetAdapter {
             if (ePane.mustInVisibleRange()) {
                 if (direction == LEFT_2_RIGHT) {
                     if (!GridUtils.canMove(ePane, cs.getColumn() + columnCount - 1, cs.getRow())) {
-                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Right_Side_Of_Border"));
+                        FineJOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Right_Side_Of_Border"));
                         return false;
                     }
                 } else if (direction == TOP_2_BOTTOM) {
                     if (!GridUtils.canMove(ePane, cs.getRow(), cs.getColumn() + columnCount - 1)) {
-                        JOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Bottom_Side_Of_Border"));
+                        FineJOptionPane.showMessageDialog(ePane, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Beyond_The_Bottom_Side_Of_Border"));
                         return false;
                     }
                 }
