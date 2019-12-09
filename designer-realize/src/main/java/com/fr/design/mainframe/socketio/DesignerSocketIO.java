@@ -138,7 +138,7 @@ public class DesignerSocketIO {
         @Override
         public void call(Object... objects) {
             /*
-            * todo 远程心跳断开不一定 socketio 断开 和远程紧密相关的业务都绑定在心跳上，切换成心跳断开之后进行提醒，
+            * todo 远程心跳断开不一定 socket 断开 和远程紧密相关的业务都绑定在心跳上，切换成心跳断开之后进行提醒，
             * socket 只用推日志和通知配置变更
             */
             if (status != Status.Disconnecting) {
