@@ -37,6 +37,7 @@ import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.form.util.XCreatorConstants;
@@ -388,8 +389,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     private void addParaPaneTooltips() {
-        JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Please_Drag_ParaPane"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+        FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Please_Drag_ParaPane"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 
     /**
@@ -635,8 +636,8 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
             return false;
         }
         if (this.getTarget().isNameExist(newName)) {
-            JOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
-                    + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
+            FineJOptionPane.showMessageDialog(this, "\"" + newName + "\"" + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Utils_Has_Been_Existed")
+                    + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         creator.resetCreatorName(newName);
@@ -645,7 +646,7 @@ public class FormDesigner extends TargetComponent<Form> implements TreeSelection
     }
 
     public void showMessageDialog(String message) {
-        JOptionPane.showMessageDialog(this, message, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Alert"), JOptionPane.WARNING_MESSAGE);
+        FineJOptionPane.showMessageDialog(this, message, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
         FormSelectionUtils.rebuildSelection(this);
         repaint();
     }

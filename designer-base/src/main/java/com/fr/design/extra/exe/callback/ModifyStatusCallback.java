@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.bridge.exec.JSCallback;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginUtils;
 
 import com.fr.plugin.manage.control.PluginTaskCallback;
@@ -24,9 +25,9 @@ public class ModifyStatusCallback implements PluginTaskCallback{
         if (result.isSuccess()) {
             jsCallback.execute("success");
             String modifyMessage = isActive ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Has_Been_Disabled_Duplicate") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Plugin_Has_Been_Actived_Duplicate");
-            JOptionPane.showMessageDialog(null, modifyMessage);
+            FineJOptionPane.showMessageDialog(null, modifyMessage);
         } else {
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

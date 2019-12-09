@@ -7,16 +7,11 @@ import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.update.ui.dialog.UpdateMainDialog;
 import com.fr.general.CloudCenter;
-import com.fr.general.GeneralContext;
 import com.fr.general.GeneralUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
-import com.fr.stable.os.OperatingSystem;
-import com.fr.stable.os.support.OSBasedAction;
-import com.fr.stable.os.support.OSSupportCenter;
-import com.fr.workspace.WorkContext;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -12,6 +12,7 @@ import com.fr.design.actions.server.StyleListAction;
 import com.fr.design.actions.server.WidgetManagerAction;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
@@ -107,7 +108,7 @@ public class Designer extends BaseDesigner {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
             SplashContext.getInstance().hide();
-            JOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
             System.exit(0);
         }

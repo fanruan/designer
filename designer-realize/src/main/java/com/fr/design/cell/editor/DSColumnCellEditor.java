@@ -3,6 +3,7 @@ package com.fr.design.cell.editor;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dscolumn.DSColumnPane;
 import com.fr.design.mainframe.ElementCasePane;
 import com.fr.grid.Grid;
@@ -71,8 +72,8 @@ public class DSColumnCellEditor extends AbstractCellEditor implements DialogActi
 		try {
 			this.dsColumnPane.populate(DesignTableDataManager.getEditingTableDataSource(), cellElement);
 		} catch (Exception exp) {
-			JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(grid), exp.getMessage(),
-					ProductConstants.APP_NAME, JOptionPane.ERROR_MESSAGE);
+			FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(grid), exp.getMessage(),
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
 		}
 
