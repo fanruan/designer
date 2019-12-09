@@ -60,14 +60,14 @@ public class DesignerSocketIO {
         try {
             uri = getSocketUri();
         } catch (IOException e) {
-            e.printStackTrace();
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         count = 0;
         //建立socket并注册监听
-        CreateSocket();
+        createSocket();
     }
 
-    private static void CreateSocket(){
+    private static void createSocket(){
         //根据uri和计数器建立连接，并注册监听
         try {
             if(count<uri.length) {
@@ -80,7 +80,7 @@ public class DesignerSocketIO {
                 status = Status.Connected;
             }else {
                 //表示所有的uri都连接不成功
-                FineLoggerFactory.getLogger().warn("所有URI均连接失败");
+                FineLoggerFactory.getLogger().warn("All uris failed to connect");
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -114,7 +114,7 @@ public class DesignerSocketIO {
             status = Status.Disconnecting;
             socket.close();
             count++;
-            CreateSocket();
+            createSocket();
         }
     };
 
