@@ -15,6 +15,8 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -147,6 +149,22 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
                     @Override
                     public void focusLost(FocusEvent e) {
                         attributeChange();
+                    }
+                });
+                UIComboCheckBox.this.popup.addPopupMenuListener(new PopupMenuListener() {
+                    @Override
+                    public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                        attributeChange();
+                    }
+
+                    @Override
+                    public void popupMenuCanceled(PopupMenuEvent e) {
+                        // do nothing
                     }
                 });
             }
