@@ -528,14 +528,14 @@ public abstract class ToolBarMenuDock {
      */
     public ShortCut[] createHelpShortCuts() {
         final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
-        shortCuts.add(new WebDemoAction());
         // 英文，把 video 和帮助文档放到 Help 下面
         if (GeneralContext.getLocale().equals(Locale.US)) {
             shortCuts.add(new VideoAction());
             shortCuts.add(new TutorialAction());
         }
-        //远程不使用更新升级
+        //远程不使用更新升级，产品演示
         if (WorkContext.getCurrent().isLocal()) {
+            shortCuts.add(new WebDemoAction());
             shortCuts.add(new SoftwareUpdateAction());
         }
         if (AlphaFineConfigManager.isALPHALicAvailable()) {
