@@ -208,7 +208,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
     /**
      * 刷新tableData
      *
-     * @param oldName 旧名称f
+     * @param oldName 旧名称
      * @param newName 新名称
      */
     public void refresh4TableData(String oldName, String newName) {
