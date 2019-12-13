@@ -14,6 +14,7 @@ import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
+import com.fr.stable.os.OperatingSystem;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -268,6 +269,9 @@ abstract class UIControlPane extends JControlPane {
             addWindowFocusListener(new WindowAdapter() {
                 @Override
                 public void windowLostFocus(WindowEvent e) {
+                    if (OperatingSystem.isLinux()) {
+                        requestFocus();
+                    }
                     hideDialog();
                 }
             });

@@ -458,9 +458,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     }
 
     private void refreshContainer() {
-        validate();
-        repaint();
-        revalidate();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                validate();
+                repaint();
+                revalidate();
+            }
+        });
     }
 
     public int getToolPaneY() {
