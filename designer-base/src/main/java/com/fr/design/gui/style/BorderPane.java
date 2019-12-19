@@ -16,14 +16,10 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
-import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
 
-import com.fr.general.Background;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
-import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
