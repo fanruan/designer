@@ -33,6 +33,10 @@ public class NullBackgroundQuickPane extends BackgroundQuickPane {
 
 	}
 
+	@Override
+	public boolean isBackgroundChange() {
+		return true;
+	}
 
     /**
      * 是否接受

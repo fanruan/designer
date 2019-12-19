@@ -16,11 +16,14 @@ import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.backgroundpane.BackgroundQuickPane;
 import com.fr.design.mainframe.backgroundpane.ColorBackgroundQuickPane;
 import com.fr.design.style.color.NewColorSelectBox;
 
+import com.fr.general.Background;
 import com.fr.stable.Constants;
 import com.fr.stable.CoreConstants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -28,6 +31,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author zhou
@@ -37,6 +41,7 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
 
     private static final String[] BORDERARRAY = {"currentLineCombo", "currentLineColorPane", "outerToggleButton", "topToggleButton",
             "leftToggleButton", "bottomToggleButton", "rightToggleButton", "innerToggleButton", "horizontalToggleButton", "verticalToggleButton"};
+    private static final Set<String> BORDER_SET = new HashSet<>(Arrays.asList(BORDERARRAY));
     private boolean insideMode = false;
 
     private UIToggleButton topToggleButton;
@@ -193,25 +198,20 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         this.verticalToggleButton.setEnabled(this.insideMode);
     }
 
+    @Override
     public Style update(Style style) {
 
         if (style == null) {
             style = Style.DEFAULT_STYLE;
         }
 
-        CellBorderStyle cellBorderStyle = this.update();
-        HashSet<String> borderSet = new HashSet<String>(Arrays.asList(BORDERARRAY));
-        style = style.deriveBackground(backgroundPane.update());
-        if (backgroundPane.currentPane != backgroundPane.paneList[1]){
-            if (borderSet.contains(globalNameListener.getGlobalName())) {
-                style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
-                        cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-            }
-        }else {
-            if (borderSet.contains(globalNameListener.getGlobalName()) && !((ColorBackgroundQuickPane) backgroundPane.currentPane).isBackGroundColor()){
-                style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
-                        cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
-            }
+        if (backgroundPane.currentPane.isBackgroundChange()) {
+            style = style.deriveBackground(backgroundPane.update());
+        }
+        if (BORDER_SET.contains(globalNameListener.getGlobalName())) {
+            CellBorderStyle cellBorderStyle = this.update();
+            style = style.deriveBorder(cellBorderStyle.getTopStyle(), cellBorderStyle.getTopColor(), cellBorderStyle.getBottomStyle(), cellBorderStyle.getBottomColor(),
+                                       cellBorderStyle.getLeftStyle(), cellBorderStyle.getLeftColor(), cellBorderStyle.getRightStyle(), cellBorderStyle.getRightColor());
         }
 
         return style;
