@@ -244,6 +244,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
             if (selectedNO == null) {
                 return;
             }
+            DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             dgEdit(((AbstractTableDataWrapper) selectedNO.getObject()).creatTableDataPane(), selectedNO.getName(), false);
         }
     }
@@ -275,6 +276,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 dataTree.setSelectionRow(dataTree.getRowCount() - 1);
                 fireDSChanged();
                 checkButtonEnabled();
+                DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             }
         }
     }
