@@ -32,7 +32,7 @@ public class BackgroundPane extends AbstractBasicStylePane {
     protected BackgroundQuickPane[] paneList;
 
     //获取当前面板
-    protected JPanel currentPane = null;
+    protected BackgroundQuickPane currentPane = null;
 
 
     public BackgroundPane() {
@@ -43,7 +43,6 @@ public class BackgroundPane extends AbstractBasicStylePane {
         this.setLayout(new BorderLayout(0, 6));
         typeComboBox = new UIComboBox();
         final CardLayout cardlayout = new CardLayout();
-//        this.add(typeComboBox, BorderLayout.NORTH);
 
         paneList = supportKindsOfBackgroundUI();
 
@@ -58,12 +57,12 @@ public class BackgroundPane extends AbstractBasicStylePane {
             typeComboBox.addItem(pane.title4PopupWindow());
             centerPane.add(pane, pane.title4PopupWindow());
         }
-//        this.add(centerPane, BorderLayout.CENTER);
         typeComboBox.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
                 cardlayout.show(centerPane, (String) typeComboBox.getSelectedItem());
+                currentPane = paneList[typeComboBox.getSelectedIndex()];
                 fireStateChanged();
             }
         });
