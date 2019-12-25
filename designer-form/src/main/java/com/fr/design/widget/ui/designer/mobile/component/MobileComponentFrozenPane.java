@@ -11,6 +11,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.form.ui.FormWidgetHelper;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WSortLayout;
 import com.fr.stable.ArrayUtils;
@@ -64,8 +65,13 @@ public class MobileComponentFrozenPane extends BasicPane {
         List<String> selected = new ArrayList<>();
         WSortLayout wSortLayout = ((WSortLayout) xCreator.toData());
         Object[] values = uiComboCheckBox.getSelectedValues();
-        for (Object widgetName : values) {
-            selected.add((String) widgetName);
+        for (Object value : values) {
+            String widgetName = (String) value;
+            selected.add(widgetName);
+            Widget widget = FormWidgetHelper.findWidgetWithBound(wSortLayout, widgetName);
+            if (widget != null) {
+                widget.getMobileBookMark().setFrozen(true);
+            }
         }
         wSortLayout.updateFrozenWidgets(selected);
     }

@@ -11,6 +11,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.MobileWidgetListPane;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileBookMarkSettingPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentFrozenPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentMarginPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentLayoutIntervalPane;
@@ -34,6 +35,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     private MobileComponentMarginPane marginPane;
     private MobileComponentLayoutIntervalPane intervalPane;
     private MobileComponentFrozenPane frozenPane;
+    private MobileBookMarkSettingPane bookMarkSettingPane;
     private UIExpandablePane advancePane;
     private UIExpandablePane layoutPane;
 
@@ -96,10 +98,14 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         marginPane = new MobileComponentMarginPane(FormBodyPaddingAttrMark.XML_TAG);
         intervalPane = new MobileComponentLayoutIntervalPane(FormBodyPaddingAttrMark.XML_TAG);
         frozenPane = new MobileComponentFrozenPane();
+        bookMarkSettingPane = new MobileBookMarkSettingPane();
         JPanel wrapLayoutPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        JPanel wrapAdvancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         wrapLayoutPane.add(intervalPane, BorderLayout.NORTH);
         wrapLayoutPane.add(frozenPane, BorderLayout.CENTER);
-        advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, marginPane);
+        wrapAdvancePane.add(marginPane, BorderLayout.CENTER);
+        wrapAdvancePane.add(bookMarkSettingPane, BorderLayout.SOUTH);
+        advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, wrapAdvancePane);
         layoutPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, wrapLayoutPane);
         //高级
         holder.add(advancePane, BorderLayout.CENTER);
@@ -110,7 +116,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         advancePane.setVisible(flag);
         layoutPane.setVisible(flag);
         frozenPane.setVisible(appRelayoutCheck.isSelected());
-
+        bookMarkSettingPane.setVisible(appRelayoutCheck.isSelected());
         return holder;
     }
 
@@ -147,13 +153,15 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
     @Override
     public void populate(FormDesigner designer) {
         this.designer = designer;
+        XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
         appRelayoutCheck.setSelected(FormDesignerUtils.isAppRelayout(designer));
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
         marginPane.populate((RichStyleWidgetProvider) getBodyCreator().toData());
         intervalPane.populate((RichStyleWidgetProvider) getBodyCreator().toData());
-        frozenPane.populate(designer.getSelectionModel().getSelection().getSelectedCreator());
+        frozenPane.populate(xCreator);
+        bookMarkSettingPane.populate(xCreator);
     }
 
     @Override
@@ -174,7 +182,9 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
             intervalPane.update((RichStyleWidgetProvider) getBodyCreator().toData());
         }
         if (appRelayout) {
-            frozenPane.update(designer.getSelectionModel().getSelection().getSelectedCreator());
+            XCreator xCreator = designer.getSelectionModel().getSelection().getSelectedCreator();
+            frozenPane.update(xCreator);
+            bookMarkSettingPane.update(xCreator);
         }
     }
 }
