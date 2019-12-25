@@ -27,17 +27,6 @@ public class DesignerPushUpdateManager {
 
     private DesignerUpdateInfo updateInfo;
 
-    static {
-        if (DesignerPushUpdateConfigManager.getInstance().isAutoPushUpdateEnabled()) {
-            DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
-                @Override
-                public void designerOpened() {
-                    getInstance().checkAndPop();
-                }
-            });
-        }
-    }
-
     private DesignerPushUpdateManager() {
     }
 
@@ -46,6 +35,17 @@ public class DesignerPushUpdateManager {
             singleton = new DesignerPushUpdateManager();
         }
         return singleton;
+    }
+
+    public void preparePushUpdate() {
+        if (DesignerPushUpdateConfigManager.getInstance().isAutoPushUpdateEnabled()) {
+            DesignerContext.getDesignerFrame().addDesignerOpenedListener(new DesignerOpenedListener() {
+                @Override
+                public void designerOpened() {
+                    getInstance().checkAndPop();
+                }
+            });
+        }
     }
 
     private void initUpdateInfo(String currentVersion, String latestVersion) {
