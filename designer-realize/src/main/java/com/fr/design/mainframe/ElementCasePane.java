@@ -538,7 +538,6 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
             this.selection = selection;
             fireSelectionChanged();
         }
-        fireSelectionChanged();
     }
 
 
