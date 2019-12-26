@@ -3,8 +3,6 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
-import com.fr.design.chartx.fields.diff.FunnelCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.FunnelDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -14,9 +12,12 @@ import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
+import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ibutton.UITabGroup;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
+import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.CustomPlotFactory;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
@@ -102,7 +103,25 @@ public class CustomChartDataPane extends ChartDataPane {
             case DIFFERENT_PIE:
             case POINTER_180:
             case POINTER_360:
-                return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
+                return new SingleDataPane(new SingleCategoryDataSetFieldsPane() {
+                    @Override
+                    public void checkBoxUse(boolean hasUse) {
+                        super.checkBoxUse(hasUse);
+                        UIComboBox[] comboBoxes = super.filedComboBoxes();
+                        for (UIComboBox comboBox : comboBoxes) {
+                            comboBox.setEnabled(false);
+                        }
+                    }
+                }, new SingleCategoryCellDataFieldsPane() {
+                    @Override
+                    protected TinyFormulaPane[] formulaPanes() {
+                        TinyFormulaPane[] tinyFormulaPanes = super.formulaPanes();
+                        for (TinyFormulaPane tinyFormulaPane : tinyFormulaPanes) {
+                            GUICoreUtils.setEnabled(tinyFormulaPane, false);
+                        }
+                        return tinyFormulaPanes;
+                    }
+                });
             default:
                 if (StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType())){
                     return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
