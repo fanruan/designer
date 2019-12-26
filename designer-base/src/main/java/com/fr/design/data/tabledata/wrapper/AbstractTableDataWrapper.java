@@ -65,6 +65,7 @@ public abstract class AbstractTableDataWrapper implements TableDataWrapper {
             }
 		}
 		columnNameList = DesignTableDataManager.getColumnNamesByTableData(embeddedTableData);
+        DesignTableDataManager.addDsColumnNames(name, columnNameList.toArray(new String[0]));
 		return columnNameList;
 	}
 

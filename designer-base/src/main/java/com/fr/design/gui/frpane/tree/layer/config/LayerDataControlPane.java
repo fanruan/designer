@@ -2,6 +2,7 @@ package com.fr.design.gui.frpane.tree.layer.config;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.ControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
@@ -177,7 +178,7 @@ public class LayerDataControlPane extends ControlPane {
 
         public void actionPerformed(ActionEvent e) {
             // TODO remove tree node
-            int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
+            int val = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (val != JOptionPane.OK_OPTION) {
                 return;

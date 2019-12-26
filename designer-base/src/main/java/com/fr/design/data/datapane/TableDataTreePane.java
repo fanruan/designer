@@ -18,6 +18,7 @@ import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.fun.TableDataDefineProvider;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -279,6 +280,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
             if (selectedNO == null) {
                 return;
             }
+            DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             dgEdit(((AbstractTableDataWrapper) selectedNO.getObject()).creatTableDataPane(), selectedNO.getName(), false);
         }
     }
@@ -299,7 +301,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
+            int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.OK_OPTION) {
                 // richer:这个地方为什么要在DataSourceTree里面去remove呢？多此一举吧
@@ -310,6 +312,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 dataTree.setSelectionRow(dataTree.getRowCount() - 1);
                 fireDSChanged();
                 checkButtonEnabled();
+                DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             }
         }
     }

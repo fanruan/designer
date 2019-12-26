@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
@@ -161,7 +162,7 @@ public class ServerPrinterPane extends BasicPane {
 				return;
 			}
 
-			int returnVal = JOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Are_You_Sure_To_Delete_The_Selected_Printer")
+			int returnVal = FineJOptionPane.showConfirmDialog(ServerPrinterPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_ReportServerP_Are_You_Sure_To_Delete_The_Selected_Printer")
 					+ "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {
 				((DefaultListModel) printerList.getModel()).remove(selectedIndex);

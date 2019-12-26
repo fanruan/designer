@@ -34,7 +34,7 @@ public class SplashPane extends JPanel {
     private static final int THANK_INFO_Y = uiScale(340);
     private static final int FONT_SIZE = uiScale(12);
 
-    private static final int MODULE_INFO_WIDTH = uiScale(150);
+    private static final int MODULE_INFO_WIDTH = uiScale(170);
     private static final int MODULE_INFO_HEIGHT = uiScale(20);
 
     private static final String ARIAL_FONT_NAME = "Arial";

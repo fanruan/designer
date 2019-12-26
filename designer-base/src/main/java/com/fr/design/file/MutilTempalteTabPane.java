@@ -5,6 +5,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.i18n.Toolkit;
@@ -678,8 +679,8 @@ public class MutilTempalteTabPane extends JComponent {
 
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
-                    ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
+                    Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.YES_OPTION) {
                 specifiedTemplate.saveTemplate();
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
@@ -931,7 +932,7 @@ public class MutilTempalteTabPane extends JComponent {
                     //如果在权限编辑情况下，不允许切换到表单类型的工作簿
                     if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                         DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
-                        JOptionPane.showMessageDialog(MutilTempalteTabPane.this, Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
+                        FineJOptionPane.showMessageDialog(MutilTempalteTabPane.this, Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
                                 + "!", Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                         MutilTempalteTabPane.this.repaint();
                         return;
