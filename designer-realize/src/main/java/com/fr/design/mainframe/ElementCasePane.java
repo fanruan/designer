@@ -523,8 +523,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
     @Override
     public void setSelection(Selection selection) {
-        if (!ComparatorUtils.equals(this.selection, selection) ||
-                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
+        if (!ComparatorUtils.equals(this.selection, selection)
+                || !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())
+                || DesignModeContext.isAuthorityEditing()) {
             try {
                 //旧选中内容编辑器释放模板对象
                 QuickEditor editor = this.getCurrentEditor();
@@ -535,8 +536,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 FineLoggerFactory.getLogger().info("Nothing to release");
             }
             this.selection = selection;
+            fireSelectionChanged();
         }
-        fireSelectionChanged();
     }
 
 
