@@ -18,7 +18,7 @@ import java.awt.*;
  */
 public class MobileBookMarkStyleDefinePane extends BasicBeanPane<MobileBookMarkStyle> {
 
-    private MobileBookMarkStyleCustomDefinePane customDefinePane;
+    private BasicBeanPane<MobileBookMarkStyle> customDefinePane;
     private String displayName;
 
     MobileBookMarkStyleDefinePane(MobileBookMarkStyleProvider bookMarkStyleProvider) {

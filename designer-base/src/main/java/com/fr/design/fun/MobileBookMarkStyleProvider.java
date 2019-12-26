@@ -1,6 +1,6 @@
 package com.fr.design.fun;
 
-import com.fr.design.mainframe.mobile.ui.MobileBookMarkStyleCustomDefinePane;
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.form.ui.mobile.MobileBookMarkStyle;
 import com.fr.stable.fun.mark.Mutable;
 
@@ -27,7 +27,7 @@ public interface MobileBookMarkStyleProvider extends Mutable {
      * 书签样式面板
      * @return
      */
-    Class<? extends MobileBookMarkStyleCustomDefinePane> classForMobileBookMarkStyleAppearance();
+    Class<? extends BasicBeanPane<MobileBookMarkStyle>> classForMobileBookMarkStyleAppearance();
 
     String displayName();
 

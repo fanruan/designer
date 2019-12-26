@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.mobile.ui;
 
+import com.fr.design.beans.BasicBeanPane;
 import com.fr.form.ui.mobile.MobileBookMarkStyle;
 
 /**
@@ -7,12 +8,7 @@ import com.fr.form.ui.mobile.MobileBookMarkStyle;
  * @version 10.0
  * Created by hades on 2019/12/24
  */
-public class DefaultMobileBookMarkStyleCustomDefinePane extends MobileBookMarkStyleCustomDefinePane {
-
-    @Override
-    protected void initComponent() {
-
-    }
+public class DefaultMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<MobileBookMarkStyle> {
 
     @Override
     public void populateBean(MobileBookMarkStyle ob) {
