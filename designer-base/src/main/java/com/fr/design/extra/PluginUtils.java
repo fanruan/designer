@@ -12,6 +12,7 @@ import com.fr.plugin.basic.version.Version;
 import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
+import com.fr.plugin.error.PluginCoreErrorCode;
 import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.view.PluginView;
@@ -195,7 +196,7 @@ public class PluginUtils {
     }
     
     public static String getMessageByErrorCode(PluginErrorCode errorCode) {
-        if(errorCode == PluginErrorCode.None){
+        if(errorCode == PluginCoreErrorCode.None){
             return "";
         }
         
