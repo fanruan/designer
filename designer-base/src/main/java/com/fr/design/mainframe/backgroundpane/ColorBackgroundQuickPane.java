@@ -19,7 +19,6 @@ import java.awt.Color;
 public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
     private NewColorSelectPane detailColorSelectPane;
-    private boolean isBackGroundColor;
 
     public ColorBackgroundQuickPane() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
@@ -39,7 +38,6 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
 
     public void populateColor(Color color) {
         this.detailColorSelectPane.setColor(color);
-        isBackGroundColor = false;
     }
 
     public Color updateColor() {
@@ -47,23 +45,14 @@ public class ColorBackgroundQuickPane extends BackgroundQuickPane {
         return this.detailColorSelectPane.getNotNoneColor();
     }
 
-    public boolean isBackGroundColor() {
-        return isBackGroundColor;
-    }
-
     /**
      * 给组件登记一个观察者监听事件
      *
      * @param listener 观察者监听事件
      */
+    @Override
     public void registerChangeListener(final UIObserverListener listener) {
-        detailColorSelectPane.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                isBackGroundColor = true;
-                listener.doChange();
-                isBackGroundColor = false;
-            }
-        });
+        detailColorSelectPane.addChangeListener(new ChangeListenerImpl(listener));
     }
 
     @Override
