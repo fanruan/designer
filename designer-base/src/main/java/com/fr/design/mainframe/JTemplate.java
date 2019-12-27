@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
-import com.fr.base.extension.FileExtension;
 import com.fr.base.io.BaseBook;
 import com.fr.base.iofile.attr.DesignBanCopyAttrMark;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
@@ -27,8 +26,8 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
-import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -50,7 +49,6 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.MemFILE;
-import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
@@ -58,6 +56,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.Filter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
@@ -628,7 +627,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         }
     }
 
-    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser) {
 
     }
 
@@ -651,13 +650,13 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         return result;
     }
 
-    protected boolean saveToNewFile(String oldName){
+    protected boolean saveToNewFile(String oldName) {
         boolean result = false;
         Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
         for (ReportSupportedFileUIProvider provider : providers) {
             result = result || provider.saveToNewFile(this.editingFILE.getPath(), this);
         }
-        if(!result){
+        if (!result) {
             result = result || this.saveFile();
             //更换最近打开
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
@@ -1154,7 +1153,12 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return 预览模式
      */
     public PreviewProvider[] supportPreview() {
-        return new PreviewProvider[0];
+        return ExtraDesignClassManager.getInstance().getTemplatePreviews(new Filter<PreviewProvider>() {
+            @Override
+            public boolean accept(PreviewProvider previewProvider) {
+                return previewProvider.accept(JTemplate.this);
+            }
+        });
     }
 
     /**

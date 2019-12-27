@@ -15,6 +15,8 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +25,8 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -132,7 +136,39 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     }
 
     private UITextField createEditor() {
-        UITextField editor = new UITextField();
+        UITextField editor = new UITextField() {
+            @Override
+            protected void initListener() {
+                this.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        attributeChange();
+                    }
+                });
+                this.addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        attributeChange();
+                    }
+                });
+                UIComboCheckBox.this.popup.addPopupMenuListener(new PopupMenuListener() {
+                    @Override
+                    public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                        attributeChange();
+                    }
+
+                    @Override
+                    public void popupMenuCanceled(PopupMenuEvent e) {
+                        // do nothing
+                    }
+                });
+            }
+        };
         editor.setEditable(false);
         editor.setPreferredSize(new Dimension(110, 20));
         addPopupListener(editor);

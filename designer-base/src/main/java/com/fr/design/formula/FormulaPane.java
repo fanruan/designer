@@ -19,6 +19,7 @@ import com.fr.design.gui.syntax.ui.rsyntaxtextarea.SyntaxConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.parser.FRLexer;
 import com.fr.parser.FRParser;
@@ -779,30 +780,30 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         private void initVariablesTreeSelectionListener() {
             variablesTree.addTreeSelectionListener(new TreeSelectionListener() {
                 public void valueChanged(TreeSelectionEvent e) {
-                    Object selectedValue = ((DefaultMutableTreeNode) variablesTree.getLastSelectedPathComponent()).getUserObject();
+                    DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) variablesTree.getLastSelectedPathComponent();
+                    Object selectedValue = selectedTreeNode.getUserObject();
+                    Object selectedParentValue = ((DefaultMutableTreeNode)selectedTreeNode.getParent()).getUserObject();
+
                     if (selectedValue == null) {
                         return;
                     }
-                    StringBuilder desBuf = new StringBuilder();
-                    try {
-                        String path;
-                        Locale locale = FRContext.getLocale();
-                        if (locale.equals(Locale.CHINA)) {
-                            path = "/com/fr/design/insert/formula/variable/cn/";
+
+                    if (selectedValue instanceof  TextUserObject) {
+                        //有公式说明的条件：1.属于TextUserObject 2.parent是系统参数
+                        if (ComparatorUtils.equals(((TextFolderUserObject) selectedParentValue).getText(),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaPane_Variables"))) {
+                            descriptionTextArea.setText(com.fr.design.i18n.Toolkit.i18nText(FormulaConstants.getValueByKey(((TextUserObject) selectedValue).getText())));
                         } else {
-                            path = "/com/fr/design/insert/formula/variable/en/";
+                            descriptionTextArea.setText(StringUtils.EMPTY);
                         }
-                        if (selectedValue instanceof TextUserObject) {
-                            desBuf = getText((TextUserObject) selectedValue, path);
-                        }
-                    } catch (IOException exp) {
-                        FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
+                    } else if (selectedValue instanceof TextFolderUserObject) {
+                        descriptionTextArea.setText(StringUtils.EMPTY);
                     }
-                    descriptionTextArea.setText(desBuf.toString());
                     descriptionTextArea.moveCaretPosition(0);
                 }
             });
         }
+
 
         private void initVariablesTree() {
             // vairable.

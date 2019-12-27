@@ -3,7 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.Style;
 import com.fr.design.actions.utils.ReportActionUtils;
 import com.fr.design.designer.TargetComponent;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.general.FRFont;
@@ -24,7 +24,7 @@ import java.awt.Color;
  */
 public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionProvider {
     private static HyperlinkGroupPaneActionProvider instance;
-
+    private static Selection selection ;
     private HyperlinkGroupPaneActionImpl() {
     }
 
@@ -40,7 +40,9 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
         ElementCasePane reportPane = (ElementCasePane)elementCasePane;
         final TemplateElementCase report = reportPane.getEditingElementCase();
         NameJavaScriptGroup nameHyperlinks = getNameJSGroup(reportPane, report);
+        selection = reportPane.getSelection();
         hyperlinkGroupPane.populate(nameHyperlinks);
+
     }
 
     private NameJavaScriptGroup getNameJSGroup(ElementCasePane reportPane, final TemplateElementCase report) {
@@ -67,13 +69,12 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
         }
         ElementCasePane reportPane = (ElementCasePane)jt.getCurrentElementCasePane();
         final TemplateElementCase report = reportPane.getEditingElementCase();
-        final Selection sel = reportPane.getSelection();
         final NameJavaScriptGroup updateNameHyperlinks = hyperlinkGroupPane.updateJSGroup();
-        if (sel instanceof FloatSelection) {
-            FloatElement selectedFloatElement = report.getFloatElement(((FloatSelection)sel).getSelectedFloatName());
+        if (selection instanceof FloatSelection) {
+            FloatElement selectedFloatElement = report.getFloatElement(((FloatSelection)selection).getSelectedFloatName());
             selectedFloatElement.setNameHyperlinkGroup(updateNameHyperlinks);
         } else {
-            ReportActionUtils.actionIterateWithCellSelection((CellSelection)sel, report, new ReportActionUtils.IterAction() {
+            ReportActionUtils.actionIterateWithCellSelection((CellSelection)selection, report, new ReportActionUtils.IterAction() {
                 public void dealWith(CellElement editCellElement) {
                     Style elementStyle = editCellElement.getStyle();
                     FRFont frFont = elementStyle.getFRFont();
@@ -94,7 +95,6 @@ public class HyperlinkGroupPaneActionImpl implements HyperlinkGroupPaneActionPro
                 }
             });
         }
-
-        HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().fireTargetModified();
+        HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().fireTargetModified();
     }
 }
