@@ -13,6 +13,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
+import com.fr.stable.os.OperatingSystem;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -263,7 +264,9 @@ abstract class UIControlPane extends JControlPane {
                 @Override
                 public void windowLostFocus(WindowEvent e) {
                     //在Linux上拉回焦点，不然导致一些面板关不掉
-                    requestFocus();
+                    if(OperatingSystem.isLinux()) {
+                        requestFocus();
+                    }
                     hideDialog();
                 }
             });
