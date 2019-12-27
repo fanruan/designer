@@ -228,7 +228,11 @@ public abstract class DesignTableDataManager {
     }
 
     public static void removeSelectedColumnNames(String dsName) {
-        columnCache.get(getEditingTableDataSource()).remove(dsName);
+        Map<String, String[]> map = columnCache.get(getEditingTableDataSource());
+        if (map == null) {
+            return;
+        }
+        map.remove(dsName);
     }
 
     public static void addDsColumnNames(String dsName, String[] columnNames) {
