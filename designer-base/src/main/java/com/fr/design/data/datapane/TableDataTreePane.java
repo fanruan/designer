@@ -171,8 +171,10 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     
             private void reloadCurrTemplate() {
                 JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
-                HistoryTemplateListCache.getInstance().closeSelectedReport(jt);
-                DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+                if (jt != null && jt.getEditingFILE() != null) {
+                    HistoryTemplateListCache.getInstance().closeSelectedReport(jt);
+                    DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+                }
             }
         }, new PluginFilter() {
             @Override
