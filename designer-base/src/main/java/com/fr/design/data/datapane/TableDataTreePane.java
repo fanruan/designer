@@ -179,7 +179,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
     
             private boolean accept(JTemplate<?, ?> jt) {
                 
-                return jt != null && jt.getEditingFILE() != null && !jt.getEditingFILE().exists();
+                return jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
             }
         }, new PluginFilter() {
             @Override
