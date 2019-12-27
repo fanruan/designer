@@ -7,7 +7,7 @@ import com.fr.design.extra.PluginUtils;
 
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
-import com.fr.plugin.error.PluginErrorCode;
+import com.fr.plugin.error.PluginCoreErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskResult;
@@ -41,7 +41,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
             FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Success"));
-        } else if (result.errorCode() == PluginErrorCode.NeedDealWithPluginDependency) {
+        } else if (result.errorCode() == PluginCoreErrorCode.NeedDealWithPluginDependency) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Update_Dependence"),
@@ -61,7 +61,7 @@ public class UpdateFromDiskCallback extends AbstractPluginTaskCallback {
                 PluginOperateUtils.updatePluginOnline(marker, jsCallback);
             }
             PluginManager.getController().update(zipFile, new UpdateFromDiskCallback(zipFile, jsCallback));
-        } else if(result.errorCode() == PluginErrorCode.NoPluginToUpdate){
+        } else if(result.errorCode() == PluginCoreErrorCode.NoPluginToUpdate){
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_No_Plugin_Update"),
