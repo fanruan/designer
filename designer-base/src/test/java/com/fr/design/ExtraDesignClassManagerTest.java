@@ -9,7 +9,6 @@ import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.mainframe.JVirtualTemplate;
 import com.fr.general.ModuleContext;
-import com.fr.log.FineLoggerFactory;
 import com.fr.report.restriction.CellCountRestriction;
 import com.fr.report.restriction.ReportRestrictionScene;
 import com.fr.restriction.Restrictions;
@@ -62,9 +61,11 @@ public class ExtraDesignClassManagerTest extends TestCase {
                     return toolbarItemProvider.accept(jTemplate);
                 }
             });
+            WidgetOption[] widgetOptions1 = ExtraDesignClassManager.getInstance().getWebWidgetOptions(set, null);
             Assert.assertEquals(1, widgetOptions.length);
+            Assert.assertEquals(2, widgetOptions1.length);
         } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            Assert.fail(e.getMessage());
         }
     }
 }

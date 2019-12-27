@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Objects;
 
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
@@ -299,7 +300,18 @@ public class TemplateTreePane extends JPanel implements FileOperations {
                 }
             }
         }
-        reportletsTree.refresh();
+        refreshAfterDelete();
+    }
+
+    private void refreshAfterDelete() {
+        TreePath[] paths = reportletsTree.getSelectionPaths();
+        if (paths == null) {
+            reportletsTree.refresh();
+        } else  {
+            for (TreePath path : Objects.requireNonNull(reportletsTree.getSelectionPaths())) {
+                reportletsTree.refreshParent(path);
+            }
+        }
     }
 
     private boolean deleteNodes(Collection<ExpandMutableTreeNode> nodes) {

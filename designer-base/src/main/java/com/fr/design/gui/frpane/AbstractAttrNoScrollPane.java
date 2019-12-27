@@ -65,7 +65,7 @@ public abstract class AbstractAttrNoScrollPane extends BasicPane {
 	}
 
 
-	protected void initListener(Container parentComponent) {
+	public void initListener(Container parentComponent) {
 		for (int i = 0; i < parentComponent.getComponentCount(); i++) {
 			Component tmpComp = parentComponent.getComponent(i);
 
