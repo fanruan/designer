@@ -39,7 +39,7 @@ public class MobileBookMarkSettingPane extends BasicPane {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.mobileBookMarkStyleEditor = new AccessibleMobileBookMarkStyleEditor(new MobileBookMarkStylePane());
         this.showHierarchicalBookmarksCheck = new UICheckBox(
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Show_BookMark"));
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Show_BookMark"), true);
         JPanel booKMarkPane = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText(
                         "Fine-Design_Mobile_BookMark_Style")), this.mobileBookMarkStyleEditor}},
