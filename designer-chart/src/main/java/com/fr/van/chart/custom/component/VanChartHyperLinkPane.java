@@ -16,12 +16,11 @@ import com.fr.design.designer.TargetComponent;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameObjectCreator;
 import com.fr.design.gui.controlpane.NameableCreator;
-import com.fr.design.gui.imenutable.UIMenuNameableCreator;
 import com.fr.design.hyperlink.ReportletHyperlinkPane;
 import com.fr.design.hyperlink.WebHyperlinkPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.javascript.JavaScriptImplPane;
 import com.fr.design.javascript.ParameterJavaScriptPane;
-import com.fr.design.module.DesignModuleFactory;
 import com.fr.general.NameObject;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.FormHyperlinkProvider;
@@ -33,7 +32,6 @@ import com.fr.js.ParameterJavaScript;
 import com.fr.js.ReportletHyperlink;
 import com.fr.js.WebHyperlink;
 import com.fr.log.FineLoggerFactory;
-import com.fr.stable.ListMap;
 import com.fr.stable.Nameable;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.van.chart.designer.component.VanChartUIListControlPane;
@@ -42,6 +40,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,18 +56,35 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
     @Override
     public NameableCreator[] createNameableCreators() {
 
-        //面板初始化，需要在populate的时候更新
-        Map<String, NameableCreator> nameCreators = new ListMap<>();
-        NameableCreator[] creators = DesignModuleFactory.getHyperlinkGroupType().getHyperlinkCreators();
-        for (NameableCreator creator : creators) {
-            nameCreators.put(creator.menuName(), creator);
-        }
+        List<NameableCreator> creators = new ArrayList<NameableCreator>();
+
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
+                ReportletHyperlink.class, ReportletHyperlinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), EmailJavaScript.class, VanChartEmailPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
+                WebHyperlink.class, WebHyperlinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
+                ParameterJavaScript.class, ParameterJavaScriptPane.class));
+        creators.add(new NameObjectCreator("JavaScript", JavaScriptImpl.class, JavaScriptImplPane.class));
+
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
+                ChartHyperPoplink.class, ChartHyperPoplinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
+                ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class));
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
+                ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class));
+
+        FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
+        creators.add(new NameObjectCreator(Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
+                hyperlink.getClass(), FormHyperlinkPane.class));
+
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
-            nameCreators.put(nc.menuName(), nc);
+            creators.add(nc);
         }
-        return nameCreators.values().toArray(new NameableCreator[nameCreators.size()]);
+
+        return creators.toArray(new NameableCreator[creators.size()]);
     }
 
 
@@ -146,24 +162,6 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
 
     public void populate(Plot plot) {
         setPlot(plot);
-        HashMap paneMap = getHyperlinkMap(plot);
-
-        //安装平台内打开插件时,添加相应按钮
-        Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
-        for (HyperlinkProvider provider : providers) {
-            NameableCreator nc = provider.createHyperlinkCreator();
-                paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
-        }
-
-        java.util.List<UIMenuNameableCreator> list = refreshList(paneMap);
-        NameObjectCreator[] creators = new NameObjectCreator[list.size()];
-        for (int i = 0; list != null && i < list.size(); i++) {
-            UIMenuNameableCreator uiMenuNameableCreator = list.get(i);
-            creators[i] = new NameObjectCreator(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj().getClass(), uiMenuNameableCreator.getPaneClazz());
-
-        }
-
-        refreshNameableCreator(creators);
 
         java.util.List<NameObject> nameObjects = new ArrayList<NameObject>();
 
@@ -172,9 +170,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
             NameJavaScript javaScript = nameGroup.getNameHyperlink(i);
             if (javaScript != null && javaScript.getJavaScript() != null) {
                 JavaScript script = javaScript.getJavaScript();
-                UIMenuNameableCreator uiMenuNameableCreator = new UIMenuNameableCreator(javaScript.getName(), script, getUseMap(paneMap, script.getClass()));
-                nameObjects.add(new NameObject(uiMenuNameableCreator.getName(), uiMenuNameableCreator.getObj()));
-
+                nameObjects.add(new NameObject(javaScript.getName(), script));
             }
         }
 
@@ -184,23 +180,6 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
 
     protected NameJavaScriptGroup populateHotHyperLink(Plot plot) {
         return plot.getHotHyperLink();
-    }
-
-    protected HashMap getHyperlinkMap(Plot plot) {
-        HashMap<Class, Class> map = new HashMap<Class, Class>();
-
-        map.put(ReportletHyperlink.class, ReportletHyperlinkPane.class);
-        map.put(EmailJavaScript.class, ChartEmailPane.class);
-        map.put(WebHyperlink.class, WebHyperlinkPane.class);
-        map.put(ParameterJavaScript.class, ParameterJavaScriptPane.class);
-
-        map.put(JavaScriptImpl.class, JavaScriptImplPane.class);
-        map.put(ChartHyperPoplink.class, ChartHyperPoplinkPane.class);
-        map.put(ChartHyperRelateCellLink.class, ChartHyperRelateCellLinkPane.class);
-        map.put(ChartHyperRelateFloatLink.class, ChartHyperRelateFloatLinkPane.class);
-
-        map.put(FormHyperlinkProvider.class, FormHyperlinkPane.class);
-        return map;
     }
 
     public void update(Plot plot) {
@@ -228,33 +207,6 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         }
 
         return nameGroup;
-    }
-
-
-    protected java.util.List<UIMenuNameableCreator> refreshList(HashMap map) {
-        java.util.List<UIMenuNameableCreator> list = new ArrayList<UIMenuNameableCreator>();
-
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Reportlet"),
-                new ReportletHyperlink(), getUseMap(map, ReportletHyperlink.class)));
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Mail"), new EmailJavaScript(), VanChartEmailPane.class));
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Web"),
-                new WebHyperlink(), getUseMap(map, WebHyperlink.class)));
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Dynamic_Parameters"),
-                new ParameterJavaScript(), getUseMap(map, ParameterJavaScript.class)));
-        list.add(new UIMenuNameableCreator("JavaScript", new JavaScriptImpl(), getUseMap(map, JavaScriptImpl.class)));
-
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Float_Chart"),
-                new ChartHyperPoplink(), getUseMap(map, ChartHyperPoplink.class)));
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Cell"),
-                new ChartHyperRelateCellLink(), getUseMap(map, ChartHyperRelateCellLink.class)));
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Float"),
-                new ChartHyperRelateFloatLink(), getUseMap(map, ChartHyperRelateFloatLink.class)));
-
-        FormHyperlinkProvider hyperlink = StableFactory.getMarkedInstanceObjectFromClass(FormHyperlinkProvider.XML_TAG, FormHyperlinkProvider.class);
-        list.add(new UIMenuNameableCreator(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Link_Form"),
-                hyperlink, getUseMap(map, FormHyperlinkProvider.class)));
-
-        return list;
     }
 
     protected Class<? extends BasicBeanPane> getUseMap(HashMap map, Object key) {
