@@ -8,6 +8,10 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.chartglyph.DataSheet;
 import com.fr.chartx.attr.ZoomAttribute;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
@@ -107,6 +111,18 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
 
         }
+        if(chart instanceof VanChart
+                && !acceptDefinition(((VanChart) chart).getChartDataDefinition(), newPlot)) {
+            ((VanChart) chart).setChartDataDefinition(null);
+        }
+    }
+
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if(definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            return columnFieldCollection instanceof MultiCategoryColumnFieldCollection;
+        }
+        return false;
     }
 
     protected void resetChartAttr4SamePlot(Chart chart){

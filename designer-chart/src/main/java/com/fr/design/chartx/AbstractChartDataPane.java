@@ -7,9 +7,9 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.AssistUtils;
 
-import java.awt.BorderLayout;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.awt.BorderLayout;
 
 /**
  * Created by shine on 2019/4/15.
@@ -45,9 +45,7 @@ public abstract class AbstractChartDataPane<T extends ChartDataDefinitionProvide
 
         ChartDataDefinitionProvider dataSetCollection = vanChart.getChartDataDefinition();
 
-        if (isMatchedDataType(dataSetCollection)) {
-            populate((T) dataSetCollection);
-        }
+        populate((T) dataSetCollection);
 
         this.initAllListeners();
         this.validate();

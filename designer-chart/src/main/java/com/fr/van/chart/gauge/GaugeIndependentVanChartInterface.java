@@ -1,6 +1,5 @@
 package com.fr.van.chart.gauge;
 
-import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.AbstractVanSingleDataPane;
@@ -22,7 +21,6 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.design.mainframe.chart.gui.data.table.MeterPlotTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.custom.component.CategoryCustomPlotTableDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotReportDataContentPane;
 import com.fr.van.chart.custom.component.MeterCustomPlotTableDataContentPane;
@@ -72,10 +70,10 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
         return new VanChartGaugePlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
-        if(plot instanceof VanChartGaugePlot){
-            VanChartGaugePlot gaugePlot = (VanChartGaugePlot)plot;
-            switch (gaugePlot.getGaugeStyle()){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        if (plot instanceof VanChartGaugePlot) {
+            VanChartGaugePlot gaugePlot = (VanChartGaugePlot) plot;
+            switch (gaugePlot.getGaugeStyle()) {
                 case POINTER:
                     return gaugePlot.isInCustom() ? new CategoryCustomPlotTableDataContentPane(parent) : new CategoryPlotTableDataContentPane(parent);
                 case POINTER_SEMI:
@@ -84,13 +82,13 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
                     break;
             }
         }
-        return ((VanChartGaugePlot)plot).isInCustom() ? new MeterCustomPlotTableDataContentPane(parent) : new MeterPlotTableDataContentPane(parent);
+        return ((VanChartGaugePlot) plot).isInCustom() ? new MeterCustomPlotTableDataContentPane(parent) : new MeterPlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
-        if(plot instanceof VanChartGaugePlot){
-            VanChartGaugePlot gaugePlot = (VanChartGaugePlot)plot;
-            switch (gaugePlot.getGaugeStyle()){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        if (plot instanceof VanChartGaugePlot) {
+            VanChartGaugePlot gaugePlot = (VanChartGaugePlot) plot;
+            switch (gaugePlot.getGaugeStyle()) {
                 case POINTER:
                     return new CategoryPlotReportDataContentPane(parent);
                 case POINTER_SEMI:
@@ -104,40 +102,28 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
 
     /**
      * 图表的属性界面数组
+     *
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartGaugeStylePane(listener);
         VanChartOtherPane otherPane = new VanChartOtherPane();
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartGaugeSeriesPane(parent, plot);
     }
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
         return new AbstractVanSingleDataPane(listener) {
-
-            VanChartGaugePlot gaugePlot;
-
-            @Override
-            public void populate(ChartCollection collection) {
-                if (collection == null) {
-                    return;
-                }
-                VanChart chart = collection.getSelectedChartProvider(VanChart.class);
-                if (chart == null) {
-                    return;
-                }
-                gaugePlot = chart.getPlot();
-
-                super.populate(collection);
-            }
-
             @Override
             protected SingleDataPane createSingleDataPane() {
+                VanChartGaugePlot gaugePlot = null;
+                if (getVanChart() != null) {
+                    gaugePlot = getVanChart().getPlot();
+                }
                 if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
                     return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
                 }

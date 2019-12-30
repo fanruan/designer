@@ -9,8 +9,8 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import java.awt.BorderLayout;
 import java.util.List;
+import java.awt.BorderLayout;
 
 
 /**
@@ -50,6 +50,12 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
     }
 
     @Override
+    public void checkBoxUse(boolean hasUse) {
+        super.checkBoxUse(hasUse);
+        multiCategoryPane.checkEnable(hasUse);
+    }
+
+    @Override
     public void refreshBoxListWithSelectTableData(List columnNameList) {
         super.refreshBoxListWithSelectTableData(columnNameList);
         multiCategoryPane.setCurrentBoxItems(columnNameList);
@@ -79,5 +85,9 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
         filterPane.updateMultiCategoryFieldCollection(columnFieldCollection);
 
         return columnFieldCollection;
+    }
+
+    public void setCategoryAxis(boolean categoryAxis){
+        multiCategoryPane.setCategoryAxis(categoryAxis);
     }
 }

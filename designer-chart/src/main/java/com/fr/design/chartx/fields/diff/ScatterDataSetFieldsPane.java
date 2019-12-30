@@ -75,22 +75,26 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
     @Override
     public BubbleColumnFieldCollection updateBean() {
         BubbleColumnFieldCollection collection = new BubbleColumnFieldCollection();
-        BubbleColumnField field = collection.getBubbleColumnField(0);
+        BubbleColumnField field = new BubbleColumnField();
         updateField(series, field.getSeriesName());
         updateField(xField, field.getXField());
         updateField(yField, field.getYField());
         updateField(size, field.getSizeField());
-        field.getSeriesName().setFilterProperties(filterPane.updateBean());
+        collection.setFilterProperties(filterPane.updateBean());
+        collection.add(field);
         return collection;
     }
 
     @Override
     public void populateBean(BubbleColumnFieldCollection ob) {
+        if (ob.getList().isEmpty()){
+            return;
+        }
         BubbleColumnField field = ob.getBubbleColumnField(0);
         populateField(series, field.getSeriesName());
         populateField(xField, field.getXField());
         populateField(yField, field.getYField());
         populateField(size, field.getSizeField());
-        filterPane.populateBean(field.getSeriesName().getFilterProperties());
+        filterPane.populateBean(ob.getFilterProperties());
     }
 }

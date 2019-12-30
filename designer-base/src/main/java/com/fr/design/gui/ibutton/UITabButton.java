@@ -175,7 +175,7 @@ public class UITabButton extends UILabel implements UISelectedComponent {
 	}
 
 	protected void paintOther(Graphics2D g2d, int w, int h) {
-
+		// do nothing
 	}
 
 }

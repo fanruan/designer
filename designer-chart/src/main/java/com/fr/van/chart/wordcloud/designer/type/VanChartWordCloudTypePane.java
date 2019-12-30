@@ -2,7 +2,12 @@ package com.fr.van.chart.wordcloud.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.WordCloudColumnFieldCollection;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.plugin.chart.wordcloud.WordCloudIndependentVanChart;
@@ -62,5 +67,14 @@ public class VanChartWordCloudTypePane extends AbstractVanChartTypePane {
 
     public Chart getDefaultChart() {
         return WordCloudIndependentVanChart.WordCloudVanCharts[0];
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if(definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            return columnFieldCollection instanceof WordCloudColumnFieldCollection;
+        }
+        return false;
     }
 }

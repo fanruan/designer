@@ -2,7 +2,12 @@ package com.fr.van.chart.structure.desinger.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.StructureColumnFieldCollection;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.structure.StructureIndependentVanChart;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
@@ -54,4 +59,12 @@ public class VanChartStructureTypePane extends AbstractVanChartTypePane {
         return WordCloudIndependentVanChart.WordCloudVanCharts[0];
     }
 
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if(definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            return columnFieldCollection instanceof StructureColumnFieldCollection;
+        }
+        return false;
+    }
 }

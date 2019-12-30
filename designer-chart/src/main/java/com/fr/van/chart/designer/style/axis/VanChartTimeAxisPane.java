@@ -73,7 +73,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
                 new Component[]{createValueDefinition(),null},
                 new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
                 new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p,p}, columnSize),null},
+                new Component[]{createDisplayStrategy(),null},
                 new Component[]{createValueStylePane(),null},
         };
 

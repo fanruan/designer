@@ -17,10 +17,12 @@ import com.fr.stable.StringUtils;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import static com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper.refreshBoxItems;
 
@@ -95,7 +97,7 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
     protected abstract UIComboBox[] filedComboBoxes();
 
     public void checkBoxUse(boolean hasUse) {
-        for (Component component : fieldComponents()) {
+        for (Component component : filedComboBoxes()) {
             component.setEnabled(hasUse);
         }
     }
@@ -145,4 +147,13 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
         return StringUtils.EMPTY;
     }
 
+    public void initValueAndCalComboBox(final UIComboBox value, final CalculateComboBox function) {
+        value.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                function.setEnabled(value.getSelectedItem() != null);
+            }
+        });
+        function.setEnabled(false);
+    }
 }

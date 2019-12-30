@@ -8,9 +8,10 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.map.designer.VanChartGroupPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.util.List;
+import java.awt.BorderLayout;
 
 /**
  * @author shine
@@ -36,14 +37,14 @@ public class CategorySeriesFilterPane extends JPanel {
             }
         };
 
-        JPanel groupPane = new VanChartGroupPane(new String[]{seriesFilterPane.title4PopupWindow(), categoryFilterPane.title4PopupWindow()}
-                , new JPanel[]{seriesFilterPane, categoryFilterPane}) {
+        JPanel groupPane = new VanChartGroupPane(new String[]{categoryFilterPane.title4PopupWindow(), seriesFilterPane.title4PopupWindow()}
+                , new JPanel[]{categoryFilterPane, seriesFilterPane}) {
         };
 
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.add(new JPanel(), BorderLayout.NORTH);
         contentPane.add(groupPane, BorderLayout.CENTER);
-
+        groupPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 15));
         this.setLayout(new BorderLayout());
         this.add(TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Data_Filter"), contentPane), BorderLayout.CENTER);
     }

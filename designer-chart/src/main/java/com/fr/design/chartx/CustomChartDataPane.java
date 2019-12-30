@@ -3,6 +3,8 @@ package com.fr.design.chartx;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
 import com.fr.chartx.data.CustomChartDataDefinition;
+import com.fr.design.chartx.fields.diff.FunnelCellDataFieldsPane;
+import com.fr.design.chartx.fields.diff.FunnelDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
 import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
 import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
@@ -40,6 +42,9 @@ import java.util.Map;
  * Created by Bjorn on 2019-10-23
  */
 public class CustomChartDataPane extends ChartDataPane {
+
+    private static final int HGAP = 0;
+    private static final int VGAP = 6;
 
     public CustomChartDataPane(AttributeChangeListener listener) {
         super(listener);
@@ -92,10 +97,18 @@ public class CustomChartDataPane extends ChartDataPane {
             case SCATTER:
             case BUBBLE:
                 return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+            case PIE:
+            case SAME_PIE:
+            case DIFFERENT_PIE:
+            case POINTER_180:
+            case POINTER_360:
+                return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
             default:
-                return StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType()) ?
-                        new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane()) :
-                        new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+                if (StringUtils.equals(CustomStyle.CUSTOM.toString(), plot.getCustomType())){
+                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+                } else {
+                    return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
+                }
         }
     }
 
@@ -147,7 +160,7 @@ public class CustomChartDataPane extends ChartDataPane {
         JPanel tabPanel = new JPanel(new BorderLayout());
         tabPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, getBackground()));
         tabPanel.add(tabPane, BorderLayout.CENTER);
-        this.setLayout(new BorderLayout(0, 6));
+        this.setLayout(new BorderLayout(HGAP, VGAP));
         this.add(tabPanel, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
     }
