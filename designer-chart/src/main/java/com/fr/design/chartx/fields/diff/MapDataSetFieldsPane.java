@@ -1,9 +1,9 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.Utils;
 import com.fr.chartx.TwoTuple;
 import com.fr.chartx.data.field.diff.ColumnFieldCollectionWithSeriesValue;
-import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.chartx.component.MapAreaMatchPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
@@ -51,7 +51,7 @@ public abstract class MapDataSetFieldsPane<T extends ColumnFieldCollectionWithSe
         return chart;
     }
 
-    public JPanel createAreaPanel(UIComboBox areaBox) {
+    public JPanel createAreaPanel(final UIComboBox areaBox) {
         JPanel areaPanel = new JPanel(new BorderLayout(10, 0));
         areaBox.setPreferredSize(new Dimension(91, 20));
         areaPanel.add(areaBox, BorderLayout.WEST);
@@ -64,8 +64,8 @@ public abstract class MapDataSetFieldsPane<T extends ColumnFieldCollectionWithSe
                 if (treeNodeAndItems == null) {
                     treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(((VanChartMapPlot) chart.getPlot()).getGeoUrl(), level);
                 }
-                final BasicBeanPane pane = new MapAreaMatchPane(MapDataSetFieldsPane.this.getMapType(), level, treeNodeAndItems);
-                pane.populateBean(chart);
+                final MapAreaMatchPane pane = new MapAreaMatchPane(level, treeNodeAndItems);
+                pane.populateBean(chart, Utils.objectToString(areaBox.getSelectedItem()), MapDataSetFieldsPane.this.getMapType());
                 BasicDialog dialog = pane.showWindow(new JFrame());
                 dialog.addDialogActionListener(new DialogActionListener() {
                     @Override

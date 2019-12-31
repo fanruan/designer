@@ -8,7 +8,6 @@ import com.fr.chartx.data.DataSetDefinition;
 import com.fr.chartx.data.DrillMapChartDataDefinition;
 import com.fr.chartx.data.MapChartDataDefinition;
 import com.fr.chartx.data.execute.ExecuteDataSetHelper;
-import com.fr.chartx.data.field.CollectionWithMapAreaAttr;
 import com.fr.data.TableDataSource;
 import com.fr.data.TableDataSourceTailor;
 import com.fr.data.core.DataCoreUtils;
@@ -78,13 +77,10 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
 
     private static final Object[] HEADER_WITH_EMPTY = new Object[]{Toolkit.i18nText("Fine-Design_Chart_Area_Name"), Toolkit.i18nText("Fine-Design_Chart_Match_To"), ""};
 
-    private MapType mapType;
-
     private int level;
 
 
-    public MapAreaMatchPane(MapType mapType, int level, TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems) {
-        this.mapType = mapType;
+    public MapAreaMatchPane(int level, TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems) {
         this.level = level;
 
         initButtonGroup();
@@ -209,7 +205,11 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         matchResultTable.updateBean(matchResult);
     }
 
-    public void populateBean(VanChart chart) {
+    public void populateBean(VanChart vanChart) {
+
+    }
+
+    public void populateBean(VanChart chart, String comboBoxName, MapType mapType) {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
         MapMatchResult matchResult;
         if (level < 0) {
@@ -224,7 +224,7 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         String tableName = matchResult.getTableName();
         String areaName = matchResult.getColumnName();
         if (tableName == null) {
-            DataSetDefinition dataSetDefinition = getDataSetDefinition(chart.getChartDataDefinition());
+            DataSetDefinition dataSetDefinition = getDataSetDefinition(chart.getChartDataDefinition(), mapType);
             if (dataSetDefinition == null) {
                 return;
             }
@@ -233,9 +233,7 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
                 return;
             }
             tableName = nameTableData.getName();
-            CollectionWithMapAreaAttr columnFieldCollection = (CollectionWithMapAreaAttr) dataSetDefinition.getColumnFieldCollection();
-
-            areaName = columnFieldCollection.getMatchColumn();
+            areaName = comboBoxName;
         }
         tableNameCombox.setSelectedTableDataByName(tableName);
         if (StringUtils.isEmpty(areaName)) {
@@ -245,7 +243,7 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         populateData(tableName, areaName);
     }
 
-    private DataSetDefinition getDataSetDefinition(ChartDataDefinitionProvider chartDataDefinitionProvider) {
+    private DataSetDefinition getDataSetDefinition(ChartDataDefinitionProvider chartDataDefinitionProvider, MapType mapType) {
         DataSetDefinition dataSetDefinition = null;
         if (chartDataDefinitionProvider instanceof MapChartDataDefinition) {
             MapChartDataDefinition mapChartDataDefinition = (MapChartDataDefinition) chartDataDefinitionProvider;
