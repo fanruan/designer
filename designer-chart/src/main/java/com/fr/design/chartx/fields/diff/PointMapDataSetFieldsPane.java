@@ -3,6 +3,7 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.diff.PointMapColumnFieldCollection;
 import com.fr.design.chartx.data.map.PointMapAreaLngLatPaneWithComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.plugin.chart.type.MapType;
 
 import javax.swing.JPanel;
 
@@ -11,13 +12,13 @@ import javax.swing.JPanel;
  * @version 10.0
  * Created by shine on 2019/11/8
  */
-public class PointMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<PointMapColumnFieldCollection> {
+public class PointMapDataSetFieldsPane extends MapDataSetFieldsPane<PointMapColumnFieldCollection> {
     private PointMapAreaLngLatPaneWithComboBox areaLngLatPane;
 
     @Override
     protected JPanel createNorthPane() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane;
     }
@@ -30,7 +31,7 @@ public class PointMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVa
     @Override
     protected UIComboBox[] filedComboBoxes() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane.allFieldComboBox();
     }
@@ -47,5 +48,9 @@ public class PointMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVa
         areaLngLatPane.update(fieldCollection);
         updateSeriesValuePane(fieldCollection);
         return fieldCollection;
+    }
+
+    public MapType getMapType() {
+        return MapType.POINT;
     }
 }

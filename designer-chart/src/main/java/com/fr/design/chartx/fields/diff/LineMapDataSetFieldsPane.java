@@ -3,6 +3,7 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.diff.LineMapColumnFieldCollection;
 import com.fr.design.chartx.data.map.LineMapAreaLngLatPaneWithComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.plugin.chart.type.MapType;
 import com.fr.third.jodd.util.ArraysUtil;
 
 import javax.swing.JPanel;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
  * @version 10.0
  * Created by shine on 2019/11/11
  */
-public class LineMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<LineMapColumnFieldCollection> {
+public class LineMapDataSetFieldsPane extends MapDataSetFieldsPane<LineMapColumnFieldCollection> {
     private LineMapAreaLngLatPaneWithComboBox areaLngLatPane;
 
     private UIComboBox lineName;
@@ -20,7 +21,7 @@ public class LineMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVal
     @Override
     protected JPanel createNorthPane() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new LineMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new LineMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane;
     }
@@ -57,5 +58,9 @@ public class LineMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVal
         updateField(lineName, columnFieldCollection.getLineName());
         updateSeriesValuePane(columnFieldCollection);
         return columnFieldCollection;
+    }
+
+    public MapType getMapType() {
+        return MapType.LINE;
     }
 }
