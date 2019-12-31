@@ -86,12 +86,5 @@ public class ChartEmailPane extends EmailPane{
         }
         super.updateBean(email);
 	}
-
-	//邮箱
-	public static class NoRename extends ChartEmailPane {
-		@Override
-		protected boolean needRenamePane() {
-			return false;
-		}
-	}
+	
 }
