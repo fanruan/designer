@@ -152,7 +152,7 @@ public class VanChartHyperLinkPane extends VanChartUIListControlPane {
         Set<HyperlinkProvider> providers = ExtraDesignClassManager.getInstance().getArray(HyperlinkProvider.XML_TAG);
         for (HyperlinkProvider provider : providers) {
             NameableCreator nc = provider.createHyperlinkCreator();
-            paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
+                paneMap.put(nc.getHyperlink(), nc.getUpdatePane());
         }
 
         java.util.List<UIMenuNameableCreator> list = refreshList(paneMap);

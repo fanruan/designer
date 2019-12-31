@@ -86,5 +86,5 @@ public class ChartEmailPane extends EmailPane{
         }
         super.updateBean(email);
 	}
-	
+
 }
