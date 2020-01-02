@@ -11,6 +11,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
+import static com.fr.design.i18n.Toolkit.i18nText;
+
 /**
  * 颜色选择器更多颜色面板
  *
@@ -56,7 +58,7 @@ public class ColorSelectDetailPane extends BasicPane {
 
     @Override
     protected String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select_Color");
+        return i18nText("Fine-Design_Basic_Select_Color");
     }
 
     protected void initComponents() {
@@ -65,20 +67,15 @@ public class ColorSelectDetailPane extends BasicPane {
         // 颜色选择器面板
         selectedPanel = new JColorChooser(this.color);
         selectedPanel.setPreferredSize(new Dimension(selectedPanel.getWidth(), SELECT_PANEL_HEIGHT));
-        AbstractColorChooserPanel[] choosers = selectedPanel.getChooserPanels();
-        for (int i = 0; i < choosers.length; i++) {
-            selectedPanel.removeChooserPanel(choosers[i]);
-        }
         selectedPanel.setPreviewPanel(new JPanel());
 
         AbstractColorChooserPanel swatchChooserPanel = new SwatchChooserPanel();
         AbstractColorChooserPanel customChooserPanel = new CustomChooserPanel();
-        selectedPanel.addChooserPanel(swatchChooserPanel);
-        selectedPanel.addChooserPanel(customChooserPanel);
+        selectedPanel.setChooserPanels(new AbstractColorChooserPanel[]{swatchChooserPanel, customChooserPanel});
         this.add(selectedPanel, BorderLayout.NORTH);
 
         // 最近使用面板
-        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Used"));
+        recentUsePanel = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Used"));
         RecentUseColorPane recent = new RecentUseColorPane(selectedPanel);
         recentUsePanel.add(recent);
 
@@ -87,7 +84,7 @@ public class ColorSelectDetailPane extends BasicPane {
         selectedPanel.setPreviewPanel(new JPanel());
 
         // 预览
-        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"));
+        previewPanel = FRGUIPaneFactory.createTitledBorderPaneCenter(i18nText("Fine-Design_Basic_Preview"));
         final ColorChooserPreview colorChooserPreview = new ColorChooserPreview();
         ColorSelectionModel model = selectedPanel.getSelectionModel();
         model.addChangeListener(new ChangeListener() {
