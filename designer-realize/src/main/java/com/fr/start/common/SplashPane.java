@@ -3,7 +3,10 @@ package com.fr.start.common;
 import com.bulenkov.iconloader.IconLoader;
 import com.bulenkov.iconloader.util.JBUI;
 import com.fr.base.GraphHelper;
+import com.fr.design.locale.impl.SplashMark;
 import com.fr.design.ui.util.GraphicsConfig;
+import com.fr.general.locale.LocaleCenter;
+import com.fr.general.locale.LocaleMark;
 import com.fr.stable.GraphDrawHelper;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
@@ -23,7 +26,7 @@ import java.util.Locale;
  */
 public class SplashPane extends JPanel {
 
-    private static String OEM_PATH = "/com/fr/design/images/splash_10.png";
+    private static String OEM_PATH = getSplashPath();
     private static float JBUI_INIT_SCALE = JBUI.scale(1f);
 
     private static final Color MODULE_COLOR = new Color(255, 255, 255);
@@ -45,6 +48,11 @@ public class SplashPane extends JPanel {
 
     private static int uiScale(int i) {
         return (int) (i * JBUI_INIT_SCALE);
+    }
+
+    private static String getSplashPath() {
+        LocaleMark<String> localeMark = LocaleCenter.getMark(SplashMark.class);
+        return localeMark.getValue();
     }
 
     private NotNullLazyValue<Font> fontValue = new NotNullLazyValue<Font>() {
