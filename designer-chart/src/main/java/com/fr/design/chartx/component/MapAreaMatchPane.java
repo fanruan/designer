@@ -24,11 +24,8 @@ import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
-import com.fr.plugin.chart.map.MapMatchProvider;
 import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
-import com.fr.plugin.chart.type.MapType;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.ParameterProvider;
@@ -58,7 +55,7 @@ import java.awt.event.MouseEvent;
  * @version 10.0
  * Created by Bjorn on 2019-11-04
  */
-public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
+public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
 
     private TableDataComboBox tableNameCombox;
     private UIComboBox areaNameBox;
@@ -72,12 +69,8 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
 
     private static final Object[] HEADER_WITH_EMPTY = new Object[]{Toolkit.i18nText("Fine-Design_Chart_Area_Name"), Toolkit.i18nText("Fine-Design_Chart_Match_To"), ""};
 
-    private int level;
 
-
-    public MapAreaMatchPane(int level, TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems) {
-        this.level = level;
-
+    public MapAreaMatchPane(TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems) {
         initButtonGroup();
         initRefreshLabel();
         areaNameBox = new UIComboBox();
@@ -183,8 +176,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
         });
     }
 
-    public void updateBean(MapMatchProvider mapMatchProvider) {
-        MapMatchResult matchResult = mapMatchProvider.getMatchResult(level);
+    public void updateBean(MapMatchResult matchResult) {
         if (matchResult == null) {
             return;
         }
@@ -196,24 +188,17 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
         matchResultTable.updateBean(matchResult);
     }
 
-    public void populateBean(MapMatchProvider vanChart) {
+    public void populateBean(MapMatchResult matchResult) {
 
     }
 
-    public void populateBean(MapMatchProvider mapMatchProvider, String comboBoxName, MapType mapType) {
+    public void populateBean(MapMatchResult matchResult, String tableName, String areaName) {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
-        MapMatchResult matchResult = mapMatchProvider.getMatchResult(level);
         matchResultTable.populateBean(matchResult);
 
-        String tableName = null;
-        String areaName = null;
-        if (matchResult != null) {
+        if (matchResult != null && matchResult.getTableName() != null) {
             tableName = matchResult.getTableName();
             areaName = matchResult.getColumnName();
-        }
-        if (tableName == null) {
-            tableName = mapMatchProvider.getNameTable(mapType, level);
-            areaName = comboBoxName;
         }
         tableNameCombox.setSelectedTableDataByName(tableName);
         if (StringUtils.isEmpty(areaName)) {
@@ -305,7 +290,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
         areaNameBox.setSelectedItem(null);
     }
 
-    public VanChart updateBean() {
+    public MapMatchResult updateBean() {
         return null;
     }
 
