@@ -3,10 +3,6 @@ package com.fr.design.chartx.component;
 import com.fr.base.BaseUtils;
 import com.fr.base.ParameterMapNameSpace;
 import com.fr.chartx.TwoTuple;
-import com.fr.chartx.data.ChartDataDefinitionProvider;
-import com.fr.chartx.data.DataSetDefinition;
-import com.fr.chartx.data.DrillMapChartDataDefinition;
-import com.fr.chartx.data.MapChartDataDefinition;
 import com.fr.chartx.data.execute.ExecuteDataSetHelper;
 import com.fr.data.TableDataSource;
 import com.fr.data.TableDataSourceTailor;
@@ -28,9 +24,8 @@ import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
-import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.map.MapMatchProvider;
 import com.fr.plugin.chart.map.MapMatchResult;
-import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -63,7 +58,7 @@ import java.awt.event.MouseEvent;
  * @version 10.0
  * Created by Bjorn on 2019-11-04
  */
-public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
+public class MapAreaMatchPane extends BasicBeanPane<MapMatchProvider> {
 
     private TableDataComboBox tableNameCombox;
     private UIComboBox areaNameBox;
@@ -188,14 +183,10 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         });
     }
 
-    public void updateBean(VanChart chart) {
-        MapMatchResult matchResult = new MapMatchResult();
-        if (level < 0) {
-            VanChartMapPlot plot = chart.getPlot();
-            plot.setMatchResult(matchResult);
-        } else {
-            VanChartDrillMapPlot plot = chart.getPlot();
-            plot.getMatchResultList().set(level, matchResult);
+    public void updateBean(MapMatchProvider mapMatchProvider) {
+        MapMatchResult matchResult = mapMatchProvider.getMatchResult(level);
+        if (matchResult == null) {
+            return;
         }
         if (tableNameCombox.getSelectedItem() != null) {
             matchResult.setTableName(tableNameCombox.getSelectedItem().getTableDataName());
@@ -205,34 +196,23 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         matchResultTable.updateBean(matchResult);
     }
 
-    public void populateBean(VanChart vanChart) {
+    public void populateBean(MapMatchProvider vanChart) {
 
     }
 
-    public void populateBean(VanChart chart, String comboBoxName, MapType mapType) {
+    public void populateBean(MapMatchProvider mapMatchProvider, String comboBoxName, MapType mapType) {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
-        MapMatchResult matchResult;
-        if (level < 0) {
-            VanChartMapPlot plot = chart.getPlot();
-            matchResult = plot.getMatchResult();
-        } else {
-            VanChartDrillMapPlot plot = chart.getPlot();
-            matchResult = plot.getMatchResultList().get(level);
-        }
+        MapMatchResult matchResult = mapMatchProvider.getMatchResult(level);
         matchResultTable.populateBean(matchResult);
 
-        String tableName = matchResult.getTableName();
-        String areaName = matchResult.getColumnName();
+        String tableName = null;
+        String areaName = null;
+        if (matchResult != null) {
+            tableName = matchResult.getTableName();
+            areaName = matchResult.getColumnName();
+        }
         if (tableName == null) {
-            DataSetDefinition dataSetDefinition = getDataSetDefinition(chart.getChartDataDefinition(), mapType);
-            if (dataSetDefinition == null) {
-                return;
-            }
-            NameTableData nameTableData = dataSetDefinition.getNameTableData();
-            if (nameTableData == null) {
-                return;
-            }
-            tableName = nameTableData.getName();
+            tableName = mapMatchProvider.getNameTable(mapType, level);
             areaName = comboBoxName;
         }
         tableNameCombox.setSelectedTableDataByName(tableName);
@@ -241,41 +221,6 @@ public class MapAreaMatchPane extends BasicBeanPane<VanChart> {
         }
         areaNameBox.setSelectedItem(areaName);
         populateData(tableName, areaName);
-    }
-
-    private DataSetDefinition getDataSetDefinition(ChartDataDefinitionProvider chartDataDefinitionProvider, MapType mapType) {
-        DataSetDefinition dataSetDefinition = null;
-        if (chartDataDefinitionProvider instanceof MapChartDataDefinition) {
-            MapChartDataDefinition mapChartDataDefinition = (MapChartDataDefinition) chartDataDefinitionProvider;
-            if (mapChartDataDefinition == null) {
-                return null;
-            }
-            switch (mapType) {
-                case AREA:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getAreaMapDataDefinition();
-                    break;
-                case POINT:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getPointMapDataDefinition();
-                    break;
-                case LINE:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getLineMapDataDefinition();
-                    break;
-            }
-        } else if (chartDataDefinitionProvider instanceof DrillMapChartDataDefinition) {
-            DrillMapChartDataDefinition drillMapChartDataDefinition = (DrillMapChartDataDefinition) chartDataDefinitionProvider;
-            if (drillMapChartDataDefinition == null) {
-                return null;
-            }
-            if (drillMapChartDataDefinition.isFromBottomData()) {
-                dataSetDefinition = (DataSetDefinition) drillMapChartDataDefinition.getBottomDataDefinition();
-            } else {
-                dataSetDefinition = (DataSetDefinition) drillMapChartDataDefinition.getEachLayerDataDefinitionList().get(level);
-            }
-
-        } else {
-            dataSetDefinition = (DataSetDefinition) chartDataDefinitionProvider;
-        }
-        return dataSetDefinition;
     }
 
     private void populateData(String tableName, String columnName) {
