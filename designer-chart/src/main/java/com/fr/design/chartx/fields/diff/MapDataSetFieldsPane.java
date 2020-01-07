@@ -2,24 +2,16 @@ package com.fr.design.chartx.fields.diff;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
-import com.fr.chart.chartattr.Plot;
 import com.fr.chartx.TwoTuple;
-import com.fr.chartx.data.ChartDataDefinitionProvider;
-import com.fr.chartx.data.DataSetDefinition;
-import com.fr.chartx.data.DrillMapChartDataDefinition;
-import com.fr.chartx.data.MapChartDataDefinition;
 import com.fr.chartx.data.field.diff.ColumnFieldCollectionWithSeriesValue;
-import com.fr.data.impl.NameTableData;
 import com.fr.design.chartx.component.MapAreaMatchPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JFrame;
@@ -69,13 +61,14 @@ public abstract class MapDataSetFieldsPane<T extends ColumnFieldCollectionWithSe
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                VanChartMapPlot plot = chart.getPlot();
                 if (treeNodeAndItems == null) {
-                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(((VanChartMapPlot) chart.getPlot()).getGeoUrl(), level);
+                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(plot.getGeoUrl(), level);
                 }
                 final MapAreaMatchPane pane = new MapAreaMatchPane(treeNodeAndItems);
 
-                String nameTable = getNameTable(chart, MapDataSetFieldsPane.this.getMapType(), level);
-                final MapMatchResult matchResult = getMatchResult(chart, level);
+                String nameTable = getTableName();
+                final MapMatchResult matchResult = plot.getMatchResult(level);
 
                 pane.populateBean(matchResult, nameTable, Utils.objectToString(areaBox.getSelectedItem()));
                 BasicDialog dialog = pane.showWindow(new JFrame());
@@ -95,60 +88,5 @@ public abstract class MapDataSetFieldsPane<T extends ColumnFieldCollectionWithSe
         });
         areaPanel.add(uiButton, BorderLayout.EAST);
         return areaPanel;
-    }
-
-    public abstract MapType getMapType();
-
-    public String getNameTable(VanChart vanChart, MapType mapType, int level) {
-        ChartDataDefinitionProvider chartDataDefinition = vanChart.getChartDataDefinition();
-        if (chartDataDefinition == null) {
-            return null;
-        }
-        DataSetDefinition dataSetDefinition;
-        if (chartDataDefinition instanceof MapChartDataDefinition) {
-            MapChartDataDefinition mapChartDataDefinition = (MapChartDataDefinition) chartDataDefinition;
-            switch (mapType) {
-                case AREA:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getAreaMapDataDefinition();
-                    break;
-                case POINT:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getPointMapDataDefinition();
-                    break;
-                default:
-                    dataSetDefinition = (DataSetDefinition) mapChartDataDefinition.getLineMapDataDefinition();
-                    break;
-            }
-        } else if (chartDataDefinition instanceof DrillMapChartDataDefinition) {
-            DrillMapChartDataDefinition drillMapChartDataDefinition = (DrillMapChartDataDefinition) chartDataDefinition;
-            if (drillMapChartDataDefinition.isFromBottomData()) {
-                dataSetDefinition = (DataSetDefinition) drillMapChartDataDefinition.getBottomDataDefinition();
-            } else {
-                dataSetDefinition = (DataSetDefinition) drillMapChartDataDefinition.getEachLayerDataDefinitionList().get(level);
-            }
-
-        } else {
-            dataSetDefinition = (DataSetDefinition) chartDataDefinition;
-        }
-        if (dataSetDefinition == null) {
-            return null;
-        }
-        NameTableData nameTableData = dataSetDefinition.getNameTableData();
-        if (nameTableData == null) {
-            return null;
-        }
-        return nameTableData.getName();
-    }
-
-    public MapMatchResult getMatchResult(VanChart vanChart, int level) {
-        Plot plot = vanChart.getPlot();
-        if (plot == null) {
-            return null;
-        }
-        if (level < 0 && plot instanceof VanChartMapPlot) {
-            return ((VanChartMapPlot) plot).getMatchResult();
-        } else if (plot instanceof VanChartDrillMapPlot) {
-            return ((VanChartDrillMapPlot) plot).getMatchResultList().get(level);
-        }
-        return null;
     }
 }

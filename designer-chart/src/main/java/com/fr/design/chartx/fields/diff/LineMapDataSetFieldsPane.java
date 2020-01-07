@@ -3,7 +3,6 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.diff.LineMapColumnFieldCollection;
 import com.fr.design.chartx.data.map.LineMapAreaLngLatPaneWithComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.plugin.chart.type.MapType;
 import com.fr.third.jodd.util.ArraysUtil;
 
 import javax.swing.JPanel;
@@ -58,9 +57,5 @@ public class LineMapDataSetFieldsPane extends MapDataSetFieldsPane<LineMapColumn
         updateField(lineName, columnFieldCollection.getLineName());
         updateSeriesValuePane(columnFieldCollection);
         return columnFieldCollection;
-    }
-
-    public MapType getMapType() {
-        return MapType.LINE;
     }
 }

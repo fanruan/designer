@@ -3,7 +3,6 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.diff.PointMapColumnFieldCollection;
 import com.fr.design.chartx.data.map.PointMapAreaLngLatPaneWithComboBox;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.plugin.chart.type.MapType;
 
 import javax.swing.JPanel;
 
@@ -48,9 +47,5 @@ public class PointMapDataSetFieldsPane extends MapDataSetFieldsPane<PointMapColu
         areaLngLatPane.update(fieldCollection);
         updateSeriesValuePane(fieldCollection);
         return fieldCollection;
-    }
-
-    public MapType getMapType() {
-        return MapType.POINT;
     }
 }

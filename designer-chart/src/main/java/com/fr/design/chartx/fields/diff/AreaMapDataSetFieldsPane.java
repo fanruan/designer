@@ -3,7 +3,6 @@ package com.fr.design.chartx.fields.diff;
 import com.fr.chartx.data.field.diff.AreaMapColumnFieldCollection;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.i18n.Toolkit;
-import com.fr.plugin.chart.type.MapType;
 
 import java.awt.Component;
 
@@ -56,9 +55,5 @@ public class AreaMapDataSetFieldsPane extends MapDataSetFieldsPane<AreaMapColumn
         updateField(areaName, fieldCollection.getAreaName());
         updateSeriesValuePane(fieldCollection);
         return fieldCollection;
-    }
-
-    public MapType getMapType() {
-        return MapType.AREA;
     }
 }
