@@ -8,11 +8,12 @@ import com.fr.design.chartx.fields.diff.AreaMapDataSetFieldsPane;
 import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.i18n.Toolkit;
-import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
+import com.fr.plugin.chart.vanchart.VanChart;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -25,9 +26,12 @@ public class DrillMapDataPane extends BasicBeanPane<DrillMapChartDataDefinition>
 
     private EachLayerDataDefinitionPane eachLayerDataDefinitionPane;//各层级分别指定
 
-    public DrillMapDataPane(VanChartDrillMapPlot drillMapPlot) {
-        bottomDataPane = new SingleDataPane(new AreaMapDataSetFieldsPane(), new AreaMapCellDataFieldsPane());
-        eachLayerDataDefinitionPane = new EachLayerDataDefinitionPane(drillMapPlot);
+    public DrillMapDataPane(VanChart vanChart) {
+        AreaMapDataSetFieldsPane areaMapDataSetFieldsPane = new AreaMapDataSetFieldsPane();
+        areaMapDataSetFieldsPane.setChart(vanChart);
+        areaMapDataSetFieldsPane.setLevel(ChartGEOJSONHelper.BOTTOM_LEVEL);
+        bottomDataPane = new SingleDataPane(areaMapDataSetFieldsPane, new AreaMapCellDataFieldsPane());
+        eachLayerDataDefinitionPane = new EachLayerDataDefinitionPane(vanChart);
 
         dataDefinitionType = new UIComboBoxPane<DrillMapChartDataDefinition>() {
             @Override

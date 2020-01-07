@@ -37,7 +37,7 @@ public class DrillMapChartDataPane extends AbstractChartDataPane<DrillMapChartDa
         }
 
         layerPane = new DrillMapLayerPane(drillMapPlot);
-        dataPane = new DrillMapDataPane(drillMapPlot);
+        dataPane = new DrillMapDataPane(getVanChart());
         return new VanChartGroupPane(new String[]{Toolkit.i18nText("Fine-Design_Chart_Map_Drill_Level"), Toolkit.i18nText("Fine-Design_Chart_Use_Data")},
                 new JPanel[]{layerPane, dataPane}) {
             @Override

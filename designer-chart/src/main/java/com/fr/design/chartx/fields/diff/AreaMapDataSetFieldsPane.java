@@ -4,12 +4,14 @@ import com.fr.chartx.data.field.diff.AreaMapColumnFieldCollection;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.i18n.Toolkit;
 
+import java.awt.Component;
+
 /**
  * @author shine
  * @version 10.0
  * Created by shine on 2019/11/7
  */
-public class AreaMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<AreaMapColumnFieldCollection> {
+public class AreaMapDataSetFieldsPane extends MapDataSetFieldsPane<AreaMapColumnFieldCollection> {
 
     private UIComboBox areaName;
 
@@ -24,6 +26,13 @@ public class AreaMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVal
     protected UIComboBox[] filedComboBoxes() {
         return new UIComboBox[]{
                 createAreaName()
+        };
+    }
+
+    @Override
+    protected Component[] fieldComponents() {
+        return new Component[]{
+                createAreaPanel(createAreaName())
         };
     }
 

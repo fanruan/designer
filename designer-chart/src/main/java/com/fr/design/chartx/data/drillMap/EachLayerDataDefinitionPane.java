@@ -13,6 +13,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.type.MapType;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,11 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<DrillMapChartDataD
     private List<MapType> oldTypeList;
     private VanChartDrillMapPlot plot;
 
-    public EachLayerDataDefinitionPane(VanChartDrillMapPlot drillMapPlot) {
-        this.plot = drillMapPlot;
+    private VanChart vanChart;
+
+    public EachLayerDataDefinitionPane(VanChart vanChart) {
+        this.vanChart = vanChart;
+        this.plot = vanChart.getPlot();
         initComps();
     }
 
@@ -52,17 +56,29 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<DrillMapChartDataD
             final String title = String.format("%s%d%s", Toolkit.i18nText("Fine-Design_Chart_Index_Article"), i, Toolkit.i18nText("Fine-Design_Chart_Index_Layer"));
             MapType mapType = oldTypeList.get(i);
 
-            SingleDataPane pane = mapType == MapType.AREA ? new SingleDataPane(new AreaMapDataSetFieldsPane(), new AreaMapCellDataFieldsPane()) {
-                @Override
-                protected String title4PopupWindow() {
-                    return title;
-                }
-            } : new SingleDataPane(new PointMapDataSetFieldsPane(), new PointMapCellDataFieldsPane()) {
-                @Override
-                protected String title4PopupWindow() {
-                    return title;
-                }
-            };
+            SingleDataPane pane;
+            if (mapType == MapType.AREA) {
+                AreaMapDataSetFieldsPane areaMapDataSetFieldsPane = new AreaMapDataSetFieldsPane();
+                areaMapDataSetFieldsPane.setChart(vanChart);
+                areaMapDataSetFieldsPane.setLevel(i);
+                pane = new SingleDataPane(areaMapDataSetFieldsPane, new AreaMapCellDataFieldsPane()) {
+                    @Override
+                    protected String title4PopupWindow() {
+                        return title;
+                    }
+
+                };
+            } else {
+                PointMapDataSetFieldsPane pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+                pointMapDataSetFieldsPane.setChart(vanChart);
+                pointMapDataSetFieldsPane.setLevel(i);
+                pane = new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane()) {
+                    @Override
+                    protected String title4PopupWindow() {
+                        return title;
+                    }
+                };
+            }
 
             paneList.add(pane);
         }

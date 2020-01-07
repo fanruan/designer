@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.util.Arrays;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.Arrays;
 
 /**
  * @author shine
@@ -35,6 +35,10 @@ public abstract class AbstractAreaLngLatPane extends JPanel {
     protected abstract JPanel createAreaLngLatPane();
 
     public AbstractAreaLngLatPane() {
+        initComponents();
+    }
+
+    protected void initComponents() {
         centerPane = new JPanel(new CardLayout()) {
             @Override
             public Dimension getPreferredSize() {

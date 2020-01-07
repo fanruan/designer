@@ -2,6 +2,7 @@ package com.fr.design.chartx.data.map;
 
 import com.fr.chartx.data.field.diff.PointMapColumnFieldCollection;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.PointMapDataSetFieldsPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.i18n.Toolkit;
 
@@ -19,6 +20,20 @@ public class PointMapAreaLngLatPaneWithComboBox extends PointMapAreaLngLatPaneWi
     private UIComboBox lng_tab1;
     private UIComboBox lat_tab1;
 
+    private PointMapDataSetFieldsPane pointMapDataSetFieldsPane;
+
+    public PointMapAreaLngLatPaneWithComboBox(PointMapDataSetFieldsPane pointMapDataSetFieldsPane) {
+        this.pointMapDataSetFieldsPane = pointMapDataSetFieldsPane;
+        initComponents();
+    }
+
+    protected void initComponents() {
+        if (pointMapDataSetFieldsPane == null) {
+            return;
+        }
+        super.initComponents();
+    }
+
     @Override
     protected JPanel createAreaPane() {
         if (area_tab0 == null) {
@@ -26,7 +41,7 @@ public class PointMapAreaLngLatPaneWithComboBox extends PointMapAreaLngLatPaneWi
         }
         return createPane(
                 new String[]{Toolkit.i18nText("Fine-Design_Chart_Area_Name")},
-                area_tab0
+                pointMapDataSetFieldsPane.createAreaPanel(area_tab0)
         );
     }
 
@@ -39,7 +54,7 @@ public class PointMapAreaLngLatPaneWithComboBox extends PointMapAreaLngLatPaneWi
         }
         return createPane(
                 new String[]{Toolkit.i18nText("Fine-Design_Chart_Area_Name"), Toolkit.i18nText("Fine-Design_Chart_Longitude"), Toolkit.i18nText("Fine-Design_Chart_Latitude")},
-                area_tab1, lng_tab1, lat_tab1
+                pointMapDataSetFieldsPane.createAreaPanel(area_tab1), lng_tab1, lat_tab1
         );
     }
 
