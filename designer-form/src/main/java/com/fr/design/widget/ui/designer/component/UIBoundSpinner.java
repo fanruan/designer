@@ -14,10 +14,16 @@ public class UIBoundSpinner extends UISpinner{
 
     public UIBoundSpinner(double minValue, double maxValue, double dierta) {
         super(minValue, maxValue, dierta);
+        initComponents();
     }
 
     public UIBoundSpinner(double minValue, double maxValue, double dierta, double defaultValue) {
         super(minValue, maxValue, dierta, defaultValue);
+        initComponents();
+    }
+
+    private void initComponents() {
+        setTextField(value);
     }
 
     @Override
