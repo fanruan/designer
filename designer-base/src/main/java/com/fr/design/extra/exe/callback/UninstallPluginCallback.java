@@ -6,7 +6,7 @@ import com.fr.design.extra.PluginUtils;
 
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
-import com.fr.plugin.error.PluginCoreErrorCode;
+import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.manage.control.PluginTaskResult;
 
@@ -29,7 +29,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Success"));
             FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Success"));
-        }else if (result.errorCode() == PluginCoreErrorCode.NeedUninstallDependingPluginFirst) {
+        }else if (result.errorCode() == PluginErrorCode.NeedUninstallDependingPluginFirst) {
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Dependence"),
