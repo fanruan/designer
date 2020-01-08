@@ -6,7 +6,7 @@ import com.fr.design.extra.PluginOperateUtils;
 
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginMarker;
-import com.fr.plugin.error.PluginCoreErrorCode;
+import com.fr.plugin.error.PluginErrorCode;
 import com.fr.plugin.manage.control.AbstractDealPreTaskCallback;
 import com.fr.plugin.manage.control.PluginTask;
 import com.fr.plugin.manage.control.PluginTaskResult;
@@ -40,7 +40,7 @@ public class InstallOnlineCallback extends AbstractDealPreTaskCallback {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
             FineJOptionPane.showMessageDialog(null, pluginInfo + com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Success") + switchedInfo);
-        } else if(result.errorCode() == PluginCoreErrorCode.HasLowerPluginWhenInstall){
+        } else if(result.errorCode() == PluginErrorCode.HasLowerPluginWhenInstall){
             int rv = JOptionPane.showOptionDialog(
                     null,
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Has_Install_Lower"),
