@@ -158,8 +158,9 @@ public class FineJOptionPane extends JOptionPane {
     public static int showConfirmDialog(Component parentComponent, Object message,
                                         String title, int optionType, int messageType, Icon icon)
             throws HeadlessException {
+        String[] options = OPTION_MAP.get(optionType);
         return showConfirmDialog(parentComponent, message, title, optionType,
-                messageType, icon, OPTION_MAP.get(optionType), null);
+                messageType, icon, options, options[0]);
     }
 
     /**
