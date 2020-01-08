@@ -25,36 +25,43 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
     public UIRadioButton() {
         super();
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(Icon icon) {
         super(icon);
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(Action a) {
         super(a);
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(Icon icon, boolean selected) {
         super(icon, selected);
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(String text) {
         super(text);
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(String text, boolean selected) {
         super(text, selected);
         initListener();
+        initComponent();
     }
 
     public UIRadioButton(String text, Icon icon) {
         super(text, icon);
         initListener();
+        initComponent();
     }
 
 
@@ -79,6 +86,10 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
                 }
             });
         }
+    }
+
+    private void initComponent() {
+        this.setFocusPainted(false);
     }
 
     /**

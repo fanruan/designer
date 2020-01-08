@@ -54,7 +54,7 @@ public class TemplateInfoTest {
         TemplateInfo templateInfo = TemplateInfo.newInstance(templateID);
         assertEquals(templateID, templateInfo.getTemplateID());
         assertEquals(StringUtils.EMPTY, Reflect.on(templateInfo).field("originID").get());
-        assertEquals(0, Reflect.on(templateInfo).field("idleDayCount").get());
+        assertEquals(0, (int) Reflect.on(templateInfo).field("idleDayCount").get());
         assertEquals("{}", templateInfo.getProcessMapJsonString());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
@@ -77,7 +77,7 @@ public class TemplateInfoTest {
         TemplateInfo templateInfo = TemplateInfo.newInstance(templateID, originID, originTime);
         assertEquals(templateID, templateInfo.getTemplateID());
         assertEquals(originID, Reflect.on(templateInfo).field("originID").get());
-        assertEquals(0, Reflect.on(templateInfo).field("idleDayCount").get());
+        assertEquals(0, (int) Reflect.on(templateInfo).field("idleDayCount").get());
         assertEquals("{}", templateInfo.getProcessMapJsonString());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();

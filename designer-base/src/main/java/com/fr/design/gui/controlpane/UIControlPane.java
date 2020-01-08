@@ -1,6 +1,7 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.shortcutfactory.ShortCutFactory;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itoolbar.UIToolBarUI;
@@ -250,7 +251,7 @@ abstract class UIControlPane extends JControlPane {
             } catch (Exception exp) {
                 // 存在非法输入 拒绝隐藏
                 this.setAlwaysOnTop(true);
-                JOptionPane.showMessageDialog(this, exp.getMessage());
+                FineJOptionPane.showMessageDialog(this, exp.getMessage());
                 this.requestFocus();
                 return;
             }

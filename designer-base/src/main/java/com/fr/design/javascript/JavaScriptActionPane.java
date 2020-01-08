@@ -144,30 +144,33 @@ public abstract class JavaScriptActionPane extends UIComboBoxPane<JavaScript> {
         return contentDBManiPane;
     }
 
-    public static JavaScriptActionPane defaultJavaScriptActionPane = new JavaScriptActionPane() {
+    public static JavaScriptActionPane createDefaultJavaScriptActionPane() {
+        return new JavaScriptActionPane() {
 
-        private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-        @Override
-        public DBManipulationPane createDBManipulationPane() {
-            JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
-            return jTemplate == null ? new DBManipulationPane() : jTemplate.createDBManipulationPane();
-        }
+            @Override
+            public DBManipulationPane createDBManipulationPane() {
+                JTemplate jTemplate = DesignerContext.getDesignerFrame().getSelectedJTemplate();
+                return jTemplate == null ? new DBManipulationPane() : jTemplate.createDBManipulationPane();
+            }
 
-        @Override
-        protected String title4PopupWindow() {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function");
-        }
+            @Override
+            protected String title4PopupWindow() {
+                return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Callback_Function");
+            }
 
-        @Override
-        public boolean isForm() {
-            return false;
-        }
+            @Override
+            public boolean isForm() {
+                return false;
+            }
 
-        public String[] getDefaultArgs() {
-            return new String[0];
-        }
-    };
+            @Override
+            public String[] getDefaultArgs() {
+                return new String[0];
+            }
+        };
+    }
 
     /**
      * 生成界面默认的组建

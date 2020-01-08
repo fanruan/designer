@@ -4,6 +4,7 @@
 package com.fr.design.designer.creator;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.FormDesigner;
@@ -183,7 +184,7 @@ public abstract class XWidgetCreator extends XCreator {
      */
     public void ChangeCreatorName(FormDesigner designer, XCreator creator) {
         String oldName = creator.toData().getWidgetName();
-        String value = JOptionPane.showInputDialog(designer, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Change_Widget_Name_Discription"), oldName);
+        String value = FineJOptionPane.showInputDialog(designer, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Change_Widget_Name_Discription"), oldName);
         if (value != null) {
             designer.renameCreator(creator, value);
         }

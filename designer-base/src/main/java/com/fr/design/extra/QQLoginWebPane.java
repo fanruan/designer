@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
@@ -138,7 +139,7 @@ public class QQLoginWebPane extends JFXPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(QQLoginWebPane.this, message);
+                FineJOptionPane.showMessageDialog(QQLoginWebPane.this, message);
             }
         });
     }

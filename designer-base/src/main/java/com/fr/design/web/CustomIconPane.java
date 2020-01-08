@@ -6,6 +6,7 @@ import com.fr.base.Icon;
 import com.fr.base.IconManager;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -150,7 +151,7 @@ public class CustomIconPane extends BasicPane {
 
                         } else {
                             // add failed
-                            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.WARNING_MESSAGE);
+                            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 }).setVisible(true);
@@ -179,9 +180,9 @@ public class CustomIconPane extends BasicPane {
                     CustomIconPane.this.repaint();
                 } else {
                     // remove failed
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"),
-                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -204,9 +205,9 @@ public class CustomIconPane extends BasicPane {
                     // do nothing
                 }
                 if (oldIcon == null) {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
-                            "Error",
-                            "Error",
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"),
                             JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -228,7 +229,7 @@ public class CustomIconPane extends BasicPane {
                             // 失败了再弄回去
                             iconManager.addIcon(oldIcon, true);
                             // edit failed
-                            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.WARNING_MESSAGE);
+                            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message2"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 }).setVisible(true);
@@ -425,9 +426,9 @@ public class CustomIconPane extends BasicPane {
                         return;
                     }
                     if (WidgetInfoConfig.getInstance().getIconManager().contains(nameTextField.getText())) {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Icon_Message3"),
-                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                                 JOptionPane.WARNING_MESSAGE);
                     }
                 }

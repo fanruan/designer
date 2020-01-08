@@ -241,16 +241,12 @@ public class FRAbsoluteLayoutAdapter extends FRBodyLayoutAdapter {
 			LayoutUtils.layoutRootContainer(container);
 		}else{
 			//添加到其父组件布局中的时候，要用其父组件布局添加
-			container.getLayoutAdapter().addBean(creator, x, y);
 			if (creator.shouldScaleCreator() || creator.hasTitleStyle()) {
-				addParentCreator(creator);
+				XLayoutContainer parentPanel = creator.initCreatorWrapper(creator.getHeight());
+				container.getLayoutAdapter().addBean(parentPanel, x, y);
 			} else {
-                container.add(creator, creator.toData().getWidgetName(),0);
+				container.getLayoutAdapter().addBean(creator, x, y);
 			}
-			XWFitLayout layout = (XWFitLayout) container;
-			// 更新对应的BoundsWidget
-			layout.updateBoundsWidget();
-			updateCreatorBackBound();
 		}
 	}
 

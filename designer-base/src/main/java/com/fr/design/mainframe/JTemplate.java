@@ -21,6 +21,7 @@ import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.DesignerProxy;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
@@ -540,7 +541,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         collectInfo();
@@ -594,10 +595,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(
+                FineJOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!",
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
@@ -618,10 +619,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             }
             return saved;
         } else {
-            JOptionPane.showMessageDialog(
+            FineJOptionPane.showMessageDialog(
                     DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design-Basic_Save_Failure"),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }

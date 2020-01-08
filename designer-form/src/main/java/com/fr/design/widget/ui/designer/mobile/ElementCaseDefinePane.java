@@ -88,7 +88,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
 
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
 
-        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"), true);
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
