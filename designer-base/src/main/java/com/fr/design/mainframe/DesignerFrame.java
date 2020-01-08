@@ -181,7 +181,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         @Override
         public void windowClosing(WindowEvent e) {
-
+            //关闭前当前模板 停止编辑
+            HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().stopEditing();
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
             if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
