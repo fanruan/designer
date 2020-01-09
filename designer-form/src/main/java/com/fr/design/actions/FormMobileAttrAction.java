@@ -77,8 +77,10 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
                 ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                 jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
-                //改变布局为自适应布局,只在移动端属性设置保存后改变一次
-                doChangeBodyLayout();
+                //当自适应属性自动匹配处于勾选状态 进行切换
+                if (formMobileAttr.isAdaptivePropertyAutoMatch()) {
+                    doChangeBodyLayout();
+                }
 
                 WidgetPropertyPane.getInstance().refreshDockingView();
                 jf.fireTargetModified();
