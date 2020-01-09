@@ -220,6 +220,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             updateHttpsConfigPanel();
 
             remoteWorkspaceURL.setHttps(isHttps);
+            // reset下url，将勾选状态是否htpps加到url里
+            remoteWorkspaceURL.resetUrl();
+
             fillRemoteEnvURLField();
             fillIndividualField();
         }
