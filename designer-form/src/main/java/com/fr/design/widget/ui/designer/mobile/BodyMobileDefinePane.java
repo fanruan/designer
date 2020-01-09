@@ -115,8 +115,9 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         boolean flag = !shouldHidePadding(designer);
         advancePane.setVisible(flag);
         layoutPane.setVisible(flag);
-        frozenPane.setVisible(appRelayoutCheck.isSelected());
-        bookMarkSettingPane.setVisible(appRelayoutCheck.isSelected());
+        boolean appRelayout = FormDesignerUtils.isAppRelayout(designer);
+        frozenPane.setVisible(appRelayout);
+        bookMarkSettingPane.setVisible(appRelayout);
         return holder;
     }
 
@@ -172,6 +173,7 @@ public class BodyMobileDefinePane extends MobileWidgetDefinePane {
         advancePane.setVisible(appPaddingVisible);
         layoutPane.setVisible(appPaddingVisible);
         frozenPane.setVisible(appRelayout);
+        bookMarkSettingPane.setVisible(appRelayout);
         mobileWidgetListPane.updateToDesigner();
         designer.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
 
