@@ -78,7 +78,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                 jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
                 //当自适应属性自动匹配处于勾选状态 进行切换
-                if (formMobileAttr.isAdaptivePropertyAutoMatch()) {
+                if (formMobileAttr.isMobileOnly() && formMobileAttr.isAdaptivePropertyAutoMatch()) {
                     doChangeBodyLayout();
                 }
 
