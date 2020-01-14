@@ -16,6 +16,9 @@ import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.file.HistoryTemplateListCache;
+import com.fr.design.fun.TableDataDefineProvider;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -24,12 +27,12 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-
 import com.fr.general.NameObject;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
@@ -38,8 +41,13 @@ import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.core.PropertyChangeAdapter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.dnd.DnDConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -89,23 +97,9 @@ public class TableDataTreePane extends BasicTableDataTreePane {
 
         createAddMenuDef();
     
-        GeneralContext.listenPluginRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
-        
-            @Override
-            public void on(PluginEvent event) {
-            
-                addMenuDef.clearShortCuts();
-                createAddMenuDef();
-            }
-        }, new PluginFilter() {
-        
-            @Override
-            public boolean accept(PluginContext context) {
+        // 创建插件监听
+        createPluginListener();
     
-                return context.contain(PluginModule.ExtraDesign);
-            }
-        });
-
         editAction = new EditAction();
         removeAction = new RemoveAction();
         previewTableDataAction = new PreviewTableDataAction(dataTree);
@@ -145,8 +139,58 @@ public class TableDataTreePane extends BasicTableDataTreePane {
         new TableDataTreeDragSource(dataTree, DnDConstants.ACTION_COPY);
         checkButtonEnabled();
     }
-
-
+    
+    private void createPluginListener() {
+        
+        //菜单栏监听
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener(PLUGIN_LISTENER_PRIORITY) {
+        
+            @Override
+            public void on(PluginEvent event) {
+            
+                addMenuDef.clearShortCuts();
+                createAddMenuDef();
+            }
+        }, new PluginFilter() {
+        
+            @Override
+            public boolean accept(PluginContext context) {
+    
+                return context.contain(PluginModule.ExtraDesign);
+            }
+        });
+        
+        //监听数据集插件
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            @Override
+            public void on(PluginEvent event) {
+                //REPORT-25577
+                //如果数据集插件禁用或启用。需要清空当前模板中的缓存
+                reloadCurrTemplate();
+            }
+    
+            private void reloadCurrTemplate() {
+                JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+                if (accept(jt)) {
+                    HistoryTemplateListCache.getInstance().closeSelectedReport(jt);
+                    DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+                }
+            }
+    
+            private boolean accept(JTemplate<?, ?> jt) {
+                
+                return jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
+            }
+        }, new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext pluginContext) {
+                
+                return pluginContext.contain(TableDataDefineProvider.XML_TAG);
+            }
+        });
+    }
+    
+    
     protected void checkButtonEnabled() {
         super.checkButtonEnabled(editAction, previewTableDataAction, removeAction, op, dataTree);
     }
@@ -243,6 +287,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
             if (selectedNO == null) {
                 return;
             }
+            DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             dgEdit(((AbstractTableDataWrapper) selectedNO.getObject()).creatTableDataPane(), selectedNO.getName(), false);
         }
     }
@@ -263,7 +308,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
+            int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + ":" + selectedNO.getName() + "?",
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.OK_OPTION) {
                 // richer:这个地方为什么要在DataSourceTree里面去remove呢？多此一举吧
@@ -274,6 +319,7 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 dataTree.setSelectionRow(dataTree.getRowCount() - 1);
                 fireDSChanged();
                 checkButtonEnabled();
+                DesignTableDataManager.removeSelectedColumnNames(selectedNO.getName());
             }
         }
     }

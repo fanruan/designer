@@ -104,8 +104,7 @@ function getMoreInfo() {
 function getCloseButton() {
     return BI.createWidget({
         type: "bi.button",
-        text: "",
-        iconCls: "close-font",
+        text: String.fromCharCode(10005),
         cls: "close-btn",
         clear: true,
         handler: function () {

@@ -1,6 +1,7 @@
 package com.fr.design.report;
 
 import com.fr.config.ServerPreferenceConfig;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.style.StylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -31,14 +32,14 @@ public class ReportStylePane extends StylePane {
 				popupMenu.add(menuItem);
 				menuItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String name = JOptionPane.showInputDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Input_The_Name_Of_Gloabel_Style"));
+						String name = FineJOptionPane.showInputDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Input_The_Name_Of_Gloabel_Style"));
 						if (ComparatorUtils.equals(name, "")) {
 							return;
 						}
 						if (ServerPreferenceConfig.getInstance().getStyle(name) == null) {
 							ServerPreferenceConfig.getInstance().putStyle(name, ReportStylePane.this.updateBean());
 						} else {
-							JOptionPane.showMessageDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_This_Name_Has_Exsit") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Warning"), JOptionPane.WARNING_MESSAGE);
+							FineJOptionPane.showMessageDialog(getParent(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_This_Name_Has_Exsit") + "!", com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Warning"), JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});

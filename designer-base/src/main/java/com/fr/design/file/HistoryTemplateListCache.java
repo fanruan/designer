@@ -386,4 +386,17 @@ public class HistoryTemplateListCache implements CallbackEvent {
         }
         FineLoggerFactory.getLogger().info("Env Change Template Loaded.");
     }
+
+    /**
+     * 重新载入当前模板，刷新数据/对象
+     */
+    public void reloadCurrentTemplate() {
+        JTemplate<?, ?> jt = getCurrentEditingTemplate();
+        boolean access = jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
+        if (access) {
+            closeSelectedReport(jt);
+            DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+        }
+    }
+
 }

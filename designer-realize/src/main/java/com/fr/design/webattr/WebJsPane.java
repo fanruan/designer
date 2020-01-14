@@ -1,6 +1,7 @@
 package com.fr.design.webattr;
 
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.EditingStringListPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
@@ -199,9 +200,12 @@ public class WebJsPane extends BasicPane {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
 			}
 			if (in == null) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
+				FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+												  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+												  com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Failed"),
+												  JOptionPane.ERROR_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
+				FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
 				try {
 					in.close();
 				} catch (IOException e) {

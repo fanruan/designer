@@ -2,6 +2,7 @@ package com.fr.design.mainframe;
 
 
 import com.fr.base.vcs.DesignerMode;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 
 
@@ -43,7 +44,7 @@ public class UndoStateEdit extends AbstractUndoableEdit {
     public void undo() throws CannotUndoException {
         super.undo();
         if (cur.getAuthorityType() == BaseUndoState.AUTHORITY_STATE) {
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Undo_All_Authority_Operations") + "?",
+            int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Undo_All_Authority_Operations") + "?",
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Undo"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.NO_OPTION) {
                 return;

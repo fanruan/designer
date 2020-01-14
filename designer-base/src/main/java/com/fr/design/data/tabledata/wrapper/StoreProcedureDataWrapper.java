@@ -9,6 +9,7 @@ import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.gui.itree.refreshabletree.ExpandMutableTreeNode;
 import com.fr.design.mainframe.DesignerContext;
@@ -102,7 +103,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
             return columnNameList;
         }
         if (!createStore(false)) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_No_TableData"));
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Engine_No_TableData"));
             return new ArrayList<String>();
         }
         columnNameList = Arrays.asList(procedureDataModel.getColumnName());
@@ -219,7 +220,7 @@ public final class StoreProcedureDataWrapper implements TableDataWrapper {
                 } catch (Exception e) {
                     if (!(e instanceof CancellationException)) {
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
+                        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), e.getMessage());
                     }
                     loadingBar.close();
                 }

@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.base.TemplateUtils;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
@@ -104,7 +105,7 @@ public class PluginWebPane extends JFXPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(PluginWebPane.this, message);
+                FineJOptionPane.showMessageDialog(PluginWebPane.this, message);
             }
         });
     }

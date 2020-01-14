@@ -81,7 +81,7 @@ public class ListenerEditPane extends BasicBeanPane<Listener> {
         // 提交入库
         List dbManiList = new ArrayList();
         dbManiList.add(autoCreateDBManipulationPane());
-        Commit2DBJavaScriptPane commit2DBJavaScriptPane = new Commit2DBJavaScriptPane(JavaScriptActionPane.defaultJavaScriptActionPane,
+        Commit2DBJavaScriptPane commit2DBJavaScriptPane = new Commit2DBJavaScriptPane(JavaScriptActionPane.createDefaultJavaScriptActionPane(),
                 dbManiList);
         hyperlinkPane.add(DBCOMMIT, commit2DBJavaScriptPane);
         // 自定义事件

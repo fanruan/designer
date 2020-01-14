@@ -212,7 +212,7 @@ public class FormParaDesigner extends FormDesigner implements ParameterDesignerP
      * @param newName 新名称
      */
     public void refresh4TableData(String oldName, String newName) {
-        this.getTarget().renameTableData(oldName, newName);
+        this.getTarget().renameTableData(this.getTarget().getContainer(), oldName, newName);
         this.getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_SELECTED);
     }
 

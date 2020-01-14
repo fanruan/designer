@@ -10,6 +10,7 @@ import com.fr.data.condition.ListCondition;
 import com.fr.data.condition.ObjectCondition;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.formula.FormulaFactory;
 import com.fr.design.formula.UIFormula;
 import com.fr.design.formula.VariableResolver;
@@ -123,7 +124,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
             ExpandMutableTreeNode parentTreeNode = getParentTreeNode();
             boolean result = isExistedInParentTreeNode(parentTreeNode, liteCondition, false);
             if (result) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
+                FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn_This_Condition_Has_Been_Existed"));
                 return;
             }
@@ -222,7 +223,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
                 return;
             }
 
-            int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
+            int returnVal = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnVal == JOptionPane.OK_OPTION) {
@@ -610,7 +611,7 @@ public abstract class LiteConditionPane<T extends Condition> extends BasicBeanPa
                 //修改的时候加入判断条件重复 REPORT-13441
                 boolean result = isExistedInParentTreeNode(parentTreeNode, liteCondition, true);
                 if (result) {
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(LiteConditionPane.this),
                             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_BindColumn_This_Condition_Has_Been_Existed"));
                     return;
                 }

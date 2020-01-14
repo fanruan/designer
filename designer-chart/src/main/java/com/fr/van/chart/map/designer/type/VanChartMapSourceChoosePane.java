@@ -5,6 +5,7 @@ import com.fr.base.Utils;
 import com.fr.decision.webservice.v10.map.WMSFactory;
 import com.fr.decision.webservice.v10.map.geojson.helper.GEOJSONHelper;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.event.UIObserver;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -427,7 +428,7 @@ public class VanChartMapSourceChoosePane extends JPanel implements UIObserver {
                     if(list != null && list.size() > 0) {
                         resetWMSLayerPane(list);
                     } else {
-                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Invalid_WMS"));
+                        FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Invalid_WMS"));
                     }
                 }
             }.execute();

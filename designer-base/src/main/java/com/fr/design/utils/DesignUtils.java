@@ -5,6 +5,7 @@ import com.fr.base.ServerConfig;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
@@ -176,7 +177,7 @@ public class DesignUtils {
 
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), final_msg);
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), final_msg);
             }
         });
     }
