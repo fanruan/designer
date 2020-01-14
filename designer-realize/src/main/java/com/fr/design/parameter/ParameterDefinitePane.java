@@ -328,7 +328,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
 
     private boolean isWithoutParaXCreator() {
         // allParameters只包含全部的模板参数
-        return paraDesignEditor.isWithoutParaXCreator(DesignModelAdapter.getCurrentModelAdapter().getParameters());    }
+        return paraDesignEditor.isWithoutParaXCreator(DesignModelAdapter.getCurrentModelAdapter().getParameters());
+    }
 
     /**
      * get allParameters
