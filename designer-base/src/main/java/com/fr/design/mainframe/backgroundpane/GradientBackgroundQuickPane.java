@@ -96,17 +96,10 @@ public class GradientBackgroundQuickPane extends BackgroundQuickPane {
 	 *
 	 * @param listener 观察者监听事件
 	 */
+	@Override
 	public void registerChangeListener(final UIObserverListener listener) {
-	   gradientBar.addChangeListener(new ChangeListener() {
-		   public void stateChanged(ChangeEvent e) {
-			   listener.doChange();
-		   }
-	   });
-	   directionPane.addChangeListener(new ChangeListener() {
-		   public void stateChanged(ChangeEvent e) {
-			   listener.doChange();
-		   }
-	   });
+	   gradientBar.addChangeListener(new ChangeListenerImpl(listener));
+	   directionPane.addChangeListener(new ChangeListenerImpl(listener));
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import com.fr.design.data.tabledata.tabledatapane.FormatExplanationPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.editor.ValueEditorPane;
 import com.fr.design.editor.ValueEditorPaneFactory;
 import com.fr.design.editor.editor.Editor;
@@ -584,7 +585,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 				return;
 			}
 
-			int returnVal = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(DBManipulationPane.this),
+			int returnVal = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(DBManipulationPane.this),
 					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_sure_remove_item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Base_Remove"), JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
 			if (returnVal == JOptionPane.OK_OPTION) {

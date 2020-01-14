@@ -6,6 +6,7 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.ExportToolBarProvider;
 import com.fr.design.fun.ExtraButtonToolBarProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -323,7 +324,8 @@ public class EditToolBar extends BasicPane {
 			if (i < 0 || !(listModel.getElementAt(i) instanceof ToolBarButton)) {
 				return;
 			}
-			int val = JOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message", JOptionPane.YES_NO_OPTION);
+			int val = FineJOptionPane.showConfirmDialog(EditToolBar.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?",
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;
 			}

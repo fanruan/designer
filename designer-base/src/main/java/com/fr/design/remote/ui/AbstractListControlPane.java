@@ -6,6 +6,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.ShortCut4JControlPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -367,7 +368,7 @@ public abstract class AbstractListControlPane extends BasicPane {
                 checkValid();
             } catch (Exception exp) {
                 FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
-                JOptionPane.showMessageDialog(AbstractListControlPane.this, exp.getMessage());
+                FineJOptionPane.showMessageDialog(AbstractListControlPane.this, exp.getMessage());
                 authorityList.setSelectedIndex(idx);
                 return true;
             }

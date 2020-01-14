@@ -2,6 +2,7 @@ package com.fr.van.chart.custom.component;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
@@ -115,7 +116,7 @@ public class VanChartCustomPlotSelectPane extends BasicBeanPane<Chart> {
                         customTypeList.get(index).getCheckBox().setSelected(true);
 
                         //彈出警告框
-                        JOptionPane.showMessageDialog(new JPanel(), MASSAGE,"", JOptionPane.WARNING_MESSAGE);
+                        FineJOptionPane.showMessageDialog(new JPanel(), MASSAGE,com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                     }
 
                     //点击后更新已选顺序

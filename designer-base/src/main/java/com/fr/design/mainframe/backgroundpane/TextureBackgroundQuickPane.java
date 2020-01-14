@@ -68,13 +68,10 @@ public class TextureBackgroundQuickPane extends BackgroundQuickPane {
 	 *
 	 * @param listener 观察者监听事件
 	 */
+	@Override
 	public void registerChangeListener(final UIObserverListener listener) {
 		for (int i = 0, count = textureButtonArray.length; i < count; i++) {
-			textureButtonArray[i].addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-					listener.doChange();
-				}
-			});
+			textureButtonArray[i].addChangeListener(new ChangeListenerImpl(listener));
 		}
 	}
 

@@ -167,7 +167,7 @@ public abstract class UIDialog extends JDialog {
         try {
             checkValid();
         } catch (Exception exp) {
-            JOptionPane.showMessageDialog(this, exp.getMessage());
+            FineJOptionPane.showMessageDialog(this, exp.getMessage());
             return;
         }
 

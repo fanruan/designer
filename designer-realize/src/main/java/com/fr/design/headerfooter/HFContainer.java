@@ -24,6 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import com.fr.base.headerfooter.HFElement;
 import com.fr.base.headerfooter.NewLineHFElement;
+import com.fr.design.dialog.FineJOptionPane;
 
 
 /**
@@ -283,7 +284,7 @@ public class HFContainer extends JPanel implements Scrollable {
             Object obj = evt.getSource();
 
             if (obj instanceof HFComponent) {
-                int returnVal = JOptionPane.showConfirmDialog(
+                int returnVal = FineJOptionPane.showConfirmDialog(
                         SwingUtilities.getWindowAncestor(HFContainer.this),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_HF_Are_You_Sure_To_Delete_It") + "?",
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Delete"),

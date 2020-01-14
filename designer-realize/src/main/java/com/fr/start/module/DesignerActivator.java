@@ -60,6 +60,7 @@ import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.update.actions.RecoverForDesigner;
+import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
 import com.fr.general.xml.GeneralXMLTools;
@@ -102,6 +103,7 @@ import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
+import com.fr.task.Once;
 import com.fr.xml.ReportXMLUtils;
 
 import java.awt.*;
@@ -118,6 +120,13 @@ import java.util.Set;
 public class DesignerActivator extends Activator {
 
     private LogHandler<DesignerLogAppender> logHandler = null;
+
+    private final Once pushUpdateTask = new Once(new Runnable() {
+        @Override
+        public void run() {
+            DesignerPushUpdateManager.getInstance().preparePushUpdate();
+        }
+    });
 
     @Override
     public void start() {
@@ -139,6 +148,7 @@ public class DesignerActivator extends Activator {
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
         RecoverManager.register(new RecoverForDesigner());
+        pushUpdateTask.run();
     }
 
     @Override
