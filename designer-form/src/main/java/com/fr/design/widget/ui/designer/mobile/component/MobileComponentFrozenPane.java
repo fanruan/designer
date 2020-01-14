@@ -64,16 +64,24 @@ public class MobileComponentFrozenPane extends BasicPane {
     public void update(XCreator xCreator) {
         List<String> selected = new ArrayList<>();
         WSortLayout wSortLayout = ((WSortLayout) xCreator.toData());
+        List<String> all = wSortLayout.getNonContainerWidgetList();
+        for (String widgetName : all) {
+            updateMobileBookMark(wSortLayout, widgetName, false);
+        }
         Object[] values = uiComboCheckBox.getSelectedValues();
         for (Object value : values) {
             String widgetName = (String) value;
             selected.add(widgetName);
-            Widget widget = FormWidgetHelper.findWidgetWithBound(wSortLayout, widgetName);
-            if (widget != null) {
-                widget.getMobileBookMark().setFrozen(true);
-            }
+            updateMobileBookMark(wSortLayout, widgetName, true);
         }
         wSortLayout.updateFrozenWidgets(selected);
+    }
+
+    private void updateMobileBookMark(WSortLayout wSortLayout, String widgetName, boolean frozen) {
+        Widget widget = FormWidgetHelper.findWidgetWithBound(wSortLayout, widgetName);
+        if (widget != null) {
+            widget.getMobileBookMark().setFrozen(frozen);
+        }
     }
 
     public void populate(XCreator xCreator) {
