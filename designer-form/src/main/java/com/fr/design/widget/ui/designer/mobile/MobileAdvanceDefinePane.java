@@ -139,6 +139,9 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         MobileBookMark bookMark = xCreator.toData().getMobileBookMark();
         bookMark.setUseBookMark(this.useBookMarkCheck.isSelected());
         String newBookMarkName = this.bookMarkNameField.getText();
+        if (ComparatorUtils.equals(newBookMarkName, bookMark.getBookMarkName())) {
+            return;
+        }
         if (!isExist(newBookMarkName)) {
             bookMark.setBookMarkName(newBookMarkName);
         } else {
