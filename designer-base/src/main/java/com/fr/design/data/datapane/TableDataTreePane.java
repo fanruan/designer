@@ -16,9 +16,9 @@ import com.fr.design.data.tabledata.wrapper.AbstractTableDataWrapper;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.fun.TableDataDefineProvider;
-import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.TableDataPaneProcessor;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -168,23 +168,22 @@ public class TableDataTreePane extends BasicTableDataTreePane {
                 //如果数据集插件禁用或启用。需要清空当前模板中的缓存
                 reloadCurrTemplate();
             }
-    
+
             private void reloadCurrTemplate() {
                 JTemplate<?, ?> jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
                 if (accept(jt)) {
-                    HistoryTemplateListCache.getInstance().closeSelectedReport(jt);
-                    DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+                    jt.refreshResource();
                 }
             }
-    
+
             private boolean accept(JTemplate<?, ?> jt) {
-                
+
                 return jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
             }
         }, new PluginFilter() {
             @Override
             public boolean accept(PluginContext pluginContext) {
-                
+
                 return pluginContext.contain(TableDataDefineProvider.XML_TAG);
             }
         });
