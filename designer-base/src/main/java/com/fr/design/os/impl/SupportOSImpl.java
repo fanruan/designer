@@ -1,11 +1,16 @@
 package com.fr.design.os.impl;
 
 import com.fr.base.FRContext;
+import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
+import com.fr.json.JSONObject;
+import com.fr.stable.StringUtils;
 import com.fr.stable.os.Arch;
 import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.os.support.SupportOS;
 import com.fr.workspace.WorkContext;
+
+import java.util.Locale;
 
 /**
  * @author pengda
@@ -44,10 +49,18 @@ public enum SupportOSImpl implements SupportOS {
         @Override
         public boolean support() {
             boolean isLocalEnv = WorkContext.getCurrent().isLocal();
-            boolean isChineseEnv = GeneralContext.isChineseEnv();
             boolean isLinux = OperatingSystem.isLinux();
             // 远程设计和非中文环境以及Linux环境，都不生效
-            return isLocalEnv && isChineseEnv && !isLinux;
+            return isLocalEnv && !isLinux && isPushByConf();
+        }
+
+        private boolean isPushByConf() {
+            String resp = CloudCenter.getInstance().acquireUrlByKind("update.push.conf");
+            if (StringUtils.isEmpty(resp)) {
+                return Locale.CHINA.equals(GeneralContext.getLocale());
+            }
+            JSONObject jo = new JSONObject(resp);
+            return jo.optBoolean(GeneralContext.getLocale().toString());
         }
     },
     /**
