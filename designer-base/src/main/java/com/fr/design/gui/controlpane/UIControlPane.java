@@ -29,6 +29,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -248,8 +249,8 @@ abstract class UIControlPane extends JControlPane {
 
             try {
                 //没有指定owner的弹出框用的是SwingUtilities.getSharedOwnerFrame()
-                Window sharedWindow = Reflect.on(SwingUtilities.class).call("getSharedOwnerFrame").get();
-                for (Window window : sharedWindow.getOwnedWindows()) {
+                Frame sharedOwnerFrame = Reflect.on(SwingUtilities.class).call("getSharedOwnerFrame").get();
+                for (Window window : sharedOwnerFrame.getOwnedWindows()) {
                     if (window instanceof JDialog && window.isVisible() && ((JDialog) window).isModal()) {
                         // 如果有可见模态对话框，则不隐藏
                         return;
