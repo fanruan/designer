@@ -3,6 +3,8 @@ package com.fr.design.os.impl;
 import com.fr.base.FRContext;
 import com.fr.general.CloudCenter;
 import com.fr.general.GeneralContext;
+import com.fr.json.JSON;
+import com.fr.json.JSONFactory;
 import com.fr.json.JSONObject;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.Arch;
@@ -59,8 +61,8 @@ public enum SupportOSImpl implements SupportOS {
             if (StringUtils.isEmpty(resp)) {
                 return Locale.CHINA.equals(GeneralContext.getLocale());
             }
-            JSONObject jo = new JSONObject(resp);
-            return jo.optBoolean(GeneralContext.getLocale().toString());
+            JSONObject jo = JSONFactory.createJSON(JSON.OBJECT, resp);
+            return jo.getBoolean(GeneralContext.getLocale().toString());
         }
     },
     /**
