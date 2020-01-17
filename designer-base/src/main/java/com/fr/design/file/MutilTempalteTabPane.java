@@ -258,7 +258,7 @@ public class MutilTempalteTabPane extends JComponent {
 
 
     private String tempalteShowName(JTemplate<?, ?> template) {
-        String name = template.getEditingFILE().getName();
+        String name = template.getTemplateName();
         if (!template.isSaved() && !name.endsWith(" *")) {
             name += " *";
         }

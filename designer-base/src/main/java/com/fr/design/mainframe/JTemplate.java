@@ -243,12 +243,12 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     public void judgeSheetAuthority(String roles) {
 
     }
-    
+
     /**
      * 刷新内部资源
      */
     public void refreshResource() {
-    
+
         try {
             this.template = JTemplateFactory.asIOFile(this.editingFILE);
             setTarget(this.template);
@@ -1232,4 +1232,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public abstract String route();
+
+    public String getTemplateName(){
+        return getEditingFILE().getName();
+    }
+
 }
