@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  * @version 10.0
  * Created by hades on 2020/1/8
  */
-public class TipDialog extends JDialog implements ActionListener {
+public abstract class TipDialog extends JDialog implements ActionListener {
 
     private UIButton endButton;
     private UIButton cancelButton;
@@ -80,13 +80,9 @@ public class TipDialog extends JDialog implements ActionListener {
 
     }
 
-    protected void endEvent() {
-        // do nothing
-    }
+    protected abstract void endEvent();
 
-    protected void cancelEvent() {
-        // do nothing
-    }
+    protected abstract void cancelEvent();
 
     @Override
     public void actionPerformed(ActionEvent e) {
