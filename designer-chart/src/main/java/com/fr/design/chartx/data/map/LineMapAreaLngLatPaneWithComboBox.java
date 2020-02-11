@@ -2,6 +2,7 @@ package com.fr.design.chartx.data.map;
 
 import com.fr.chartx.data.field.diff.LineMapColumnFieldCollection;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
+import com.fr.design.chartx.fields.diff.LineMapDataSetFieldsPane;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.i18n.Toolkit;
 
@@ -23,6 +24,20 @@ public class LineMapAreaLngLatPaneWithComboBox extends LineMapAreaLngLatPaneWith
     private UIComboBox toLng_tab1;
     private UIComboBox toLat_tab1;
 
+    private LineMapDataSetFieldsPane lineMapDataSetFieldsPane;
+
+    public LineMapAreaLngLatPaneWithComboBox(LineMapDataSetFieldsPane lineMapDataSetFieldsPane) {
+        this.lineMapDataSetFieldsPane = lineMapDataSetFieldsPane;
+        initComponents();
+    }
+
+    protected void initComponents() {
+        if (lineMapDataSetFieldsPane == null) {
+            return;
+        }
+        super.initComponents();
+    }
+
 
     @Override
     protected JPanel createAreaPane() {
@@ -33,7 +48,7 @@ public class LineMapAreaLngLatPaneWithComboBox extends LineMapAreaLngLatPaneWith
         return createPane(
                 new String[]{Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name"),
                         Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")},
-                fromArea_tab0, toArea_tab0
+                lineMapDataSetFieldsPane.createAreaPanel(fromArea_tab0), lineMapDataSetFieldsPane.createAreaPanel(toArea_tab0)
         );
     }
 
@@ -55,10 +70,10 @@ public class LineMapAreaLngLatPaneWithComboBox extends LineMapAreaLngLatPaneWith
                         Toolkit.i18nText("Fine-Design_Chart_End_Area_Name"),
                         Toolkit.i18nText("Fine-Design_Chart_End_Longitude"),
                         Toolkit.i18nText("Fine-Design_Chart_End_Latitude")},
-                fromArea_tab1,
+                lineMapDataSetFieldsPane.createAreaPanel(fromArea_tab1),
                 fromLng_tab1,
                 fromLat_tab1,
-                toArea_tab1,
+                lineMapDataSetFieldsPane.createAreaPanel(toArea_tab1),
                 toLng_tab1,
                 toLat_tab1);
     }

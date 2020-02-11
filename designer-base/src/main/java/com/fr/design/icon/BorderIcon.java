@@ -85,9 +85,9 @@ public class BorderIcon implements Icon {
             cellBorderStyle.getBottomColor());
         drawLine(gr, x1, y1, x1, y2, cellBorderStyle.getLeftStyle(),
             cellBorderStyle.getLeftColor());
-        drawLine(gr, defaultWidth / 2, y1, defaultWidth / 2, y2,
+        drawLine(gr, defaultWidth / 2.0, y1, defaultWidth / 2.0, y2,
             cellBorderStyle.getVerticalStyle(), cellBorderStyle.getVerticalColor());
-        drawLine(gr, x1, defaultHeight / 2, x2, defaultHeight / 2,
+        drawLine(gr, x1, defaultHeight / 2.0, x2, defaultHeight / 2.0,
             cellBorderStyle.getHorizontalStyle(), cellBorderStyle.getHorizontalColor());
     }
 

@@ -32,8 +32,18 @@ import static com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper.refres
  */
 public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCollection> extends BasicBeanPane<T> {
 
+    public String tableName;
+
     public AbstractDataSetFieldsPane() {
         initComponents();
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     protected void initComponents() {

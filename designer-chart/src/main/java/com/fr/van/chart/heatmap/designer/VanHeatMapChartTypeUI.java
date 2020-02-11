@@ -66,7 +66,9 @@ public class VanHeatMapChartTypeUI extends VanMapChartTypeUI {
         return new AbstractVanSingleDataPane(listener) {
             @Override
             protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new PointMapDataSetFieldsPane(), new PointMapCellDataFieldsPane());
+                PointMapDataSetFieldsPane pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+                pointMapDataSetFieldsPane.setChart(getVanChart());
+                return new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
             }
         };
     }

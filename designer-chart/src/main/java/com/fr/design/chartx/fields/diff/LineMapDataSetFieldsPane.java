@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  * @version 10.0
  * Created by shine on 2019/11/11
  */
-public class LineMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<LineMapColumnFieldCollection> {
+public class LineMapDataSetFieldsPane extends MapDataSetFieldsPane<LineMapColumnFieldCollection> {
     private LineMapAreaLngLatPaneWithComboBox areaLngLatPane;
 
     private UIComboBox lineName;
@@ -20,7 +20,7 @@ public class LineMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVal
     @Override
     protected JPanel createNorthPane() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new LineMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new LineMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane;
     }
