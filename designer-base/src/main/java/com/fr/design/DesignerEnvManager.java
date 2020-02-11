@@ -1547,7 +1547,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
             } else if (name.equals(vcsConfigManager.XML_TAG)) {
                 readVcsAttr(reader);
             } else if (DesignerPort.XML_TAG.equals(name)) {
-
+                readDesignerPort(reader);
             }
             else {
                 readLayout(reader, name);
