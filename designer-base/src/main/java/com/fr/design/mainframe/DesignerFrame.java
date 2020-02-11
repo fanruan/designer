@@ -54,6 +54,8 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
@@ -1159,8 +1161,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.dispose();
 
         this.ad.shutDown();
-
-        System.exit(0);
+        FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
     }
 
     // harry：添加程序外拖拽文件进来打开的功能

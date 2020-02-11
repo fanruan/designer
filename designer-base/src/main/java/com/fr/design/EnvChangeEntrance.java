@@ -16,6 +16,8 @@ import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.start.server.ServerTray;
@@ -243,13 +245,13 @@ public class EnvChangeEntrance {
             @Override
             public void doOk() {
                 if (!envListOkAction(envListPane, PopTipStrategy.NOW)) {
-                    System.exit(0);
+                    FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
                 }
             }
 
             @Override
             public void doCancel() {
-                System.exit(0);
+                FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
             }
         });
         envListDialog.setVisible(true);

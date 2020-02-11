@@ -3,20 +3,27 @@ package com.fr.start.module;
 
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.RestartHelper;
+import com.fr.design.dialog.TipDialog;
 import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.impl.GlobalListenerProviderManager;
+import com.fr.design.mainframe.messagecollect.StartErrorMessageCollector;
 import com.fr.design.mainframe.messagecollect.StartupMessageCollector;
+import com.fr.design.mainframe.messagecollect.entity.DesignerErrorMessage;
 import com.fr.design.ui.util.UIUtil;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
 import com.fr.stable.BuildContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.start.DesignerProcessType;
 import com.fr.start.OemHandler;
 import com.fr.start.ServerStarter;
 import com.fr.start.SplashContext;
@@ -26,6 +33,8 @@ import com.fr.start.server.FineEmbedServer;
 import com.fr.value.NotNullLazyValue;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 
@@ -48,12 +57,35 @@ public class DesignerStartup extends Activator {
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 检查是否是-Ddebug = true 启动 并切换对应的端口以及环境配置文件
         checkDebugStart();
+        // 初始化look and feel
+        DesignUtils.initLookAndFeel();
+        if (DesignUtils.isPortOccupied()) {
+            StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.PORT_OCCUPIED.getId(),
+                                                            DesignerErrorMessage.PORT_OCCUPIED.getMessage());
+            DesignerPort.getInstance().resetPort();
+        }
         if (DesignUtils.isStarted()) {
             // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
             final String[] args = startupArgsValue.getValue().get();
             DesignUtils.clientSend(args);
             FineLoggerFactory.getLogger().info("The Designer Has Been Started");
-            System.exit(0);
+            if (args.length == 0) {
+                TipDialog dialog = new TipDialog(null, DesignerProcessType.INSTANCE.obtain()) {
+                    @Override
+                    protected void endEvent() {
+                        dispose();
+                        DesignUtils.clientSend(new String[]{"end"});
+                        RestartHelper.restart();
+                    }
+
+                    @Override
+                    protected void cancelEvent() {
+                        dispose();
+                    }
+                };
+                dialog.setVisible(true);
+            }
+            FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
             return;
         }
         // 快快显示启动画面
@@ -137,7 +169,7 @@ public class DesignerStartup extends Activator {
      */
     private void setDebugEnv() {
 
-        DesignUtils.setPort(DesignerPort.DEBUG_MESSAGE_PORT);
+        DesignUtils.setPort(DesignerPort.getInstance().getDebugMessagePort());
         DesignerEnvManager.setEnvFile(new File(StableUtils.pathJoin(
                 ProductConstants.getEnvHome(),
                 ProductConstants.APP_NAME + "Env_debug.xml"

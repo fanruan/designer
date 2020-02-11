@@ -13,6 +13,8 @@ import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CommonCodeUtils;
 import com.fr.stable.StableUtils;
@@ -29,7 +31,9 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -38,15 +42,21 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 /**
  * Some util method of Designer
  */
 public class DesignUtils {
-    private static int port = DesignerPort.MESSAGE_PORT;
+    private static int port = DesignerPort.getInstance().getMessagePort();
+
+    private static boolean started = false;
 
     private DesignUtils() {
     }
@@ -61,15 +71,54 @@ public class DesignUtils {
     }
 
     /**
-     * 通过端口是否被占用判断设计器有没有启动
-     * s
+     * 判断设计器有没有启动
      *
      * @return 启动了返回true
      */
     public static boolean isStarted() {
-        try (Socket socket = new Socket("localhost", port)) {
+        return started;
+    }
+
+
+    /**
+     * 判断设计器端口是否被其他程序占用
+     * 尝试去通信，无回应就是其他程序占用端口，否则需要继续判断是否为设计器进程未关闭
+     * @return
+     */
+    public static boolean isPortOccupied() {
+        ExecutorService executor = null;
+        Future<String> future = null;
+        try (Socket socket = new Socket("localhost", port);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+             PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)))) {
+            writer.println("check");
+            writer.flush();
+            executor = Executors.newSingleThreadExecutor();
+            future = executor.submit(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if ("response".equals(line)) {
+                            // 正常通信 上一次设计器进程未关闭
+                            started = true;
+                            return line;
+                        }
+                    }
+                    return StringUtils.EMPTY;
+                }
+            });
+            future.get(2, TimeUnit.SECONDS);
+            return false;
+        } catch (TimeoutException e) {
+            future.cancel(true);
             return true;
-        } catch (Exception ignored) {
+        } catch (Exception ignore) {
+
+        } finally {
+            if (executor != null) {
+                executor.shutdownNow();
+            }
         }
         return false;
     }
@@ -79,15 +128,12 @@ public class DesignUtils {
      *
      * @param lines 命令行
      */
-    public static void clientSend(String[] lines) {
+    public static void clientSend(String[] lines, Socket socket) {
         if (lines == null || lines.length == 0) {
             return;
         }
-        Socket socket = null;
         PrintWriter writer = null;
         try {
-            socket = new Socket("localhost", port);
-
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)));
             for (int i = 0; i < lines.length; i++) {
                 writer.println(lines[i]);
@@ -96,16 +142,20 @@ public class DesignUtils {
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         } finally {
-            try {
-                if (writer != null) {
-                    writer.close();
-                }
-                if (socket != null) {
-                    socket.close();
-                }
-            } catch (IOException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            if (writer != null) {
+                writer.close();
             }
+        }
+    }
+
+    public static void clientSend(String[] lines) {
+        if (lines == null || lines.length == 0) {
+            return;
+        }
+        try (Socket socket = new Socket("localhost", port)) {
+             clientSend(lines, socket);
+        } catch (Exception ignore) {
+
         }
     }
 
@@ -138,7 +188,12 @@ public class DesignUtils {
                                 if (line.startsWith("demo")) {
                                     DesignerEnvManager.getEnvManager().setCurrentEnv2Default();
                                     ServerStarter.browserDemoURL();
-                                } else if (StringUtils.isNotEmpty(line)) {
+                                } else if ("check".equals(line)) {
+                                    clientSend(new String[] {"response"}, socket);
+                                } else if ("end".equals(line)) {
+                                    FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+                                }
+                                else if (StringUtils.isNotEmpty(line)) {
                                     File f = new File(line);
                                     String path = f.getAbsolutePath();
 
@@ -163,6 +218,14 @@ public class DesignUtils {
             }
         });
 
+    }
+
+    public static void  responseToClient(Socket socket) {
+        try (OutputStream outputStream = socket.getOutputStream()) {
+            outputStream.write("reponse".getBytes(StandardCharsets.UTF_8));
+            outputStream.flush();
+        } catch (IOException ignore) {
+        }
     }
 
     /**

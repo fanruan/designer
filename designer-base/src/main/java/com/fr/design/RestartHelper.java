@@ -5,6 +5,8 @@ import com.fr.design.os.impl.RestartAction;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -152,7 +154,7 @@ public class RestartHelper {
         } finally {
             WorkContext.getCurrent().close();
             frame.dispose();
-            System.exit(0);
+            FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
         }
     }
 

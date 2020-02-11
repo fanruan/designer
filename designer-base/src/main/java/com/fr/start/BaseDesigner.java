@@ -24,6 +24,8 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
@@ -47,8 +49,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     private void init() {
         prepare();
-        // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
-        DesignUtils.initLookAndFeel();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         createDesignerFrame();
@@ -137,7 +137,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             if (!isException) {
                 showDesignerFrame(true);
             } else {
-                System.exit(0);
+                FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
             }
         }
     }
