@@ -8,6 +8,9 @@ import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
+import com.fr.workspace.engine.rpc.WorkspaceProxyPool;
+import com.fr.workspace.pool.WorkObjectPool;
+import java.lang.reflect.Method;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -78,6 +81,18 @@ public class RemoteWorkspace implements Workspace {
 
         return client.getPool().get(type);
     }
+
+    public <T> T get(Class<T> type, Method defaultMethod){
+        if(defaultMethod != null) {
+            WorkObjectPool objectPool = client.getPool();
+            if (objectPool instanceof WorkspaceProxyPool) {
+                return ((WorkspaceProxyPool) objectPool).get(type, defaultMethod);
+            }else {
+                return client.getPool().get(type);
+            }
+        }
+        return client.getPool().get(type);
+    }
     
     @Override
     public void close() {
@@ -95,5 +110,9 @@ public class RemoteWorkspace implements Workspace {
     public boolean equals(Object obj) {
         
         return obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
+    }
+
+    public WorkspaceClient getClient(){
+        return client;
     }
 }

@@ -6,32 +6,45 @@ import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
+import com.fr.design.env.RemoteWorkspace;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
+import com.fr.design.write.submit.CheckServiceDialog;
 import com.fr.env.EnvListPane;
 import com.fr.general.GeneralContext;
+import com.fr.general.GeneralUtils;
+import com.fr.invoke.Reflect;
+import com.fr.json.JSONArray;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
+import com.fr.rpc.Result;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
 import com.fr.workspace.Workspace;
+import com.fr.workspace.base.WorkspaceAPI;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
+import com.fr.workspace.engine.base.FineObjectPool;
 import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 import com.fr.workspace.engine.exception.WorkspaceAuthException;
+import com.fr.workspace.engine.exception.WorkspaceConnectionException;
+import com.fr.workspace.engine.rpc.WorkspaceProxyPool;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
@@ -83,6 +96,7 @@ public class EnvChangeEntrance {
     private boolean switch2Env(final String envName, PopTipStrategy strategy) {
         DesignerEnvManager envManager = DesignerEnvManager.getEnvManager();
         DesignerWorkspaceInfo selectedEnv = envManager.getWorkspaceInfo(envName);
+        WorkspaceConnectionInfo connectionInfo = selectedEnv.getConnection();
 
         try {
             Workspace workspace = DesignerWorkspaceGenerator.generate(selectedEnv);
@@ -119,6 +133,33 @@ public class EnvChangeEntrance {
             JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             if (template != null) {
                 template.refreshToolArea();
+            }
+
+            String localBranch;
+            String remoteBranch;
+            localBranch = GeneralUtils.readFullBuildNO();
+            try {
+                remoteBranch = new FunctionalHttpRequest(connectionInfo).getServerBranch();
+            } catch (WorkspaceConnectionException e){
+                remoteBranch = Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Is_Old") + formatBranch(localBranch);
+            }
+            //通过是否包含#来避免当前版本为非安装版本（主要是内部开发版本）
+            if(localBranch.contains("#") && localBranch.equals(remoteBranch)){
+                //说明版本一致，仅做日志记录
+                FineLoggerFactory.getLogger().info("Remote Designer version consistency");
+            }else {
+                localBranch = formatBranch(localBranch);
+                remoteBranch = formatBranch(remoteBranch);
+                Set<Class> noExistServiceSet = getNoExistServiceSet(connectionInfo);
+                StringBuilder textBuilder = new StringBuilder();
+                for(Class clazz : noExistServiceSet){
+                    WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
+                    String descriptionOfCN = Toolkit.i18nText(workspaceAPI.description());
+                    textBuilder.append(descriptionOfCN).append("\n");
+                }
+                String areaText = textBuilder.toString();
+                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(),areaText,localBranch,remoteBranch);
+                dialog.setVisible(true);
             }
 
         } catch (WorkspaceAuthException | RegistEditionException e) {
@@ -195,6 +236,60 @@ public class EnvChangeEntrance {
 
         return true;
     }
+
+    public Set<Class> getNoExistServiceSet(WorkspaceConnectionInfo info){
+        Set<Class> noExistServiceSet = new HashSet<Class>();
+        Set<Class> remoteServiceSet = new HashSet<Class>();
+        Set<Class> localServiceSet = FineObjectPool.getInstance().getServerPool().keySet();
+
+        try {
+            JSONArray serviceArray = new FunctionalHttpRequest(info).getServiceList();
+            for(int i = 0; i < serviceArray.size(); i++){
+                try{
+                    Class clazz = Class.forName((String) serviceArray.get(i));
+                    remoteServiceSet.add(clazz);
+                } catch (Exception e){
+                    continue;
+                }
+            }
+            noExistServiceSet.addAll(localServiceSet);
+            noExistServiceSet.removeAll(remoteServiceSet);
+            return noExistServiceSet;
+        } catch (WorkspaceConnectionException e) {
+            FineLoggerFactory.getLogger().info(e.getMessage());
+            //根据本地的服务列表做逐一检测
+            for(Class clazz : localServiceSet) {
+                Method testMethod = Reflect.on(Method.class).create(clazz, "connectTest", new Class[0], String.class, new Class[0], 1025, 8, null, null, null, null).get();
+                WorkspaceProxyPool proxyPool = (WorkspaceProxyPool) (((RemoteWorkspace) WorkContext.getCurrent()).getClient()).getPool();
+                Result result = proxyPool.testInvoker(testMethod);
+                Exception invokeException = (Exception) result.getException();
+                if(invokeException != null){
+                    Exception cause = (Exception) invokeException.getCause();
+                    //获取被包装最底层的异常
+                    while (cause != null) {
+                        invokeException = cause;
+                        cause = (Exception) invokeException.getCause();
+                    }
+                    //该异常表示服务不存在
+                    if(invokeException instanceof ClassNotFoundException){
+                        noExistServiceSet.add(clazz);
+                    }
+                }
+            }
+            return noExistServiceSet;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String formatBranch(String branch){
+        if(branch.contains("#")){
+            return branch.substring(branch.lastIndexOf("#") + 1, branch.length() - 13);
+        }
+        return branch;
+    }
+
 
     /**
      * 编辑items
