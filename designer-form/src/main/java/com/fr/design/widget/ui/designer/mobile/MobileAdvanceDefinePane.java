@@ -148,12 +148,12 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         MobileBookMark bookMark = xCreator.toData().getMobileBookMark();
         bookMark.setUseBookMark(this.useBookMarkCheck.isSelected());
         String newBookMarkName = this.bookMarkNameField.getText();
+        DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
         if (ComparatorUtils.equals(newBookMarkName, bookMark.getBookMarkName())) {
             return;
         }
         if (!isExist(newBookMarkName)) {
             bookMark.setBookMarkName(newBookMarkName);
-            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
         } else {
             FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                                               com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_BookMark_Rename_Failure"),
