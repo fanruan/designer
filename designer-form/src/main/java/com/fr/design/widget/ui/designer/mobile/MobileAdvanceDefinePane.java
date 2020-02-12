@@ -53,7 +53,7 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         JPanel contentPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        this.useBookMarkCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Use_BookMark"));
+        this.useBookMarkCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Use_BookMark"), false);
         this.bookMarkNameField = new UITextField() {
             @Override
             protected void initListener() {
@@ -85,9 +85,18 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         this.useBookMarkCheck.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                bookMarkNamePane.setVisible(MobileAdvanceDefinePane.this.useBookMarkCheck.isSelected());
+                boolean selected = MobileAdvanceDefinePane.this.useBookMarkCheck.isSelected();
+                Widget widget = MobileAdvanceDefinePane.this.xCreator.toData();
+                MobileBookMark bookMark = widget.getMobileBookMark();
+                bookMarkNamePane.setVisible(selected);
+                if (selected && StringUtils.isEmpty(bookMark.getBookMarkName())) {
+                    String name = widget.getWidgetName();
+                    MobileAdvanceDefinePane.this.bookMarkNameField.setText(name);
+                    bookMark.setBookMarkName(name);
+                }
             }
         });
+        bookMarkNamePane.setVisible(xCreator.toData().getMobileBookMark().isUseBookMark());
         contentPane.add(useBookMarkPane, BorderLayout.NORTH);
         contentPane.add(bookMarkNamePane, BorderLayout.CENTER);
         UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_BookMark"), 280, 20, contentPane);
@@ -144,6 +153,7 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         }
         if (!isExist(newBookMarkName)) {
             bookMark.setBookMarkName(newBookMarkName);
+            DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified();
         } else {
             FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                                               com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_BookMark_Rename_Failure"),
