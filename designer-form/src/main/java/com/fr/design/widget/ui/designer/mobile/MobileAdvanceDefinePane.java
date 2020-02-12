@@ -103,6 +103,19 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         JPanel wrapPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         wrapPane.add(uiExpandablePane, BorderLayout.NORTH);
         this.add(wrapPane, BorderLayout.NORTH);
+        initData();
+    }
+
+    private void initData() {
+        MobileBookMark bookMark = xCreator.toData().getMobileBookMark();
+        String bookMarkName = bookMark.getBookMarkName();
+        if (StringUtils.isEmpty(bookMarkName)) {
+            String widgetName = xCreator.toData().getWidgetName();
+            this.bookMarkNameField.setText(widgetName);
+            bookMark.setBookMarkName(widgetName);
+        } else {
+            this.bookMarkNameField.setText(bookMarkName);
+        }
     }
 
     private void bindListeners2Widgets() {
