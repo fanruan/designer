@@ -13,11 +13,10 @@ import com.fr.design.mainframe.messagecollect.entity.DesignerErrorMessage;
 import com.fr.design.ui.util.UIUtil;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
 import com.fr.stable.BuildContext;
@@ -85,7 +84,7 @@ public class DesignerStartup extends Activator {
                 };
                 dialog.setVisible(true);
             }
-            FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+            DesignerExiter.getInstance().execute();
             return;
         }
         // 快快显示启动画面

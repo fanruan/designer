@@ -11,13 +11,9 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.locale.impl.UserInfoMark;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.locale.LocaleCenter;
 import com.fr.general.locale.LocaleMark;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -157,7 +153,7 @@ public class CollectUserInformationDialog extends UIDialog {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+                DesignerExiter.getInstance().execute();
             }
         });
         // set default pane.

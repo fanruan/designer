@@ -43,6 +43,7 @@ import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -54,8 +55,6 @@ import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
@@ -1161,7 +1160,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.dispose();
 
         this.ad.shutDown();
-        FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+        DesignerExiter.getInstance().execute();
     }
 
     // harry：添加程序外拖拽文件进来打开的功能

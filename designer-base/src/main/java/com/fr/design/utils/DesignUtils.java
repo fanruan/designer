@@ -8,13 +8,12 @@ import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.UILookAndFeel;
 import com.fr.design.mainframe.DesignerContext;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.CommonCodeUtils;
 import com.fr.stable.StableUtils;
@@ -191,8 +190,7 @@ public class DesignUtils {
                                 } else if ("check".equals(line)) {
                                     clientSend(new String[] {"response"}, socket);
                                 } else if ("end".equals(line)) {
-                                    FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
-                                }
+                                    DesignerExiter.getInstance().execute();                                }
                                 else if (StringUtils.isNotEmpty(line)) {
                                     File f = new File(line);
                                     String path = f.getAbsolutePath();

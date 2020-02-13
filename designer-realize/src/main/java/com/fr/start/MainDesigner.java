@@ -42,6 +42,7 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
@@ -130,7 +131,7 @@ public class MainDesigner extends BaseDesigner {
                 @Override
                 protected void okEvent() {
                     dispose();
-                    FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+                    DesignerExiter.getInstance().execute();
                 }
 
                 @Override

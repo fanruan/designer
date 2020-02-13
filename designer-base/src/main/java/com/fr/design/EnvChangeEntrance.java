@@ -13,11 +13,10 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.start.server.ServerTray;
@@ -245,14 +244,13 @@ public class EnvChangeEntrance {
             @Override
             public void doOk() {
                 if (!envListOkAction(envListPane, PopTipStrategy.NOW)) {
-                    FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+                    DesignerExiter.getInstance().execute();
                 }
             }
 
             @Override
             public void doCancel() {
-                FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
-            }
+                DesignerExiter.getInstance().execute();            }
         });
         envListDialog.setVisible(true);
     }

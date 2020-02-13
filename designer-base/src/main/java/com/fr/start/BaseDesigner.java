@@ -14,18 +14,16 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.ui.util.UIUtil;
-import com.fr.design.utils.DesignUtils;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
 import com.fr.event.Null;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.*;
@@ -137,7 +135,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             if (!isException) {
                 showDesignerFrame(true);
             } else {
-                FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+                DesignerExiter.getInstance().execute();
             }
         }
     }

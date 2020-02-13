@@ -2,11 +2,10 @@ package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.os.impl.RestartAction;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.process.engine.core.FineProcessContext;
-import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -154,7 +153,7 @@ public class RestartHelper {
         } finally {
             WorkContext.getCurrent().close();
             frame.dispose();
-            FineProcessContext.getChildPipe().fire(FineProcessEngineEvent.DESTROY);
+            DesignerExiter.getInstance().execute();
         }
     }
 
