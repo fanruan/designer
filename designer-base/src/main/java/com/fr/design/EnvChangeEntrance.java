@@ -13,6 +13,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
 import com.fr.env.EnvListPane;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.GeneralContext;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
@@ -243,14 +244,13 @@ public class EnvChangeEntrance {
             @Override
             public void doOk() {
                 if (!envListOkAction(envListPane, PopTipStrategy.NOW)) {
-                    System.exit(0);
+                    DesignerExiter.getInstance().execute();
                 }
             }
 
             @Override
             public void doCancel() {
-                System.exit(0);
-            }
+                DesignerExiter.getInstance().execute();            }
         });
         envListDialog.setVisible(true);
     }
