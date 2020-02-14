@@ -20,6 +20,7 @@ import com.fr.general.GeneralUtils;
 import com.fr.invoke.Reflect;
 import com.fr.json.JSONArray;
 import com.fr.license.exception.RegistEditionException;
+import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.rpc.Result;
 import com.fr.stable.AssistUtils;
@@ -154,7 +155,7 @@ public class EnvChangeEntrance {
                 StringBuilder textBuilder = new StringBuilder();
                 for(Class clazz : noExistServiceSet){
                     WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
-                    String descriptionOfCN = Toolkit.i18nText(workspaceAPI.description());
+                    String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
                     textBuilder.append(descriptionOfCN).append("\n");
                 }
                 String areaText = textBuilder.toString();

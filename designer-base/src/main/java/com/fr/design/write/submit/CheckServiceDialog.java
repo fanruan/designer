@@ -8,7 +8,7 @@ import com.fr.general.FRFont;
 import com.fr.general.IOUtils;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,7 +34,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         //上面的标签面板
         topPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
         JPanel imagePanel = new JPanel();
-        ImageIcon icon = (ImageIcon) IOUtils.readIcon("com/fr/design/images/warnings/warning4.png");
+        Icon icon = IOUtils.readIcon("com/fr/design/images/warnings/warning4.png");
 
         JLabel imageLabel = new JLabel();
         imageLabel.setIcon(icon);
