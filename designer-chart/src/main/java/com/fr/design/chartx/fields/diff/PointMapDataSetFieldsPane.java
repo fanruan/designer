@@ -11,13 +11,13 @@ import javax.swing.JPanel;
  * @version 10.0
  * Created by shine on 2019/11/8
  */
-public class PointMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesValuePane<PointMapColumnFieldCollection> {
+public class PointMapDataSetFieldsPane extends MapDataSetFieldsPane<PointMapColumnFieldCollection> {
     private PointMapAreaLngLatPaneWithComboBox areaLngLatPane;
 
     @Override
     protected JPanel createNorthPane() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane;
     }
@@ -30,7 +30,7 @@ public class PointMapDataSetFieldsPane extends AbstractDataSetFieldsWithSeriesVa
     @Override
     protected UIComboBox[] filedComboBoxes() {
         if (areaLngLatPane == null) {
-            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox();
+            areaLngLatPane = new PointMapAreaLngLatPaneWithComboBox(this);
         }
         return areaLngLatPane.allFieldComboBox();
     }

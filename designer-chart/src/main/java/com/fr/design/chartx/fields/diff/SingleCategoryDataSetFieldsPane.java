@@ -55,7 +55,10 @@ public class SingleCategoryDataSetFieldsPane
         label.setPreferredSize(new Dimension(ChartDataPane.LABEL_WIDTH, ChartDataPane.LABEL_HEIGHT));
 
         JPanel northPane = new JPanel(new BorderLayout(HGAP, VGAP));
-        northPane.add(GUICoreUtils.createBorderLayoutPane(new Component[]{categoryPane, null, null, label, null}), BorderLayout.NORTH);
+        northPane.add(GUICoreUtils.createBorderLayoutPane(
+                new Component[]{categoryPane, null, null, label, null}),
+                BorderLayout.NORTH
+        );
         northPane.add(new JSeparator(), BorderLayout.CENTER);
         northPane.add(createCenterPane(), BorderLayout.SOUTH);
         northPane.setBorder(BorderFactory.createEmptyBorder(TOP, LEFT, BOTTOM, RIGHT));

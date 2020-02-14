@@ -8,6 +8,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
@@ -18,10 +19,11 @@ import com.fr.van.chart.map.designer.type.VanChartMapSourceChoosePane;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -62,6 +64,7 @@ public class DrillMapLayerPane extends BasicBeanPane<VanChartDrillMapPlot> {
 
             java.util.List<ZoomLevel> levelList = drillMapPlot.getLayerLevelList();
             java.util.List<MapType> mapTypeList = drillMapPlot.getLayerMapTypeList();
+            List<MapMatchResult> matchResultList = drillMapPlot.getMatchResultList();
 
             //根据层级初始属性,一切以json那边读到的层级为准
             int levelSize = levelList.size();
@@ -72,6 +75,11 @@ public class DrillMapLayerPane extends BasicBeanPane<VanChartDrillMapPlot> {
             int typeSize = mapTypeList.size();
             for (int j = typeSize; j < depth; j++) {
                 mapTypeList.add(mapType);
+            }
+
+            int matchSize = matchResultList.size();
+            for (int k = matchSize; k < depth; k++) {
+                matchResultList.add(new MapMatchResult());
             }
         }
     }
@@ -120,10 +128,10 @@ public class DrillMapLayerPane extends BasicBeanPane<VanChartDrillMapPlot> {
         return panel;
     }
 
-    private JPanel createTitlePane (String title, JPanel panel) {
+    private JPanel createTitlePane(String title, JPanel panel) {
         JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10,5,0,0));
-        jPanel.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
+        jPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
         return jPanel;
     }
 

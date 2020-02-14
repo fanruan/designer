@@ -38,20 +38,35 @@ public class MapChartDataPane extends AbstractChartDataPane<MapChartDataDefiniti
             VanChartMapPlot mapPlot = this.getVanChart().getPlot();
             mapType = mapPlot == null ? mapType : mapPlot.getMapType();
         }
+        AreaMapDataSetFieldsPane areaMapDataSetFieldsPane;
+        PointMapDataSetFieldsPane pointMapDataSetFieldsPane;
+        LineMapDataSetFieldsPane lineMapDataSetFieldsPane;
         switch (mapType) {
             case AREA:
-                areaPane = new SingleDataPane(new AreaMapDataSetFieldsPane(), new AreaMapCellDataFieldsPane());
+                areaMapDataSetFieldsPane = new AreaMapDataSetFieldsPane();
+                areaMapDataSetFieldsPane.setChart(getVanChart());
+                areaPane = new SingleDataPane(areaMapDataSetFieldsPane, new AreaMapCellDataFieldsPane());
                 return areaPane;
             case POINT:
-                pointPane = new SingleDataPane(new PointMapDataSetFieldsPane(), new PointMapCellDataFieldsPane());
+                pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+                pointMapDataSetFieldsPane.setChart(getVanChart());
+                pointPane = new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
                 return pointPane;
             case LINE:
-                linePane = new SingleDataPane(new LineMapDataSetFieldsPane(), new LineMapCellDataFieldsPane());
+                lineMapDataSetFieldsPane = new LineMapDataSetFieldsPane();
+                lineMapDataSetFieldsPane.setChart(getVanChart());
+                linePane = new SingleDataPane(lineMapDataSetFieldsPane, new LineMapCellDataFieldsPane());
                 return linePane;
             case CUSTOM:
-                areaPane = new SingleDataPane(new AreaMapDataSetFieldsPane(), new AreaMapCellDataFieldsPane());
-                pointPane = new SingleDataPane(new PointMapDataSetFieldsPane(), new PointMapCellDataFieldsPane());
-                linePane = new SingleDataPane(new LineMapDataSetFieldsPane(), new LineMapCellDataFieldsPane());
+                areaMapDataSetFieldsPane = new AreaMapDataSetFieldsPane();
+                areaMapDataSetFieldsPane.setChart(getVanChart());
+                pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+                pointMapDataSetFieldsPane.setChart(getVanChart());
+                lineMapDataSetFieldsPane = new LineMapDataSetFieldsPane();
+                lineMapDataSetFieldsPane.setChart(getVanChart());
+                areaPane = new SingleDataPane(areaMapDataSetFieldsPane, new AreaMapCellDataFieldsPane());
+                pointPane = new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
+                linePane = new SingleDataPane(lineMapDataSetFieldsPane, new LineMapCellDataFieldsPane());
                 return new VanMapAreaPointAndLineGroupPane(areaPane, pointPane, linePane);
             default:
                 areaPane = new SingleDataPane(new AreaMapDataSetFieldsPane(), new AreaMapCellDataFieldsPane());

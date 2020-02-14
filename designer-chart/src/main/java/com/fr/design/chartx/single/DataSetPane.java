@@ -39,7 +39,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         tableDataPane = new DatabaseTableDataPane(label) {
             @Override
             protected void userEvent() {
-                refreshBoxList();
+                refreshBoxListAndTableName();
                 checkBoxUse();
             }
         };
@@ -67,7 +67,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
     /**
      * 刷新字段下拉列表
      */
-    private void refreshBoxList() {
+    private void refreshBoxListAndTableName() {
         TableDataWrapper dataWrap = tableDataPane.getTableDataWrapper();
 
         if (dataWrap == null) {
@@ -78,6 +78,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
 
         if (dataSetFieldsPane != null) {
             dataSetFieldsPane.refreshBoxListWithSelectTableData(columnNameList);
+            dataSetFieldsPane.setTableName(dataWrap.getTableDataName());
         }
     }
 
@@ -102,7 +103,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
             return;
         }
 
-        refreshBoxList();
+        refreshBoxListAndTableName();
 
         tableDataPane.populateBean(ob.getNameTableData());
 

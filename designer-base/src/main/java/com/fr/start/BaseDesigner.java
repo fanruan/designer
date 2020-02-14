@@ -14,11 +14,11 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.DesignerFrame;
 import com.fr.design.mainframe.toolbar.ToolBarMenuDock;
 import com.fr.design.ui.util.UIUtil;
-import com.fr.design.utils.DesignUtils;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
 import com.fr.event.Null;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -47,8 +47,6 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
 
     private void init() {
         prepare();
-        // 初始化look and feel.这个在预加载之前执行是因为lookAndFeel里的东西，预加载时也要用到
-        DesignUtils.initLookAndFeel();
         // 初始化Log Handler
         DesignerEnvManager.loadLogSetting();
         createDesignerFrame();
@@ -137,7 +135,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             if (!isException) {
                 showDesignerFrame(true);
             } else {
-                System.exit(0);
+                DesignerExiter.getInstance().execute();
             }
         }
     }
