@@ -82,6 +82,7 @@ public class RemoteWorkspace implements Workspace {
         return client.getPool().get(type);
     }
 
+    @Override
     public <T> T get(Class<T> type, Method defaultMethod){
         if(defaultMethod != null) {
             WorkObjectPool objectPool = client.getPool();
