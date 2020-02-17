@@ -15,7 +15,6 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.plugin.chart.attr.plot.VanChartLabelPositionPlot;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.base.AttrTooltipContent;
-import com.fr.plugin.chart.base.OverlapHandleType;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -42,6 +41,8 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected UIButtonGroup<Integer> position;
 
+    //标签的自动调整 恢复用注释。下面1行删除。
+    protected UIButtonGroup<Boolean> autoAdjust;
     private UIButtonGroup<Boolean> allowOverlap;
     private UIComboBox overlapHandleType;
 
@@ -124,6 +125,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             }
 
             position = new UIButtonGroup<Integer>(names, values);
+            autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
             allowOverlap = new UIButtonGroup<Boolean>(new String[]{Toolkit.i18nText("Fine-Design_Chart_YES"),
                     Toolkit.i18nText("Fine-Design_Chart_NO")}, new Boolean[]{true, false});
@@ -143,7 +145,10 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
                 panel.add(tractionLinePane, BorderLayout.SOUTH);
                 initPositionListener();
             } else if(PlotFactory.plotAutoAdjustLabelPosition(plot)){
-                panel.add(createOverlapLabelPane(), BorderLayout.SOUTH);
+                //标签的自动调整 恢复用注释。下面1行删除。
+                panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"), autoAdjust), BorderLayout.SOUTH);
+                //标签的自动调整 恢复用注释。取消注释。
+                //panel.add(createOverlapLabelPane(), BorderLayout.SOUTH);
             }
             return panel;
         }
@@ -244,9 +249,10 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     private void checkOverlap() {
-        if (overlapHandleType != null && allowOverlap != null) {
-            overlapHandleType.setVisible(!allowOverlap.getSelectedItem());
-        }
+        //标签的自动调整 恢复用注释。取消注释。
+//        if (overlapHandleType != null && allowOverlap != null) {
+//            overlapHandleType.setVisible(!allowOverlap.getSelectedItem());
+//        }
     }
 
     private void checkStyleUse() {
@@ -270,12 +276,17 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         if(tractionLine != null){
             tractionLine.setSelected(detail.isShowGuidLine());
         }
-        if (allowOverlap != null) {
-            allowOverlap.setSelectedItem(detail.isAllowOverlap());
+        //标签的自动调整 恢复用注释。下面3行删除。
+        if (autoAdjust != null) {
+            autoAdjust.setSelectedIndex(detail.isAutoAdjust() == true ? 0 : 1);
         }
-        if (overlapHandleType != null) {
-            overlapHandleType.setSelectedIndex(detail.getOverlapHandleType() == OverlapHandleType.HIDE ? 0 : 1);
-        }
+        //标签的自动调整 恢复用注释。取消注释。
+//        if (allowOverlap != null) {
+//            allowOverlap.setSelectedItem(detail.isAllowOverlap());
+//        }
+//        if (overlapHandleType != null) {
+//            overlapHandleType.setSelectedIndex(detail.getOverlapHandleType() == OverlapHandleType.HIDE ? 0 : 1);
+//        }
         style.setSelectedIndex(detail.isCustom() ? 1 : 0);
         textFontPane.populate(detail.getTextAttr());
 
@@ -297,13 +308,16 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             position.setSelectedItem(detail.getPosition());
         }
 
-        if (allowOverlap != null) {
-            detail.setAllowOverlap(allowOverlap.getSelectedItem());
-        }
-
-        if (overlapHandleType != null) {
-            detail.setOverlapHandleType(overlapHandleType.getSelectedIndex() == 0 ? OverlapHandleType.HIDE : OverlapHandleType.ADJUST);
-        }
+        //标签的自动调整 恢复用注释。下面1行删除。
+        detail.setAutoAdjust(autoAdjust != null && autoAdjust.getSelectedItem());
+        //标签的自动调整 恢复用注释。取消注释。
+//        if (allowOverlap != null) {
+//            detail.setAllowOverlap(allowOverlap.getSelectedItem());
+//        }
+//
+//        if (overlapHandleType != null) {
+//            detail.setOverlapHandleType(overlapHandleType.getSelectedIndex() == 0 ? OverlapHandleType.HIDE : OverlapHandleType.ADJUST);
+//        }
 
         if(tractionLine != null){
             detail.setShowGuidLine(tractionLine.isSelected() && detail.getPosition() == Constants.OUTSIDE);
