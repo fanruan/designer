@@ -33,7 +33,6 @@ import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartHtmlLabelPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
-import com.fr.van.chart.designer.style.component.LimitPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -80,7 +79,12 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected UIButtonGroup<Integer> position;
     protected UIButtonGroup<Boolean> reversed;
 
-    private LimitPane limitPane;
+    //区域显示策略 恢复用注释。下面3行删除。
+    protected UIButtonGroup<Integer> axisLimitSize;
+    protected UISpinner maxProportion;
+    protected JPanel maxProportionPane;
+    //区域显示策略 恢复用注释。取消注释。
+    //private LimitPane limitPane;
 
     protected UIButtonGroup valueFormatStyle;
     protected FormatPane valueFormat;
@@ -327,8 +331,29 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createDisplayStrategy(){
-        limitPane = new LimitPane();
-        return limitPane;
+        //区域显示策略 恢复用注释。删除到return，即除了注释的代码都删除。
+        maxProportion = new UISpinner(0, 100, 1, 30);
+        axisLimitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
+
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"), axisLimitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"), maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(limitSizePane, BorderLayout.NORTH);
+        panel.add(maxProportionPane, BorderLayout.CENTER);
+
+        axisLimitSize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkMaxProPortionUse();
+            }
+        });
+
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
+
+        //区域显示策略 恢复用注释。取消注释。
+//        limitPane = new LimitPane();
+//        return limitPane;
     }
 
     protected JPanel createValueStylePane(){
@@ -385,8 +410,20 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkAllUse() {
         checkCardPane();
         checkLabelPane();
-        if (limitPane != null){
-            limitPane.checkMaxProPortionUse();
+        //区域显示策略 恢复用注释。删除下面一行。
+        checkMaxProPortionUse();
+
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null){
+//            limitPane.checkMaxProPortionUse();
+//        }
+    }
+
+    //区域显示策略 恢复用注释。删除此方法。
+    //检查最大显示占比是否可用
+    private void checkMaxProPortionUse() {
+        if (maxProportionPane != null && axisLimitSize != null) {
+            maxProportionPane.setVisible(axisLimitSize.getSelectedIndex() == 0 && axisLimitSize.isEnabled());
         }
     }
 
@@ -553,9 +590,18 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void populateDisplayStrategy(VanChartAxis axis) {
-        if (limitPane != null) {
-            limitPane.populateBean(axis.getLimitAttribute());
+        //区域显示策略 恢复用注释。下面6行删除。
+        if (axisLimitSize != null) {
+            axisLimitSize.setSelectedIndex(axis.isLimitSize() ? 0 : 1);
         }
+        if (maxProportion != null) {
+            maxProportion.setValue(axis.getMaxHeight());
+        }
+
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null) {
+//            limitPane.populateBean(axis.getLimitAttribute());
+//        }
     }
 
     //格式
@@ -669,9 +715,17 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void updateDisplayStrategy(VanChartAxis axis){
-        if (limitPane != null) {
-            axis.setLimitAttribute(limitPane.updateBean());
+        //区域显示策略 恢复用注释。下面6行删除。
+        if (axisLimitSize != null) {
+            axis.setLimitSize(axisLimitSize.getSelectedIndex() == 0);
         }
+        if (maxProportion != null) {
+            axis.setMaxHeight(maxProportion.getValue());
+        }
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null) {
+//            axis.setLimitAttribute(limitPane.updateBean());
+//        }
     }
 
     protected void updateFormat(VanChartAxis axis) {
