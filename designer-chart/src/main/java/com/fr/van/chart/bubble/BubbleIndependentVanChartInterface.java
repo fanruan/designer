@@ -19,6 +19,7 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.report.BubblePlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.van.chart.bubble.data.VanChartBubblePlotTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
@@ -103,6 +104,24 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
         VanChartOtherPane otherPane = new VanChartOtherPane() {
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort() {
+
+                    //图表缩放新设计 恢复用注释。删除下面两个方法 getNameArray getValueArray。
+                    protected String[] getNameArray() {
+                        Plot plot = chart.getPlot();
+                        if (plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
+                            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
+                        }
+                        return super.getNameArray();
+                    }
+
+                    protected String[] getValueArray() {
+                        Plot plot = chart.getPlot();
+                        if (plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
+                            return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
+                        }
+                        return super.getValueArray();
+                    }
+
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
