@@ -34,7 +34,7 @@ public class MobileCollapsedStyleExpandPane extends MobileCollapsedStylePane {
         panel.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
         panel.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Start_From")));
         panel.add(rowSpinner);
-        panel.add(new UILabel("Fine-Design_Mobile_Collapse_Row_To_Fold"));
+        panel.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Row_To_Fold")));
         JPanel linePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         linePane.add(splitLine, BorderLayout.NORTH);
         linePane.add(panel, BorderLayout.CENTER);

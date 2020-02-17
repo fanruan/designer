@@ -23,8 +23,8 @@ public class MobileComboBoxDialogEditor extends BasicPane {
 
     private static final Dimension DEFAULT_DIMENSION = new Dimension(600, 400);
     private static final Dimension COMBOX_DIMENSION = new Dimension(135,20);
-    private static final String NONE = Toolkit.i18nText("无");
-    private static final String CUSTOM = Toolkit.i18nText("自定义");
+    private static final String NONE = Toolkit.i18nText("Fine-Design_Mobile_Collapse_None");
+    private static final String CUSTOM = Toolkit.i18nText("Fine-Design_Mobile_Collapse_Custom");
 
 
     private MobileCollapsedStyle style;
