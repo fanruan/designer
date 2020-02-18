@@ -1,7 +1,6 @@
 package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.ispinner.ColumnRowSpinner;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.gui.itextfield.UIIntNumberField;
 import com.fr.design.gui.itextfield.UINumberField;
@@ -12,7 +11,6 @@ import com.fr.form.ui.mobile.MobileCollapsedStyle;
 import com.fr.form.ui.mobile.MobileFormCollapsedStyle;
 
 import javax.swing.JPanel;
-import javax.swing.SpinnerListModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
