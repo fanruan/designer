@@ -187,8 +187,10 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
                 ((ElementCaseEditor) xCreator.toData()).setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
         MobileCollapsedStyle style =  this.mobileCollapsedStyleEditor.getStyle();
-        style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
-        ((ElementCaseEditor) xCreator.toData()).setMobileCollapsedStyle(style);
+        if (style != null) {
+            style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
+            ((ElementCaseEditor) xCreator.toData()).setMobileCollapsedStyle(style);
+        }
     }
 
     private void setGlobalNames() {
