@@ -1,11 +1,13 @@
 package com.fr.design.env;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.security.SecurityToolbox;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
+import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
@@ -89,8 +91,13 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
 
     @Override
-    public boolean checkValid(){
-
+    public boolean checkValid() {
+        try {
+            new FunctionalHttpRequest(this.connection).validateVT();
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return false;
+        }
         return true;
     }
 }
