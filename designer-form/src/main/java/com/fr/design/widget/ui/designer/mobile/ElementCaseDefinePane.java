@@ -16,8 +16,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.mobile.ui.MobileCollapsedStyleExpandPane;
+import com.fr.design.mainframe.mobile.ui.MobileComboBoxDialogEditor;
 import com.fr.form.ui.ElementCaseEditor;
 
+import com.fr.form.ui.mobile.MobileCollapsedStyle;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -51,6 +54,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
     private AttributeChangeListener changeListener;
     private UICheckBox allowFullCheckBox;
     private UICheckBox functionalWhenUnactivatedCheckBox;
+    private MobileComboBoxDialogEditor mobileCollapsedStyleEditor;
 
     public ElementCaseDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -90,9 +94,17 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
 
         functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"), true);
 
+        mobileCollapsedStyleEditor = new MobileComboBoxDialogEditor(new MobileCollapsedStyleExpandPane()) {
+            @Override
+            protected void firePropertyChanged() {
+                ElementCaseDefinePane.this.update();
+            }
+        };
+
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"), SwingConstants.LEFT), vComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("展开收起")), mobileCollapsedStyleEditor},
                 new Component[] {heightRestrictCheckBox, null},
                 new Component[] {allowFullCheckBox, null},
                 new Component[] {functionalWhenUnactivatedCheckBox, null},
@@ -100,9 +112,9 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
         };
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p, p};
         double[] columnSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -144,6 +156,8 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
         this.maxHeightSpinner.setValue(elementCaseEditor.getHeightPercent());
         this.allowFullCheckBox.setSelected(elementCaseEditor.isAllowFullScreen());
         this.functionalWhenUnactivatedCheckBox.setSelected(!elementCaseEditor.isFunctionalWhenUnactivated());
+        this.mobileCollapsedStyleEditor.setStyle(elementCaseEditor.getMobileCollapsedStyle());
+        this.mobileCollapsedStyleEditor.setSelected(elementCaseEditor.getMobileCollapsedStyle().isCollapsedWork());
     }
 
     @Override
@@ -172,6 +186,9 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
             case "functionalWhenUnactivatedCheckBox":
                 ((ElementCaseEditor) xCreator.toData()).setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
+        MobileCollapsedStyle style =  this.mobileCollapsedStyleEditor.getStyle();
+        style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
+        ((ElementCaseEditor) xCreator.toData()).setMobileCollapsedStyle(style);
     }
 
     private void setGlobalNames() {
