@@ -279,7 +279,7 @@ public class EnvChangeEntrance {
             }
             return noExistServiceSet;
         } catch (Exception e){
-            e.printStackTrace();
+            FineLoggerFactory.getLogger().error(e.getMessage(),e);
             return null;
         }
     }

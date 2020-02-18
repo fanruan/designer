@@ -1,6 +1,7 @@
 package com.fr.design.env;
 
 import com.fr.design.i18n.Toolkit;
+import com.fr.rpc.ExceptionMethod;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -83,11 +84,11 @@ public class RemoteWorkspace implements Workspace {
     }
 
     @Override
-    public <T> T get(Class<T> type, Method defaultMethod){
-        if(defaultMethod != null) {
+    public <T> T get(Class<T> type, ExceptionMethod exceptionMethod){
+        if(exceptionMethod != null) {
             WorkObjectPool objectPool = client.getPool();
             if (objectPool instanceof WorkspaceProxyPool) {
-                return ((WorkspaceProxyPool) objectPool).get(type, defaultMethod);
+                return ((WorkspaceProxyPool) objectPool).get(type, exceptionMethod);
             }else {
                 return client.getPool().get(type);
             }
