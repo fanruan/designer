@@ -6,8 +6,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
-import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
@@ -92,12 +92,13 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
     @Override
     public boolean checkValid() {
+        boolean result = false;
         try {
-            new FunctionalHttpRequest(this.connection).validateVT();
+            result = WorkContext.getConnector().testConnection(connection);
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            return false;
+            return result;
         }
-        return true;
+        return result;
     }
 }
