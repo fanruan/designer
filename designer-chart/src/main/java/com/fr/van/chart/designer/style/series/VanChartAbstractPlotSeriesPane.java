@@ -1,12 +1,15 @@
 package com.fr.van.chart.designer.style.series;
 
+import com.fr.base.chart.chartdata.model.DataProcessor;
+import com.fr.base.chart.chartdata.model.LargeDataModel;
+import com.fr.base.chart.chartdata.model.NormalDataModel;
 import com.fr.chart.base.AttrAlpha;
 import com.fr.chart.base.AttrBorder;
 import com.fr.chart.base.ChartConstants;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.design.gui.frpane.UINumberDragPane;
+import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
@@ -15,13 +18,10 @@ import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.attr.radius.VanChartRadiusPlot;
 import com.fr.plugin.chart.base.AttrAreaSeriesFillColorBackground;
-import com.fr.plugin.chart.base.AttrEffect;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
-import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
-import com.fr.plugin.chart.scatter.attr.ScatterAttrLabel;
 import com.fr.van.chart.custom.style.VanChartCustomStylePane;
 import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -32,11 +32,14 @@ import com.fr.van.chart.designer.component.VanChartLineTypePane;
 import com.fr.van.chart.designer.component.VanChartMarkerPane;
 import com.fr.van.chart.designer.component.VanChartTrendLinePane;
 import com.fr.van.chart.designer.component.border.VanChartBorderPane;
+import com.fr.van.chart.designer.other.VanChartInteractivePane;
 import com.fr.van.chart.pie.RadiusCardLayoutPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 
 /**
@@ -66,6 +69,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     private RadiusCardLayoutPane radiusPane;//半径设置界面
     private JPanel radiusPaneWithTitle;
+
+    //大数据模式 恢复用注释。下面1行删除。
+    private UIButtonGroup<DataProcessor> largeDataModelGroup;//大数据模式
 
     protected JPanel contentPane;
 
@@ -160,6 +166,47 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         return ((VanChartPlot) plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
+    //大数据模式 恢复用注释。删除下面4个方法 createLargeDataModelPane checkLarge createLargeDataModelPane createLargeDataModelGroup。
+    protected JPanel createLargeDataModelPane() {
+        largeDataModelGroup = createLargeDataModelGroup();
+        largeDataModelGroup.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                checkLarge();
+            }
+        });
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), largeDataModelGroup);
+        return createLargeDataModelPane(panel);
+    }
+
+    protected void checkLarge() {
+        if (largeModel(plot)) {
+            AttrLabel attrLabel = ((VanChartPlot) plot).getAttrLabelFromConditionCollection();
+            if (attrLabel == null) {
+                attrLabel = ((VanChartPlot) this.plot).getDefaultAttrLabel();
+                ConditionAttr defaultAttr = plot.getConditionCollection().getDefaultAttr();
+                defaultAttr.addDataSeriesCondition(attrLabel);
+            }
+            attrLabel.setEnable(false);
+
+            VanChartInteractivePane.resetCustomCondition(plot.getConditionCollection());
+        }
+
+
+        checkCompsEnabledWithLarge(plot);
+    }
+
+    protected JPanel createLargeDataModelPane(JPanel jPanel) {
+        JPanel panel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Data"), jPanel);
+        return panel;
+    }
+
+    protected UIButtonGroup<DataProcessor> createLargeDataModelGroup() {
+        String[] strings = new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")};
+        DataProcessor[] values = new DataProcessor[]{new LargeDataModel(), new NormalDataModel()};
+        return new UIButtonGroup<DataProcessor>(strings, values);
+    }
+
     protected void checkCompsEnabledWithLarge(Plot plot) {
         if (markerPane != null) {
             markerPane.checkLargePlot(largeModel(plot));
@@ -222,6 +269,11 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
             stylePane.populateBean(plot.getPlotStyle());
         }
 
+        //大数据模式 恢复用注释。下面3行删除。
+        if (largeDataModelGroup != null) {
+            largeDataModelGroup.setSelectedItem(plot.getDataProcessor());
+        }
+
         if (stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot) {//堆积和坐标轴
             VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
             if (rectanglePlot.isCustomChart()) {
@@ -272,6 +324,11 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
         if (stylePane != null) {//风格
             plot.setPlotStyle(stylePane.updateBean());
+        }
+
+        //大数据模式 恢复用注释。下面3行删除。
+        if (largeDataModelGroup != null) {
+            plot.setDataProcessor(largeDataModelGroup.getSelectedItem());
         }
 
         if (stackAndAxisEditPane != null && plot instanceof VanChartRectanglePlot) {//堆积和坐标轴

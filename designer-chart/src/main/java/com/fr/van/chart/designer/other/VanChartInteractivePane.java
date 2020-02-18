@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
-import com.fr.chartx.attr.LargeDataAttribute;
 import com.fr.chartx.attr.LargeDataModeType;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -15,7 +14,6 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
-import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
@@ -120,7 +118,8 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
         Component[][] components = new Component[][]{
                 new Component[]{createToolBarPane(getToolBarRowSize(), columnSize), null},
-                new Component[]{createLargeDataModePane(), null},
+                //大数据模式 恢复用注释。取消注释。
+                //new Component[]{createLargeDataModePane(), null},
                 new Component[]{createAnimationPane(), null},
                 new Component[]{createAxisRotationPane(new double[]{p, p}, columnSize, plot), null},
                 new Component[]{createZoomPane(new double[]{p, p, p}, columnSize, plot), null},
@@ -131,38 +130,39 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
-    private JPanel createLargeDataModePane() {
-        if (!isCurrentChartSupportLargeDataMode()) {
-            return null;
-        }
-        largeDataMode = new UIComboBox(new LargeDataModeType[]{LargeDataModeType.CLOSE, LargeDataModeType.OPEN_BEYOND_THRESHOLD});
-        largeModeThresholdNumber = new UISpinner(0, Integer.MAX_VALUE, 100, chart.getPlot().getLargeDataAttribute().getLargeModeThresholdNumber());
-
-        largeDataMode.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkLargeDataMode();
-            }
-        });
-
-        Component[][] comps1 = new Component[][]{
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Large_Model")), largeDataMode}
-        };
-        Component[][] comps2 = new Component[][]{
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Threshold_Number")), largeModeThresholdNumber}
-        };
-
-        double[] row = {TableLayout.PREFERRED}, col = {TableLayout.FILL, TableLayout4VanChartHelper.EDIT_AREA_WIDTH};
-
-
-        JPanel contentPane = new JPanel(new BorderLayout(0, 6));
-
-        contentPane.add(TableLayout4VanChartHelper.createGapTableLayoutPane(comps1, row, col), BorderLayout.CENTER);
-        largeModeThresholdNumberPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps2, row, col);
-        contentPane.add(largeModeThresholdNumberPane, BorderLayout.SOUTH);
-
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Large_Data"), contentPane);
-    }
+    //大数据模式 恢复用注释。取消注释。
+//    private JPanel createLargeDataModePane() {
+//        if (!isCurrentChartSupportLargeDataMode()) {
+//            return null;
+//        }
+//        largeDataMode = new UIComboBox(new LargeDataModeType[]{LargeDataModeType.CLOSE, LargeDataModeType.OPEN_BEYOND_THRESHOLD});
+//        largeModeThresholdNumber = new UISpinner(0, Integer.MAX_VALUE, 100, chart.getPlot().getLargeDataAttribute().getLargeModeThresholdNumber());
+//
+//        largeDataMode.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                checkLargeDataMode();
+//            }
+//        });
+//
+//        Component[][] comps1 = new Component[][]{
+//                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Large_Model")), largeDataMode}
+//        };
+//        Component[][] comps2 = new Component[][]{
+//                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Threshold_Number")), largeModeThresholdNumber}
+//        };
+//
+//        double[] row = {TableLayout.PREFERRED}, col = {TableLayout.FILL, TableLayout4VanChartHelper.EDIT_AREA_WIDTH};
+//
+//
+//        JPanel contentPane = new JPanel(new BorderLayout(0, 6));
+//
+//        contentPane.add(TableLayout4VanChartHelper.createGapTableLayoutPane(comps1, row, col), BorderLayout.CENTER);
+//        largeModeThresholdNumberPane = TableLayout4VanChartHelper.createGapTableLayoutPane(comps2, row, col);
+//        contentPane.add(largeModeThresholdNumberPane, BorderLayout.SOUTH);
+//
+//        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Large_Data"), contentPane);
+//    }
 
     protected boolean isCurrentChartSupportLargeDataMode() {
         return false;
@@ -415,7 +415,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
 
-    private void resetCustomCondition(ConditionCollection conditionCollection) {
+    public static void resetCustomCondition(ConditionCollection conditionCollection) {
         for (int i = 0, len = conditionCollection.getConditionAttrSize(); i < len; i++) {
             ConditionAttr conditionAttr = conditionCollection.getConditionAttr(i);
             conditionAttr.remove(AttrLabel.class);
@@ -483,12 +483,13 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
     private void populateLargeMode(Plot plot) {
-        if (largeDataMode != null) {
-            LargeDataAttribute attribute = plot.getLargeDataAttribute();
-
-            largeDataMode.setSelectedItem(attribute.getLargeDataModeType());
-            largeModeThresholdNumber.setValue(attribute.getLargeModeThresholdNumber());
-        }
+        //大数据模式 恢复用注释。取消注释。
+//        if (largeDataMode != null) {
+//            LargeDataAttribute attribute = plot.getLargeDataAttribute();
+//
+//            largeDataMode.setSelectedItem(attribute.getLargeDataModeType());
+//            largeModeThresholdNumber.setValue(attribute.getLargeModeThresholdNumber());
+//        }
     }
 
     private void populateChartAxisRotation(VanChartPlot plot) {
@@ -579,12 +580,13 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     }
 
     private void updateLargeData(Plot plot) {
-        if (largeDataMode != null) {
-            LargeDataAttribute attribute = new LargeDataAttribute();
-            attribute.setLargeDataModeType((LargeDataModeType) largeDataMode.getSelectedItem());
-            attribute.setLargeModeThresholdNumber(largeModeThresholdNumber.getValue());
-            plot.setLargeDataAttribute(attribute);
-        }
+        //大数据模式 恢复用注释。取消注释。
+//        if (largeDataMode != null) {
+//            LargeDataAttribute attribute = new LargeDataAttribute();
+//            attribute.setLargeDataModeType((LargeDataModeType) largeDataMode.getSelectedItem());
+//            attribute.setLargeModeThresholdNumber(largeModeThresholdNumber.getValue());
+//            plot.setLargeDataAttribute(attribute);
+//        }
     }
 
     private void updateChartAnimate(Chart chart, Plot plot) {
