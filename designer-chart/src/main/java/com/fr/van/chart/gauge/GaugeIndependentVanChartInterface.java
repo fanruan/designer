@@ -2,12 +2,6 @@ package com.fr.van.chart.gauge;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.GaugeCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.GaugeDataSetFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -115,20 +109,21 @@ public class GaugeIndependentVanChartInterface extends AbstractIndependentVanCha
         return new VanChartGaugeSeriesPane(parent, plot);
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                VanChartGaugePlot gaugePlot = null;
-                if (getVanChart() != null) {
-                    gaugePlot = getVanChart().getPlot();
-                }
-                if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
-                    return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
-                }
-                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                VanChartGaugePlot gaugePlot = null;
+//                if (getVanChart() != null) {
+//                    gaugePlot = getVanChart().getPlot();
+//                }
+//                if (gaugePlot != null && !gaugePlot.isMultiPointer()) {
+//                    return new SingleDataPane(new GaugeDataSetFieldsPane(), new GaugeCellDataFieldsPane());
+//                }
+//                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

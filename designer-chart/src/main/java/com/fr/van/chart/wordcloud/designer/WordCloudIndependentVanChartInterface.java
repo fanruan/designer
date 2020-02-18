@@ -3,10 +3,6 @@ package com.fr.van.chart.wordcloud.designer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.WordCloudCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.WordCloudDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
@@ -125,13 +121,14 @@ public class WordCloudIndependentVanChartInterface extends AbstractIndependentVa
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new WordCloudDataSetFieldsPane(), new WordCloudCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new WordCloudDataSetFieldsPane(), new WordCloudCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

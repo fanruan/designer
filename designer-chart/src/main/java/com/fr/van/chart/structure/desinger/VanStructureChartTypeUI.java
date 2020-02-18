@@ -3,10 +3,6 @@ package com.fr.van.chart.structure.desinger;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.StructureCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.StructureDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -116,13 +112,14 @@ public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
         return new VanChartStructureConditionPane(plot);
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
+//            }
+//        };
+//    }
 }
