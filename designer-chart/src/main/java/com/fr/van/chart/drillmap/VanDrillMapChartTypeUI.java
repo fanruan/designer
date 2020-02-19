@@ -1,6 +1,5 @@
 package com.fr.van.chart.drillmap;
 
-import com.fr.design.chartx.data.drillMap.DrillMapChartDataPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -8,6 +7,7 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
+import com.fr.van.chart.drillmap.designer.data.VanChartDrillMapDataPane;
 import com.fr.van.chart.drillmap.designer.other.VanChartDrillMapOtherPane;
 import com.fr.van.chart.drillmap.designer.type.VanChartDrillMapPlotPane;
 import com.fr.van.chart.map.VanMapChartTypeUI;
@@ -61,7 +61,10 @@ public class VanDrillMapChartTypeUI extends VanMapChartTypeUI {
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new DrillMapChartDataPane(listener);
+        //图表数据结构 恢复用注释。下面1行删除。
+        return new VanChartDrillMapDataPane(listener);
+        //图表数据结构 恢复用注释。取消注释。
+        //return new DrillMapChartDataPane(listener);
     }
 
     /**

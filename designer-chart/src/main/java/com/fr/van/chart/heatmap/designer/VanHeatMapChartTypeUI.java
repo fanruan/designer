@@ -3,15 +3,10 @@ package com.fr.van.chart.heatmap.designer;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.PointMapCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.PointMapDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithMapZoom;
@@ -61,17 +56,24 @@ public class VanHeatMapChartTypeUI extends VanMapChartTypeUI {
         return new VanChartHeatMapTypePane();
     }
 
+    //图表数据结构 恢复用注释。删除下面方法。
     @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                PointMapDataSetFieldsPane pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
-                pointMapDataSetFieldsPane.setChart(getVanChart());
-                return new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
-            }
-        };
+    protected boolean areaPlot(Plot plot) {
+        return false;
     }
+
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                PointMapDataSetFieldsPane pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+//                pointMapDataSetFieldsPane.setChart(getVanChart());
+//                return new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
+//            }
+//        };
+//    }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartHeatMapSeriesPane(parent, plot);
