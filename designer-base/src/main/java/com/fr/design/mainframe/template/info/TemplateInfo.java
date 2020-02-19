@@ -195,10 +195,10 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         int floatCount = (int) processMap.get(ATTR_FLOAT_COUNT);
         int blockCount = (int) processMap.get(ATTR_BLOCK_COUNT);
         int widgetCount = (int) processMap.get(ATTR_WIDGET_COUNT);
-        return judgeTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
+        return isTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
     }
 
-    public static boolean judgeTestTemplate(int reportType, int cellCount, int floatCount, int blockCount, int widgetCount){
+    public static boolean isTestTemplate(int reportType, int cellCount, int floatCount, int blockCount, int widgetCount){
         boolean isTestTemplate;
         if (reportType == 0) {  // 普通报表
             isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;

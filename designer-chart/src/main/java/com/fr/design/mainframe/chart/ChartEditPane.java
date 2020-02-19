@@ -109,14 +109,13 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             }
             AbstractChartAttrPane selectedPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
             //图表配置变化，埋点记录
-            VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
-            if (vanChart != null) {
-                ChartInfoCollector.getInstance().updateChartPropertyTime(vanChart.getUuid(), vanChart.getID());
-            }
+            ChartInfoCollector.getInstance().updateChartPropertyTime(collection.getSelectedChartProvider(ChartProvider.class));
+
             selectedPane.update(collection);
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
+                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
                 if (vanChart != null) {
                     //此处画图
                     vanChart.demoImgEvent(true);

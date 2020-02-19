@@ -96,6 +96,13 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
         chartInfoCacheMap.put(chartId, chartInfo);
     }
 
+    public void updateChartPropertyTime(ChartProvider chartProvider) {
+        if (chartProvider instanceof VanChart) {
+            VanChart vanChart = (VanChart) chartProvider;
+            updateChartPropertyTime(vanChart.getUuid(), vanChart.getID());
+        }
+    }
+
     /**
      * 图表编辑，更新编辑时间
      */
@@ -110,6 +117,13 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
 
         //重置计数
         chartInfo.resetIdleDayCount();
+    }
+
+    public void updateChartTypeTime(ChartProvider chartProvider) {
+        if (chartProvider instanceof VanChart) {
+            VanChart vanChart = (VanChart) chartProvider;
+            updateChartTypeTime(vanChart.getUuid(), vanChart.getID());
+        }
     }
 
     /**
@@ -186,7 +200,7 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
         int blockCount = processInfo.getBlockCount();
         int widgetCount = processInfo.getWidgetCount();
 
-        return TemplateInfo.judgeTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
+        return TemplateInfo.isTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
     }
 
     /**

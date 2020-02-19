@@ -7,11 +7,11 @@ import com.fr.base.ScreenResolution;
 import com.fr.base.chart.BaseChartCollection;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.grid.Grid;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.poly.PolyDesigner;
 import com.fr.poly.PolyUtils;
 import com.fr.poly.creator.BlockCreator;
@@ -240,10 +240,7 @@ public class PolyDesignerDropTarget extends DropTargetAdapter {
 		if (creator instanceof ChartBlockCreator) {
 			PolyChartBlock value = ((ChartBlockCreator) creator).getValue();
 			ChartCollection chartCollection = (ChartCollection) value.getChartCollection();
-			VanChart vanChart =  chartCollection.getSelectedChartProvider(VanChart.class);
-			if (vanChart != null) {
-				ChartInfoCollector.getInstance().collection(vanChart.getUuid(), vanChart.getID(), null);
-			}
+			ChartInfoCollector.getInstance().collection(chartCollection.getSelectedChartProvider(ChartProvider.class), null);
 		}
 	}
 

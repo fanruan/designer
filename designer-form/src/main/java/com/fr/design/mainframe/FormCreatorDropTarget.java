@@ -1,8 +1,8 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.designer.beans.AdapterBus;
@@ -26,7 +26,6 @@ import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.Constants;
 
 import javax.swing.BorderFactory;
@@ -285,11 +284,8 @@ public class FormCreatorDropTarget extends DropTarget {
 
     private void dealChartBuryingPoint(Widget widget) {
         if (widget instanceof ChartEditor) {
-            BaseChartCollection chartCollection = ((ChartEditor) widget).getChartCollection();
-            VanChart vanChart = ((ChartCollection) chartCollection).getSelectedChartProvider(VanChart.class);
-            if (vanChart != null) {
-                ChartInfoCollector.getInstance().collection(vanChart.getUuid(), vanChart.getID(), null);
-            }
+            ChartCollection chartCollection = (ChartCollection)((ChartEditor) widget).getChartCollection();
+            ChartInfoCollector.getInstance().collection(chartCollection.getSelectedChartProvider(ChartProvider.class), null);
         }
     }
 }
