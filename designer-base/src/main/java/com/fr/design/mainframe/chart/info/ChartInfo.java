@@ -176,25 +176,21 @@ public class ChartInfo implements XMLReadable, XMLWriter {
             templateId = reader.getAttrAsString(ATTR_TEMPLATE_ID, StringUtils.EMPTY);
             testTemplate = reader.getAttrAsBoolean(ATTR_TEST_TEMPLATE, true);
         } else {
-            try {
-                String name = reader.getTagName();
-                if (XML_CHART_CONSUMING_MAP.equals(name)) {
-                    chartConsumingMap.put(ATTR_USERNAME, reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_UUID, reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_ACTIVITYKEY, reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
-                    chartConsumingMap.put(ATTR_REPORT_TYPE, reader.getAttrAsString(ATTR_REPORT_TYPE, "0"));
-                    chartConsumingMap.put(ATTR_CHART_ID, chartId);
-                    chartConsumingMap.put(ATTR_CHART_TYPE, reader.getAttrAsString(ATTR_CHART_TYPE, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_CHART_CREATE_TIME, reader.getAttrAsString(ATTR_CHART_CREATE_TIME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_CHART_TYPE_TIME, reader.getAttrAsString(ATTR_CHART_TYPE_TIME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_CHART_PROPERTY_FIRST_TIME, reader.getAttrAsString(ATTR_CHART_PROPERTY_FIRST_TIME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, reader.getAttrAsString(ATTR_CHART_PROPERTY_END_TIME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_JAR_TIME, reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
-                    chartConsumingMap.put(ATTR_VERSION, reader.getAttrAsString(ATTR_VERSION, "8.0"));
-                }
-            } catch (Exception ex) {
-                // 什么也不做，使用默认值
+            String name = reader.getTagName();
+            if (XML_CHART_CONSUMING_MAP.equals(name)) {
+                chartConsumingMap.put(ATTR_USERNAME, reader.getAttrAsString(ATTR_USERNAME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_UUID, reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_ACTIVITYKEY, reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
+                chartConsumingMap.put(ATTR_REPORT_TYPE, reader.getAttrAsString(ATTR_REPORT_TYPE, "0"));
+                chartConsumingMap.put(ATTR_CHART_ID, chartId);
+                chartConsumingMap.put(ATTR_CHART_TYPE, reader.getAttrAsString(ATTR_CHART_TYPE, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_CHART_CREATE_TIME, reader.getAttrAsString(ATTR_CHART_CREATE_TIME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_CHART_TYPE_TIME, reader.getAttrAsString(ATTR_CHART_TYPE_TIME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_CHART_PROPERTY_FIRST_TIME, reader.getAttrAsString(ATTR_CHART_PROPERTY_FIRST_TIME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, reader.getAttrAsString(ATTR_CHART_PROPERTY_END_TIME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_JAR_TIME, reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_VERSION, reader.getAttrAsString(ATTR_VERSION, "8.0"));
             }
         }
     }
