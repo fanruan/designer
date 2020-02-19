@@ -217,8 +217,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
             mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
         }
         MobileCollapsedStyle style = this.mobileCollapsedStyleEditor.getStyle();
-        ((ChartEditor) xCreator.toData()).setMobileCollapsedStyle(style);
-        style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
+        if (style != null) {
+            ((ChartEditor) xCreator.toData()).setMobileCollapsedStyle(style);
+            style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
+        }
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }
 }

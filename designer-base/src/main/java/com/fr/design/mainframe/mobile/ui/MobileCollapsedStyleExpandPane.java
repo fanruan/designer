@@ -2,6 +2,8 @@ package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UIIntNumberField;
+import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
@@ -19,6 +21,8 @@ import java.awt.Dimension;
  */
 public class MobileCollapsedStyleExpandPane extends MobileCollapsedStylePane {
 
+    private static final Dimension DEFAULT_SPINNER_SIZE = new Dimension(60, 24);
+
     private UISpinner rowSpinner;
 
     public MobileCollapsedStyleExpandPane() {
@@ -29,7 +33,13 @@ public class MobileCollapsedStyleExpandPane extends MobileCollapsedStylePane {
     protected JPanel createLinePane() {
         UITitleSplitLine splitLine = new UITitleSplitLine(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Line_Number"), 520);
         splitLine.setPreferredSize(new Dimension(520, 20));
-        this.rowSpinner = new UISpinner(1, Integer.MAX_VALUE, 1, 1);
+        this.rowSpinner = new UISpinner(1, Integer.MAX_VALUE, 1, 1) {
+            @Override
+            protected UINumberField initNumberField(){
+                return new UIIntNumberField();
+            }
+        };
+        rowSpinner.setPreferredSize(DEFAULT_SPINNER_SIZE);
         JPanel panel = new JPanel();
         panel.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
         panel.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Start_From")));
