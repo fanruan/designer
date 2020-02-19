@@ -4,6 +4,8 @@ import com.fr.base.FRContext;
 import com.fr.base.io.BaseBook;
 import com.fr.base.io.XMLReadHelper;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.template.info.SendHelper;
+import com.fr.design.mainframe.template.info.TemplateInfo;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
@@ -177,15 +179,7 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
         int blockCount = processInfo.getBlockCount();
         int widgetCount = processInfo.getWidgetCount();
 
-        boolean isTestTemplate;
-        if (reportType == 0) {  // 普通报表
-            isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
-        } else if (reportType == 1) {  // 聚合报表
-            isTestTemplate = blockCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
-        } else {  // 表单(reportType == 2)
-            isTestTemplate = widgetCount <= 1;
-        }
-        return isTestTemplate;
+        return TemplateInfo.judgeTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
     }
 
     /**
@@ -201,7 +195,7 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
             ChartInfo chartInfo = chartInfoMap.get(key);
             if (chartInfo.isComplete()) {
                 if (!chartInfo.isTestTemplate()) {
-                    if (ChartSendHelper.sendChartInfo(chartInfo)) {
+                    if (SendHelper.sendChartInfo(chartInfo)) {
                         removeLaterList.add(key);
                     }
                 } else {

@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.template.info;
 
 import com.fr.design.mainframe.SiteCenterToken;
+import com.fr.design.mainframe.chart.info.ChartInfo;
 import com.fr.general.CloudCenter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpToolbox;
@@ -14,9 +15,10 @@ import java.util.Map;
  * 负责向服务器发送信息
  * Created by plough on 2019/4/18.
  */
-class SendHelper {
+public class SendHelper {
     private static final String CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
     private static final String PROCESS_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
+    private static final String CHART_CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("chartinfo.consuming") + "/single";
 
     private static boolean sendConsumingInfo(String content) {
         return sendSingleTemplateInfo(CONSUMING_URL, content);
@@ -28,6 +30,10 @@ class SendHelper {
 
     static boolean sendTemplateInfo(TemplateInfo templateInfo) {
         return SendHelper.sendConsumingInfo(templateInfo.getConsumingMapJsonString()) && SendHelper.sendProcessInfo(templateInfo.getProcessMapJsonString());
+    }
+
+    public static boolean sendChartInfo(ChartInfo chartInfo) {
+        return sendSingleTemplateInfo(CHART_CONSUMING_URL, chartInfo.getChartConsumingMapJsonString());
     }
 
     private static boolean sendSingleTemplateInfo(String url, String content) {

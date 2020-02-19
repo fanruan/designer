@@ -212,7 +212,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         return idleDayCount > COMPLETE_DAY_COUNT;
     }
 
-    String getChartConsumingMapJsonString() {
+    public String getChartConsumingMapJsonString() {
         return new JSONObject(chartConsumingMap).toString();
     }
 
