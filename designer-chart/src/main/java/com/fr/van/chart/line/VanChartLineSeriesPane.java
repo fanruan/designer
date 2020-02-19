@@ -29,6 +29,8 @@ public class VanChartLineSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{createLineTypePane()},
                 new Component[]{createMarkerPane()},
                 new Component[]{createStackedAndAxisPane()},
+                //大数据模式 恢复用注释。下面1行删除。
+                new Component[]{createLargeDataModelPane()},
                 new Component[]{createTrendLinePane()},
         };
 

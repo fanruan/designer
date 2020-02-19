@@ -13,6 +13,7 @@ import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
@@ -33,7 +34,6 @@ import com.fr.stable.StringUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartHtmlLabelPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
-import com.fr.van.chart.designer.style.component.LimitPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -64,9 +64,13 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected ChartTextAttrPane labelTextAttrPane;
     protected UINumberDragPane labelTextRotation;
 
+    //轴标签缩略间隔显示 恢复用注释。下面6行删除。
+    protected UITextField labelGapValue;
+
     private UIButtonGroup<OverlapHandleType> overlapHandleTypeGroup;
     protected UIButtonGroup<Integer> labelGapStyle;
-    protected UISpinner labelGapValue;
+    //轴标签缩略间隔显示 恢复用注释。取消注释。
+    //protected UISpinner labelGapValue;
 
     protected JPanel labelPanel;
     private JPanel labelGapStylePane;
@@ -80,7 +84,12 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected UIButtonGroup<Integer> position;
     protected UIButtonGroup<Boolean> reversed;
 
-    private LimitPane limitPane;
+    //区域显示策略 恢复用注释。下面3行删除。
+    protected UIButtonGroup<Integer> axisLimitSize;
+    protected UISpinner maxProportion;
+    protected JPanel maxProportionPane;
+    //区域显示策略 恢复用注释。取消注释。
+    //private LimitPane limitPane;
 
     protected UIButtonGroup valueFormatStyle;
     protected FormatPane valueFormat;
@@ -172,22 +181,32 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        double p = TableLayout.PREFERRED;
         showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
 
-        JPanel rotationPane = createLabelRotationPane(col);
-        JPanel overlapPane = createLabelOverlapPane();
-
+        labelTextRotation = new UINumberDragPane(-ROTATION_MAX, ROTATION_MAX);
+        labelGapStyle = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Fixed")});
+        labelGapValue = new UITextField();
+        Component[][] gapComponents = new Component[][]{
+                new Component[]{
+                        FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TextRotation")),
+                        UIComponentUtils.wrapWithBorderLayoutPane(labelTextRotation)
+                },
+                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Label_Interval")), labelGapStyle},
+        };
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(gapComponents, row, col);
+        labelGapValuePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText(""), labelGapValue, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        JPanel gapPanel = new JPanel(new BorderLayout());
+        gapPanel.add(panel, BorderLayout.CENTER);
+        gapPanel.add(labelGapValuePane, BorderLayout.SOUTH);
 
         Component[][] components = new Component[][]{
                 new Component[]{labelTextAttrPane, null},
-                new Component[]{rotationPane, null},
-                new Component[]{overlapPane, null},
+                new Component[]{gapPanel, null},
         };
 
         JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label"),showLabel);
-        labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, new double[]{p, p, p}, col);
+        labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
         showLabel.addActionListener(new ActionListener() {
             @Override
@@ -195,11 +214,47 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 checkLabelPane();
             }
         });
+        labelGapStyle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkLabelGapValuePane();
+            }
+        });
         JPanel jPanel = new JPanel(new BorderLayout());
         jPanel.add(showLabelPane, BorderLayout.NORTH);
         jPanel.add(labelPanel, BorderLayout.CENTER);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, jPanel);
     }
+
+//    protected JPanel createLabelPane(double[] row, double[] col){
+//        double p = TableLayout.PREFERRED;
+//        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
+//        labelTextAttrPane = getChartTextAttrPane();
+//
+//        JPanel rotationPane = createLabelRotationPane(col);
+//        JPanel overlapPane = createLabelOverlapPane();
+//
+//
+//        Component[][] components = new Component[][]{
+//                new Component[]{labelTextAttrPane, null},
+//                new Component[]{rotationPane, null},
+//                new Component[]{overlapPane, null},
+//        };
+//
+//        JPanel showLabelPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label"),showLabel);
+//        labelPanel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, new double[]{p, p, p}, col);
+//        labelPanel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+//        showLabel.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                checkLabelPane();
+//            }
+//        });
+//        JPanel jPanel = new JPanel(new BorderLayout());
+//        jPanel.add(showLabelPane, BorderLayout.NORTH);
+//        jPanel.add(labelPanel, BorderLayout.CENTER);
+//        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(PaneTitleConstants.CHART_STYLE_LABEL_TITLE, jPanel);
+//    }
 
     private JPanel createLabelRotationPane(double[] col) {
         labelTextRotation = new UINumberDragPane(-ROTATION_MAX, ROTATION_MAX);
@@ -218,7 +273,8 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         labelGapStyle = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Automatic"), Toolkit.i18nText("Fine-Design_Chart_Fixed")});
         labelGapStylePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Label_Interval"), labelGapStyle, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
-        labelGapValue = new UISpinner(0, Integer.MAX_VALUE, 1, 1);
+        //轴标签缩略间隔显示 恢复用注释。取消注释。
+        //labelGapValue = new UISpinner(0, Integer.MAX_VALUE, 1, 1);
         labelGapValuePane = TableLayout4VanChartHelper.createGapTableLayoutPane(StringUtils.EMPTY, labelGapValue, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
 
         JPanel panel = new JPanel(new BorderLayout(0, 0));
@@ -327,8 +383,29 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     }
 
     protected JPanel createDisplayStrategy(){
-        limitPane = new LimitPane();
-        return limitPane;
+        //区域显示策略 恢复用注释。删除到return，即除了注释的代码都删除。
+        maxProportion = new UISpinner(0, 100, 1, 30);
+        axisLimitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
+
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"), axisLimitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"), maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(limitSizePane, BorderLayout.NORTH);
+        panel.add(maxProportionPane, BorderLayout.CENTER);
+
+        axisLimitSize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkMaxProPortionUse();
+            }
+        });
+
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
+
+        //区域显示策略 恢复用注释。取消注释。
+//        limitPane = new LimitPane();
+//        return limitPane;
     }
 
     protected JPanel createValueStylePane(){
@@ -385,8 +462,20 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkAllUse() {
         checkCardPane();
         checkLabelPane();
-        if (limitPane != null){
-            limitPane.checkMaxProPortionUse();
+        //区域显示策略 恢复用注释。删除下面一行。
+        checkMaxProPortionUse();
+
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null){
+//            limitPane.checkMaxProPortionUse();
+//        }
+    }
+
+    //区域显示策略 恢复用注释。删除此方法。
+    //检查最大显示占比是否可用
+    private void checkMaxProPortionUse() {
+        if (maxProportionPane != null && axisLimitSize != null) {
+            maxProportionPane.setVisible(axisLimitSize.getSelectedIndex() == 0 && axisLimitSize.isEnabled());
         }
     }
 
@@ -408,7 +497,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
                 labelPanel.setVisible(enabled);
             }
             if(enabled){
-                checkLabelGapAndStylePane();
+                //轴标签缩略间隔显示 恢复用注释。下面1行删除。
+                checkLabelGapValuePane();
+                //轴标签缩略间隔显示 恢复用注释。取消注释。
+                //checkLabelGapAndStylePane();
             }
         }
     }
@@ -425,9 +517,10 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
     protected void checkLabelGapValuePane() {
         if (labelGapValuePane != null && labelGapStyle != null) {
             boolean visible = labelGapStyle.getSelectedIndex() == 1;
-            if (overlapHandleTypeGroup != null) {
-                visible = visible && overlapHandleTypeGroup.getSelectedItem() == OverlapHandleType.INTERVAL;
-            }
+            //轴标签缩略间隔显示 恢复用注释。取消注释。
+//            if (overlapHandleTypeGroup != null) {
+//                visible = visible && overlapHandleTypeGroup.getSelectedItem() == OverlapHandleType.INTERVAL;
+//            }
             labelGapValuePane.setVisible(visible);
         }
     }
@@ -511,14 +604,18 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         if(labelTextRotation != null){
             labelTextRotation.populateBean((double)labelTextAttr.getRotation());
         }
-        if (overlapHandleTypeGroup != null) {
-            overlapHandleTypeGroup.setSelectedItem(axis.getOverlapHandleType());
-        }
+        //轴标签缩略间隔显示 恢复用注释。取消注释。
+//        if (overlapHandleTypeGroup != null) {
+//            overlapHandleTypeGroup.setSelectedItem(axis.getOverlapHandleType());
+//        }
         if(labelGapStyle != null){
             labelGapStyle.setSelectedIndex(axis.isAutoLabelGap() ? 0 : 1);
         }
         if(labelGapValue != null){
-            labelGapValue.setValue(axis.getIntervalNumber());
+            //轴标签缩略间隔显示 恢复用注释。下面1行删除。
+            labelGapValue.setText(axis.getLabelNumber().getContent());
+            //轴标签缩略间隔显示 恢复用注释。取消注释。
+            //labelGapValue.setValue(axis.getIntervalNumber());
         }
     }
 
@@ -553,9 +650,18 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void populateDisplayStrategy(VanChartAxis axis) {
-        if (limitPane != null) {
-            limitPane.populateBean(axis.getLimitAttribute());
+        //区域显示策略 恢复用注释。下面6行删除。
+        if (axisLimitSize != null) {
+            axisLimitSize.setSelectedIndex(axis.isLimitSize() ? 0 : 1);
         }
+        if (maxProportion != null) {
+            maxProportion.setValue(axis.getMaxHeight());
+        }
+
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null) {
+//            limitPane.populateBean(axis.getLimitAttribute());
+//        }
     }
 
     //格式
@@ -630,14 +736,22 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
         if(labelTextRotation != null){
             labelTextAttr.setRotation(labelTextRotation.updateBean().intValue());
         }
-        if (overlapHandleTypeGroup != null) {
-            axis.setOverlapHandleType(overlapHandleTypeGroup.getSelectedItem());
-        }
+        //轴标签缩略间隔显示 恢复用注释。取消注释。
+//        if (overlapHandleTypeGroup != null) {
+//            axis.setOverlapHandleType(overlapHandleTypeGroup.getSelectedItem());
+//        }
         if(labelGapStyle != null){
             axis.setAutoLabelGap(labelGapStyle.getSelectedIndex() == 0);
         }
         if(labelGapValue != null){
-            axis.setIntervalNumber((int) labelGapValue.getValue());
+            //轴标签缩略间隔显示 恢复用注释。下面5行删除。
+            if (axis.isAutoLabelGap()) {
+                axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build("1"));
+            } else {
+                axis.setLabelIntervalNumber(BaseFormula.createFormulaBuilder().build(labelGapValue.getText()));
+            }
+            //轴标签缩略间隔显示 恢复用注释。取消注释。
+            //axis.setIntervalNumber((int) labelGapValue.getValue());
         }
     }
 
@@ -669,9 +783,17 @@ public class VanChartBaseAxisPane extends FurtherBasicBeanPane<VanChartAxis> {
 
     //显示策略
     private void updateDisplayStrategy(VanChartAxis axis){
-        if (limitPane != null) {
-            axis.setLimitAttribute(limitPane.updateBean());
+        //区域显示策略 恢复用注释。下面6行删除。
+        if (axisLimitSize != null) {
+            axis.setLimitSize(axisLimitSize.getSelectedIndex() == 0);
         }
+        if (maxProportion != null) {
+            axis.setMaxHeight(maxProportion.getValue());
+        }
+        //区域显示策略 恢复用注释。取消注释。
+//        if (limitPane != null) {
+//            axis.setLimitAttribute(limitPane.updateBean());
+//        }
     }
 
     protected void updateFormat(VanChartAxis axis) {

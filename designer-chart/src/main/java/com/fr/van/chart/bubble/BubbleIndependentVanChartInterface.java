@@ -3,12 +3,6 @@ package com.fr.van.chart.bubble;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.ScatterCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.ScatterDataSetFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.SingleCategoryDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -19,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPa
 import com.fr.design.mainframe.chart.gui.data.report.BubblePlotReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.van.chart.bubble.data.VanChartBubblePlotTableDataContentPane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
@@ -103,6 +98,24 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
         VanChartOtherPane otherPane = new VanChartOtherPane() {
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort() {
+
+                    //图表缩放新设计 恢复用注释。删除下面两个方法 getNameArray getValueArray。
+                    protected String[] getNameArray() {
+                        Plot plot = chart.getPlot();
+                        if (plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
+                            return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
+                        }
+                        return super.getNameArray();
+                    }
+
+                    protected String[] getValueArray() {
+                        Plot plot = chart.getPlot();
+                        if (plot instanceof VanChartBubblePlot && ((VanChartBubblePlot) plot).isForceBubble()) {
+                            return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
+                        }
+                        return super.getValueArray();
+                    }
+
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPane();
@@ -122,20 +135,21 @@ public class BubbleIndependentVanChartInterface extends AbstractIndependentVanCh
         return new VanChartBubbleConditionPane(plot);
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                VanChartBubblePlot plot = null;
-                if (getVanChart() != null) {
-                    plot = getVanChart().getPlot();
-                }
-                if (plot != null && plot.isForceBubble()) {
-                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
-                }
-                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                VanChartBubblePlot plot = null;
+//                if (getVanChart() != null) {
+//                    plot = getVanChart().getPlot();
+//                }
+//                if (plot != null && plot.isForceBubble()) {
+//                    return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+//                }
+//                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

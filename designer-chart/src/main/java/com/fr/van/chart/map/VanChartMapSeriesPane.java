@@ -1,5 +1,6 @@
 package com.fr.van.chart.map;
 
+import com.fr.base.chart.chartdata.model.DataProcessor;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.frpane.UINumberDragPane;
@@ -19,6 +20,7 @@ import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.map.attr.AttrMapLabel;
 import com.fr.plugin.chart.map.line.condition.AttrCurve;
 import com.fr.plugin.chart.map.line.condition.AttrLineEffect;
 import com.fr.plugin.chart.type.MapMarkerType;
@@ -27,6 +29,7 @@ import com.fr.van.chart.bubble.component.VanChartBubblePane;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.border.VanChartBorderWithAlphaPane;
 import com.fr.van.chart.designer.component.marker.VanChartImageMarkerPane;
+import com.fr.van.chart.designer.other.VanChartInteractivePane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 import com.fr.van.chart.designer.style.series.VanChartEffectPane;
 import com.fr.van.chart.map.designer.style.series.VanChartMapScatterMarkerPane;
@@ -77,11 +80,62 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     private VanChartCurvePane curvePane;
     private VanChartLineMapEffectPane lineMapEffectPane;
 
+    //大数据模式 恢复用注释。下面1行删除。
+    private UIButtonGroup<DataProcessor> lineMapLargeDataModelGroup;//大数据模式
+
     private MapType mapType = MapType.AREA;
 
     public VanChartMapSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
+
+    //大数据模式 恢复用注释。删除下面4个方法 checkLarge lineMapLargeModel checkLineMapLarge createLineMapLargeDataModelPane。
+    @Override
+    protected void checkLarge() {
+        if (largeModel(plot)) {
+            if (plot instanceof VanChartMapPlot) {
+                ConditionAttr defaultAttr = plot.getConditionCollection().getDefaultAttr();
+                AttrMapLabel attrMapLabel = defaultAttr.getExisted(AttrMapLabel.class);
+                if (attrMapLabel == null) {
+                    attrMapLabel = new AttrMapLabel();
+                    defaultAttr.addDataSeriesCondition(attrMapLabel);
+                }
+                attrMapLabel.getPointLabel().setEnable(false);
+
+                VanChartInteractivePane.resetCustomCondition(((VanChartMapPlot) plot).getPointConditionCollection());
+            }
+        }
+
+        checkPointCompsEnabledWithLarge(plot);
+    }
+
+
+    private boolean lineMapLargeModel() {
+        return lineMapLargeDataModelGroup != null && lineMapLargeDataModelGroup.getSelectedIndex() == 0;
+    }
+
+    private void checkLineMapLarge() {
+        if (lineMapLargeModel()) {
+            if (plot instanceof VanChartMapPlot) {
+                VanChartInteractivePane.resetCustomCondition(((VanChartMapPlot) plot).getLineConditionCollection());
+            }
+        }
+
+        checkLineCompsEnabledWithLarge(plot);
+    }
+
+    private JPanel createLineMapLargeDataModelPane() {
+        lineMapLargeDataModelGroup = createLargeDataModelGroup();
+        lineMapLargeDataModelGroup.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                checkLineMapLarge();
+            }
+        });
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Large_Model"), lineMapLargeDataModelGroup);
+        return createLargeDataModelPane(panel);
+    }
+
 
     protected void checkCompsEnabledWithLarge(Plot plot) {
         checkPointCompsEnabledWithLarge(plot);
@@ -96,7 +150,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private void checkLineCompsEnabledWithLarge(Plot plot) {
         if (lineMapEffectPane != null) {
-            GUICoreUtils.setEnabled(lineMapEffectPane, !largeModel(plot));
+            //大数据模式 恢复用注释。下面1行删除。
+            GUICoreUtils.setEnabled(lineMapEffectPane, !lineMapLargeModel());
+            //大数据模式 恢复用注释。取消注释。
+            //GUICoreUtils.setEnabled(lineMapEffectPane, !largeModel(plot));
         }
     }
 
@@ -158,6 +215,8 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         Component[][] components = new Component[][]{
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), createPointAlphaPane())},
                 new Component[]{createMarkerComPane()},
+                //大数据模式 恢复用注释。下面1行删除。
+                new Component[]{createLargeDataModelPane()},
                 new Component[]{createPointEffectPane()},
         };
 
@@ -174,6 +233,8 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{createCurvePane()},
+                //大数据模式 恢复用注释。下面1行删除。
+                new Component[]{createLineMapLargeDataModelPane()},
                 new Component[]{createAnimationPane()}
         };
 
@@ -331,6 +392,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             if (nullValueColorBox != null) {
                 nullValueColorBox.setSelectObject(((VanChartMapPlot) plot).getNullValueColor());
             }
+            //大数据模式 恢复用注释。下面3行删除。
+            if (lineMapLargeDataModelGroup != null) {
+                lineMapLargeDataModelGroup.setSelectedItem(((VanChartMapPlot) plot).getLineMapDataProcessor());
+            }
         }
         super.populateBean(plot);
     }
@@ -342,6 +407,10 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
             if (nullValueColorBox != null) {
                 ((VanChartMapPlot) plot).setNullValueColor(nullValueColorBox.getSelectObject());
+            }
+            //大数据模式 恢复用注释。下面3行删除。
+            if (lineMapLargeDataModelGroup != null) {
+                ((VanChartMapPlot) plot).setLineMapDataProcessor(lineMapLargeDataModelGroup.getSelectedItem());
             }
         }
         super.updateBean(plot);

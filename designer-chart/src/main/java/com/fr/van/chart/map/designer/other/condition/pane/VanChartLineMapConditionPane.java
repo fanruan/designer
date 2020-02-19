@@ -46,7 +46,10 @@ public class VanChartLineMapConditionPane extends DataSeriesConditionPane {
         classPaneMap.put(AttrFloatColor.class, new VanChartFloatColorConditionPane(this));
         classPaneMap.put(AttrCurve.class, new VanChartCurveConditionPane(this));
         classPaneMap.put(AttrTooltip.class, new VanChartLineMapTooltipConditionPane(this, plot));
-        if (!PlotFactory.largeDataModel(plot)) {
+        //大数据模式 恢复用注释。下面1行删除。
+        if (!PlotFactory.lineMapLargeModel(plot)) {
+            //大数据模式 恢复用注释。取消注释。
+            //if (!PlotFactory.largeDataModel(plot)) {
             classPaneMap.put(AttrLineEffect.class, new VanChartLineEffectConditionPane(this, EffectHelper.getLineMapDefaultLineEffect()));
         }
     }

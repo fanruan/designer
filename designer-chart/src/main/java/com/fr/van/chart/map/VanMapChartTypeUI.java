@@ -2,16 +2,26 @@ package com.fr.van.chart.map;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.data.map.MapChartDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
+import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
+import com.fr.van.chart.map.designer.data.VanChartMapDataPane;
+import com.fr.van.chart.map.designer.data.contentpane.report.VanAreaMapPlotReportDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.report.VanLineMapPlotReportDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.report.VanPointMapPlotReportDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.table.VanAreaMapPlotTableDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.table.VanLineMapPlotTableDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
 import com.fr.van.chart.map.designer.other.VanChartMapOtherPane;
 import com.fr.van.chart.map.designer.other.condition.pane.VanChartMapConditionPane;
 import com.fr.van.chart.map.designer.style.VanChartMapStylePane;
@@ -60,8 +70,34 @@ public class VanMapChartTypeUI extends AbstractIndependentVanChartUI {
         return new VanChartMapPlotPane();
     }
 
+//图表数据结构 恢复用注释。取消注释。
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener){
+//        return new MapChartDataPane(listener);
+//    }
+
+    //图表数据结构 恢复用注释。删除下面5个方法 getTableDataSourcePane getReportDataSourcePane getChartDataPane areaPlot linePlot。
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
+        return areaPlot(plot) ? new VanAreaMapPlotTableDataContentPane(parent)
+                : linePlot(plot) ? new VanLineMapPlotTableDataContentPane(parent)
+                : new VanPointMapPlotTableDataContentPane(parent);
+    }
+
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
+        return areaPlot(plot) ? new VanAreaMapPlotReportDataContentPane(parent)
+                : linePlot(plot) ? new VanLineMapPlotReportDataContentPane(parent)
+                : new VanPointMapPlotReportDataContentPane(parent);
+    }
+
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
-        return new MapChartDataPane(listener);
+        return new VanChartMapDataPane(listener);
+    }
+
+    protected boolean areaPlot(Plot plot) {
+        return plot != null && plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getMapType() == MapType.AREA;
+    }
+
+    protected boolean linePlot(Plot plot) {
+        return plot != null && plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getMapType() == MapType.LINE;
     }
 
     /**
