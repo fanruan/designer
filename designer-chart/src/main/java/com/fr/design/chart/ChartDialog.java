@@ -6,10 +6,9 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.gui.chart.MiddleChartDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.third.joda.time.DateTime;
 
 import javax.swing.JPanel;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
@@ -40,7 +39,7 @@ public class ChartDialog extends MiddleChartDialog {
     }
 	
     private void initComponent() {
-		final String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+		final String createTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 
 		this.setModal(true);
 		this.setLayout(new BorderLayout());

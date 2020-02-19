@@ -13,9 +13,8 @@ import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.third.joda.time.DateTime;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
 
     private String templateId = StringUtils.EMPTY;
 
-    private Map<String, Object> chartConsumingMap = new HashMap<>();
+    private Map<String, String> chartConsumingMap = new HashMap<>();
 
     private BaseBook book;
 
@@ -104,7 +103,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
     }
 
     public static ChartInfo newInstance(String chartId, String chartType, String createTime) {
-        HashMap<String, Object> chartConsumingMap = new HashMap<>();
+        HashMap<String, String> chartConsumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
@@ -114,7 +113,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         String templateId = book.getTemplateID();
         int reportType = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getProcessInfo().getReportType();
 
-        String typeTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        String typeTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 
         createTime = createTime == null ? typeTime : createTime;
 
@@ -124,7 +123,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         chartConsumingMap.put(ATTR_UUID, uuid);
         chartConsumingMap.put(ATTR_ACTIVITYKEY, activitykey);
         chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
-        chartConsumingMap.put(ATTR_REPORT_TYPE, reportType);
+        chartConsumingMap.put(ATTR_REPORT_TYPE, String.valueOf(reportType));
         chartConsumingMap.put(ATTR_CHART_ID, chartId);
         chartConsumingMap.put(ATTR_CHART_TYPE, chartType);
         chartConsumingMap.put(ATTR_CHART_CREATE_TIME, createTime);
@@ -154,17 +153,17 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         }
         writer.attr(ATTR_TEST_TEMPLATE, this.testTemplate);
         writer.startTAG(XML_CHART_CONSUMING_MAP);
-        writer.attr(ATTR_USERNAME, (String) chartConsumingMap.get(ATTR_USERNAME));
-        writer.attr(ATTR_UUID, (String) chartConsumingMap.get(ATTR_UUID));
-        writer.attr(ATTR_ACTIVITYKEY, (String) chartConsumingMap.get(ATTR_ACTIVITYKEY));
-        writer.attr(ATTR_REPORT_TYPE, (int) chartConsumingMap.get(ATTR_REPORT_TYPE));
-        writer.attr(ATTR_CHART_TYPE, (String) chartConsumingMap.get(ATTR_CHART_TYPE));
-        writer.attr(ATTR_CHART_CREATE_TIME, (String) chartConsumingMap.get(ATTR_CHART_CREATE_TIME));
-        writer.attr(ATTR_CHART_TYPE_TIME, (String) chartConsumingMap.get(ATTR_CHART_TYPE_TIME));
-        writer.attr(ATTR_CHART_PROPERTY_FIRST_TIME, (String) chartConsumingMap.get(ATTR_CHART_PROPERTY_FIRST_TIME));
-        writer.attr(ATTR_CHART_PROPERTY_END_TIME, (String) chartConsumingMap.get(ATTR_CHART_PROPERTY_END_TIME));
-        writer.attr(ATTR_JAR_TIME, (String) chartConsumingMap.get(ATTR_JAR_TIME));
-        writer.attr(ATTR_VERSION, (String) chartConsumingMap.get(ATTR_VERSION));
+        writer.attr(ATTR_USERNAME, chartConsumingMap.get(ATTR_USERNAME));
+        writer.attr(ATTR_UUID, chartConsumingMap.get(ATTR_UUID));
+        writer.attr(ATTR_ACTIVITYKEY, chartConsumingMap.get(ATTR_ACTIVITYKEY));
+        writer.attr(ATTR_REPORT_TYPE, chartConsumingMap.get(ATTR_REPORT_TYPE));
+        writer.attr(ATTR_CHART_TYPE, chartConsumingMap.get(ATTR_CHART_TYPE));
+        writer.attr(ATTR_CHART_CREATE_TIME, chartConsumingMap.get(ATTR_CHART_CREATE_TIME));
+        writer.attr(ATTR_CHART_TYPE_TIME, chartConsumingMap.get(ATTR_CHART_TYPE_TIME));
+        writer.attr(ATTR_CHART_PROPERTY_FIRST_TIME, chartConsumingMap.get(ATTR_CHART_PROPERTY_FIRST_TIME));
+        writer.attr(ATTR_CHART_PROPERTY_END_TIME, chartConsumingMap.get(ATTR_CHART_PROPERTY_END_TIME));
+        writer.attr(ATTR_JAR_TIME, chartConsumingMap.get(ATTR_JAR_TIME));
+        writer.attr(ATTR_VERSION, chartConsumingMap.get(ATTR_VERSION));
         writer.end();
         writer.end();
     }
@@ -184,7 +183,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
                     chartConsumingMap.put(ATTR_UUID, reader.getAttrAsString(ATTR_UUID, StringUtils.EMPTY));
                     chartConsumingMap.put(ATTR_ACTIVITYKEY, reader.getAttrAsString(ATTR_ACTIVITYKEY, StringUtils.EMPTY));
                     chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
-                    chartConsumingMap.put(ATTR_REPORT_TYPE, reader.getAttrAsInt(ATTR_REPORT_TYPE, 0));
+                    chartConsumingMap.put(ATTR_REPORT_TYPE, reader.getAttrAsString(ATTR_REPORT_TYPE, "0"));
                     chartConsumingMap.put(ATTR_CHART_ID, chartId);
                     chartConsumingMap.put(ATTR_CHART_TYPE, reader.getAttrAsString(ATTR_CHART_TYPE, StringUtils.EMPTY));
                     chartConsumingMap.put(ATTR_CHART_CREATE_TIME, reader.getAttrAsString(ATTR_CHART_CREATE_TIME, StringUtils.EMPTY));
@@ -212,7 +211,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         return this.idleDayCount;
     }
 
-    boolean isComplete() {
+    public boolean isComplete() {
         // 连续3天打开了设计器但是没有编辑
         return idleDayCount > COMPLETE_DAY_COUNT;
     }
@@ -222,16 +221,16 @@ public class ChartInfo implements XMLReadable, XMLWriter {
     }
 
     public void updatePropertyTime() {
-        String propertyTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        String propertyTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 
-        if (StringUtils.isEmpty((String) chartConsumingMap.get(ATTR_CHART_PROPERTY_FIRST_TIME))) {
+        if (StringUtils.isEmpty(chartConsumingMap.get(ATTR_CHART_PROPERTY_FIRST_TIME))) {
             chartConsumingMap.put(ATTR_CHART_PROPERTY_FIRST_TIME, propertyTime);
         }
         chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, propertyTime);
     }
 
     public void updateChartType(String chartType) {
-        String typeTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        String typeTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 
         chartConsumingMap.put(ATTR_CHART_TYPE_TIME, typeTime);
         chartConsumingMap.put(ATTR_CHART_TYPE, chartType);
@@ -246,8 +245,8 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         chartInfo.idleDayCount = this.idleDayCount;
         chartInfo.templateId = this.templateId;
         chartInfo.testTemplate = this.testTemplate;
-        Map<String, Object> chartConsumingMap = new HashMap<>();
-        for (Map.Entry<String, Object> entry : this.chartConsumingMap.entrySet()) {
+        Map<String, String> chartConsumingMap = new HashMap<>();
+        for (Map.Entry<String, String> entry : this.chartConsumingMap.entrySet()) {
             chartConsumingMap.put(entry.getKey(), entry.getValue());
         }
         chartInfo.chartConsumingMap = chartConsumingMap;
