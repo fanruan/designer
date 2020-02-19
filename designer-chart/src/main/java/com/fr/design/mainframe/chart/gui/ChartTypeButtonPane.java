@@ -152,10 +152,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 try {
                     ChartProvider newChart = (ChartProvider) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
-                    if (newChart instanceof VanChart) {
-                        VanChart vanchart = (VanChart) newChart;
-                        ChartInfoCollector.getInstance().collection(vanchart.getUuid(), vanchart.getID(), null);
-                    }
+                    ChartInfoCollector.getInstance().collection(newChart, null);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
                 }

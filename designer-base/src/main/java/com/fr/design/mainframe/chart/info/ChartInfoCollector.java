@@ -3,12 +3,14 @@ package com.fr.design.mainframe.chart.info;
 import com.fr.base.FRContext;
 import com.fr.base.io.BaseBook;
 import com.fr.base.io.XMLReadHelper;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.template.info.SendHelper;
 import com.fr.design.mainframe.template.info.TemplateInfo;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -73,6 +75,13 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
             instance = new ChartInfoCollector();
         }
         return instance;
+    }
+
+    public void collection(ChartProvider chartProvider, String createTime) {
+        if (chartProvider instanceof VanChart) {
+            VanChart vanChart = (VanChart) chartProvider;
+            collection(vanChart.getUuid(), vanChart.getID(), createTime);
+        }
     }
 
     /**
@@ -165,8 +174,6 @@ public class ChartInfoCollector implements XMLReadable, XMLWriter {
                 chartInfoMap.put(chartInfo.getChartId(), chartInfo);
             }
         }
-
-
 
         // 每次更新之后，都同步到暂存文件中
         saveInfo();

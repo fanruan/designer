@@ -7,12 +7,11 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
-import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
@@ -124,7 +123,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
         update(cc, null);
     }
 
-    public void update(ChartCollection cc, String creatTime) {
+    public void update(ChartCollection cc, String createTime) {
         if (cc == null) {
             return;
         }
@@ -137,10 +136,7 @@ public class ChartTypePane extends ChartCommonWizardPane {
                 chart4Update = (ChartProvider) chart.clone();
                 cc.addChart(chart4Update);
                 //记录埋点
-                if (chart4Update instanceof VanChart) {
-                    VanChart vanChart = (VanChart) chart4Update;
-                    ChartInfoCollector.getInstance().collection(vanChart.getUuid(), vanChart.getID(), creatTime);
-                }
+                ChartInfoCollector.getInstance().collection(chart4Update, createTime);
             } catch (CloneNotSupportedException ex) {
                 FineLoggerFactory.getLogger().error(ex.getMessage(), ex);
             }
