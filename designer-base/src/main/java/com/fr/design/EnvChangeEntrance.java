@@ -113,12 +113,7 @@ public class EnvChangeEntrance {
                 });
                 return false;
             }
-            // 如果版本不一致，且确认 不继续 连接，这里返回 false.
-            if (!versionCheckAndConfirm(selectedEnv)) {
-                return false;
-            }
 
-        
             WorkContext.switchTo(workspace, new WorkContextCallback() {
                 @Override
                 public void done() {
@@ -137,33 +132,35 @@ public class EnvChangeEntrance {
                 template.refreshToolArea();
             }
 
-            String localBranch;
-            String remoteBranch;
-            localBranch = GeneralUtils.readFullBuildNO();
-            try {
-                remoteBranch = new FunctionalHttpRequest(connectionInfo).getServerBranch();
-            } catch (WorkspaceConnectionException e){
-                remoteBranch = Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Is_Old") + formatBranch(localBranch);
-            }
-            //通过是否包含#来避免当前版本为非安装版本（主要是内部开发版本）
-            if(localBranch.contains("#") && localBranch.equals(remoteBranch)){
-                //说明版本一致，仅做日志记录
-                FineLoggerFactory.getLogger().info("Remote Designer version consistency");
-            }else {
-                localBranch = formatBranch(localBranch);
-                remoteBranch = formatBranch(remoteBranch);
-                Set<Class> noExistServiceSet = getNoExistServiceSet(connectionInfo);
-                StringBuilder textBuilder = new StringBuilder();
-                for(Class clazz : noExistServiceSet){
-                    WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
-                    String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
-                    textBuilder.append(descriptionOfCN).append("\n");
+            //是否需要做服务校验
+            if(needCheckBranch(selectedEnv)) {
+                String localBranch;
+                String remoteBranch;
+                localBranch = GeneralUtils.readFullBuildNO();
+                try {
+                    remoteBranch = new FunctionalHttpRequest(connectionInfo).getServerBranch();
+                } catch (WorkspaceConnectionException e) {
+                    remoteBranch = Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Is_Old") + formatBranch(localBranch);
                 }
-                String areaText = textBuilder.toString();
-                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(),areaText,localBranch,remoteBranch);
-                dialog.setVisible(true);
+                //通过是否包含#来避免当前版本为非安装版本（主要是内部开发版本）
+                if (localBranch.contains("#") && localBranch.equals(remoteBranch)) {
+                    //说明版本一致，仅做日志记录
+                    FineLoggerFactory.getLogger().info("Remote Designer version consistency");
+                } else {
+                    localBranch = formatBranch(localBranch);
+                    remoteBranch = formatBranch(remoteBranch);
+                    Set<Class> noExistServiceSet = getNoExistServiceSet(connectionInfo);
+                    StringBuilder textBuilder = new StringBuilder();
+                    for (Class clazz : noExistServiceSet) {
+                        WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
+                        String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
+                        textBuilder.append(descriptionOfCN).append("\n");
+                    }
+                    String areaText = textBuilder.toString();
+                    CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), areaText, localBranch, remoteBranch);
+                    dialog.setVisible(true);
+                }
             }
-
         } catch (WorkspaceAuthException | RegistEditionException e) {
             // String title = Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed");
             // String title = Toolkit.i18nText("Fine-Design_Basic_Lic_Does_Not_Support_Remote");
@@ -196,6 +193,7 @@ public class EnvChangeEntrance {
     }
 
     /**
+     * 这个功能留着，可能会加回来，先做注释处理
      * 切换远程环境之前，进行版本检测，当版本不一致的时候，提示。
      * 当用户确认选择 ok 时，才继续。
      *
@@ -237,6 +235,17 @@ public class EnvChangeEntrance {
         }
 
         return true;
+    }
+
+    /**
+     * 判断是否需要做版本验证，判断依据为
+     * 1、选择的环境为远程环境
+     * 2、一个月内不弹出是否勾选（这里预留，还未实际增加）
+     * @param selectedEnv 选择的环境
+     * @return
+     */
+    private  boolean needCheckBranch(DesignerWorkspaceInfo selectedEnv){
+        return selectedEnv.getType() == DesignerWorkspaceType.Remote;
     }
 
     public Set<Class> getNoExistServiceSet(WorkspaceConnectionInfo info){
