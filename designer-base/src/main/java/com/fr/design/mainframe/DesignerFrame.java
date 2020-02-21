@@ -830,7 +830,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
         if (editingTemplate != null) {
-            String path = editingTemplate.getEditingFILE().getPath();
+            String path = editingTemplate.getPath();
             if (!editingTemplate.getEditingFILE().exists()) {
                 path = FILEFactory.MEM_PREFIX + path;
             } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {

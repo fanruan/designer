@@ -59,22 +59,26 @@ public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObser
         initListener();
     }
 
-    private void initListener() {
+    protected void initListener() {
         if (shouldResponseChangeListener()) {
             this.addItemListener(new ItemListener() {
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-                    if (uiObserverListener == null) {
-                        return;
-                    }
-                    if (globalNameListener != null && shouldResponseNameListener()) {
-                        globalNameListener.setGlobalName(checkboxName);
-                    }
-                    uiObserverListener.doChange();
+                    attributeChange();
                 }
             });
         }
+    }
+
+    protected void attributeChange() {
+        if (uiObserverListener == null) {
+            return;
+        }
+        if (globalNameListener != null && shouldResponseNameListener()) {
+            globalNameListener.setGlobalName(checkboxName);
+        }
+        uiObserverListener.doChange();
     }
 
     /**
