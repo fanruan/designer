@@ -258,6 +258,19 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     /**
+     * 刷新内部资源
+     */
+    public void refreshResource() {
+
+        try {
+            this.template = JTemplateFactory.asIOFile(this.editingFILE);
+            setTarget(this.template);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+    }
+
+    /**
      * 刷新容器
      */
     public abstract void refreshContainer();
@@ -1232,4 +1245,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public abstract String route();
+
+    public String getTemplateName(){
+        return getEditingFILE().getName();
+    }
+
 }

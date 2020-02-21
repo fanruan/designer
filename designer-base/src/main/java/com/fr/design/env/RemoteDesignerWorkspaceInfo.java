@@ -1,10 +1,12 @@
 package com.fr.design.env;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.security.SecurityToolbox;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
@@ -89,8 +91,14 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
 
     @Override
-    public boolean checkValid(){
-
-        return true;
+    public boolean checkValid() {
+        boolean result = false;
+        try {
+            result = WorkContext.getConnector().testConnection(connection);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return result;
+        }
+        return result;
     }
 }
