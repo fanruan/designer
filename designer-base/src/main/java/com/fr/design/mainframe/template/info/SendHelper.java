@@ -1,8 +1,7 @@
 package com.fr.design.mainframe.template.info;
 
 import com.fr.design.mainframe.SiteCenterToken;
-import com.fr.design.mainframe.chart.info.ChartInfo;
-import com.fr.general.CloudCenter;
+import com.fr.design.mainframe.burying.point.BasePointInfo;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONObject;
@@ -16,27 +15,19 @@ import java.util.Map;
  * Created by plough on 2019/4/18.
  */
 public class SendHelper {
-    private static final String CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
-    private static final String PROCESS_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
-    private static final String CHART_CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("chartinfo.consuming") + "/single";
 
-    private static boolean sendConsumingInfo(String content) {
-        return sendSingleTemplateInfo(CONSUMING_URL, content);
+    public static boolean sendPointInfo(BasePointInfo pointInfo) {
+        boolean success = true;
+        Map<String, String> sendInfo = pointInfo.getSendInfo();
+        for (Map.Entry<String, String> entry : sendInfo.entrySet()) {
+            if (!sendSinglePointInfo(entry.getKey(), entry.getValue())) {
+                success = false;
+            }
+        }
+        return success;
     }
 
-    private static boolean sendProcessInfo(String content) {
-        return sendSingleTemplateInfo(PROCESS_URL, content);
-    }
-
-    static boolean sendTemplateInfo(TemplateInfo templateInfo) {
-        return SendHelper.sendConsumingInfo(templateInfo.getConsumingMapJsonString()) && SendHelper.sendProcessInfo(templateInfo.getProcessMapJsonString());
-    }
-
-    public static boolean sendChartInfo(ChartInfo chartInfo) {
-        return sendSingleTemplateInfo(CHART_CONSUMING_URL, chartInfo.getChartConsumingMapJsonString());
-    }
-
-    private static boolean sendSingleTemplateInfo(String url, String content) {
+    private static boolean sendSinglePointInfo(String url, String content) {
         Map<String, Object> para = new HashMap<>();
         para.put("token", SiteCenterToken.generateToken());
         para.put("content", content);

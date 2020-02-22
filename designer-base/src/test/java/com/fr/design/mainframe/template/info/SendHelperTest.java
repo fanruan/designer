@@ -1,10 +1,12 @@
 package com.fr.design.mainframe.template.info;
 
 import com.fr.invoke.Reflect;
+import com.fr.json.JSONObject;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.javax.xml.stream.XMLStreamException;
 
 import java.io.StringReader;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
@@ -25,11 +27,12 @@ public class SendHelperTest {
         StringReader sr = new StringReader(NORMAL_INFO);
         XMLableReader xmlReader = XMLableReader.createXMLableReader(sr);
         TemplateInfo templateInfo = TemplateInfo.newInstanceByRead(xmlReader);
-
-        boolean res = Reflect.on(SendHelper.class).call("sendSingleTemplateInfo", CONSUMING_URL, templateInfo.getConsumingMapJsonString()).get();
+        Map consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
+        Map processMap = Reflect.on(templateInfo).field("processMap").get();
+        boolean res = Reflect.on(SendHelper.class).call("sendSinglePointInfo", CONSUMING_URL, new JSONObject(consumingMap).toString()).get();
         assertTrue(res);
 
-        boolean res2 = Reflect.on(SendHelper.class).call("sendSingleTemplateInfo", PROCESS_URL, templateInfo.getProcessMapJsonString()).get();
+        boolean res2 = Reflect.on(SendHelper.class).call("sendSinglePointInfo", PROCESS_URL, new JSONObject(processMap).toString()).get();
         assertTrue(res2);
     }
 }

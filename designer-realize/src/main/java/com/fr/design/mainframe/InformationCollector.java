@@ -235,8 +235,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
                 sendUserInfo();
                 FocusPointMessageUploader.getInstance().sendToCloudCenter();
-                TemplateInfoCollector.getInstance().sendTemplateInfo();
-                ChartInfoCollector.getInstance().sendChartInfo();
+                TemplateInfoCollector.getInstance().sendPointInfo();
+                ChartInfoCollector.getInstance().sendPointInfo();
                 ErrorInfoUploader.getInstance().sendErrorInfo();
             }
         }, SEND_DELAY, TimeUnit.MILLISECONDS);

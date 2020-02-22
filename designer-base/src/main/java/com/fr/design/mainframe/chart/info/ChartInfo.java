@@ -5,13 +5,13 @@ import com.fr.config.MarketConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.file.HistoryTemplateListCache;
+import com.fr.design.mainframe.burying.point.AbstractPointInfo;
+import com.fr.general.CloudCenter;
 import com.fr.general.GeneralUtils;
 import com.fr.json.JSONObject;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
-import com.fr.stable.xml.XMLReadable;
-import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 import com.fr.third.joda.time.DateTime;
 
@@ -23,8 +23,10 @@ import java.util.Map;
  * @version 10.0
  * Created by Bjorn on 2020-02-17
  */
-public class ChartInfo implements XMLReadable, XMLWriter {
+public class ChartInfo extends AbstractPointInfo {
     public static final String XML_TAG = "ChartInfo";
+    private static final String CHART_CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("chartinfo.consuming") + "/single";
+
 
     private static final String XML_CHART_CONSUMING_MAP = "chartConsumingMap";
     private static final String ATTR_TEST_TEMPLATE = "testTemplate";
@@ -45,8 +47,6 @@ public class ChartInfo implements XMLReadable, XMLWriter {
 
     private static final int COMPLETE_DAY_COUNT = 3;  // 判断图表是否可以上传的天数
 
-    private int idleDayCount;  // 到现在为止，图表闲置（上次保存后没有再编辑过）的天数
-
     private String chartId = StringUtils.EMPTY;
 
     private String templateId = StringUtils.EMPTY;
@@ -56,6 +56,8 @@ public class ChartInfo implements XMLReadable, XMLWriter {
     private BaseBook book;
 
     private boolean testTemplate;
+
+    private int idleDayCount;  // 到现在为止，埋点闲置的天数
 
     private ChartInfo() {
     }
@@ -67,6 +69,11 @@ public class ChartInfo implements XMLReadable, XMLWriter {
     }
 
     public String getChartId() {
+        return chartId;
+    }
+
+    @Override
+    protected String key() {
         return chartId;
     }
 
@@ -84,6 +91,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         return book;
     }
 
+    @Override
     public boolean isTestTemplate() {
         return testTemplate;
     }
@@ -107,7 +115,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
 
         String username = MarketConfig.getInstance().getBbsUsername();
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
-        String activitykey = DesignerEnvManager.getEnvManager().getActivationKey();
+        String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
 
         BaseBook book = DesignModelAdapter.getCurrentModelAdapter().getBook();
         String templateId = book.getTemplateID();
@@ -121,7 +129,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         String version = ProductConstants.VERSION;
         chartConsumingMap.put(ATTR_USERNAME, username);
         chartConsumingMap.put(ATTR_UUID, uuid);
-        chartConsumingMap.put(ATTR_ACTIVITYKEY, activitykey);
+        chartConsumingMap.put(ATTR_ACTIVITYKEY, activityKey);
         chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
         chartConsumingMap.put(ATTR_REPORT_TYPE, String.valueOf(reportType));
         chartConsumingMap.put(ATTR_CHART_ID, chartId);
@@ -139,7 +147,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         return chartInfo;
     }
 
-
+    @Override
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG(XML_TAG);
         if (StringUtils.isNotEmpty(chartId)) {
@@ -168,6 +176,7 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         writer.end();
     }
 
+    @Override
     public void readXML(XMLableReader reader) {
 
         if (!reader.isChildNode()) {
@@ -195,25 +204,17 @@ public class ChartInfo implements XMLReadable, XMLWriter {
         }
     }
 
-    public void resetIdleDayCount() {
-        this.idleDayCount = 0;
-    }
-
-    public void addIdleDayCountByOne() {
-        this.idleDayCount += 1;
-    }
-
-    public int getIdleDayCount() {
-        return this.idleDayCount;
-    }
-
+    @Override
     public boolean isComplete() {
         // 连续3天打开了设计器但是没有编辑
         return idleDayCount > COMPLETE_DAY_COUNT;
     }
 
-    public String getChartConsumingMapJsonString() {
-        return new JSONObject(chartConsumingMap).toString();
+    @Override
+    public Map<String, String> getSendInfo() {
+        Map<String, String> sendMap = new HashMap<>();
+        sendMap.put(CHART_CONSUMING_URL, new JSONObject(chartConsumingMap).toString());
+        return sendMap;
     }
 
     public void updatePropertyTime() {

@@ -165,7 +165,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo(String originID) {  // 执行收集操作
-        ChartInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo());
+        ChartInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), 0);
         if (!consumeTimer.isEnabled()) {
             return;
         }

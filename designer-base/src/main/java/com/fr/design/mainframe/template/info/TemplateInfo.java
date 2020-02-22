@@ -2,13 +2,13 @@ package com.fr.design.mainframe.template.info;
 
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.burying.point.AbstractPointInfo;
+import com.fr.general.CloudCenter;
 import com.fr.general.GeneralUtils;
 import com.fr.json.JSONObject;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
-import com.fr.stable.xml.XMLReadable;
-import com.fr.stable.xml.XMLWriter;
 import com.fr.stable.xml.XMLableReader;
 
 import java.text.SimpleDateFormat;
@@ -20,8 +20,11 @@ import java.util.Map;
  * 对应一张模版的记录
  * Created by plough on 2019/4/18.
  */
-public class TemplateInfo implements XMLReadable, XMLWriter {
+public class TemplateInfo extends AbstractPointInfo {
     static final String XML_TAG = "TemplateInfo";
+
+    private static final String CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.consuming") + "/single";
+    private static final String PROCESS_URL = CloudCenter.getInstance().acquireUrlByKind("tempinfo.process") + "/single";
 
     private static final String XML_PROCESS_MAP = "processMap";
     private static final String XML_CONSUMING_MAP = "consumingMap";
@@ -47,7 +50,6 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
     private static final int VALID_WIDGET_COUNT = 5;  // 有效报表模板的控件数
     private static final int COMPLETE_DAY_COUNT = 15;  // 判断模板是否完成的天数
 
-    private int idleDayCount;  // 到现在为止，模版闲置（上次保存后没有再编辑过）的天数
     private String templateID = StringUtils.EMPTY;
     private String originID = StringUtils.EMPTY;
     // todo: processMap 和 consumingMap 还可以再拆解为小类，以后继续重构
@@ -62,17 +64,22 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         this.originID = originID;
     }
 
-    static TemplateInfo newInstanceByRead(XMLableReader reader) {
+    @Override
+    protected String key() {
+        return templateID;
+    }
+
+    public static TemplateInfo newInstanceByRead(XMLableReader reader) {
         TemplateInfo templateInfo = new TemplateInfo();
         reader.readXMLObject(templateInfo);
         return templateInfo;
     }
 
-    static TemplateInfo newInstance(String templateID) {
+    public static TemplateInfo newInstance(String templateID) {
         return newInstance(templateID, StringUtils.EMPTY, 0);
     }
 
-    static TemplateInfo newInstance(String templateID, String originID, int originTime) {
+    public static TemplateInfo newInstance(String templateID, String originID, int originTime) {
         HashMap<String, Object> consumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
@@ -107,9 +114,10 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
     }
 
     int getTimeConsume() {
-        return (int)consumingMap.get(ATTR_TIME_CONSUME);
+        return (int) consumingMap.get(ATTR_TIME_CONSUME);
     }
 
+    @Override
     public void writeXML(XMLPrintWriter writer) {
         writer.startTAG(XML_TAG);
         if (StringUtils.isNotEmpty(templateID)) {
@@ -144,13 +152,14 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         writer.attr(ATTR_JAR_TIME, (String) consumingMap.get(ATTR_JAR_TIME));
         writer.attr(ATTR_CREATE_TIME, (String) consumingMap.get(ATTR_CREATE_TIME));
         writer.attr(ATTR_UUID, (String) consumingMap.get(ATTR_UUID));
-        writer.attr(ATTR_TIME_CONSUME, (int)consumingMap.get(ATTR_TIME_CONSUME));
-        writer.attr(ATTR_ORIGIN_TIME, (int)consumingMap.get(ATTR_ORIGIN_TIME));
+        writer.attr(ATTR_TIME_CONSUME, (int) consumingMap.get(ATTR_TIME_CONSUME));
+        writer.attr(ATTR_ORIGIN_TIME, (int) consumingMap.get(ATTR_ORIGIN_TIME));
         writer.attr(ATTR_VERSION, (String) consumingMap.get(ATTR_VERSION));
         writer.attr(ATTR_USERNAME, (String) consumingMap.get(ATTR_USERNAME));
         writer.end();
     }
 
+    @Override
     public void readXML(XMLableReader reader) {
         if (!reader.isChildNode()) {
             idleDayCount = reader.getAttrAsInt(ATTR_DAY_COUNT, 0);
@@ -185,7 +194,8 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         }
     }
 
-    boolean isTestTemplate() {
+    @Override
+    protected boolean isTestTemplate() {
         if (!isComplete()) {
             return false;
         }
@@ -198,7 +208,7 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         return isTestTemplate(reportType, cellCount, floatCount, blockCount, widgetCount);
     }
 
-    public static boolean isTestTemplate(int reportType, int cellCount, int floatCount, int blockCount, int widgetCount){
+    public static boolean isTestTemplate(int reportType, int cellCount, int floatCount, int blockCount, int widgetCount) {
         boolean isTestTemplate;
         if (reportType == 0) {  // 普通报表
             isTestTemplate = cellCount <= VALID_CELL_COUNT && floatCount <= 1 && widgetCount <= VALID_WIDGET_COUNT;
@@ -210,7 +220,8 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         return isTestTemplate;
     }
 
-    boolean isComplete() {
+    @Override
+    protected boolean isComplete() {
         // 条件 1. 超过15天未编辑
         // 条件 2. 设计器在这段未编辑的时间内启动超过 X 次（目前定的 X = 3）。即"设计器最近 X 次启动的时间跨度" < "未编辑时间"；
 
@@ -218,20 +229,16 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
                 && DesignerOpenHistory.getInstance().isOpenEnoughTimesInPeriod(idleDayCount);
     }
 
-    String getConsumingMapJsonString() {
-        return new JSONObject(consumingMap).toString();
-    }
-
-    String getProcessMapJsonString() {
-        return new JSONObject(processMap).toString();
-    }
-
-    boolean isReadyForSend() {
-        return isComplete() && !isTestTemplate();
+    @Override
+    public Map<String, String> getSendInfo() {
+        Map<String, String> sendMap = new HashMap<>();
+        sendMap.put(CONSUMING_URL, new JSONObject(consumingMap).toString());
+        sendMap.put(PROCESS_URL,  new JSONObject(processMap).toString());
+        return sendMap;
     }
 
     void addTimeConsume(int timeConsume) {
-        timeConsume += (int)consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间
+        timeConsume += (int) consumingMap.get(ATTR_TIME_CONSUME);  // 加上之前的累计编辑时间
         consumingMap.put(ATTR_TIME_CONSUME, timeConsume);
     }
 
@@ -248,14 +255,6 @@ public class TemplateInfo implements XMLReadable, XMLWriter {
         processMap.put(ATTR_WIDGET_COUNT, processInfo.getWidgetCount());
 
         this.processMap = processMap;
-    }
-
-    void resetIdleDayCount() {
-        this.idleDayCount = 0;
-    }
-
-    void addIdleDayCountByOne() {
-        this.idleDayCount += 1;
     }
 
     int getIdleDayCount() {
