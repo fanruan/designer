@@ -57,8 +57,6 @@ public class ChartInfo extends AbstractPointInfo {
 
     private boolean testTemplate;
 
-    private int idleDayCount;  // 到现在为止，埋点闲置的天数
-
     private ChartInfo() {
     }
 
