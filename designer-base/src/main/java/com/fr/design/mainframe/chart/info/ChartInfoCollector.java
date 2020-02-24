@@ -13,10 +13,9 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.third.joda.time.DateTime;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
 
     private Map<String, ChartInfo> chartInfoCacheMap;
 
-    private String lastEditDay = StringUtils.EMPTY;
+    private String lastEditDay;
 
     private ChartInfoCollector() {
         init();
@@ -186,7 +185,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
     @Override
     protected void addIdleDayCount() {
         // 判断今天是否第一次打开设计器，为了防止同一天内，多次 addIdleDayCount
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        String today = DateTime.now().toString("yyyy-MM-dd");
         if (ComparatorUtils.equals(today, lastEditDay)) {
             return;
         }
@@ -201,7 +200,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
      * 获取缓存文件存放路径
      */
     @Override
-    protected  File getInfoFile() {
+    protected File getInfoFile() {
         File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), XML_FILE_NAME));
         try {
             if (!file.exists()) {
