@@ -5,6 +5,7 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -104,7 +105,7 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"), SwingConstants.LEFT), vComboBox},
-                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("展开收起")), mobileCollapsedStyleEditor},
+                createComponents(),
                 new Component[] {heightRestrictCheckBox, null},
                 new Component[] {allowFullCheckBox, null},
                 new Component[] {functionalWhenUnactivatedCheckBox, null},
@@ -124,6 +125,12 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
         this.bingListeners2Widgets();
         this.setGlobalNames();
         this.repaint();
+    }
+
+    private Component[] createComponents() {
+        return FormDesignerUtils.isAppRelayout(designer) ?
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Collapse_Expand")), mobileCollapsedStyleEditor} :
+                new Component[0];
     }
 
     private void bingListeners2Widgets() {

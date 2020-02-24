@@ -2,6 +2,7 @@ package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.ModeButtonGroup;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -19,8 +20,10 @@ import com.fr.form.ui.mobile.CollapseState;
 import com.fr.form.ui.mobile.MobileChartCollapsedStyle;
 import com.fr.form.ui.mobile.MobileCollapsedStyle;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -72,21 +75,37 @@ public class MobileCollapsedStylePane extends BasicBeanPane<MobileCollapsedStyle
         JPanel flowLeftPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
         flowLeftPane.add(foldedButton);
         flowLeftPane.add(unfoldedButton);
+        Component[][] northComponents = new Component[][] {
+                new Component[] {showButtonLabel, showButtonCheck}
+        };
+        Component[][] southComponents = new Component[][] {
+                new Component[] {defaultStateLabel, flowLeftPane}
+        };
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p, p, p};
         double[] colSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-        Component[][] components = new Component[][] {
-                new Component[] {showButtonLabel, showButtonCheck},
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
+        Component[][] centerComponents = new Component[][] {
                 new Component[] {buttonColorLabel, buttonColorBox},
                 new Component[] {foldedLabel, foldedTextFiled},
                 new Component[] {unfoldedLabel, unfoldedTextFiled},
-                new Component[] {defaultStateLabel, flowLeftPane},
         };
-        JPanel buttonPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, colSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(northComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        JPanel southPane = TableLayoutHelper.createGapTableLayoutPane(southComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        final JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(centerComponents, rowSize, colSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.add(northPane, BorderLayout.NORTH);
+        panel.add(centerPane, BorderLayout.CENTER);
+        panel.add(southPane, BorderLayout.SOUTH);
         settingPane.add(splitLine, BorderLayout.NORTH);
-        settingPane.add(buttonPane, BorderLayout.CENTER);
+        settingPane.add(panel, BorderLayout.CENTER);
+        showButtonCheck.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                centerPane.setVisible(showButtonCheck.isSelected());
+            }
+        });
         return settingPane;
     }
 
