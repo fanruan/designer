@@ -7,6 +7,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.DynamicUnitList;
 import com.fr.base.Style;
 import com.fr.base.chart.BaseChartCollection;
+import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.actions.ElementCaseAction;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.file.HistoryTemplateListPane;
@@ -18,6 +19,7 @@ import com.fr.design.module.DesignModuleFactory;
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -87,7 +89,15 @@ public class ChartFloatAction extends ElementCaseAction {
                 isRecordNeeded = true;
                 FloatElement newFloatElement;
                 try {
-                    newFloatElement = new FloatElement(chartDialog.getChartCollection().clone());
+                    //TODO @Bjorn 这里不知道为什么要把ChartCollection克隆一下，会导致chart的ID发生变化，影响记录埋点的功能。
+                    //TODO 不知道去掉clone之后会有什么影响，下个版本的迭代中优化试着去掉clone方法，测试看看会不会有问题。
+                    ChartCollection chartCollection = (ChartCollection) chartDialog.getChartCollection().clone();
+                    VanChart vanChart = ((ChartCollection) chartDialog.getChartCollection()).getSelectedChartProvider(VanChart.class);
+                    if (vanChart != null) {
+                        chartCollection.getSelectedChartProvider(VanChart.class).setUuid(vanChart.getUuid());
+                    }
+                    newFloatElement = new FloatElement(chartCollection);
+
                     newFloatElement.setWidth(new OLDPIX(BaseChartCollection.CHART_DEFAULT_WIDTH));
                     newFloatElement.setHeight(new OLDPIX(BaseChartCollection.CHART_DEFAULT_HEIGHT));
 
