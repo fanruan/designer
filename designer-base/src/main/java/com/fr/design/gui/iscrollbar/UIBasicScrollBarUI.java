@@ -165,50 +165,6 @@ public class UIBasicScrollBarUI extends BasicScrollBarUI {
 //        drawColorAndLength(g, t, x2, y2, color);
     }
 
-    private void drawColorAndLength(Graphics g, Rectangle t, int x2, int y2, Color color) {
-
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            int y1 = t.y + (t.height) / 2 - 4;
-            y2 = Math.min(y1 + 8, t.y + t.height - 5);
-
-            int y = y1;
-            // we take only saturation & brightness and apply them
-            // to the background color (normal/rollover/pressed)
-            g.setColor(UISBChooser.getAdjustedColor(color, 0, 71));
-            while (y < y2) {
-                g.drawLine(5, y, 11, y);
-                y += 2;
-            }
-
-            y = y1 + 1;
-            g.setColor(UISBChooser.getAdjustedColor(color, 0, -13));
-            while (y < y2) {
-                g.drawLine(6, y, 12, y);
-                y += 2;
-            }
-        } else {
-            int x1 = t.x + (t.width) / 2 - 4;
-            x2 = Math.min(x1 + 8, t.x + t.width - 5);
-
-            int x = x1 + 1;
-            // we take only saturation & brightness and apply them
-            // to the background color (normal/rollover/pressed)
-            g.setColor(UISBChooser.getAdjustedColor(color, 0, 71));
-            while (x < x2) {
-                g.drawLine(x, 5, x, 11);
-                x += 2;
-            }
-
-            x = x1;
-            g.setColor(UISBChooser.getAdjustedColor(color, 0, -13));
-            while (x < x2) {
-                g.drawLine(x, 6, x, 12);
-                x += 2;
-            }
-        }
-    }
-
-
     private void drawVertical(Graphics g, Rectangle t, int xs, int ys, int x2,
                               Color pressedColor,  Color rolloverColor,
                               Color normalColor) {

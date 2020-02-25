@@ -18,6 +18,7 @@ import java.io.IOException;
  * on 9/18/19 6:12 PM from the specification file
  * <tt>/Users/3dot141/Downloads/FolxDownload/App/jflex-1.4.1/bin/FormulaTokenMaker.flex</tt>
  */
+@SuppressWarnings("squid:S1192")
 public class FormulaTokenMaker extends AbstractJFlexCTokenMaker {
 
   /** This character denotes the end of file */

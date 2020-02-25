@@ -25,6 +25,7 @@ public class WordCloudDataSetFieldsPane extends AbstractDataSetFieldsPane<WordCl
         wordValue = new UIComboBox();
         calculateCombox = new CalculateComboBox();
 
+        initValueAndCalComboBox(wordValue, calculateCombox);
         super.initComponents();
     }
 

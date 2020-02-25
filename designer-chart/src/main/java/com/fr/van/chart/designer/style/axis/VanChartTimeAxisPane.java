@@ -17,7 +17,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.DateUtils;
 import com.fr.log.FineLoggerFactory;
-
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartTimeAxis;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -58,6 +57,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         super(isXAxis);
     }
 
+    @Override
     protected JPanel createContentPane(boolean isXAxis){
 
         double p = TableLayout.PREFERRED;
@@ -73,11 +73,16 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
                 new Component[]{createValueDefinition(),null},
                 new Component[]{createLineStylePane(new double[]{p, p,p,p,p}, columnSize),null},
                 new Component[]{createAxisPositionPane(new double[]{p, p, p}, columnSize, isXAxis),null},
-                new Component[]{createDisplayStrategy(new double[]{p, p,p}, columnSize),null},
+                new Component[]{createDisplayStrategy(),null},
                 new Component[]{createValueStylePane(),null},
         };
 
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
+    }
+
+    @Override
+    protected void addOverlapGroupButton(JPanel panel) {
+        //do nothing
     }
 
     private JPanel createValueDefinition(){
@@ -90,6 +95,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         return PlotFactory.createAutoFormatPane();
     }
 
+    @Override
     protected void checkFormatType() {
         valueFormat.setComboBoxModel(true);
     }
@@ -101,6 +107,7 @@ public class VanChartTimeAxisPane extends VanChartBaseAxisPane {
         timeMinMaxValuePane.update(timeAxis);
     }
 
+    @Override
     public VanChartTimeAxis updateBean(String axisName, int position) {
         VanChartTimeAxis axis = new VanChartTimeAxis(axisName, VanChartConstants.AXIS_BOTTOM);
         updateBean(axis);

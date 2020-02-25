@@ -15,6 +15,8 @@ import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPaneWithOutMode;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotReportDataContentPane;
 import com.fr.van.chart.structure.desinger.data.StructurePlotTableDataContentPane;
@@ -26,7 +28,7 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
 /**
  * Created by shine on 2017/2/15.
  */
-public class StructureIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
     @Override
     public AbstractChartTypePane getPlotTypePane() {
         return new VanChartStructureTypePane();
@@ -83,6 +85,7 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort(){
 
+                    //图表缩放新设计 恢复用注释。删除下面两个方法 getNameArray getValueArray。
                     @Override
                     protected String[] getNameArray() {
                         return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
@@ -94,6 +97,10 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
                         return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
                     }
 
+                    @Override
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPaneWithOutMode();
+                    }
                 };
             }
         };
@@ -105,8 +112,14 @@ public class StructureIndependentVanChartInterface extends AbstractIndependentVa
         return new VanChartStructureConditionPane(plot);
     }
 
-   /* @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new StructureChartDataPane(listener);
-    }*/
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

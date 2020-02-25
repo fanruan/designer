@@ -23,7 +23,7 @@ import com.fr.workspace.WorkspaceEvent;
 import com.fr.workspace.resource.WorkResourceTempRenameStream;
 import com.fr.workspace.server.lock.TplOperator;
 
-import javax.swing.Icon;
+import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -68,14 +68,14 @@ public class FileNodeFILE implements FILE {
 
         this.node = new FileNode(StableUtils.pathJoin(parentDir, name), isDir);
         this.envPath = WorkContext.getCurrent().getPath();
-        this.hasFullAuth = NodeAuthProcessor.getInstance().fixFileNodeAuth(node);
+        this.hasFullAuth = NodeAuthProcessor.getInstance().checkFileNodeAuth(node);
     }
 
 
     public FileNodeFILE(FileNode node) {
         this.node = node;
         this.envPath = WorkContext.getCurrent().getPath();
-        this.hasFullAuth = NodeAuthProcessor.getInstance().fixFileNodeAuth(node);
+        this.hasFullAuth = NodeAuthProcessor.getInstance().checkFileNodeAuth(node);
     }
 
     public FileNodeFILE(FileNode node, boolean hasFullAuth) {
@@ -91,7 +91,7 @@ public class FileNodeFILE implements FILE {
     public FileNodeFILE(FileNode node, String envPath) {
         this.node = node;
         this.envPath = envPath;
-        this.hasFullAuth = NodeAuthProcessor.getInstance().fixFileNodeAuth(node);
+        this.hasFullAuth = NodeAuthProcessor.getInstance().checkFileNodeAuth(node);
     }
 
     public FileNodeFILE(FileNode node, String envPath, boolean hasFullAuth) {

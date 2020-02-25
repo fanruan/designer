@@ -7,12 +7,11 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
 
     private ChartDataPane parent;
 
-    public DrillMapDataPane(final AttributeChangeListener listener,final ChartDataPane parent) {
+    public DrillMapDataPane(final AttributeChangeListener listener, final ChartDataPane parent) {
         this.parent = parent;
         bottomDataDefinitionPane = new SingleLayerDataDefinitionPane(listener, parent);
         eachLayerDataDefinitionPane = new EachLayerDataDefinitionPane(listener, parent);
@@ -95,11 +94,11 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
     @Override
     public void updateBean(ChartCollection ob) {
         DrillMapDefinition drillMapDefinition = MapDataPaneHelper.getDrillMapDefinition(ob);
-        if(drillMapDefinition == null){
+        if (drillMapDefinition == null) {
             drillMapDefinition = new DrillMapDefinition();
             ob.getSelectedChart().setFilterDefinition(drillMapDefinition);
         }
-        if(dataDefinitionType.getSelectedIndex() == 0){
+        if (dataDefinitionType.getSelectedIndex() == 0) {
             drillMapDefinition.setFromBottomData(true);
             ChartCollection temp = new ChartCollection(new Chart());
             bottomDataDefinitionPane.updateBean(temp);

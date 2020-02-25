@@ -2,6 +2,7 @@ package com.fr.design.env;
 
 import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.i18n.Toolkit;
+import com.fr.rpc.ExceptionHandler;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -9,6 +10,8 @@ import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
+import com.fr.workspace.engine.rpc.WorkspaceProxyPool;
+import com.fr.workspace.pool.WorkObjectPool;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -84,6 +87,19 @@ public class RemoteWorkspace implements Workspace {
 
         return client.getPool().get(type);
     }
+
+    @Override
+    public <T> T get(Class<T> type, ExceptionHandler exceptionHandler){
+        if(exceptionHandler != null) {
+            WorkObjectPool objectPool = client.getPool();
+            if (objectPool instanceof WorkspaceProxyPool) {
+                return ((WorkspaceProxyPool) objectPool).get(type, exceptionHandler);
+            }else {
+                return client.getPool().get(type);
+            }
+        }
+        return client.getPool().get(type);
+    }
     
     @Override
     public void close() {
@@ -101,5 +117,9 @@ public class RemoteWorkspace implements Workspace {
     public boolean equals(Object obj) {
         
         return obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
+    }
+
+    public WorkspaceClient getClient(){
+        return client;
     }
 }

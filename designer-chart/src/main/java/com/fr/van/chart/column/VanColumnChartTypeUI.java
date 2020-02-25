@@ -11,7 +11,7 @@ import com.fr.van.chart.vanchart.AbstractMultiCategoryVanChartUI;
 /**
  * Created by Mitisky on 15/9/24.
  */
-public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVanChartUI {
+public class VanColumnChartTypeUI extends AbstractMultiCategoryVanChartUI {
 
     @Override
     public String getName() {
@@ -60,13 +60,4 @@ public class ColumnIndependentVanChartInterface extends AbstractMultiCategoryVan
         return new VanChartColumnSeriesPane(parent, plot);
     }
 
-//    @Override
-//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-//        return new AbstractDataPane(listener) {
-//            @Override
-//            protected SingleDataPane createSingleDataPane() {
-//                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
-//            }
-//        };
-//    }
 }

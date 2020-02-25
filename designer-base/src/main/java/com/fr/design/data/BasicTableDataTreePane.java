@@ -272,10 +272,12 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
          */
         @Override
         public void editingCanceled(ChangeEvent e) {
+            // Do nothing
         }
 
         @Override
         public void editingStopped(ChangeEvent e) {
+            // Do nothing
         }
     }
 

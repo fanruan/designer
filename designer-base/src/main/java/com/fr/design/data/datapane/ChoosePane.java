@@ -104,10 +104,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
+            // Do nothing
         }
     };
 
@@ -115,10 +117,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     private PopupMenuListener listener = new PopupMenuListener() {
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
@@ -200,6 +204,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void addFocusListener() {
+        // Do nothing
     }
 
     @SuppressWarnings("unchecked")
@@ -493,6 +498,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void failedToFindTable() {
+        // Do nothing
     }
 
     protected String getTableName() {

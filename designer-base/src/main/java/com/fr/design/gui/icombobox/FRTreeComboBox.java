@@ -318,6 +318,7 @@ public class FRTreeComboBox extends UIComboBox {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            // do nothing
         }
 
         @Override
