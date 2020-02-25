@@ -8,6 +8,12 @@ import com.fr.design.formula.TinyFormulaPane;
  * Created by shine on 2019/4/12.
  */
 public class MultiTinyFormulaPane extends AbstractMultiComponentPane<TinyFormulaPane> {
+
+    @Override
+    protected int componentWidth() {
+        return 116;
+    }
+
     @Override
     protected TinyFormulaPane createFirstFieldComponent() {
         return new TinyFormulaPane();
