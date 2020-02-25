@@ -223,17 +223,16 @@ public class PreferencePane extends BasicPane {
         upmSelectorPane.add(useOptimizedUPMCheckbox);
         advancePane.add(upmSelectorPane);
 
-      	//REPORT-23578 先屏蔽掉
-        //JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
-        //useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
-        //dbmSelectorPane.add(useUniverseDBMCheckbox);
-        //advancePane.add(dbmSelectorPane);
+        JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
+        useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
+        dbmSelectorPane.add(useUniverseDBMCheckbox);
+        advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Join_Product_Improve"));
         improvePane.add(joinProductImproveCheckBox);
 
-        if(SupportOSImpl.AUTOPUSHUPDATE.support()){
+        if (SupportOSImpl.AUTOPUSHUPDATE.support()) {
             autoPushUpdateCheckBox = new UICheckBox(i18nText("Fine-Design_Automatic_Push_Update"));
             improvePane.add(autoPushUpdateCheckBox);
         }
@@ -511,23 +510,8 @@ public class PreferencePane extends BasicPane {
         JPanel logLevelPane = FRGUIPaneFactory.createTitledBorderPane("log" + i18nText("Fine-Design_Basic_Level_Setting"));
         logPane.add(logLevelPane);
         logLevelComboBox = new UIComboBox(LOG);
+        logLevelComboBox.setEnabled(WorkContext.getCurrent().isLocal());
         logLevelPane.add(logLevelComboBox);
-        logLevelComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Configurations.update(new Worker() {
-                    @Override
-                    public void run() {
-                        Log4jConfig.getInstance().setRootLevel((Level) logLevelComboBox.getSelectedItem());
-                    }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{Log4jConfig.class};
-                    }
-                });
-            }
-        });
     }
 
     private void createLanPane(JPanel generalPane) {
@@ -555,8 +539,8 @@ public class PreferencePane extends BasicPane {
         });
         UILabel noticeLabel = new UILabel(i18nText("Fine-Design_Basic_Work_After_Restart_Designer"));//sail:提示重启后生效
         double p = TableLayout.PREFERRED;
-        double rowSize[] = {p};
-        double columnSize[] = {p, p, p};
+        double[] rowSize = {p};
+        double[] columnSize = {p, p, p};
         Component[][] components = {
                 {languageLabel, languageComboBox, noticeLabel},
         };
@@ -596,7 +580,7 @@ public class PreferencePane extends BasicPane {
 
     private void createLengthPane(JPanel advancePane) {
         double p = TableLayout.PREFERRED;
-        double rowSize[] = {p};
+        double[] rowSize = {p};
 
         // 长度单位选择
         JPanel lengthPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Setting_Ruler_Units"));
@@ -618,8 +602,8 @@ public class PreferencePane extends BasicPane {
 
     private void createServerPane(JPanel advancePane) {
         double p = TableLayout.PREFERRED;
-        double rowSize[] = {p};
-        double columnSize[] = {p, p, p};
+        double[] rowSize = {p};
+        double[] columnSize = {p, p, p};
 
         JPanel serverPortPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Web_Preview_Port_Setting"));
         advancePane.add(serverPortPane);
@@ -658,7 +642,7 @@ public class PreferencePane extends BasicPane {
     /**
      * The method  of populate.
      *
-     * @param designerEnvManager
+     * @param designerEnvManager 设计器环境管理器
      */
     public void populate(DesignerEnvManager designerEnvManager) {
         if (designerEnvManager == null) {
@@ -687,7 +671,7 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (WorkContext.getCurrent().isCluster()) {
+        if (WorkContext.getCurrent().isCluster()){
             vcsEnableCheckBox.setEnabled(false);
             gcEnableCheckBox.setEnabled(false);
         }
@@ -729,7 +713,7 @@ public class PreferencePane extends BasicPane {
 
         useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
 
-        //useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
+        useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
         this.oracleSpace.setSelected(designerEnvManager.isOracleSystemSpace());
         this.cachingTemplateSpinner.setValue(designerEnvManager.getCachingTemplateLimit());
@@ -826,23 +810,30 @@ public class PreferencePane extends BasicPane {
             designerEnvManager.setUndoLimit(MAX_UNDO_LIMIT_50);
         }
 
-        Configurations.update(new Worker() {
-            @Override
-            public void run() {
-                Log4jConfig.getInstance().setRootLevel(((Level) logLevelComboBox.getSelectedItem()));
-            }
+        if (WorkContext.getCurrent().isLocal()) {
+            Configurations.update(new Worker() {
+                @Override
+                public void run() {
+                    Level level = (Level) logLevelComboBox.getSelectedItem();
+                    if (level != null) {
+                        Log4jConfig.getInstance().setRootLevel(level);
+                    }
+                }
 
-            @Override
-            public Class<? extends Configuration>[] targets() {
-                return new Class[]{Log4jConfig.class};
-            }
-        });
+                @Override
+                public Class<? extends Configuration>[] targets() {
+                    @SuppressWarnings("unchecked")
+                    Class<? extends Configuration>[] classes = new Class[]{Log4jConfig.class};
+                    return classes;
+                }
+            });
+        }
 
         Configurations.update(new Worker() {
             @Override
             public void run() {
                 ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
-                //ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
+                ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
             @Override

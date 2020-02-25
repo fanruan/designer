@@ -22,7 +22,6 @@ import com.fr.general.FRLogger;
 import com.fr.general.FRScreen;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.AssistUtils;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import javax.swing.JOptionPane;
 import java.awt.Component;
@@ -31,6 +30,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ContainerEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
