@@ -21,10 +21,9 @@ public class DesignerExiter {
     }
 
     public void execute() {
-        if (FineProcessContext.getParentPipe() == null && DOT.equals(StableUtils.getInstallHome())) {
-            System.exit(0);
-        } else {
+        if (FineProcessContext.getParentPipe() != null || !DOT.equals(StableUtils.getInstallHome())) {
             FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
         }
+        System.exit(0);
     }
 }
