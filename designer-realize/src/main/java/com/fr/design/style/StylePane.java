@@ -8,10 +8,8 @@ import com.fr.base.NameStyle;
 import com.fr.base.ScreenResolution;
 import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.fun.StyleUIConfigProvider;
-import com.fr.design.fun.MultiStyleUIConfigProvider;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
@@ -21,7 +19,6 @@ import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
 import com.fr.grid.selection.Selection;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.solution.sandbox.collection.PluginSandboxCollections;
 import com.fr.report.cell.CellElement;
 import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.FloatElement;
@@ -42,8 +39,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Style Pane.
@@ -54,7 +49,6 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
     private static final int FONT_INDEX = 2;
     private static final int BORDER_INDEX = 3;
     private static final int BACKGROUND_INDEX = 4;
-    private static final int NEXT_TAB_INDEX = 5;
 	private ElementCasePane reportPane;
 	protected Style editing;
 	private NameStyle globalStyle;
@@ -63,16 +57,8 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 	private FRFontPane frFontPane = null;
 	private BorderPane borderPane = null;
 	private BackgroundPane backgroundPane = null;
-	private static List<StyleUIConfigProvider> configList = PluginSandboxCollections.newSandboxList();
 	private PreivewArea previewArea;
 	private JPanel previewPane;
-
-	static {
-		Set<MultiStyleUIConfigProvider> preferenceConfigProviders = ExtraDesignClassManager.getInstance().getArray(MultiStyleUIConfigProvider.XML_TAG);
-		for (MultiStyleUIConfigProvider provider : preferenceConfigProviders) {
-			configList.addAll(provider.getConfigList());
-		}
-	}
 
 	/**
 	 * Constructor
@@ -99,9 +85,6 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Border"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 		mainTabbedPane.addTab(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Background"), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
 
-		for (StyleUIConfigProvider config : configList) {
-			mainTabbedPane.addTab(config.configName(), FRGUIPaneFactory.createY_AXISBoxInnerContainer_L_Pane());
-		}
 		mainTabbedPane.addChangeListener(tabChangeActionListener);
 		this.setPreferredSize(new Dimension(450, 480));
 	}
@@ -362,9 +345,6 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		if (this.backgroundPane != null) {
 			this.backgroundPane.populate(editing.getBackground());
 		}
-		for(StyleUIConfigProvider tabConfig : configList){
-			tabConfig.populateConfig(this.editing);
-		}
 		updatePreviewArea();
 	}
 
@@ -379,7 +359,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 				this.alignmentPane.checkValid();
 			}
 		} catch (Exception exp) {
-			JOptionPane.showMessageDialog(this, exp.getMessage());
+			FineJOptionPane.showMessageDialog(this, exp.getMessage());
 			return editing;
 		}
 
@@ -398,9 +378,6 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 		}
 		if (this.backgroundPane != null) {
 			style = style.deriveBackground(this.backgroundPane.update());
-		}
-		for(StyleUIConfigProvider tabConfig : configList){
-			style = tabConfig.updateConfig();
 		}
 
 		return style;
@@ -425,9 +402,6 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 					tabbedPane.setComponentAt(selectedIndex, StylePane.this.getBorderPane());
 				} else if (selectedIndex == BACKGROUND_INDEX) {
 					tabbedPane.setComponentAt(selectedIndex, StylePane.this.getBackgroundPane());
-				} else if (configList.size() + NEXT_TAB_INDEX > selectedIndex && configList.get(selectedIndex - NEXT_TAB_INDEX) != null) {
-					tabbedPane.setComponentAt(selectedIndex, configList.get(selectedIndex - NEXT_TAB_INDEX).uiComponent(StylePane.this));
-					configList.get(selectedIndex - NEXT_TAB_INDEX).populateConfig(StylePane.this.editing);
 				}
 			}
 			updatePreviewArea();
@@ -446,7 +420,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 
 	/**
 	 * 预览Style的面板
-	 *
+	 * 
 	 * @author richer
 	 */
 	public static class PreivewArea extends JComponent {
@@ -488,7 +462,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 	}
 
 
+	
 
-
-
+	
 }
