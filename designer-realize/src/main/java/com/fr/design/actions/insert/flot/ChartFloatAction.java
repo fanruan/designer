@@ -17,7 +17,6 @@ import com.fr.design.menu.MenuKeySet;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.grid.Grid;
 import com.fr.grid.selection.FloatSelection;
-import com.fr.log.FineLoggerFactory;
 import com.fr.report.ReportHelper;
 import com.fr.report.cell.FloatElement;
 import com.fr.report.elementcase.TemplateElementCase;
@@ -86,43 +85,39 @@ public class ChartFloatAction extends ElementCaseAction {
             public void doOk() {
                 isRecordNeeded = true;
                 FloatElement newFloatElement;
-                try {
-                    newFloatElement = new FloatElement(chartDialog.getChartCollection().clone());
-                    newFloatElement.setWidth(new OLDPIX(BaseChartCollection.CHART_DEFAULT_WIDTH));
-                    newFloatElement.setHeight(new OLDPIX(BaseChartCollection.CHART_DEFAULT_HEIGHT));
+                newFloatElement = new FloatElement(chartDialog.getChartCollection());
+                newFloatElement.setWidth(new OLDPIX(BaseChartCollection.CHART_DEFAULT_WIDTH));
+                newFloatElement.setHeight(new OLDPIX(BaseChartCollection.CHART_DEFAULT_HEIGHT));
 
-                    Grid grid = reportPane.getGrid();
-                    TemplateElementCase report = reportPane.getEditingElementCase();
-                    DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
-                    DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
-                    int horizentalScrollValue = grid.getHorizontalValue();
-                    int verticalScrollValue = grid.getVerticalValue();
+                Grid grid = reportPane.getGrid();
+                TemplateElementCase report = reportPane.getEditingElementCase();
+                DynamicUnitList columnWidthList = ReportHelper.getColumnWidthList(report);
+                DynamicUnitList rowHeightList = ReportHelper.getRowHeightList(report);
+                int horizentalScrollValue = grid.getHorizontalValue();
+                int verticalScrollValue = grid.getVerticalValue();
 
-                    int resolution = grid.getResolution();
-                    int floatWdith = newFloatElement.getWidth().toPixI(resolution);
-                    int floatHeight = newFloatElement.getWidth().toPixI(resolution);
+                int resolution = grid.getResolution();
+                int floatWdith = newFloatElement.getWidth().toPixI(resolution);
+                int floatHeight = newFloatElement.getWidth().toPixI(resolution);
 
-                    int leftDifference = (grid.getWidth() - floatWdith) > 0 ? (grid.getWidth() - floatWdith) : 0;
-                    int topDifference = (grid.getHeight() - floatHeight) > 0 ? (grid.getHeight() - floatHeight) : 0;
-                    FU evtX_fu = FU.valueOfPix((leftDifference) / 2, resolution);
-                    FU evtY_fu = FU.valueOfPix((topDifference) / 2, resolution);
+                int leftDifference = (grid.getWidth() - floatWdith) > 0 ? (grid.getWidth() - floatWdith) : 0;
+                int topDifference = (grid.getHeight() - floatHeight) > 0 ? (grid.getHeight() - floatHeight) : 0;
+                FU evtX_fu = FU.valueOfPix((leftDifference) / 2, resolution);
+                FU evtY_fu = FU.valueOfPix((topDifference) / 2, resolution);
 
-                    FU leftDistance = FU.getInstance(evtX_fu.toFU() + columnWidthList.getRangeValue(0, horizentalScrollValue).toFU());
-                    FU topDistance = FU.getInstance(evtY_fu.toFU() + rowHeightList.getRangeValue(0, verticalScrollValue).toFU());
+                FU leftDistance = FU.getInstance(evtX_fu.toFU() + columnWidthList.getRangeValue(0, horizentalScrollValue).toFU());
+                FU topDistance = FU.getInstance(evtY_fu.toFU() + rowHeightList.getRangeValue(0, verticalScrollValue).toFU());
 
-                    newFloatElement.setLeftDistance(leftDistance);
-                    newFloatElement.setTopDistance(topDistance);
+                newFloatElement.setLeftDistance(leftDistance);
+                newFloatElement.setTopDistance(topDistance);
 
-                    Style style = newFloatElement.getStyle();
-                    if (style != null) {
-                        newFloatElement.setStyle(style.deriveBorder(Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black));
-                    }
-                    reportPane.getEditingElementCase().addFloatElement(newFloatElement);
-                    reportPane.setSelection(new FloatSelection(newFloatElement.getName()));
-                    reportPane.fireSelectionChangeListener();
-                } catch (CloneNotSupportedException e) {
-                    FineLoggerFactory.getLogger().error("Error in Float");
+                Style style = newFloatElement.getStyle();
+                if (style != null) {
+                    newFloatElement.setStyle(style.deriveBorder(Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black, Constants.LINE_NONE, Color.black));
                 }
+                reportPane.getEditingElementCase().addFloatElement(newFloatElement);
+                reportPane.setSelection(new FloatSelection(newFloatElement.getName()));
+                reportPane.fireSelectionChangeListener();
             }
         });
 

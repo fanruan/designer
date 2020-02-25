@@ -3,6 +3,7 @@ package com.fr.design.mainframe.template.info;
 import com.fr.config.MarketConfig;
 import com.fr.general.GeneralUtils;
 import com.fr.invoke.Reflect;
+import com.fr.json.JSONObject;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.third.org.apache.commons.io.FileUtils;
@@ -71,7 +72,7 @@ public class TemplateInfoCollectorTest {
         assertEquals(",,", DesignerOpenHistory.getInstance().toString());
 
         TemplateInfoCollector collector = TemplateInfoCollector.getInstance();
-        assertEquals(7, ((Map) Reflect.on(collector).field("templateInfoMap").get()).size());
+        assertEquals(7, ((Map) Reflect.on(collector).field("pointInfoMap").get()).size());
 
         assertEquals("2019-04-08,2019-04-03,2019-03-29", DesignerOpenHistory.getInstance().toString());
     }
@@ -86,18 +87,21 @@ public class TemplateInfoCollectorTest {
         collector.collectInfo(templateID, StringUtils.EMPTY, mockProcessInfo, timeConsume);
 
         // 检查是否写入成功
-        collector.loadFromFile();
+        Reflect.on(collector).call("loadFromFile");
         TemplateInfo templateInfo = collector.getOrCreateTemplateInfoByID(templateID);
+
+        Map consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
+        Map processMap = Reflect.on(templateInfo).field("processMap").get();
 
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":1,\"widget_count\":0," +
                 "\"cell_count\":13,\"block_count\":3,\"report_type\":0," +
-                "\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}", templateInfo.getProcessMapJsonString());
+                "\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}", new JSONObject(processMap).toString());
 
         assertJsonStringEquals("{\"activitykey\":\"2e0ea413-fa9c241e0-9723-4354fce51e81\"," +
                 "\"jar_time\":\"不是安装版本\",\"create_time\":\"2019-03-26 16:13\"," +
                 "\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\",\"originID\":\"\"," +
                 "\"uuid\":\"476ca2cc-f789-4c5d-8e89-ef146580775c\",\"time_consume\":329,\"originTime\":0," +
-                "\"version\":\"10.0\",\"username\":\"plough\"}", templateInfo.getConsumingMapJsonString());
+                "\"version\":\"10.0\",\"username\":\"plough\"}", new JSONObject(consumingMap).toString());
     }
 
     @Test
@@ -112,15 +116,17 @@ public class TemplateInfoCollectorTest {
         collector.collectInfo(templateID, StringUtils.EMPTY, mockProcessInfo, timeConsume);
 
         // 检查是否写入成功
-        collector.loadFromFile();
+        Reflect.on(collector).call("loadFromFile");
         assertTrue(collector.contains(templateID));
 
         TemplateInfo templateInfo = collector.getOrCreateTemplateInfoByID(templateID);
+        Map processMap = Reflect.on(templateInfo).field("processMap").get();
+
         assertEquals(templateID, templateInfo.getTemplateID());
 
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":1,\"widget_count\":0," +
                 "\"cell_count\":13,\"block_count\":3,\"report_type\":0," +
-                "\"templateID\":\"73a97777-8jnk-47cd-b57c-2ee89991279796\"}", templateInfo.getProcessMapJsonString());
+                "\"templateID\":\"73a97777-8jnk-47cd-b57c-2ee89991279796\"}", new JSONObject(processMap).toString());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
         assertEquals(templateID, consumingMap.get("templateID"));
@@ -142,12 +148,13 @@ public class TemplateInfoCollectorTest {
         collector.collectInfo(templateID, originID, mockProcessInfo, timeConsume);
 
         // 检查是否写入成功
-        collector.loadFromFile();
+        Reflect.on(collector).call("loadFromFile");
         TemplateInfo templateInfo = collector.getOrCreateTemplateInfoByID(templateID);
+        Map processMap = Reflect.on(templateInfo).field("processMap").get();
 
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":1,\"widget_count\":0," +
                 "\"cell_count\":13,\"block_count\":3,\"report_type\":0," +
-                "\"templateID\":\"423238d4-5223-22vj-vlsj-42jc49245iw3\"}", templateInfo.getProcessMapJsonString());
+                "\"templateID\":\"423238d4-5223-22vj-vlsj-42jc49245iw3\"}", new JSONObject(processMap).toString());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
         assertEquals(templateID, consumingMap.get("templateID"));
