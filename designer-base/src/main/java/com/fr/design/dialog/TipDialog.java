@@ -7,9 +7,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,16 +25,16 @@ public abstract class TipDialog extends JDialog implements ActionListener {
     private UIButton endButton;
     private UIButton cancelButton;
 
-    public TipDialog(Frame parent, String type) {
+    public TipDialog(Frame parent, String type, String tip, String endText, String cancelText) {
         super(parent, true);
         JPanel northPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         JPanel iconPane = new JPanel();
         UILabel iconLabel = new UILabel();
-        iconLabel.setIcon(IOUtils.readIcon("com/fr/design/images/error/error.png"));
+        iconLabel.setIcon(IOUtils.readIcon("com/fr/design/images/error/error2.png"));
         iconPane.add(iconLabel);
-        iconPane.setPreferredSize(new Dimension(100, 100));
+        iconPane.setPreferredSize(new Dimension(50, 50));
         JPanel tipPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        UILabel tipLabel = new UILabel(Toolkit.i18nText("Fine-Design_Last_Designer_Process_Not_Exist"));
+        UILabel tipLabel = new UILabel(tip);
         tipPane.add(tipLabel);
         northPane.add(iconPane, BorderLayout.WEST);
         northPane.add(tipPane, BorderLayout.CENTER);
@@ -51,7 +49,7 @@ public abstract class TipDialog extends JDialog implements ActionListener {
         JPanel southPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
         JPanel controlPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        endButton = new UIButton(Toolkit.i18nText("Fine-Design_End_Occupied_Process"));
+        endButton = new UIButton(endText);
         endButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +57,7 @@ public abstract class TipDialog extends JDialog implements ActionListener {
             }
         });
         buttonPane.add(endButton);
-        cancelButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+        cancelButton = new UIButton(cancelText);
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
