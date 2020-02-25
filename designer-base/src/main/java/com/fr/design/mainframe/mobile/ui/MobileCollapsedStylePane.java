@@ -54,11 +54,12 @@ public class MobileCollapsedStylePane extends BasicBeanPane<MobileCollapsedStyle
     }
 
     private JPanel createSettingPane() {
-        JPanel settingPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        JPanel settingPane = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 0);
         UITitleSplitLine splitLine = new UITitleSplitLine(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button"), 520);
         splitLine.setPreferredSize(new Dimension(520, 20));
         UILabel showButtonLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button"));
         showButtonCheck = new UICheckBox(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button_On_Right"));
+        showButtonCheck.setPreferredSize(new Dimension(140, 24));
         UILabel buttonColorLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button_Color"));
         buttonColorBox = new NewColorSelectBox(137);
         UILabel foldedLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Folded_Hint"));
@@ -91,15 +92,15 @@ public class MobileCollapsedStylePane extends BasicBeanPane<MobileCollapsedStyle
                 new Component[] {foldedLabel, foldedTextFiled},
                 new Component[] {unfoldedLabel, unfoldedTextFiled},
         };
-        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(northComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
+        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(northComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
         JPanel southPane = TableLayoutHelper.createGapTableLayoutPane(southComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        final JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(centerComponents, rowSize, colSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
+        final JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(centerComponents, rowSize, colSize, rowCount, LayoutConstants.HGAP_LARGE, LayoutConstants.VGAP_SMALL);
         JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         panel.add(northPane, BorderLayout.NORTH);
         panel.add(centerPane, BorderLayout.CENTER);
         panel.add(southPane, BorderLayout.SOUTH);
-        settingPane.add(splitLine, BorderLayout.NORTH);
-        settingPane.add(panel, BorderLayout.CENTER);
+        settingPane.add(splitLine);
+        settingPane.add(panel);
         showButtonCheck.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
