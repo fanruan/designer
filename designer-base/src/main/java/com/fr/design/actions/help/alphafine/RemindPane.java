@@ -114,6 +114,7 @@ public class RemindPane extends JPanel {
 
             @Override
             public void removeLayoutComponent(Component comp) {
+                // Do nothing
             }
 
             @Override
@@ -139,6 +140,7 @@ public class RemindPane extends JPanel {
 
             @Override
             public void addLayoutComponent(String name, Component comp) {
+                // Do nothing
             }
         };
     }

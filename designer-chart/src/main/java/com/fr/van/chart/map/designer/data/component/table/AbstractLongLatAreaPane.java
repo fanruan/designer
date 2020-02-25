@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by hufan on 2016/12/21.
  */
-public abstract class AbstractLongLatAreaPane extends JPanel{
+public abstract class AbstractLongLatAreaPane extends JPanel {
 
     public abstract boolean isSelectedItem();
 

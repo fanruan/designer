@@ -44,6 +44,7 @@ import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -1161,8 +1162,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.dispose();
 
         this.ad.shutDown();
-
-        System.exit(0);
+        DesignerExiter.getInstance().execute();
     }
 
     // harry：添加程序外拖拽文件进来打开的功能

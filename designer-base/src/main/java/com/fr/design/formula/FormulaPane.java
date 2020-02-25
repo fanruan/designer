@@ -29,17 +29,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Expression;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -49,10 +39,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -150,10 +137,12 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         keyWordTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
+                //do nothing
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+                //do nothing
             }
 
             @Override
@@ -238,7 +227,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
 
     protected void extendCheckBoxPane(JPanel checkBoxPane) {
-
+        // do nothing
     }
 
     private void configFormulaArea() {
@@ -414,6 +403,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        // do nothing
     }
 
     protected void search(String keyWord, boolean findDescription) {

@@ -6,7 +6,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-
 import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.van.chart.bubble.component.VanChartBubblePane;
@@ -44,7 +43,7 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{null}
         };
 
-        if (!((VanChartBubblePlot)plot).isForceBubble()) {
+        if (!((VanChartBubblePlot) plot).isForceBubble()) {
             components[3] = new Component[]{createLargeDataModelPane()};
         }
 
@@ -54,25 +53,25 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     //设置色彩面板内容
     @Override
-    protected void setColorPaneContent (JPanel panel) {
+    protected void setColorPaneContent(JPanel panel) {
         panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 
     @Override
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane(){
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane() {
             @Override
             protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
                 return VanChartCustomAxisConditionPane.class;
             }
 
             @Override
-            public String getPaneTitle(){
+            public String getPaneTitle() {
                 return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis");
             }
         };
-        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        stackAndAxisEditExpandablePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
         return stackAndAxisEditExpandablePane;
     }
 
@@ -81,18 +80,18 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Bubble"), bubblePane);
     }
 
-    protected void populateCondition(ConditionAttr defaultAttr){
-       super.populateCondition(defaultAttr);
-        if(bubblePane != null) {
-            VanChartAttrBubble attrBubble = (VanChartAttrBubble) defaultAttr.getExisted(VanChartAttrBubble.class);
+    protected void populateCondition(ConditionAttr defaultAttr) {
+        super.populateCondition(defaultAttr);
+        if (bubblePane != null) {
+            VanChartAttrBubble attrBubble = defaultAttr.getExisted(VanChartAttrBubble.class);
             bubblePane.populateBean(attrBubble);
         }
     }
 
-    protected void updateCondition(ConditionAttr defaultAttr){
+    protected void updateCondition(ConditionAttr defaultAttr) {
         super.updateCondition(defaultAttr);
-        if(bubblePane != null){
-            VanChartAttrBubble attrBubble = (VanChartAttrBubble) defaultAttr.getExisted(VanChartAttrBubble.class);
+        if (bubblePane != null) {
+            VanChartAttrBubble attrBubble = defaultAttr.getExisted(VanChartAttrBubble.class);
             if (attrBubble != null) {
                 defaultAttr.remove(attrBubble);
             }

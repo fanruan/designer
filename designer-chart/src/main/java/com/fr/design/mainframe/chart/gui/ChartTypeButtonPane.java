@@ -440,6 +440,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         private void changeChartName(String name) {
             this.setText(name);
+            this.setToolTipText(name);
             buttonName = name;
         }
 

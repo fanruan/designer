@@ -9,6 +9,7 @@
 package com.fr.design.gui.syntax.ui.rsyntaxtextarea;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -72,6 +73,9 @@ class TokenIterator implements Iterator<Token> {
 			else {
 				token = null;
 			}
+		}
+		else {
+			throw new NoSuchElementException();
 		}
 		return t;
 	}

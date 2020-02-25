@@ -33,18 +33,18 @@ public class VanChartMapLayerAndDataTabPane extends MultiTabPane<ChartCollection
         initComponents();
     }
 
-    private void initComponents(){
+    private void initComponents() {
         super.relayoutWhenListChange();
     }
 
     protected void tabChanged() {
-        if(getSelectedIndex() == 0){
+        if (getSelectedIndex() == 0) {
             return;
         }
-        if(chartCollection == null){
+        if (chartCollection == null) {
             return;
         }
-        if(!ComparatorUtils.equals(MapDataPaneHelper.getDrillMapLayerMapTypeList(chartCollection), dataPane.getCurrentMapTypeList())){
+        if (!ComparatorUtils.equals(MapDataPaneHelper.getDrillMapLayerMapTypeList(chartCollection), dataPane.getCurrentMapTypeList())) {
             dataPane.populateBean(chartCollection);
         }
     }
@@ -59,10 +59,10 @@ public class VanChartMapLayerAndDataTabPane extends MultiTabPane<ChartCollection
     protected List<BasicPane> initPaneList() {
         List<BasicPane> paneList = new ArrayList<BasicPane>();
 
-        if(layerPane != null) {
+        if (layerPane != null) {
             paneList.add(layerPane);
         }
-        if(dataPane != null) {
+        if (dataPane != null) {
             paneList.add(dataPane);
         }
 

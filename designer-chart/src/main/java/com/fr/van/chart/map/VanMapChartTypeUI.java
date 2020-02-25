@@ -31,7 +31,7 @@ import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
 /**
  * Created by Mitisky on 16/5/4.
  */
-public class MapIndependentVanChartInterface extends AbstractIndependentVanChartUI {
+public class VanMapChartTypeUI extends AbstractIndependentVanChartUI {
 
     @Override
     public String getName() {
@@ -70,27 +70,33 @@ public class MapIndependentVanChartInterface extends AbstractIndependentVanChart
         return new VanChartMapPlotPane();
     }
 
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+//图表数据结构 恢复用注释。取消注释。
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener){
+//        return new MapChartDataPane(listener);
+//    }
+
+    //图表数据结构 恢复用注释。删除下面5个方法 getTableDataSourcePane getReportDataSourcePane getChartDataPane areaPlot linePlot。
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return areaPlot(plot) ? new VanAreaMapPlotTableDataContentPane(parent)
                 : linePlot(plot) ? new VanLineMapPlotTableDataContentPane(parent)
-        : new VanPointMapPlotTableDataContentPane(parent);
+                : new VanPointMapPlotTableDataContentPane(parent);
     }
 
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return areaPlot(plot) ? new VanAreaMapPlotReportDataContentPane(parent)
                 : linePlot(plot) ? new VanLineMapPlotReportDataContentPane(parent)
-        : new VanPointMapPlotReportDataContentPane(parent);
+                : new VanPointMapPlotReportDataContentPane(parent);
     }
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
         return new VanChartMapDataPane(listener);
     }
 
-    protected boolean areaPlot(Plot plot){
+    protected boolean areaPlot(Plot plot) {
         return plot != null && plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getMapType() == MapType.AREA;
     }
 
-    protected boolean linePlot(Plot plot){
+    protected boolean linePlot(Plot plot) {
         return plot != null && plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getMapType() == MapType.LINE;
     }
 

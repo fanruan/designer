@@ -9,7 +9,6 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.SeriesTypeUseComboxPaneWithOutFilter;
@@ -39,8 +38,8 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
 
         JPanel areaNamePane = createAreaNamePane();
         JSeparator jSeparator = new JSeparator();
-        areaNamePane.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
-        jSeparator.setPreferredSize(new Dimension(246,2));
+        areaNamePane.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
+        jSeparator.setPreferredSize(new Dimension(246, 2));
 
         this.add(areaNamePane, BorderLayout.NORTH);
         this.add(jSeparator, BorderLayout.CENTER);
@@ -108,7 +107,7 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
         }
     }
 
-    protected boolean isAreaSelectedItem(){
+    protected boolean isAreaSelectedItem() {
         return areaNameCom.getSelectedItem() != null;
     }
 
@@ -139,13 +138,13 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
     public void updateBean(ChartCollection collection) {
         seriesTypeUseComboxPane.updateBean(collection);
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
-        if(topDefinitionProvider instanceof VanMapTableDefinitionProvider){
-            VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider)topDefinitionProvider;
+        if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
+            VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
             updateDefinition(mapTableDefinitionProvider);
         }
     }
 
-    protected void updateDefinition(VanMapTableDefinitionProvider mapTableDefinitionProvider){
+    protected void updateDefinition(VanMapTableDefinitionProvider mapTableDefinitionProvider) {
         Object o = areaNameCom.getSelectedItem();
         mapTableDefinitionProvider.setCategoryName(o == null ? null : o.toString());
     }
@@ -156,13 +155,13 @@ public class VanAreaMapPlotTableDataContentPane extends AbstractTableDataContent
     public void populateBean(ChartCollection collection) {
         seriesTypeUseComboxPane.populateBean(collection, this.isNeedSummaryCaculateMethod());
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
-        if(topDefinitionProvider instanceof VanMapTableDefinitionProvider){
-            VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider)topDefinitionProvider;
+        if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
+            VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
             populateDefinition(mapTableDefinitionProvider);
         }
     }
 
-    protected void populateDefinition(VanMapTableDefinitionProvider mapTableDefinitionProvider){
+    protected void populateDefinition(VanMapTableDefinitionProvider mapTableDefinitionProvider) {
         if (mapTableDefinitionProvider.getCategoryName() != null) {
             areaNameCom.setSelectedItem(mapTableDefinitionProvider.getCategoryName());
         }

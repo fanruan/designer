@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-
 import com.fr.plugin.chart.map.data.VanMapReportDefinition;
 import com.fr.van.chart.map.designer.data.component.report.AbstractLongLatAreaPane;
 import com.fr.van.chart.map.designer.data.component.report.PointMapAreaPane;
@@ -67,12 +66,12 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
 
         public LongLatReportFormulaPane() {
             this.setLayout(new BorderLayout(0, 5));
-            centerPane = new JPanel(new CardLayout()){
+            centerPane = new JPanel(new CardLayout()) {
                 @Override
                 public Dimension getPreferredSize() {
-                    if (locationType.getSelectedIndex() == 0){
+                    if (locationType.getSelectedIndex() == 0) {
                         return areaPane.getPreferredSize();
-                    }else {
+                    } else {
                         return longLatAreaPane.getPreferredSize();
                     }
                 }
@@ -99,10 +98,10 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
             double[] rowSize = {p};
 
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Geographic")),locationType},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Geographic")), locationType},
             };
 
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 12, 6);
 
 
             this.add(panel, BorderLayout.NORTH);
@@ -114,7 +113,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
             CardLayout cardLayout = (CardLayout) centerPane.getLayout();
             if (locationType.getSelectedIndex() == 0) {
                 cardLayout.show(centerPane, "area");
-            }else {
+            } else {
                 cardLayout.show(centerPane, "longLat");
             }
         }
@@ -124,7 +123,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
             if (locationType.getSelectedIndex() == 0) {
                 areaPane.populate(mapReportDefinition);
 
-            }else {
+            } else {
                 longLatAreaPane.populate(mapReportDefinition);
             }
 
@@ -137,7 +136,7 @@ public class VanPointMapPlotReportDataContentPane extends VanAreaMapPlotReportDa
             mapReportDefinition.setUseAreaName(useAreaName);
             if (useAreaName) {
                 areaPane.update(mapReportDefinition);
-            }else {
+            } else {
                 longLatAreaPane.update(mapReportDefinition);
             }
 

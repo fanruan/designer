@@ -12,9 +12,9 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.DatabaseTableDataPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.List;
 
 /**
  * Created by shine on 2019/5/21.
@@ -39,7 +39,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         tableDataPane = new DatabaseTableDataPane(label) {
             @Override
             protected void userEvent() {
-                refreshBoxList();
+                refreshBoxListAndTableName();
                 checkBoxUse();
             }
         };
@@ -50,6 +50,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
         this.setLayout(new BorderLayout());
         this.add(tableDataPane, BorderLayout.NORTH);
         this.add(dataSetFieldsPane, BorderLayout.CENTER);
+        checkBoxUse();
     }
 
     /**
@@ -66,7 +67,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
     /**
      * 刷新字段下拉列表
      */
-    private void refreshBoxList() {
+    private void refreshBoxListAndTableName() {
         TableDataWrapper dataWrap = tableDataPane.getTableDataWrapper();
 
         if (dataWrap == null) {
@@ -77,6 +78,7 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
 
         if (dataSetFieldsPane != null) {
             dataSetFieldsPane.refreshBoxListWithSelectTableData(columnNameList);
+            dataSetFieldsPane.setTableName(dataWrap.getTableDataName());
         }
     }
 
@@ -97,12 +99,17 @@ public class DataSetPane extends FurtherBasicBeanPane<DataSetDefinition> {
 
     @Override
     public void populateBean(DataSetDefinition ob) {
-        refreshBoxList();
-        checkBoxUse();
+        if (ob == null || ob.getColumnFieldCollection() == null) {
+            return;
+        }
+
+        refreshBoxListAndTableName();
 
         tableDataPane.populateBean(ob.getNameTableData());
 
         dataSetFieldsPane.populateBean(ob.getColumnFieldCollection());
+
+        checkBoxUse();
     }
 
     @Override
