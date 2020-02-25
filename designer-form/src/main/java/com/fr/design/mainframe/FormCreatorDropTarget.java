@@ -1,6 +1,8 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.designer.beans.AdapterBus;
@@ -8,25 +10,36 @@ import com.fr.design.designer.beans.HoverPainter;
 import com.fr.design.designer.beans.Painter;
 import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.beans.models.AddingModel;
-import com.fr.design.designer.creator.*;
+import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XCreatorUtils;
+import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
+import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.icon.IconPathConstants;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.SharableEditorProvider;
 import com.fr.form.share.ShareLoader;
+import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
-
 import com.fr.stable.Constants;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JWindow;
+import java.util.Map;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
-import java.util.Map;
 
 /**
  * 添加模式下鼠标事件处理器。
@@ -81,6 +94,8 @@ public class FormCreatorDropTarget extends DropTarget {
             //tab布局添加的时候是初始化了XWCardLayout，实际上最顶层的布局是XWCardMainBorderLayout
             XCreator addingXCreator = addingModel.getXCreator();
             Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
+            //图表埋点
+            dealChartBuryingPoint(widget);
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
                 SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
@@ -265,5 +280,12 @@ public class FormCreatorDropTarget extends DropTarget {
         this.adding(loc.x, loc.y);
         //针对在表单中拖入一个控件直接ctrl+s无反应
         designer.requestFocus();
+    }
+
+    private void dealChartBuryingPoint(Widget widget) {
+        if (widget instanceof ChartEditor) {
+            ChartCollection chartCollection = (ChartCollection)((ChartEditor) widget).getChartCollection();
+            ChartInfoCollector.getInstance().collection(chartCollection.getSelectedChartProvider(ChartProvider.class), null);
+        }
     }
 }
