@@ -56,6 +56,9 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
 
         final FormMobileAttrPane mobileAttrPane = new FormMobileAttrPane();
         mobileAttrPane.populateBean(mobileAttr);
+
+        final boolean oldMobileOnly = mobileAttr.isMobileOnly();
+        final boolean oldAdaptive = mobileAttr.isAdaptivePropertyAutoMatch();
         BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
@@ -75,16 +78,25 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 recordFunction();
                 // 设置移动端属性并刷新界面
                 formTpl.setFormMobileAttr(formMobileAttr);  // 会调整 body 的自适应布局，放到最后
-                ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                boolean changeSize = (!oldMobileOnly && formMobileAttr.isMobileOnly()) || (oldMobileOnly && !formMobileAttr.isMobileOnly());
+                if (changeSize) {
+                    ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
+                }
                 jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
                 //改变布局为自适应布局,只在移动端属性设置保存后改变一次
-                doChangeBodyLayout();
-
+                boolean changeLayout = !oldAdaptive && formMobileAttr.isAdaptivePropertyAutoMatch();
+                if (changeLayout) {
+                    doChangeBodyLayout();
+                }
                 WidgetPropertyPane.getInstance().refreshDockingView();
                 jf.fireTargetModified();
             }
         });
         dialog.setVisible(true);
+    }
+
+    private boolean isAttrChange(boolean oldValue, boolean newValue) {
+        return !oldValue && newValue;
     }
 
     private void doChangeBodyLayout(){
