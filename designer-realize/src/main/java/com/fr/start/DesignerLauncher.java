@@ -26,7 +26,7 @@ public class DesignerLauncher {
     public void start(String[] args) {
         this.args = args;
         FineJavaProcessFactory.create().
-                entry("com.fr.start.MainDesigner").
+                entry(MainDesigner.class).
                 javaRuntime(DesignerJavaRuntime.getInstance().getJavaExec()).
                 classPath(DesignerJavaRuntime.getInstance().getClassPath()).
                 inheritJvmSettings().
