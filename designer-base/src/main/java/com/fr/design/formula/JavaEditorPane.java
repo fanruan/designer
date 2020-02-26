@@ -2,6 +2,7 @@ package com.fr.design.formula;
 
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -161,11 +162,11 @@ public class JavaEditorPane extends BasicPane {
         }
         try {
             WorkContext.getWorkResource().write(StableUtils.pathJoin(ProjectConstants.CLASSES_NAME, getJavaPath()), text.getBytes(EncodeConstants.ENCODING_UTF_8));
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Common_Save_Successfully") + "！");
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Common_Save_Successfully") + "！");
             fireSaveActionListener();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Common_Save_Failed") + "！");
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Common_Save_Failed") + "！");
         }
 
     }
@@ -191,7 +192,7 @@ public class JavaEditorPane extends BasicPane {
                         if (StringUtils.isEmpty(message)) {
                             message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Compile_Success") + "!";
                         }
-                        JOptionPane.showMessageDialog(null, message);
+                        FineJOptionPane.showMessageDialog(null, message);
                     } catch (InterruptedException e1) {
                         FineLoggerFactory.getLogger().error(e1.getMessage(), e1);
                         Thread.currentThread().interrupt();

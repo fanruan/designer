@@ -6,6 +6,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
@@ -151,6 +152,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 try {
                     ChartProvider newChart = (ChartProvider) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
+                    ChartInfoCollector.getInstance().collection(newChart, null);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
                 }

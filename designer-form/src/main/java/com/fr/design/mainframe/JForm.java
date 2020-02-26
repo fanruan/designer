@@ -543,8 +543,12 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
      */
     public boolean canUndo() {
         //报表块最多撤销至编辑报表块的第一步，不能撤销表单中的操作
-        boolean inECUndoForm = undoState.getFormReportType() == BaseUndoState.STATE_BEFORE_FORM_REPORT && formDesign.isReportBlockEditing();
-        return !inECUndoForm && this.getUndoManager().canUndo();
+        boolean inECUndoForm = undoState != null
+                && undoState.getFormReportType() == BaseUndoState.STATE_BEFORE_FORM_REPORT
+                && formDesign.isReportBlockEditing();
+        return !inECUndoForm
+                && this.getUndoManager() != null
+                && this.getUndoManager().canUndo();
     }
 
     // 返回当前的body，
@@ -937,7 +941,8 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
      */
     @Override
     public PreviewProvider[] supportPreview() {
-        return new PreviewProvider[]{new FormPreview(), new MobilePreview()};
+        PreviewProvider[] templatePreviews = super.supportPreview();
+        return ArrayUtils.addAll(new PreviewProvider[]{new FormPreview(), new MobilePreview()}, templatePreviews);
     }
 
     /**

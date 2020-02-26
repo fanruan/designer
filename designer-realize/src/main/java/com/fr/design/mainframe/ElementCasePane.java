@@ -80,6 +80,7 @@ import com.fr.design.selection.QuickEditor;
 import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionEvent;
 import com.fr.design.selection.SelectionListener;
+import com.fr.design.ui.util.UIUtil;
 import com.fr.general.ComparatorUtils;
 import com.fr.grid.Grid;
 import com.fr.grid.GridColumn;
@@ -117,7 +118,6 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import java.awt.AWTEvent;
 import java.awt.Adjustable;
 import java.awt.Dimension;
@@ -523,8 +523,9 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
 
     @Override
     public void setSelection(Selection selection) {
-        if (!ComparatorUtils.equals(this.selection, selection) ||
-                !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())) {
+        if (!ComparatorUtils.equals(this.selection, selection)
+                || !ComparatorUtils.equals(EastRegionContainerPane.getInstance().getCellAttrPane(), CellElementPropertyPane.getInstance())
+                || DesignModeContext.isAuthorityEditing()) {
             try {
                 //旧选中内容编辑器释放模板对象
                 QuickEditor editor = this.getCurrentEditor();
@@ -535,8 +536,8 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
                 FineLoggerFactory.getLogger().info("Nothing to release");
             }
             this.selection = selection;
+            fireSelectionChanged();
         }
-        fireSelectionChanged();
     }
 
 
@@ -856,7 +857,7 @@ public abstract class ElementCasePane<T extends TemplateElementCase> extends Tar
         // Guaranteed to return a non-null array
         final Object[] listeners = listenerList.getListenerList();
 
-        SwingUtilities.invokeLater(new Runnable() {
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
             @Override
             public void run() {
                 // Process the listeners last to first, notifying

@@ -16,6 +16,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.Background;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.log.FineLoggerFactory;
@@ -109,6 +110,8 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             resetChartAttr(chart, newPlot);
             //切换图表时，数据配置不变,分类个数也不变
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
+            //切换类型埋点
+            ChartInfoCollector.getInstance().updateChartTypeTime(chart);
 
         }
         if(chart instanceof VanChart

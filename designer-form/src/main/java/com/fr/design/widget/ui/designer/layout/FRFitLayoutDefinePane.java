@@ -26,7 +26,6 @@ import com.fr.design.mainframe.widget.accessibles.AccessibleBodyWatermarkEditor;
 import com.fr.design.mainframe.widget.accessibles.AccessibleWLayoutBorderStyleEditor;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
-import com.fr.design.widget.ui.designer.AbstractDataModify;
 import com.fr.design.widget.ui.designer.component.PaddingBoundPane;
 import com.fr.form.ui.LayoutBorderStyle;
 import com.fr.form.ui.Widget;
@@ -48,7 +47,7 @@ import java.awt.Dimension;
 /**
  * Created by ibm on 2017/8/2.
  */
-public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
+public class FRFitLayoutDefinePane extends AbstractFRLayoutDefinePane<WFitLayout> {
     private static final int ADAPT_LABEL_MAX_WIDTH = 80;
     private XWFitLayout xWFitLayout;
     private WFitLayout wFitLayout;
@@ -208,6 +207,7 @@ public class FRFitLayoutDefinePane extends AbstractDataModify<WFitLayout> {
                     }
                     xwAbsoluteBodyLayout.add(component);
                 }
+                copyLayoutAttr(wFitLayout, wAbsoluteBodyLayout);
                 xWFitLayout.setBackupParent(xwAbsoluteBodyLayout);
                 FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
                 formDesigner.getSelectionModel().setSelectedCreators(

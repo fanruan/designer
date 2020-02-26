@@ -6,6 +6,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.dialog.BasicPane;
@@ -26,13 +27,13 @@ import com.fr.plugin.chart.vanchart.VanChart;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
-public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4DataSourceChange, ChartEditPaneProvider {
+public class ChartEditPane extends BasicPane implements AttributeChange, Prepare4DataSourceChange, ChartEditPaneProvider {
 
     private final static int CHANGE_MIN_TIME = 80;
 
@@ -107,6 +108,9 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 return;
             }
             AbstractChartAttrPane selectedPane = paneList.get(tabsHeaderIconPane.getSelectedIndex());
+            //图表配置变化，埋点记录
+            ChartInfoCollector.getInstance().updateChartPropertyTime(collection.getSelectedChartProvider(ChartProvider.class));
+
             selectedPane.update(collection);
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
@@ -122,7 +126,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
                 } catch (CloneNotSupportedException e) {
                     FineLoggerFactory.getLogger().error("error in clone ChartEditPane");
                 }
-                if(ComparatorUtils.equals(selectedPane.title4PopupWindow(),PaneTitleConstants.CHART_STYLE_TITLE)){
+                if (ComparatorUtils.equals(selectedPane.title4PopupWindow(), PaneTitleConstants.CHART_STYLE_TITLE)) {
                     dealWithStyleChange();
                 }
 
@@ -133,14 +137,16 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     @Deprecated
     public void reLayout(Chart currentChart) {
+        //do nothing
     }
 
     /**
      * 重新构造面板
+     *
      * @param currentChart 图表
      */
     public void reLayout(ChartProvider currentChart) {
-        if(currentChart != null){
+        if (currentChart != null) {
             int chartIndex = getSelectedChartIndex(currentChart);
             this.removeAll();
             this.setLayout(new BorderLayout());
@@ -150,18 +156,18 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
             String chartID = currentChart.getID();
             boolean isDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(chartID);
 
-            if(isDefault){
+            if (isDefault) {
                 paneList.add(dataPane4SupportCell);
                 paneList.add(stylePane);
                 paneList.add(otherPane);
                 this.isDefaultPane = true;
-            }else{
+            } else {
                 ChartDataPane chartDataPane = createChartDataPane(chartID);
                 if (chartDataPane != null) {
                     paneList.add(chartDataPane);
                 }
                 AbstractChartAttrPane[] otherPaneList = ChartTypeInterfaceManager.getInstance().getAttrPaneArray(chartID, listener);
-                for(int i = 0; i < otherPaneList.length; i++){
+                for (int i = 0; i < otherPaneList.length; i++) {
                     otherPaneList[i].addAttributeChangeListener(listener);
                     paneList.add(otherPaneList[i]);
                 }
@@ -234,7 +240,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         if (checkNeedsReLayout(chartProvider)) {
             String chartID = chartProvider.getID();
             if ("WaferChipChart".equals(chartID) || "BoxPlotChart".equals(chartID)) {
-                reLayout((Chart)chartProvider);
+                reLayout((Chart) chartProvider);
             } else {
                 reLayout(chartProvider);
             }
@@ -265,10 +271,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     public int getSelectedChartIndex(ChartProvider chart) {
         int index = 0;
-        if(typePane != null){
+        if (typePane != null) {
             FurtherBasicBeanPane[] paneList = typePane.getPaneList();
-            for(; index < paneList.length; index++){
-                if(paneList[index].accept(chart)){
+            for (; index < paneList.length; index++) {
+                if (paneList[index].accept(chart)) {
                     return index;
                 }
             }
@@ -278,7 +284,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     //populate的时候看看要不要重构面板
     private boolean checkNeedsReLayout(ChartProvider chart) {
-        if(chart != null){
+        if (chart != null) {
             int lastIndex = typePane.getSelectedIndex();
             int currentIndex = getSelectedChartIndex(chart);
             String chartID = chart.getID();
@@ -291,9 +297,10 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
 
     /**
      * 当前界面是否是默认的界面
+     *
      * @return 是否是默认的界面
      */
-    public boolean isDefaultPane(){
+    public boolean isDefaultPane() {
         return this.isDefaultPane;
     }
 
@@ -325,15 +332,16 @@ public class ChartEditPane extends BasicPane implements AttributeChange,Prepare4
         }
     }
 
-    protected void dealWithStyleChange(){
+    protected void dealWithStyleChange() {
 
     }
 
     /**
-     *主要用于图表设计器，判断样式改变是否来自工具栏的全局样式按钮
+     * 主要用于图表设计器，判断样式改变是否来自工具栏的全局样式按钮
+     *
      * @param isFromToolBar 是否来自工具栏
      */
-    public void styleChange(boolean isFromToolBar){
+    public void styleChange(boolean isFromToolBar) {
 
     }
 

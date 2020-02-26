@@ -15,9 +15,9 @@ import java.util.Map;
 public class VideoMark implements LocaleMark<String> {
 
     private Map<Locale, String> map = new HashMap<>();
-    private static final String VIDEO_EN = CloudCenter.getInstance().acquireUrlByKind("bbs.video.en");
-    private static final String VIDEO_CN = CloudCenter.getInstance().acquireUrlByKind("bbs.video");
-    private static final String VIDEO_TW = CloudCenter.getInstance().acquireUrlByKind("bbs.video.tw");
+    private static final String VIDEO_EN = CloudCenter.getInstance().acquireUrlByKind("bbs.video.en_US");
+    private static final String VIDEO_CN = CloudCenter.getInstance().acquireUrlByKind("bbs.video.zh_CN");
+    private static final String VIDEO_TW = CloudCenter.getInstance().acquireUrlByKind("bbs.video.zh_TW");
 
     public VideoMark() {
         map.put(Locale.CHINA, VIDEO_CN);

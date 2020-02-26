@@ -1,7 +1,5 @@
 package com.fr.design.actions.file;
 
-import com.fr.cluster.ClusterBridge;
-import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.config.Configuration;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.design.DesignerEnvManager;
@@ -673,7 +671,7 @@ public class PreferencePane extends BasicPane {
             defaultStringToFormulaBox.setSelected(false);
         }
         VcsConfigManager vcsConfigManager = designerEnvManager.getVcsConfigManager();
-        if (ClusterBridge.isClusterMode()) {
+        if (WorkContext.getCurrent().isCluster()){
             vcsEnableCheckBox.setEnabled(false);
             gcEnableCheckBox.setEnabled(false);
         }

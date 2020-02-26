@@ -1,5 +1,6 @@
 package com.fr.design.env;
 
+import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.i18n.Toolkit;
 import com.fr.rpc.ExceptionHandler;
 import com.fr.stable.AssistUtils;
@@ -69,7 +70,12 @@ public class RemoteWorkspace implements Workspace {
         }
         return isRoot;
     }
-    
+
+    @Override
+    public boolean isCluster() {
+        return FineClusterConfig.getInstance().isCluster();
+    }
+
     @Override
     public WorkspaceConnection getConnection() {
         

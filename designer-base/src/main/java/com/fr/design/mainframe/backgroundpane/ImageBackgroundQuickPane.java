@@ -127,12 +127,7 @@ public class ImageBackgroundQuickPane extends BackgroundQuickPane {
      */
     @Override
     public void registerChangeListener(final UIObserverListener listener) {
-        changeListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                listener.doChange();
-            }
-        };
+        changeListener = new ChangeListenerImpl(listener);
         imageLayoutPane.addChangeListener(changeListener);
     }
 

@@ -227,6 +227,15 @@ public class ToolBarDragPane extends WidgetToolBarPane {
 		GUICoreUtils.setEnabled(this, b);
 		isEnabled = b;
 		removeAllListener(northToolBar.getToolBarButtons());
+		removeAllListener(southToolBar.getToolBarButtons());
+		removeToolBarListener(northToolBar);
+		removeToolBarListener(southToolBar);
+	}
+
+	private void removeToolBarListener(ToolBarPane toolBarPane) {
+		if (!isEnabled) {
+			toolBarPane.removeDefaultMouseListener();
+		}
 	}
 
 	private void removeAllListener(List<ToolBarButton> toolBarButtons) {

@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -48,13 +49,13 @@ public class CollectUserInformationDialog extends UIDialog {
             String message;
             if (ActiveKeyGenerator.verify(keyValue, ONLINE_VERIFY_TIMEOUT)) {
                 message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Activate_Activated_Successfully");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+                FineJOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
                 DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
                 DesignerEnvManager.getEnvManager().saveXMLFile();
                 doOK();
             } else {
                 message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Activate_Activation_Code_Invalid");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+                FineJOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
             }
         }
     };

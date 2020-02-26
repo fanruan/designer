@@ -20,7 +20,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataFactory;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.iprogressbar.AutoProgressBar;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
@@ -73,7 +73,7 @@ public abstract class DesignTableDataManager {
      */
     private static java.util.Map<String, TableDataWrapper> globalDsCache = new java.util.HashMap<String, TableDataWrapper>();
     private static java.util.Map<String, String> dsNameChangedMap = new HashMap<String, String>();
-//    private static List<ChangeListener> dsListeners = new ArrayList<ChangeListener>();
+    private static List<ChangeListener> globalDsListeners = new ArrayList<>();
 
     private static Map<String, List<ChangeListener>> dsListenersMap = new HashMap<String, List<ChangeListener>>();
 
@@ -83,6 +83,7 @@ public abstract class DesignTableDataManager {
     //用于记录是否要弹出参数框
     private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
 
+    private static Map<TableDataSource, Map<String, String[]>> columnCache = new HashMap<>();
 
     /**
      * 清除全局 数据集缓存.
@@ -95,25 +96,31 @@ public abstract class DesignTableDataManager {
      * 响应数据集改变.
      */
     private static void fireDsChanged() {
+        fireDsChanged(globalDsListeners);
         for (Entry<String, List<ChangeListener>> listenerEntry : dsListenersMap.entrySet()) {
             List<ChangeListener> dsListeners = listenerEntry.getValue();
-            for (int i = 0; i < dsListeners.size(); i++) {
-                //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
-                // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
-//        for (ChangeListener l : dsListeners) {
-                ChangeEvent e = null;
-                dsListeners.get(i).stateChanged(e);
-            }
+            fireDsChanged(dsListeners);
+        }
+    }
+
+    private static void fireDsChanged(List<ChangeListener> dsListeners) {
+        for (int i = 0; i < dsListeners.size(); i++) {
+            //增强for循环用的iterator实现的, 如果中间哪个listener修改或删除了(如ChartEditPane.dsChangeListener),
+            // 由于dsListeners是arraylist, 此时会ConcurrentModifyException
+            ChangeEvent e = null;
+            dsListeners.get(i).stateChanged(e);
         }
     }
 
     public static void closeTemplate(JTemplate<?, ?> template) {
         if (template != null) {
+            columnCache.remove(getEditingTableDataSource());
             dsListenersMap.remove(template.getPath());
         }
     }
 
     public static void envChange() {
+        columnCache.clear();
         dsListenersMap.clear();
         dsNameChangedMap.clear();
         clearGlobalDs();
@@ -160,13 +167,17 @@ public abstract class DesignTableDataManager {
         }
     }
 
+    public static void addGlobalDsChangeListener(ChangeListener l) {
+        globalDsListeners.add(l);
+    }
+
     /**
      * 添加模板数据集改变 监听事件.
      *
      * @param l ChangeListener监听器
      */
     public static void addDsChangeListener(ChangeListener l) {
-        JTemplate<?, ?> template = HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
+        JTemplate<?, ?> template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
         String key = StringUtils.EMPTY;
         if (template != null) {
             key = template.getPath();
@@ -178,7 +189,6 @@ public abstract class DesignTableDataManager {
         }
         dsListeners.add(l);
     }
-
     /**
      * 获取数据源source中dsName的所有字段
      *
@@ -190,7 +200,51 @@ public abstract class DesignTableDataManager {
         java.util.Map<String, TableDataWrapper> resMap = getAllEditingDataSet(source);
         java.util.Map<String, TableDataWrapper> dsMap = getAllDataSetIncludingProcedure(resMap);
         TableDataWrapper tabledataWrapper = dsMap.get(dsName);
-        return tabledataWrapper == null ? new String[0] : tabledataWrapper.calculateColumnNameList().toArray(new String[0]);
+        if (tabledataWrapper == null) {
+            return new String[0];
+        } else {
+            return getSelectedColumnNamesFromCache(source, dsName, tabledataWrapper);
+        }
+    }
+
+    private static String[] getSelectedColumnNamesFromCache(TableDataSource dataSource, String dsName, TableDataWrapper tableDataWrapper) {
+        Map<String, String[]> map = columnCache.get(dataSource);
+        if (map == null) {
+            map = new HashMap<>();
+            String[] columnNames = tableDataWrapper.calculateColumnNameList().toArray(new String[0]);
+            map.put(dsName, columnNames);
+            columnCache.put(dataSource, map);
+            return columnNames;
+        } else {
+            String[] columnNames = map.get(dsName);
+            if (columnNames == null) {
+                columnNames = tableDataWrapper.calculateColumnNameList().toArray(new String[0]);
+                map.put(dsName, columnNames);
+                return columnNames;
+            } else {
+                return columnNames;
+            }
+        }
+    }
+
+    public static void removeSelectedColumnNames(String dsName) {
+        Map<String, String[]> map = columnCache.get(getEditingTableDataSource());
+        if (map == null) {
+            return;
+        }
+        map.remove(dsName);
+    }
+
+    public static void addDsColumnNames(String dsName, String[] columnNames) {
+        TableDataSource dataSource = getEditingTableDataSource();
+        Map<String, String[]> map = columnCache.get(dataSource);
+        if (map == null) {
+            map = new HashMap<>();
+            map.put(dsName, columnNames);
+            columnCache.put(dataSource, map);
+        } else {
+            map.put(dsName, columnNames);
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.config.MarketConfig;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -198,9 +199,9 @@ public class PluginUpdatePane extends PluginAbstractLoadingViewPane<List<PluginV
             public void done(PluginTaskResult result) {
                 if (result.isSuccess()) {
                     FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Update_Success"));
-                    JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
+                    FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                 } else {
-                    JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                    FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

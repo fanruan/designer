@@ -2,6 +2,7 @@ package com.fr.design.extra;
 
 import com.fr.base.FRContext;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.mainframe.DesignerContext;
@@ -62,7 +63,7 @@ public class WebViewDlgHelper {
             String mainJsPath = StableUtils.pathJoin(installHome, MAIN_JS_PATH);
             File file = new File(mainJsPath);
             if (!file.exists()) {
-                int rv = JOptionPane.showConfirmDialog(
+                int rv = FineJOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
@@ -79,7 +80,7 @@ public class WebViewDlgHelper {
                 updateShopScripts(SHOP_SCRIPTS);
                 showPluginDlg();
             } else {
-                int rv = JOptionPane.showConfirmDialog(
+                int rv = FineJOptionPane.showConfirmDialog(
                         null,
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install_Version"),
                         com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
@@ -199,7 +200,7 @@ public class WebViewDlgHelper {
 
 
     private static void confirmDownLoadShopJS() {
-        int rv = JOptionPane.showConfirmDialog(
+        int rv = FineJOptionPane.showConfirmDialog(
                 null,
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),
@@ -277,7 +278,7 @@ public class WebViewDlgHelper {
                             CommonUtils.deleteFile(scriptZip);
                         }
                         PluginStoreConstants.refreshProps();    // 下载完刷新一下版本号等
-                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
+                        FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (InterruptedException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -300,7 +301,7 @@ public class WebViewDlgHelper {
                     JSONObject resultJSONObject = new JSONObject(text);
                     String isLatest = resultJSONObject.optString("result");
                     if (!ComparatorUtils.equals(isLatest, LATEST)) {
-                        int rv = JOptionPane.showConfirmDialog(
+                        int rv = FineJOptionPane.showConfirmDialog(
                                 null,
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Update"),
                                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"),

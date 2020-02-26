@@ -13,9 +13,9 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,8 +79,8 @@ public class MobileStylePane extends BasicPane {
     private void addWestList() {
         styleList = new JList<>(listModel);
         styleList.setCellRenderer(render);
-        styleList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+        styleList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
                 String selectedValue = (String)styleList.getSelectedValue();
                 card.show(right, selectedValue);
             }

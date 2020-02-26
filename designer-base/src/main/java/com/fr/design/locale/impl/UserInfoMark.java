@@ -19,10 +19,11 @@ public class UserInfoMark implements LocaleMark<String> {
     private static final String EN_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.en");
     private static final String TW_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.tw");
     private static final String JP_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.jp");
+    private static final String KR_LOGIN_HTML = CloudCenter.getInstance().acquireUrlByKind("frlogin.kr");
 
     public UserInfoMark() {
         map.put(Locale.CHINA, CN_LOGIN_HTML);
-        map.put(Locale.KOREA, EN_LOGIN_HTML);
+        map.put(Locale.KOREA, KR_LOGIN_HTML);
         map.put(Locale.JAPAN, JP_LOGIN_HTML);
         map.put(Locale.US, EN_LOGIN_HTML);
         map.put(Locale.TAIWAN, TW_LOGIN_HTML);

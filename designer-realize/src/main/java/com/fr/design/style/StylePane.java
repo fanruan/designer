@@ -10,8 +10,9 @@ import com.fr.base.Style;
 import com.fr.base.core.StyleUtils;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.fun.StyleUIConfigProvider;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.fun.MultiStyleUIConfigProvider;
+import com.fr.design.fun.StyleUIConfigProvider;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.ElementCasePane;
@@ -30,7 +31,6 @@ import com.fr.report.elementcase.ElementCase;
 import com.fr.report.elementcase.TemplateElementCase;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -379,7 +379,7 @@ public class StylePane extends BasicBeanPane<Style> implements ChangeListener {
 				this.alignmentPane.checkValid();
 			}
 		} catch (Exception exp) {
-			JOptionPane.showMessageDialog(this, exp.getMessage());
+			FineJOptionPane.showMessageDialog(this, exp.getMessage());
 			return editing;
 		}
 

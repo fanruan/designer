@@ -3,6 +3,7 @@ package com.fr.design;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
@@ -107,8 +108,8 @@ public class EnvChangeEntrance {
                 strategy.showTip(new PopTip() {
                     @Override
                     public void show() {
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                                UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
                     }
                 });
                 return false;
@@ -167,8 +168,8 @@ public class EnvChangeEntrance {
             strategy.showTip(new PopTip() {
                 @Override
                 public void show() {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                            UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
                 }
             });
             return false;
@@ -177,8 +178,8 @@ public class EnvChangeEntrance {
             strategy.showTip(new PopTip() {
                 @Override
                 public void show() {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
-                            UIManager.getString("OptionPane.messageDialogTitle"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Switch_Workspace_Failed"),
+                            com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
                 }
             });
 

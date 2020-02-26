@@ -26,7 +26,7 @@ import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.OperatingSystem;
 
-import java.awt.*;
+import java.awt.Window;
 import java.io.File;
 import java.lang.reflect.Method;
 

@@ -98,6 +98,7 @@ public class EventPropertyTable extends UIListControlPane {
         Widget widget = creator.toData();
 
         refreshNameableCreator(EventCreator.createEventCreator(widget.supportedEvents(), WidgetEventListenerUpdatePane.class));
+        populateNameObjects();
     }
 
     public void populateNameObjects() {

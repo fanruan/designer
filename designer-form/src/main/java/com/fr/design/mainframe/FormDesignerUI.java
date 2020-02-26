@@ -23,8 +23,7 @@ import com.fr.page.WatermarkPainter;
 import com.fr.report.core.ReportUtils;
 import com.fr.stable.ArrayUtils;
 
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import java.awt.AlphaComposite;
 import java.awt.Component;
@@ -65,7 +64,7 @@ public class FormDesignerUI extends ComponentUI {
      * @param c 组件
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void paint(final Graphics g, JComponent c) {
         XCreator rootComponent = designer.getRootComponent();
         this.time = (float)designer.getResolution()/ScreenResolution.getScreenResolution();
         if (rootComponent != null) {
@@ -101,8 +100,14 @@ public class FormDesignerUI extends ComponentUI {
         if (designer.getPainter() != null) {
             // ComponentAdapter和LayoutAdapter提供的额外的Painter，该Painter一般用于提示作用，
             // 相当于一个浮动层, 要考虑参数面板的高度
-            designer.getPainter().paint(g, designer.getArea().getHorizontalValue(),
-                    designer.getArea().getVerticalValue() + designer.getParaHeight());
+            new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    designer.getPainter().paint(g, designer.getArea().getHorizontalValue(),
+                                                designer.getArea().getVerticalValue() + designer.getParaHeight());
+                    return null;
+                }
+            }.execute();
         }
         AddingModel addingModel = designer.getAddingModel();
 

@@ -14,6 +14,7 @@ import com.fr.data.impl.XMLTableData;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -222,7 +223,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         public void actionPerformed(ActionEvent arg0) {
             String uri = ParameterHelper.analyze4Templatee(urlText.getText(), params);
             if (!checkURL(uri)) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
+                FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
                 return;
             }
             params = getEditorPaneParameter();
@@ -234,10 +235,10 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
-                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                 try {
                     in.close();
                 } catch (IOException e) {

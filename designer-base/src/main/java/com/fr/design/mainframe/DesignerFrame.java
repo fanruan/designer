@@ -13,6 +13,7 @@ import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.event.DesignerOpenedListener;
 import com.fr.design.event.TargetModifiedEvent;
@@ -181,7 +182,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         @Override
         public void windowClosing(WindowEvent e) {
-
+            //关闭前当前模板 停止编辑
+            HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().stopEditing();
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
             if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
@@ -829,7 +831,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
         if (editingTemplate != null) {
-            String path = editingTemplate.getEditingFILE().getPath();
+            String path = editingTemplate.getPath();
             if (!editingTemplate.getEditingFILE().exists()) {
                 path = FILEFactory.MEM_PREFIX + path;
             } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
@@ -920,9 +922,9 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         } else {
             editingTemplate.stopEditing();
             if (!editingTemplate.getEditingFILE().exists()) {
-                int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + editingTemplate.getEditingFILE()
-                                + "\" ?", ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_OPTION,
+                                + "\" ?", Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (returnVal == JOptionPane.YES_OPTION && editingTemplate.saveTemplate()) {
                     editingTemplate.saveTemplate();
@@ -1034,10 +1036,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         // p:判断一下，如何文件为空或者文件不存在，直接返回.
         if (tplFile == null || !tplFile.exists()) {
-            JOptionPane.showMessageDialog(
+            FineJOptionPane.showMessageDialog(
                     this,
                     Toolkit.i18nText("Fine-Design_Basic_Warning_Template_Do_Not_Exsit"),
-                    ProductConstants.PRODUCT_NAME,
+                    Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
                     JOptionPane.INFORMATION_MESSAGE
             );
             DesignerFrameFileDealerPane.getInstance().refresh();
@@ -1047,10 +1049,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         try {
             openFile(tplFile);
         } catch (DecryptTemplateException e) {
-            JOptionPane.showMessageDialog(
+            FineJOptionPane.showMessageDialog(
                     this,
                     Toolkit.i18nText("Fine-Design_Encrypt_Decrypt_Exception"),
-                    UIManager.getString("OptionPane.messageDialogTitle"),
+                    Toolkit.i18nText("Fine-Design_Basic_Alert"),
                     JOptionPane.WARNING_MESSAGE,
                     UIManager.getIcon("OptionPane.errorIcon")
             );

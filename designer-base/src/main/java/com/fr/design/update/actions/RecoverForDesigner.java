@@ -30,6 +30,7 @@ public class RecoverForDesigner implements Recover {
             CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome, ProjectConstants.LOGS_NAME,
                     UpdateConstants.INSTALL_LIB, UpdateConstants.DESIGNERBACKUPPATH),
                     StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LIB_NAME));
+            FineLoggerFactory.getLogger().error("Recover down for designer");
             return true;
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error("Recover error for designer", e);
@@ -54,6 +55,7 @@ public class RecoverForDesigner implements Recover {
             CommonIOUtils.copyFilesInDirByPath(StableUtils.pathJoin(installHome,ProjectConstants.LIB_NAME),
                     StableUtils.pathJoin(installBackup,UpdateConstants.DESIGNERBACKUPPATH));
             DesignerContext.getDesignerFrame().prepareForExit();
+            FineLoggerFactory.getLogger().error("Backup down for designer");
             return true;
         } catch (IOException e) {
             UpdateException exception = new UpdateException("Backup Exception for designer" + e.getMessage());
