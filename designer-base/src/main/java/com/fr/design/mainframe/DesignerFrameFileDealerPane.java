@@ -218,7 +218,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         if (VcsHelper.getInstance().needInit()) {
             vcsAction = new VcsAction();
 
-            if (WorkContext.getCurrent().isLocal()) {
+            if (!WorkContext.getCurrent().isCluster()) {
                 vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
             } else {
                 vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
