@@ -9,7 +9,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
 import java.awt.Desktop;
 import java.io.IOException;
