@@ -95,10 +95,6 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
         dialog.setVisible(true);
     }
 
-    private boolean isAttrChange(boolean oldValue, boolean newValue) {
-        return !oldValue && newValue;
-    }
-
     private void doChangeBodyLayout(){
         FormDesigner formDesigner = WidgetPropertyPane.getInstance().getEditingFormDesigner();
         XLayoutContainer rootLayout = formDesigner.getRootComponent();
