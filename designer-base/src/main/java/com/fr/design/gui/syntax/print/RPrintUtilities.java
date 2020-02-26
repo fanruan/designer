@@ -9,6 +9,8 @@
  */
 package com.fr.design.gui.syntax.print;
 
+import com.fr.log.FineLoggerFactory;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
@@ -62,8 +64,8 @@ public abstract class RPrintUtilities {
 	private static int getLineBreakPoint(String line, final int maxCharsPerLine) {
 
 		int breakPoint = -1;
-		for (int i=0; i<breakChars.length; i++) {
-			int breakCharPos = line.lastIndexOf(breakChars[i], maxCharsPerLine-1);
+		for (char breakChar : breakChars) {
+			int breakCharPos = line.lastIndexOf(breakChar, maxCharsPerLine - 1);
 			if (breakCharPos > breakPoint)
 				breakPoint = breakCharPos;
 		}
@@ -147,11 +149,11 @@ public abstract class RPrintUtilities {
 				int tabIndex = curLineString.indexOf('\t');
 				while (tabIndex > -1) {
 					int spacesNeeded = tabSizeInSpaces - (tabIndex % tabSizeInSpaces);
-					String replacementString = "";
+					StringBuilder replacementString = new StringBuilder();
 					for (int i=0; i<spacesNeeded; i++)
-						replacementString += ' ';
+						replacementString.append(' ');
 					// Note that "\t" is actually a regex for this method.
-					curLineString = curLineString.replaceFirst("\t", replacementString);
+					curLineString = curLineString.replaceFirst("\t", replacementString.toString());
 					tabIndex = curLineString.indexOf('\t');
 				}
 			}
@@ -385,7 +387,7 @@ public abstract class RPrintUtilities {
 				doc.getText(currentLineStart+startingOffset, currentLineEnd-(currentLineStart+startingOffset),
 							currentLineSeg);
 			} catch (BadLocationException ble) {
-				System.err.println("BadLocationException in print (where there shouldn't be one!): " + ble);
+				FineLoggerFactory.getLogger().error("BadLocationException in print (where there shouldn't be one!): " + ble.getMessage());
 				return Printable.NO_SUCH_PAGE;
 			}
 
@@ -417,12 +419,12 @@ public abstract class RPrintUtilities {
 					// currentPos will be the last position in the current text of a "line break character."
 					currentPos = -1;
 					String currentLineString = currentLineSeg.toString();
-					for (int i=0; i<breakChars.length; i++) {
+					for (char breakChar : breakChars) {
 						// "+1" below so we include the character on the line.
-						int pos = currentLineString.lastIndexOf(breakChars[i]) + 1;
+						int pos = currentLineString.lastIndexOf(breakChar) + 1;
 						//if (pos>-1 && pos>currentPos)
 						//	currentPos = pos;
-						if (pos>0 && pos>currentPos & pos!=currentLineString.length())
+						if (pos > 0 && pos > currentPos & pos != currentLineString.length())
 							currentPos = pos;
 					}
 
@@ -440,7 +442,7 @@ public abstract class RPrintUtilities {
 							try {
 								doc.getText(currentLineStart+startingOffset, currentPos, currentLineSeg);
 							} catch (BadLocationException ble) {
-								System.err.println(ble);
+								FineLoggerFactory.getLogger().error(ble.getMessage());
 								return Printable.NO_SUCH_PAGE;
 							}
 							currentLineLengthInPixels = Utilities.
@@ -453,12 +455,11 @@ public abstract class RPrintUtilities {
 					try {
 						doc.getText((currentLineStart+startingOffset), currentPos, currentLineSeg);
 					} catch (BadLocationException ble) {
-						System.err.println("BadLocationException in print (a):");
-						System.err.println("==> currentLineStart: " + currentLineStart +
-									"; startingOffset: " + startingOffset + "; currentPos: " + currentPos);
-						System.err.println("==> Range: " + (currentLineStart+startingOffset) + " - " +
-									(currentLineStart+startingOffset+currentPos));
-						ble.printStackTrace();
+						FineLoggerFactory.getLogger().error("BadLocationException in print (a):" + "==> currentLineStart: " + currentLineStart +
+								"; startingOffset: " + startingOffset + "; currentPos: " + currentPos +
+								"==> Range: " + (currentLineStart+startingOffset) + " - " +
+								(currentLineStart+startingOffset+currentPos));
+						FineLoggerFactory.getLogger().error(ble.getMessage());
 						return Printable.NO_SUCH_PAGE;
 					}
 
@@ -521,7 +522,8 @@ public abstract class RPrintUtilities {
 				return x;
 			int tabSizeInPixels = tabSizeInSpaces * fm.charWidth(' ');
 			int ntabs = (((int) x) - xOffset) / tabSizeInPixels;
-			return xOffset + ((ntabs + 1) * tabSizeInPixels);
+			double reFloat = (double) xOffset + (double) ((ntabs + 1) * tabSizeInPixels);
+			return (float) reFloat;
 		}
 
 	}

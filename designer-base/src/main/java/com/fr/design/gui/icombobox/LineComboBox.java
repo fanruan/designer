@@ -3,6 +3,11 @@
  */
 package com.fr.design.gui.icombobox;
 
+import com.fr.base.FRContext;
+import com.fr.base.GraphHelper;
+import com.fr.base.ScreenResolution;
+import com.fr.general.FRFont;
+import com.fr.stable.Constants;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,17 +16,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
-
-import com.fr.base.FRContext;
-import com.fr.base.GraphHelper;
-import com.fr.base.ScreenResolution;
-import com.fr.general.FRFont;
-
-import com.fr.stable.Constants;
 
 
 /**
@@ -88,13 +85,13 @@ public class LineComboBox extends UIComboBox {
             FontMetrics fm = GraphHelper.getFontMetrics(rfont);
             if (style == Constants.LINE_NONE) {
                 //draw "none" string
-                GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"), 4, (d.height - fm.getHeight()) / 2 + fm.getAscent());
+                GraphHelper.drawString(g2d, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_None"), 4, (d.height - fm.getHeight()) / 2D + fm.getAscent());
             } else {
-                GraphHelper.drawLine(g2d, 4, d.height / 2, d.width - 8, d.height / 2, style);
+                GraphHelper.drawLine(g2d, 4, d.height / 2D, d.width - 8D, d.height / 2D, style);
             }
             
             if(isShowAxisWithLineStyle()) { //  带有坐标轴箭头的样式. 
-            	drawArrow(g2d, new Point2D.Double(4, d.height / 2), new Point2D.Double(d.width - 8, d.height/2));
+                drawArrow(g2d, new Point2D.Double(4, d.height / 2D), new Point2D.Double(d.width - 8D, d.height / 2D));
             }
         }
         

@@ -6,7 +6,6 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 
-
 import java.awt.BorderLayout;
 
 /**

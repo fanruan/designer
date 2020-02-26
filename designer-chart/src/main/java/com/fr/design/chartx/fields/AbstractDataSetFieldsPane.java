@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import static com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper.refreshBoxItems;
 
@@ -30,14 +32,24 @@ import static com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper.refres
  */
 public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCollection> extends BasicBeanPane<T> {
 
+    public String tableName;
+
     public AbstractDataSetFieldsPane() {
         initComponents();
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     protected void initComponents() {
 
         this.setLayout(new BorderLayout(0, 6));
-        this.setBorder(BorderFactory.createEmptyBorder(2, 24, 0, 15));
+        this.setBorder(BorderFactory.createEmptyBorder(6, 24, 0, 15));
 
         JPanel north = createNorthPane(),
                 center = createCenterPane(),
@@ -95,7 +107,7 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
     protected abstract UIComboBox[] filedComboBoxes();
 
     public void checkBoxUse(boolean hasUse) {
-        for (Component component : fieldComponents()) {
+        for (Component component : filedComboBoxes()) {
             component.setEnabled(hasUse);
         }
     }
@@ -145,4 +157,13 @@ public abstract class AbstractDataSetFieldsPane<T extends AbstractColumnFieldCol
         return StringUtils.EMPTY;
     }
 
+    public void initValueAndCalComboBox(final UIComboBox value, final CalculateComboBox function) {
+        value.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                function.setEnabled(value.getSelectedItem() != null);
+            }
+        });
+        function.setEnabled(false);
+    }
 }

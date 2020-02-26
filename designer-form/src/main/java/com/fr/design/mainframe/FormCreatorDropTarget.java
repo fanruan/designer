@@ -257,6 +257,7 @@ public class FormCreatorDropTarget extends DropTarget {
      */
     @Override
     public synchronized void dropActionChanged(DropTargetDragEvent dtde) {
+        //do nothing
     }
 
     /**

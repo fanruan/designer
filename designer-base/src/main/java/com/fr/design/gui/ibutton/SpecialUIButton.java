@@ -25,6 +25,8 @@ public class SpecialUIButton extends JButton {
      *
      * @see javax.swing.AbstractButton#setUI(ButtonUI)
      */
+    @Override
     public void setUI(ButtonUI ui) {
+        // do nothing
     }
 }

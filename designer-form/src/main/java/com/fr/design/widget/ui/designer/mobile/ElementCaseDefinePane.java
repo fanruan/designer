@@ -3,6 +3,8 @@ package com.fr.design.widget.ui.designer.mobile;
 import com.fr.base.mobile.MobileFitAttrState;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.creator.XCreator;
+import com.fr.design.designer.creator.XWAbsoluteBodyLayout;
+import com.fr.design.designer.creator.XWAbsoluteLayout;
 import com.fr.design.designer.properties.items.Item;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.form.util.FormDesignerUtils;
@@ -28,8 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 
 /**
  * 报表块-移动端属性面板
@@ -128,9 +129,20 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
     }
 
     private Component[] createComponents() {
-        return FormDesignerUtils.isAppRelayout(designer) ?
+        return FormDesignerUtils.isAppRelayout(designer) && !isInAbsoluteLayout() ?
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Collapse_Expand")), mobileCollapsedStyleEditor} :
                 new Component[0];
+    }
+
+    private boolean isInAbsoluteLayout() {
+        Container parent = xCreator.getParent();
+        while (parent != null) {
+            if (parent instanceof XWAbsoluteLayout && !(parent instanceof XWAbsoluteBodyLayout)) {
+                return true;
+            }
+            parent = parent.getParent();
+        }
+        return false;
     }
 
     private void bingListeners2Widgets() {

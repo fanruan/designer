@@ -10,13 +10,13 @@ import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.drillmap.designer.data.VanChartDrillMapDataPane;
 import com.fr.van.chart.drillmap.designer.other.VanChartDrillMapOtherPane;
 import com.fr.van.chart.drillmap.designer.type.VanChartDrillMapPlotPane;
-import com.fr.van.chart.map.MapIndependentVanChartInterface;
+import com.fr.van.chart.map.VanMapChartTypeUI;
 import com.fr.van.chart.map.designer.style.VanChartMapStylePane;
 
 /**
  * Created by Mitisky on 16/6/20.
  */
-public class DrillMapIndependentVanChartInterface extends MapIndependentVanChartInterface {
+public class VanDrillMapChartTypeUI extends VanMapChartTypeUI {
     @Override
     public String getName() {
         return Toolkit.i18nText("Fine-Design_Chart_Drill_Map");
@@ -61,7 +61,10 @@ public class DrillMapIndependentVanChartInterface extends MapIndependentVanChart
 
     @Override
     public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+        //图表数据结构 恢复用注释。下面1行删除。
         return new VanChartDrillMapDataPane(listener);
+        //图表数据结构 恢复用注释。取消注释。
+        //return new DrillMapChartDataPane(listener);
     }
 
     /**

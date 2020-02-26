@@ -157,8 +157,7 @@ public class UIMenuTable extends JTable {
 
 	@Override
 	public TableCellRenderer getDefaultRenderer(Class<?> columnClass) {
-		columnClass = UITable.class;
-		return super.getDefaultRenderer(columnClass);
+		return super.getDefaultRenderer(UITable.class);
 	}
 
 	private class UITableRender implements TableCellRenderer {

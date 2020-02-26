@@ -2,8 +2,10 @@ package com.fr.van.chart.heatmap.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.heatmap.HeatMapIndependentVanChart;
 import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
@@ -69,5 +71,10 @@ public class VanChartHeatMapTypePane extends VanChartMapPlotPane {
 
     public Chart getDefaultChart() {
         return HeatMapIndependentVanChart.HeatMapVanCharts[0];
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        return false;
     }
 }

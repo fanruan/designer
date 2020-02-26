@@ -2,6 +2,7 @@ package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.os.impl.RestartAction;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
@@ -152,7 +153,7 @@ public class RestartHelper {
         } finally {
             WorkContext.getCurrent().close();
             frame.dispose();
-            System.exit(0);
+            DesignerExiter.getInstance().execute();
         }
     }
 

@@ -25,7 +25,7 @@ public class UIHeadGroup extends JPanel {
     protected int selectedIndex = -1;
 
     protected void tabChanged(int newSelectedIndex) {
-
+        // do nothing
     }
 
     public UIHeadGroup(String[] textArray) {

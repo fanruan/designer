@@ -6,6 +6,6 @@ package com.fr.start;
 public class Designer4Debug {
 
     public static void main(String... args) {
-        org.swingexplorer.Launcher.main(new String[]{"com.fr.start.Designer"});
+        org.swingexplorer.Launcher.main(new String[]{"com.fr.start.MainDesigner"});
     }
 }

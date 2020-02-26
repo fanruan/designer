@@ -4,13 +4,8 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.i18n.Toolkit;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
-import com.fr.van.chart.multilayer.data.MultiPiePlotReportDataContentPane;
-import com.fr.van.chart.multilayer.data.MultiPiePlotTableDataContentPane;
 import com.fr.van.chart.multilayer.other.VanChartMultiPieConditionPane;
 import com.fr.van.chart.multilayer.style.VanChartMultiPieSeriesPane;
 import com.fr.van.chart.vanchart.AbstractIndependentVanChartUI;
@@ -41,19 +36,10 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         };
     }
 
-    @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new MultiPiePlotTableDataContentPane(parent);
-    }
-
-    @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new MultiPiePlotReportDataContentPane(parent);
-    }
-
+    //图表数据结构 恢复用注释。取消注释。
 //    @Override
 //    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-//        return new AbstractDataPane(listener) {
+//        return new AbstractVanSingleDataPane(listener) {
 //            @Override
 //            protected SingleDataPane createSingleDataPane() {
 //                return new SingleDataPane(new MultiPieDataSetFieldsPane(), new MultiPieCellDataFieldsPane());

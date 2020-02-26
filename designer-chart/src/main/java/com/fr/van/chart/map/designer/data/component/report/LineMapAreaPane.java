@@ -1,7 +1,6 @@
 package com.fr.van.chart.map.designer.data.component.report;
 
 import com.fr.design.gui.ilable.BoldFontTextLabel;
-
 import com.fr.plugin.chart.map.data.VanMapReportDefinition;
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 
@@ -27,18 +26,19 @@ public class LineMapAreaPane extends PointMapAreaPane {
     }
 
     protected void initEndAreaPane() {
-        endAreaPane = new AreaPane(){
-            protected Component[][] getComponent () {
+        endAreaPane = new AreaPane() {
+            protected Component[][] getComponent() {
                 return new Component[][]{
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")), areaName}
                 };
             }
         };
     }
+
     @Override
     protected void initAreaPane() {
-        areaPane =new AreaPane(){
-            protected Component[][] getComponent () {
+        areaPane = new AreaPane() {
+            protected Component[][] getComponent() {
                 return new Component[][]{
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name")), areaName}
                 };
