@@ -57,8 +57,10 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         (Dialog) SwingUtilities.getWindowAncestor(ClassTableDataPane.this),
                         new DialogActionAdapter() {
 					public void doOk() {
-						 classNameTextField.setText(bPane.getClassPath());
-					}                
+                        String classPath = bPane.getClassPath();
+                        ClassTableData tableData = new ClassTableData(classPath);
+                        populateBean(tableData);
+					}
                 });
                 dlg.setVisible(true);
             }
