@@ -11,15 +11,25 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.invoke.Reflect;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -27,14 +37,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -244,6 +246,20 @@ abstract class UIControlPane extends JControlPane {
                     return;
                 }
             }
+
+            try {
+                //没有指定owner的弹出框用的是SwingUtilities.getSharedOwnerFrame()
+                Frame sharedOwnerFrame = Reflect.on(SwingUtilities.class).call("getSharedOwnerFrame").get();
+                for (Window window : sharedOwnerFrame.getOwnedWindows()) {
+                    if (window instanceof JDialog && window.isVisible() && ((JDialog) window).isModal()) {
+                        // 如果有可见模态对话框，则不隐藏
+                        return;
+                    }
+                }
+            } catch (Exception ignore) {
+                //do nothing
+            }
+
             // 要隐藏 先检查有没有非法输入
             // 非法输入检查放在最后，因为可能出现面板弹出新弹框而失去焦点的情况，比如 输入公式时，弹出公式编辑对话框
             try {

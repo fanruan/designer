@@ -29,7 +29,7 @@ import java.awt.*;
 public class MobileBookMarkSettingPane extends BasicPane {
 
     private AccessibleMobileBookMarkStyleEditor mobileBookMarkStyleEditor;
-    private UICheckBox showHierarchicalBookmarksCheck;
+    private MobileBookMarkUsePane showBookMarkPane;
 
     public MobileBookMarkSettingPane() {
         initComponent();
@@ -38,30 +38,13 @@ public class MobileBookMarkSettingPane extends BasicPane {
     private void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.mobileBookMarkStyleEditor = new AccessibleMobileBookMarkStyleEditor(new MobileBookMarkStylePane());
-        this.showHierarchicalBookmarksCheck = new UICheckBox(
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Show_BookMark"), true);
         JPanel booKMarkPane = TableLayoutHelper.createGapTableLayoutPane(
                 new Component[][]{new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText(
                         "Fine-Design_Mobile_BookMark_Style")), this.mobileBookMarkStyleEditor}},
                 TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_L1, LayoutConstants.HGAP_LARGE
         );
-        UILabel hintLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Show_BookMark_Hint"));
-        hintLabel.setForeground(Color.GRAY);
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p};
-        double[] columnSize = {f};
-        int[][] rowCount = {{1}, {1}};
-        Component[][] components = new Component[][]{
-                new Component[]{this.showHierarchicalBookmarksCheck},
-                new Component[]{hintLabel}
-        };
+         this.showBookMarkPane = new MobileBookMarkUsePane();
         JPanel wrapPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        JPanel showBookMarkPane = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount,
-                                                                             IntervalConstants.INTERVAL_L1,
-                                                                             IntervalConstants.INTERVAL_L1);
-        showBookMarkPane.setBorder(
-                BorderFactory.createEmptyBorder(IntervalConstants.INTERVAL_L1, 0, IntervalConstants.INTERVAL_L1, 0));
         wrapPane.add(booKMarkPane, BorderLayout.NORTH);
         wrapPane.add(showBookMarkPane, BorderLayout.CENTER);
         this.add(wrapPane, BorderLayout.CENTER);
@@ -75,13 +58,13 @@ public class MobileBookMarkSettingPane extends BasicPane {
     public void populate(XCreator xCreator) {
         WSortLayout wSortLayout = ((WSortLayout) xCreator.toData());
         this.mobileBookMarkStyleEditor.setValue(wSortLayout.getMobileBookMarkStyle());
-        this.showHierarchicalBookmarksCheck.setSelected(wSortLayout.isShowBookmarks());
+        this.showBookMarkPane.populate(xCreator);
     }
 
     public void update(XCreator xCreator) {
         WSortLayout wSortLayout = ((WSortLayout) xCreator.toData());
         wSortLayout.setMobileBookMarkStyle((MobileBookMarkStyle) mobileBookMarkStyleEditor.getValue());
-        wSortLayout.setShowBookmarks(showHierarchicalBookmarksCheck.isSelected());
+        this.showBookMarkPane.update(xCreator);
     }
 
 

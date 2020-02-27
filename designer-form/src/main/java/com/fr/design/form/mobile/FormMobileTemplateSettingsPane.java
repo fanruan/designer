@@ -47,9 +47,7 @@ public class FormMobileTemplateSettingsPane extends BasicBeanPane<FormMobileAttr
             public void doChange() {
                 boolean mobileOnlyCheckSelected = mobileOnlyCheck.isSelected();
                 mobileSettingsPane.setVisible(mobileOnlyCheckSelected);
-                if (mobileOnlyCheckSelected) {
-                    adaptivePropertyAutoMatchCheck.setSelected(true);
-                }
+                adaptivePropertyAutoMatchCheck.setSelected(mobileOnlyCheckSelected);
             }
         });
 
