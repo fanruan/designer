@@ -7,6 +7,7 @@ import com.fr.design.RestartHelper;
 import com.fr.design.dialog.TipDialog;
 import com.fr.design.fun.OemProcessor;
 import com.fr.design.fun.impl.GlobalListenerProviderManager;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.messagecollect.StartErrorMessageCollector;
 import com.fr.design.mainframe.messagecollect.StartupMessageCollector;
 import com.fr.design.mainframe.messagecollect.entity.DesignerErrorMessage;
@@ -15,6 +16,7 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
@@ -69,7 +71,11 @@ public class DesignerStartup extends Activator {
             DesignUtils.clientSend(args);
             FineLoggerFactory.getLogger().info("The Designer Has Been Started");
             if (args.length == 0) {
-                TipDialog dialog = new TipDialog(null, DesignerProcessType.INSTANCE.obtain()) {
+                TipDialog dialog = new TipDialog(null,
+                                                 DesignerProcessType.INSTANCE.obtain(),
+                                                 Toolkit.i18nText("Fine-Design_Last_Designer_Process_Not_Exist"),
+                                                 Toolkit.i18nText("Fine-Design_End_Occupied_Process"),
+                                                 Toolkit.i18nText("Fine-Design_Basic_Cancel")) {
                     @Override
                     protected void endEvent() {
                         dispose();
