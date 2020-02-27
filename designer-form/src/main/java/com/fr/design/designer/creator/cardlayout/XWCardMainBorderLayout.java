@@ -16,7 +16,10 @@ import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWBorderLayout;
 import com.fr.design.designer.creator.XWidgetCreator;
+import com.fr.design.designer.properties.mobile.MobileBooKMarkUsePropertyUI;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.form.util.XCreatorConstants;
+import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -512,4 +515,12 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 		return true;
 	}
 
+	@Override
+	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
+		if (FormDesignerUtils.isAppRelayout(WidgetPropertyPane.getInstance().getEditingFormDesigner())) {
+			return new WidgetPropertyUIProvider[] {new MobileBooKMarkUsePropertyUI(this)};
+		} else {
+			return super.getWidgetPropertyUIProviders();
+		}
+	}
 }
