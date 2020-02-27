@@ -64,7 +64,7 @@ public class DesignerWorkspaceProvider extends Activator {
                         @Override
                         public void on(Event event, Null aNull) {
                             try {
-                                EnvChangeEntrance.getInstance().serviceDialog(selectEnv);
+                                EnvChangeEntrance.getInstance().showServiceDialog(selectEnv);
                             } catch (Exception e) {
                                 FineLoggerFactory.getLogger().warn("Check Service Failed");
                             }

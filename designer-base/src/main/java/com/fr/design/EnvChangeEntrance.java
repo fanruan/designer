@@ -132,7 +132,7 @@ public class EnvChangeEntrance {
             if (template != null) {
                 template.refreshToolArea();
             }
-            serviceDialog(selectedEnv);
+            showServiceDialog(selectedEnv);
         } catch (WorkspaceAuthException | RegistEditionException e) {
             // String title = Toolkit.i18nText("Fine-Design_Basic_Remote_Connect_Auth_Failed");
             // String title = Toolkit.i18nText("Fine-Design_Basic_Lic_Does_Not_Support_Remote");
@@ -213,7 +213,7 @@ public class EnvChangeEntrance {
      * 对选择的环境做服务检测
      * @param selectedEnv 选择的工作环境
      */
-    public void serviceDialog(DesignerWorkspaceInfo selectedEnv) throws Exception {
+    public void showServiceDialog(DesignerWorkspaceInfo selectedEnv) throws Exception {
         //是否需要做服务校验
         if(needCheckBranch(selectedEnv)) {
             String localBranch;
