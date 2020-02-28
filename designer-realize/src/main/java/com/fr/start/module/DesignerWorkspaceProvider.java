@@ -6,6 +6,10 @@ import com.fr.design.constants.DesignerLaunchStatus;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
+import com.fr.event.Null;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.stable.StringUtils;
@@ -54,6 +58,18 @@ public class DesignerWorkspaceProvider extends Activator {
                     EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
                 } else {
                     WorkContext.switchTo(workspace);
+                    //在设计器完全启动完成后，对初始环境进行一次服务检测，对主要功能无影响，异常仅做日志提示即可
+                    final DesignerWorkspaceInfo selectEnv = workspaceInfo;
+                    EventDispatcher.listen(DesignerLaunchStatus.STARTUP_COMPLETE, new Listener<Null>() {
+                        @Override
+                        public void on(Event event, Null aNull) {
+                            try {
+                                EnvChangeEntrance.getInstance().showServiceDialog(selectEnv);
+                            } catch (Exception e) {
+                                FineLoggerFactory.getLogger().warn("Check Service Failed");
+                            }
+                        }
+                    });
                 }
             } catch (Throwable e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
