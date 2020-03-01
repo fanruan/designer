@@ -2,6 +2,7 @@ package com.fr.design.gui.frpane;
 
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.fun.HyperlinkProvider;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.UIListControlPane;
@@ -45,6 +46,7 @@ public abstract class HyperlinkGroupPane extends UIListControlPane {
             @Override
             public void on(PluginEvent event) {
                 refreshNameableCreator(createNameableCreators());
+                HistoryTemplateListCache.getInstance().reloadCurrentTemplate();
             }
         }, new PluginFilter() {
 

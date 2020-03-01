@@ -138,20 +138,20 @@ public class DesignerSocketIO {
         @Override
         public void call(Object... objects) {
             /*
-            * todo 远程心跳断开不一定 socket 断开 和远程紧密相关的业务都绑定在心跳上，切换成心跳断开之后进行提醒，
-            * socket 只用推日志和通知配置变更
-            */
+             * todo 远程心跳断开不一定 socket 断开 和远程紧密相关的业务都绑定在心跳上，切换成心跳断开之后进行提醒，
+             * socket 只用推日志和通知配置变更
+             */
             if (status != Status.Disconnecting) {
                 try {
                     UIUtil.invokeAndWaitIfNeeded(new Runnable() {
-                    @Override
+                        @Override
                         public void run() {
                             JOptionPane.showMessageDialog(
-                            DesignerContext.getDesignerFrame(),
-                            Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
-                            UIManager.getString("OptionPane.messageDialogTitle"),
-                            JOptionPane.ERROR_MESSAGE,
-                            UIManager.getIcon("OptionPane.errorIcon"));
+                                    DesignerContext.getDesignerFrame(),
+                                    Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
+                                    UIManager.getString("OptionPane.messageDialogTitle"),
+                                    JOptionPane.ERROR_MESSAGE,
+                                    UIManager.getIcon("OptionPane.errorIcon"));
                             EnvChangeEntrance.getInstance().chooseEnv();
                         }
                     });

@@ -57,8 +57,10 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
                         (Dialog) SwingUtilities.getWindowAncestor(ClassTableDataPane.this),
                         new DialogActionAdapter() {
 					public void doOk() {
-						 classNameTextField.setText(bPane.getClassPath());
-					}                
+                        String classPath = bPane.getClassPath();
+                        ClassTableData tableData = new ClassTableData(classPath);
+                        populateBean(tableData);
+					}
                 });
                 dlg.setVisible(true);
             }
@@ -124,6 +126,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
             this.setSmallIcon(IOUtils.readIcon("/com/fr/design/images/buttonicon/add.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             java.util.List<ParameterProvider> oldParas = editorPane.update();
             oldParas.add(new Parameter());
@@ -132,6 +135,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
         @Override
         public void checkEnabled() {
+            //do nothing
         }
     }
     private class RemoveParaAction extends UITableEditAction {
@@ -149,6 +153,7 @@ public class ClassTableDataPane extends AbstractTableDataPane<ClassTableData> {
 
         @Override
         public void checkEnabled() {
+            //do nothing
         }
     }
 

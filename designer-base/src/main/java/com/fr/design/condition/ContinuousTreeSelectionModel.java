@@ -16,8 +16,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
  * 一个层次连续节点.
  */
 public class ContinuousTreeSelectionModel extends DefaultTreeSelectionModel {
-    public ContinuousTreeSelectionModel() {
-    }
 
     public void addSelectionPaths(TreePath[] paths) {
         if (paths == null || paths.length == 0) {

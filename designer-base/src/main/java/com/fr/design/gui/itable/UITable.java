@@ -291,8 +291,7 @@ public class UITable extends JTable implements UIObserver {
      *
      */
 	public TableCellEditor getDefaultEditor(Class<?> columnClass) {
-		columnClass = UITable.class;
-		return super.getDefaultEditor(columnClass);
+		return super.getDefaultEditor(UITable.class);
 	}
 
 	@Override
@@ -300,8 +299,7 @@ public class UITable extends JTable implements UIObserver {
      *
      */
 	public TableCellRenderer getDefaultRenderer(Class<?> columnClass) {
-		columnClass = UITable.class;
-		return super.getDefaultRenderer(columnClass);
+		return super.getDefaultRenderer(UITable.class);
 	}
 
 	/**

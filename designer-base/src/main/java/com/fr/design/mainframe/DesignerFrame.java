@@ -44,6 +44,7 @@ import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
@@ -181,7 +182,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         @Override
         public void windowClosing(WindowEvent e) {
-
+            //关闭前当前模板 停止编辑
+            HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().stopEditing();
             SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
             // 只有一个文件未保存时
             if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
@@ -829,7 +831,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         }
         defaultTitleSB.append(username).append("@").append(envName).append("[").append(workspace.getDescription()).append("]");
         if (editingTemplate != null) {
-            String path = editingTemplate.getEditingFILE().getPath();
+            String path = editingTemplate.getPath();
             if (!editingTemplate.getEditingFILE().exists()) {
                 path = FILEFactory.MEM_PREFIX + path;
             } else if (path.startsWith(ProjectConstants.REPORTLETS_NAME)) {
@@ -1160,8 +1162,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.dispose();
 
         this.ad.shutDown();
-
-        System.exit(0);
+        DesignerExiter.getInstance().execute();
     }
 
     // harry：添加程序外拖拽文件进来打开的功能

@@ -3,6 +3,7 @@ package com.fr.design.mainframe.template.info;
 import com.fr.config.MarketConfig;
 import com.fr.general.GeneralUtils;
 import com.fr.invoke.Reflect;
+import com.fr.json.JSONObject;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLableReader;
@@ -54,8 +55,7 @@ public class TemplateInfoTest {
         TemplateInfo templateInfo = TemplateInfo.newInstance(templateID);
         assertEquals(templateID, templateInfo.getTemplateID());
         assertEquals(StringUtils.EMPTY, Reflect.on(templateInfo).field("originID").get());
-        assertEquals(0, Reflect.on(templateInfo).field("idleDayCount").get());
-        assertEquals("{}", templateInfo.getProcessMapJsonString());
+        assertEquals(0, (int) Reflect.on(templateInfo).field("idleDayCount").get());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
         assertEquals(templateID, consumingMap.get("templateID"));
@@ -77,8 +77,7 @@ public class TemplateInfoTest {
         TemplateInfo templateInfo = TemplateInfo.newInstance(templateID, originID, originTime);
         assertEquals(templateID, templateInfo.getTemplateID());
         assertEquals(originID, Reflect.on(templateInfo).field("originID").get());
-        assertEquals(0, Reflect.on(templateInfo).field("idleDayCount").get());
-        assertEquals("{}", templateInfo.getProcessMapJsonString());
+        assertEquals(0, (int) Reflect.on(templateInfo).field("idleDayCount").get());
 
         Map<String, Object> consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
         assertEquals(templateID, consumingMap.get("templateID"));
@@ -97,24 +96,25 @@ public class TemplateInfoTest {
     }
 
     @Test
-    public void testGetConsumingMapJsonString() {
+    public void testGetSendInfo() {
+
+        Map consumingMap = Reflect.on(templateInfo).field("consumingMap").get();
+        Map processMap = Reflect.on(templateInfo).field("processMap").get();
+        Map consumingMap1 = Reflect.on(templateInfoSaveAs).field("consumingMap").get();
+        Map processMap1 = Reflect.on(templateInfoSaveAs).field("processMap").get();
         assertJsonStringEquals("{\"activitykey\":\"2e0ea413-fa9c241e0-9723-4354fce51e81\",\"jar_time\":\"不是安装版本\"," +
                 "\"create_time\":\"2019-03-26 16:13\",\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\",\"originID\":\"\"," +
                 "\"uuid\":\"476ca2cc-f789-4c5d-8e89-ef146580775c\",\"time_consume\":129,\"originTime\":0,\"version\":\"10.0\"," +
-                "\"username\":\"plough\"}", templateInfo.getConsumingMapJsonString());
+                "\"username\":\"plough\"}", new JSONObject(consumingMap).toString());
 
         assertJsonStringEquals("{\"activitykey\":\"2e0ea413-fa9c241e0-9723-4354fce51e81\",\"jar_time\":\"不是安装版本\"," +
                 "\"create_time\":\"2019-03-26 16:13\",\"templateID\":\"49avd2c4-1104-92j2-wx24-3dd0k2136080\",\"originID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"," +
                 "\"uuid\":\"476ca2cc-f789-4c5d-8e89-ef146580775c\",\"time_consume\":429,\"originTime\":129,\"version\":\"10.0\"," +
-                "\"username\":\"plough\"}", templateInfoSaveAs.getConsumingMapJsonString());
-    }
-
-    @Test
-    public void testGetProcessMapJsonString() {
+                "\"username\":\"plough\"}", new JSONObject(consumingMap1).toString());
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":0,\"widget_count\":0,\"cell_count\":1," +
-                "\"block_count\":0,\"report_type\":0,\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}", templateInfo.getProcessMapJsonString());
+                "\"block_count\":0,\"report_type\":0,\"templateID\":\"16a988ce-8529-42f5-b17c-2ee849355071\"}", new JSONObject(processMap).toString());
         assertJsonStringEquals("{\"process\":\"\",\"float_count\":0,\"widget_count\":0,\"cell_count\":1," +
-                "\"block_count\":0,\"report_type\":0,\"templateID\":\"49avd2c4-1104-92j2-wx24-3dd0k2136080\"}", templateInfoSaveAs.getProcessMapJsonString());
+                "\"block_count\":0,\"report_type\":0,\"templateID\":\"49avd2c4-1104-92j2-wx24-3dd0k2136080\"}", new JSONObject(processMap1).toString());
     }
 
     private TemplateInfo createTemplateInfo(String xmlContent) throws XMLStreamException {

@@ -2,13 +2,19 @@ package com.fr.design.mainframe.backgroundpane;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
 import com.fr.general.Background;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * @author zhou
  * @since 2012-5-29下午1:12:28
  */
 public abstract class BackgroundQuickPane extends BasicBeanPane<Background> implements UIObserver {
+
+	private boolean backgroundChange;
 
 	public abstract boolean accept(Background background);
 
@@ -23,6 +29,10 @@ public abstract class BackgroundQuickPane extends BasicBeanPane<Background> impl
 
 	public abstract void reset();
 
+	public boolean isBackgroundChange() {
+		return backgroundChange;
+	}
+
 	/**
 	 * 组件是否需要响应添加的观察者事件
 	 *
@@ -31,5 +41,21 @@ public abstract class BackgroundQuickPane extends BasicBeanPane<Background> impl
 	public boolean shouldResponseChangeListener() {
 
 		return true;
+	}
+
+	class ChangeListenerImpl implements ChangeListener {
+
+		private UIObserverListener listener;
+
+		public ChangeListenerImpl(UIObserverListener listener) {
+			this.listener = listener;
+		}
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			backgroundChange = true;
+			this.listener.doChange();
+			backgroundChange = false;
+		}
 	}
 }

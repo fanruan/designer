@@ -36,6 +36,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.template.info.TimeConsumeTimer;
@@ -70,11 +71,11 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.awt.BorderLayout;
 
 /**
  * 报表设计和表单设计的编辑区域(设计器编辑的IO文件)
@@ -164,6 +165,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo(String originID) {  // 执行收集操作
+        ChartInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), 0);
         if (!consumeTimer.isEnabled()) {
             return;
         }
@@ -242,6 +244,19 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     public void judgeSheetAuthority(String roles) {
 
+    }
+
+    /**
+     * 刷新内部资源
+     */
+    public void refreshResource() {
+
+        try {
+            this.template = JTemplateFactory.asIOFile(this.editingFILE);
+            setTarget(this.template);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -1219,4 +1234,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public abstract String route();
+
+    public String getTemplateName() {
+        return getEditingFILE().getName();
+    }
+
 }

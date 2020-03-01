@@ -2,10 +2,12 @@ package com.fr.design.chartx.component;
 
 import com.fr.base.Utils;
 import com.fr.chartx.data.field.DataFilterProperties;
-import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.data.PresentComboBox;
 import com.fr.design.mainframe.chart.gui.style.AbstractChartTabPane;
@@ -22,7 +24,7 @@ import java.awt.Dimension;
 /**
  * Created by shine on 2019/07/18.
  */
-public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<DataFilterProperties> {
+public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<DataFilterProperties> implements UIObserver {
 
     private static final int FIL_HEIGHT = 150;
 
@@ -34,14 +36,12 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
 
     private PresentComboBox present;
 
-    private AbstractAttrNoScrollPane parent;
-
     private JPanel topPane;
+
+    private UIObserverListener listener;
 
     public AbstractSingleFilterPane() {
         super(true);
-        //todo@shinerefactor present的时候这边可以整理下
-        // this.parent = parent;
     }
 
     @Override
@@ -72,13 +72,13 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
 
 
     private JPanel initPane() {
-        useTopCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Only_Use_Before_Records"));
+        useTopCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Only_Use_Before_Records"));
         JPanel panel1 = new JPanel(new BorderLayout());
         JPanel panel2 = new JPanel(new BorderLayout());
         panel1.add(useTopCheckBox, BorderLayout.NORTH);
-        topNumTextField = new UITextField();
-        UILabel label = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
-        mergeOtherCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_CombineOther"));
+        topNumTextField = new UITextField("0");
+        UILabel label = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Records_Num"));
+        mergeOtherCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Data_CombineOther"));
         mergeOtherCheckBox.setSelected(true);
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -94,7 +94,7 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
         //默认不显示
         topPane.setVisible(false);
         panel1.add(topPane, BorderLayout.CENTER);
-        hideNullCheckBox = new UICheckBox(title4PopupWindow() + " is null, hidden");
+        hideNullCheckBox = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Null_Hide", title4PopupWindow(), title4PopupWindow()));
         panel2.add(hideNullCheckBox, BorderLayout.NORTH);
 
         useTopCheckBox.addChangeListener(new ChangeListener() {
@@ -108,7 +108,11 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
                 fire();
             }
         };
-        JPanel presentPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present"), present);
+        JPanel presentPane = new JPanel(new BorderLayout(30, 0));
+        presentPane.add(new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Present")), BorderLayout.WEST);
+        presentPane.add(present,BorderLayout.CENTER);
+        presentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
         panel2.add(presentPane, BorderLayout.SOUTH);
 
         double[] column = {f};
@@ -120,10 +124,19 @@ public abstract class AbstractSingleFilterPane extends AbstractChartTabPane<Data
         return TableLayout4VanChartHelper.createGapTableLayoutPane(coms, row, column);
     }
 
+    @Override
+    public void registerChangeListener(UIObserverListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public boolean shouldResponseChangeListener() {
+        return true;
+    }
 
     private void fire() {
-        if (this.parent != null) {
-            parent.attributeChanged();
+        if (this.listener != null) {
+            listener.doChange();
         }
     }
 

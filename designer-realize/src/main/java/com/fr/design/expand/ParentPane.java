@@ -195,7 +195,7 @@ public class ParentPane extends BasicPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(parentCardPane, "Fine-Design_Report_Default");
+				cardLayout.show(parentCardPane, "Default");
 			}
 		});
 

@@ -20,7 +20,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
+import com.fr.design.mainframe.mobile.ui.MobileCollapsedStylePane;
+import com.fr.design.mainframe.mobile.ui.MobileComboBoxDialogEditor;
 import com.fr.form.ui.BaseChartEditor;
+import com.fr.form.ui.ChartEditor;
+import com.fr.form.ui.mobile.MobileCollapsedStyle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -49,6 +53,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
     private UILabel tipLabel;
     private UICheckBox allowFullCheckBox;//允许全屏
     private UICheckBox functionalWhenUnactivatedCheckBox;//组件未激活时可使用组件内功能
+    private MobileComboBoxDialogEditor mobileCollapsedStyleEditor;
 
     public ChartEditorDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -89,7 +94,7 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         panel.add(unavailableTipLabel, BorderLayout.NORTH);
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
         panel.add(allowFullCheckBox,BorderLayout.CENTER);
-        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"), true);
         panel.add(functionalWhenUnactivatedCheckBox, BorderLayout.SOUTH);
         return panel;
     }
@@ -101,11 +106,18 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         tipLabel.setForeground(Color.gray);
         updateTipLabel();
         allowFullCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Allow_Full_Screen"));
-        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"));
+        functionalWhenUnactivatedCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Functional_When_Unactivated"), true);
+        mobileCollapsedStyleEditor = new MobileComboBoxDialogEditor(new MobileCollapsedStylePane()) {
+            @Override
+            protected void firePropertyChanged() {
+                ChartEditorDefinePane.this.update();
+            }
+        };
 
         Component[][] components = new Component[][]{
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_In_Logic"), SwingConstants.LEFT), new UILabel(ChartMobileFitAttrState.PROPORTION.description())},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Zoom_Out_Logic"), SwingConstants.LEFT), zoomOutComboBox},
+                new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Collapse_Expand")), mobileCollapsedStyleEditor},
                 new Component[] {tipLabel, null},
                 new Component[] {allowFullCheckBox, null},
                 new Component[] {functionalWhenUnactivatedCheckBox, null}
@@ -113,9 +125,9 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
 
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p};
+        double[] rowSize = {p, p, p, p, p, p};
         double[] columnSize = {p,f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
+        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
         final JPanel panel =  TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, 30, LayoutConstants.VGAP_LARGE);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         final JPanel panelWrapper = FRGUIPaneFactory.createBorderLayout_S_Pane();
@@ -186,6 +198,10 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
                 }
             }
         });
+
+        MobileCollapsedStyle style = ((ChartEditor) xCreator.toData()).getMobileCollapsedStyle();
+        this.mobileCollapsedStyleEditor.setStyle(style);
+        this.mobileCollapsedStyleEditor.setSelected(style.isCollapsedWork());
     }
 
     @Override
@@ -199,6 +215,11 @@ public class ChartEditorDefinePane extends MobileWidgetDefinePane {
         }else {
             mobileAttr.setAllowFullScreen(allowFullCheckBox.isSelected());
             mobileAttr.setFunctionalWhenUnactivated(!functionalWhenUnactivatedCheckBox.isSelected());
+        }
+        MobileCollapsedStyle style = this.mobileCollapsedStyleEditor.getStyle();
+        if (style != null) {
+            ((ChartEditor) xCreator.toData()).setMobileCollapsedStyle(style);
+            style.setCollapsedWork(this.mobileCollapsedStyleEditor.isSelectedCustom());
         }
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
     }

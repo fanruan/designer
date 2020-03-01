@@ -83,6 +83,7 @@ public abstract class DesignTableDataManager {
     //用于记录是否要弹出参数框
     private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
 
+    private static Map<TableDataSource, Map<String, String[]>> columnCache = new HashMap<>();
 
     /**
      * 清除全局 数据集缓存.
@@ -113,11 +114,13 @@ public abstract class DesignTableDataManager {
 
     public static void closeTemplate(JTemplate<?, ?> template) {
         if (template != null) {
+            columnCache.remove(getEditingTableDataSource());
             dsListenersMap.remove(template.getPath());
         }
     }
 
     public static void envChange() {
+        columnCache.clear();
         dsListenersMap.clear();
         dsNameChangedMap.clear();
         clearGlobalDs();
@@ -197,7 +200,51 @@ public abstract class DesignTableDataManager {
         java.util.Map<String, TableDataWrapper> resMap = getAllEditingDataSet(source);
         java.util.Map<String, TableDataWrapper> dsMap = getAllDataSetIncludingProcedure(resMap);
         TableDataWrapper tabledataWrapper = dsMap.get(dsName);
-        return tabledataWrapper == null ? new String[0] : tabledataWrapper.calculateColumnNameList().toArray(new String[0]);
+        if (tabledataWrapper == null) {
+            return new String[0];
+        } else {
+            return getSelectedColumnNamesFromCache(source, dsName, tabledataWrapper);
+        }
+    }
+
+    private static String[] getSelectedColumnNamesFromCache(TableDataSource dataSource, String dsName, TableDataWrapper tableDataWrapper) {
+        Map<String, String[]> map = columnCache.get(dataSource);
+        if (map == null) {
+            map = new HashMap<>();
+            String[] columnNames = tableDataWrapper.calculateColumnNameList().toArray(new String[0]);
+            map.put(dsName, columnNames);
+            columnCache.put(dataSource, map);
+            return columnNames;
+        } else {
+            String[] columnNames = map.get(dsName);
+            if (columnNames == null) {
+                columnNames = tableDataWrapper.calculateColumnNameList().toArray(new String[0]);
+                map.put(dsName, columnNames);
+                return columnNames;
+            } else {
+                return columnNames;
+            }
+        }
+    }
+
+    public static void removeSelectedColumnNames(String dsName) {
+        Map<String, String[]> map = columnCache.get(getEditingTableDataSource());
+        if (map == null) {
+            return;
+        }
+        map.remove(dsName);
+    }
+
+    public static void addDsColumnNames(String dsName, String[] columnNames) {
+        TableDataSource dataSource = getEditingTableDataSource();
+        Map<String, String[]> map = columnCache.get(dataSource);
+        if (map == null) {
+            map = new HashMap<>();
+            map.put(dsName, columnNames);
+            columnCache.put(dataSource, map);
+        } else {
+            map.put(dsName, columnNames);
+        }
     }
 
     /**

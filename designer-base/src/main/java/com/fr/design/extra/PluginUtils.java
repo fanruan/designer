@@ -13,6 +13,7 @@ import com.fr.plugin.basic.version.VersionIntervalFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.error.PluginErrorCode;
+import com.fr.plugin.error.PluginBaseErrorCode;
 import com.fr.plugin.manage.PluginManager;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.EncodeConstants;
@@ -194,7 +195,7 @@ public class PluginUtils {
         }
     }
     
-    public static String getMessageByErrorCode(PluginErrorCode errorCode) {
+    public static String getMessageByErrorCode(PluginBaseErrorCode errorCode) {
         if(errorCode == PluginErrorCode.None){
             return "";
         }
@@ -202,7 +203,7 @@ public class PluginUtils {
         return com.fr.design.i18n.Toolkit.i18nCompatibleServerText(getInterKeyByErrorCode(errorCode));
     }
     
-    private static String getInterKeyByErrorCode(PluginErrorCode errorCode) {
+    private static String getInterKeyByErrorCode(PluginBaseErrorCode errorCode) {
         
         return  errorCode.getDescription();
     }

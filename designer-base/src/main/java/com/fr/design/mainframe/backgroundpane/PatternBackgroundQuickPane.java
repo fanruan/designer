@@ -112,23 +112,12 @@ public class PatternBackgroundQuickPane extends BackgroundQuickPane {
      *
      * @param listener 观察者监听事件
      */
+    @Override
     public void registerChangeListener(final UIObserverListener listener) {
-        foregroundColorPane.addSelectChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                listener.doChange();
-            }
-        });
-        backgroundColorPane.addSelectChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                listener.doChange();
-            }
-        });
+        foregroundColorPane.addSelectChangeListener(new ChangeListenerImpl(listener));
+        backgroundColorPane.addSelectChangeListener(new ChangeListenerImpl(listener));
         for (int i = 0, count = patternButtonArray.length; i < count; i++) {
-            patternButtonArray[i].addChangeListener(new ChangeListener() {
-                public void stateChanged(ChangeEvent e) {
-                    listener.doChange();
-                }
-            });
+            patternButtonArray[i].addChangeListener(new ChangeListenerImpl(listener));
         }
     }
 

@@ -56,8 +56,8 @@ public class WidgetBoundPane extends BasicPane {
     }
 
     public void initBoundPane() {
-        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
+        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
         width.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));
         height.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));
         if (creator.acceptType(XWCardLayout.class)) {

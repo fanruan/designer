@@ -7,11 +7,16 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chart.chartglyph.DataSheet;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.field.AbstractColumnFieldCollection;
+import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.MultilineLabel;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.Background;
 import com.fr.js.NameJavaScriptGroup;
 import com.fr.log.FineLoggerFactory;
@@ -105,8 +110,22 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             resetChartAttr(chart, newPlot);
             //切换图表时，数据配置不变,分类个数也不变
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
+            //切换类型埋点
+            ChartInfoCollector.getInstance().updateChartTypeTime(chart);
 
         }
+        if(chart instanceof VanChart
+                && !acceptDefinition(((VanChart) chart).getChartDataDefinition(), newPlot)) {
+            ((VanChart) chart).setChartDataDefinition(null);
+        }
+    }
+
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        if(definition instanceof AbstractDataDefinition) {
+            AbstractColumnFieldCollection columnFieldCollection = ((AbstractDataDefinition) definition).getColumnFieldCollection();
+            return columnFieldCollection instanceof MultiCategoryColumnFieldCollection;
+        }
+        return false;
     }
 
     protected void resetChartAttr4SamePlot(Chart chart){
@@ -116,7 +135,10 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
     protected void resetChartAttr(Chart chart, Plot newPlot){
         chart.setPlot(newPlot);
         if(newPlot.isSupportZoomDirection() && !newPlot.isSupportZoomCategoryAxis()){
-            ((VanChart)chart).setVanChartZoom(new VanChartZoom());
+            //图表缩放新设计 恢复用注释。下面一行删除。
+            ((VanChart) chart).setVanChartZoom(new VanChartZoom());
+            //图表缩放新设计 恢复用注释。下面一行取消注释。
+            // ((VanChart) chart).setZoomAttribute(new ZoomAttribute());
         }
         //重置工具栏选项
         ((VanChart)chart).setVanChartTools(createVanChartTools());

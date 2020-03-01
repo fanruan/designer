@@ -18,9 +18,7 @@ import com.fr.design.utils.ComponentUtils;
 import com.fr.design.utils.gui.LayoutUtils;
 import com.fr.stable.ArrayUtils;
 
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -177,19 +175,36 @@ public class SelectionModel {
     }
 
     private void pasteXWFitLayout() {
-        //自适应布局编辑器内部左上角第一个坐标点
-        int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
-        int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
-        //选中第一个坐标点坐在的组件
-        selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
-        Rectangle rectangle = selection.getRelativeBounds();
-        if (hasSelectedPasteSource()) {
-            selectedPaste();
+        if (selection.getSelectedCreator().getClass().equals(XWTabFitLayout.class)) {
+            XLayoutContainer container = (XLayoutContainer) selection.getSelectedCreator();
+            //tab布局编辑器内部左上角第一个坐标点
+            int leftUpX = container.toData().getMargin().getLeft() + 1;
+            int leftUpY = container.toData().getMargin().getTop() + 1;
+            //选中第一个坐标点坐在的组件
+            selection.setSelectedCreator((XCreator) container.getComponentAt(leftUpX, leftUpY));
+            Rectangle rectangle = selection.getRelativeBounds();
+            if (hasSelectedPasteSource()) {
+                selectedPaste();
+            } else {
+                FormSelectionUtils.paste2Container(designer, container, clipboard,
+                        rectangle.x + rectangle.width / 2,
+                        rectangle.y + DELTA_X_Y);
+            }
         } else {
-            FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
-                    clipboard,
-                    rectangle.x + rectangle.width / 2,
-                    rectangle.y + DELTA_X_Y);
+            //自适应布局编辑器内部左上角第一个坐标点
+            int leftUpX = designer.getRootComponent().toData().getMargin().getLeft() + 1;
+            int leftUpY = designer.getRootComponent().toData().getMargin().getTop() + 1;
+            //选中第一个坐标点坐在的组件
+            selection.setSelectedCreator((XCreator) designer.getRootComponent().getComponentAt(leftUpX, leftUpY));
+            Rectangle rectangle = selection.getRelativeBounds();
+            if (hasSelectedPasteSource()) {
+                selectedPaste();
+            } else {
+                FormSelectionUtils.paste2Container(designer, designer.getRootComponent(),
+                        clipboard,
+                        rectangle.x + rectangle.width / 2,
+                        rectangle.y + DELTA_X_Y);
+            }
         }
     }
 

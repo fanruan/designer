@@ -17,6 +17,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.scrollruler.ModLineBorder;
+import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 import com.fr.third.guava.base.Strings;
@@ -220,6 +221,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
             updateHttpsConfigPanel();
 
             remoteWorkspaceURL.setHttps(isHttps);
+            // reset下url，将勾选状态是否htpps加到url里
+            remoteWorkspaceURL.resetUrl();
+
             fillRemoteEnvURLField();
             fillIndividualField();
         }
@@ -561,6 +565,9 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
                     return TestConnectionResult.parse(WorkContext.getConnector().testConnection(connection), connection);
                 } catch (WorkspaceAuthException ignored) {
                     return AUTH_FAILED;
+                } catch (RegistEditionException e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    throw e;
                 }
             }
 

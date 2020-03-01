@@ -1,6 +1,6 @@
 package com.fr.design.chartx.fields.diff;
 
-import com.fr.chartx.data.field.diff.AbstractColumnFieldCollectionWithSeriesValue;
+import com.fr.chartx.data.field.diff.ColumnFieldCollectionWithSeriesValue;
 import com.fr.design.chartx.component.SeriesValueFieldComboBoxPane;
 import com.fr.design.chartx.fields.AbstractDataSetFieldsPane;
 
@@ -12,7 +12,7 @@ import java.awt.BorderLayout;
  * Created by shine on 2019/5/16.
  * 带有 自定义系列名（fr表现为 系列名使用字段名） 的字段集合 的一个pane
  */
-public abstract class AbstractDataSetFieldsWithSeriesValuePane<T extends AbstractColumnFieldCollectionWithSeriesValue>
+public abstract class AbstractDataSetFieldsWithSeriesValuePane<T extends ColumnFieldCollectionWithSeriesValue>
         extends AbstractDataSetFieldsPane<T> {
 
     private SeriesValueFieldComboBoxPane seriesValueFieldComboBoxPane;
@@ -61,11 +61,11 @@ public abstract class AbstractDataSetFieldsWithSeriesValuePane<T extends Abstrac
         seriesValueFieldComboBoxPane.refreshBoxListWithSelectTableData(columnNameList);
     }
 
-    protected void populateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+    protected void populateSeriesValuePane(ColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
         seriesValueFieldComboBoxPane.populateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 
-    protected void updateSeriesValuePane(AbstractColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
+    protected void updateSeriesValuePane(ColumnFieldCollectionWithSeriesValue fieldCollectionWithSeriesValue) {
         seriesValueFieldComboBoxPane.updateBean(fieldCollectionWithSeriesValue.getSeriesValueCorrelationDefinition());
     }
 }

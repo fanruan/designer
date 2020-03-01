@@ -59,7 +59,7 @@ public class StructureCellDataFieldsPane extends AbstractCellDataFieldsPane<Stru
                 nodeName,
                 nodeId,
                 parentId,
-                nodeValue,
+                seriesName,
                 nodeValue,
         };
     }
