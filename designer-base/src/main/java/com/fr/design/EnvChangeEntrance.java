@@ -43,7 +43,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -240,7 +244,7 @@ public class EnvChangeEntrance {
                     textBuilder.append(descriptionOfCN).append("\n");
                 }
                 String areaText = textBuilder.toString();
-                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), areaText, localBranch, remoteBranch);
+                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), selectedEnv, areaText, localBranch, remoteBranch);
                 dialog.setVisible(true);
             }
         }
@@ -249,12 +253,29 @@ public class EnvChangeEntrance {
     /**
      * 判断是否需要做版本验证，判断依据为
      * 1、选择的环境为远程环境
-     * 2、一个月内不弹出是否勾选（这里预留，还未实际增加）
+     * 2、一个月内不弹出是否勾选
      * @param selectedEnv 选择的环境
      * @return
      */
     private  boolean needCheckBranch(DesignerWorkspaceInfo selectedEnv){
-        return selectedEnv.getType() == DesignerWorkspaceType.Remote;
+        if(selectedEnv.getType() == DesignerWorkspaceType.Remote){
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Calendar calendar = Calendar.getInstance();
+                //获取记录的时间
+                Date remindTime = format.parse(selectedEnv.getRemindTime());
+                calendar.setTime(remindTime);
+                //获取一个月后的时间
+                calendar.add(Calendar.MONTH,1);
+                //与当前时间作对比，然后判断是否提示
+                if(new Date().after(calendar.getTime())){
+                    return true;
+                }
+            } catch (ParseException e) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
