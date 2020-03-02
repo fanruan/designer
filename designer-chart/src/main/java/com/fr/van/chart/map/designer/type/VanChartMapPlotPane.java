@@ -10,6 +10,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
+import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.data.VanMapDefinition;
 import com.fr.plugin.chart.map.server.CompatibleGEOJSONHelper;
@@ -87,6 +88,21 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
             if (!isSamePlot() || (typeChanged && isSamePlot())) {
                 resetAttr(plot);
             }
+        }
+    }
+
+    /**
+     * 同一个地图， 类型之间切换
+     */
+    @Override
+    protected void cloneOldPlot2New(Plot oldPlot, Plot newPlot) {
+        super.cloneOldPlot2New(oldPlot, newPlot);
+        try {
+            if (((VanChartMapPlot) oldPlot).getMatchResult() != null) {
+                ((VanChartMapPlot) newPlot).setMatchResult((MapMatchResult) ((VanChartMapPlot) oldPlot).getMatchResult().clone());
+            }
+        } catch (CloneNotSupportedException e) {
+            FineLoggerFactory.getLogger().error("Error in change plot");
         }
     }
 

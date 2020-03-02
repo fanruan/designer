@@ -15,6 +15,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.utils.gui.UIComponentUtils;
+import com.fr.van.chart.map.designer.data.contentpane.table.VanMapTableDataContentPane;
 
 import javax.swing.BorderFactory;
 import java.awt.BorderLayout;
@@ -75,6 +76,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		}
 		if(dataContentPane != null) {
 			dataContentPane.onSelectTableData(dataWrap);
+			dataContentPane.setTableName(dataWrap.getTableDataName());
 		}
 	}
 
@@ -124,6 +126,13 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
+
+	public void refreshLevel(int level){
+		if(dataContentPane instanceof VanMapTableDataContentPane) {
+			((VanMapTableDataContentPane) dataContentPane).setLevel(level);
+		}
+	}
+
 	/**
 	 * 更新界面属性
 	 */

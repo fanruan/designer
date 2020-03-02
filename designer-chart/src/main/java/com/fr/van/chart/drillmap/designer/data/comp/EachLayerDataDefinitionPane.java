@@ -11,14 +11,15 @@ import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
+import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.CardLayout;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -90,12 +91,14 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
     }
 
     private void populatePaneList(ChartCollection chartCollection) {
+        List<MapMatchResult> matchResultList = ((VanChartDrillMapPlot) chartCollection.getSelectedChartProvider(Chart.class).getPlot()).getMatchResultList();
         for (int i = 0, len = paneList.size(); i < len; i++) {
             BasicPane basicPane = paneList.get(i);
             MapType mapType = oldMapList.get(i);
             if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ChartCollection clone = MapDataPaneHelper.getLayerChartCollection(chartCollection, i, mapType);
-                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone);
+                ((VanChartDrillMapPlot)clone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResultList(matchResultList);
+                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone, i);
             }
         }
     }

@@ -6,16 +6,26 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.gui.icombobox.UIComboBox;
 
 import javax.swing.JSeparator;
+import java.util.List;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.List;
 
 public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCollection>{
 
 	protected static final double COMPONENT_WIDTH = 124;
 
 	private boolean isNeedSummaryCaculateMethod = true;
+
+	public String tableName;
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 	
 	public abstract void updateBean(ChartCollection ob);
 	

@@ -196,7 +196,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
         matchResultTable.populateBean(matchResult);
 
-        if (matchResult != null && matchResult.getTableName() != null) {
+        if (matchResult != null && StringUtils.isNotEmpty(matchResult.getTableName())) {
             tableName = matchResult.getTableName();
             areaName = matchResult.getColumnName();
         }

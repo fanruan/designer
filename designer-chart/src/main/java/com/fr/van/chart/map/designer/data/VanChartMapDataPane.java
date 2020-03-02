@@ -1,9 +1,12 @@
 package com.fr.van.chart.map.designer.data;
 
+import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
+import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.data.VanMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 
@@ -54,26 +57,37 @@ public class VanChartMapDataPane extends ChartDataPane {
 
         repeatLayout(collection);
 
+        MapMatchResult matchResult = ((VanChartMapPlot) collection.getSelectedChartProvider(Chart.class).getPlot()).getMatchResult();
+
+        ChartCollection areaClone;
+        ChartCollection pointClone;
+        ChartCollection lineClone;
         switch (mapType) {
             case AREA:
-                ChartCollection areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
+                areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
+                ((VanChartMapPlot)areaClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(areaClone);
                 break;
             case POINT:
-                ChartCollection pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
+                pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
+                ((VanChartMapPlot)pointClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(pointClone);
                 break;
             case LINE:
-                ChartCollection lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
+                lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
+                ((VanChartMapPlot)lineClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(lineClone);
                 break;
             case CUSTOM:
-                ChartCollection areaClone1 = MapDataPaneHelper.getAreaMapChartCollection(collection);
-                ChartCollection pointClone1 = MapDataPaneHelper.getPointMapChartCollection(collection);
-                ChartCollection lineClone1 = MapDataPaneHelper.getLineMapChartCollection(collection);
-                ((CustomMapChartDataContentsPane) contentsPane).populateAreaMap(areaClone1);
-                ((CustomMapChartDataContentsPane) contentsPane).populatePointMap(pointClone1);
-                ((CustomMapChartDataContentsPane) contentsPane).populateLineMap(lineClone1);
+                areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
+                pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
+                lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
+                ((VanChartMapPlot)areaClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
+                ((VanChartMapPlot)pointClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
+                ((VanChartMapPlot)lineClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
+                ((CustomMapChartDataContentsPane) contentsPane).populateAreaMap(areaClone);
+                ((CustomMapChartDataContentsPane) contentsPane).populatePointMap(pointClone);
+                ((CustomMapChartDataContentsPane) contentsPane).populateLineMap(lineClone);
         }
 
     }

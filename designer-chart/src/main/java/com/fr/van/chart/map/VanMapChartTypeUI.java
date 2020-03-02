@@ -21,6 +21,7 @@ import com.fr.van.chart.map.designer.data.contentpane.report.VanLineMapPlotRepor
 import com.fr.van.chart.map.designer.data.contentpane.report.VanPointMapPlotReportDataContentPane;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanAreaMapPlotTableDataContentPane;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanLineMapPlotTableDataContentPane;
+import com.fr.van.chart.map.designer.data.contentpane.table.VanMapTableDataContentPane;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
 import com.fr.van.chart.map.designer.other.VanChartMapOtherPane;
 import com.fr.van.chart.map.designer.other.condition.pane.VanChartMapConditionPane;
@@ -77,9 +78,12 @@ public class VanMapChartTypeUI extends AbstractIndependentVanChartUI {
 
     //图表数据结构 恢复用注释。删除下面5个方法 getTableDataSourcePane getReportDataSourcePane getChartDataPane areaPlot linePlot。
     public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return areaPlot(plot) ? new VanAreaMapPlotTableDataContentPane(parent)
+        VanMapTableDataContentPane vanMapTableDataContentPane = areaPlot(plot) ? new VanAreaMapPlotTableDataContentPane(parent)
                 : linePlot(plot) ? new VanLineMapPlotTableDataContentPane(parent)
                 : new VanPointMapPlotTableDataContentPane(parent);
+
+        vanMapTableDataContentPane.setPlot((VanChartMapPlot)plot);
+        return vanMapTableDataContentPane;
     }
 
     public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
