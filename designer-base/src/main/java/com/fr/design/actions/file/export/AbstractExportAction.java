@@ -177,9 +177,9 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
 
 
                 } catch (RemoteDesignPermissionDeniedException exp) {
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     this.setProgress(100);
                     target.closeTemplate();
-                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Engine_Remote_Design_Permission_Denied"),
@@ -188,9 +188,9 @@ public abstract class AbstractExportAction<E extends JTemplate<?, ?>> extends JT
                             UIManager.getIcon("OptionPane.errorIcon")
                     );
                 } catch (Exception exp) {
+                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     this.setProgress(100);
                     target.closeTemplate();
-                    FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
                     JOptionPane.showMessageDialog(
                             DesignerContext.getDesignerFrame(),
                             Toolkit.i18nText("Fine-Design_Report_Export_Failed") + "\n" + path,
