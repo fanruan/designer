@@ -44,6 +44,11 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     }
 
     @Override
+    public String getRemindTime() {
+        return null;
+    }
+
+    @Override
     public WorkspaceConnectionInfo getConnection() {
         return null;
     }
