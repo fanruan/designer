@@ -244,7 +244,7 @@ public class EnvChangeEntrance {
                     textBuilder.append(descriptionOfCN).append("\n");
                 }
                 String areaText = textBuilder.toString();
-                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), selectedEnv, areaText, localBranch, remoteBranch);
+                CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), areaText, localBranch, remoteBranch);
                 dialog.setVisible(true);
             }
         }

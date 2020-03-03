@@ -1,6 +1,6 @@
 package com.fr.design.write.submit;
 
-import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -36,11 +36,9 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
     private JPanel centerPanel;
     private JPanel bottomPanel;
     private UICheckBox remindBox;
-    private DesignerWorkspaceInfo selectEnv;
 
-    public CheckServiceDialog(Frame parent, DesignerWorkspaceInfo selectEnv, String areaText, String localBranch, String remoteBranch){
+    public CheckServiceDialog(Frame parent, String areaText, String localBranch, String remoteBranch){
         super(parent,true);
-        this.selectEnv = selectEnv;
         //上面的标签面板
         topPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
         JPanel imagePanel = new JPanel();
@@ -114,15 +112,12 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            boolean needRemind = remindBox.isSelected();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String remindTime = format.format(new Date());
-            if(needRemind){
-                //前面做过验证，一定是远程环境，直接强转
-                ((RemoteDesignerWorkspaceInfo)selectEnv).setRemindTime(remindTime);
-            }else {
-                ((RemoteDesignerWorkspaceInfo)selectEnv).setRemindTime("");
-            }
+            //环境已切换，通过当前环境获取，一定是远程环境
+            String currentEnvName = DesignerEnvManager.getEnvManager().getCurEnvName();
+            RemoteDesignerWorkspaceInfo currentEnv = (RemoteDesignerWorkspaceInfo)DesignerEnvManager.getEnvManager().getWorkspaceInfo(currentEnvName);
+            currentEnv.setRemindTime(remindBox.isSelected()? remindTime : "");
         }
     };
 
