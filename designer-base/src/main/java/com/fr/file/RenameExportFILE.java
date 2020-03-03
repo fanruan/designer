@@ -99,4 +99,9 @@ public class RenameExportFILE extends AbstractFILE {
         }
         return out;
     }
+
+    @Override
+    public void closeTemplate() throws Exception {
+        //do nothing
+    }
 }
