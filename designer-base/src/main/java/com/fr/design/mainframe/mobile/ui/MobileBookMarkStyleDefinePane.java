@@ -30,11 +30,15 @@ public class MobileBookMarkStyleDefinePane extends BasicBeanPane<MobileBookMarkS
 
     private void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         JPanel settingPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
         if (!ComparatorUtils.equals(displayName, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_None_BookMark_Style"))) {
+            JPanel hintLabelPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+            hintLabelPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
             UILabel hintLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_BookMark_Style_Hint"));
             hintLabel.setForeground(Color.GRAY);
-            settingPane.add(hintLabel, BorderLayout.NORTH);
+            hintLabelPane.add(hintLabel);
+            settingPane.add(hintLabelPane, BorderLayout.NORTH);
         }
         settingPane.add(this.customDefinePane, BorderLayout.CENTER);
         this.add(settingPane, BorderLayout.CENTER);
