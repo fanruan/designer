@@ -166,6 +166,13 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         return ((VanChartPlot) plot).isInCustom() ? null : radiusPaneWithTitle;
     }
 
+    //沿用半径界面，使用不同的title和radius
+    protected JPanel createRadiusPane(String title) {
+        radiusPane = initRadiusPane();
+        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(title, radiusPane);
+        return ((VanChartPlot) plot).isInCustom() ? null : radiusPaneWithTitle;
+    }
+
     //大数据模式 恢复用注释。删除下面4个方法 createLargeDataModelPane checkLarge createLargeDataModelPane createLargeDataModelGroup。
     protected JPanel createLargeDataModelPane() {
         largeDataModelGroup = createLargeDataModelGroup();

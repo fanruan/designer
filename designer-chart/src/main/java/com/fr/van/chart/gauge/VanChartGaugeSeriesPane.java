@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -45,6 +46,8 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     private ColorSelectBox innerPaneBackgroundColor;//内底盘背景颜色
 
     private UIColorPickerPane colorPickerPane;
+
+    private UISpinner thermometerWidth;
 
     public VanChartGaugeSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
@@ -133,7 +136,8 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Length_Set")), null},
+                        getThermometerWidth()
                 };
             default:
                 return new Component[][]{
@@ -170,6 +174,11 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     private Component[] getSlotBackgroundColor() {
         slotBackgroundColor = new ColorSelectBox(120);
         return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Slot_Background")),slotBackgroundColor};
+    }
+
+    private Component[] getThermometerWidth() {
+        thermometerWidth = new UISpinner(0, Double.MAX_VALUE, 0.1, 10);
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Thermometer_Width")),thermometerWidth};
     }
 
     private void initRotate() {
@@ -218,6 +227,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             if(innerPaneBackgroundColor != null){
                 innerPaneBackgroundColor.setSelectObject(detailStyle.getInnerPaneBackgroundColor());
             }
+            if(thermometerWidth != null){
+                thermometerWidth.setValue(detailStyle.getThermometerWidth());
+            }
 
             colorPickerPane.populateBean(detailStyle.getHotAreaColor());
         }
@@ -255,6 +267,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
             if(innerPaneBackgroundColor != null){
                 detailStyle.setInnerPaneBackgroundColor(innerPaneBackgroundColor.getSelectObject());
+            }
+            if(thermometerWidth != null){
+                detailStyle.setThermometerWidth(thermometerWidth.getValue());
             }
 
             colorPickerPane.updateBean(detailStyle.getHotAreaColor());
