@@ -13,6 +13,8 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
     private String name;
 
+    private String remindTime;
+
     private WorkspaceConnectionInfo connection;
 
     public static RemoteDesignerWorkspaceInfo create(WorkspaceConnectionInfo connection) {
@@ -45,11 +47,21 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
         return connection;
     }
 
+    public void setRemindTime(String remindTime){
+        this.remindTime = remindTime;
+    }
+
+    @Override
+    public String getRemindTime(){
+        return remindTime;
+    }
+
     @Override
     public void readXML(XMLableReader reader) {
 
         if (reader.isAttr()) {
             this.name = reader.getAttrAsString("name", StringUtils.EMPTY);
+            this.remindTime = reader.getAttrAsString("remindTime", StringUtils.EMPTY);
         }
         if (reader.isChildNode()) {
             String tagName = reader.getTagName();
@@ -69,6 +81,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     public void writeXML(XMLPrintWriter writer) {
 
         writer.attr("name", name);
+        writer.attr("remindTime", remindTime);
         if (this.connection != null) {
             writer.startTAG("Connection");
             writer.attr("url", connection.getUrl());
