@@ -131,6 +131,11 @@ public class EnvChangeEntrance {
                     }
                 }
             });
+            // REPORT-25688如果是war包部署的服务器，给与提示
+            if (WorkContext.getCurrent().isWarDeploy()) {
+                FineJOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Basic_War_Deploy_Tip"),
+                        Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.INFORMATION_MESSAGE);
+            }
             //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
             JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             if (template != null) {
