@@ -80,8 +80,7 @@ public class MatchAreaTable extends JTable {
             return;
         }
         int index = areaNameIndex.get(areaName);
-        Map<String, String> resultMap = ChartGEOJSONHelper.matchArea(new Object[]{areaName}, items);
-        String result = resultMap.get(areaName);
+        String result = ChartGEOJSONHelper.matchArea(GeneralUtils.objectToString(areaName), items);
         getColumnModel().getColumn(1).getCellEditor().stopCellEditing();
         this.setValueAt(result, index, 1);
     }

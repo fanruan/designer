@@ -78,6 +78,11 @@ public class SingleLayerDataDefinitionPane extends FurtherBasicBeanPane<ChartCol
 
     }
 
+    public void populateBean(ChartCollection ob, int level) {
+        normalChartDataPane.populate(ob, level);
+
+    }
+
     @Override
     public void updateBean(ChartCollection ob) {
         normalChartDataPane.update(ob);

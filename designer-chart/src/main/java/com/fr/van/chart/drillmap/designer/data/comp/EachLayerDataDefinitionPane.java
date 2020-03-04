@@ -16,9 +16,9 @@ import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.CardLayout;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -95,7 +95,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
             MapType mapType = oldMapList.get(i);
             if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ChartCollection clone = MapDataPaneHelper.getLayerChartCollection(chartCollection, i, mapType);
-                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone);
+                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone, i);
             }
         }
     }

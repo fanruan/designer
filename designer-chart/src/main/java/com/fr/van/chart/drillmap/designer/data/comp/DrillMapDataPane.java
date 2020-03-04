@@ -8,12 +8,13 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
+import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -77,7 +78,8 @@ public class DrillMapDataPane extends BasicBeanPane<ChartCollection> {
         dataDefinitionType.setSelectedIndex(MapDataPaneHelper.isFromBottomData(ob) ? 0 : 1);
 
         ChartCollection bottomDataChartCollection = MapDataPaneHelper.getBottomDataDrillMapChartCollection(ob);
-        bottomDataDefinitionPane.populateBean(bottomDataChartCollection);
+
+        bottomDataDefinitionPane.populateBean(bottomDataChartCollection, ChartGEOJSONHelper.BOTTOM_LEVEL);
         eachLayerDataDefinitionPane.populateBean(ob);
 
         parent.initAllListeners();

@@ -49,7 +49,6 @@ public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
         return tools;
     }
 
-
     protected Chart[] getDefaultCharts() {
         return DrillMapIndependentVanChart.DrillMapVanCharts;
     }

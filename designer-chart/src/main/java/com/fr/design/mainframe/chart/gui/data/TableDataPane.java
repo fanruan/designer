@@ -75,6 +75,7 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 		}
 		if(dataContentPane != null) {
 			dataContentPane.onSelectTableData(dataWrap);
+			dataContentPane.setTableName(dataWrap.getTableDataName());
 		}
 	}
 
@@ -124,6 +125,11 @@ public class TableDataPane extends FurtherBasicBeanPane<ChartCollection>{
 			add(dataContentPane, BorderLayout.CENTER);
 		}
 	}
+
+	public void refreshLevel(int level){
+		dataContentPane.refreshLevel(level);
+	}
+
 	/**
 	 * 更新界面属性
 	 */
