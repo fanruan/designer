@@ -122,14 +122,14 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         new Component[]{null, null},
                         getPaneBackgroundColor(),
                         getInnerPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
                 };
             case SLOT:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
                 };
             case THERMOMETER:
                 return new Component[][]{
@@ -146,7 +146,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         getHingeBackgroundColor(),
                         getNeedleColor(),
                         getPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
                 };
         }
     }

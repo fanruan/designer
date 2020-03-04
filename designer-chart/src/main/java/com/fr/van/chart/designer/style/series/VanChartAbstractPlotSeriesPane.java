@@ -160,13 +160,6 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     }
 
     //半径界面
-    protected JPanel createRadiusPane() {
-        radiusPane = initRadiusPane();
-        radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set"), radiusPane);
-        return ((VanChartPlot) plot).isInCustom() ? null : radiusPaneWithTitle;
-    }
-
-    //沿用半径界面，使用不同的title和radius
     protected JPanel createRadiusPane(String title) {
         radiusPane = initRadiusPane();
         radiusPaneWithTitle = TableLayout4VanChartHelper.createGapTableLayoutPane(title, radiusPane);

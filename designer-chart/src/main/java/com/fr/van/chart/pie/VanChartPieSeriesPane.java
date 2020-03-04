@@ -61,7 +61,7 @@ public class VanChartPieSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Angle")),startAngle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Angle")),endAngle},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner_Radius")),innerRadius},
-                new Component[]{createRadiusPane(),null},
+                new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")),null},
                 new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rotation")),supportRotation}
         };
 
