@@ -3,6 +3,7 @@ package com.fr.start;
 import com.fr.process.FineProcess;
 import com.fr.process.engine.FineJavaProcessFactory;
 import com.fr.process.engine.core.FineProcessContext;
+import com.fr.stable.StableUtils;
 
 /**
  * @author hades
@@ -32,6 +33,7 @@ public class DesignerLauncher {
                 inheritJvmSettings().
                 jvmSettings(DesignerJavaRuntime.getInstance().getJvmOptions()).
                 arguments(args).
+                directory(StableUtils.getInstallHome()).
                 startProcess(DesignerProcessType.INSTANCE);
         DesignerSuperListener.getInstance().start();
     }
