@@ -2,6 +2,7 @@ package com.fr.van.chart.gauge;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
+import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
@@ -48,6 +49,7 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     private UIColorPickerPane colorPickerPane;
 
     private UISpinner thermometerWidth;
+    private UINumberDragPane chutePercent;
 
     public VanChartGaugeSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
@@ -122,14 +124,16 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         new Component[]{null, null},
                         getPaneBackgroundColor(),
                         getInnerPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null},
+                        getChutePercent()
                 };
             case SLOT:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
+                        new Component[]{createRadiusPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null},
+                        getChutePercent()
                 };
             case THERMOMETER:
                 return new Component[][]{
@@ -181,6 +185,11 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Thermometer_Width")),thermometerWidth};
     }
 
+    private Component[] getChutePercent() {
+        chutePercent = new UINumberDragPane(0, 100, 1);
+        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Chute_Percent")),chutePercent};
+    }
+
     private void initRotate() {
         rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
     }
@@ -230,6 +239,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             if(thermometerWidth != null){
                 thermometerWidth.setValue(detailStyle.getThermometerWidth());
             }
+            if(chutePercent != null){
+                chutePercent.populateBean(detailStyle.getChutePercent());
+            }
 
             colorPickerPane.populateBean(detailStyle.getHotAreaColor());
         }
@@ -270,6 +282,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
             if(thermometerWidth != null){
                 detailStyle.setThermometerWidth(thermometerWidth.getValue());
+            }
+            if(chutePercent != null){
+                detailStyle.setChutePercent(chutePercent.updateBean());
             }
 
             colorPickerPane.updateBean(detailStyle.getHotAreaColor());
