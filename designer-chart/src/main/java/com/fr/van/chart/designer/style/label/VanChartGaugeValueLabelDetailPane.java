@@ -1,8 +1,6 @@
 package com.fr.van.chart.designer.style.label;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.plugin.chart.gauge.VanChartGaugePlot;
-import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithCateValue;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithOutCate;
@@ -17,16 +15,8 @@ import java.awt.Component;
 public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailPane {
     private static final long serialVersionUID = 2601073419430634281L;
 
-    private GaugeStyle gaugeStyle;
-
     public VanChartGaugeValueLabelDetailPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
-    }
-
-    private void initGaugeStyle(Plot plot) {
-        if(gaugeStyle == null){
-            gaugeStyle = ((VanChartGaugePlot)plot).getGaugeStyle();
-        }
     }
 
     protected void initToolTipContentPane(Plot plot) {

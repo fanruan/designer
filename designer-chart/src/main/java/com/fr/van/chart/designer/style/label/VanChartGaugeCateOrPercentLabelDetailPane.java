@@ -4,8 +4,6 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
-
-import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithCate;
@@ -24,20 +22,12 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
 
     private static final long serialVersionUID = 5176535960949074945L;
 
-    private GaugeStyle gaugeStyle;
-
     public VanChartGaugeCateOrPercentLabelDetailPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
     }
 
     protected double[] getLabelPaneRowSize(Plot plot, double p) {
         return hasLabelPosition(plot) ? new double[]{p,p,p} : new double[]{p,p};
-    }
-
-    private void initGaugeStyle(Plot plot) {
-        if(gaugeStyle == null){
-            gaugeStyle = ((VanChartGaugePlot)plot).getGaugeStyle();
-        }
     }
 
     protected void initToolTipContentPane(Plot plot) {

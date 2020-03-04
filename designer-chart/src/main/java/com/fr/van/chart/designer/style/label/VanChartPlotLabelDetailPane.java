@@ -11,6 +11,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.i18n.Toolkit;
 
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.attr.plot.VanChartLabelPositionPlot;
@@ -65,6 +66,10 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         this.add(contentPane,BorderLayout.CENTER);
     }
 
+    public Plot getPlot() {
+        return plot;
+    }
+
     //默认从factory中取
     protected void initToolTipContentPane(Plot plot) {
         dataLabelContentPane = PlotFactory.createPlotLabelContentPane(plot, parent, VanChartPlotLabelDetailPane.this);
@@ -85,7 +90,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         if(hasLabelPosition(plot)){
             return new Component[][]{
                     new Component[]{dataLabelContentPane,null},
-                    new Component[]{createLabelPositionPane(new double[]{p,p,p}, columnSize, plot),null},
+                    new Component[]{createLabelPositionPane(Toolkit.i18nText("Fine-Design_Chart_Layout_Position"), plot), null},
                     new Component[]{createLabelStylePane(getLabelStyleRowSize(p), columnSize, plot),null},
             };
         } else {
@@ -112,7 +117,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(title, panel);
     }
 
-    private TwoTuple<String[], Integer[]> getPositionNamesAndValues() {
+    protected TwoTuple<String[], Integer[]> getPositionNamesAndValues() {
         if (plot instanceof VanChartLabelPositionPlot) {
 
             String[] names = ((VanChartLabelPositionPlot) plot).getLabelLocationNameArray();
@@ -130,7 +135,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         return null;
     }
 
-    private JPanel createLabelPositionPane(double[] row, double[] col, Plot plot) {
+    protected JPanel createLabelPositionPane(String title, Plot plot) {
 
         if (getPositionNamesAndValues() == null) {
             return new JPanel();
@@ -141,7 +146,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         JPanel panel = new JPanel(new BorderLayout());
 
         positionPane = new JPanel();
-        checkPositionPane();
+        checkPositionPane(title);
         panel.add(positionPane, BorderLayout.CENTER);
 
 
@@ -156,7 +161,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         return panel;
     }
 
-    private void checkPositionPane() {
+    protected void checkPositionPane(String title) {
         if (positionPane == null) {
             return;
         }
@@ -176,7 +181,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         Component[][] comps = new Component[2][2];
 
         comps[0] = new Component[]{null, null};
-        comps[1] = new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position"), SwingConstants.LEFT), position};
+        comps[1] = new Component[]{new UILabel(title, SwingConstants.LEFT), position};
 
         double[] row = new double[]{TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.PREFERRED};
         double[] col = new double[]{TableLayout.FILL, TableLayout4VanChartHelper.EDIT_AREA_WIDTH};
@@ -277,9 +282,12 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         tractionLinePane.setVisible(position.getSelectedItem() == Constants.OUTSIDE);
     }
 
-    public void populate(AttrLabelDetail detail) {
-        checkPositionPane();
+    protected void checkPane(){
+        checkPositionPane(Toolkit.i18nText("Fine-Design_Chart_Layout_Position"));
+    }
 
+    public void populate(AttrLabelDetail detail) {
+        checkPane();
         dataLabelContentPane.populateBean(detail.getContent());
         if(position != null){
             position.setSelectedItem(detail.getPosition());
@@ -306,7 +314,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
         if(position != null && position.getSelectedItem() != null){
             detail.setPosition(position.getSelectedItem());
-            
+
         } else if(position != null){
             position.setSelectedItem(detail.getPosition());
         }
