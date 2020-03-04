@@ -7,6 +7,8 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.mobile.MobileBookMarkStyle;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,6 +25,11 @@ import java.util.Set;
  * Created by hades on 2019/12/23
  */
 public class MobileBookMarkStylePane extends BasicBeanPane<MobileBookMarkStyle> {
+    public static final int LEFT_PANEL_WIDTH = 140;
+    public static final int LEFT_PANEL_HEIGHT = 565;
+    public static final int RIGHT_PANEL_WIDTH = 510;
+    public static final int RIGHT_PANEL_HEIGHT = 565;
+
 
     public static ListCellRenderer renderer = new DefaultListCellRenderer() {
         @Override
@@ -48,6 +55,7 @@ public class MobileBookMarkStylePane extends BasicBeanPane<MobileBookMarkStyle> 
 
     private void initComponent() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.listModel = new DefaultListModel<>();
         this.card = new CardLayout();
         this.rightPane = FRGUIPaneFactory.createCardLayout_S_Pane();
@@ -79,14 +87,16 @@ public class MobileBookMarkStylePane extends BasicBeanPane<MobileBookMarkStyle> 
             }
         });
         JPanel leftPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
+        leftPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         leftPanel.add(bookMarkList, BorderLayout.CENTER);
-        leftPanel.setPreferredSize(new Dimension(100, 500));
+        leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, LEFT_PANEL_HEIGHT));
         this.add(leftPanel, BorderLayout.WEST);
     }
 
     private void initRightPanel() {
         JPanel centerPane = FRGUIPaneFactory.createBorderLayout_L_Pane();
-        centerPane.setPreferredSize(new Dimension(500, 500));
+        centerPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        centerPane.setPreferredSize(new Dimension(RIGHT_PANEL_WIDTH, RIGHT_PANEL_HEIGHT));
         centerPane.add(rightPane, BorderLayout.CENTER);
         this.add(centerPane, BorderLayout.CENTER);
     }
@@ -94,10 +104,12 @@ public class MobileBookMarkStylePane extends BasicBeanPane<MobileBookMarkStyle> 
 
     private List<MobileBookMarkStyleProvider> getMobileBookMarkStyleProvider() {
         DefaultMobileBookMarkStyleProvider defaultMobileBookMarkStyleProvider = new DefaultMobileBookMarkStyleProvider();
+        SidebarMobileBookMarkStyleProvider sidebarMobileBookMarkStyleProvider = new SidebarMobileBookMarkStyleProvider();
         Set<MobileBookMarkStyleProvider> mobileBookMarkStyleProviders = ExtraDesignClassManager.getInstance().getArray(
                 MobileBookMarkStyleProvider.XML_TAG);
         List<MobileBookMarkStyleProvider> list = new ArrayList<>();
         list.add(defaultMobileBookMarkStyleProvider);
+        list.add(sidebarMobileBookMarkStyleProvider);
         list.addAll(mobileBookMarkStyleProviders);
         return Collections.unmodifiableList(list);
     }

@@ -14,17 +14,14 @@ public class DesignerExiter {
 
     public static final DesignerExiter INSTANCE = new DesignerExiter();
 
-    private static final String DOT = ".";
-
     public static DesignerExiter getInstance() {
         return INSTANCE;
     }
 
     public void execute() {
-        if (FineProcessContext.getParentPipe() == null && DOT.equals(StableUtils.getInstallHome())) {
-            System.exit(0);
-        } else {
+        if (FineProcessContext.getParentPipe() != null) {
             FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
         }
+        System.exit(0);
     }
 }

@@ -10,6 +10,9 @@ public interface DesignerWorkspaceInfo extends XMLable {
 
     String getPath();
 
+    //获取提醒时间，用于判断是否做服务检测
+    String getRemindTime();
+
     WorkspaceConnectionInfo getConnection();
 
     boolean checkValid();
