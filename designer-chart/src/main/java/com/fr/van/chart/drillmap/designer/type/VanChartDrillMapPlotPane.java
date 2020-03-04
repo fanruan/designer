@@ -3,20 +3,17 @@ package com.fr.van.chart.drillmap.designer.type;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chartx.data.ChartDataDefinitionProvider;
-import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.drillmap.DrillMapIndependentVanChart;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
-import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
 import com.fr.van.chart.map.designer.type.VanChartMapPlotPane;
 import com.fr.van.chart.map.designer.type.VanChartMapSourceChoosePane;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -50,27 +47,6 @@ public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
         tools.setExport(false);
         tools.setFullScreen(false);
         return tools;
-    }
-
-    /**
-     * 同一个钻取地图， 类型之间切换
-     */
-    @Override
-    protected void cloneOldPlot2New(Plot oldPlot, Plot newPlot) {
-        super.cloneOldPlot2New(oldPlot, newPlot);
-
-        try {
-            List<MapMatchResult> newMatchResultList = new ArrayList<>();
-            List<MapMatchResult> matchResultList = ((VanChartDrillMapPlot) oldPlot).getMatchResultList();
-            if (matchResultList != null) {
-                for (MapMatchResult matchResult : matchResultList) {
-                    newMatchResultList.add((MapMatchResult) matchResult.clone());
-                }
-            }
-            ((VanChartDrillMapPlot) newPlot).setMatchResultList(newMatchResultList);
-        } catch (CloneNotSupportedException e) {
-            FineLoggerFactory.getLogger().error("Error in change plot");
-        }
     }
 
     protected Chart[] getDefaultCharts() {

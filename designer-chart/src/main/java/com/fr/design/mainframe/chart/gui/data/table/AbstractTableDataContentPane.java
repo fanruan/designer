@@ -139,4 +139,8 @@ public abstract class AbstractTableDataContentPane extends BasicBeanPane<ChartCo
 		jSeparator.setPreferredSize(new Dimension(246, 2));
 		return jSeparator;
 	}
+
+	public void refreshLevel(int level) {
+
+	}
 }

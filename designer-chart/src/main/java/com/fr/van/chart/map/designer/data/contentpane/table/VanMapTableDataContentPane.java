@@ -8,6 +8,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -29,25 +30,34 @@ import java.awt.event.ActionListener;
  */
 public abstract class VanMapTableDataContentPane extends AbstractTableDataContentPane {
 
+    private ChartDataPane parent;
+
     private VanChartMapPlot plot;
 
     //钻取地图有层级，默认-1代表无层级关系
     private int level = ChartGEOJSONHelper.DEFAULT_LEVEL;
 
-    public int getLevel() {
-        return level;
+    private MapMatchResult matchResult = new MapMatchResult();
+
+
+    public VanMapTableDataContentPane(ChartDataPane parent){
+        this.parent = parent;
     }
 
     public void setLevel(int level) {
         this.level = level;
     }
 
-    public VanChartMapPlot getPlot() {
-        return plot;
-    }
-
     public void setPlot(VanChartMapPlot plot) {
         this.plot = plot;
+    }
+
+    public MapMatchResult getMatchResult() {
+        return matchResult;
+    }
+
+    public void setMatchResult(MapMatchResult matchResult) {
+        this.matchResult = matchResult;
     }
 
     public JPanel createAreaPanel(final UIComboBox areaBox) {
@@ -66,7 +76,6 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
                 final MapAreaMatchPane pane = new MapAreaMatchPane(treeNodeAndItems);
 
                 String nameTable = getTableName();
-                final MapMatchResult matchResult = plot.getMatchResult(level);
 
                 pane.populateBean(matchResult, nameTable, Utils.objectToString(areaBox.getSelectedItem()));
                 BasicDialog dialog = pane.showWindow(new JFrame());
@@ -74,6 +83,7 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
                     @Override
                     public void doOk() {
                         pane.updateBean(matchResult);
+                        parent.attributeChanged();
                     }
 
                     @Override
@@ -86,5 +96,10 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
         });
         areaPanel.add(uiButton, BorderLayout.EAST);
         return areaPanel;
+    }
+
+    @Override
+    public void refreshLevel(int level) {
+        this.setLevel(level);
     }
 }

@@ -10,7 +10,6 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.table.AbstractLongLatAreaPane;
 import com.fr.van.chart.map.designer.data.component.table.AreaPane;
-import com.fr.van.chart.map.designer.data.component.table.LongLatAreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapAreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapLongLatAreaPane;
 
@@ -222,7 +221,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
                 areaPane = new AreaPane(parentPane) {
                     protected Component[][] getComponent () {
                         return new Component[][]{
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name")), VanPointMapPlotTableDataContentPane.this.createAreaPanel(areaNameCom)}
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), VanPointMapPlotTableDataContentPane.this.createAreaPanel(areaNameCom)}
                         };
                     }
                 };
@@ -231,19 +230,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
     }
 
     protected AbstractLongLatAreaPane createLongLatAreaPane(LongLatAreaTableComboPane longLatAreaTableComboPane) {
-        return new PointMapLongLatAreaPane(longLatAreaTableComboPane) {
-            protected void initAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
-                areaPane = new LongLatAreaPane(parentPane) {
-                    protected Component[][] getComponent () {
-                        return new Component[][]{
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude")), longitudeCom},
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude")), latitudeCom},
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), VanPointMapPlotTableDataContentPane.this.createAreaPanel(areaNameCom)}
-                        };
-                    }
-                };
-            }
-        };
+        return new PointMapLongLatAreaPane(longLatAreaTableComboPane);
     }
 
 }

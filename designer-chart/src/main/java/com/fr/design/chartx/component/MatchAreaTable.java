@@ -1,5 +1,6 @@
 package com.fr.design.chartx.component;
 
+import com.fr.base.Utils;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.GeneralUtils;
@@ -80,8 +81,7 @@ public class MatchAreaTable extends JTable {
             return;
         }
         int index = areaNameIndex.get(areaName);
-        Map<String, String> resultMap = ChartGEOJSONHelper.matchArea(new Object[]{areaName}, items);
-        String result = resultMap.get(areaName);
+        String result = ChartGEOJSONHelper.matchArea(Utils.objectToString(areaName), items);
         getColumnModel().getColumn(1).getCellEditor().stopCellEditing();
         this.setValueAt(result, index, 1);
     }

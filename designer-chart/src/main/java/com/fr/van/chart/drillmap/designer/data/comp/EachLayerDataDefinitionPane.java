@@ -11,7 +11,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
-import com.fr.plugin.chart.map.MapMatchResult;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
@@ -91,13 +90,11 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
     }
 
     private void populatePaneList(ChartCollection chartCollection) {
-        List<MapMatchResult> matchResultList = ((VanChartDrillMapPlot) chartCollection.getSelectedChartProvider(Chart.class).getPlot()).getMatchResultList();
         for (int i = 0, len = paneList.size(); i < len; i++) {
             BasicPane basicPane = paneList.get(i);
             MapType mapType = oldMapList.get(i);
             if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ChartCollection clone = MapDataPaneHelper.getLayerChartCollection(chartCollection, i, mapType);
-                ((VanChartDrillMapPlot)clone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResultList(matchResultList);
                 ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone, i);
             }
         }

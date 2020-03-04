@@ -31,6 +31,7 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
     protected SeriesTypeUseComboxPaneWithOutFilter seriesTypeUseComboxPane;
 
     public VanAreaMapPlotTableDataContentPane(ChartDataPane parent) {
+        super(parent);
         this.setLayout(new BorderLayout(0, 4));
 
         initAreaNameCom();
@@ -139,6 +140,7 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
         if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
             VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
+            mapTableDefinitionProvider.setMatchResult(this.getMatchResult());
             updateDefinition(mapTableDefinitionProvider);
         }
     }
@@ -156,6 +158,7 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
         if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
             VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
+            this.setMatchResult(mapTableDefinitionProvider.getMatchResult());
             populateDefinition(mapTableDefinitionProvider);
         }
     }

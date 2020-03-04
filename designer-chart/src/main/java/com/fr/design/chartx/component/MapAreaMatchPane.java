@@ -261,7 +261,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
     private void populateMatchData(Object[] columnData) {
         Set<String> geoAreas = matchAreaTable.getItems();
 
-        Map<String, String> resultMap = ChartGEOJSONHelper.matchArea(columnData, geoAreas, matchResultTable.getCustomResult());
+        Map<String, String> resultMap = ChartGEOJSONHelper.matchAreaList(columnData, geoAreas, matchResultTable.getCustomResult());
 
         Object[][] data = new Object[resultMap.size()][2];
 

@@ -65,26 +65,20 @@ public class VanChartMapDataPane extends ChartDataPane {
         switch (mapType) {
             case AREA:
                 areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
-                ((VanChartMapPlot)areaClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(areaClone);
                 break;
             case POINT:
                 pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
-                ((VanChartMapPlot)pointClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(pointClone);
                 break;
             case LINE:
                 lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
-                ((VanChartMapPlot)lineClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 contentsPane.populate(lineClone);
                 break;
             case CUSTOM:
                 areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
                 pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
                 lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
-                ((VanChartMapPlot)areaClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
-                ((VanChartMapPlot)pointClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
-                ((VanChartMapPlot)lineClone.getSelectedChartProvider(Chart.class).getPlot()).setMatchResult(matchResult);
                 ((CustomMapChartDataContentsPane) contentsPane).populateAreaMap(areaClone);
                 ((CustomMapChartDataContentsPane) contentsPane).populatePointMap(pointClone);
                 ((CustomMapChartDataContentsPane) contentsPane).populateLineMap(lineClone);
