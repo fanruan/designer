@@ -27,7 +27,6 @@ public class ChartDataPane extends AbstractChartAttrPane {
 	public ChartDataPane(AttributeChangeListener listener) {
 		super();
 		this.listener = listener;
-		this.addAttributeChangeListener(listener);
 	}
 
 	@Override
