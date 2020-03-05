@@ -10,7 +10,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 

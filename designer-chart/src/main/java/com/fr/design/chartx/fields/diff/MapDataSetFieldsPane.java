@@ -9,7 +9,7 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.plugin.chart.vanchart.VanChart;

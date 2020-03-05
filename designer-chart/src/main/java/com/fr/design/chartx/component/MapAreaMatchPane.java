@@ -24,7 +24,7 @@ import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
