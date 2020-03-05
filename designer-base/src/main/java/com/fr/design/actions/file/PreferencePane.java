@@ -38,6 +38,7 @@ import com.fr.general.log.Log4jConfig;
 import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.third.apache.log4j.Level;
 import com.fr.transaction.Configurations;
 import com.fr.transaction.Worker;
@@ -218,10 +219,12 @@ public class PreferencePane extends BasicPane {
         oracleSpace = new UICheckBox(i18nText("Fine-Design_Basic_Show_All_Oracle_Tables"));
         oraclePane.add(oracleSpace);
 
-        JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
-        useOptimizedUPMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
-        upmSelectorPane.add(useOptimizedUPMCheckbox);
-        advancePane.add(upmSelectorPane);
+        if (!OperatingSystem.isLinux()) {
+            JPanel upmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Update_Plugin_Manager"));
+            useOptimizedUPMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_New_Update_Plugin_Manager"));
+            upmSelectorPane.add(useOptimizedUPMCheckbox);
+            advancePane.add(upmSelectorPane);
+        }
 
         JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
         useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
@@ -711,7 +714,9 @@ public class PreferencePane extends BasicPane {
 
         this.portEditor.setValue(new Integer(designerEnvManager.getEmbedServerPort()));
 
-        useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+        if (useOptimizedUPMCheckbox != null) {
+            useOptimizedUPMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseOptimizedUPM());
+        }
 
         useUniverseDBMCheckbox.setSelected(ServerPreferenceConfig.getInstance().isUseUniverseDBM());
 
@@ -832,7 +837,9 @@ public class PreferencePane extends BasicPane {
         Configurations.update(new Worker() {
             @Override
             public void run() {
-                ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                if (useOptimizedUPMCheckbox != null) {
+                    ServerPreferenceConfig.getInstance().setUseOptimizedUPM(useOptimizedUPMCheckbox.isSelected());
+                }
                 ServerPreferenceConfig.getInstance().setUseUniverseDBM(useUniverseDBMCheckbox.isSelected());
             }
 
