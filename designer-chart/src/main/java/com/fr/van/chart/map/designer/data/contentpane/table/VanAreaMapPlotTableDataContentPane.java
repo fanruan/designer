@@ -31,7 +31,6 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
     protected SeriesTypeUseComboxPaneWithOutFilter seriesTypeUseComboxPane;
 
     public VanAreaMapPlotTableDataContentPane(ChartDataPane parent) {
-        super(parent);
         this.setLayout(new BorderLayout(0, 4));
 
         initAreaNameCom();

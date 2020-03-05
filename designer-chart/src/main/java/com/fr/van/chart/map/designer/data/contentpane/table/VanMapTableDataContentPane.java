@@ -8,10 +8,9 @@ import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 
 import javax.swing.JFrame;
@@ -30,19 +29,12 @@ import java.awt.event.ActionListener;
  */
 public abstract class VanMapTableDataContentPane extends AbstractTableDataContentPane {
 
-    private ChartDataPane parent;
-
     private VanChartMapPlot plot;
 
     //钻取地图有层级，默认-1代表无层级关系
     private int level = ChartGEOJSONHelper.DEFAULT_LEVEL;
 
     private MapMatchResult matchResult = new MapMatchResult();
-
-
-    public VanMapTableDataContentPane(ChartDataPane parent){
-        this.parent = parent;
-    }
 
     public void setLevel(int level) {
         this.level = level;
@@ -83,7 +75,6 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
                     @Override
                     public void doOk() {
                         pane.updateBean(matchResult);
-                        parent.attributeChanged();
                     }
 
                     @Override
