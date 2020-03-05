@@ -5,12 +5,17 @@ import com.fr.process.engine.FineJavaProcessFactory;
 import com.fr.process.engine.core.FineProcessContext;
 import com.fr.stable.StableUtils;
 
+import java.io.File;
+
 /**
  * @author hades
  * @version 10.0
  * Created by hades on 2020/2/21
  */
 public class DesignerLauncher {
+
+    private static final String BIN_HOME = ".".equals(StableUtils.getInstallHome()) ?
+                                               "." : StableUtils.getInstallHome() + File.separator + "bin";
 
     private static final DesignerLauncher INSTANCE = new DesignerLauncher();
 
@@ -33,7 +38,7 @@ public class DesignerLauncher {
                 inheritJvmSettings().
                 jvmSettings(DesignerJavaRuntime.getInstance().getJvmOptions()).
                 arguments(args).
-                directory(StableUtils.getInstallHome()).
+                directory(BIN_HOME).
                 startProcess(DesignerProcessType.INSTANCE);
         DesignerSuperListener.getInstance().start();
     }
