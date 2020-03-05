@@ -23,17 +23,18 @@ import com.fr.design.utils.gui.GUICoreUtils;
  * @version 创建时间：2013-1-21 下午03:35:47
  */
 public class ChartTextAttrNoFontSizePane extends ChartTextAttrPane {
-	
+
 	private static final long serialVersionUID = 4890526255627852602L;
 
 	public ChartTextAttrNoFontSizePane() {
 		super();
 	}
-	
+
     protected void initComponents() {
+        initFontSizes();
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         fontColor = new UIColorButton();
-        fontSizeComboBox = new UIComboBox(Font_Sizes);
+        fontSizeComboBox = new UIComboBox(getFontSizes());
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
 

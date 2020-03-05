@@ -21,25 +21,33 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Created by mengao on 2017/8/13.
  */
 public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
-    protected GaugeStyle gaugeStyle;
-    protected UIButtonGroup<Integer> align;
+    private GaugeStyle gaugeStyle;
+    private UIButtonGroup<Integer> align;
     private JPanel alignPane;
-    protected Integer[] oldAlignValues;
+    private Integer[] oldAlignValues;
 
     public VanChartGaugeLabelDetailPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
     }
 
-    protected void initGaugeStyle(Plot plot) {
-        if (gaugeStyle == null) {
-            gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
-        }
+    protected void initLabelDetailPane(Plot plot) {
+        setGaugeStyle(((VanChartGaugePlot) plot).getGaugeStyle());
+        super.initLabelDetailPane(plot);
+    }
+
+    public GaugeStyle getGaugeStyle() {
+        return gaugeStyle;
+    }
+
+    public void setGaugeStyle(GaugeStyle gaugeStyle) {
+        this.gaugeStyle = gaugeStyle;
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
@@ -52,8 +60,26 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return TableLayoutHelper.createTableLayoutPane(getLabelStyleComponents(plot), row, col);
     }
 
+    protected boolean getFontSizeAuto() {
+        return false;
+    }
+
     protected ChartTextAttrPane initTextFontPane() {
-        return new ChartTextAttrPane();
+
+        return new ChartTextAttrPane(getFontSizeAuto()) {
+            protected double[] getRowSize() {
+                double p = TableLayout.PREFERRED;
+                return new double[]{p, p};
+            }
+
+            protected Component[][] getComponents(JPanel buttonPane) {
+                UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
+                return new Component[][]{
+                        new Component[]{text, fontNameComboBox},
+                        new Component[]{null, buttonPane}
+                };
+            }
+        };
     }
 
     protected JPanel getLabelPositionPane(Component[][] comps, double[] row, double[] col) {
@@ -74,6 +100,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
                     new Component[]{createLabelStylePane(getLabelStyleRowSize(p), columnSize, plot), null},
             };
         } else {
+
             return super.getLabelPaneComponents(plot, p, columnSize);
         }
     }
@@ -136,6 +163,12 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return new TwoTuple<>(names, values);
     }
 
+    protected Component[][] getLabelStyleComponents(Plot plot) {
+        return new Component[][]{
+                new Component[]{textFontPane, null},
+        };
+    }
+
     protected void checkPane() {
         String verticalTitle = hasLabelAlign(getPlot())
                 ? Toolkit.i18nText("Fine-Design_Chart_Layout_Vertical")
@@ -145,13 +178,19 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         checkAlignPane(Toolkit.i18nText("Fine-Design_Chart_Layout_Horizontal"));
     }
 
-    private boolean hasLabelAlign(Plot plot) {
+    protected void checkStyleUse() {
+        textFontPane.setVisible(true);
+        textFontPane.setPreferredSize(new Dimension(0, 60));
+    }
+
+    protected boolean hasLabelAlign(Plot plot) {
         return ComparatorUtils.equals(gaugeStyle, GaugeStyle.THERMOMETER) && !((VanChartGaugePlot) plot).getGaugeDetailStyle().isHorizontalLayout();
     }
 
     public void populate(AttrLabelDetail detail) {
         super.populate(detail);
 
+        style.setSelectedIndex(1);
         if (hasLabelAlign(this.getPlot()) && align != null) {
             align.setSelectedItem(detail.getAlign());
         }
@@ -160,6 +199,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     public void update(AttrLabelDetail detail) {
         super.update(detail);
 
+        detail.setCustom(true);
         if (align != null && align.getSelectedItem() != null) {
             detail.setAlign(align.getSelectedItem());
         } else if (align != null) {

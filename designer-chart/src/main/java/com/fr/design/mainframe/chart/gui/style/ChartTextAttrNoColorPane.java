@@ -32,9 +32,10 @@ public class ChartTextAttrNoColorPane extends ChartTextAttrPane{
     }
 
     protected void initComponents() {
+        initFontSizes();
         fontColor = new UIColorButton();
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
-        fontSizeComboBox = new UIComboBox(Font_Sizes);
+        fontSizeComboBox = new UIComboBox(getFontSizes());
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
 

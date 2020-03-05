@@ -59,7 +59,10 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     public VanChartPlotLabelDetailPane(Plot plot, VanChartStylePane parent) {
         this.parent = parent;
         this.plot = plot;
+        initLabelDetailPane(plot);
+    }
 
+    protected void initLabelDetailPane (Plot plot) {
         this.setLayout(new BorderLayout());
         initToolTipContentPane(plot);
         JPanel contentPane = createLabelPane(plot);
@@ -269,7 +272,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
         checkPositionEnabled();
     }
 
-    private void checkStyleUse() {
+    protected void checkStyleUse() {
         textFontPane.setVisible(style.getSelectedIndex() == 1);
         textFontPane.setPreferredSize(style.getSelectedIndex() == 1 ? new Dimension(0, 60) : new Dimension(0, 0));
     }
