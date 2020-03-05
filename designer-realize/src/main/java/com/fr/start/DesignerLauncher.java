@@ -14,8 +14,9 @@ import java.io.File;
  */
 public class DesignerLauncher {
 
-    private static final String BIN_HOME = ".".equals(StableUtils.getInstallHome()) ?
-                                               "." : StableUtils.getInstallHome() + File.separator + "bin";
+    private static final String BIN = "bin";
+    private static final String DOT =".";
+    private static final String BIN_HOME = generateBinHome();
 
     private static final DesignerLauncher INSTANCE = new DesignerLauncher();
 
@@ -23,6 +24,11 @@ public class DesignerLauncher {
 
     private DesignerLauncher() {
 
+    }
+
+    private static String generateBinHome() {
+        return DOT.equals(StableUtils.getInstallHome()) ?
+                DOT : StableUtils.getInstallHome() + File.separator + BIN;
     }
 
     public static DesignerLauncher getInstance() {
