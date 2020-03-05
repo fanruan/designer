@@ -9,7 +9,7 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.server.CompatibleGeoJSONTreeHelper;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
