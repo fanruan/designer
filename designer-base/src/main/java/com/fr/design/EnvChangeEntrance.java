@@ -39,7 +39,6 @@ import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 import com.fr.workspace.engine.exception.WorkspaceAuthException;
 import com.fr.workspace.engine.exception.WorkspaceConnectionException;
 import com.fr.workspace.engine.rpc.WorkspaceProxyPool;
-import jdk.nashorn.internal.objects.annotations.Function;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
