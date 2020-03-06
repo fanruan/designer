@@ -114,7 +114,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
                         new Component[]{null, null},
-                        new Component[]{null, fontNameComboBox},
+                        new Component[]{null, getFontNameComboBox()},
                         new Component[]{null, buttonPane}
                 };
             }

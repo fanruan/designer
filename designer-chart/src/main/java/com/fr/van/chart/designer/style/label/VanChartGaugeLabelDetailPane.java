@@ -9,7 +9,9 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
+import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPaneWithAuto;
 import com.fr.general.ComparatorUtils;
+import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
@@ -28,26 +30,12 @@ import java.awt.Dimension;
  */
 public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
-    private GaugeStyle gaugeStyle;
     private UIButtonGroup<Integer> align;
     private JPanel alignPane;
     private Integer[] oldAlignValues;
 
     public VanChartGaugeLabelDetailPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
-    }
-
-    protected void initLabelDetailPane(Plot plot) {
-        setGaugeStyle(((VanChartGaugePlot) plot).getGaugeStyle());
-        super.initLabelDetailPane(plot);
-    }
-
-    public GaugeStyle getGaugeStyle() {
-        return gaugeStyle;
-    }
-
-    public void setGaugeStyle(GaugeStyle gaugeStyle) {
-        this.gaugeStyle = gaugeStyle;
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
@@ -66,7 +54,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
     protected ChartTextAttrPane initTextFontPane() {
 
-        return new ChartTextAttrPane(getFontSizeAuto()) {
+        return new ChartTextAttrPaneWithAuto(getFontSizeAuto(), false) {
             protected double[] getRowSize() {
                 double p = TableLayout.PREFERRED;
                 return new double[]{p, p};
@@ -75,7 +63,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
             protected Component[][] getComponents(JPanel buttonPane) {
                 UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
                 return new Component[][]{
-                        new Component[]{text, fontNameComboBox},
+                        new Component[]{text, getFontNameComboBox()},
                         new Component[]{null, buttonPane}
                 };
             }
@@ -184,7 +172,10 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     }
 
     protected boolean hasLabelAlign(Plot plot) {
-        return ComparatorUtils.equals(gaugeStyle, GaugeStyle.THERMOMETER) && !((VanChartGaugePlot) plot).getGaugeDetailStyle().isHorizontalLayout();
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+        GaugeDetailStyle gaugeDetailStyle = ((VanChartGaugePlot) plot).getGaugeDetailStyle();
+
+        return gaugeStyle == GaugeStyle.THERMOMETER && !gaugeDetailStyle.isHorizontalLayout();
     }
 
     public void populate(AttrLabelDetail detail) {

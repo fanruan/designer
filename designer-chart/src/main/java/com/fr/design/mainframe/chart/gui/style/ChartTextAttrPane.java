@@ -3,7 +3,6 @@ package com.fr.design.mainframe.chart.gui.style;
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
-import com.fr.design.i18n.Toolkit;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.event.UIObserverListener;
@@ -13,7 +12,6 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -29,49 +27,51 @@ public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
     private static final int FONT_START = 6;
     private static final int FONT_END = 72;
-    private static final String auto = Toolkit.i18nText("Fine-Design_Basic_ChartF_Auto");
-    private static final int autoSizeInt = 0;
-    private String[] fontSizes;
-    private boolean isFontSizeAuto;
-    protected UIComboBox fontNameComboBox;
-    protected UIComboBox fontSizeComboBox;
-    protected UIToggleButton bold;
-    protected UIToggleButton italic;
-    protected UIColorButton fontColor;
+    private UIComboBox fontNameComboBox;
+    private UIComboBox fontSizeComboBox;
+    private UIToggleButton bold;
+    private UIToggleButton italic;
+    private UIColorButton fontColor;
+    public static Integer[] Font_Sizes = new Integer[FONT_END - FONT_START + 1];
 
-    public ChartTextAttrPane() {
-        this.isFontSizeAuto = false;
-        initComponents();
-    }
-
-    public ChartTextAttrPane(boolean isFontSizeAuto) {
-        this.isFontSizeAuto = isFontSizeAuto;
-        initComponents();
-    }
-
-    public String[] getFontSizes() {
-        return fontSizes;
-    }
-
-    protected void initFontSizes() {
-        if (isFontSizeAuto) {
-            fontSizes = new String[FONT_END - FONT_START + 2];
-
-            fontSizes[0] = auto;
-
-            for (int i = 1; i < fontSizes.length; i++) {
-                fontSizes[i] = Utils.objectToString(i + FONT_START);
-            }
-        } else {
-            fontSizes = new String[FONT_END - FONT_START + 1];
-
-            for (int i = 0; i < fontSizes.length; i++) {
-                fontSizes[i] = Utils.objectToString(i + FONT_START);
-            }
+    static {
+        for (int i = FONT_START; i <= FONT_END; i++) {
+            Font_Sizes[i - FONT_START] = new Integer(i);
         }
     }
 
-    /* 标题
+    public ChartTextAttrPane() {
+        initState();
+        initComponents();
+    }
+
+    public UIComboBox getFontNameComboBox() {
+        return fontNameComboBox;
+    }
+
+    public UIComboBox getFontSizeComboBox() {
+        return fontSizeComboBox;
+    }
+
+    public UIToggleButton getBold() {
+        return bold;
+    }
+
+    public void setBold(UIToggleButton bold) {
+        this.bold = bold;
+    }
+
+    public UIToggleButton getItalic() {
+        return italic;
+    }
+
+    public UIColorButton getFontColor() {
+        return fontColor;
+    }
+
+    /**
+     * 标题
+     *
      * @return 标题
      */
     public String title4PopupWindow() {
@@ -112,13 +112,7 @@ public class ChartTextAttrPane extends BasicPane {
             fontNameComboBox.setSelectedItem(frFont.getFamily());
             bold.setSelected(frFont.isBold());
             italic.setSelected(frFont.isItalic());
-            if (fontSizeComboBox != null) {
-                if (frFont.getSize() == autoSizeInt) {
-                    fontSizeComboBox.setSelectedItem(auto);
-                } else {
-                    fontSizeComboBox.setSelectedItem(frFont.getSize() + "");
-                }
-            }
+            setFontSize(frFont);
             if (fontColor != null) {
                 fontColor.setColor(frFont.getForeground());
             }
@@ -126,6 +120,12 @@ public class ChartTextAttrPane extends BasicPane {
 
         //更新结束后，注册监听器
         registerAllComboBoxListener(listener);
+    }
+
+    protected void setFontSize(FRFont frFont) {
+        if (fontSizeComboBox != null) {
+            fontSizeComboBox.setSelectedItem(frFont.getSize());
+        }
     }
 
     private void removeAllComboBoxListener() {
@@ -144,8 +144,13 @@ public class ChartTextAttrPane extends BasicPane {
      * @return 更新字
      */
     public FRFont updateFRFont() {
+        String name = Utils.objectToString(fontNameComboBox.getSelectedItem());
+
+        return FRFont.getInstance(name, getFontStyle(), getFontSize(), fontColor.getColor());
+    }
+
+    protected int getFontStyle() {
         int style = Font.PLAIN;
-        float size;
         if (bold.isSelected() && !italic.isSelected()) {
             style = Font.BOLD;
         } else if (!bold.isSelected() && italic.isSelected()) {
@@ -153,13 +158,12 @@ public class ChartTextAttrPane extends BasicPane {
         } else if (bold.isSelected() && italic.isSelected()) {
             style = 3;
         }
-        if (ComparatorUtils.equals(fontSizeComboBox.getSelectedItem(), auto)) {
-            size = Float.parseFloat(Utils.objectToString(autoSizeInt));
-        } else {
-            size = Float.parseFloat(Utils.objectToString(fontSizeComboBox.getSelectedItem()));
-        }
 
-        return FRFont.getInstance(Utils.objectToString(fontNameComboBox.getSelectedItem()), style, size, fontColor.getColor());
+        return style;
+    }
+
+    protected float getFontSize() {
+        return Float.parseFloat(Utils.objectToString(fontSizeComboBox.getSelectedItem()));
     }
 
     public void setEnabled(boolean enabled) {
@@ -170,14 +174,19 @@ public class ChartTextAttrPane extends BasicPane {
         this.italic.setEnabled(enabled);
     }
 
-    protected void initComponents() {
-        initFontSizes();
+    protected Object[] getFontSizeComboBoxModel() {
+        return Font_Sizes;
+    }
+
+    protected void initState() {
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
-        fontSizeComboBox = new UIComboBox(fontSizes);
+        fontSizeComboBox = new UIComboBox(getFontSizeComboBoxModel());
         fontColor = new UIColorButton();
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
+    }
 
+    protected void initComponents() {
         Component[] components1 = new Component[]{
                 fontColor, italic, bold
         };

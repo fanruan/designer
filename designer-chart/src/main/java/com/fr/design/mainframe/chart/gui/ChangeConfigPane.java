@@ -132,7 +132,7 @@ public class ChangeConfigPane extends BasicBeanPane<ChartCollection> {
 
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
-                        new Component[]{text, fontNameComboBox},
+                        new Component[]{text, getFontNameComboBox()},
                         new Component[]{null, buttonPane}
                 };
             }

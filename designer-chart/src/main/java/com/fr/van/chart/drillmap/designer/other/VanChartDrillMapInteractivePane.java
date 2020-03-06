@@ -68,7 +68,7 @@ public class VanChartDrillMapInteractivePane extends VanChartInteractivePaneWith
             @Override
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
-                        new Component[]{fontNameComboBox},
+                        new Component[]{getFontNameComboBox()},
                         new Component[]{buttonPane}
                 };
             }

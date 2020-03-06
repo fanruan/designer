@@ -1,7 +1,7 @@
 package com.fr.van.chart.designer.style.label;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.ComparatorUtils;
+import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithCateValue;
@@ -22,7 +22,9 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
     }
 
     protected void initToolTipContentPane(Plot plot) {
-        switch (getGaugeStyle()) {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+
+        switch (gaugeStyle) {
             case POINTER:
             case POINTER_SEMI:
                 dataLabelContentPane = new LabelContentPaneWithOutCate(parent, VanChartGaugeValueLabelDetailPane.this);
@@ -34,7 +36,9 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
     }
 
     protected Component[][] getLabelPaneComponents(Plot plot, double p, double[] columnSize) {
-        switch (getGaugeStyle()) {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+
+        switch (gaugeStyle) {
             case POINTER:
             case POINTER_SEMI:
                 return getLabelPaneComponentsWithBackground(plot, p, columnSize);
@@ -52,7 +56,9 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
     }
 
     protected double[] getLabelPaneRowSize(Plot plot, double p) {
-        switch (getGaugeStyle()) {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+
+        switch (gaugeStyle) {
             case POINTER:
             case POINTER_SEMI:
                 return new double[]{p, p, p, p, p};
@@ -62,11 +68,11 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
     }
 
     protected boolean getFontSizeAuto() {
-        return !ComparatorUtils.equals(getGaugeStyle(), GaugeStyle.THERMOMETER);
+        return ((VanChartGaugePlot) getPlot()).getGaugeStyle() != GaugeStyle.THERMOMETER;
     }
 
     protected boolean hasLabelPosition(Plot plot) {
-        return getGaugeStyle() == GaugeStyle.THERMOMETER;
+        return ((VanChartGaugePlot) plot).getGaugeStyle() == GaugeStyle.THERMOMETER;
     }
 
     protected JPanel createTableLayoutPaneWithTitle(String title, Component component) {

@@ -1,7 +1,7 @@
 package com.fr.van.chart.designer.style.label;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.general.ComparatorUtils;
+import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithCate;
@@ -35,7 +35,9 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
     }
 
     protected void initToolTipContentPane(Plot plot) {
-        switch (getGaugeStyle()) {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+
+        switch (gaugeStyle) {
             case POINTER:
             case POINTER_SEMI:
                 dataLabelContentPane = new LabelContentPaneWithCate(parent, VanChartGaugeCateOrPercentLabelDetailPane.this);
@@ -47,11 +49,15 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
     }
 
     protected boolean getFontSizeAuto() {
-        return ComparatorUtils.equals(getGaugeStyle(), GaugeStyle.RING) || ComparatorUtils.equals(getGaugeStyle(), GaugeStyle.SLOT);
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) getPlot()).getGaugeStyle();
+
+        return gaugeStyle == GaugeStyle.RING || gaugeStyle == GaugeStyle.SLOT;
     }
 
     protected boolean hasLabelPosition(Plot plot) {
-        switch (getGaugeStyle()) {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
+
+        switch (gaugeStyle) {
             case RING:
             case SLOT:
                 return false;
