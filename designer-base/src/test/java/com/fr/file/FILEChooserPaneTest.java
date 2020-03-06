@@ -25,11 +25,11 @@ public class FILEChooserPaneTest {
 
         ChooseFileFilter chooseFileFilter2 = new ChooseFileFilter(FileExtension.CPTX, StringUtils.EMPTY);
         String result3 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cpt", chooseFileFilter2).get();
-        Assert.assertEquals("WorkBook1.cpt", result3);
+        Assert.assertEquals("WorkBook1.cpt.cptx", result3);
 
         ChooseFileFilter chooseFileFilter3 = new ChooseFileFilter(FileExtension.CPT, StringUtils.EMPTY);
         String result4 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cptx", chooseFileFilter3).get();
-        Assert.assertEquals("WorkBook1.cptx", result4);
+        Assert.assertEquals("WorkBook1.cptx.cpt", result4);
 
         ChooseFileFilter chooseFileFilter5 = new ChooseFileFilter(FileExtension.CPTX, StringUtils.EMPTY);
         String result5 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cptx", chooseFileFilter5).get();
@@ -37,7 +37,7 @@ public class FILEChooserPaneTest {
 
         ChooseFileFilter chooseFileFilter6 = new ChooseFileFilter(FileExtension.CPT, StringUtils.EMPTY);
         String result6 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.xls", chooseFileFilter6).get();
-        Assert.assertEquals("WorkBook1.xls", result6);
+        Assert.assertEquals("WorkBook1.xls.cpt", result6);
 
     }
 
