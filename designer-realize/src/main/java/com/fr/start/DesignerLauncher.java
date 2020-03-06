@@ -3,6 +3,9 @@ package com.fr.start;
 import com.fr.process.FineProcess;
 import com.fr.process.engine.FineJavaProcessFactory;
 import com.fr.process.engine.core.FineProcessContext;
+import com.fr.stable.StableUtils;
+
+import java.io.File;
 
 /**
  * @author hades
@@ -11,12 +14,21 @@ import com.fr.process.engine.core.FineProcessContext;
  */
 public class DesignerLauncher {
 
+    private static final String BIN = "bin";
+    private static final String DOT =".";
+    private static final String BIN_HOME = generateBinHome();
+
     private static final DesignerLauncher INSTANCE = new DesignerLauncher();
 
     private String[] args;
 
     private DesignerLauncher() {
 
+    }
+
+    private static String generateBinHome() {
+        return DOT.equals(StableUtils.getInstallHome()) ?
+                DOT : StableUtils.getInstallHome() + File.separator + BIN;
     }
 
     public static DesignerLauncher getInstance() {
@@ -32,6 +44,7 @@ public class DesignerLauncher {
                 inheritJvmSettings().
                 jvmSettings(DesignerJavaRuntime.getInstance().getJvmOptions()).
                 arguments(args).
+                directory(BIN_HOME).
                 startProcess(DesignerProcessType.INSTANCE);
         DesignerSuperListener.getInstance().start();
     }

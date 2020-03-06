@@ -2,6 +2,9 @@ package com.fr.design.env;
 
 import com.fr.cluster.engine.base.FineClusterConfig;
 import com.fr.design.i18n.Toolkit;
+import com.fr.invoke.ReflectException;
+import com.fr.log.FineLoggerFactory;
+import com.fr.base.operator.common.CommonOperator;
 import com.fr.rpc.ExceptionHandler;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
@@ -49,7 +52,12 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public boolean isWarDeploy() {
 
-        return false;
+        try {
+            return WorkContext.getCurrent().get(CommonOperator.class).isWarDeploy();
+        } catch (ReflectException e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
