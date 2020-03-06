@@ -17,7 +17,6 @@ import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
 import com.fr.design.scrollruler.ModLineBorder;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.log.FineLoggerFactory;
@@ -29,10 +28,8 @@ import com.fr.workspace.engine.exception.WorkspaceAuthException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
