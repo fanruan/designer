@@ -502,7 +502,11 @@ public class FILEChooserPane extends BasicPane {
         String fileNameWithOutExtension = fileName.substring(0, lastDotIndex);
         String fileNameExtension = fileName.substring(lastDotIndex);
         FileExtension fileExtension = FileExtension.parse(fileNameExtension);
-        if (StringUtils.isEmpty(fileName) || StringUtils.isEmpty(filterExtension) || fileFilter.containsExtension(fileExtension.getExtension())) {
+        boolean accept = StringUtils.isEmpty(fileName)
+                        || StringUtils.isEmpty(filterExtension)
+                        || fileFilter.containsExtension(fileExtension.getExtension())
+                        || !ComparatorUtils.equals(fileNameExtension, filterExtension);
+        if (accept) {
             return fileName;
         }
         return fileNameWithOutExtension + filterExtension;
