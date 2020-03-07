@@ -1,11 +1,11 @@
 package com.fr.design.mainframe.chart.gui.style;
 
-import com.fr.base.Utils;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIColorButtonWithAuto;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
+import com.fr.general.GeneralUtils;
 
 public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
@@ -59,7 +59,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
             return AUTO_SIZE_INT;
         }
 
-        return Float.parseFloat(Utils.objectToString(getFontSizeComboBox().getSelectedItem()));
+        return Float.parseFloat(GeneralUtils.objectToString(getFontSizeComboBox().getSelectedItem()));
     }
 
     protected void setFontSize(FRFont frFont) {

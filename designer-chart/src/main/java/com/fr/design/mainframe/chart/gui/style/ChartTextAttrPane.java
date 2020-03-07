@@ -10,10 +10,12 @@ import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 
+import com.fr.general.GeneralUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -144,7 +146,7 @@ public class ChartTextAttrPane extends BasicPane {
      * @return 更新字
      */
     public FRFont updateFRFont() {
-        String name = Utils.objectToString(fontNameComboBox.getSelectedItem());
+        String name = GeneralUtils.objectToString(fontNameComboBox.getSelectedItem());
 
         return FRFont.getInstance(name, getFontStyle(), getFontSize(), fontColor.getColor());
     }
@@ -163,7 +165,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected float getFontSize() {
-        return Float.parseFloat(Utils.objectToString(fontSizeComboBox.getSelectedItem()));
+        return Float.parseFloat(GeneralUtils.objectToString(fontSizeComboBox.getSelectedItem()));
     }
 
     public void setEnabled(boolean enabled) {
@@ -207,7 +209,7 @@ public class ChartTextAttrPane extends BasicPane {
     protected JPanel getContentPane (JPanel buttonPane) {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] columnSize = {f,e};
+        double[] columnSize = {f, e};
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), getRowSize(), columnSize);
     }
@@ -218,7 +220,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{text, fontNameComboBox},
