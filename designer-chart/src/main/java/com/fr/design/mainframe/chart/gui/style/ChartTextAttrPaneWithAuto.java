@@ -27,11 +27,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     }
 
     protected void initFontColorState() {
-        if (isColorAuto) {
-            setFontColor(new UIColorButtonWithAuto());
-        } else {
-            setFontColor(new UIColorButton());
-        }
+        setFontColor(isColorAuto ? new UIColorButtonWithAuto() : new UIColorButton());
     }
 
     protected Object[] getFontSizeComboBoxModel() {
@@ -45,9 +41,9 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
             }
 
             return fontSizes;
-        } else {
-            return super.getFontSizeComboBoxModel();
         }
+
+        return super.getFontSizeComboBoxModel();
     }
 
     protected float getFontSize() {

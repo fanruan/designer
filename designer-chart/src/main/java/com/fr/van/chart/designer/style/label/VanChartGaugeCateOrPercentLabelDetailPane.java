@@ -1,7 +1,6 @@
 package com.fr.van.chart.designer.style.label;
 
 import com.fr.chart.chartattr.Plot;
-import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.label.LabelContentPaneWithCate;
@@ -46,11 +45,11 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
         }
     }
 
-    protected boolean getFontSizeAuto() {
+    protected boolean isFontSizeAuto() {
         return getGaugeStyle() == GaugeStyle.RING || getGaugeStyle() == GaugeStyle.SLOT;
     }
 
-    protected boolean getFontColorAuto() {
+    protected boolean isFontColorAuto() {
         return getGaugeStyle() == GaugeStyle.RING || getGaugeStyle() == GaugeStyle.SLOT;
     }
 

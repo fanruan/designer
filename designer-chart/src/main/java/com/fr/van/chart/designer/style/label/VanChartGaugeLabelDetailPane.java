@@ -38,7 +38,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         super(plot, parent);
     }
 
-    protected void initLabelDetailPane (Plot plot) {
+    protected void initLabelDetailPane(Plot plot) {
         setGaugeStyle(((VanChartGaugePlot) plot).getGaugeStyle());
         super.initLabelDetailPane(plot);
     }
@@ -61,17 +61,17 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return TableLayoutHelper.createTableLayoutPane(getLabelStyleComponents(plot), row, col);
     }
 
-    protected boolean getFontSizeAuto() {
+    protected boolean isFontSizeAuto() {
         return false;
     }
 
-    protected boolean getFontColorAuto() {
+    protected boolean isFontColorAuto() {
         return false;
     }
 
     protected ChartTextAttrPane initTextFontPane() {
 
-        return new ChartTextAttrPaneWithAuto(getFontSizeAuto(), getFontColorAuto()) {
+        return new ChartTextAttrPaneWithAuto(isFontSizeAuto(), isFontColorAuto()) {
             protected double[] getRowSize() {
                 double p = TableLayout.PREFERRED;
                 return new double[]{p, p};
@@ -205,10 +205,12 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         super.update(detail);
 
         detail.setCustom(true);
-        if (align != null && align.getSelectedItem() != null) {
-            detail.setAlign(align.getSelectedItem());
-        } else if (align != null) {
-            align.setSelectedItem(detail.getAlign());
+        if (align != null) {
+            if (align.getSelectedItem() != null) {
+                detail.setAlign(align.getSelectedItem());
+            } else {
+                align.setSelectedItem(detail.getAlign());
+            }
         }
     }
 }

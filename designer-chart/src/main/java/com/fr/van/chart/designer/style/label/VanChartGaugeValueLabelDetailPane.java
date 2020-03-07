@@ -60,7 +60,7 @@ public class VanChartGaugeValueLabelDetailPane extends VanChartGaugeLabelDetailP
         }
     }
 
-    protected boolean getFontSizeAuto() {
+    protected boolean isFontSizeAuto() {
         return getGaugeStyle() != GaugeStyle.THERMOMETER;
     }
 
