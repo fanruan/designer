@@ -52,9 +52,13 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return false;
     }
 
+    protected boolean getFontColorAuto() {
+        return false;
+    }
+
     protected ChartTextAttrPane initTextFontPane() {
 
-        return new ChartTextAttrPaneWithAuto(getFontSizeAuto(), false) {
+        return new ChartTextAttrPaneWithAuto(getFontSizeAuto(), getFontColorAuto()) {
             protected double[] getRowSize() {
                 double p = TableLayout.PREFERRED;
                 return new double[]{p, p};

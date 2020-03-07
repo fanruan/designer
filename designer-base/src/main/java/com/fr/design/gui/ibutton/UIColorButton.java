@@ -24,10 +24,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class UIColorButton extends UIButton implements PopupHider, UIObserver, GlobalNameObserver {
-    private static final int SIZE = 16;
-    private static final int SIZE_2 = 2;
-    private static final int SIZE_4 = 4;
-    private static final int SIZE_6 = 6;
+    public static final int SIZE = 16;
+    public static final int SIZE_2 = 2;
+    public static final int SIZE_4 = 4;
+    public static final int SIZE_6 = 6;
     private static final int POPUP_MENU_SHIFT = -70;
     private Color color = Color.BLACK;
     private ColorControlWindow popupWin;
@@ -51,6 +51,14 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
             }
         });
         iniListener();
+    }
+
+    public ColorControlWindow getPopupWin() {
+        return popupWin;
+    }
+
+    public void setPopupWin(ColorControlWindow popupWin) {
+        this.popupWin = popupWin;
     }
 
     private void iniListener() {
@@ -103,10 +111,13 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
         if (ComparatorUtils.equals(this.color, color)) {
             return;
         }
-
+        checkIcon(this.color, color);
         this.color = color;
         hidePopupMenu();
         fireColorStateChanged();
+    }
+
+    protected void checkIcon(Color oldColor, Color newColor) {
     }
 
     private void showPopupMenu() {
@@ -139,7 +150,7 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
         repaint();
     }
 
-    private ColorControlWindow getColorControlWindow() {
+    protected ColorControlWindow getColorControlWindow() {
         //find parant.
         if (this.popupWin == null) {
             this.popupWin = new ColorControlWindow(UIColorButton.this) {

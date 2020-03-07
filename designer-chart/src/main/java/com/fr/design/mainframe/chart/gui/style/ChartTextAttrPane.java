@@ -25,8 +25,8 @@ import java.awt.Font;
 
 public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
-    private static final int FONT_START = 6;
-    private static final int FONT_END = 72;
+    public static final int FONT_START = 6;
+    public static final int FONT_END = 72;
     private UIComboBox fontNameComboBox;
     private UIComboBox fontSizeComboBox;
     private UIToggleButton bold;
@@ -36,7 +36,7 @@ public class ChartTextAttrPane extends BasicPane {
 
     static {
         for (int i = FONT_START; i <= FONT_END; i++) {
-            Font_Sizes[i - FONT_START] = new Integer(i);
+            Font_Sizes[i - FONT_START] = i;
         }
     }
 
@@ -57,16 +57,16 @@ public class ChartTextAttrPane extends BasicPane {
         return bold;
     }
 
-    public void setBold(UIToggleButton bold) {
-        this.bold = bold;
-    }
-
     public UIToggleButton getItalic() {
         return italic;
     }
 
     public UIColorButton getFontColor() {
         return fontColor;
+    }
+
+    public void setFontColor(UIColorButton fontColor) {
+        this.fontColor = fontColor;
     }
 
     /**
@@ -181,9 +181,13 @@ public class ChartTextAttrPane extends BasicPane {
     protected void initState() {
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
         fontSizeComboBox = new UIComboBox(getFontSizeComboBoxModel());
-        fontColor = new UIColorButton();
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
+        initFontColorState();
+    }
+
+    protected void initFontColorState() {
+        setFontColor(new UIColorButton());
     }
 
     protected void initComponents() {

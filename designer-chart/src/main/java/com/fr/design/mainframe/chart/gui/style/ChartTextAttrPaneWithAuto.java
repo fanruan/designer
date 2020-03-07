@@ -1,6 +1,8 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 import com.fr.base.Utils;
+import com.fr.design.gui.ibutton.UIColorButton;
+import com.fr.design.gui.ibutton.UIColorButtonWithAuto;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
@@ -28,14 +30,22 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
         initComponents();
     }
 
+    protected void initFontColorState() {
+        if (isColorAuto) {
+            setFontColor(new UIColorButtonWithAuto());
+        } else {
+            setFontColor(new UIColorButton());
+        }
+    }
+
     protected Object[] getFontSizeComboBoxModel() {
         if (isFontSizeAuto) {
-            String[] fontSizes = new String[Font_Sizes.length + 1];
+            String[] fontSizes = new String[FONT_END - FONT_START + 2];
 
             fontSizes[0] = AUTO;
 
-            for (int i = 1; i <= Font_Sizes.length; i++) {
-                fontSizes[i] = i + "";
+            for (int i = 1; i < fontSizes.length; i++) {
+                fontSizes[i] = FONT_START + i + "";
             }
 
             return fontSizes;

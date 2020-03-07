@@ -54,6 +54,12 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
         return gaugeStyle == GaugeStyle.RING || gaugeStyle == GaugeStyle.SLOT;
     }
 
+    protected boolean getFontColorAuto() {
+        GaugeStyle gaugeStyle = ((VanChartGaugePlot) getPlot()).getGaugeStyle();
+
+        return gaugeStyle == GaugeStyle.RING || gaugeStyle == GaugeStyle.SLOT;
+    }
+
     protected boolean hasLabelPosition(Plot plot) {
         GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
 

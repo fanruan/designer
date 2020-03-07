@@ -143,7 +143,8 @@ public interface UIConstants {
     public static final Color TAB_BUTTON_PRESS_SELECTED = new Color(236, 236, 238);
     public static final Color POPUP_TITLE_BACKGROUND = new Color(0xd8f2fd);
     public static final Color LIST_ITEM_SPLIT_LINE = new Color(0xf0f0f3);
-
+    public static final Color AUTO_FONT_COLOR = new Color(0, 0, 0, 0);
+    public static final Color TRANSPARENT_FONT_COLOR = new Color(255, 255, 255, 0);
 
 
     public static final BufferedImage DRAG_BAR = IOUtils.readImage("com/fr/design/images/control/bar.png");
@@ -196,6 +197,7 @@ public interface UIConstants {
     public static final Icon ANA_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/anas.png");
     public static final Icon REFRESH_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/refresh.png");
     public static final Icon FONT_ICON = IOUtils.readIcon("/com/fr/design/images/gui/color/foreground.png");
+    public static final Icon AUTO_FONT_ICON = IOUtils.readIcon("/com/fr/design/images/gui/color/autoForeground.png");
     public static final Icon HISTORY_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/history.png");
     public static final Icon DELETE_ICON = IOUtils.readIcon("com/fr/design/images/m_file/close.png");
     public static final Icon EDIT_ICON = IOUtils.readIcon("com/fr/design/images/m_file/edit.png");
