@@ -4,12 +4,12 @@
 
 package com.fr.design.mainframe.chart.gui.style;
 
-import com.fr.base.Utils;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
+import com.fr.general.GeneralUtils;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -54,7 +54,7 @@ public class ChartTextAttrNoColorPane extends ChartTextAttrPane {
     }
 
     public FRFont updateFRFont() {
-        String name = Utils.objectToString(getFontNameComboBox().getSelectedItem());
+        String name = GeneralUtils.objectToString(getFontNameComboBox().getSelectedItem());
 
         return FRFont.getInstance(name, getFontStyle(), getFontSize());
     }

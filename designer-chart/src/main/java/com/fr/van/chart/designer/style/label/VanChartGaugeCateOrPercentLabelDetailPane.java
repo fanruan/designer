@@ -35,9 +35,7 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
     }
 
     protected void initToolTipContentPane(Plot plot) {
-        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
-
-        switch (gaugeStyle) {
+        switch (getGaugeStyle()) {
             case POINTER:
             case POINTER_SEMI:
                 dataLabelContentPane = new LabelContentPaneWithCate(parent, VanChartGaugeCateOrPercentLabelDetailPane.this);
@@ -49,21 +47,15 @@ public class VanChartGaugeCateOrPercentLabelDetailPane extends VanChartGaugeLabe
     }
 
     protected boolean getFontSizeAuto() {
-        GaugeStyle gaugeStyle = ((VanChartGaugePlot) getPlot()).getGaugeStyle();
-
-        return gaugeStyle == GaugeStyle.RING || gaugeStyle == GaugeStyle.SLOT;
+        return getGaugeStyle() == GaugeStyle.RING || getGaugeStyle() == GaugeStyle.SLOT;
     }
 
     protected boolean getFontColorAuto() {
-        GaugeStyle gaugeStyle = ((VanChartGaugePlot) getPlot()).getGaugeStyle();
-
-        return gaugeStyle == GaugeStyle.RING || gaugeStyle == GaugeStyle.SLOT;
+        return getGaugeStyle() == GaugeStyle.RING || getGaugeStyle() == GaugeStyle.SLOT;
     }
 
     protected boolean hasLabelPosition(Plot plot) {
-        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
-
-        switch (gaugeStyle) {
+        switch (getGaugeStyle()) {
             case RING:
             case SLOT:
                 return false;

@@ -11,15 +11,11 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
     private static final String AUTO = Toolkit.i18nText("Fine-Design_Basic_ChartF_Auto");
     private static final int AUTO_SIZE_INT = 0;
-    private boolean isFontSizeAuto;
-    private boolean isColorAuto;
+    private boolean isFontSizeAuto = false;
+    private boolean isColorAuto = false;
 
     public ChartTextAttrPaneWithAuto() {
-        this.isFontSizeAuto = false;
-        this.isColorAuto = false;
-
-        initState();
-        initComponents();
+        super();
     }
 
     public ChartTextAttrPaneWithAuto(boolean isFontSizeAuto, boolean isColorAuto) {

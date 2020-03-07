@@ -111,13 +111,14 @@ public class UIColorButton extends UIButton implements PopupHider, UIObserver, G
         if (ComparatorUtils.equals(this.color, color)) {
             return;
         }
-        checkIcon(this.color, color);
+        Color oldColor = this.color;
         this.color = color;
-        hidePopupMenu();
-        fireColorStateChanged();
+        checkColorChange(oldColor, this.color);
     }
 
-    protected void checkIcon(Color oldColor, Color newColor) {
+    protected void checkColorChange(Color oldColor, Color newColor) {
+        hidePopupMenu();
+        fireColorStateChanged();
     }
 
     private void showPopupMenu() {

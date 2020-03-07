@@ -5,6 +5,7 @@ import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 
@@ -113,7 +114,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(new UIRoundedBorder(UIConstants.TOOLBAR_BORDER_COLOR, 1, 5));
         if (isSupportTransparent) {
-            UIButton transparentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
+            UIButton transparentButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
             this.add(transparentButton, BorderLayout.NORTH);
             transparentButton.addActionListener(new ActionListener() {
 

@@ -9,7 +9,7 @@ import java.awt.Color;
 
 public class UIColorButtonWithAuto extends UIColorButton {
 
-    protected void checkIcon(Color oldColor, Color newColor) {
+    protected void checkColorChange(Color oldColor, Color newColor) {
         if (ComparatorUtils.equals(oldColor, UIConstants.AUTO_FONT_COLOR) && !ComparatorUtils.equals(newColor, UIConstants.AUTO_FONT_COLOR)) {
             setIcon(UIConstants.FONT_ICON);
         }
@@ -17,6 +17,8 @@ public class UIColorButtonWithAuto extends UIColorButton {
         if (!ComparatorUtils.equals(oldColor, UIConstants.AUTO_FONT_COLOR) && ComparatorUtils.equals(newColor, UIConstants.AUTO_FONT_COLOR)) {
             setIcon(UIConstants.AUTO_FONT_ICON);
         }
+
+        super.checkColorChange(oldColor, newColor);
     }
 
     protected ColorControlWindow getColorControlWindow() {

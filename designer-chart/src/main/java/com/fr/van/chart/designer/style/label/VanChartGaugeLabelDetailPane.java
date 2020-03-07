@@ -11,7 +11,6 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPaneWithAuto;
 import com.fr.general.ComparatorUtils;
-import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
@@ -30,12 +29,26 @@ import java.awt.Dimension;
  */
 public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
+    private GaugeStyle gaugeStyle;
     private UIButtonGroup<Integer> align;
     private JPanel alignPane;
     private Integer[] oldAlignValues;
 
     public VanChartGaugeLabelDetailPane(Plot plot, VanChartStylePane parent) {
         super(plot, parent);
+    }
+
+    protected void initLabelDetailPane (Plot plot) {
+        setGaugeStyle(((VanChartGaugePlot) plot).getGaugeStyle());
+        super.initLabelDetailPane(plot);
+    }
+
+    public GaugeStyle getGaugeStyle() {
+        return gaugeStyle;
+    }
+
+    public void setGaugeStyle(GaugeStyle gaugeStyle) {
+        this.gaugeStyle = gaugeStyle;
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
@@ -176,10 +189,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     }
 
     protected boolean hasLabelAlign(Plot plot) {
-        GaugeStyle gaugeStyle = ((VanChartGaugePlot) plot).getGaugeStyle();
-        GaugeDetailStyle gaugeDetailStyle = ((VanChartGaugePlot) plot).getGaugeDetailStyle();
-
-        return gaugeStyle == GaugeStyle.THERMOMETER && !gaugeDetailStyle.isHorizontalLayout();
+        return getGaugeStyle() == GaugeStyle.THERMOMETER && !((VanChartGaugePlot) plot).getGaugeDetailStyle().isHorizontalLayout();
     }
 
     public void populate(AttrLabelDetail detail) {
