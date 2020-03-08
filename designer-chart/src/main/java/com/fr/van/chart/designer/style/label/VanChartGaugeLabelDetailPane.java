@@ -52,8 +52,8 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Automatic"),
+                Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane = initTextFontPane();
 
         initStyleListener();
@@ -78,7 +78,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
             }
 
             protected Component[][] getComponents(JPanel buttonPane) {
-                UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
+                UILabel text = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
                 return new Component[][]{
                         new Component[]{text, getFontNameComboBox()},
                         new Component[]{null, buttonPane}
