@@ -4,7 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icheckbox.UICheckBox;
-import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
@@ -52,7 +52,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected  void addComponents(Plot plot) {
-        isTooltipShow = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Tooltip"));
+        isTooltipShow = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Use_Tooltip"));
         tooltipPane = createTooltipPane(plot);
 
         double p = TableLayout.PREFERRED;
@@ -96,8 +96,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{tooltipContentPane,null},
                 new Component[]{createLabelStylePane(),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
                 new Component[]{createDisplayStrategy(plot),null},
         };
         return components;
@@ -109,7 +109,7 @@ public class VanChartPlotTooltipPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane() {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Automatic"),Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane = new ChartTextAttrPane() {
             protected Component[][] getComponents(JPanel buttonPane) {
                 return new Component[][]{
@@ -120,14 +120,14 @@ public class VanChartPlotTooltipPane extends BasicPane {
             }
         };
 
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), style);
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Character"), style);
         JPanel panel1 = new JPanel(new BorderLayout());
         panel1.add(panel, BorderLayout.CENTER);
         panel1.add(textFontPane, BorderLayout.SOUTH);
 
         initStyleListener();
 
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel1);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel1);
     }
 
 
@@ -142,8 +142,8 @@ public class VanChartPlotTooltipPane extends BasicPane {
 
     protected JPanel createDisplayStrategy(Plot plot) {
         showAllSeries = new UICheckBox(getShowAllSeriesLabelText());
-        followMouse = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Follow_Mouse"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Follow_Mouse")});
+        followMouse = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Follow_Mouse"),
+                Toolkit.i18nText("Fine-Design_Chart_Not_Follow_Mouse")});
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
@@ -151,17 +151,17 @@ public class VanChartPlotTooltipPane extends BasicPane {
         double[] rowSize = { p,p,p};
         Component[][] components = new Component[3][2];
         components[0] = new Component[]{null,null};
-        components[1] = new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Prompt_Box")), UIComponentUtils.wrapWithBorderLayoutPane(followMouse)};
+        components[1] = new Component[]{FRWidgetFactory.createLineWrapLabel(Toolkit.i18nText("Fine-Design_Chart_Prompt_Box")), UIComponentUtils.wrapWithBorderLayoutPane(followMouse)};
 
         if(plot.isSupportTooltipSeriesType() && hasTooltipSeriesType()){
             components[2] = new Component[]{showAllSeries,null};
         }
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel);
     }
 
     protected String getShowAllSeriesLabelText() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_All_Series");
+        return Toolkit.i18nText("Fine-Design_Chart_Show_All_Series");
     };
 
     protected boolean hasTooltipSeriesType() {

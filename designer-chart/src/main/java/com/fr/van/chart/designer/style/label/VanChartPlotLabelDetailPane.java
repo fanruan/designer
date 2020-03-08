@@ -144,7 +144,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
             return new JPanel();
         }
 
-        autoAdjust = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
+        autoAdjust = new UIButtonGroup<Boolean>(new String[]{Toolkit.i18nText("Fine-Design_Chart_On"), Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
         JPanel panel = new JPanel(new BorderLayout());
 
@@ -154,12 +154,12 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
 
         if (plot.isSupportLeadLine()) {
-            tractionLine = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
+            tractionLine = new UIToggleButton(Toolkit.i18nText("Fine-Design_Chart_Show_Guideline"));
             tractionLinePane = TableLayout4VanChartHelper.createGapTableLayoutPane("", tractionLine);
             panel.add(tractionLinePane, BorderLayout.SOUTH);
             initPositionListener();
         } else if (PlotFactory.plotAutoAdjustLabelPosition(plot)) {
-            panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"), autoAdjust), BorderLayout.SOUTH);
+            panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Auto_Adjust"), autoAdjust), BorderLayout.SOUTH);
         }
         return panel;
     }
@@ -201,7 +201,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel getLabelPositionPane (Component[][] comps, double[] row, double[] col){
         JPanel panel = TableLayoutHelper.createTableLayoutPane(comps,row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Attr_Layout"), panel);
+        return createTableLayoutPaneWithTitle(Toolkit.i18nText("Fine-Design_Form_Attr_Layout"), panel);
     }
 
 
@@ -215,14 +215,14 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected JPanel createLabelStylePane(double[] row, double[] col, Plot plot) {
-        style = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Automatic"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        style = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Automatic"),
+                Toolkit.i18nText("Fine-Design_Chart_Custom")});
         textFontPane =initTextFontPane();
 
         initStyleListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(getLabelStyleComponents(plot),row,col);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
+        return createTableLayoutPaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     protected ChartTextAttrPane initTextFontPane () {
@@ -238,7 +238,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
     }
 
     protected Component[][] getLabelStyleComponents(Plot plot) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null,null},
                 new Component[]{text,style},
@@ -257,7 +257,7 @@ public class VanChartPlotLabelDetailPane extends BasicPane {
 
     protected JPanel createBackgroundColorPane() {
         backgroundColor = new ColorSelectBox(100);
-        return createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundColor);
+        return createTableLayoutPaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundColor);
     }
 
     protected String title4PopupWindow() {
