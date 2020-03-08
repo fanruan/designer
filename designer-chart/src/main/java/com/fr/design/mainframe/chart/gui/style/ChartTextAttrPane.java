@@ -147,10 +147,10 @@ public class ChartTextAttrPane extends BasicPane {
     public FRFont updateFRFont() {
         String name = GeneralUtils.objectToString(fontNameComboBox.getSelectedItem());
 
-        return FRFont.getInstance(name, getFontStyle(), getFontSize(), fontColor.getColor());
+        return FRFont.getInstance(name, updateFontStyle(), updateFontSize(), fontColor.getColor());
     }
 
-    protected int getFontStyle() {
+    protected int updateFontStyle() {
         int style = Font.PLAIN;
         if (bold.isSelected() && !italic.isSelected()) {
             style = Font.BOLD;
@@ -163,7 +163,7 @@ public class ChartTextAttrPane extends BasicPane {
         return style;
     }
 
-    protected float getFontSize() {
+    protected float updateFontSize() {
         return Float.parseFloat(GeneralUtils.objectToString(fontSizeComboBox.getSelectedItem()));
     }
 
@@ -205,7 +205,7 @@ public class ChartTextAttrPane extends BasicPane {
         populate(FRFont.getInstance());
     }
 
-    protected JPanel getContentPane (JPanel buttonPane) {
+    protected JPanel getContentPane(JPanel buttonPane) {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
         double[] columnSize = {f, e};
@@ -213,7 +213,7 @@ public class ChartTextAttrPane extends BasicPane {
         return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), getRowSize(), columnSize);
     }
 
-    protected double[] getRowSize () {
+    protected double[] getRowSize() {
         double p = TableLayout.PREFERRED;
         return new double[]{p, p, p};
     }

@@ -56,6 +56,6 @@ public class ChartTextAttrNoColorPane extends ChartTextAttrPane {
     public FRFont updateFRFont() {
         String name = GeneralUtils.objectToString(getFontNameComboBox().getSelectedItem());
 
-        return FRFont.getInstance(name, getFontStyle(), getFontSize());
+        return FRFont.getInstance(name, updateFontStyle(), updateFontSize());
     }
 }

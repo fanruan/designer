@@ -42,7 +42,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
         return isFontSizeAuto ? FONT_SIZES_WITH_AUTO : FONT_SIZES;
     }
 
-    protected float getFontSize() {
+    protected float updateFontSize() {
         if (isFontSizeAuto && ComparatorUtils.equals(getFontSizeComboBox().getSelectedItem(), AUTO)) {
             return ChartConstants.AUTO_FONT_SIZE;
         }
