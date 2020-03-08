@@ -13,6 +13,14 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     private static final String AUTO = Toolkit.i18nText("Fine-Design_Basic_ChartF_Auto");
     private boolean isFontSizeAuto = false;
     private boolean isColorAuto = false;
+    public static String[] FONT_SIZES_WITH_AUTO = new String[FONT_END - FONT_START + 2];
+    static {
+        FONT_SIZES_WITH_AUTO[0] = AUTO;
+
+        for (int i = 1; i < FONT_SIZES_WITH_AUTO.length; i++) {
+            FONT_SIZES_WITH_AUTO[i] = FONT_START + i - 1 + "";
+        }
+    }
 
     public ChartTextAttrPaneWithAuto() {
         super();
@@ -31,19 +39,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     }
 
     protected Object[] getFontSizeComboBoxModel() {
-        if (isFontSizeAuto) {
-            String[] fontSizes = new String[FONT_END - FONT_START + 2];
-
-            fontSizes[0] = AUTO;
-
-            for (int i = 1; i < fontSizes.length; i++) {
-                fontSizes[i] = FONT_START + i + "";
-            }
-
-            return fontSizes;
-        }
-
-        return super.getFontSizeComboBoxModel();
+        return isFontSizeAuto ? FONT_SIZES_WITH_AUTO : FONT_SIZES;
     }
 
     protected float getFontSize() {
@@ -54,7 +50,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
         return Float.parseFloat(GeneralUtils.objectToString(getFontSizeComboBox().getSelectedItem()));
     }
 
-    protected void setFontSize(FRFont frFont) {
+    protected void populateFontSize(FRFont frFont) {
         if (getFontSizeComboBox() != null && isFontSizeAuto) {
             if (frFont.getSize() == ChartConstants.AUTO_FONT_SIZE) {
                 getFontSizeComboBox().setSelectedItem(AUTO);

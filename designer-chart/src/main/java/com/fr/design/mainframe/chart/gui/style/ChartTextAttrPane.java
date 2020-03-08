@@ -34,11 +34,10 @@ public class ChartTextAttrPane extends BasicPane {
     private UIToggleButton bold;
     private UIToggleButton italic;
     private UIColorButton fontColor;
-    public static Integer[] Font_Sizes = new Integer[FONT_END - FONT_START + 1];
-
+    public static Integer[] FONT_SIZES = new Integer[FONT_END - FONT_START + 1];
     static {
         for (int i = FONT_START; i <= FONT_END; i++) {
-            Font_Sizes[i - FONT_START] = i;
+            FONT_SIZES[i - FONT_START] = i;
         }
     }
 
@@ -114,7 +113,7 @@ public class ChartTextAttrPane extends BasicPane {
             fontNameComboBox.setSelectedItem(frFont.getFamily());
             bold.setSelected(frFont.isBold());
             italic.setSelected(frFont.isItalic());
-            setFontSize(frFont);
+            populateFontSize(frFont);
             if (fontColor != null) {
                 fontColor.setColor(frFont.getForeground());
             }
@@ -124,7 +123,7 @@ public class ChartTextAttrPane extends BasicPane {
         registerAllComboBoxListener(listener);
     }
 
-    protected void setFontSize(FRFont frFont) {
+    protected void populateFontSize(FRFont frFont) {
         if (fontSizeComboBox != null) {
             fontSizeComboBox.setSelectedItem(frFont.getSize());
         }
@@ -177,7 +176,7 @@ public class ChartTextAttrPane extends BasicPane {
     }
 
     protected Object[] getFontSizeComboBoxModel() {
-        return Font_Sizes;
+        return FONT_SIZES;
     }
 
     protected void initState() {
