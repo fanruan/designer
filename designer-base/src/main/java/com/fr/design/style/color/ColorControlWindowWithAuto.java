@@ -1,5 +1,6 @@
 package com.fr.design.style.color;
 
+import com.fr.chart.base.ChartConstants;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
@@ -59,12 +60,12 @@ public abstract class ColorControlWindowWithAuto extends ColorControlWindow {
 
         protected void doTransparent() {
             getPopupHider().hidePopupMenu();
-            setColor(UIConstants.TRANSPARENT_FONT_COLOR);
+            setColor(null);
         }
 
         protected void doAuto() {
             getPopupHider().hidePopupMenu();
-            setColor(UIConstants.AUTO_FONT_COLOR);
+            setColor(ChartConstants.AUTO_FONT_COLOR);
         }
 
         public void customButtonPressed() {

@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.chart.gui.style;
 
+import com.fr.chart.base.ChartConstants;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIColorButtonWithAuto;
 import com.fr.design.i18n.Toolkit;
@@ -10,7 +11,6 @@ import com.fr.general.GeneralUtils;
 public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
     private static final String AUTO = Toolkit.i18nText("Fine-Design_Basic_ChartF_Auto");
-    private static final int AUTO_SIZE_INT = 0;
     private boolean isFontSizeAuto = false;
     private boolean isColorAuto = false;
 
@@ -48,7 +48,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
     protected float getFontSize() {
         if (isFontSizeAuto && ComparatorUtils.equals(getFontSizeComboBox().getSelectedItem(), AUTO)) {
-            return AUTO_SIZE_INT;
+            return ChartConstants.AUTO_FONT_SIZE;
         }
 
         return Float.parseFloat(GeneralUtils.objectToString(getFontSizeComboBox().getSelectedItem()));
@@ -56,7 +56,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
     protected void setFontSize(FRFont frFont) {
         if (getFontSizeComboBox() != null && isFontSizeAuto) {
-            if (frFont.getSize() == AUTO_SIZE_INT) {
+            if (frFont.getSize() == ChartConstants.AUTO_FONT_SIZE) {
                 getFontSizeComboBox().setSelectedItem(AUTO);
             } else {
                 getFontSizeComboBox().setSelectedItem(frFont.getSize() + "");

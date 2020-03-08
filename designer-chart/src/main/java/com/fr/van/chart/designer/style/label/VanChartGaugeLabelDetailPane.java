@@ -44,7 +44,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
     }
 
     public GaugeStyle getGaugeStyle() {
-        return gaugeStyle;
+        return ((VanChartGaugePlot)this.getPlot()).getGaugeStyle();
     }
 
     public void setGaugeStyle(GaugeStyle gaugeStyle) {
