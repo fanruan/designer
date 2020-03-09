@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.chart.gui.style;
 
 import com.fr.chart.base.ChartConstants;
+import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIColorButtonWithAuto;
 import com.fr.design.i18n.Toolkit;
@@ -35,7 +36,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     }
 
     protected void initFontColorState() {
-        setFontColor(isColorAuto ? new UIColorButtonWithAuto() : new UIColorButton());
+        setFontColor(isColorAuto ? new UIColorButtonWithAuto(UIConstants.AUTO_FONT_ICON) : new UIColorButton(UIConstants.FONT_ICON));
     }
 
     protected Object[] getFontSizeComboBoxModel() {

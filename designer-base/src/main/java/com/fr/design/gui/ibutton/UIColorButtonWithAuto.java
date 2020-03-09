@@ -6,9 +6,18 @@ import com.fr.design.style.color.ColorControlWindow;
 import com.fr.design.style.color.ColorControlWindowWithAuto;
 import com.fr.general.ComparatorUtils;
 
+import javax.swing.Icon;
 import java.awt.Color;
 
 public class UIColorButtonWithAuto extends UIColorButton {
+
+    public UIColorButtonWithAuto() {
+        super();
+    }
+
+    public UIColorButtonWithAuto(Icon autoFontIcon) {
+        super(autoFontIcon);
+    }
 
     protected void checkColorChange(Color oldColor, Color newColor) {
         if (ComparatorUtils.equals(oldColor, ChartConstants.AUTO_FONT_COLOR) && !ComparatorUtils.equals(newColor, ChartConstants.AUTO_FONT_COLOR)) {
