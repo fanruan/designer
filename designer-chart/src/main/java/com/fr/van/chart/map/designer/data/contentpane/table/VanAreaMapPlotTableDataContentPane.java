@@ -9,6 +9,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.map.VanChartMapPlot;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.SeriesTypeUseComboxPaneWithOutFilter;
 
@@ -139,7 +140,7 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
         if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
             VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
-            mapTableDefinitionProvider.setMatchResult(this.getMatchResult());
+            mapTableDefinitionProvider.setMatchResult((MapMatchResult) this.getMatchResult().clone());
             updateDefinition(mapTableDefinitionProvider);
         }
     }
@@ -157,7 +158,7 @@ public class VanAreaMapPlotTableDataContentPane extends VanMapTableDataContentPa
         TopDefinitionProvider topDefinitionProvider = collection.getSelectedChart().getFilterDefinition();
         if (topDefinitionProvider instanceof VanMapTableDefinitionProvider) {
             VanMapTableDefinitionProvider mapTableDefinitionProvider = (VanMapTableDefinitionProvider) topDefinitionProvider;
-            this.setMatchResult(mapTableDefinitionProvider.getMatchResult());
+            this.setMatchResult((MapMatchResult) mapTableDefinitionProvider.getMatchResult().clone());
             populateDefinition(mapTableDefinitionProvider);
         }
     }

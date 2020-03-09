@@ -2,7 +2,6 @@ package com.fr.design.chartx.component;
 
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.itextfield.UITextField;
-import com.fr.general.IOUtils;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 
 import javax.swing.JTextField;
@@ -86,9 +85,6 @@ public class TableTreeComboBox extends FRTreeComboBox {
             if (value instanceof DefaultMutableTreeNode) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
                 Object userObj = node.getUserObject();
-                if (node.getChildCount() > 0) {
-                    this.setIcon(IOUtils.readIcon("com/fr/design/images/m_insert/expandCell.gif"));
-                }
                 if (userObj != null) {
                     this.setText(ChartGEOJSONHelper.getPresentNameWithPath(userObj.toString()));
                 }

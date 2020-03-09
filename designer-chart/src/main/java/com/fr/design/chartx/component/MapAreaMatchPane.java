@@ -18,7 +18,6 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
 import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.GeneralUtils;
@@ -35,6 +34,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.HashMap;
@@ -226,7 +226,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
 
         if (ArrayUtils.isNotEmpty(parameters)) {
             final ParameterInputPane pPane = new ParameterInputPane(parameters);
-            pPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
+            pPane.showSmallWindow(SwingUtilities.getWindowAncestor(this), new DialogActionAdapter() {
                 @Override
                 public void doOk() {
                     parameterMap.putAll(pPane.update());
