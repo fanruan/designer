@@ -101,7 +101,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
 
     protected ChartTextAttrPane getChartTextAttrPane() {
         if (isMulti(gaugeStyle)) {
-            return new ChartTextAttrPaneWithAuto(false, true);
+            return new ChartTextAttrPaneWithAuto(true, true);
         } else {
             return new ChartTextAttrPane();
         }
