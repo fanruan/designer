@@ -7,6 +7,7 @@ import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
+import com.fr.design.i18n.Toolkit;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -28,16 +29,14 @@ public class VanChartGaugePlotLabelPane extends VanChartPlotLabelPane {
         labelDetailPane = new VanChartGaugeCateOrPercentLabelDetailPane(this.plot, this.parent);
         gaugeValueLabelPane = new VanChartGaugeValueLabelDetailPane(this.plot, this.parent);
         GaugeStyle gaugeStyle = ((VanChartGaugePlot)this.plot).getGaugeStyle();
-        String cateTitle, valueTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Label");
+        String cateTitle, valueTitle = Toolkit.i18nText("Fine-Design_Chart_Value_Label");
         switch (gaugeStyle){
             case POINTER:
-                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Label");
-                break;
             case POINTER_SEMI:
-                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Category_Label");
+                cateTitle = Toolkit.i18nText("Fine-Design_Chart_Category_Label");
                 break;
             default:
-                cateTitle = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Percent_Label");
+                cateTitle = Toolkit.i18nText("Fine-Design_Chart_Percent_Label");
                 break;
         }
         JPanel cateOrPercentPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(cateTitle, labelDetailPane);
