@@ -12,9 +12,9 @@ import com.fr.general.GeneralUtils;
 public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
 
     private static final String AUTO = Toolkit.i18nText("Fine-Design_Basic_ChartF_Auto");
-    private boolean isFontSizeAuto = false;
-    private boolean isColorAuto = false;
+    private FontAutoType type;
     public static String[] FONT_SIZES_WITH_AUTO = new String[FONT_END - FONT_START + 2];
+
     static {
         FONT_SIZES_WITH_AUTO[0] = AUTO;
 
@@ -24,42 +24,29 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     }
 
     public ChartTextAttrPaneWithAuto(FontAutoType type) {
-        initAutoType(type);
+        this.type = type;
         initState();
         initComponents();
     }
 
-    private void initAutoType(FontAutoType type) {
-        switch (type) {
-            case NONE:
-                this.isFontSizeAuto = false;
-                this.isColorAuto = false;
-                break;
-            case SIZE:
-                this.isFontSizeAuto = true;
-                this.isColorAuto = false;
-                break;
-            case COLOR:
-                this.isFontSizeAuto = false;
-                this.isColorAuto = true;
-                break;
-            case SIZE_AND_COLOR:
-                this.isFontSizeAuto = true;
-                this.isColorAuto = true;
-                break;
-        }
+    private boolean isFontSizeAuto() {
+        return type == FontAutoType.SIZE || type == FontAutoType.SIZE_AND_COLOR;
+    }
+
+    private boolean isFontColorAuto() {
+        return type == FontAutoType.COLOR || type == FontAutoType.SIZE_AND_COLOR;
     }
 
     protected void initFontColorState() {
-        setFontColor(isColorAuto ? new UIColorButtonWithAuto() : new UIColorButton());
+        setFontColor(isFontColorAuto() ? new UIColorButtonWithAuto() : new UIColorButton());
     }
 
     protected Object[] getFontSizeComboBoxModel() {
-        return isFontSizeAuto ? FONT_SIZES_WITH_AUTO : FONT_SIZES;
+        return isFontSizeAuto() ? FONT_SIZES_WITH_AUTO : FONT_SIZES;
     }
 
     protected float updateFontSize() {
-        if (isFontSizeAuto && ComparatorUtils.equals(getFontSizeComboBox().getSelectedItem(), AUTO)) {
+        if (isFontSizeAuto() && ComparatorUtils.equals(getFontSizeComboBox().getSelectedItem(), AUTO)) {
             return ChartConstants.AUTO_FONT_SIZE;
         }
 
@@ -67,7 +54,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
     }
 
     protected void populateFontSize(FRFont frFont) {
-        if (getFontSizeComboBox() != null && isFontSizeAuto) {
+        if (getFontSizeComboBox() != null && isFontSizeAuto()) {
             if (frFont.getSize() == ChartConstants.AUTO_FONT_SIZE) {
                 getFontSizeComboBox().setSelectedItem(AUTO);
             } else {
@@ -75,7 +62,7 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
             }
         }
 
-        if (getFontSizeComboBox() != null && !isFontSizeAuto) {
+        if (getFontSizeComboBox() != null && !isFontSizeAuto()) {
             getFontSizeComboBox().setSelectedItem(frFont.getSize());
         }
     }
