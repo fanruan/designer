@@ -2,12 +2,14 @@ package com.fr.van.chart.map.designer.data.contentpane.table;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.table.AbstractLongLatAreaPane;
+import com.fr.van.chart.map.designer.data.component.table.AreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapAreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapLongLatAreaPane;
 
@@ -15,11 +17,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.List;
 
 /**
  * Created by Mitisky on 16/5/17.
@@ -214,7 +216,17 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
     }
 
     protected AbstractLongLatAreaPane createAreaPane(LongLatAreaTableComboPane longLatAreaTableComboPane) {
-        return new PointMapAreaPane(longLatAreaTableComboPane);
+        return new PointMapAreaPane(longLatAreaTableComboPane) {
+            protected void initAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
+                areaPane = new AreaPane(parentPane) {
+                    protected Component[][] getComponent () {
+                        return new Component[][]{
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), VanPointMapPlotTableDataContentPane.this.createAreaPanel(areaNameCom)}
+                        };
+                    }
+                };
+            }
+        };
     }
 
     protected AbstractLongLatAreaPane createLongLatAreaPane(LongLatAreaTableComboPane longLatAreaTableComboPane) {

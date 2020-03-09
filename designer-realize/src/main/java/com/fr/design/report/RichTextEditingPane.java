@@ -14,9 +14,14 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.cellattr.core.RichText;
 import com.fr.report.cell.cellattr.core.RichTextConverter;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Element;
+import javax.swing.text.Highlighter;
 import javax.swing.text.StyledDocument;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -44,6 +49,7 @@ public class RichTextEditingPane extends UITextPane{
 	 */
 	public RichTextEditingPane() {
 		this.addMouseListener(doubleClickFormulaListener);
+        this.addFocusListener(focusListener);
 	}
 
 	/**
@@ -195,4 +201,34 @@ public class RichTextEditingPane extends UITextPane{
 			}
 		}
 	};
+
+    private FocusListener focusListener = new FocusAdapter() {
+        /**
+         * 移除高亮，重新选中文本
+         * @param e
+         */
+        public void focusGained(FocusEvent e) {
+            RichTextEditingPane richTextPane = RichTextEditingPane.this;
+            richTextPane.getHighlighter().removeAllHighlights();
+            richTextPane.select(richTextPane.getSelectionStart(), richTextPane.getSelectionEnd());
+        }
+
+        /**
+         * 失去焦点时，被选中的文本保持着被选中时的样式
+         * @param e
+         */
+        public void focusLost(FocusEvent e) {
+            RichTextEditingPane richTextPane = RichTextEditingPane.this;
+            int start = richTextPane.getSelectionStart();
+            int end = richTextPane.getSelectionEnd();
+            richTextPane.select(start, end);
+            Highlighter highlighter = richTextPane.getHighlighter();
+            richTextPane.getHighlighter().removeAllHighlights();
+            try {
+                highlighter.addHighlight(start, end, DefaultHighlighter.DefaultPainter);
+            } catch (BadLocationException exception) {
+                FineLoggerFactory.getLogger().error(exception.getMessage(), exception);
+            }
+        }
+    };
 }

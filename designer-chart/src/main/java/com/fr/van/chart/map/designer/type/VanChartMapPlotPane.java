@@ -89,7 +89,6 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
             }
         }
     }
-
     /**
      * 不同地图类型的超链不需要复制
      *

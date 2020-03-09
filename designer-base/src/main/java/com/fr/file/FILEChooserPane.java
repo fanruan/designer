@@ -505,6 +505,9 @@ public class FILEChooserPane extends BasicPane {
         if (StringUtils.isEmpty(fileName) || StringUtils.isEmpty(filterExtension) || fileFilter.containsExtension(fileExtension.getExtension())) {
             return fileName;
         }
+        if (!ComparatorUtils.equals(fileNameExtension, filterExtension)) {
+            return fileName + filterExtension;
+        }
         return fileNameWithOutExtension + filterExtension;
     }
 

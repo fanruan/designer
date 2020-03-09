@@ -27,6 +27,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.rpc.Result;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
+import com.fr.stable.StringUtils;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
@@ -131,6 +132,11 @@ public class EnvChangeEntrance {
                     }
                 }
             });
+            // REPORT-25688如果是war包部署的服务器，给与提示
+            if (WorkContext.getCurrent().isWarDeploy()) {
+                FineJOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Basic_War_Deploy_Tip"),
+                        Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.INFORMATION_MESSAGE);
+            }
             //REPORT-13810如果只是添加了工作目录,没有切换,这里ToolArea也是要显示新建的工作目录
             JTemplate template = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
             if (template != null) {
@@ -262,6 +268,9 @@ public class EnvChangeEntrance {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar calendar = Calendar.getInstance();
+                if(StringUtils.isEmpty(selectedEnv.getRemindTime())){
+                    return true;
+                }
                 //获取记录的时间
                 Date remindTime = format.parse(selectedEnv.getRemindTime());
                 calendar.setTime(remindTime);
@@ -325,7 +334,7 @@ public class EnvChangeEntrance {
             return noExistServiceSet;
         } catch (Exception e){
             FineLoggerFactory.getLogger().error(e.getMessage(),e);
-            return null;
+            return noExistServiceSet;
         }
     }
 

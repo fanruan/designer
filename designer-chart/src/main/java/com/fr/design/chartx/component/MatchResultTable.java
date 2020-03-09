@@ -5,7 +5,7 @@ import com.fr.base.Utils;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.stable.StringUtils;
 
 import javax.swing.AbstractCellEditor;

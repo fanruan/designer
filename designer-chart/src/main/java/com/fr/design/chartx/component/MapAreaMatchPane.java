@@ -24,7 +24,7 @@ import com.fr.design.parameter.ParameterInputPane;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
 import com.fr.general.data.TableDataException;
-import com.fr.plugin.chart.map.MapMatchResult;
+import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.script.Calculator;
 import com.fr.stable.ArrayUtils;
@@ -196,7 +196,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
         matchResultTable.populateBean(matchResult);
 
-        if (matchResult != null && matchResult.getTableName() != null) {
+        if (matchResult != null && StringUtils.isNotEmpty(matchResult.getTableName())) {
             tableName = matchResult.getTableName();
             areaName = matchResult.getColumnName();
         }
@@ -261,7 +261,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
     private void populateMatchData(Object[] columnData) {
         Set<String> geoAreas = matchAreaTable.getItems();
 
-        Map<String, String> resultMap = ChartGEOJSONHelper.matchArea(columnData, geoAreas, matchResultTable.getCustomResult());
+        Map<String, String> resultMap = ChartGEOJSONHelper.matchAreaList(columnData, geoAreas, matchResultTable.getCustomResult());
 
         Object[][] data = new Object[resultMap.size()][2];
 
