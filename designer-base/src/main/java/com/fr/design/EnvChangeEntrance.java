@@ -27,6 +27,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.rpc.Result;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
+import com.fr.stable.StringUtils;
 import com.fr.start.server.ServerTray;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.WorkContextCallback;
@@ -267,6 +268,9 @@ public class EnvChangeEntrance {
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar calendar = Calendar.getInstance();
+                if(StringUtils.isEmpty(selectedEnv.getRemindTime())){
+                    return true;
+                }
                 //获取记录的时间
                 Date remindTime = format.parse(selectedEnv.getRemindTime());
                 calendar.setTime(remindTime);
@@ -330,7 +334,7 @@ public class EnvChangeEntrance {
             return noExistServiceSet;
         } catch (Exception e){
             FineLoggerFactory.getLogger().error(e.getMessage(),e);
-            return null;
+            return noExistServiceSet;
         }
     }
 

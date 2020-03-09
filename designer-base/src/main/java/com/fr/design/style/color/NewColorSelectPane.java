@@ -5,6 +5,7 @@ import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 
@@ -56,20 +57,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
      * Constructor.
      */
     NewColorSelectPane(boolean isSupportTransparent) {
-        this.isSupportTransparent = isSupportTransparent;
-        this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.setBorder(new UIRoundedBorder(UIConstants.TOOLBAR_BORDER_COLOR, 1, 5));
-        if (isSupportTransparent) {
-            UIButton transpanrentButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
-            this.add(transpanrentButton, BorderLayout.NORTH);
-            transpanrentButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    doTransparent();
-                }
-            });
-        }
+        initSelectButton(isSupportTransparent);
 
         // center
         JPanel centerPane = FRGUIPaneFactory.createY_AXISBoxInnerContainer_S_Pane();
@@ -97,7 +85,7 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane.add(Box.createVerticalStrut(1));
 
         // mod by anchore 16/11/16
-        final UIButton customButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_More_Color"));
+        final UIButton customButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_More_Color"));
 
         // 不能使用 ActionListener，否则设计器工具栏中的"更多颜色"按钮会有问题（REPORT-13654）
         customButton.addMouseListener(new MouseAdapter() {
@@ -115,6 +103,27 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane1.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 8));
         centerPane1.add(customButton, BorderLayout.NORTH);
         centerPane.add(centerPane1);
+    }
+
+    public void setSupportTransparent(boolean supportTransparent) {
+        isSupportTransparent = supportTransparent;
+    }
+
+    protected void initSelectButton(boolean isSupportTransparent){
+        this.isSupportTransparent = isSupportTransparent;
+        this.setLayout(FRGUIPaneFactory.createBorderLayout());
+        this.setBorder(new UIRoundedBorder(UIConstants.TOOLBAR_BORDER_COLOR, 1, 5));
+        if (isSupportTransparent) {
+            UIButton transparentButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_ChartF_Transparency"));
+            this.add(transparentButton, BorderLayout.NORTH);
+            transparentButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    doTransparent();
+                }
+            });
+        }
     }
 
 
