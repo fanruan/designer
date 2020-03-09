@@ -4,6 +4,7 @@ import com.fr.chart.base.ChartConstants;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIColorButtonWithAuto;
 import com.fr.design.i18n.Toolkit;
+import com.fr.plugin.chart.type.FontAutoType;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralUtils;
@@ -22,16 +23,31 @@ public class ChartTextAttrPaneWithAuto extends ChartTextAttrPane {
         }
     }
 
-    public ChartTextAttrPaneWithAuto() {
-        super();
-    }
-
-    public ChartTextAttrPaneWithAuto(boolean isFontSizeAuto, boolean isColorAuto) {
-        this.isFontSizeAuto = isFontSizeAuto;
-        this.isColorAuto = isColorAuto;
-
+    public ChartTextAttrPaneWithAuto(FontAutoType type) {
+        initAutoType(type);
         initState();
         initComponents();
+    }
+
+    private void initAutoType(FontAutoType type) {
+        switch (type) {
+            case NONE:
+                this.isFontSizeAuto = false;
+                this.isColorAuto = false;
+                break;
+            case SIZE:
+                this.isFontSizeAuto = true;
+                this.isColorAuto = false;
+                break;
+            case COLOR:
+                this.isFontSizeAuto = false;
+                this.isColorAuto = true;
+                break;
+            case SIZE_AND_COLOR:
+                this.isFontSizeAuto = true;
+                this.isColorAuto = true;
+                break;
+        }
     }
 
     protected void initFontColorState() {
