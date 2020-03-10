@@ -106,6 +106,7 @@ public class MainDesigner extends BaseDesigner {
         watch.start();
         //启动运行时
         FineRuntime.start();
+        DesignerSubListener.getInstance().start();
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));

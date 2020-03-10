@@ -30,6 +30,8 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.*;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
@@ -598,6 +600,7 @@ public class UpdateMainDialog extends UIDialog {
                     final String installLib = StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LOGS_NAME, UpdateConstants.INSTALL_LIB);
                     final JFrame frame = DesignerContext.getDesignerFrame();
                     final RestartHelper helper = new RestartHelper();
+                    FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
