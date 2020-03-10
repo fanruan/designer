@@ -153,7 +153,14 @@ public class RestartHelper {
         } finally {
             WorkContext.getCurrent().close();
             frame.dispose();
-            DesignerExiter.getInstance().execute();
+            try {
+                // 更新升级过渡用 供当前测试 后面可删除
+                Class.forName("com.fr.exit.DesignerExiter");
+                DesignerExiter.getInstance().execute();
+            } catch (Exception ignore) {
+            } finally {
+                System.exit(0);
+            }
         }
     }
 

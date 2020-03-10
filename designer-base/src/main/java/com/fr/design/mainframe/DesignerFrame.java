@@ -50,16 +50,18 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.os.support.OSBasedAction;
 import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.project.ProjectConstants;
@@ -501,8 +503,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 image = ICODecoder.read(DesignerFrame.class
                         .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
             }
-            this.setIconImages(image);
-        } catch (IOException e) {
+            if (OperatingSystem.isMacos()) {
+                Class clazz = Class.forName("com.apple.eawt.Application");
+                BufferedImage icon =  image.isEmpty() ? IOUtils.readImage("/com/fr/base/images/oem/logo.png") : image.get(image.size() - 1);
+                Reflect.on(Reflect.on(clazz).call("getApplication").get()).call("setDockIconImage", icon);
+            } else {
+                this.setIconImages(image);
+            }
+        } catch (IOException | ClassNotFoundException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         }

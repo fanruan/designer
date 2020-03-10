@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.design.RestartHelper;
 import com.fr.process.FineProcess;
 import com.fr.process.engine.FineJavaProcessFactory;
 import com.fr.process.engine.core.FineProcessContext;
@@ -63,6 +64,6 @@ public class DesignerLauncher {
 
     public void restart() {
         beforeExit();
-        start(args);
+        RestartHelper.restart();
     }
 }
