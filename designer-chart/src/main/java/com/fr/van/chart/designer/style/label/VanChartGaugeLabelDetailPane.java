@@ -70,23 +70,21 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return false;
     }
 
-    private FontAutoType getFontAutoType(boolean isFontSizeAuto, boolean isFontColorAuto) {
-        if (isFontSizeAuto && isFontColorAuto) {
+    private FontAutoType getFontAutoType() {
+        if (isFontSizeAuto() && isFontColorAuto()) {
             return FontAutoType.SIZE_AND_COLOR;
         }
-        if (isFontSizeAuto) {
+        if (isFontSizeAuto()) {
             return FontAutoType.SIZE;
         }
-        if (isFontColorAuto) {
+        if (isFontColorAuto()) {
             return FontAutoType.COLOR;
         }
         return FontAutoType.NONE;
     }
 
     protected ChartTextAttrPane initTextFontPane() {
-        FontAutoType type = getFontAutoType(isFontSizeAuto(), isFontColorAuto());
-
-        return new ChartTextAttrPaneWithAuto(type) {
+        return new ChartTextAttrPaneWithAuto(getFontAutoType()) {
             protected double[] getRowSize() {
                 double p = TableLayout.PREFERRED;
                 return new double[]{p, p};
