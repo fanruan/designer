@@ -26,13 +26,15 @@ public class DesignerSubListener {
     }
 
     public void start() {
-        FineProcessContext.getParentPipe().listen(FineProcessEngineEvent.READY, new Listener<Null>() {
-            @Override
-            public void on(Event event, Null param) {
-                if (DesignerContext.getDesignerFrame() == null || !DesignerContext.getDesignerFrame().isShowing()) {
-                    FineProcessContext.getParentPipe().fire(new CarryMessageEvent(DesignerProcessType.INSTANCE.obtain()));
+        if (FineProcessContext.getParentPipe() != null) {
+            FineProcessContext.getParentPipe().listen(FineProcessEngineEvent.READY, new Listener<Null>() {
+                @Override
+                public void on(Event event, Null param) {
+                    if (DesignerContext.getDesignerFrame() == null || !DesignerContext.getDesignerFrame().isShowing()) {
+                        FineProcessContext.getParentPipe().fire(new CarryMessageEvent(DesignerProcessType.INSTANCE.obtain()));
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
