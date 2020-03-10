@@ -13,6 +13,7 @@ import com.fr.design.style.color.ColorSelectBox;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartGaugeAxis;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.FontAutoType;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
@@ -101,7 +102,7 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
 
     protected ChartTextAttrPane getChartTextAttrPane() {
         if (isMulti(gaugeStyle)) {
-            return new ChartTextAttrPaneWithAuto(false, true);
+            return new ChartTextAttrPaneWithAuto(FontAutoType.SIZE_AND_COLOR);
         } else {
             return new ChartTextAttrPane();
         }
