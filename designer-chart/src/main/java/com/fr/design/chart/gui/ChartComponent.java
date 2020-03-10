@@ -257,7 +257,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             if (resolution == 0){
                 resolution = ScreenResolution.getScreenResolution();
             }
-            painter.paint(g2d, chartWidth, chartHeight, resolution, null);
+            painter.paint(g2d, chartWidth, chartHeight, resolution, null, this);
         }
     }
 
