@@ -23,7 +23,7 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String JAVA_EXEC = "java";
     private static final String WIN_JRE_BIN = StableUtils.pathJoin("jre", "bin");
     private static final String MAC_JRE_BIN = StableUtils.pathJoin("jre.bundle", "Contents", "Home", "jre", "bin");
-    private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"};
+    private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
 
     private static final DesignerJavaRuntime INSTANCE = new DesignerJavaRuntime();
 
