@@ -1,6 +1,7 @@
 package com.fr.design.widget;
 
 import com.fr.design.ExtraDesignClassManager;
+import com.fr.design.fun.CellWidgetOptionProvider;
 import com.fr.design.gui.core.WidgetConstants;
 import com.fr.design.widget.ui.ButtonDefinePane;
 import com.fr.design.widget.ui.CheckBoxDefinePane;
@@ -42,7 +43,13 @@ import com.fr.form.ui.TextEditor;
 import com.fr.form.ui.TreeComboBoxEditor;
 import com.fr.form.ui.TreeEditor;
 import com.fr.form.ui.Widget;
+import com.fr.general.GeneralContext;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.report.web.button.form.TreeNodeToggleButton;
 import com.fr.report.web.button.write.AppendRowButton;
 import com.fr.report.web.button.write.DeleteRowButton;
@@ -66,6 +73,26 @@ public class WidgetDefinePaneFactory {
     private static Map<Class<? extends Widget>, Appearance> pluginDefineMap = ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap();
 
     static {
+        putDefault();
+
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            @Override
+            public void on(PluginEvent event) {
+                refreshPluginMap();
+            }
+        }, new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(PluginModule.ExtraDesign, CellWidgetOptionProvider.XML_TAG);
+            }
+        });
+    }
+
+    private WidgetDefinePaneFactory() {
+
+    }
+
+    private static void putDefault() {
         defineMap.put(NumberEditor.class, new Appearance(NumberEditorDefinePane.class, WidgetConstants.NUMBER + ""));
         defineMap.put(DateEditor.class, new Appearance(DateEditorDefinePane.class, WidgetConstants.DATE + ""));
         defineMap.put(ComboCheckBox.class, new Appearance(ComboCheckBoxDefinePane.class, WidgetConstants.COMBOCHECKBOX + ""));
@@ -96,8 +123,9 @@ public class WidgetDefinePaneFactory {
         defineMap.put(TreeNodeToggleButton.class, new Appearance(ButtonDefinePane.class, WidgetConstants.BUTTON + ""));
     }
 
-    private WidgetDefinePaneFactory() {
-
+    private static void refreshPluginMap() {
+        pluginDefineMap.clear();
+        pluginDefineMap.putAll(ExtraDesignClassManager.getInstance().getCellWidgetOptionsMap());
     }
 
     @Nullable
