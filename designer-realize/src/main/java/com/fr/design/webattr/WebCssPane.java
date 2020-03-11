@@ -12,6 +12,7 @@ import com.fr.file.FILEChooserPane;
 import com.fr.file.filter.ChooseFileFilter;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.BorderFactory;
@@ -46,7 +47,8 @@ public class WebCssPane extends BasicPane {
 		northPane.add(localText, FlowLayout.CENTER);
 		northPane.add(chooseFile, FlowLayout.RIGHT);
 		outnorth.add(northPane,BorderLayout.NORTH);
-		UILabel infor = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning"));
+		UILabel infor = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_CSS_Warning",
+																								ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBAPP_NAME));
 		infor.setForeground(new Color(207, 42, 39));
 		outnorth.add(infor,BorderLayout.CENTER);
 		this.add(outnorth, BorderLayout.NORTH);
