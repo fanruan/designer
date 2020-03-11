@@ -54,7 +54,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         font = font.applySize(15).applyStyle(1);
         JLabel label = new JLabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Inconsistency"));
         label.setFont(font);
-        label.setPreferredSize(new Dimension(600,30));
+        label.setPreferredSize(new Dimension(650,30));
         JLabel label2 = new JLabel("<html>"+Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Local_Designer")
                 + localBranch + "/" + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch+"</html>");
         label2.setPreferredSize(new Dimension(600,30));
@@ -98,7 +98,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         this.add(topPanel,BorderLayout.NORTH);
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(buttonPanel,BorderLayout.SOUTH);
-        this.setSize(new Dimension(GeneralContext.getLocale().equals(Locale.US)? 700:600, 500));
+        this.setSize(new Dimension(GeneralContext.getLocale().equals(Locale.US)? 750:600, 500));
 
         GUICoreUtils.centerWindow(this);
     }
