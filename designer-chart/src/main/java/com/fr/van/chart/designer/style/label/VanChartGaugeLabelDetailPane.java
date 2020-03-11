@@ -13,6 +13,7 @@ import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPaneWithAuto;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.FontAutoType;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
@@ -69,9 +70,21 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
         return false;
     }
 
-    protected ChartTextAttrPane initTextFontPane() {
+    private FontAutoType getFontAutoType() {
+        if (isFontSizeAuto() && isFontColorAuto()) {
+            return FontAutoType.SIZE_AND_COLOR;
+        }
+        if (isFontSizeAuto()) {
+            return FontAutoType.SIZE;
+        }
+        if (isFontColorAuto()) {
+            return FontAutoType.COLOR;
+        }
+        return FontAutoType.NONE;
+    }
 
-        return new ChartTextAttrPaneWithAuto(isFontSizeAuto(), isFontColorAuto()) {
+    protected ChartTextAttrPane initTextFontPane() {
+        return new ChartTextAttrPaneWithAuto(getFontAutoType()) {
             protected double[] getRowSize() {
                 double p = TableLayout.PREFERRED;
                 return new double[]{p, p};

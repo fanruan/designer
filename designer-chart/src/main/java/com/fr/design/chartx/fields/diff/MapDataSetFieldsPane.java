@@ -63,7 +63,7 @@ public abstract class MapDataSetFieldsPane<T extends ColumnFieldCollectionWithSe
             public void actionPerformed(ActionEvent e) {
                 VanChartMapPlot plot = chart.getPlot();
                 if (treeNodeAndItems == null) {
-                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(plot.getGeoUrl(), level);
+                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(plot.getGeoUrl(), level, plot.getMapType());
                 }
                 final MapAreaMatchPane pane = new MapAreaMatchPane(treeNodeAndItems);
 
