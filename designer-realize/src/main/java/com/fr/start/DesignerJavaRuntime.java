@@ -6,6 +6,8 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
 
+import java.util.Set;
+
 /**
  * 设计器Java运行环境
  *
@@ -16,16 +18,31 @@ import com.fr.stable.os.OperatingSystem;
 public class DesignerJavaRuntime extends AbstractJavaRuntime {
 
     private static final String DOT = ".";
+    private static final String REMOTE_DEBUG = "-agentlib:jdwp=transport=dt_socket";
     private static final String INSTALL4J = ".install4j";
     private static final String JAVA_EXEC = "java";
     private static final String WIN_JRE_BIN = StableUtils.pathJoin("jre", "bin");
     private static final String MAC_JRE_BIN = StableUtils.pathJoin("jre.bundle", "Contents", "Home", "jre", "bin");
-    private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
+    private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000"};
 
     private static final DesignerJavaRuntime INSTANCE = new DesignerJavaRuntime();
 
     public static DesignerJavaRuntime getInstance() {
         return INSTANCE;
+    }
+
+    /**
+     * 远程调试不走启动守护
+     * @return
+     */
+    public boolean isInValidVmOptions() {
+        String[] options = getJvmOptions();
+        for (String op : options) {
+            if (op.startsWith(REMOTE_DEBUG)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
