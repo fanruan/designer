@@ -32,7 +32,7 @@ public class DesignerPort implements XMLReadable, XMLWriter {
 
     public static final String XML_TAG = "DesignerPort";
     private static final int MIN_PORT = 1024;
-    private static final int MAX_PORT = 65536;
+    private static final int MAX_PORT = 65535;
 
     public static final  DesignerPort INSTANCE = new DesignerPort();
 

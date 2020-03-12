@@ -58,6 +58,8 @@ public class DesignerStartup extends Activator {
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 检查是否是-Ddebug = true 启动 并切换对应的端口以及环境配置文件
         checkDebugStart();
+        // 都是在启动过程中读取，这边提前初始化xml配置
+        DesignerEnvManager.getEnvManager();
         // 初始化look and feel
         DesignUtils.initLookAndFeel();
         if (DesignUtils.isPortOccupied()) {
