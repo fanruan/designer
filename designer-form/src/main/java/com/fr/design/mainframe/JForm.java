@@ -5,6 +5,7 @@ import com.fr.base.PaperSize;
 import com.fr.base.Parameter;
 import com.fr.base.extension.FileExtension;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.FormMobileAttrAction;
 import com.fr.design.actions.TemplateParameterAction;
@@ -12,6 +13,7 @@ import com.fr.design.actions.core.WorkBookSupportable;
 import com.fr.design.actions.file.export.EmbeddedFormExportExportAction;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.cell.FloatElementsProvider;
+import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.designer.TargetComponent;
 import com.fr.design.designer.beans.actions.CopyAction;
 import com.fr.design.designer.beans.actions.CutAction;
@@ -587,6 +589,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
                 //下面这句话是防止撤销之后直接退出编辑再编辑撤销的东西会回来,因为撤销不会保存EC
                 formDesign.setElementCase(dataTable);
             }
+            TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).refreshDockingView();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }

@@ -33,9 +33,16 @@ public class TableDataManagerPane extends LoadingBasicPane {
 			);
 		}
 		tableDataPane = pane == null ? new TableDataPaneListPane() {
-			public void rename(String oldName, String newName) {
+			@Override
+			public void rename(final String oldName, final String newName) {
 				super.rename(oldName, newName);
-				renameConnection(oldName, newName);
+				new SwingWorker<Void, Void>() {
+					@Override
+					protected Void doInBackground() {
+						renameConnection(oldName, newName);
+						return null;
+					}
+				};
 			}
 		} : pane;
 		container.add(tableDataPane.getPanel(), BorderLayout.CENTER);
