@@ -92,13 +92,12 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                 if(attrLabel == null){
                     return;
                 }
+                attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_LABEL_FONT);
                 if(gaugeLayout.getSelectedIndex() == 0){
                     attrLabel.getAttrLabelDetail().setPosition(Constants.LEFT);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_VERTICAL_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.LEFT);
                 } else {
                     attrLabel.getAttrLabelDetail().setPosition(Constants.BOTTOM);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.BOTTOM);
                 }
             }
