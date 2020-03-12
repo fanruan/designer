@@ -684,21 +684,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             this.dispose();
 
             //模版重命名
-            boolean success = false;
-
-            // 提醒保存文件
-            SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
-            // 只有一个文件未保存时
-            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
-                int choose = saveSomeTempaltePane.saveLastOneTemplate();
-                if (choose != JOptionPane.CANCEL_OPTION) {
-                    success = selectedOperation.rename(fnf, path, newPath);
-                }
-            } else {
-                if (saveSomeTempaltePane.showSavePane()) {
-                    success = selectedOperation.rename(fnf, path, newPath);
-                }
-            }
+            boolean success = selectedOperation.rename(fnf, path, newPath);
 
             if (success) {
                 HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
