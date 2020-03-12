@@ -1,6 +1,6 @@
 package com.fr.design.env;
 
-import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.cluster.engine.remote.ClusterOperator;
 import com.fr.design.i18n.Toolkit;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.rpc.ExceptionHandler;
@@ -79,7 +79,12 @@ public class RemoteWorkspace implements Workspace {
 
     @Override
     public boolean isCluster() {
-        return FineClusterConfig.getInstance().isCluster();
+        return WorkContext.getCurrent().get(ClusterOperator.class, new ExceptionHandler<Boolean>() {
+            @Override
+            public Boolean callHandler(RPCInvokerExceptionInfo rpcInvokerExceptionInfo) {
+                return false;
+            }
+        }).isCluster();
     }
 
     @Override
