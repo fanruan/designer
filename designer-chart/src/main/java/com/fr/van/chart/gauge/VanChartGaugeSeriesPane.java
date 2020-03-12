@@ -17,6 +17,7 @@ import com.fr.design.i18n.Toolkit;
 
 import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.base.AttrLabel;
+import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
@@ -92,13 +93,16 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                 if(attrLabel == null){
                     return;
                 }
+                AttrLabelDetail attrLabelDetail = attrLabel.getAttrLabelDetail();
+                if(attrLabelDetail == null || attrLabelDetail.getTextAttr() == null){
+                    return;
+                }
+                attrLabelDetail.getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_LABEL_FONT);
                 if(gaugeLayout.getSelectedIndex() == 0){
                     attrLabel.getAttrLabelDetail().setPosition(Constants.LEFT);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_VERTICAL_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.LEFT);
                 } else {
                     attrLabel.getAttrLabelDetail().setPosition(Constants.BOTTOM);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.BOTTOM);
                 }
             }
