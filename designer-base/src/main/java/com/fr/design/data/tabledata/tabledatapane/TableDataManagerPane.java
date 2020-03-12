@@ -42,7 +42,7 @@ public class TableDataManagerPane extends LoadingBasicPane {
 						renameConnection(oldName, newName);
 						return null;
 					}
-				};
+				}.execute();
 			}
 		} : pane;
 		container.add(tableDataPane.getPanel(), BorderLayout.CENTER);
