@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 public class CommonPortDetector {
 
     private static final CommonPortDetector INSTANCE = new CommonPortDetector();
-    private ExecutorService service = ModuleContext.getExecutor().newSingleThreadScheduledExecutor(new NamedThreadFactory("CommonDetector"));
+    private ExecutorService service = ModuleContext.getExecutor().newSingleThreadExecutor(new NamedThreadFactory("CommonPortDetector"));
 
     public static CommonPortDetector getInstance() {
         return INSTANCE;
