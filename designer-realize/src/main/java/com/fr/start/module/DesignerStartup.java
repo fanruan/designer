@@ -24,6 +24,7 @@ import com.fr.record.analyzer.Metrics;
 import com.fr.stable.BuildContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.start.DesignerProcessType;
 import com.fr.start.OemHandler;
 import com.fr.start.ServerStarter;
@@ -91,6 +92,10 @@ public class DesignerStartup extends Activator {
                     }
                 };
                 dialog.setVisible(true);
+                StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getId(),
+                                                                DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getMessage(),
+                                                                StringUtils.EMPTY);
+                FineLoggerFactory.getLogger().error(DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getId() + ": " + DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getMessage());
             }
             DesignerExiter.getInstance().execute();
             return;
