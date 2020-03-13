@@ -109,6 +109,9 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -316,6 +319,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         // window close listener.
         this.addWindowListeners(getFrameListeners());
 
+        addMacOsListener();
+
         this.addComponentListener(new ComponentAdapter() {
 
             @Override
@@ -520,6 +525,29 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
 
         for (WindowListener listener : listeners) {
             this.addWindowListener(listener);
+        }
+    }
+
+    private void addMacOsListener() {
+        if (OperatingSystem.isMacos()) {
+            try {
+                Class app = Class.forName("com.apple.eawt.Application");
+                Class handler = Class.forName("com.apple.eawt.QuitHandler");
+                Object instance = Proxy.newProxyInstance(handler.getClassLoader(), new Class[]{handler},
+                                                         new InvocationHandler() {
+                                                             @Override
+                                                             public Object invoke(Object proxy, Method method,
+                                                                                  Object[] args) throws Throwable {
+                                                                 if ("handleQuitRequestWith".equals(method.getName())) {
+                                                                     DesignerFrame.this.exit();
+                                                                 }
+                                                                 return null;
+                                                             }
+                                                         });
+                Reflect.on(Reflect.on(app).call("getApplication").get()).call("setQuitHandler", instance);
+            } catch (ClassNotFoundException e) {
+                FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            }
         }
     }
 
