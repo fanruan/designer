@@ -40,7 +40,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
-import com.fr.design.os.impl.MacOsAction;
+import com.fr.design.os.impl.MacOsAddListenerAction;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
@@ -527,8 +527,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
 
     private void addMacOsListener() {
-        MacOsAction macOsAction = OSSupportCenter.getAction(MacOsAction.class);
-        macOsAction.execute(this);
+        OSSupportCenter.buildAction(new MacOsAddListenerAction(), SupportOSImpl.DOCK_QUIT);
     }
 
     protected ArrayList<WindowListener> getFrameListeners() {
