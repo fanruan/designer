@@ -40,6 +40,7 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.impl.MacOsAction;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
@@ -529,26 +530,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     }
 
     private void addMacOsListener() {
-        if (OperatingSystem.isMacos()) {
-            try {
-                Class app = Class.forName("com.apple.eawt.Application");
-                Class handler = Class.forName("com.apple.eawt.QuitHandler");
-                Object instance = Proxy.newProxyInstance(handler.getClassLoader(), new Class[]{handler},
-                                                         new InvocationHandler() {
-                                                             @Override
-                                                             public Object invoke(Object proxy, Method method,
-                                                                                  Object[] args) throws Throwable {
-                                                                 if ("handleQuitRequestWith".equals(method.getName())) {
-                                                                     DesignerFrame.this.exit();
-                                                                 }
-                                                                 return null;
-                                                             }
-                                                         });
-                Reflect.on(Reflect.on(app).call("getApplication").get()).call("setQuitHandler", instance);
-            } catch (ClassNotFoundException e) {
-                FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            }
-        }
+        MacOsAction macOsAction = OSSupportCenter.getAction(MacOsAction.class);
+        macOsAction.execute(this);
     }
 
     protected ArrayList<WindowListener> getFrameListeners() {
