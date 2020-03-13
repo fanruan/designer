@@ -1,11 +1,10 @@
 package com.fr.design.env;
 
-import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.cluster.engine.remote.ClusterOperator;
 import com.fr.design.i18n.Toolkit;
-import com.fr.invoke.ReflectException;
-import com.fr.log.FineLoggerFactory;
 import com.fr.base.operator.common.CommonOperator;
 import com.fr.rpc.ExceptionHandler;
+import com.fr.rpc.RPCInvokerExceptionInfo;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -51,13 +50,12 @@ public class RemoteWorkspace implements Workspace {
     
     @Override
     public boolean isWarDeploy() {
-
-        try {
-            return WorkContext.getCurrent().get(CommonOperator.class).isWarDeploy();
-        } catch (ReflectException e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            return false;
-        }
+        return WorkContext.getCurrent().get(CommonOperator.class, new ExceptionHandler<Boolean>() {
+            @Override
+            public Boolean callHandler(RPCInvokerExceptionInfo rpcInvokerExceptionInfo) {
+                return false;
+            }
+         }).isWarDeploy();
     }
 
     @Override
@@ -81,7 +79,12 @@ public class RemoteWorkspace implements Workspace {
 
     @Override
     public boolean isCluster() {
-        return FineClusterConfig.getInstance().isCluster();
+        return WorkContext.getCurrent().get(ClusterOperator.class, new ExceptionHandler<Boolean>() {
+            @Override
+            public Boolean callHandler(RPCInvokerExceptionInfo rpcInvokerExceptionInfo) {
+                return false;
+            }
+        }).isCluster();
     }
 
     @Override

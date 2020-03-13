@@ -63,7 +63,7 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (treeNodeAndItems == null) {
-                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(plot.getGeoUrl(), level);
+                    treeNodeAndItems = ChartGEOJSONHelper.getTreeNodeAndItems(plot.getGeoUrl(), level, plot.getMapType());
                 }
                 final MapAreaMatchPane pane = new MapAreaMatchPane(treeNodeAndItems);
 

@@ -57,7 +57,7 @@ public class DesignerSuperListener {
         process.getPipe().listen(FineProcessEngineEvent.DESTROY, new Listener<Null>() {
             @Override
             public void on(Event event, Null param) {
-                DesignerLauncher.getInstance().exit();
+                System.exit(0);
             }
         });
     }

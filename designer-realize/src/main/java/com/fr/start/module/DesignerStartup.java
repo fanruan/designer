@@ -24,6 +24,7 @@ import com.fr.record.analyzer.Metrics;
 import com.fr.stable.BuildContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 import com.fr.start.DesignerProcessType;
 import com.fr.start.OemHandler;
 import com.fr.start.ServerStarter;
@@ -58,6 +59,8 @@ public class DesignerStartup extends Activator {
         BuildContext.setBuildFilePath("/com/fr/stable/build.properties");
         // 检查是否是-Ddebug = true 启动 并切换对应的端口以及环境配置文件
         checkDebugStart();
+        // 都是在启动过程中读取，这边提前初始化xml配置
+        DesignerEnvManager.getEnvManager();
         // 初始化look and feel
         DesignUtils.initLookAndFeel();
         if (DesignUtils.isPortOccupied()) {
@@ -89,6 +92,10 @@ public class DesignerStartup extends Activator {
                     }
                 };
                 dialog.setVisible(true);
+                StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getId(),
+                                                                DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getMessage(),
+                                                                StringUtils.EMPTY);
+                FineLoggerFactory.getLogger().error(DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getId() + ": " + DesignerErrorMessage.DESIGNER_PROCESS_OCCUPIED.getMessage());
             }
             DesignerExiter.getInstance().execute();
             return;

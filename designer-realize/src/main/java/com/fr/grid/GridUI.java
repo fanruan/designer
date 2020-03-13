@@ -497,12 +497,12 @@ public class GridUI extends ComponentUI {
             paintCellElementRectangleList.add(this.tmpRectangle.clone());
 
 
-            int cellWidth = (int) this.tmpRectangle.getWidth();
-            int cellHeight = (int) this.tmpRectangle.getHeight();
+            double cellWidth =  this.tmpRectangle.getWidth();
+            double cellHeight =  this.tmpRectangle.getHeight();
             // denny_Grid: 画Grid中单元格的内容(包括单元格的背景Content + Background), 不包括边框
 
-            painter.paintBackground(g2d, report, tmpCellElement, cellWidth, cellHeight);
-            painter.paintContent(g2d, report, tmpCellElement, cellWidth, cellHeight, resolution);
+            painter.paintBackground(g2d, report, tmpCellElement, cellWidth - 1, cellHeight - 1);
+            painter.paintContent(g2d, report, tmpCellElement, (int) cellWidth, (int) cellHeight, resolution);
             // denny_Grid: 注意下面还要减一, 因为上面translate时加一
             g2d.translate(-this.tmpRectangle.getX() - 1, -this.tmpRectangle.getY() - 1);
             paintAuthorityCell(g2d, tmpCellElement);
