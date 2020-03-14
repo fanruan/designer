@@ -3,6 +3,7 @@
  */
 package com.fr.start;
 
+import com.fr.common.detect.CommonPortDetector;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.DesignerLaunchStatus;
@@ -76,6 +77,7 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             public void on(Event event, Null param) {
                 EventDispatcher.stopListen(this);
                 collectUserInformation();
+                CommonPortDetector.getInstance().execute();
             }
         });
     }
