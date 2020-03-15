@@ -701,7 +701,7 @@ public class DBManipulationPane extends BasicBeanPane<DBManipulation> {
 			}
 			jobs = new NameSubmitJob[dmlConfig.getSubmitJobCount()];
 			for (int i = 0; i < jobs.length; i++) {
-				jobs[i] = dmlConfig.getSubmitJob(i);
+				jobs[i] = dmlConfig.getNameSubmitJob(i);
 			}
 			condition = dmlConfig.getCondition();
             UpdateCheckBox.setSelected(dmlConfig.isUpdateSelected());
