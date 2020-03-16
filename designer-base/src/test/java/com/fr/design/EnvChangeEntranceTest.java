@@ -2,7 +2,7 @@ package com.fr.design;
 
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
-import com.fr.design.write.submit.CheckServiceDialog;
+import com.fr.env.CheckServiceDialog;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.engine.channel.http.FunctionalHttpRequest;
 import org.easymock.EasyMock;

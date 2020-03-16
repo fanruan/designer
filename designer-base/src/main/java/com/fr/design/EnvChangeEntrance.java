@@ -14,7 +14,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
-import com.fr.design.write.submit.CheckServiceDialog;
+import com.fr.env.CheckServiceDialog;
 import com.fr.env.EnvListPane;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.GeneralContext;

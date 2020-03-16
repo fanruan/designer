@@ -1,4 +1,4 @@
-package com.fr.design.write.submit;
+package com.fr.env;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
@@ -7,6 +7,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.env.utils.DisplayUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
@@ -56,7 +57,10 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         JLabel label = new JLabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Inconsistency"));
         label.setFont(font);
         label.setPreferredSize(new Dimension(650,30));
-        String delimiter = GeneralContext.getLocale().equals(Locale.US)? "<br>":"/";
+
+        String text = Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Local_Designer") + localBranch
+                + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch;
+        String delimiter = DisplayUtils.getDisplayLength(text) > 70? "<br>":"/";
         JLabel label2 = new JLabel("<html>"+Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Local_Designer")
                 + localBranch + delimiter + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch+"</html>");
         label2.setPreferredSize(new Dimension(600,30));
