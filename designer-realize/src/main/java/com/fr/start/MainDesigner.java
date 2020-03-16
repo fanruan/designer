@@ -165,6 +165,8 @@ public class MainDesigner extends BaseDesigner {
                 }
                 if (!success) {
                     afterBackupFailed();
+                } else {
+                    RestartHelper.restart();
                 }
             } else {
                 DesignerExiter.getInstance().execute();
