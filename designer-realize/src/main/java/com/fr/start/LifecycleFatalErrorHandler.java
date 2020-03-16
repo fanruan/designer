@@ -16,6 +16,8 @@ import com.fr.stable.lifecycle.FineLifecycleFatalError;
 import com.fr.stable.project.ProjectConstants;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author hades
@@ -25,75 +27,111 @@ import javax.swing.*;
 public class LifecycleFatalErrorHandler {
 
     private static final LifecycleFatalErrorHandler INSTANCE = new LifecycleFatalErrorHandler();
+    private Map<ErrorType, Handler> map = new HashMap<>();
+
+    private LifecycleFatalErrorHandler() {
+        for (ErrorType type : ErrorType.values()) {
+            if (ErrorType.FINEDB.equals(type)) {
+                map.put(type, FineDBHandler.SELF);
+            } else {
+                map.put(type, DefaultHandler.SELF);
+            }
+        }
+    }
 
     public static LifecycleFatalErrorHandler getInstance() {
         return INSTANCE;
     }
 
-
     public void handle(FineLifecycleFatalError fatal) {
         SplashContext.getInstance().hide();
-        if (ErrorType.FINEDB.equals(fatal.getErrorType())) {
-            StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.FINEDB_PROBLEM.getId(),
-                                                            DesignerErrorMessage.FINEDB_PROBLEM.getMessage(),
-                                                            fatal.getMessage());
-            FineLoggerFactory.getLogger().error(DesignerErrorMessage.FINEDB_PROBLEM.getId() + ": " + DesignerErrorMessage.FINEDB_PROBLEM.getMessage());
-            int result = FineJOptionPane.showOptionDialog(null,
-                                                          Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset"),
-                                                          Toolkit.i18nText("Fine-Design_Basic_Error_Tittle"),
-                                                          JOptionPane.YES_NO_OPTION,
-                                                          JOptionPane.ERROR_MESSAGE,
-                                                          IOUtils.readIcon("com/fr/design/images/error/error2.png"),
-                                                          new Object[] {Toolkit.i18nText("Fine-Design_Basic_Reset"), Toolkit.i18nText("Fine-Design_Basic_Cancel")},
-                                                          null);
-            if (result == JOptionPane.YES_OPTION) {
-                boolean success = false;
-                try {
-                    ResourceIOUtils.copy(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME),
-                                         StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_BAK_NAME));
-                    success = ResourceIOUtils.delete(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME));
-                } catch (Exception e) {
-                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                    afterBackupFailed();
-                }
-                if (!success) {
-                    afterBackupFailed();
+        map.get(fatal.getErrorType()).handle(fatal);
+    }
+
+    interface Handler {
+        void handle(FineLifecycleFatalError error);
+    }
+
+    /**
+     * finedb处理
+     */
+    enum FineDBHandler implements Handler {
+
+        SELF {
+            @Override
+            public void handle(FineLifecycleFatalError fatal) {
+                StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.FINEDB_PROBLEM.getId(),
+                                                                DesignerErrorMessage.FINEDB_PROBLEM.getMessage(),
+                                                                fatal.getMessage());
+                FineLoggerFactory.getLogger().error(DesignerErrorMessage.FINEDB_PROBLEM.getId() + ": " + DesignerErrorMessage.FINEDB_PROBLEM.getMessage());
+                int result = FineJOptionPane.showOptionDialog(null,
+                                                              Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset"),
+                                                              Toolkit.i18nText("Fine-Design_Basic_Error_Tittle"),
+                                                              JOptionPane.YES_NO_OPTION,
+                                                              JOptionPane.ERROR_MESSAGE,
+                                                              IOUtils.readIcon("com/fr/design/images/error/error2.png"),
+                                                              new Object[] {Toolkit.i18nText("Fine-Design_Basic_Reset"), Toolkit.i18nText("Fine-Design_Basic_Cancel")},
+                                                              null);
+                if (result == JOptionPane.YES_OPTION) {
+                    boolean success = false;
+                    try {
+                        ResourceIOUtils.copy(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME),
+                                             StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_BAK_NAME));
+                        success = ResourceIOUtils.delete(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME));
+                    } catch (Exception e) {
+                        FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                        afterBackupFailed();
+                    }
+                    if (!success) {
+                        afterBackupFailed();
+                    } else {
+                        RestartHelper.restart();
+                    }
                 } else {
-                    RestartHelper.restart();
+                    DesignerExiter.getInstance().execute();
                 }
-            } else {
+            }
+
+            private void afterBackupFailed() {
+                FineJOptionPane.showMessageDialog(null,
+                                                  Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset_Result",
+                                                                   ResourceIOUtils.getRealPath(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME))),
+                                                  Toolkit.i18nText("Fine-Design_Basic_Error"),
+                                                  JOptionPane.ERROR_MESSAGE);
                 DesignerExiter.getInstance().execute();
             }
         }
-        FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
-        StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.UNEXCEPTED_START_FAILED.getId(),
-                                                        DesignerErrorMessage.UNEXCEPTED_START_FAILED.getMessage(),
-                                                        fatal.getMessage());
-        ErrorDialog dialog = new ErrorDialog(null, Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
-                                             Toolkit.i18nText("Fine-Design_Error_Start_Report"),
-                                             fatal.getMessage()) {
-            @Override
-            protected void okEvent() {
-                dispose();
-                DesignerExiter.getInstance().execute();
-            }
-
-            @Override
-            protected void restartEvent() {
-                dispose();
-                RestartHelper.restart();
-            }
-        };
-        dialog.setVisible(true);
     }
 
-    private void afterBackupFailed() {
-        FineJOptionPane.showMessageDialog(null,
-                                          Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset_Result",
-                                                           ResourceIOUtils.getRealPath(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME))),
-                                          Toolkit.i18nText("Fine-Design_Basic_Error"),
-                                          JOptionPane.ERROR_MESSAGE);
-        DesignerExiter.getInstance().execute();
+    /**
+     * 默认处理
+     */
+    enum  DefaultHandler implements Handler {
+        SELF {
+            @Override
+            public void handle(FineLifecycleFatalError fatal) {
+                FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
+                StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.UNEXCEPTED_START_FAILED.getId(),
+                                                                DesignerErrorMessage.UNEXCEPTED_START_FAILED.getMessage(),
+                                                                fatal.getMessage());
+                ErrorDialog dialog = new ErrorDialog(null, Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
+                                                     Toolkit.i18nText("Fine-Design_Error_Start_Report"),
+                                                     fatal.getMessage()) {
+                    @Override
+                    protected void okEvent() {
+                        dispose();
+                        DesignerExiter.getInstance().execute();
+                    }
+
+                    @Override
+                    protected void restartEvent() {
+                        dispose();
+                        RestartHelper.restart();
+                    }
+                };
+                dialog.setVisible(true);
+            }
+        }
     }
 
 
