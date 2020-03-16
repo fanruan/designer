@@ -250,7 +250,8 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
             int size = dataModel.getRowCount();
             HashSet<Object> columnData = new LinkedHashSet<>();
             for (int i = 0; i < size; i++) {
-                columnData.add(dataModel.getValueAt(i, colIndex));
+                Object valueAt = dataModel.getValueAt(i, colIndex);
+                columnData.add(valueAt == null ? StringUtils.EMPTY : valueAt);
             }
             return columnData.toArray();
         } catch (TableDataException ignore) {

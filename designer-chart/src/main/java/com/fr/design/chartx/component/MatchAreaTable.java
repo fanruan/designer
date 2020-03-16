@@ -125,6 +125,7 @@ public class MatchAreaTable extends JTable {
         }
 
         public Object getCellEditorValue() {
+            comboBox.resetText();
             return comboBox.getSelectedItem();
         }
     }

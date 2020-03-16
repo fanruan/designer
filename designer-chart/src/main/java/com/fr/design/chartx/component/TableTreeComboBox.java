@@ -2,6 +2,8 @@ package com.fr.design.chartx.component;
 
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.itextfield.UITextField;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralUtils;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 
 import javax.swing.JTextField;
@@ -39,6 +41,19 @@ public class TableTreeComboBox extends FRTreeComboBox {
         matchLeafNode(parent, node, textField);
     }
 
+    @Override
+    public void setSelectedItemString(String name) {
+        super.setSelectedItemString(name);
+        this.textField.setText(name);
+    }
+
+    public void resetText() {
+        Object selectedItem = this.getSelectedItem();
+        if(!ComparatorUtils.equals(selectedItem, textField.getText())){
+            textField.setText(GeneralUtils.objectToString(selectedItem));
+        }
+    }
+
     private boolean matchLeafNode(TreePath parent, TreeNode node, UITextField textField) {
         for (Enumeration e = node.children(); e.hasMoreElements(); ) {
             TreeNode n = (TreeNode) e.nextElement();
@@ -71,7 +86,6 @@ public class TableTreeComboBox extends FRTreeComboBox {
                         .getLastPathComponent();
                 if (node.isLeaf()) {
                     TableTreeComboBox.this.setSelectedItem(treePath);
-                    textField.setText(pathToString(treePath));
                     MenuSelectionManager.defaultManager().clearSelectedPath();
                 }
             }
