@@ -59,6 +59,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.ErrorType;
+import com.fr.stable.lifecycle.FineLifecycleFatalError;
 import com.fr.stable.lifecycle.LifecycleFatalError;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
@@ -115,9 +116,9 @@ public class MainDesigner extends BaseDesigner {
         //启动运行时
         FineRuntime.start();
         DesignerSubListener.getInstance().start();
-        EventDispatcher.listen(LifecycleErrorEvent.SELF, new Listener<LifecycleFatalError>() {
+        EventDispatcher.listen(LifecycleErrorEvent.SELF, new Listener<FineLifecycleFatalError>() {
             @Override
-            public void on(Event event, LifecycleFatalError param) {
+            public void on(Event event, FineLifecycleFatalError param) {
                 afterError(param);
             }
         });
@@ -126,7 +127,7 @@ public class MainDesigner extends BaseDesigner {
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         try {
             designerRoot.start();
-        } catch (LifecycleFatalError fatal) {
+        } catch (FineLifecycleFatalError fatal) {
             afterError(fatal);
         }
 
