@@ -811,6 +811,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
      * @param index 切换位置
      */
     public void tabChanged(int index) {
+        this.index = index;
         if (index == ELEMENTCASE_TAB) {
             formDesign.setReportBlockEditing(true);
             ecTabAction();
@@ -818,7 +819,6 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
             formDesign.setReportBlockEditing(false);
             formTabAction();
         }
-        this.index = index;
         refreshToolArea();
         this.cardLayout.show(tabCenterPane, CARDNAME[index]);
         if (elementCaseDesign != null && index == ELEMENTCASE_TAB) {
