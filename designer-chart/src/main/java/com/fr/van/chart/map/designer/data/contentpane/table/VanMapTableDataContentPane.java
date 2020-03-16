@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * @author Bjorn
@@ -52,12 +54,18 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
         this.matchResult = matchResult;
     }
 
-    public JPanel createAreaPanel(final UIComboBox areaBox) {
+    public JPanel createAreaPanel(UIComboBox areaBox) {
         JPanel areaPanel = new JPanel(new BorderLayout(4, 0));
         areaBox.setPreferredSize(new Dimension(70, 20));
         areaPanel.add(areaBox, BorderLayout.CENTER);
         UIButton uiButton = new UIButton(BaseUtils.readIcon("/com/fr/design/images/buttonicon/config.png"));
-        uiButton.addActionListener(new ActionListener() {
+        uiButton.addActionListener(createActionListener(areaBox));
+        areaPanel.add(uiButton, BorderLayout.EAST);
+        return areaPanel;
+    }
+
+    private ActionListener createActionListener(final UIComboBox areaBox){
+        return new ActionListener() {
             private TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems;
 
             @Override
@@ -67,9 +75,8 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
                 }
                 final MapAreaMatchPane pane = new MapAreaMatchPane(treeNodeAndItems);
 
-                String nameTable = getTableName();
+                final String nameTable = getTableName();
 
-                pane.populateBean(matchResult, nameTable, Utils.objectToString(areaBox.getSelectedItem()));
                 BasicDialog dialog = pane.showWindow(new JFrame());
                 dialog.addDialogActionListener(new DialogActionListener() {
                     @Override
@@ -82,11 +89,45 @@ public abstract class VanMapTableDataContentPane extends AbstractTableDataConten
 
                     }
                 });
+                dialog.addWindowListener(new WindowListener() {
+                    @Override
+                    public void windowOpened(WindowEvent e) {
+                        pane.populateBean(matchResult, nameTable, Utils.objectToString(areaBox.getSelectedItem()));
+                    }
+
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowIconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeiconified(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowActivated(WindowEvent e) {
+
+                    }
+
+                    @Override
+                    public void windowDeactivated(WindowEvent e) {
+
+                    }
+                });
                 dialog.setVisible(true);
             }
-        });
-        areaPanel.add(uiButton, BorderLayout.EAST);
-        return areaPanel;
+        };
     }
 
     @Override
