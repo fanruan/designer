@@ -1,6 +1,7 @@
 package com.fr.design.os.impl;
 
-import com.fr.design.mainframe.DesignerFrame;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.exit.DesignerExiter;
 import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.os.support.OSBasedAction;
@@ -27,8 +28,11 @@ public class MacOsAddListenerAction implements OSBasedAction {
                                                          public Object invoke(Object proxy, Method method,
                                                                               Object[] args) throws Throwable {
                                                              if ("handleQuitRequestWith".equals(method.getName())) {
-                                                                 DesignerFrame designerFrame = (DesignerFrame) objects[0];
-                                                                 designerFrame.exit();
+                                                                 if (DesignerContext.getDesignerFrame() != null && DesignerContext.getDesignerFrame().isShowing()) {
+                                                                     DesignerContext.getDesignerFrame().exit();
+                                                                 } else {
+                                                                     DesignerExiter.getInstance().execute();
+                                                                 }
                                                              }
                                                              return null;
                                                          }
