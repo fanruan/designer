@@ -245,11 +245,18 @@ public class EnvChangeEntrance {
                 Set<Class> noExistServiceSet = getNoExistServiceSet(connectionInfo);
                 StringBuilder textBuilder = new StringBuilder();
                 for (Class clazz : noExistServiceSet) {
-                    WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
-                    String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
-                    textBuilder.append(descriptionOfCN).append("\n");
+                    try {
+                        WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
+                        String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
+                        textBuilder.append(descriptionOfCN).append("\n");
+                    }catch (Exception e){
+                        FineLoggerFactory.getLogger().info("workspace service {} get annotation failed", clazz);
+                    }
                 }
                 String areaText = textBuilder.toString();
+                if(StringUtils.isEmpty(areaText)){
+                    return;
+                }
                 CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), areaText, localBranch, remoteBranch);
                 dialog.setVisible(true);
             }
