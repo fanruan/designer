@@ -6,6 +6,7 @@ import com.fr.base.Style;
 import com.fr.base.TextFormat;
 import com.fr.data.core.FormatField;
 import com.fr.data.core.FormatField.FormatContents;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.constants.UIConstants;
@@ -36,20 +37,23 @@ import java.text.SimpleDateFormat;
  * @author zhou
  * @since 2012-5-24上午10:57:00
  */
-public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObserver {
+public class FormatPane extends AbstractBasicStylePane implements GlobalNameObserver {
     private static final long serialVersionUID = 724330854437726751L;
 
-    private static final int LABLE_X = 4;
-    private static final int LABLE_Y = 18;
-    private static final int LABLE_DELTA_WIDTH = 8;
-    private static final int LABLE_HEIGHT = 15; //标签背景的范围
+    private static final int LABEL_X = 4;
+    private static final int LABEL_Y = 18;
+    private static final int LABEL_DELTA_WIDTH = 8;
+    private static final int LABEL_HEIGHT = 15; //标签背景的范围
     private static final int CURRENCY_FLAG_POINT = 6;
-    private static final Border LEFT_BORDER = BorderFactory.createEmptyBorder(0,30,0,0);
+    private static final Border LEFT_BORDER = BorderFactory.createEmptyBorder(0, 30, 0, 0);
 
-    private static final Integer[] TYPES = new Integer[]{FormatContents.NULL, FormatContents.NUMBER, FormatContents.CURRENCY, FormatContents.PERCENT, FormatContents.SCIENTIFIC,
-            FormatContents.DATE, FormatContents.TIME, FormatContents.TEXT};
+    private static final Integer[] TYPES = new Integer[]{
+            FormatContents.NULL, FormatContents.NUMBER,
+            FormatContents.CURRENCY, FormatContents.PERCENT,
+            FormatContents.SCIENTIFIC, FormatContents.DATE,
+            FormatContents.TIME, FormatContents.TEXT};
 
-    private static final Integer[] DATETYPES = new Integer[]{FormatContents.NULL, FormatContents.DATE, FormatContents.TIME,};
+    private static final Integer[] DATE_TYPES = new Integer[]{FormatContents.NULL, FormatContents.DATE, FormatContents.TIME};
 
     private Format format;
 
@@ -61,7 +65,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     private JPanel centerPane;
     private JPanel formatFontPane;
     private FRFontPane frFontPane;
-    private boolean isRightFormate;
+    private boolean isRightFormat;
     private boolean isDate = false;
     private GlobalNameListener globalNameListener = null;
 
@@ -78,7 +82,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
 
     protected void initComponents(Integer[] types) {
         this.setLayout(new BorderLayout(0, 4));
-        iniSampleLable();
+        initSampleLabel();
         contentPane = new JPanel(new BorderLayout(0, 4)) {
             @Override
             public Dimension getPreferredSize() {
@@ -108,7 +112,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
 
 
         frFontPane = new FRFontPane();
-        UILabel font = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_FR_Font"), SwingConstants.LEFT);
+        UILabel font = new UILabel(Toolkit.i18nText("Fine-Design_Form_FR_Font"), SwingConstants.LEFT);
         JPanel fontPane = new JPanel(new BorderLayout());
         fontPane.add(font, BorderLayout.NORTH);
 
@@ -136,7 +140,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
     protected Component[][] getComponent (JPanel fontPane, JPanel centerPane, JPanel typePane) {
         return new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_Format"), SwingConstants.LEFT), typePane},
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Report_Base_Format"), SwingConstants.LEFT), typePane},
                 new Component[]{centerPane, null},
                 new Component[]{fontPane, frFontPane},
         };
@@ -155,24 +159,24 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         };
     }
 
-    private void iniSampleLable() {
-        Border innterborder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
-        Font tmpFont = null;
-        Border border = BorderFactory.createTitledBorder(innterborder, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Base_StyleFormat_Sample"), TitledBorder.LEFT, 0, tmpFont, UIConstants.LINE_COLOR);
+    private void initSampleLabel() {
+        Border interBorder = new UIRoundedBorder(UIConstants.LINE_COLOR, 1, 4);
+        String title = Toolkit.i18nText("Fine-Design_Report_Base_StyleFormat_Sample");
+        Border border = BorderFactory.createTitledBorder(interBorder, title, TitledBorder.LEFT, 0, null, UIConstants.LINE_COLOR);
         sampleLabel = new UILabel(FormatField.getInstance().getFormatValue()) {
 
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
                 int width = getWidth();
-                Color orignal = g.getColor();
+                Color original = g.getColor();
                 g.setColor(getBackground());
-                g.fillRect(LABLE_X, LABLE_Y, width - LABLE_DELTA_WIDTH, LABLE_HEIGHT);
+                g.fillRect(LABEL_X, LABEL_Y, width - LABEL_DELTA_WIDTH, LABEL_HEIGHT);
                 g.setColor(UIConstants.LINE_COLOR);
                 FontMetrics cellFM = g.getFontMetrics();
                 int textWidth = cellFM.stringWidth(getText());
                 GraphHelper.drawString(g, getText(), (width - textWidth) / 2, 26);
-                g.setColor(orignal);
+                g.setColor(original);
             }
         };
         sampleLabel.setHorizontalAlignment(UILabel.CENTER);
@@ -197,7 +201,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
      * @return 标题
      */
     public String title4PopupWindow() {
-        return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Text");
+        return Toolkit.i18nText("Fine-Design_Report_Text");
     }
 
     /**
@@ -212,13 +216,9 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
             if (format instanceof CoreDecimalFormat) {
                 // check all value
                 String pattern = ((CoreDecimalFormat) format).toPattern();
-                boolean isCurrency1 = (pattern.length() > 0 && pattern.charAt(0) == '¤');
-                boolean isCurrency2 = (pattern.length() > 0 && pattern.charAt(0) == '$');
-                boolean isCurrency = isCurrency1 || isCurrency2;
-                boolean isCurrency4 = (pattern.length() > CURRENCY_FLAG_POINT && ComparatorUtils.equals(pattern.substring(0, CURRENCY_FLAG_POINT), "#,##0;"));
-                if (isCurrency || isCurrency4) {
+                if (isCurrencyFormatStyle(pattern)) {
                     setPatternComboBoxAndList(FormatContents.CURRENCY, pattern);
-                } else if (pattern.endsWith("%")) {
+                } else if (pattern.indexOf("%") > 0) {
                     setPatternComboBoxAndList(FormatContents.PERCENT, pattern);
                 } else if (pattern.indexOf("E") > 0) {
                     setPatternComboBoxAndList(FormatContents.SCIENTIFIC, pattern);
@@ -238,6 +238,17 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         }
     }
 
+    private boolean isCurrencyFormatStyle(String pattern) {
+        if (pattern.length() == 0) {
+            return false;
+        }
+
+        if (pattern.charAt(0) == '¤' || pattern.charAt(0) == '$') {
+            return true;
+        }
+
+        return pattern.length() > CURRENCY_FLAG_POINT && pattern.startsWith("#,##0;");
+    }
 
     /**
      * 判断是否是数组有模式
@@ -273,7 +284,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         if (getFormatContents() == FormatContents.TEXT) {
             return FormatField.getInstance().getFormat(getFormatContents(), patternString);
         }
-        if (isRightFormate) {
+        if (isRightFormat) {
             if (StringUtils.isNotEmpty(patternString)) {
                 return FormatField.getInstance().getFormat(getFormatContents(), patternString);
             }
@@ -292,7 +303,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         this.sampleLabel.setText(FormatField.getInstance().getFormatValue());
         this.sampleLabel.setForeground(UIManager.getColor("Label.foreground"));
         try {
-            isRightFormate = true;
+            isRightFormat = true;
             if (StringUtils.isEmpty(String.valueOf(textField.getSelectedItem()))) {
                 return;
             }
@@ -300,7 +311,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
         } catch (Exception e) {
             this.sampleLabel.setForeground(Color.red);
             this.sampleLabel.setText(e.getMessage());
-            isRightFormate = false;
+            isRightFormat = false;
         }
     }
 
@@ -401,8 +412,8 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
             this.isDate = isDate;
             this.typeComboBox.setSelectedIndex(0);
             if (isDate) {
-                for (int i = 0; i < DATETYPES.length; i++) {
-                    this.typeComboBox.addItem(DATETYPES[i]);
+                for (int i = 0; i < DATE_TYPES.length; i++) {
+                    this.typeComboBox.addItem(DATE_TYPES[i]);
                 }
                 for (int i = 0; i < TYPES.length; i++) {
                     this.typeComboBox.removeItemAt(1);
@@ -411,7 +422,7 @@ public class FormatPane extends AbstractBasicStylePane  implements GlobalNameObs
                 for (int i = 0; i < TYPES.length; i++) {
                     this.typeComboBox.addItem(TYPES[i]);
                 }
-                for (int i = 0; i < DATETYPES.length; i++) {
+                for (int i = 0; i < DATE_TYPES.length; i++) {
                     this.typeComboBox.removeItemAt(1);
                 }
             }
