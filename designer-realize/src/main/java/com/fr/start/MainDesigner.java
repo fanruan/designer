@@ -14,6 +14,7 @@ import com.fr.design.actions.server.WidgetManagerAction;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.ErrorDialog;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.MutilTempalteTabPane;
@@ -42,17 +43,24 @@ import com.fr.design.menu.ShortCut;
 import com.fr.design.module.DesignModuleFactory;
 import com.fr.design.utils.concurrent.ThreadFactoryBuilder;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.event.Event;
+import com.fr.event.EventDispatcher;
+import com.fr.event.Listener;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
+import com.fr.io.utils.ResourceIOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Module;
 import com.fr.module.ModuleContext;
+import com.fr.module.engine.event.LifecycleErrorEvent;
 import com.fr.runtime.FineRuntime;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.lifecycle.ErrorType;
 import com.fr.stable.lifecycle.LifecycleFatalError;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.stable.xml.XMLTools;
 import com.fr.start.module.StartupArgs;
 import com.fr.start.server.ServerTray;
@@ -107,39 +115,19 @@ public class MainDesigner extends BaseDesigner {
         //启动运行时
         FineRuntime.start();
         DesignerSubListener.getInstance().start();
+        EventDispatcher.listen(LifecycleErrorEvent.SELF, new Listener<LifecycleFatalError>() {
+            @Override
+            public void on(Event event, LifecycleFatalError param) {
+                afterError(param);
+            }
+        });
         Module designerRoot = ModuleContext.parseRoot("designer-startup.xml");
         //传递启动参数
         designerRoot.setSingleton(StartupArgs.class, new StartupArgs(args));
         try {
             designerRoot.start();
         } catch (LifecycleFatalError fatal) {
-            SplashContext.getInstance().hide();
-            if (ErrorType.FINEDB.equals(fatal.getErrorType())) {
-                StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.FINEDB_PROBLEM.getId(),
-                        DesignerErrorMessage.FINEDB_PROBLEM.getMessage(),
-                        fatal.getMessage());
-                JOptionPane.showMessageDialog(null, fatal.getMessage(), Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE);
-            }
-            FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
-            StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.UNEXCEPTED_START_FAILED.getId(),
-                    DesignerErrorMessage.UNEXCEPTED_START_FAILED.getMessage(),
-                    fatal.getMessage());
-            ErrorDialog dialog = new ErrorDialog(null, Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
-                    Toolkit.i18nText("Fine-Design_Error_Start_Report"),
-                    fatal.getMessage()) {
-                @Override
-                protected void okEvent() {
-                    dispose();
-                    DesignerExiter.getInstance().execute();
-                }
-
-                @Override
-                protected void restartEvent() {
-                    dispose();
-                    RestartHelper.restart();
-                }
-            };
-            dialog.setVisible(true);
+            afterError(fatal);
         }
 
         if (WorkContext.getCurrent().isLocal()) {
@@ -150,6 +138,68 @@ public class MainDesigner extends BaseDesigner {
         watch.stop();
     }
 
+    private static void afterError(LifecycleFatalError fatal) {
+        SplashContext.getInstance().hide();
+        if (ErrorType.FINEDB.equals(fatal.getErrorType())) {
+            StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.FINEDB_PROBLEM.getId(),
+                                                            DesignerErrorMessage.FINEDB_PROBLEM.getMessage(),
+                                                            fatal.getMessage());
+            FineLoggerFactory.getLogger().error(DesignerErrorMessage.FINEDB_PROBLEM.getId() + ": " + DesignerErrorMessage.FINEDB_PROBLEM.getMessage());
+            int result = FineJOptionPane.showOptionDialog(null,
+                                             Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset"),
+                                             Toolkit.i18nText("Fine-Design_Basic_Error_Tittle"),
+                                             JOptionPane.YES_NO_OPTION,
+                                             JOptionPane.ERROR_MESSAGE,
+                                             IOUtils.readIcon("com/fr/design/images/error/error2.png"),
+                                             new Object[] {Toolkit.i18nText("Fine-Design_Basic_Reset"), Toolkit.i18nText("Fine-Design_Basic_Cancel")},
+                                             null);
+            if (result == JOptionPane.YES_OPTION) {
+                boolean success = false;
+                try {
+                    ResourceIOUtils.copy(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME),
+                                         StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_BAK_NAME));
+                    success = ResourceIOUtils.delete(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME));
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    afterBackupFailed();
+                }
+                if (!success) {
+                    afterBackupFailed();
+                }
+            } else {
+                DesignerExiter.getInstance().execute();
+            }
+        }
+        FineLoggerFactory.getLogger().error(fatal.getMessage(), fatal);
+        StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.UNEXCEPTED_START_FAILED.getId(),
+                                                        DesignerErrorMessage.UNEXCEPTED_START_FAILED.getMessage(),
+                                                        fatal.getMessage());
+        ErrorDialog dialog = new ErrorDialog(null, Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
+                                             Toolkit.i18nText("Fine-Design_Error_Start_Report"),
+                                             fatal.getMessage()) {
+            @Override
+            protected void okEvent() {
+                dispose();
+                DesignerExiter.getInstance().execute();
+            }
+
+            @Override
+            protected void restartEvent() {
+                dispose();
+                RestartHelper.restart();
+            }
+        };
+        dialog.setVisible(true);
+    }
+
+    private static void afterBackupFailed() {
+        FineJOptionPane.showMessageDialog(null,
+                                          Toolkit.i18nText("Fine-Design_Error_Finedb_Backup_Reset_Result",
+                                                           ResourceIOUtils.getRealPath(StableUtils.pathJoin(ProjectConstants.EMBED_DB_DIRECTORY, ProjectConstants.FINE_DB_NAME))),
+                                          Toolkit.i18nText("Fine-Design_Basic_Error"),
+                                          JOptionPane.ERROR_MESSAGE);
+        DesignerExiter.getInstance().execute();
+    }
     /**
      * 创建新建文件的快捷方式数组。
      *

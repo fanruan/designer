@@ -737,6 +737,7 @@ public class FILEChooserPane extends BasicPane {
             fileNameTextField.setText("");
             fileNameTextField.addDocumentListener();
         }
+        dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
         return option;
     }
