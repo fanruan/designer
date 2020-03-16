@@ -249,7 +249,7 @@ public class EnvChangeEntrance {
                         WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
                         String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
                         textBuilder.append(descriptionOfCN).append("\n");
-                    }catch (Exception e){
+                    }catch (NullPointerException e){
                         FineLoggerFactory.getLogger().info("workspace service {} get annotation failed", clazz);
                     }
                 }
