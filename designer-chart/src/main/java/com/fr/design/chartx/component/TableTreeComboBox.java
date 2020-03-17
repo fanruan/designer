@@ -1,6 +1,7 @@
 package com.fr.design.chartx.component;
 
 import com.fr.design.gui.icombobox.FRTreeComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxEditor;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
@@ -19,6 +20,8 @@ import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * @author Bjorn
@@ -49,9 +52,14 @@ public class TableTreeComboBox extends FRTreeComboBox {
 
     public void resetText() {
         Object selectedItem = this.getSelectedItem();
-        if(!ComparatorUtils.equals(selectedItem, textField.getText())){
+        if (!ComparatorUtils.equals(selectedItem, textField.getText())) {
             textField.setText(GeneralUtils.objectToString(selectedItem));
         }
+    }
+
+    @Override
+    protected UIComboBoxEditor createEditor() {
+        return new TableTreeComboBoxEditor(this);
     }
 
     private boolean matchLeafNode(TreePath parent, TreeNode node, UITextField textField) {
@@ -106,5 +114,37 @@ public class TableTreeComboBox extends FRTreeComboBox {
             return this;
         }
     };
+
+    class TableTreeComboBoxEditor extends FrTreeSearchComboBoxEditor {
+
+        public TableTreeComboBoxEditor(FRTreeComboBox comboBox) {
+            super(comboBox);
+            textField.addMouseListener(mouseListener);
+        }
+
+        private MouseListener mouseListener = new MouseListener() {
+
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                setPopupVisible(true);
+            }
+
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+
+    }
 
 }
