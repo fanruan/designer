@@ -69,7 +69,6 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
 
     private static final Object[] HEADER_WITH_EMPTY = new Object[]{Toolkit.i18nText("Fine-Design_Chart_Area_Name"), Toolkit.i18nText("Fine-Design_Chart_Match_To"), ""};
 
-
     public MapAreaMatchPane(TwoTuple<DefaultMutableTreeNode, Set<String>> treeNodeAndItems) {
         initButtonGroup();
         initRefreshLabel();
@@ -77,13 +76,17 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         this.setLayout(new BorderLayout(5, 10));
         this.add(createContentPane(), BorderLayout.NORTH);
         initTable(treeNodeAndItems);
+
+        JPanel tablePane = new JPanel();
+        tablePane.setLayout(new BorderLayout(5, 10));
+        tablePane.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         JScrollPane matchAreaScroll = new JScrollPane(matchAreaTable) {
             @Override
             public Dimension getPreferredSize() {
-                return new Dimension(400, 300);
+                return new Dimension(400, 290);
             }
         };
-        this.add(matchAreaScroll, BorderLayout.CENTER);
+        tablePane.add(matchAreaScroll, BorderLayout.CENTER);
         JScrollPane matchResultScroll = new JScrollPane(matchResultTable) {
             @Override
             public Dimension getPreferredSize() {
@@ -91,8 +94,10 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
             }
         };
         matchResultScroll.setBorder(BorderFactory.createTitledBorder(Toolkit.i18nText("Fine-Design_Chart_Custom_Match_List")));
-        this.add(matchResultScroll, BorderLayout.SOUTH);
-        this.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        tablePane.add(matchResultScroll, BorderLayout.SOUTH);
+
+        this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        this.add(tablePane, BorderLayout.SOUTH);
     }
 
     private JPanel createContentPane() {
