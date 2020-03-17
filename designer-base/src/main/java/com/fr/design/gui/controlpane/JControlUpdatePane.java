@@ -1,10 +1,13 @@
 package com.fr.design.gui.controlpane;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalMultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.GlobalTreeTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.MultiTDTableDataPane;
 import com.fr.design.data.tabledata.tabledatapane.TreeTableDataPane;
+import com.fr.design.env.DesignerWorkspaceInfo;
+import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.general.ComparatorUtils;
@@ -99,6 +102,15 @@ class JControlUpdatePane extends JPanel {
 
             if (pane != null && pane.isVisible()) {
                 Object bean = pane.updateBean();
+                try {
+                    if (bean instanceof RemoteDesignerWorkspaceInfo) {
+                        DesignerWorkspaceInfo info = DesignerEnvManager.getEnvManager().getWorkspaceInfo(elEditing.wrapper.getName());
+                        String remindTime = info.getRemindTime();
+                        ((RemoteDesignerWorkspaceInfo) bean).setRemindTime(remindTime);
+                    }
+                }catch (Exception e){
+                    FineLoggerFactory.getLogger().info("remindTime is not exist");
+                }
                 if (i < creators.length) {
                     creators[i].saveUpdatedBean(elEditing, bean);
                 }

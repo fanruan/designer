@@ -1,4 +1,4 @@
-package com.fr.design.write.submit;
+package com.fr.env;
 
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
@@ -7,6 +7,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.env.utils.DisplayUtils;
 import com.fr.general.FRFont;
 import com.fr.general.GeneralContext;
 import com.fr.general.IOUtils;
@@ -17,6 +18,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -55,15 +57,23 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         JLabel label = new JLabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Inconsistency"));
         label.setFont(font);
         label.setPreferredSize(new Dimension(650,30));
+
+        String text = Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Local_Designer") + localBranch
+                + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch;
+        String delimiter = DisplayUtils.getDisplayLength(text) > 70? "<br>":"/";
         JLabel label2 = new JLabel("<html>"+Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Local_Designer")
-                + localBranch + "/" + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch+"</html>");
+                + localBranch + delimiter + Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Remote_Server") + remoteBranch+"</html>");
         label2.setPreferredSize(new Dimension(600,30));
-        JLabel label3 = new JLabel(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Need_Update"));
-        label3.setPreferredSize(new Dimension(500,30));
+
+        JTextPane tipsPane = new JTextPane();
+        tipsPane.setEditable(false);
+        tipsPane.setBackground(verticalPanel.getBackground());
+        tipsPane.setPreferredSize(new Dimension(500,30));
+        tipsPane.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Need_Update"));
 
         verticalPanel.add(label);
         verticalPanel.add(label2);
-        verticalPanel.add(label3);
+        verticalPanel.add(tipsPane);
 
         topPanel.add(imagePanel,BorderLayout.WEST);
         topPanel.add(verticalPanel,BorderLayout.CENTER);

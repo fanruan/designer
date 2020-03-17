@@ -14,7 +14,7 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.utils.DesignUtils;
-import com.fr.design.write.submit.CheckServiceDialog;
+import com.fr.env.CheckServiceDialog;
 import com.fr.env.EnvListPane;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.GeneralContext;
@@ -246,10 +246,17 @@ public class EnvChangeEntrance {
                 StringBuilder textBuilder = new StringBuilder();
                 for (Class clazz : noExistServiceSet) {
                     WorkspaceAPI workspaceAPI = (WorkspaceAPI) clazz.getAnnotation(WorkspaceAPI.class);
+                    if(workspaceAPI == null){
+                        FineLoggerFactory.getLogger().info("workspace service {} get annotation failed", clazz);
+                        continue;
+                    }
                     String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
                     textBuilder.append(descriptionOfCN).append("\n");
                 }
                 String areaText = textBuilder.toString();
+                if(StringUtils.isEmpty(areaText)){
+                    return;
+                }
                 CheckServiceDialog dialog = new CheckServiceDialog(DesignerContext.getDesignerFrame(), areaText, localBranch, remoteBranch);
                 dialog.setVisible(true);
             }
