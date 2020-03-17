@@ -122,9 +122,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.template = t;
         this.previewType = parserPreviewProvider(t.getPreviewType());
         this.editingFILE = file;
-        addCenterPane();
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder());
+        addCenterPane();
         this.undoState = createUndoState();
         designModel = createDesignModel();
 
