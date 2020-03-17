@@ -180,10 +180,6 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         if (matchResult == null) {
             return;
         }
-        if (tableNameCombox.getSelectedItem() != null) {
-            matchResult.setTableName(tableNameCombox.getSelectedItem().getTableDataName());
-        }
-        matchResult.setColumnName(GeneralUtils.objectToString(areaNameBox.getSelectedItem()));
 
         matchResultTable.updateBean(matchResult);
     }
@@ -195,11 +191,6 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
     public void populateBean(MapMatchResult matchResult, String tableName, String areaName) {
         //先取保存的数据集名称和区域名，若不存在，就取数据集面板配置的数据集名称和区域名
         matchResultTable.populateBean(matchResult);
-
-        if (matchResult != null && StringUtils.isNotEmpty(matchResult.getTableName())) {
-            tableName = matchResult.getTableName();
-            areaName = matchResult.getColumnName();
-        }
         tableNameCombox.setSelectedTableDataByName(tableName);
         if (StringUtils.isEmpty(areaName)) {
             return;
