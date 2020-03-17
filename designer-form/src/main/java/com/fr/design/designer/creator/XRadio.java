@@ -15,7 +15,9 @@ import java.beans.IntrospectionException;
 /**
  * @author richer
  * @since 6.5.3
+ * @deprecated
  */
+@Deprecated
 public class XRadio extends XWidgetCreator {
 
     public XRadio(Radio widget, Dimension initSize) {
