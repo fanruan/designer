@@ -39,6 +39,16 @@ public class FILEChooserPaneTest {
         String result6 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.xls", chooseFileFilter6).get();
         Assert.assertEquals("WorkBook1.xls.cpt", result6);
 
+        ChooseFileFilter chooseFileFilter7 = new ChooseFileFilter(FileExtension.XLS, StringUtils.EMPTY);
+        chooseFileFilter7.addExtension(".xlsx");
+        String result7 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1", chooseFileFilter7).get();
+        Assert.assertEquals("WorkBook1.xls", result7);
+
+        ChooseFileFilter chooseFileFilter8 = new ChooseFileFilter(FileExtension.XLSX, StringUtils.EMPTY);
+        chooseFileFilter8.addExtension(".xls");
+        String result8 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1", chooseFileFilter8).get();
+        Assert.assertEquals("WorkBook1.xlsx", result8);
+
     }
 
 }
