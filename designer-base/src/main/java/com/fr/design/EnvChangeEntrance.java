@@ -250,6 +250,10 @@ public class EnvChangeEntrance {
                         FineLoggerFactory.getLogger().info("workspace service {} get annotation failed", clazz);
                         continue;
                     }
+                    //一些不想暴露给用户的服务，可以在注解中不添加description,检测但不做提示，如固件回传
+                    if(StringUtils.isEmpty(workspaceAPI.description())){
+                        continue;
+                    }
                     String descriptionOfCN = InterProviderFactory.getProvider().getLocText(workspaceAPI.description());
                     textBuilder.append(descriptionOfCN).append("\n");
                 }
