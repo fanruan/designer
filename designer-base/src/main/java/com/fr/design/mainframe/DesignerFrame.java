@@ -471,7 +471,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             OSSupportCenter.buildAction(new OSBasedAction() {
                 @Override
                 public void execute(Object... objects) {
-                   bbsLoginPane[0] =  ad.createBBSLoginPane();
+                    bbsLoginPane[0] = ad.createBBSLoginPane();
                 }
             }, SupportOSImpl.USERINFOPANE);
             processor.hold(northEastPane, LogMessageBar.getInstance(), bbsLoginPane[0]);
@@ -483,7 +483,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
             public void execute(Object... objects) {
-               northEastPane.add(ad.createBBSLoginPane());
+                northEastPane.add(ad.createBBSLoginPane());
             }
         }, SupportOSImpl.USERINFOPANE);
 
@@ -508,7 +508,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             }
             if (OperatingSystem.isMacos()) {
                 Class clazz = Class.forName("com.apple.eawt.Application");
-                BufferedImage icon =  image.isEmpty() ? IOUtils.readImage("/com/fr/base/images/oem/logo.png") : image.get(image.size() - 1);
+                BufferedImage icon = image.isEmpty() ? IOUtils.readImage("/com/fr/base/images/oem/logo.png") : image.get(image.size() - 1);
                 Reflect.on(Reflect.on(clazz).call("getApplication").get()).call("setDockIconImage", icon);
             } else {
                 this.setIconImages(image);
@@ -1283,5 +1283,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public void disposeProgressDialog() {
 
         progressDialog.dispose();
+    }
+
+    /**
+     * 设计器是否已经打开
+     *
+     * @return 设计器是否已经打开
+     */
+    public boolean isDesignerOpened() {
+        return designerOpened;
     }
 }

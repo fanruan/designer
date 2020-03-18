@@ -82,6 +82,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private static final String VERSION_80 = "80";
     private static final int CACHINGTEMPLATE_LIMIT = 5;
     private static final String WEB_NAME = "webapps";
+    /**
+     * 指定默认工作空间
+     */
+    public static final String DEFAULT_WORKSPACE_PATH = "fr.designer.workspace.default";
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -555,6 +559,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
 
     private String getDefaultenvPath(String installHome) {
+        String defaultWorkspacePath = System.getProperty(DEFAULT_WORKSPACE_PATH);
+        if (defaultWorkspacePath != null) {
+            return defaultWorkspacePath;
+        }
         //这里需要转成反斜杠和生成默认路径一致
         return new File(StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME)).getPath();
     }
@@ -1397,6 +1405,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 对国际化进行校验
      * 非简繁英日韩的默认环境 设计器全部默认为英文版本
+     *
      * @param locale
      * @return
      */
@@ -1548,8 +1557,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readVcsAttr(reader);
             } else if (DesignerPort.XML_TAG.equals(name)) {
                 readDesignerPort(reader);
-            }
-            else {
+            } else {
                 readLayout(reader, name);
             }
         }
