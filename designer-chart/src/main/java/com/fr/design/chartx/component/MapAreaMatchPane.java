@@ -73,7 +73,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         initButtonGroup();
         initRefreshLabel();
         areaNameBox = new UIComboBox();
-        this.setLayout(new BorderLayout(5, 10));
+        this.setLayout(new BorderLayout(5, 5));
         this.add(createContentPane(), BorderLayout.NORTH);
         initTable(treeNodeAndItems);
 
@@ -97,7 +97,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         tablePane.add(matchResultScroll, BorderLayout.SOUTH);
 
         this.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-        this.add(tablePane, BorderLayout.SOUTH);
+        this.add(tablePane, BorderLayout.CENTER);
     }
 
     private JPanel createContentPane() {
