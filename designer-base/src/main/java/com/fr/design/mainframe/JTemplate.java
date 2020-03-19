@@ -93,6 +93,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     protected U authorityUndoState = null;
     protected T template; // 当前模板
     protected TemplateProcessInfo<T> processInfo; // 模板过程的相关信息
+    private JComponent centerPane;
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
@@ -123,13 +124,13 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.editingFILE = file;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder());
-        this.add(createCenterPane(), BorderLayout.CENTER);
+        addCenterPane();
         this.undoState = createUndoState();
         designModel = createDesignModel();
 
         consumeTimer.setEnabled(shouldInitForCollectInfo(isNewFile));
     }
-
+    
     void onGetFocus() {
         consumeTimer.start();
     }
@@ -248,17 +249,38 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     /**
      * 刷新内部资源
+     *
+     * 刷新资源的同时。
+     * CenterPane 负责监听改动。
+     * 所以需要同步处理
      */
     public void refreshResource() {
 
         try {
             this.template = JTemplateFactory.asIOFile(this.editingFILE);
             setTarget(this.template);
+            
+            // 先移除旧的。
+            removeCenterPane();
+            // 加入新的
+            addCenterPane();
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
     }
-
+    
+    private void addCenterPane() {
+        
+        this.centerPane = createCenterPane();
+        this.add(centerPane, BorderLayout.CENTER);
+    }
+    
+    private void removeCenterPane() {
+        
+        JComponent centerPane = this.centerPane;
+        this.remove(centerPane);
+    }
+    
     /**
      * 刷新容器
      */
