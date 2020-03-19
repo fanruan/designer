@@ -67,6 +67,10 @@ public class MapPlotPane extends AbstractDeprecatedChartTypePane {
 		return new String[0];
 	}
 
+	public void reLayout(String chartID) {
+
+	}
+
 	/**
 	 * 界面标题
      * @return 界面标题

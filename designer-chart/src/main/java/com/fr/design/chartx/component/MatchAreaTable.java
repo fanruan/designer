@@ -113,7 +113,9 @@ public class MatchAreaTable extends JTable {
         }
 
         private void initComboBox(Object value, boolean editor) {
-            comboBox = new TableTreeComboBox(new JTree(root));
+            //地图不显示第一层，钻取地图显示第一层。
+            boolean showRoot = root.getUserObject() != null;
+            comboBox = new TableTreeComboBox(new JTree(root), showRoot);
             comboBox.setEditable(true);
 
             comboBox.setSelectedItem(value);

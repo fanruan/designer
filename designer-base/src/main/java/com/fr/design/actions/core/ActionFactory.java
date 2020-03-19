@@ -260,6 +260,13 @@ public class ActionFactory {
         }
     }
 
+    public static void referCellInsertActionClass(Class<?>[] cls) {
+        if (cls != null) {
+            actionClasses.clear();
+            Collections.addAll(actionClasses, cls);
+        }
+    }
+
     /**
      * 生成单元格插入相关的Action
      * 表单中报表块编辑需要屏蔽掉"插入子报表"
@@ -314,6 +321,13 @@ public class ActionFactory {
      */
     public static void registerFloatInsertActionClass(Class<?>[] cls) {
         if (cls != null) {
+            Collections.addAll(floatActionClasses, cls);
+        }
+    }
+
+    public static void referFloatInsertActionClass(Class<?>[] cls) {
+        if (cls != null) {
+            floatActionClasses.clear();
             Collections.addAll(floatActionClasses, cls);
         }
     }
