@@ -32,8 +32,8 @@ public class TableTreeComboBox extends FRTreeComboBox {
 
     private JTextField textField;
 
-    public TableTreeComboBox(JTree tree) {
-        super(tree, null);
+    public TableTreeComboBox(JTree tree, boolean showRoot) {
+        super(tree, null, showRoot, false);
         textField = (JTextField) (this.getEditor().getEditorComponent());
         textField.addKeyListener(treeKeyListener);
         tree.setCellRenderer(tableNameTreeRenderer);

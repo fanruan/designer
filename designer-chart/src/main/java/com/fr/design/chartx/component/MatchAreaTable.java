@@ -4,6 +4,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.GeneralUtils;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
+import com.fr.stable.StringUtils;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
@@ -113,7 +114,9 @@ public class MatchAreaTable extends JTable {
         }
 
         private void initComboBox(Object value, boolean editor) {
-            comboBox = new TableTreeComboBox(new JTree(root));
+            //地图不显示第一层，钻取地图显示第一层。
+            boolean showRoot = root.getUserObject() !=null && StringUtils.isNotEmpty(root.getUserObject().toString());
+            comboBox = new TableTreeComboBox(new JTree(root),showRoot);
             comboBox.setEditable(true);
 
             comboBox.setSelectedItem(value);
