@@ -3,6 +3,7 @@ package com.fr.design.mainframe;
 import com.fr.base.ScreenResolution;
 import com.fr.common.inputevent.InputEventBaseOnOS;
 import com.fr.design.designer.EditingState;
+import com.fr.design.event.RemoveListener;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.gui.icontainer.UIModeControlContainer;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
  * @editor zhou
  * @since 2012-3-27下午12:12:05
  */
-public class ReportComponentComposite extends JComponent {
+public class ReportComponentComposite extends JComponent implements RemoveListener {
 
     private static final int MAX = 400;
     private static final int HUND = 100;
@@ -249,5 +250,10 @@ public class ReportComponentComposite extends JComponent {
      */
     public void fireTargetModified() {
         parent.fireTargetModified();
+    }
+
+    @Override
+    public void doRemoveAction() {
+        sheetNameTab.doRemoveAction();
     }
 }
