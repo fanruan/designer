@@ -248,6 +248,13 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     /**
+     * 模板关闭时
+     */
+    public void whenClose() {
+        // do nothing
+    }
+
+    /**
      * 刷新内部资源
      *
      * 刷新资源的同时。
