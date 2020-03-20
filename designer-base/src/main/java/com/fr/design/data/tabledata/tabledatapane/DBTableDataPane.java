@@ -240,7 +240,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
         maxPanel.setBorder(null);
         JPanel wrapMaxPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         wrapMaxPanel.add(maxPanel);
-        wrapMaxPanel.setPreferredSize(new Dimension(250, 20));
+        wrapMaxPanel.setPreferredSize(new Dimension(350, 20));
         UIToolbar editToolBar = ToolBarDef.createJToolBar();
         toolBarDef.updateToolBar(editToolBar);
         editToolBar.add(isShareCheckBox);

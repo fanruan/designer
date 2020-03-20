@@ -1,6 +1,7 @@
 package com.fr.design.widget.ui.designer.mobile.component;
 
 import com.fr.design.designer.IntervalConstants;
+import com.fr.design.designer.beans.events.DesignerEvent;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -8,12 +9,11 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.form.ui.container.WLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -77,6 +77,7 @@ public class MobileBookMarkUsePane extends BasicPane {
     public void update(XCreator xCreator) {
         WLayout wLayout = ((WLayout) xCreator.toData());
         wLayout.setShowBookmarks(showHierarchicalBookmarksCheck.isSelected());
+        WidgetPropertyPane.getInstance().getEditingFormDesigner().getEditListenerTable().fireCreatorModified(DesignerEvent.CREATOR_EDITED);
     }
 
     @Override
