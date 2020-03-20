@@ -49,7 +49,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         JLabel imageLabel = new JLabel();
         imageLabel.setIcon(icon);
         imagePanel.add(imageLabel);
-        imagePanel.setPreferredSize(new Dimension(110,80));
+        imagePanel.setPreferredSize(new Dimension(110,100));
 
         JPanel verticalPanel = FRGUIPaneFactory.createVerticalFlowLayout_S_Pane(true);
         FRFont font = FRFont.getInstance();
@@ -68,7 +68,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
         JTextPane tipsPane = new JTextPane();
         tipsPane.setEditable(false);
         tipsPane.setBackground(verticalPanel.getBackground());
-        tipsPane.setPreferredSize(new Dimension(500,30));
+        tipsPane.setPreferredSize(new Dimension(500,40));
         tipsPane.setText(Toolkit.i18nText("Fine-Design_Basic_Remote_Design_Branch_Need_Update"));
 
         verticalPanel.add(label);
@@ -77,6 +77,7 @@ public class CheckServiceDialog extends JDialog implements ActionListener {
 
         topPanel.add(imagePanel,BorderLayout.WEST);
         topPanel.add(verticalPanel,BorderLayout.CENTER);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10,10,0,10));
 
         //中间的文本域面板
         centerPanel = FRGUIPaneFactory.createBorderLayout_L_Pane();
