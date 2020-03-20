@@ -1110,7 +1110,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         int index = HistoryTemplateListCache.getInstance().contains(jt);
         List<JTemplate<?, ?>> historyList = HistoryTemplateListCache.getInstance().getHistoryList();
         if (index != -1) {
-            historyList.get(index).activeJTemplate(index, jt);
+            JTemplate currentTemplate = historyList.get(index);
+            // 双击激活已经打开的模板之前 需要释放一下
+            currentTemplate.whenClose();
+            currentTemplate.activeJTemplate(index, jt);
         } else {
             this.addAndActivateJTemplate(jt);
         }
