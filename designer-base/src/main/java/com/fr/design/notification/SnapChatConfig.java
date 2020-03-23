@@ -1,5 +1,6 @@
 package com.fr.design.notification;
 
+import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
 import com.fr.stable.xml.XMLable;
@@ -63,7 +64,7 @@ public class SnapChatConfig implements XMLable {
             public void readXML(XMLableReader reader) {
                 String tmpVal = reader.getElementValue();
                 Boolean markRead = Boolean.valueOf(tmpVal);
-                markReadMap.put(reader.getAttrAsString("key", ""), markRead);
+                markReadMap.put(reader.getAttrAsString("key", StringUtils.EMPTY), markRead);
             }
         });
     }
@@ -82,7 +83,7 @@ public class SnapChatConfig implements XMLable {
     
     @Override
     public Object clone() throws CloneNotSupportedException {
-        
-        return null;
+    
+        return super.clone();
     }
 }
