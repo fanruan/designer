@@ -9,6 +9,7 @@ import com.fr.design.data.tabledata.wrapper.TemplateTableDataWrapper;
 import com.fr.file.ProcedureConfig;
 import com.fr.file.TableDataConfig;
 import com.fr.invoke.Reflect;
+import com.fr.stable.ArrayUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
@@ -145,5 +146,13 @@ public class DesignTableDataManagerTest {
         Map<TableDataSource, Map<String, String[]>> map = Reflect.on(DesignTableDataManager.class).field(
                 "columnCache").get();
         Assert.assertEquals(new String[]{"a", "b", "c"}, map.get(null).get("ds1"));
+    }
+
+    @Test
+    public void testGetDsColumnNames() {
+        Assert.assertTrue(ArrayUtils.isEmpty(DesignTableDataManager.getDsColumnNames("ds1")));
+        String[] columnNames = new String[]{"a", "b", "c"};
+        DesignTableDataManager.addDsColumnNames("ds1", new String[]{"a", "b", "c"});
+        Assert.assertEquals(columnNames, DesignTableDataManager.getDsColumnNames("ds1"));
     }
 }
