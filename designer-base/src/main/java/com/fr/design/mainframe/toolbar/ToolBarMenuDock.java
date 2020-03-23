@@ -12,7 +12,6 @@ import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.community.BBSAction;
 import com.fr.design.actions.community.BugAction;
 import com.fr.design.actions.community.CenterAction;
-import com.fr.design.actions.community.CusDemandAction;
 import com.fr.design.actions.community.FacebookFansAction;
 import com.fr.design.actions.community.NeedAction;
 import com.fr.design.actions.community.QuestionAction;
@@ -53,7 +52,9 @@ import com.fr.design.mainframe.ToolBarNewTemplatePane;
 import com.fr.design.menu.MenuDef;
 import com.fr.design.menu.SeparatorDef;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.menu.SnapChatMenuDef;
 import com.fr.design.menu.ToolBarDef;
+import com.fr.design.notification.SnapChatAllTypes;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.remote.action.RemoteDesignAuthManagerAction;
 import com.fr.design.update.actions.SoftwareUpdateAction;
@@ -563,15 +564,24 @@ public abstract class ToolBarMenuDock {
      * @return 社区菜单的子菜单
      */
     public ShortCut[] createCommunityShortCuts() {
+        
         final java.util.List<ShortCut> shortCuts = new ArrayList<ShortCut>();
         shortCuts.add(new BBSAction());
+        
+        shortCuts.add(SeparatorDef.DEFAULT);
+        
         shortCuts.add(new VideoAction());
         shortCuts.add(new TutorialAction());
         shortCuts.add(new QuestionAction());
         shortCuts.add(new TechSolutionAction());
+        
+        shortCuts.add(SeparatorDef.DEFAULT);
+        
         shortCuts.add(new BugAction());
         shortCuts.add(new NeedAction());
-        shortCuts.add(new CusDemandAction());
+        
+        shortCuts.add(SeparatorDef.DEFAULT);
+        
         shortCuts.add(new CenterAction());
         shortCuts.add(new SignAction());
         LocaleCenter.buildAction(new LocaleAction() {
@@ -594,7 +604,11 @@ public abstract class ToolBarMenuDock {
     }
 
     public MenuDef createCommunityMenuDef() {
-        MenuDef menuDef = new MenuDef(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community"), 'C');
+        
+        MenuDef menuDef = new SnapChatMenuDef(
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Community"),
+                'C',
+                SnapChatAllTypes.Menu.BBS);
         ShortCut[] otherCommunityShortCuts = createCommunityShortCuts();
         for (ShortCut shortCut : otherCommunityShortCuts) {
             menuDef.addShortCut(shortCut);

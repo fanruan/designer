@@ -18,6 +18,7 @@ import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.locale.impl.ProductImproveMark;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
+import com.fr.design.notification.SnapChatConfig;
 import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
@@ -161,6 +162,11 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
      * alphafine
      */
     private AlphaFineConfigManager alphaFineConfigManager = AlphaFineConfigManager.getInstance();
+    
+    /**
+     * 阅后即焚的配置项
+     */
+    private SnapChatConfig snapChatConfig = SnapChatConfig.getInstance();
 
     private DesignerPushUpdateConfigManager designerPushUpdateConfigManager = DesignerPushUpdateConfigManager.getInstance();
 
@@ -1562,10 +1568,16 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readVcsAttr(reader);
             } else if (DesignerPort.XML_TAG.equals(name)) {
                 readDesignerPort(reader);
+            }else if (name.equals(SnapChatConfig.XML_TAG)) {
+                readSnapChatConfig(reader);
             } else {
                 readLayout(reader, name);
             }
         }
+    }
+    
+    private void readSnapChatConfig(XMLableReader reader) {
+        reader.readXMLObject(this.snapChatConfig = SnapChatConfig.getInstance());
     }
 
     private void readAlphaFineAttr(XMLableReader reader) {
@@ -1783,9 +1795,17 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeDesignerPushUpdateAttr(writer);
         writeVcsAttr(writer);
         writeDesignerPort(writer);
+        writeSnapChatConfig(writer);
         writer.end();
     }
-
+    
+    private void writeSnapChatConfig(XMLPrintWriter writer) {
+    
+        if (this.snapChatConfig != null) {
+            this.snapChatConfig.writeXML(writer);
+        }
+    }
+    
     private void writeAlphaFineAttr(XMLPrintWriter writer) {
         if (this.alphaFineConfigManager != null) {
             this.alphaFineConfigManager.writeXML(writer);
