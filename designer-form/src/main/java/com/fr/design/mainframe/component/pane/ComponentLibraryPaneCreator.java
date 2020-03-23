@@ -59,10 +59,14 @@ public class ComponentLibraryPaneCreator {
         menuPanel.setBorder(BorderFactory.createEmptyBorder(3, 10, 10, 15));
         
         JPanel menuPanelNorthPane = processor.createMenuNorthPane();
-        menuPanel.add(menuPanelNorthPane, BorderLayout.NORTH);
+        if (menuPanelNorthPane != null) {
+            menuPanel.add(menuPanelNorthPane, BorderLayout.NORTH);
+        }
         
         UIComboBox menuPanelComboBox = processor.createMenuComBox();
-        menuPanel.add(menuPanelComboBox, BorderLayout.CENTER);
+        if (menuPanelComboBox != null) {
+            menuPanel.add(menuPanelComboBox, BorderLayout.CENTER);
+        }
         return menuPanel;
     }
 }
