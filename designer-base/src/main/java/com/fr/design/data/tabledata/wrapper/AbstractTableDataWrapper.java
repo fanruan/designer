@@ -50,10 +50,11 @@ public abstract class AbstractTableDataWrapper implements TableDataWrapper {
 		DesignModelAdapter adapter = DesignModelAdapter.getCurrentModelAdapter();
 		TableDataSource tds = adapter == null ? null : adapter.getBook();
 		String[] colNames = tabledata.getColumnNames(tds);
+		String[] colNamesInCache = DesignTableDataManager.getDsColumnNames(name);
 		if(ArrayUtils.isNotEmpty(colNames)){
-            columnNameList = new ArrayList<String>();
-			columnNameList.addAll(Arrays.asList(colNames));
-			return columnNameList;
+			return toColumnNameList(colNames);
+		} else if (ArrayUtils.isNotEmpty(colNamesInCache)) {
+			return toColumnNameList(colNames);
 		}
 		
 		EmbeddedTableData embeddedTableData = null;
@@ -66,6 +67,12 @@ public abstract class AbstractTableDataWrapper implements TableDataWrapper {
 		}
 		columnNameList = DesignTableDataManager.getColumnNamesByTableData(embeddedTableData);
         DesignTableDataManager.addDsColumnNames(name, columnNameList.toArray(new String[0]));
+		return columnNameList;
+	}
+
+	private List<String> toColumnNameList(String[] colNames) {
+		columnNameList = new ArrayList<>();
+		columnNameList.addAll(Arrays.asList(colNames));
 		return columnNameList;
 	}
 
