@@ -9,11 +9,6 @@ import com.fr.design.notification.SnapChatKey;
 import javax.swing.JMenu;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 
 /**
  * created by Harrison on 2020/03/16
@@ -145,17 +140,5 @@ public class SnapChatMenuDef extends MenuDef implements SnapChat {
             
             setUI(menuUI);
         }
-    }
-    
-    public static void main(String[] args) {
-        
-        BufferedImage image = new BufferedImage(16, 16, Image.SCALE_DEFAULT);
-        Graphics2D g2d = image.createGraphics();
-        g2d.setColor(Color.green);
-        Ellipse2D.Double shape =
-                new Ellipse2D.Double(2, 2, 1, 1);
-        g2d.fill(shape);
-        g2d.draw(shape);
-        System.out.println();
     }
 }
