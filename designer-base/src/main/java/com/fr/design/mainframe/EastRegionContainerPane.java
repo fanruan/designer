@@ -178,6 +178,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         
         propertyItemMap.remove(provider.key());
         String replaceKey = provider.replaceKey();
+        if (replaceKey == null) {
+            return;
+        }
         PropertyItem replaceItem = propertyItemMap.get(replaceKey);
         if (replaceItem != null) {
             replaceItem.setReplace(false);
@@ -210,6 +213,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         propertyItemMap.put(key, propertyItem);
     
         String replaceKey = provider.replaceKey();
+        if (replaceKey == null) {
+            return;
+        }
         PropertyItem replaceItem = propertyItemMap.get(replaceKey);
         if (replaceItem != null) {
             replaceItem.setReplace(true);
