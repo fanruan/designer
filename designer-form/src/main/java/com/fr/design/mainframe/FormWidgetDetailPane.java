@@ -8,8 +8,8 @@ import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.form.share.SharableWidgetProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.general.CloudCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.share.ShareConstants;
@@ -51,7 +51,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIScrollPane downPane;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
-    private SharableWidgetBindInfo[] elCaseBindInfoList;
+    private SharableWidgetProvider[] elCaseBindInfoList;
     private UIButton deleteButton;
     private JPanel editPanel;
     private JPanel resetPanel;
