@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 /**
  * created by Harrison on 2020/03/22
  **/
-public class SnapChatUpdateAction extends UpdateAction implements SnapChat {
+public abstract class SnapChatUpdateAction extends UpdateAction implements SnapChat {
     
     private SnapChatKey uniqueKey;
     
@@ -20,15 +20,13 @@ public class SnapChatUpdateAction extends UpdateAction implements SnapChat {
     }
     
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public final void actionPerformed(ActionEvent e) {
         
         markRead();
         actionPerformed0(e);
     }
     
-    protected void actionPerformed0(ActionEvent e) {
-    
-    }
+    protected abstract void actionPerformed0(ActionEvent e);
     
     @Override
     public boolean hasRead() {
