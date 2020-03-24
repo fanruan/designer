@@ -6,6 +6,7 @@ import com.fr.base.Parameter;
 import com.fr.base.extension.FileExtension;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.FormMobileAttrAction;
 import com.fr.design.actions.TemplateParameterAction;
 import com.fr.design.actions.core.WorkBookSupportable;
@@ -29,6 +30,7 @@ import com.fr.design.designer.properties.FormWidgetAuthorityEditPane;
 import com.fr.design.event.TargetModifiedEvent;
 import com.fr.design.event.TargetModifiedListener;
 import com.fr.design.fun.PreviewProvider;
+import com.fr.design.fun.PropertyItemPaneProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ilable.UILabel;
@@ -65,6 +67,14 @@ import com.fr.form.ui.container.WLayout;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.page.PaperSettingProvider;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginRuntime;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.report.worksheet.FormElementCase;
@@ -91,6 +101,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<Form> {
     private static final String FORM_CARD = "FORM";
@@ -116,12 +127,58 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
 
     public JForm() {
         super(new Form(new WBorderLayout("form")), "Form");
+        
+        initPluginPane();
+        startListenPlugin();
     }
 
     public JForm(Form form, FILE file) {
         super(form, file);
+    
+        initPluginPane();
+        startListenPlugin();
     }
-
+    
+    private void startListenPlugin() {
+    
+        PluginFilter filter = new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(PropertyItemPaneProvider.XML_TAG);
+            }
+        };
+        PluginListenerRegistration.getInstance().listen(PluginEventType.AfterRun,
+                new PluginEventListener() {
+                    @Override
+                    public void on(PluginEvent event) {
+                        PluginContext context = event.getContext();
+                        PluginRuntime runtime = context.getRuntime();
+                        Set<PropertyItemPaneProvider> providers = runtime.get(PropertyItemPaneProvider.XML_TAG);
+                        for (PropertyItemPaneProvider provider : providers) {
+                            addPane(provider);
+                        }
+                    }
+                }, filter);
+    }
+    
+    private void initPluginPane() {
+        
+        ExtraDesignClassManager classManager = PluginModule.getAgent(PluginModule.ExtraDesign);
+        Set<PropertyItemPaneProvider> providers = classManager.getArray(PropertyItemPaneProvider.XML_TAG);
+        for (PropertyItemPaneProvider provider : providers) {
+            addPane(provider);
+        }
+    }
+    
+    private void addPane(PropertyItemPaneProvider provider) {
+        
+        PaneHolder<FormDesigner> holder = provider.getPaneHolder(FormDesigner.class);
+        if (holder != null) {
+            JPanel panel = holder.getInstance(formDesign);
+            EastRegionContainerPane.getInstance().replaceKeyPane(provider.key(), panel);
+        }
+    }
+    
     @Override
     public void refreshEastPropertiesPane() {
         // 暂时用不到，遇到的时候再加刷新右侧tab面板的代码
@@ -765,7 +822,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
 
         refreshWidgetLibPane();
     }
-
+    
     private void refreshWidgetLibPane() {
         if (EastRegionContainerPane.getInstance().getWidgetLibPane() == null) {
             new Thread() {
