@@ -1141,8 +1141,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             Thread.currentThread().interrupt();
         }
 
-        DesignerEnvManager.getEnvManager().setLastOpenFile(
-                HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
+        JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        if (jt != null)  {
+            DesignerEnvManager.getEnvManager().setLastOpenFile(jt.getEditingFILE().getPath());
+        }
 
         DesignerEnvManager.getEnvManager().setLastWestRegionToolPaneY(
                 WestRegionContainerPane.getInstance().getToolPaneY());
