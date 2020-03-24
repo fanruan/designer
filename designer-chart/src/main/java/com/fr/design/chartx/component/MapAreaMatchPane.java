@@ -1,40 +1,34 @@
 package com.fr.design.chartx.component;
 
 import com.fr.base.BaseUtils;
-import com.fr.base.ParameterMapNameSpace;
 import com.fr.chartx.TwoTuple;
-import com.fr.chartx.data.execute.ExecuteDataSetHelper;
 import com.fr.data.TableDataSource;
 import com.fr.data.TableDataSourceTailor;
-import com.fr.data.core.DataCoreUtils;
+import com.fr.data.impl.EmbeddedTableData;
 import com.fr.data.impl.NameTableData;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataComboBox;
 import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
-import com.fr.design.dialog.DialogActionAdapter;
-import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.chart.gui.data.table.DataPaneHelper;
-import com.fr.design.parameter.ParameterInputPane;
+import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.general.data.DataModel;
-import com.fr.general.data.TableDataException;
+import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
 import com.fr.script.Calculator;
-import com.fr.stable.ArrayUtils;
-import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.HashMap;
@@ -214,45 +208,38 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
 
     private Object[] getColumnData(String tableName, String columnName) {
         NameTableData nameTableData = new NameTableData(tableName);
-        TableDataSource dataSource = TableDataSourceTailor.extractTableData(HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getTarget());
+        TableDataSource dataSource = TableDataSourceTailor.extractTableData(HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getTarget());
         Calculator calculator = Calculator.createCalculator();
         calculator.setAttribute(TableDataSource.KEY, dataSource);
-        ParameterProvider[] parameters = nameTableData.getParameters(calculator);
-        final Map<String, Object> parameterMap = new HashMap<>();
-
-        if (ArrayUtils.isNotEmpty(parameters)) {
-            final ParameterInputPane pPane = new ParameterInputPane(parameters);
-            pPane.showSmallWindow(SwingUtilities.getWindowAncestor(this), new DialogActionAdapter() {
-                @Override
-                public void doOk() {
-                    parameterMap.putAll(pPane.update());
-                }
-            }).setVisible(true);
-        }
-        for (ParameterProvider parameter : parameters) {
-            if (parameterMap.containsKey(parameter.getName())) {
-                parameter.setValue(parameterMap.get(parameter.getName()));
-            }
-        }
-        ParameterMapNameSpace parameterMapNameSpace = ParameterMapNameSpace.create(parameterMap);
-        calculator.pushNameSpace(parameterMapNameSpace);
-
+        nameTableData.createTableData(calculator);
         try {
-            DataModel dataModel = ExecuteDataSetHelper.createDataModel(calculator, nameTableData);
-            int colIndex = DataCoreUtils.getColumnIndexByName(dataModel, columnName);
+            EmbeddedTableData tableData = DesignTableDataManager.previewTableDataNeedInputParameters(dataSource, nameTableData, Integer.MAX_VALUE, false);
+            int colIndex = getColIndex(tableData, columnName);
             if (colIndex == DataModel.COLUMN_NAME_NOT_FOUND) {
                 return null;
             }
-            int size = dataModel.getRowCount();
+            int size = tableData.getRowCount();
             HashSet<Object> columnData = new LinkedHashSet<>();
             for (int i = 0; i < size; i++) {
-                Object valueAt = dataModel.getValueAt(i, colIndex);
+                Object valueAt = tableData.getValueAt(i, colIndex);
                 columnData.add(GeneralUtils.objectToString(valueAt));
             }
             return columnData.toArray();
-        } catch (TableDataException ignore) {
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return null;
         }
+    }
+
+    private int getColIndex(EmbeddedTableData tableData, String columnName) {
+        int colIndex = 0;
+
+        for (int count = tableData.getColumnCount(); colIndex < count; ++colIndex) {
+            if (ComparatorUtils.tableDataColumnNameEquals(tableData.getColumnName(colIndex), columnName)) {
+                return colIndex;
+            }
+        }
+        return DataModel.COLUMN_NAME_NOT_FOUND;
     }
 
     private void populateMatchData(Object[] columnData) {
