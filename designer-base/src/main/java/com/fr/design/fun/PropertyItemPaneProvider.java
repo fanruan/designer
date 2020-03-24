@@ -14,12 +14,33 @@ public interface PropertyItemPaneProvider<T> extends Mutable {
     
     String XML_TAG = "PropertyItemPaneProvider";
     
+    /**
+     * 独一无二的标志
+     *
+     * @return 标志
+     */
     String key();
     
+    /**
+     * 配置属性
+     *
+     * @return 熟悉
+     */
     PropertyItemBean getItem();
     
+    /**
+     * 面板持有者
+     *
+     * @param clazz 类型
+     * @return 持有者
+     */
     @Nullable
     PaneHolder<T> getPaneHolder(Class<?> clazz);
     
+    /**
+     * 想要替代的类型
+     *
+     * @return 替代类型
+     */
     String replaceKey();
 }
