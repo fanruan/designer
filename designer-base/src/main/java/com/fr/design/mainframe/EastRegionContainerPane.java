@@ -3,7 +3,9 @@ package com.fr.design.mainframe;
 import com.fr.base.BaseUtils;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.fun.PropertyItemPaneProvider;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
 import com.fr.design.gui.icontainer.UIEastResizableContainer;
@@ -12,12 +14,38 @@ import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.utils.gui.GUIPaintUtils;
 import com.fr.general.FRFont;
-
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.context.PluginRuntime;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
+import com.fr.plugin.observer.PluginEventType;
+import com.fr.plugin.observer.PluginListenerRegistration;
 import com.fr.stable.StringUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -26,6 +54,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -101,9 +130,101 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         defaultAuthorityPane = getDefaultPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Not_Support_Authority_Edit"));
         switchMode(PropertyMode.REPORT);
         setContainerWidth(CONTAINER_WIDTH);
+    
+        initPluginPane();
+        listenPlugin();
     }
-
+    
+    private void listenPlugin() {
+    
+        PluginFilter filter = new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(PropertyItemPaneProvider.XML_TAG);
+            }
+        };
+        PluginListenerRegistration.getInstance().listen(
+                PluginEventType.AfterRun,
+                new PluginEventListener() {
+                    @Override
+                    public void on(PluginEvent event) {
+                        PluginContext context = event.getContext();
+                        PluginRuntime runtime = context.getRuntime();
+                        Set<PropertyItemPaneProvider> providers = runtime.get(PropertyItemPaneProvider.XML_TAG);
+                        for (PropertyItemPaneProvider provider : providers) {
+                            addPropertyItem(provider);
+                        }
+                        updateAllPropertyPane();
+                    }
+                }, filter);
+        PluginListenerRegistration.getInstance().listen(
+                PluginEventType.BeforeStop,
+                new PluginEventListener(10) {
+                    @Override
+                    public void on(PluginEvent event) {
+                        PluginContext context = event.getContext();
+                        PluginRuntime runtime = context.getRuntime();
+                        Set<PropertyItemPaneProvider> providers = runtime.get(PropertyItemPaneProvider.XML_TAG);
+                        for (PropertyItemPaneProvider provider : providers) {
+                            removePropertyItem(provider);
+    
+                        }
+                        updateAllPropertyPane();
+                    }
+                }, filter);
+    }
+    
+    private void removePropertyItem(PropertyItemPaneProvider provider) {
+        
+        propertyItemMap.remove(provider.key());
+        String replaceKey = provider.replaceKey();
+        if (replaceKey == null) {
+            return;
+        }
+        PropertyItem replaceItem = propertyItemMap.get(replaceKey);
+        if (replaceItem != null) {
+            replaceItem.setReplace(false);
+        }
+    }
+    
+    private void initPluginPane() {
+        
+        ExtraDesignClassManager classManager = PluginModule.getAgent(PluginModule.ExtraDesign);
+        Set<PropertyItemPaneProvider> providers = classManager.getArray(PropertyItemPaneProvider.XML_TAG);
+        for (PropertyItemPaneProvider provider : providers) {
+            addPropertyItem(provider);
+        }
+    }
+    
+    private void addPropertyItem(PropertyItemPaneProvider provider) {
+    
+        String key = provider.key();
+        PropertyItemBean itemBean = provider.getItem();
+        PropertyItem propertyItem = new PropertyItem(itemBean.getName(),
+                itemBean.getTitle(),
+                itemBean.getBtnIconName(),
+                itemBean.getVisibleModes(),
+                itemBean.getEnableModes());
+        UIButton button = propertyItem.getButton();
+        List<ActionListener> buttonListeners = itemBean.getButtonListeners();
+        for (ActionListener buttonListener : buttonListeners) {
+            button.addActionListener(buttonListener);
+        }
+        propertyItemMap.put(key, propertyItem);
+    
+        String replaceKey = provider.replaceKey();
+        if (replaceKey == null) {
+            return;
+        }
+        PropertyItem replaceItem = propertyItemMap.get(replaceKey);
+        if (replaceItem != null) {
+            replaceItem.setReplace(true);
+        }
+    
+    }
+    
     private void initPropertyItemList() {
+        
         propertyItemMap = new LinkedHashMap<>();  // 有序map
         // 单元格元素
         PropertyItem cellElement = new PropertyItem(KEY_CELL_ELEMENT, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Cell_Element"),
@@ -360,6 +481,11 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     public void replaceConfiguredRolesPane(JComponent pane) {
         propertyItemMap.get(KEY_CONFIGURED_ROLES).replaceContentPane(pane);
     }
+    
+    public void replaceKeyPane(String key, JComponent pane) {
+        
+        propertyItemMap.get(key).replaceContentPane(pane);
+    }
 
     public JComponent getConfiguredRolesPane() {
         return propertyItemMap.get(KEY_CONFIGURED_ROLES).getContentPane();
@@ -511,6 +637,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private PopupDialog popupDialog;  // 弹出框
         private boolean isPoppedOut = false;  // 是否弹出
         private boolean isVisible = true;  // 是否可见
+        private boolean replace = false;     // 是否被替代
         private boolean isEnabled = true;  // 是否可用
         private Set<PropertyMode> visibleModes;
         private Set<PropertyMode> enableModes;
@@ -563,13 +690,19 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         public boolean isVisible() {
-            return isVisible;
+            // 取决于可见且未替代
+            return isVisible && !replace;
         }
 
         public void setVisible(boolean isVisible) {
             this.isVisible = isVisible;
         }
-
+    
+        public void setReplace(boolean replace) {
+            
+            this.replace = replace;
+        }
+    
         public boolean isEnabled() {
             return isEnabled;
         }
