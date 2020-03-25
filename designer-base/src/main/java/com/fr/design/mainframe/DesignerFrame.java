@@ -1085,6 +1085,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
      */
     private void openFile(FILE tplFile) {
 
+        if (tplFile != null) {
+            int index = HistoryTemplateListCache.getInstance().contains(tplFile);
+            if (index != -1) {
+                HistoryTemplateListCache.getInstance().getHistoryList().get(index).activeOldJTemplate();
+                return;
+            }
+        }
+
         JTemplate jt = JTemplateFactory.createJTemplate(tplFile);
         if (jt == null) {
             return;
@@ -1094,23 +1102,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             this.addAndActivateJTemplate();
             MutilTempalteTabPane.getInstance().setTemTemplate(
                     HistoryTemplateListCache.getInstance().getCurrentEditingTemplate());
-        } else {
-            activeTemplate(jt);
-        }
-    }
-
-    /**
-     * 激活指定的模板
-     *
-     * @param jt 当前报表
-     * @date 2014-10-14-下午6:31:23
-     */
-    private void activeTemplate(JTemplate jt) {
-        // 如果该模板已经打开，则进行激活就可以了
-        int index = HistoryTemplateListCache.getInstance().contains(jt);
-        List<JTemplate<?, ?>> historyList = HistoryTemplateListCache.getInstance().getHistoryList();
-        if (index != -1) {
-            historyList.get(index).activeJTemplate(index, jt);
         } else {
             this.addAndActivateJTemplate(jt);
         }

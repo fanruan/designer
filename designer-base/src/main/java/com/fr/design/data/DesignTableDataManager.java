@@ -114,6 +114,7 @@ public abstract class DesignTableDataManager {
 
     public static void closeTemplate(JTemplate<?, ?> template) {
         if (template != null) {
+            template.whenClose();
             columnCache.remove(getEditingTableDataSource());
             dsListenersMap.remove(template.getPath());
         }
