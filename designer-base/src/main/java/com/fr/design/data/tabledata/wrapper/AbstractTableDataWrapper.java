@@ -54,7 +54,7 @@ public abstract class AbstractTableDataWrapper implements TableDataWrapper {
 		if(ArrayUtils.isNotEmpty(colNames)){
 			return toColumnNameList(colNames);
 		} else if (ArrayUtils.isNotEmpty(colNamesInCache)) {
-			return toColumnNameList(colNames);
+			return toColumnNameList(colNamesInCache);
 		}
 		
 		EmbeddedTableData embeddedTableData = null;
