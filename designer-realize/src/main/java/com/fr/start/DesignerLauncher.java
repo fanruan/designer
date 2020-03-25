@@ -46,6 +46,7 @@ public class DesignerLauncher {
                 jvmSettings(DesignerJavaRuntime.getInstance().getJvmOptions()).
                 arguments(args).
                 directory(BIN_HOME).
+                entryPackage(FineDesigner.class).
                 startProcess(DesignerProcessType.INSTANCE);
         DesignerSuperListener.getInstance().start();
     }
