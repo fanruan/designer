@@ -200,21 +200,14 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     
         String key = provider.key();
         PropertyItemBean itemBean = provider.getItem();
+        PropertyItem propertyItem = new PropertyItem(itemBean.getName(),
+                    itemBean.getTitle(),
+                    itemBean.getBtnIconName(),
+                    itemBean.getVisibleModes(),
+                    itemBean.getEnableModes());
         String btnIconBaseDir = itemBean.getBtnIconBaseDir();
-        PropertyItem propertyItem;
-        if (StringUtils.isEmpty(btnIconBaseDir)) {
-            propertyItem = new PropertyItem(itemBean.getName(),
-                    itemBean.getTitle(),
-                    itemBean.getBtnIconName(),
-                    itemBean.getVisibleModes(),
-                    itemBean.getEnableModes());
-        } else{
-            propertyItem = new PropertyItem(itemBean.getName(),
-                    itemBean.getTitle(),
-                    itemBean.getBtnIconName(),
-                    btnIconBaseDir,
-                    itemBean.getVisibleModes(),
-                    itemBean.getEnableModes());
+        if (StringUtils.isNotEmpty(btnIconBaseDir)) {
+            propertyItem.setIconBaseDir(btnIconBaseDir);
         }
         UIButton button = propertyItem.getButton();
         List<ActionListener> buttonListeners = itemBean.getButtonListeners();
@@ -730,7 +723,16 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
             this.isEnabled = isEnabled;
             button.setEnabled(isEnabled);
         }
-
+    
+        public void setIconBaseDir(String iconBaseDir) {
+            this.iconBaseDir = iconBaseDir;
+        }
+    
+        private String getIconBaseDir() {
+            
+            return StringUtils.isEmpty(iconBaseDir) ? ICON_BASE_DIR : iconBaseDir;
+        }
+    
         private void initPropertyPanel() {
             propertyPanel = new JPanel();
             propertyPanel.setBackground(Color.pink);
@@ -811,7 +813,8 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         private String getBtnIconUrl() {
-            return iconBaseDir + btnIconName + iconSuffix;
+            
+            return getIconBaseDir() + btnIconName + iconSuffix;
         }
 
         public void resetButtonIcon() {
