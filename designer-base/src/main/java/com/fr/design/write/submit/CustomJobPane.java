@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 public abstract class CustomJobPane  extends BasicBeanPane {
 	protected UITextField classNameTextField;
 	protected ObjectProperiesPane objectProperiesPane;
-	public static final int DEFAULT_LENGTH = 30;
+	private static final int DEFAULT_LENGTH = 25;
 
 	public CustomJobPane() {
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());
