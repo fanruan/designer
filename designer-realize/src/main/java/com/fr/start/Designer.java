@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.log.FineLoggerFactory;
 
 /**
@@ -14,7 +15,8 @@ public class Designer {
 
     public static void main(String[] args) {
         try {
-            if (DesignerJavaRuntime.getInstance().isInValidVmOptions()) {
+            if (DesignerJavaRuntime.getInstance().isInValidVmOptions()
+                    || SupportOSImpl.NON_GUARDIAN_START.support()) {
                 runNonGuardianDesigner(args);
             } else {
                 // 创建进程

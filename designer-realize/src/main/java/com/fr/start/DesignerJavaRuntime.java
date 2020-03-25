@@ -1,12 +1,18 @@
 package com.fr.start;
 
+import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.IOUtils;
 import com.fr.process.engine.core.AbstractJavaRuntime;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
 
-import java.util.Set;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+
 
 /**
  * 设计器Java运行环境
@@ -23,7 +29,19 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String JAVA_EXEC = "java";
     private static final String WIN_JRE_BIN = StableUtils.pathJoin("jre", "bin");
     private static final String MAC_JRE_BIN = StableUtils.pathJoin("jre.bundle", "Contents", "Home", "jre", "bin");
+    private static final String BIN_HOME = StableUtils.pathJoin(StableUtils.getInstallHome(), "bin");
+    private static final String LOGO_PATH = StableUtils.pathJoin(BIN_HOME, "logo.png");
+    private static final String DOCK_OPTIONS = "-Xdock:icon=" + StableUtils.pathJoin(StableUtils.getInstallHome(), "bin", "logo.png");
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
+
+    static {
+        if (SupportOSImpl.DOCK_ICON.support()) {
+            try {
+                ImageIO.write(IOUtils.readImage("com/fr/design/icon/logo.png"), "png", new File(LOGO_PATH));
+            } catch (IOException ignore) {
+            }
+        }
+    }
 
     private static final DesignerJavaRuntime INSTANCE = new DesignerJavaRuntime();
 
@@ -79,7 +97,11 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     @Override
     public String[] getJvmOptions() {
         if (isInstallVersion()) {
-            return super.getJvmOptions();
+            String[] options = super.getJvmOptions();
+            if (SupportOSImpl.DOCK_ICON.support()) {
+                options = ArrayUtils.add(options, DOCK_OPTIONS);
+            }
+            return options;
         } else {
             return DEBUG_OPTIONS;
         }
