@@ -150,7 +150,7 @@ public class JForm extends JTemplate<Form, FormUndoState> implements BaseJForm<F
             }
         };
         PluginListenerRegistration.getInstance().listen(PluginEventType.AfterRun,
-                new PluginEventListener() {
+                new PluginEventListener(PropertyItemPaneProvider.LAST) {
                     @Override
                     public void on(PluginEvent event) {
                         PluginContext context = event.getContext();

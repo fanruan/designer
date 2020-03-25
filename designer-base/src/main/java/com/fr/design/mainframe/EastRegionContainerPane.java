@@ -145,7 +145,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         };
         PluginListenerRegistration.getInstance().listen(
                 PluginEventType.AfterRun,
-                new PluginEventListener() {
+                new PluginEventListener(PropertyItemPaneProvider.FIRST) {
                     @Override
                     public void on(PluginEvent event) {
                         PluginContext context = event.getContext();
@@ -159,7 +159,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
                 }, filter);
         PluginListenerRegistration.getInstance().listen(
                 PluginEventType.BeforeStop,
-                new PluginEventListener(10) {
+                new PluginEventListener(PropertyItemPaneProvider.FIRST) {
                     @Override
                     public void on(PluginEvent event) {
                         PluginContext context = event.getContext();
@@ -200,11 +200,22 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
     
         String key = provider.key();
         PropertyItemBean itemBean = provider.getItem();
-        PropertyItem propertyItem = new PropertyItem(itemBean.getName(),
-                itemBean.getTitle(),
-                itemBean.getBtnIconName(),
-                itemBean.getVisibleModes(),
-                itemBean.getEnableModes());
+        String btnIconBaseDir = itemBean.getBtnIconBaseDir();
+        PropertyItem propertyItem;
+        if (StringUtils.isEmpty(btnIconBaseDir)) {
+            propertyItem = new PropertyItem(itemBean.getName(),
+                    itemBean.getTitle(),
+                    itemBean.getBtnIconName(),
+                    itemBean.getVisibleModes(),
+                    itemBean.getEnableModes());
+        } else{
+            propertyItem = new PropertyItem(itemBean.getName(),
+                    itemBean.getTitle(),
+                    itemBean.getBtnIconName(),
+                    btnIconBaseDir,
+                    itemBean.getVisibleModes(),
+                    itemBean.getEnableModes());
+        }
         UIButton button = propertyItem.getButton();
         List<ActionListener> buttonListeners = itemBean.getButtonListeners();
         for (ActionListener buttonListener : buttonListeners) {
@@ -648,14 +659,21 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         private static final String ICON_SUFFIX_DISABLED = "_disabled.png";
         private static final String ICON_SUFFIX_SELECTED = "_selected.png";
         private String btnIconName;
+        private String iconBaseDir;
         private String iconSuffix = ICON_SUFFIX_NORMAL;  // normal, diabled, selected, 三者之一
         private final Color selectedBtnBackground = new Color(0xF5F5F7);
         private Color originBtnBackground;
-
+    
+    
         public PropertyItem(String name, String title, String btnIconName, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
+            this(name, title, btnIconName, ICON_BASE_DIR, visibleModes, enableModes);
+        }
+
+        public PropertyItem(String name, String title, String btnIconName, String iconBaseDir, PropertyMode[] visibleModes, PropertyMode[] enableModes) {
             this.name = name;
             this.title = title;
             this.btnIconName = btnIconName;
+            this.iconBaseDir = iconBaseDir;
             initButton();
             initPropertyPanel();
             initModes(visibleModes, enableModes);
@@ -793,7 +811,7 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         }
 
         private String getBtnIconUrl() {
-            return ICON_BASE_DIR + btnIconName + iconSuffix;
+            return iconBaseDir + btnIconName + iconSuffix;
         }
 
         public void resetButtonIcon() {
