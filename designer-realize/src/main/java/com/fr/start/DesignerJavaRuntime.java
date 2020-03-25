@@ -31,7 +31,7 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String MAC_JRE_BIN = StableUtils.pathJoin("jre.bundle", "Contents", "Home", "jre", "bin");
     private static final String BIN_HOME = StableUtils.pathJoin(StableUtils.getInstallHome(), "bin");
     private static final String LOGO_PATH = StableUtils.pathJoin(BIN_HOME, "logo.png");
-    private static final String DOCK_OPTIONS = "-Xdock:icon=" + StableUtils.pathJoin(StableUtils.getInstallHome(), "bin", "logo.png");
+    private static final String DOCK_OPTIONS = "-Xdock:icon=" + LOGO_PATH;
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
 
     static {
