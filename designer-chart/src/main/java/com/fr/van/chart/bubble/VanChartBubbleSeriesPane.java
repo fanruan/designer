@@ -6,6 +6,7 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.plugin.chart.bubble.VanChartBubblePlot;
 import com.fr.plugin.chart.bubble.attr.VanChartAttrBubble;
 import com.fr.van.chart.bubble.component.VanChartBubblePane;
 import com.fr.van.chart.custom.component.VanChartCustomAxisConditionPane;
@@ -41,6 +42,10 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{null}
         };
+
+        if (!((VanChartBubblePlot) plot).isForceBubble()) {
+            components[3] = new Component[]{createLargeDataModelPane()};
+        }
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;

@@ -1,14 +1,6 @@
 package com.fr.van.chart.vanchart;
 
-import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
-import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.MultiCategoryCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.MultiCategoryDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
-import com.fr.design.gui.frpane.AttributeChangeListener;
-import com.fr.design.mainframe.chart.AbstractChartAttrPane;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.report.CategoryPlotReportDataContentPane;
@@ -17,10 +9,6 @@ import com.fr.design.mainframe.chart.gui.data.table.CategoryPlotTableDataContent
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.van.chart.designer.data.VanChartMoreCateReportDataContentPane;
 import com.fr.van.chart.designer.data.VanChartMoreCateTableDataContentPane;
-import com.fr.van.chart.designer.other.VanChartInteractivePane;
-import com.fr.van.chart.designer.other.VanChartOtherPane;
-import com.fr.van.chart.designer.other.zoom.ZoomPane;
-import com.fr.van.chart.designer.style.VanChartStylePane;
 
 /**
  * Created by mengao on 2017/7/6.
@@ -42,36 +30,63 @@ public abstract class AbstractMultiCategoryVanChartUI extends AbstractIndependen
         return new VanChartMoreCateReportDataContentPane(parent);
     }
 
-    @Override
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
 
-        VanChartStylePane stylePane = new VanChartStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane() {
-            @Override
-            protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartInteractivePane() {
-                    @Override
-                    protected ZoomPane createZoomPane() {
-                        return new ZoomPane();
-                    }
+    //图表缩放新设计 恢复用注释。取消注释。
+//    @Override
+//    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
+//
+//        VanChartStylePane stylePane = new VanChartStylePane(listener);
+//        VanChartOtherPane otherPane = new VanChartOtherPane() {
+//            @Override
+//            protected BasicBeanPane<Chart> createInteractivePane() {
+//                return new VanChartInteractivePane() {
+//                    @Override
+//                    protected ZoomPane createZoomPane() {
+//                        return new ZoomPane();
+//                    }
+//
+//                    @Override
+//                    protected boolean isCurrentChartSupportLargeDataMode() {
+//                        return true;
+//                    }
+//                };
+//            }
+//        };
+//        return new AbstractChartAttrPane[]{stylePane, otherPane};
+//    }
 
-                    @Override
-                    protected boolean isCurrentChartSupportLargeDataMode() {
-                        return true;
-                    }
-                };
-            }
-        };
-        return new AbstractChartAttrPane[]{stylePane, otherPane};
-    }
-
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new MultiCategoryDataSetFieldsPane(), new MultiCategoryCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            MultiCategoryDataSetFieldsPane multiCategoryDataSetFieldsPane;
+//            MultiCategoryCellDataFieldsPane multiCategoryCellDataFieldsPane;
+//
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                multiCategoryDataSetFieldsPane = new MultiCategoryDataSetFieldsPane();
+//                multiCategoryCellDataFieldsPane = new MultiCategoryCellDataFieldsPane();
+//                return new SingleDataPane(multiCategoryDataSetFieldsPane, multiCategoryCellDataFieldsPane);
+//            }
+//
+//            @Override
+//            public void populate(ChartCollection collection) {
+//                super.populate(collection);
+//                VanChart vanChart = this.getVanChart();
+//                if (vanChart == null) {
+//                    return;
+//                }
+//
+//                VanChartRectanglePlot plot = vanChart.getPlot();
+//                VanChartAxis axis = plot.getDefaultXAxis();
+//                if (plot instanceof VanChartColumnPlot
+//                        && ((VanChartColumnPlot) plot).isBar()) {
+//                    axis = plot.getDefaultYAxis();
+//                }
+//
+//                multiCategoryDataSetFieldsPane.setCategoryAxis(ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY));
+//                multiCategoryCellDataFieldsPane.setCategoryAxis(ComparatorUtils.equals(axis.getAxisType(), AxisType.AXIS_CATEGORY));
+//            }
+//        };
+//    }
 }

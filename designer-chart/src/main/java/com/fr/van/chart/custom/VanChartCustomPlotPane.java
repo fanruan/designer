@@ -7,11 +7,13 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
 import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
 import com.fr.chartx.data.CustomChartDataDefinition;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.custom.CustomDefinition;
@@ -294,5 +296,10 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
                 attrList.remove(VanChartAttrLine.class);
             }
         }
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        return definition instanceof CustomDefinition;
     }
 }

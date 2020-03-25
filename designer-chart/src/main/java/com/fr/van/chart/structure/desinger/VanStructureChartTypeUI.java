@@ -3,10 +3,6 @@ package com.fr.van.chart.structure.desinger;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.chartx.AbstractVanSingleDataPane;
-import com.fr.design.chartx.fields.diff.StructureCellDataFieldsPane;
-import com.fr.design.chartx.fields.diff.StructureDataSetFieldsPane;
-import com.fr.design.chartx.single.SingleDataPane;
 import com.fr.design.condition.ConditionAttributesPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.i18n.Toolkit;
@@ -16,6 +12,7 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
+import com.fr.plugin.chart.base.VanChartConstants;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
 import com.fr.van.chart.designer.other.zoom.ZoomPane;
@@ -88,6 +85,18 @@ public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
             protected BasicBeanPane<Chart> createInteractivePane() {
                 return new VanChartInteractivePaneWithOutSort(){
 
+                    //图表缩放新设计 恢复用注释。删除下面两个方法 getNameArray getValueArray。
+                    @Override
+                    protected String[] getNameArray() {
+                        return new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_XY_Axis"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_None")};
+
+                    }
+
+                    @Override
+                    protected String[] getValueArray() {
+                        return new String[]{VanChartConstants.ZOOM_TYPE_XY, VanChartConstants.ZOOM_TYPE_NONE};
+                    }
+
                     @Override
                     protected ZoomPane createZoomPane() {
                         return new ZoomPaneWithOutMode();
@@ -103,13 +112,14 @@ public class VanStructureChartTypeUI extends AbstractIndependentVanChartUI {
         return new VanChartStructureConditionPane(plot);
     }
 
-    @Override
-    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-        return new AbstractVanSingleDataPane(listener) {
-            @Override
-            protected SingleDataPane createSingleDataPane() {
-                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
-            }
-        };
-    }
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new StructureDataSetFieldsPane(), new StructureCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

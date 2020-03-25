@@ -2,9 +2,12 @@ package com.fr.van.chart.drillmap.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.drillmap.DrillMapIndependentVanChart;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
+import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 import com.fr.plugin.chart.type.ZoomLevel;
 import com.fr.van.chart.map.designer.type.VanChartMapPlotPane;
@@ -65,5 +68,10 @@ public class VanChartDrillMapPlotPane extends VanChartMapPlotPane {
     private void resetLayerTypeAndZoomLevel(VanChartDrillMapPlot drillMapPlot) {
         drillMapPlot.setLayerLevelList(new ArrayList<ZoomLevel>());
         drillMapPlot.setLayerMapTypeList(new ArrayList<MapType>());
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        return definition instanceof DrillMapDefinition;
     }
 }

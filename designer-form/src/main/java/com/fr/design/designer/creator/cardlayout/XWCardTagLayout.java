@@ -8,8 +8,7 @@ import com.fr.base.ScreenResolution;
 import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.ComponentAdapter;
 import com.fr.design.designer.beans.LayoutAdapter;
-import com.fr.design.designer.beans.adapters.layout.FRHorizontalLayoutAdapter;
-import com.fr.design.designer.beans.adapters.layout.FRVerticalLayoutAdapter;
+import com.fr.design.designer.beans.adapters.layout.FRWCardTagLayoutAdapter;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
@@ -311,12 +310,7 @@ public class XWCardTagLayout extends XWHorizontalBoxLayout {
 
     @Override
     public LayoutAdapter getLayoutAdapter() {
-        if (isHori()) {
-            return new FRHorizontalLayoutAdapter(this);
-        }else{
-            return new FRVerticalLayoutAdapter(this);
-        }
-
+        return new FRWCardTagLayoutAdapter(this);
     }
 
     private boolean isHori(){

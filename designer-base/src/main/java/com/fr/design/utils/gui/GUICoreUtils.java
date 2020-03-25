@@ -16,6 +16,7 @@ import com.fr.data.util.function.SumFunction;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.border.UITitledBorder;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -324,7 +325,7 @@ public final class GUICoreUtils {
 
 	/**
 	 * Gets window/frame to screen center.
-	 * @param 窗口
+	 * @param win 窗口
 	 */
 	public static void setWindowFullScreen(Window win) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -341,7 +342,7 @@ public final class GUICoreUtils {
 	 * Shows down component.
 	 * 显示弹出关闭菜单
 	 * @param popup 弹出菜单
-	 * @param 父组件
+	 * @param parentComponent 父组件
 	 */
 	public static void showPopupCloseMenu(JPopupMenu popup, Component parentComponent) {
 		if (popup == null) {// check null.
@@ -537,7 +538,7 @@ public final class GUICoreUtils {
 	/**
 	 * 产生一个Flow Pane, flowAligment是FlowLayout.LEFT, CENTER, RIGHT.
 	 * @param comps 组件
-	 * @param flowAlignement 对齐方式
+	 * @param flowAlignment 对齐方式
 	 * @param hSpace 水平间隔
 	 * @return 面板
 	 */
@@ -660,7 +661,7 @@ public final class GUICoreUtils {
 
 	/**
 	 * it's a very good method, user can get treePath from treeNode.
-	 * @param 节点
+	 * @param treeNode 节点
 	 * @return 路径
 	 */
 	public static TreePath getTreePath(TreeNode treeNode) {
@@ -740,7 +741,7 @@ public final class GUICoreUtils {
 			return false;
 		}
 
-		int returnVal = JOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText(key), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
+		int returnVal = FineJOptionPane.showConfirmDialog(ancestorWindow, com.fr.design.i18n.Toolkit.i18nText(key), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (returnVal == JOptionPane.OK_OPTION) {
 			int minSelectedIndex = nodeList.getMinSelectionIndex();

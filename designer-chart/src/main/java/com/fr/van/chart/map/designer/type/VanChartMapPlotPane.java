@@ -2,9 +2,12 @@ package com.fr.van.chart.map.designer.type;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.MapChartDataDefinition;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.map.MapIndependentVanChart;
 import com.fr.plugin.chart.map.VanChartMapPlot;
@@ -31,10 +34,10 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         };
     }
 
-    protected Component[][] getPaneComponents(JPanel typePane){
+    protected Component[][] getPaneComponents(JPanel typePane) {
         try {
             sourceChoosePane = createSourceChoosePane();
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         return new Component[][]{
@@ -51,10 +54,10 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
      * 更新界面内容
      */
     public void populateBean(Chart chart) {
-        for(ChartImagePane imagePane : typeDemo) {
+        for (ChartImagePane imagePane : typeDemo) {
             imagePane.isPressing = false;
         }
-        VanChartMapPlot plot = (VanChartMapPlot)chart.getPlot();
+        VanChartMapPlot plot = (VanChartMapPlot) chart.getPlot();
 
         typeDemo.get(plot.getDetailType()).isPressing = true;
         populateSourcePane(plot);
@@ -69,7 +72,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
     protected void populateSourcePane(VanChartMapPlot plot) {
         //populate需要使用clone的plot
         try {
-            VanChartMapPlot mapPlot = (VanChartMapPlot)plot.clone();
+            VanChartMapPlot mapPlot = (VanChartMapPlot) plot.clone();
             sourceChoosePane.populateBean(mapPlot);
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
@@ -79,9 +82,9 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
     public void updateBean(Chart chart) {
         super.updateBean(chart);
         Plot plot = chart.getPlot();
-        if(plot instanceof VanChartMapPlot) {
+        if (plot instanceof VanChartMapPlot) {
             sourceChoosePane.updateBean((VanChartMapPlot) plot);
-            if(!isSamePlot() || (typeChanged && isSamePlot())){
+            if (!isSamePlot() || (typeChanged && isSamePlot())) {
                 resetAttr(plot);
             }
         }
@@ -89,11 +92,12 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
 
     /**
      * 不同地图类型的超链不需要复制
+     *
      * @param oldPlot
      * @param newPlot
      * @throws CloneNotSupportedException
      */
-    protected void cloneHotHyperLink(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException{
+    protected void cloneHotHyperLink(Plot oldPlot, Plot newPlot) throws CloneNotSupportedException {
 
     }
 
@@ -106,11 +110,11 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         sourceChoosePane.resetComponentValue((VanChartMapPlot) plot);
     }
 
-    protected Plot getSelectedClonedPlot(){
+    protected Plot getSelectedClonedPlot() {
         VanChartMapPlot newPlot = null;
         Chart[] charts = getDefaultCharts();
-        for(int i = 0, len = charts.length; i < len; i++){
-            if(typeDemo.get(i).isPressing){
+        for (int i = 0, len = charts.length; i < len; i++) {
+            if (typeDemo.get(i).isPressing) {
                 newPlot = (VanChartMapPlot) charts[i].getPlot();
             }
         }
@@ -119,7 +123,7 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
             return cloned;
         }
         try {
-            cloned = (Plot)newPlot.clone();
+            cloned = (Plot) newPlot.clone();
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
@@ -142,8 +146,12 @@ public class VanChartMapPlotPane extends AbstractVanChartTypePane {
         return MapIndependentVanChart.MapVanCharts[0];
     }
 
-    public VanChartMapSourceChoosePane getSourceChoosePane(){
+    public VanChartMapSourceChoosePane getSourceChoosePane() {
         return this.sourceChoosePane;
     }
 
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        return definition instanceof MapChartDataDefinition;
+    }
 }

@@ -73,6 +73,9 @@ public class CustomIndependentVanChartInterface extends AbstractIndependentVanCh
     }
 
     public ChartDataPane getChartDataPane(AttributeChangeListener listener){
+        //图表数据结构 恢复用注释。下面1行删除。
         return new VanChartCustomDataPane(listener);
+        //图表数据结构 恢复用注释。取消注释。
+        //return new CustomChartDataPane(listener);
     }
 }

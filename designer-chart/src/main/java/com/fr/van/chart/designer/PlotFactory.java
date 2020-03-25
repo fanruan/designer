@@ -369,11 +369,19 @@ public class PlotFactory {
         return formatPane;
     }
 
-    /**
-     * 判断是否为大数据模式
-     */
+
+    //大数据模式 恢复用注释。取消注释。
+//    public static boolean largeDataModel(Plot plot) {
+//        return plot != null && plot.convertDataProcessor().getMark() == LargeDataModel.MARK;
+//    }
+
+    //大数据模式 恢复用注释。删除下面2个方法 largeDataModel lineMapLargeModel。
     public static boolean largeDataModel(Plot plot) {
-        return plot != null && plot.convertDataProcessor().getMark() == LargeDataModel.MARK;
+        return plot != null && plot.getDataProcessor().getMark() == LargeDataModel.MARK;
+    }
+
+    public static boolean lineMapLargeModel(Plot plot) {
+        return plot instanceof VanChartMapPlot && ((VanChartMapPlot) plot).getLineMapDataProcessor().getMark() == LargeDataModel.MARK;
     }
 }
 

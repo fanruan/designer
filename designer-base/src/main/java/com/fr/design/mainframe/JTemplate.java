@@ -4,7 +4,6 @@ import com.fr.base.BaseUtils;
 import com.fr.base.FRContext;
 import com.fr.base.Parameter;
 import com.fr.base.ScreenResolution;
-import com.fr.base.extension.FileExtension;
 import com.fr.base.io.BaseBook;
 import com.fr.base.iofile.attr.DesignBanCopyAttrMark;
 import com.fr.base.iofile.attr.TemplateIdAttrMark;
@@ -22,13 +21,14 @@ import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.DesignerProxy;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
 import com.fr.design.fun.DesignerFrameUpButtonProvider;
 import com.fr.design.fun.MenuHandler;
-import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.fun.PreviewProvider;
+import com.fr.design.fun.ReportSupportedFileUIProvider;
 import com.fr.design.gui.frpane.HyperlinkGroupPane;
 import com.fr.design.gui.frpane.HyperlinkGroupPaneActionProvider;
 import com.fr.design.gui.ibutton.UIButton;
@@ -36,6 +36,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.template.info.TimeConsumeTimer;
@@ -50,7 +51,6 @@ import com.fr.design.write.submit.DBManipulationPane;
 import com.fr.file.FILE;
 import com.fr.file.FILEChooserPane;
 import com.fr.file.MemFILE;
-import com.fr.file.filter.ChooseFileFilter;
 import com.fr.form.ui.NoneWidget;
 import com.fr.form.ui.Widget;
 import com.fr.general.ComparatorUtils;
@@ -58,6 +58,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.report.cell.Elem;
 import com.fr.report.cell.cellattr.CellImage;
 import com.fr.stable.ArrayUtils;
+import com.fr.stable.Filter;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.core.UUID;
@@ -70,11 +71,11 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.awt.BorderLayout;
 
 /**
  * 报表设计和表单设计的编辑区域(设计器编辑的IO文件)
@@ -164,6 +165,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo(String originID) {  // 执行收集操作
+        ChartInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), 0);
         if (!consumeTimer.isEnabled()) {
             return;
         }
@@ -242,6 +244,19 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      */
     public void judgeSheetAuthority(String roles) {
 
+    }
+
+    /**
+     * 刷新内部资源
+     */
+    public void refreshResource() {
+
+        try {
+            this.template = JTemplateFactory.asIOFile(this.editingFILE);
+            setTarget(this.template);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
     }
 
     /**
@@ -541,7 +556,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         collectInfo();
@@ -595,10 +610,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(
+                FineJOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!",
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
@@ -619,16 +634,16 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             }
             return saved;
         } else {
-            JOptionPane.showMessageDialog(
+            FineJOptionPane.showMessageDialog(
                     DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design-Basic_Save_Failure"),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
 
-    protected void addChooseFILEFilter(FILEChooserPane fileChooser){
+    protected void addChooseFILEFilter(FILEChooserPane fileChooser) {
 
     }
 
@@ -651,13 +666,13 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         return result;
     }
 
-    protected boolean saveToNewFile(String oldName){
+    protected boolean saveToNewFile(String oldName) {
         boolean result = false;
         Set<ReportSupportedFileUIProvider> providers = ExtraDesignClassManager.getInstance().getArray(ReportSupportedFileUIProvider.XML_TAG);
         for (ReportSupportedFileUIProvider provider : providers) {
             result = result || provider.saveToNewFile(this.editingFILE.getPath(), this);
         }
-        if(!result){
+        if (!result) {
             result = result || this.saveFile();
             //更换最近打开
             DesignerEnvManager.getEnvManager().replaceRecentOpenedFilePath(oldName, this.getPath());
@@ -1154,7 +1169,12 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
      * @return 预览模式
      */
     public PreviewProvider[] supportPreview() {
-        return new PreviewProvider[0];
+        return ExtraDesignClassManager.getInstance().getTemplatePreviews(new Filter<PreviewProvider>() {
+            @Override
+            public boolean accept(PreviewProvider previewProvider) {
+                return previewProvider.accept(JTemplate.this);
+            }
+        });
     }
 
     /**
@@ -1214,4 +1234,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public abstract String route();
+
+    public String getTemplateName() {
+        return getEditingFILE().getName();
+    }
+
 }

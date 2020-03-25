@@ -2,6 +2,7 @@ package com.fr.design.webattr;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.javascript.ListenerEditPane;
@@ -168,7 +169,8 @@ public class EventPane extends BasicPane {
 				return;
 			}
 
-			int val = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EventPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?", "Message",
+			int val = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(EventPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Are_You_Sure_To_Delete_The_Data") + "?",
+					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"),
 					JOptionPane.YES_NO_OPTION);
 			if (val != JOptionPane.YES_OPTION) {
 				return;

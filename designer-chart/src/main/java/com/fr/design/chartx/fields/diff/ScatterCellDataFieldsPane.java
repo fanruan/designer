@@ -76,11 +76,13 @@ public class ScatterCellDataFieldsPane extends AbstractCellDataFieldsPane<Bubble
     public BubbleColumnFieldCollection updateBean() {
         BubbleColumnFieldCollection collection = new BubbleColumnFieldCollection();
         seriesXYValueCorrelationPane.updateBean(collection);
+        collection.setFilterProperties(filterPane.updateBean());
         return collection;
     }
 
     @Override
     public void populateBean(BubbleColumnFieldCollection ob) {
         seriesXYValueCorrelationPane.populateBean(ob);
+        filterPane.populateBean(ob.getFilterProperties());
     }
 }

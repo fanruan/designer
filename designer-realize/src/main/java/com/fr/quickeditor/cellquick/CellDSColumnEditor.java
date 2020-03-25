@@ -1188,7 +1188,8 @@ public class CellDSColumnEditor extends CellQuickEditor {
                     Object value = cellElement.getValue();
                     if (value instanceof DSColumn) {
                         DSColumn dSColumn = (DSColumn) (cellElement.getValue());
-                        dSColumn.setResult(this.formulaField.getFormulaText());
+                        dSColumn.setResult(StringUtils.isEmpty(this.formulaField.getFormulaText()) ?
+                                null : this.formulaField.getFormulaText());
                     }
                 }
             }

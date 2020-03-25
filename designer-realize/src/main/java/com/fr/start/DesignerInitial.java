@@ -14,13 +14,13 @@ import com.fr.event.Null;
  */
 public class DesignerInitial {
 
-    private static volatile Designer designer;
+    private static volatile MainDesigner designer;
 
     public static void init(final String... args) {
         UIUtil.invokeLaterIfNeeded(new Runnable() {
             @Override
             public void run() {
-                designer = new Designer(args);
+                designer = new MainDesigner(args);
             }
         });
     }

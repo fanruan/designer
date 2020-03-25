@@ -1,21 +1,20 @@
 package com.fr.design.chart;
 
+import com.fr.base.chart.BaseChartCollection;
+import com.fr.chart.chartattr.ChartCollection;
+import com.fr.design.dialog.BasicDialog;
+import com.fr.design.gui.chart.MiddleChartDialog;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.third.joda.time.DateTime;
+
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-
-import com.fr.base.chart.BaseChartCollection;
-import com.fr.chart.chartattr.ChartCollection;
-import com.fr.design.gui.chart.MiddleChartDialog;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.dialog.BasicDialog;
-
-import com.fr.design.utils.gui.GUICoreUtils;
 
 /**
  * 封装一层 图表新建的对话框, 配合属性表确定: 先单独只要一种图表类型的对话框.
@@ -40,6 +39,8 @@ public class ChartDialog extends MiddleChartDialog {
     }
 	
     private void initComponent() {
+		final String createTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
+
 		this.setModal(true);
 		this.setLayout(new BorderLayout());
     	final ChartTypePane chartTypePane = new ChartTypePane();
@@ -63,7 +64,7 @@ public class ChartDialog extends MiddleChartDialog {
     	
     	ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				chartTypePane.update((ChartCollection)cc);
+				chartTypePane.update((ChartCollection)cc, createTime);
 				doOK();
 			}
 		});

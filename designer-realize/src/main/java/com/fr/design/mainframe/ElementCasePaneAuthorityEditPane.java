@@ -645,26 +645,10 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_SMALL, LayoutConstants.VGAP_SMALL);
     }
 
-//    private JPanel populateWidgetCheckPane() {
-//        double f = TableLayout.FILL;
-//        double p = TableLayout.PREFERRED;
-//        Component[][] components = new Component[][]{
-//                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Cell"), SwingConstants.LEFT), cellElementVisibleCheckBoxes},
-//                new Component[]{null, newValue},
-//                new Component[]{null, valueEditor},
-//                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("FR-Designer_Widget"), SwingConstants.LEFT), widgetVisible},
-//                new Component[]{null, widgetAvailable}
-//        };
-//        double[] rowSize = {p, p, p, p, p};
-//        double[] columnSize = {p, f};
-//        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}};
-//        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-//    }
-
     private JPanel populateWidgetCheckPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
-        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Value") + "    ");
+        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Value") + "   ");
         cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         Component[][] components = new Component[][]{
                 new Component[]{cellElementVisibleCheckBoxes, null},
@@ -705,27 +689,13 @@ public class ElementCasePaneAuthorityEditPane extends AuthorityEditPane {
         return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
     }
 
-//    private JPanel populatCellCheckPane() {
-//        double f = TableLayout.FILL;
-//        double p = TableLayout.PREFERRED;
-//        Component[][] components = new Component[][]{
-//                new Component[]{cellElementVisibleCheckBoxes},
-//                new Component[]{newValue},
-//                new Component[]{valueEditor}
-//        };
-//        double[] rowSize = {p, p, p};
-//        double[] columnSize = {f};
-//        int[][] rowCount = {{1}, {1}, {1}};
-//        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_MEDIUM, LayoutConstants.VGAP_MEDIUM);
-//    }
-
     private JPanel populatCellCheckPane() {
         double f = TableLayout.FILL;
         double p = TableLayout.PREFERRED;
         double[] rowSize = {p, p, p};
         double[] columnSize = {p, f};
         int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Value") + "    ");
+        UILabel cv = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Cell_Value") + "   ");
         cv.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
         Component[][] components = new Component[][]{
                 new Component[]{cellElementVisibleCheckBoxes,null},

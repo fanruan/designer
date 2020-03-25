@@ -6,6 +6,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.charttypes.ChartTypeManager;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.dialog.DialogActionListener;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.event.UIObserver;
@@ -25,6 +26,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -41,9 +45,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 图表 类型 增删 控制按钮界面.
@@ -151,6 +152,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 try {
                     ChartProvider newChart = (ChartProvider) chart.clone();
                     editingCollection.addNamedChart(name, newChart);
+                    ChartInfoCollector.getInstance().collection(newChart, null);
                 } catch (CloneNotSupportedException e1) {
                     FineLoggerFactory.getLogger().error("Error in Clone");
                 }
@@ -438,6 +440,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         private void changeChartName(String name) {
             this.setText(name);
+            this.setToolTipText(name);
             buttonName = name;
         }
 

@@ -5,6 +5,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.imenu.UIScrollPopUpMenu;
 import com.fr.design.i18n.Toolkit;
@@ -21,26 +22,9 @@ import com.fr.third.javax.annotation.Nonnull;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.server.lock.TplOperator;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.AWTEvent;
-import java.awt.AlphaComposite;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -257,7 +241,7 @@ public class MutilTempalteTabPane extends JComponent {
 
 
     private String tempalteShowName(JTemplate<?, ?> template) {
-        String name = template.getEditingFILE().getName();
+        String name = template.getTemplateName();
         if (!template.isSaved() && !name.endsWith(" *")) {
             name += " *";
         }
@@ -678,8 +662,8 @@ public class MutilTempalteTabPane extends JComponent {
 
         if (!specifiedTemplate.isALLSaved() && !DesignerMode.isVcsMode()) {
             specifiedTemplate.stopEditing();
-            int returnVal = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
-                    ProductConstants.PRODUCT_NAME, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int returnVal = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Basic_Utils_Would_You_Like_To_Save") + " \"" + specifiedTemplate.getEditingFILE() + "\" ?",
+                    Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (returnVal == JOptionPane.YES_OPTION) {
                 specifiedTemplate.saveTemplate();
                 FineLoggerFactory.getLogger().info(Toolkit.i18nText("Fine-Design_Basic_Template_Already_Saved", specifiedTemplate.getEditingFILE().getName()));
@@ -854,7 +838,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseEntered(MouseEvent e) {
-
+            // do nothing
         }
 
         /**
@@ -877,6 +861,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseReleased(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -886,6 +871,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseClicked(MouseEvent e) {
+            // do nothing
         }
 
         /**
@@ -931,7 +917,7 @@ public class MutilTempalteTabPane extends JComponent {
                     //如果在权限编辑情况下，不允许切换到表单类型的工作簿
                     if (DesignerMode.isAuthorityEditing() && !openedTemplate.get(selectedIndex).isJWorkBook()) {
                         DesignerContext.getDesignerFrame().addAndActivateJTemplate(openedTemplate.get(tempSelectedIndex));
-                        JOptionPane.showMessageDialog(MutilTempalteTabPane.this, Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
+                        FineJOptionPane.showMessageDialog(MutilTempalteTabPane.this, Toolkit.i18nText("Fine-Design_Basic_Form_Authority_Edited_Cannot_Be_Supported")
                                 + "!", Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                         MutilTempalteTabPane.this.repaint();
                         return;
@@ -957,6 +943,7 @@ public class MutilTempalteTabPane extends JComponent {
          */
         @Override
         public void mouseDragged(MouseEvent e) {
+            // do nothing
         }
 
         /**

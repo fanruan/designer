@@ -101,10 +101,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
             @Override
             protected void addKeyMonitor() {
                 searchField.addKeyListener(new KeyListener() {
-                    
+
                     @Override
                     public void keyTyped(KeyEvent e) {
-
+                        //do nothing
                     }
 
                     @Override
@@ -117,7 +117,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
                     @Override
                     public void keyReleased(KeyEvent e) {
-
+                        //do nothing
                     }
                 });
             }

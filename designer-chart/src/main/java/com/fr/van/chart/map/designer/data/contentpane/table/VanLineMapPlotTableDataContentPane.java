@@ -10,7 +10,7 @@ import com.fr.van.chart.map.designer.data.component.table.LineMapLongLatAreaPane
 /**
  * Created by hufan on 2016/12/15.
  */
-public class VanLineMapPlotTableDataContentPane extends VanPointMapPlotTableDataContentPane{
+public class VanLineMapPlotTableDataContentPane extends VanPointMapPlotTableDataContentPane {
     public VanLineMapPlotTableDataContentPane(ChartDataPane parent) {
         super(parent);
     }

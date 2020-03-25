@@ -14,6 +14,7 @@ import com.fr.data.impl.XMLTableData;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -222,7 +223,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         public void actionPerformed(ActionEvent arg0) {
             String uri = ParameterHelper.analyze4Templatee(urlText.getText(), params);
             if (!checkURL(uri)) {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
+                FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(FileTableDataPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add_JS_warning"));
                 return;
             }
             params = getEditorPaneParameter();
@@ -234,10 +235,10 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (in == null) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
-                        null, 0, UIManager.getIcon("OptionPane.errorIcon"));
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Error"), JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
             } else {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Datasource_Connection_Successfully"));
                 try {
                     in.close();
                 } catch (IOException e) {
@@ -521,6 +522,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
 
         @Override
         public void checkEnabled() {
+            //do nothing
         }
     }
 
@@ -832,7 +834,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
     }
 
     private class XMLNodeTree extends JTree {
-        private DefaultTreeModel treeModel;
+        private DefaultTreeModel xmlTreeModel;
 
         private DefaultTreeModel waitTreeModel = null;
 
@@ -854,7 +856,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         private MouseListener treeMouseListener = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (XMLNodeTree.this.getModel() != treeModel) {
+                if (XMLNodeTree.this.getModel() != xmlTreeModel) {
                     return;
                 }
                 int selRow = XMLNodeTree.this.getRowForLocation(e.getX(), e.getY());
@@ -891,7 +893,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         }
 
         public DefaultTreeModel getTreeModel() {
-            return treeModel;
+            return xmlTreeModel;
         }
 
         //防止界面卡死。
@@ -908,7 +910,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
         //wikky:为满足706设计时对不合法的xml文件（有多个根节点）的处理，把拿到的InputStream强制在最外层添加<XML></XML>作为唯一根节点而将文件转换为合法的xml。
         private void initData() {
             params = getEditorPaneParameter();  // 生成tree结构放哪儿呢？放这里感觉不对撒
-            treeModel = null;
+            xmlTreeModel = null;
             selectedNode = null;
             xmlColumnsList.clear();
             DataSource dataSource = null;
@@ -949,17 +951,17 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 loadedTreeModel();
             }
-            if (treeModel == null) {
+            if (xmlTreeModel == null) {
                 FineLoggerFactory.getLogger().info("The file is wrong or bad, can not create the XMLReader.");
                 return;
             }
-            if (treeModel.getChildCount(treeModel.getRoot()) == 1) {
-                treeModel = new DefaultTreeModel((ExpandMutableTreeNode) treeModel.getChild(treeModel.getRoot(), 0));
+            if (xmlTreeModel.getChildCount(xmlTreeModel.getRoot()) == 1) {
+                xmlTreeModel = new DefaultTreeModel((ExpandMutableTreeNode) xmlTreeModel.getChild(xmlTreeModel.getRoot(), 0));
             } else {
-                ExpandMutableTreeNode root = (ExpandMutableTreeNode) treeModel.getRoot();
+                ExpandMutableTreeNode root = (ExpandMutableTreeNode) xmlTreeModel.getRoot();
                 root.setUserObject(StringUtils.EMPTY);
             }
-            this.setModel(treeModel);
+            this.setModel(xmlTreeModel);
         }
 
         private void loadedTreeModel() {
@@ -1011,7 +1013,7 @@ public class FileTableDataPane extends AbstractTableDataPane<FileTableData> {
                     }
                     currentNode = new ExpandMutableTreeNode(nodeName);
                     if (layer == 0) {
-                        treeModel = new DefaultTreeModel(currentNode);
+                        xmlTreeModel = new DefaultTreeModel(currentNode);
                     } else {
                         boolean conflict = false;
                         for (int i = 0; i < parentNode.getChildCount(); i++) {

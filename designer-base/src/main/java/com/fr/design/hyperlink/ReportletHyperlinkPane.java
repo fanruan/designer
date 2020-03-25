@@ -2,6 +2,7 @@ package com.fr.design.hyperlink;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
@@ -122,7 +123,7 @@ public class ReportletHyperlinkPane extends AbstractHyperLinkPane<ReportletHyper
         public void actionPerformed(ActionEvent e) {
             String tpl = northPane.getReportletName();
             if (StringUtils.isBlank(tpl)) {
-                JOptionPane.showMessageDialog(ReportletHyperlinkPane.this, Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Please_Select_Reportlet") + ".", Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+                FineJOptionPane.showMessageDialog(ReportletHyperlinkPane.this, Toolkit.i18nText("Fine-Design_Basic_Hyperlink_Please_Select_Reportlet") + ".", Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
                 northPane.requestButtonFocus();
                 return;
             }

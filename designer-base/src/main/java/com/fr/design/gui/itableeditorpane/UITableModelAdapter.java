@@ -1,6 +1,7 @@
 package com.fr.design.gui.itableeditorpane;
 
 import com.fr.base.BaseUtils;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.log.FineLoggerFactory;
 
@@ -207,7 +208,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			final int selectedRow = table.getSelectedRow();
 			if (selectedRow > table.getRowCount() - 1 || selectedRow < 0) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No-Alternatives"));
+				FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_No-Alternatives"));
 				return;
 			}
 			stopCellEditing();
@@ -251,7 +252,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 			if(component == null){
 				component = DesignerContext.getDesignerFrame();
 			}
-			int val = JOptionPane.showConfirmDialog(component,
+			int val = FineJOptionPane.showConfirmDialog(component,
 					com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"),
 					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (val != JOptionPane.OK_OPTION) {

@@ -1,5 +1,6 @@
 package com.fr.design.mainframe;
 
+import com.fr.base.io.BaseBook;
 import com.fr.file.FILE;
 import com.fr.stable.CoreConstants;
 import com.fr.third.javax.annotation.Nonnull;
@@ -36,6 +37,28 @@ public final class JTemplateFactory {
                     JTemplate<?, ?> jt = app.openTemplate(file);
                     if (jt != null) {
                         return jt;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public static <T extends BaseBook> T asIOFile(@Nonnull FILE file) {
+    
+        String fileName = file.getName();
+        int indexOfLastDot = fileName.lastIndexOf(CoreConstants.DOT);
+        if (indexOfLastDot < 0) {
+            return null;
+        }
+        String fileExtension = fileName.substring(indexOfLastDot + 1);
+        for (App<?> app : ALL_APP) {
+            String[] defaultAppExtensions = app.defaultExtensions();
+            for (String defaultAppExtension : defaultAppExtensions) {
+                if (defaultAppExtension.equalsIgnoreCase(fileExtension)) {
+                    BaseBook bb = app.asIOFile(file);
+                    if (bb != null) {
+                        return (T) bb;
                     }
                 }
             }

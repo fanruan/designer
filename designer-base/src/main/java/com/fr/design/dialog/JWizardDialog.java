@@ -363,5 +363,6 @@ public class JWizardDialog extends BasicDialog {
 	
 	@Override
 	public void checkValid() throws Exception {
+		//do nothing
 	}
 }

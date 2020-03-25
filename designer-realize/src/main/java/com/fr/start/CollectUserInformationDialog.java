@@ -1,6 +1,7 @@
 package com.fr.start;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -11,9 +12,7 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.locale.impl.UserInfoMark;
 import com.fr.design.mainframe.ActiveKeyGenerator;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.CloudCenter;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.GeneralContext;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.locale.LocaleCenter;
 import com.fr.general.locale.LocaleMark;
 
@@ -50,13 +49,13 @@ public class CollectUserInformationDialog extends UIDialog {
             String message;
             if (ActiveKeyGenerator.verify(keyValue, ONLINE_VERIFY_TIMEOUT)) {
                 message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Activate_Activated_Successfully");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+                FineJOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
                 DesignerEnvManager.getEnvManager().setActivationKey(keyValue);
                 DesignerEnvManager.getEnvManager().saveXMLFile();
                 doOK();
             } else {
                 message = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Activate_Activation_Code_Invalid");
-                JOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
+                FineJOptionPane.showMessageDialog(CollectUserInformationDialog.this, message);
             }
         }
     };
@@ -155,7 +154,7 @@ public class CollectUserInformationDialog extends UIDialog {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                System.exit(0);
+                DesignerExiter.getInstance().execute();
             }
         });
         // set default pane.

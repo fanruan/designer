@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.type.MapType;
+import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.other.AutoRefreshPane;
 import com.fr.van.chart.designer.other.AutoRefreshPaneWithoutTooltip;
@@ -32,6 +33,21 @@ public class VanChartMapInteractivePane extends VanChartInteractivePaneWithMapZo
     @Override
     protected void updateHyperlink(Plot plot) {
         hyperlinkPane.updateBean(plot);
+    }
+
+    //大数据模式 恢复用注释。删除下面方法。
+    @Override
+    protected boolean largeModel(Plot plot) {
+        if (plot instanceof VanChartMapPlot) {
+            VanChartMapPlot mapPlot = (VanChartMapPlot) plot;
+            switch (mapPlot.getMapType()) {
+                case LINE:
+                    return PlotFactory.lineMapLargeModel(mapPlot);
+                default:
+                    return PlotFactory.largeDataModel(mapPlot);
+            }
+        }
+        return false;
     }
 
     @Override

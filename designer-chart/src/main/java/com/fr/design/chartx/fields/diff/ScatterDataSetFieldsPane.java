@@ -22,9 +22,8 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
     private UIComboBoxWithNone series;
     private UIComboBox xField;
     private UIComboBox yField;
-    private UIComboBoxWithNone value;
+    private UIComboBoxWithNone size;
 
-    //todo 数据筛选
     private AbstractSingleFilterPane filterPane;
 
 
@@ -34,7 +33,7 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
         series = new UIComboBoxWithNone();
         xField = new UIComboBox();
         yField = new UIComboBox();
-        value = new UIComboBoxWithNone();
+        size = new UIComboBoxWithNone();
 
         filterPane = new AbstractSingleFilterPane() {
             @Override
@@ -59,7 +58,7 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
     @Override
     protected UIComboBox[] filedComboBoxes() {
         return new UIComboBox[]{
-                series, xField, yField, value
+                series, xField, yField, size
         };
     }
 
@@ -76,20 +75,26 @@ public class ScatterDataSetFieldsPane extends AbstractDataSetFieldsPane<BubbleCo
     @Override
     public BubbleColumnFieldCollection updateBean() {
         BubbleColumnFieldCollection collection = new BubbleColumnFieldCollection();
-        BubbleColumnField field = collection.getBubbleColumnField(0);
+        BubbleColumnField field = new BubbleColumnField();
         updateField(series, field.getSeriesName());
         updateField(xField, field.getXField());
         updateField(yField, field.getYField());
-        updateField(value, field.getValueField());
+        updateField(size, field.getSizeField());
+        collection.setFilterProperties(filterPane.updateBean());
+        collection.add(field);
         return collection;
     }
 
     @Override
     public void populateBean(BubbleColumnFieldCollection ob) {
+        if (ob.getList().isEmpty()){
+            return;
+        }
         BubbleColumnField field = ob.getBubbleColumnField(0);
         populateField(series, field.getSeriesName());
         populateField(xField, field.getXField());
         populateField(yField, field.getYField());
-        populateField(value, field.getValueField());
+        populateField(size, field.getSizeField());
+        filterPane.populateBean(ob.getFilterProperties());
     }
 }

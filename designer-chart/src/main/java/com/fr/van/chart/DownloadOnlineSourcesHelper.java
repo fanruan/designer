@@ -2,6 +2,7 @@ package com.fr.van.chart;
 
 import com.fr.chart.base.ChartConstants;
 import com.fr.design.RestartHelper;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -80,7 +81,8 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
     public void installOnline() {
 
-        int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Download_Online_Sources"), null, JOptionPane.YES_NO_OPTION);
+        int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Download_Online_Sources"),
+                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION);
 
         if (choose == JOptionPane.OK_OPTION) {
             initDialog();
@@ -203,13 +205,14 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
         dialog.dispose();
 
         if (result) {
-            int choose = JOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"), null, JOptionPane.YES_NO_OPTION);
+            int choose = FineJOptionPane.showConfirmDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Work_After_Restart_Designer"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.YES_NO_OPTION);
 
             if (choose == JOptionPane.OK_OPTION) {
                 RestartHelper.restart();
             }
         } else {
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Dependence_Install_Failed"));
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Dependence_Install_Failed"));
         }
     }
 

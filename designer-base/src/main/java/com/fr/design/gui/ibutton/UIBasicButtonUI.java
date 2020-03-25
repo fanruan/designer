@@ -43,6 +43,7 @@ public class UIBasicButtonUI extends MetalButtonUI {
     private boolean isDefault;
 
     public UIBasicButtonUI() {
+        // do nothing
     }
 
     /**

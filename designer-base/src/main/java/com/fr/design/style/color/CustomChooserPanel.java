@@ -142,13 +142,13 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
      */
     private static final UILabel B = new UILabel("B");
 
-    private static final int H_MAX = 365;
+    private static final int H_MAX = 360;
     private static final int S_MAX = 100;
-    private static final int L_MAX = 100;
+    private static final int B_MAX = 100;
 
     private static final float HSPINNER_VALUE = 360f;
     private static final float SSPINNER_VALUE = 100f;
-    private static final float LSPINNER_VALUE = 100f;
+    private static final float BSPINNER_VALUE = 100f;
 
     private static final int BINARY_FOR_EIGHT = 255;
     private static final int BINARY_FOR_FOUR = 16;
@@ -314,14 +314,14 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateH(Point p) {
-            double s = (IMG_WIDTH - p.x * 1D) / IMG_WIDTH;
-            double b = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
+            float s = (IMG_WIDTH - p.x * 1f) / IMG_WIDTH;
+            float b = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
 
             // Avoid two changes to the model by changing internalChange to true.
             internalChange = true;
             sSpinner.setValue(new Integer((int) (s * S_MAX)));
             internalChange = false;
-            bSpinner.setValue(new Integer((int) (b * L_MAX)));
+            bSpinner.setValue(new Integer((int) (b * B_MAX)));
 
             revalidate();
         }
@@ -332,13 +332,13 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateS(Point p) {
-            double h = p.x * 1D / IMG_WIDTH;
-            double b = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
+            float h = p.x * 1f / IMG_WIDTH;
+            float b = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
 
             internalChange = true;
             hSpinner.setValue(new Integer((int) (h * H_MAX)));
             internalChange = false;
-            bSpinner.setValue(new Integer((int) (b * L_MAX)));
+            bSpinner.setValue(new Integer((int) (b * B_MAX)));
 
             revalidate();
         }
@@ -349,8 +349,8 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
          * @param p The point where the MouseEvent occurred.
          */
         private void updateB(Point p) {
-            double h = p.x * 1D / IMG_WIDTH;
-            double s = (IMG_HEIGHT - p.y * 1D) / IMG_HEIGHT;
+            float h = p.x * 1f / IMG_WIDTH;
+            float s = (IMG_HEIGHT - p.y * 1f) / IMG_HEIGHT;
 
             internalChange = true;
             hSpinner.setValue(new Integer((int) (h * H_MAX)));
@@ -431,7 +431,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
     }
 
     /**
-     * hsl 监听
+     * hsb 监听
      */
     class ImageScrollListener implements ChangeListener {
         /**
@@ -506,7 +506,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                 null);
         internalChange = true;
 
-        adjustHSLValue(hsbVals);
+        adjustHSBValue(hsbVals);
 
         internalChange = false;
 
@@ -521,11 +521,11 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         updateHexFields();
     }
 
-    private void adjustHSLValue(float[] hsbVals) {
+    private void adjustHSBValue(float[] hsbVals) {
         if (!spinnerTrigger) {
-            hSpinner.setValue(new Integer((int) ((double) hsbVals[0] * HSPINNER_VALUE)));
-            sSpinner.setValue(new Integer((int) ((double) hsbVals[1] * SSPINNER_VALUE)));
-            bSpinner.setValue(new Integer((int) ((double) hsbVals[2] * LSPINNER_VALUE)));
+            hSpinner.setValue(new Integer((int) (hsbVals[0] * HSPINNER_VALUE)));
+            sSpinner.setValue(new Integer((int) (hsbVals[1] * SSPINNER_VALUE)));
+            bSpinner.setValue(new Integer((int) (hsbVals[2] * BSPINNER_VALUE)));
         }
         switch (locked) {
             case HLOCKED:
@@ -534,9 +534,9 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                 }
                 if (!handlingMouse) {
                     gradientPoint.x = (int) ((1
-                            - ((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE) * IMG_WIDTH);
+                            - ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE) * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) bSpinner.getValue()).intValue() / BSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
             case SLOCKED:
@@ -544,9 +544,9 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                     slider.setValue(((Number) sSpinner.getValue()).intValue());
                 }
                 if (!handlingMouse) {
-                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE * IMG_WIDTH);
+                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) bSpinner.getValue()).intValue() / BSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
             case BLOCKED:
@@ -554,18 +554,18 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
                     slider.setValue(((Number) bSpinner.getValue()).intValue());
                 }
                 if (!handlingMouse) {
-                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE * IMG_WIDTH);
+                    gradientPoint.x = (int) (((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE * IMG_WIDTH);
                     gradientPoint.y = (int) ((1
-                            - ((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE) * IMG_HEIGHT);
+                            - ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE) * IMG_HEIGHT);
                 }
                 break;
         }
     }
 
     private void updateImageAndTrack() {
-        float h = (float) (((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE);
-        float s = (float) (((Number) sSpinner.getValue()).intValue() / (double) SSPINNER_VALUE);
-        float b = (float) (((Number) bSpinner.getValue()).intValue() / (double) LSPINNER_VALUE);
+        float h = ((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE;
+        float s = ((Number) sSpinner.getValue()).intValue() / SSPINNER_VALUE;
+        float b = ((Number) bSpinner.getValue()).intValue() / BSPINNER_VALUE;
 
         spinnerTrigger = true;
         getColorSelectionModel().setSelectedColor(new Color(Color.HSBtoRGB(h, s, b)));
@@ -691,11 +691,11 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         container.add(label);
         container.add(mainPanel);
 
-        // hsl和rgb面板
-        JPanel hslAndRgbPanel = new JPanel();
-        hslAndRgbPanel.setLayout(new BorderLayout(0, 16));
-        hslAndRgbPanel.add(initialHSLPanel(), BorderLayout.CENTER);
-        hslAndRgbPanel.add(initialRGBPanel(), BorderLayout.SOUTH);
+        // hsb和rgb面板
+        JPanel hsbAndRgbPanel = new JPanel();
+        hsbAndRgbPanel.setLayout(new BorderLayout(0, 16));
+        hsbAndRgbPanel.add(initialHSBPanel(), BorderLayout.CENTER);
+        hsbAndRgbPanel.add(initialRGBPanel(), BorderLayout.SOUTH);
 
         // 十六进制面板
         JPanel hexPanel = new JPanel();
@@ -703,7 +703,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         hexPanel.add(new UILabel("#"));
         hexPanel.add(field);
 
-        mainPanel.add(hslAndRgbPanel, BorderLayout.CENTER);
+        mainPanel.add(hsbAndRgbPanel, BorderLayout.CENTER);
         mainPanel.add(hexPanel, BorderLayout.SOUTH);
 
         JPanel rightPane = new JPanel(new BorderLayout());
@@ -719,11 +719,11 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         return container;
     }
 
-    //初始化HSL部分
-    private JPanel initialHSLPanel() {
+    //初始化HSB部分
+    private JPanel initialHSBPanel() {
         hRadio = new UIRadioButton("H");
         sRadio = new UIRadioButton("S");
-        bRadio = new UIRadioButton("L");
+        bRadio = new UIRadioButton("B");
         ButtonGroup group = new ButtonGroup();
         group.add(hRadio);
         group.add(sRadio);
@@ -748,27 +748,27 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         sSpinner.addChangeListener(scroll);
         bSpinner.addChangeListener(scroll);
 
-        JPanel hslPanel = new JPanel();
-        hslPanel.setLayout(new GridLayout(3, 0, 0, 5));
+        JPanel hsbPanel = new JPanel();
+        hsbPanel.setLayout(new GridLayout(3, 0, 0, 5));
 
         JPanel hPanel = new JPanel();
         hPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         hPanel.add(hRadio);
         hPanel.add(hSpinner);
-        hslPanel.add(hPanel);
+        hsbPanel.add(hPanel);
 
         JPanel sPanel = new JPanel();
         sPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         sPanel.add(sRadio);
         sPanel.add(sSpinner);
-        hslPanel.add(sPanel);
+        hsbPanel.add(sPanel);
 
         JPanel lPanel = new JPanel();
         lPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         lPanel.add(bRadio);
         lPanel.add(bSpinner);
-        hslPanel.add(lPanel);
-        return hslPanel;
+        hsbPanel.add(lPanel);
+        return hsbPanel;
     }
 
     private JPanel initialRGBPanel() {
@@ -837,12 +837,12 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
     private void updateHLockImage() {
         int index = 0;
         int[] pix = new int[IMG_WIDTH * IMG_HEIGHT];
-        float hValue = (float)(((Number) hSpinner.getValue()).intValue() / (double) HSPINNER_VALUE );
+        float hValue = ((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE;
 
         for (int j = 0; j < IMG_HEIGHT; j++) {
             for (int i = 0; i < IMG_WIDTH; i++) {
-                pix[index++] = Color.HSBtoRGB(hValue, (float) ((IMG_WIDTH - i * 1D) / IMG_WIDTH),
-                        (float) ((IMG_HEIGHT - j * 1D) / IMG_HEIGHT)) | (BINARY_FOR_EIGHT << TWENTY_FOUR);
+                pix[index++] = Color.HSBtoRGB(hValue, (IMG_WIDTH - i * 1f) / IMG_WIDTH,
+                        (IMG_HEIGHT - j * 1f) / IMG_HEIGHT) | (BINARY_FOR_EIGHT << TWENTY_FOUR);
             }
         }
 
@@ -856,7 +856,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
      */
     private void updateBLockImage() {
         int[] pix = new int[IMG_WIDTH * IMG_HEIGHT];
-        float bValue = ((Number) bSpinner.getValue()).intValue() / LSPINNER_VALUE;
+        float bValue = ((Number) bSpinner.getValue()).intValue() / BSPINNER_VALUE;
 
         int index = 0;
         for (int j = 0; j < IMG_HEIGHT; j++) {
@@ -1028,7 +1028,7 @@ class CustomChooserPanel extends AbstractColorChooserPanel implements ColorSelec
         int[] trackPix = new int[TRACK_WIDTH * IMG_HEIGHT];
 
         float hValue = ((Number) hSpinner.getValue()).intValue() / HSPINNER_VALUE;
-        float bValue = ((Number) bSpinner.getValue()).intValue() / LSPINNER_VALUE;
+        float bValue = ((Number) bSpinner.getValue()).intValue() / BSPINNER_VALUE;
 
         int trackIndex = 0;
         for (int j = 0; j < IMG_HEIGHT; j++) {
