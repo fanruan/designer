@@ -74,7 +74,18 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeLayoutPane() {
         gaugeLayout = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation"),gaugeLayout);
+
+        String title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation");
+
+        if (plot instanceof VanChartGaugePlot) {
+            VanChartGaugePlot gaugePlot = (VanChartGaugePlot) plot;
+
+            if (gaugePlot.getGaugeStyle() == GaugeStyle.THERMOMETER) {
+                title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Sort_Orientation");
+            }
+        }
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(title, gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
