@@ -30,6 +30,7 @@ import java.awt.Dimension;
  */
 public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
+    private static final int TEXT_FONT_PANE_HEIGHT = 50;
     private GaugeStyle gaugeStyle;
     private UIButtonGroup<Integer> align;
     private JPanel alignPane;
@@ -198,7 +199,7 @@ public class VanChartGaugeLabelDetailPane extends VanChartPlotLabelDetailPane {
 
     protected void checkStyleUse() {
         textFontPane.setVisible(true);
-        textFontPane.setPreferredSize(new Dimension(0, 60));
+        textFontPane.setPreferredSize(new Dimension(0, TEXT_FONT_PANE_HEIGHT));
     }
 
     protected boolean hasLabelAlign(Plot plot) {
