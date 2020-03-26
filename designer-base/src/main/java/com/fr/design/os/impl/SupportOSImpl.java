@@ -83,6 +83,20 @@ public enum SupportOSImpl implements SupportOS {
         public boolean support() {
             return OperatingSystem.isMacos();
         }
+    },
+
+    NON_GUARDIAN_START {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isLinux() || Arch.getArch() == Arch.ARM;
+        }
+    },
+
+    DOCK_ICON {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isMacos();
+        }
     }
 
 }
