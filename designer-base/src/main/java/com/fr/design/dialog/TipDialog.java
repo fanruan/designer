@@ -8,7 +8,6 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
