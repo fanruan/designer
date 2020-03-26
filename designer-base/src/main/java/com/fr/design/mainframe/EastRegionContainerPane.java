@@ -203,12 +203,9 @@ public class EastRegionContainerPane extends UIEastResizableContainer {
         PropertyItem propertyItem = new PropertyItem(itemBean.getName(),
                     itemBean.getTitle(),
                     itemBean.getBtnIconName(),
+                    itemBean.getBtnIconBaseDir(),
                     itemBean.getVisibleModes(),
                     itemBean.getEnableModes());
-        String btnIconBaseDir = itemBean.getBtnIconBaseDir();
-        if (StringUtils.isNotEmpty(btnIconBaseDir)) {
-            propertyItem.setIconBaseDir(btnIconBaseDir);
-        }
         UIButton button = propertyItem.getButton();
         List<ActionListener> buttonListeners = itemBean.getButtonListeners();
         for (ActionListener buttonListener : buttonListeners) {
