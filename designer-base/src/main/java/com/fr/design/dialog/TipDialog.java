@@ -8,6 +8,7 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -39,7 +40,12 @@ public abstract class TipDialog extends JDialog implements ActionListener {
         northPane.add(iconPane, BorderLayout.WEST);
         northPane.add(tipPane, BorderLayout.CENTER);
 
-        JTextArea area = new JTextArea(type);
+        JTextPane area = new JTextPane();
+        UILabel typeLabel = new UILabel(type);
+        area.insertComponent(typeLabel);
+        UILabel logoIconLabel = new UILabel();
+        logoIconLabel.setIcon(IOUtils.readIcon("com/fr/base/images/oem/logo.png"));
+        area.insertComponent(logoIconLabel);
         area.setPreferredSize(new Dimension(400, 100));
         area.setEnabled(true);
         area.setEditable(false);
