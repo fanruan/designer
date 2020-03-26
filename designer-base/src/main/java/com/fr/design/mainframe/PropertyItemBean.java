@@ -11,6 +11,7 @@ public class PropertyItemBean {
     private String name;
     private String title;
     private String btnIconName;
+    private String btnIconBaseDir;
     private EastRegionContainerPane.PropertyMode[] visibleModes;
     private EastRegionContainerPane.PropertyMode[] enableModes;
     private List<ActionListener> buttonListeners;
@@ -40,6 +41,15 @@ public class PropertyItemBean {
     
     public void setBtnIconName(String btnIconName) {
         this.btnIconName = btnIconName;
+    }
+    
+    public String getBtnIconBaseDir() {
+        
+        return btnIconBaseDir;
+    }
+    
+    public void setBtnIconBaseDir(String btnIconBaseDir) {
+        this.btnIconBaseDir = btnIconBaseDir;
     }
     
     public EastRegionContainerPane.PropertyMode[] getVisibleModes() {

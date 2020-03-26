@@ -14,6 +14,10 @@ public interface PropertyItemPaneProvider<T> extends Mutable {
     
     String XML_TAG = "PropertyItemPaneProvider";
     
+    int FIRST = 100;
+    
+    int LAST = -100;
+    
     /**
      * 独一无二的标志
      *

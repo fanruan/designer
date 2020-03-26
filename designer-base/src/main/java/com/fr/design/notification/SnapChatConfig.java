@@ -43,9 +43,12 @@ public class SnapChatConfig implements XMLable {
     @Override
     public void readXML(XMLableReader reader) {
     
-        String tagName = reader.getTagName();
-        if ("MarkReadMap".equals(tagName)) {
-            readMarkReadMapXML(reader);
+        if (reader.isChildNode()) {
+            if ("item".equals(reader.getTagName())) {
+                String tmpVal = reader.getElementValue();
+                Boolean markRead = Boolean.valueOf(tmpVal);
+                markReadMap.put(reader.getAttrAsString("key", StringUtils.EMPTY), markRead);
+            }
         }
     }
     
@@ -62,9 +65,6 @@ public class SnapChatConfig implements XMLable {
         reader.readXMLObject(new XMLReadable() {
             @Override
             public void readXML(XMLableReader reader) {
-                String tmpVal = reader.getElementValue();
-                Boolean markRead = Boolean.valueOf(tmpVal);
-                markReadMap.put(reader.getAttrAsString("key", StringUtils.EMPTY), markRead);
             }
         });
     }
