@@ -40,8 +40,8 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     // 是否支持透明
     private boolean isSupportTransparent;
 
-    private final static int TRANSPANENT_WINDOW_HEIGHT = 165;
-    private final static int WINDWO_HEIGHT = 150;
+    public final static int TRANSPARENT_WINDOW_HEIGHT = 165;
+    public final static int WINDOW_HEIGHT = 150;
 
     // 最近使用颜色
     private UsedColorPane usedColorPane;
@@ -103,6 +103,10 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
         centerPane1.setBorder(BorderFactory.createEmptyBorder(2, 8, 0, 8));
         centerPane1.add(customButton, BorderLayout.NORTH);
         centerPane.add(centerPane1);
+    }
+
+    public boolean isSupportTransparent() {
+        return isSupportTransparent;
     }
 
     public void setSupportTransparent(boolean supportTransparent) {
@@ -208,9 +212,9 @@ public class NewColorSelectPane extends BasicPane implements ColorSelectable {
     @Override
     public Dimension getPreferredSize() {
         if (isSupportTransparent) {
-            return new Dimension(super.getPreferredSize().width, TRANSPANENT_WINDOW_HEIGHT);
+            return new Dimension(super.getPreferredSize().width, TRANSPARENT_WINDOW_HEIGHT);
         }
-        return new Dimension(super.getPreferredSize().width, WINDWO_HEIGHT);
+        return new Dimension(super.getPreferredSize().width, WINDOW_HEIGHT);
     }
 
     /**
