@@ -6,9 +6,8 @@ import com.fr.design.upm.event.DownloadEvent;
 import com.fr.event.Event;
 import com.fr.event.EventDispatcher;
 import com.fr.event.Listener;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
+import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
+import com.teamdev.jxbrowser.js.JsObject;
 
 import java.awt.*;
 
@@ -32,12 +31,10 @@ public class UpmShowPane extends BasicPane {
 //        先屏蔽掉这个判断，后续可能修改交互
 //        if (UpmFinder.checkUPMResourcesExist()) {
         modernUIPane = new ModernUIPane.Builder<>()
-                .prepare(new ScriptContextAdapter() {
-                    @Override
-                    public void onScriptContextCreated(ScriptContextEvent event) {
-                        JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                        window.asObject().setProperty("PluginHelper", UpmBridge.getBridge(event.getBrowser()));
-                    }
+                .prepare(params -> {
+                    JsObject window = params.frame().executeJavaScript("window");
+                    window.putProperty("PluginHelper", UpmBridge.getBridge());
+                    return InjectJsCallback.Response.proceed();
                 })
                 .withURL(UpmFinder.getMainResourcePath(), UpmUtils.renderMap())
                 .build();
