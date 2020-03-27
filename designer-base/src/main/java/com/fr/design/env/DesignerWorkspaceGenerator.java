@@ -1,5 +1,6 @@
 package com.fr.design.env;
 
+import com.fr.common.report.ReportState;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.EnvChangeEntrance;
 import com.fr.design.dialog.FineJOptionPane;
@@ -8,6 +9,9 @@ import com.fr.design.mainframe.messagecollect.StartErrorMessageCollector;
 import com.fr.design.mainframe.messagecollect.entity.DesignerErrorMessage;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.ProcessEventPipe;
+import com.fr.process.engine.core.CarryMessageEvent;
+import com.fr.process.engine.core.FineProcessContext;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -67,6 +71,10 @@ public class DesignerWorkspaceGenerator {
     enum  RemoteHandler {
         SELF;
         public static void handle(DesignerWorkspaceInfo config) {
+            ProcessEventPipe eventPipe = FineProcessContext.getParentPipe();
+            if (eventPipe != null) {
+                eventPipe.fire(new CarryMessageEvent(ReportState.STOP.getValue()));
+            }
             StartErrorMessageCollector.getInstance().record(DesignerErrorMessage.REMOTE_DESIGN_NO_RESPONSE.getId(),
                                                             DesignerErrorMessage.REMOTE_DESIGN_NO_RESPONSE.getMessage(),
                                                             StringUtils.EMPTY);
@@ -85,7 +93,6 @@ public class DesignerWorkspaceGenerator {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
             } else {
-                EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
             }
         }
     }
