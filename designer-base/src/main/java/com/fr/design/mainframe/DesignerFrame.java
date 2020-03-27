@@ -60,7 +60,6 @@ import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
 import com.fr.stable.ProductConstants;
-import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
 import com.fr.stable.os.OperatingSystem;
@@ -73,7 +72,6 @@ import com.fr.workspace.Workspace;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import org.jetbrains.annotations.Nullable;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -177,16 +175,6 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     private int contentWidth = (int) (java.awt.Toolkit.getDefaultToolkit().getScreenSize().getWidth());
 
     private int contentHeight = (int) (java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-
-        static {
-        if (SupportOSImpl.DOCK_ICON.support()) {
-            try {
-                ImageIO.write(IOUtils.readImage("com/fr/design/icon/logo.png"), "png", new File(
-                        StableUtils.pathJoin(StableUtils.getInstallHome(), "bin", "logo.png")));
-            } catch (IOException ignore) {
-            }
-        }
-    }
 
     private WindowAdapter windowAdapter = new WindowAdapter() {
 

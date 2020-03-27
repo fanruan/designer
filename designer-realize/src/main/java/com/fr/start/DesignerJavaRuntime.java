@@ -9,7 +9,6 @@ import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
 
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,6 +33,13 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String DOCK_OPTIONS = "-Xdock:icon=" + LOGO_PATH;
     private static final String DOCK_NAME_OPTIONS = "-Xdock:name=" + FineDesigner.class.getSimpleName();
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
+
+    static {
+        try {
+            IOUtils.copy(DesignerJavaRuntime.class.getResourceAsStream("/com/fr/design/icon/logo.png"), "logo.png", new File(BIN_HOME));
+        } catch (IOException ignore) {
+        }
+    }
 
     private static final DesignerJavaRuntime INSTANCE = new DesignerJavaRuntime();
 
