@@ -8,7 +8,6 @@ import com.fr.design.mainframe.messagecollect.StartErrorMessageCollector;
 import com.fr.design.mainframe.messagecollect.entity.DesignerErrorMessage;
 import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.module.ModuleContext;
 import com.fr.stable.StringUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -17,6 +16,7 @@ import com.fr.workspace.connect.WorkspaceClient;
 import javax.swing.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class DesignerWorkspaceGenerator {
 
     private static final int WAIT_FREQ = 60;
-    private static ExecutorService service = ModuleContext.getExecutor().newSingleThreadExecutor(
+    private static ExecutorService service = Executors.newCachedThreadPool(
             new NamedThreadFactory("DesignerWorkspaceGenerator"));
 
     public static Workspace generate(final DesignerWorkspaceInfo config) throws Exception {
@@ -88,5 +88,9 @@ public class DesignerWorkspaceGenerator {
                 EnvChangeEntrance.getInstance().dealEvnExceptionWhenStartDesigner();
             }
         }
+    }
+
+    public static void stop() {
+        service.shutdown();
     }
 }

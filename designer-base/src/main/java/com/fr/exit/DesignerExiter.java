@@ -1,5 +1,6 @@
 package com.fr.exit;
 
+import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.process.engine.core.FineProcessContext;
 import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.StableUtils;
@@ -19,9 +20,14 @@ public class DesignerExiter {
     }
 
     public void execute() {
+        beforeExit();
         if (FineProcessContext.getParentPipe() != null) {
             FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
         }
         System.exit(0);
+    }
+
+    private void beforeExit() {
+        DesignerWorkspaceGenerator.stop();
     }
 }

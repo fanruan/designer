@@ -202,6 +202,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                XmlHandler.Self.handle(e);
             }
 
             // james：如果没有env定义，要设置一个默认的
@@ -348,23 +349,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            ErrorDialog dialog = new ErrorDialog(null,
-                                                 Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
-                                                 Toolkit.i18nText("Fine-Design_Error_Start_Report"),
-                                                 e.getMessage()) {
-                @Override
-                protected void okEvent() {
-                    dispose();
-                    DesignerExiter.getInstance().execute();
-                }
-
-                @Override
-                protected void restartEvent() {
-                    dispose();
-                    RestartHelper.restart();
-                }
-            };
-            dialog.setVisible(true);
+            XmlHandler.Self.handle(e);
         } finally {
             if (null != fileWriter) {
                 try {
@@ -2059,4 +2044,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setVcsConfigManager(VcsConfigManager vcsConfigManager) {
         this.vcsConfigManager = vcsConfigManager;
     }
+
+    enum XmlHandler {
+        Self;
+        public void handle(Throwable throwable) {
+            ErrorDialog dialog = new ErrorDialog(null,
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Report"),
+                                                 throwable.getMessage()) {
+                @Override
+                protected void okEvent() {
+                    dispose();
+                    DesignerExiter.getInstance().execute();
+                }
+
+                @Override
+                protected void restartEvent() {
+                    dispose();
+                    RestartHelper.restart();
+                }
+            };
+            dialog.setVisible(true);
+            DesignerExiter.getInstance().execute();
+        }
+    };
 }
