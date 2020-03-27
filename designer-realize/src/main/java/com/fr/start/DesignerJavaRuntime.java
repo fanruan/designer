@@ -32,17 +32,8 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String BIN_HOME = StableUtils.pathJoin(StableUtils.getInstallHome(), "bin");
     private static final String LOGO_PATH = StableUtils.pathJoin(BIN_HOME, "logo.png");
     private static final String DOCK_OPTIONS = "-Xdock:icon=" + LOGO_PATH;
-    private static final String DOCK_NAME_OPTIONS = "-Xdock:name=" + FineDesigner.class.getName();
+    private static final String DOCK_NAME_OPTIONS = "-Xdock:name=" + FineDesigner.class.getSimpleName();
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
-
-    static {
-        if (SupportOSImpl.DOCK_ICON.support()) {
-            try {
-                ImageIO.write(IOUtils.readImage("com/fr/design/icon/logo.png"), "png", new File(LOGO_PATH));
-            } catch (IOException ignore) {
-            }
-        }
-    }
 
     private static final DesignerJavaRuntime INSTANCE = new DesignerJavaRuntime();
 
