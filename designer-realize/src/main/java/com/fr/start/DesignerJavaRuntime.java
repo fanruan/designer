@@ -32,6 +32,7 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String BIN_HOME = StableUtils.pathJoin(StableUtils.getInstallHome(), "bin");
     private static final String LOGO_PATH = StableUtils.pathJoin(BIN_HOME, "logo.png");
     private static final String DOCK_OPTIONS = "-Xdock:icon=" + LOGO_PATH;
+    private static final String DOCK_NAME_OPTIONS = "-Xdock:name=" + FineDesigner.class.getName();
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
 
     static {
@@ -99,7 +100,7 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
         if (isInstallVersion()) {
             String[] options = super.getJvmOptions();
             if (SupportOSImpl.DOCK_ICON.support()) {
-                options = ArrayUtils.add(options, DOCK_OPTIONS);
+                options = ArrayUtils.addAll(options, DOCK_OPTIONS, DOCK_NAME_OPTIONS);
             }
             return options;
         } else {
