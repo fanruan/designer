@@ -202,7 +202,11 @@ public class RestartHelper {
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            DesignerContext.getDesignerFrame().exit();
+            if (DesignerContext.getDesignerFrame() != null) {
+                DesignerContext.getDesignerFrame().exit();
+            } else {
+                DesignerExiter.getInstance().execute();
+            }
         }
     }
 }

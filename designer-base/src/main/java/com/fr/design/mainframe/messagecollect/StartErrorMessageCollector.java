@@ -30,7 +30,7 @@ public class StartErrorMessageCollector {
     }
 
     public void record(String id, String msg, String detail) {
-        FineLoggerFactory.getLogger().error(id +  ": " + msg + "detail: " + detail);
+        FineLoggerFactory.getLogger().error(id +  ": " + msg + ", detail: " + detail);
         ErrorInfo errorInfo = new ErrorInfo(StringUtils.EMPTY, uuid, activeKey);
         errorInfo.setLogid(id);
         errorInfo.setLog(msg);
