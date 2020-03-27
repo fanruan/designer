@@ -2,9 +2,8 @@ package com.fr.design.dcm;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.ui.ModernUIPane;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
+import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
+import com.teamdev.jxbrowser.js.JsObject;
 
 import java.awt.*;
 
@@ -26,14 +25,13 @@ public class UniversalDatabasePane extends BasicPane {
         setLayout(new BorderLayout());
         modernUIPane = new ModernUIPane.Builder<>()
                 .withComponent(UniversalDatabaseComponent.KEY)
-                .prepare(new ScriptContextAdapter() {
-                    @Override
-                    public void onScriptContextCreated(ScriptContextEvent event) {
-                        JSValue window = event.getBrowser().executeJavaScriptAndReturnValue("window");
-                        window.asObject().setProperty("DcmHelper", UniversalDcmBridge.getBridge(event.getBrowser()));
+                .prepare(params -> {
+                    JsObject window = params.frame().executeJavaScript("window");
+                    if (window != null) {
+                        window.putProperty("DcmHelper", UniversalDcmBridge.getBridge());
                     }
-                })
-                .build();
+                    return InjectJsCallback.Response.proceed();
+                }).build();
         add(modernUIPane, BorderLayout.CENTER);
     }
 }

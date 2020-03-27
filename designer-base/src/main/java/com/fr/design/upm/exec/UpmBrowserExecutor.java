@@ -1,8 +1,7 @@
 package com.fr.design.upm.exec;
 
 import com.fr.design.bridge.exec.JSExecutor;
-import com.teamdev.jxbrowser.chromium.JSFunction;
-import com.teamdev.jxbrowser.chromium.JSObject;
+import com.teamdev.jxbrowser.js.JsObject;
 
 /**
  * @author richie
@@ -11,20 +10,18 @@ import com.teamdev.jxbrowser.chromium.JSObject;
  */
 public class UpmBrowserExecutor implements JSExecutor {
 
-    public static UpmBrowserExecutor create(JSObject window, JSFunction callback) {
-        return new UpmBrowserExecutor(window, callback);
+    public static UpmBrowserExecutor create(JsObject callback) {
+        return new UpmBrowserExecutor(callback);
     }
 
-    private JSObject window;
-    private JSFunction callback;
+    private JsObject callback;
 
-    private UpmBrowserExecutor(JSObject window, JSFunction callback) {
-        this.window = window;
+    private UpmBrowserExecutor(JsObject callback) {
         this.callback = callback;
     }
 
     @Override
     public void executor(String newValue) {
-        callback.invoke(window, newValue);
+        callback.call(JSExecutor.CALLBACK_FUNCTION_NAME, newValue);
     }
 }

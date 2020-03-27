@@ -58,7 +58,7 @@ public class UpmFinder {
     public static void showUPMDialog() {
         boolean flag = true;
         try {
-            Class.forName("com.teamdev.jxbrowser.chromium.Browser");
+            Class.forName("com.teamdev.jxbrowser.browser.Browser");
         } catch (ClassNotFoundException e) {
             flag = false;
         }

@@ -7,21 +7,18 @@ import com.fr.design.gui.itoolbar.UIToolbar;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.web.struct.AssembleComponent;
-import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.BrowserPreferences;
-import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
-import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
-import com.teamdev.jxbrowser.chromium.events.LoadListener;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextAdapter;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextEvent;
-import com.teamdev.jxbrowser.chromium.events.ScriptContextListener;
-import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.browser.callback.InjectJsCallback;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.engine.RenderingMode;
+import com.teamdev.jxbrowser.js.JsObject;
+import com.teamdev.jxbrowser.net.Network;
+import com.teamdev.jxbrowser.net.callback.InterceptRequestCallback;
+import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Map;
 
 /**
@@ -42,9 +39,8 @@ public class ModernUIPane<T> extends BasicPane {
     }
 
     private void initialize() {
+        setLayout(new BorderLayout());
         if (browser == null) {
-            setLayout(new BorderLayout());
-            BrowserPreferences.setChromiumSwitches("--disable-google-traffic");
             if (DesignerEnvManager.getEnvManager().isOpenDebug()) {
                 UIToolbar toolbar = new UIToolbar();
                 add(toolbar, BorderLayout.NORTH);
@@ -55,75 +51,67 @@ public class ModernUIPane<T> extends BasicPane {
                 UIButton closeButton = new UIButton(Toolkit.i18nText("Fine-Design_Basic_Close_Window"));
                 toolbar.add(closeButton);
 
-                openDebugButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        showDebuggerDialog();
-                    }
-                });
+                openDebugButton.addActionListener(e -> showDebuggerDialog());
 
-                reloadButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        browser.reloadIgnoringCache();
-                    }
-                });
+                reloadButton.addActionListener(e -> browser.navigation().reloadIgnoringCache());
 
-                closeButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        SwingUtilities.getWindowAncestor(ModernUIPane.this).setVisible(false);
-                    }
-                });
-                BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+                closeButton.addActionListener(e -> SwingUtilities.getWindowAncestor(ModernUIPane.this).setVisible(false));
                 initializeBrowser();
-                add(new BrowserView(browser), BorderLayout.CENTER);
+                add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             } else {
                 initializeBrowser();
-                add(new BrowserView(browser), BorderLayout.CENTER);
+                add(BrowserView.newInstance(browser), BorderLayout.CENTER);
             }
         }
     }
 
     private void showDebuggerDialog() {
         JDialog dialog = new JDialog(SwingUtilities.getWindowAncestor(this));
-        Browser debugger = new Browser();
-        BrowserView debuggerView = new BrowserView(debugger);
+        Engine engine = Engine.newInstance(
+                EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED)
+                        .addSwitch("--disable-google-traffic")
+                        .remoteDebuggingPort(9222).build());
+        Browser debugger = engine.newBrowser();
+        BrowserView debuggerView = BrowserView.newInstance(debugger);
         dialog.add(debuggerView, BorderLayout.CENTER);
         dialog.setSize(new Dimension(800, 400));
         GUICoreUtils.centerWindow(dialog);
         dialog.setVisible(true);
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        debugger.loadURL(browser.getRemoteDebuggingURL());
+        browser.devTools().remoteDebuggingUrl().ifPresent(url -> {
+            debugger.navigation().loadUrl(url);
+        });
     }
 
     private void initializeBrowser() {
-        browser = new Browser();
+        Engine engine = Engine.newInstance(EngineOptions.newBuilder(RenderingMode.HARDWARE_ACCELERATED).addSwitch("--disable-google-traffic").build());
+        browser = engine.newBrowser();
         // 初始化的时候，就把命名空间对象初始化好，确保window.a.b.c（"a.b.c"为命名空间）对象都是初始化过的
-        browser.addScriptContextListener(new ScriptContextAdapter() {
-            @Override
-            public void onScriptContextCreated(ScriptContextEvent event) {
-                event.getBrowser().executeJavaScript(String.format(ModernUIConstants.SCRIPT_INIT_NAME_SPACE, namespace));
-            }
+        browser.set(InjectJsCallback.class, params -> {
+            params.frame().executeJavaScript(String.format(ModernUIConstants.SCRIPT_INIT_NAME_SPACE, namespace));
+            return InjectJsCallback.Response.proceed();
         });
     }
 
     /**
      * 转向一个新的地址，相当于重新加载
+     *
      * @param url 新的地址
      */
     public void redirect(String url) {
-        browser.loadURL(url);
+        browser.navigation().loadUrl(url);
     }
 
     /**
      * 转向一个新的地址，相当于重新加载
+     *
      * @param url 新的地址
      * @param map 初始化参数
      */
     public void redirect(String url, Map<String, String> map) {
-        Assistant.setEmbProtocolHandler(browser, new EmbProtocolHandler(map));
-        browser.loadURL(url);
+        Network network = browser.engine().network();
+        network.set(InterceptRequestCallback.class, new NxInterceptRequestCallback(network, map));
+        browser.navigation().loadUrl(url);
     }
 
     @Override
@@ -133,19 +121,18 @@ public class ModernUIPane<T> extends BasicPane {
 
 
     public void populate(final T t) {
-        browser.addScriptContextListener(new ScriptContextAdapter() {
-            @Override
-            public void onScriptContextCreated(ScriptContextEvent event) {
-                JSValue ns = event.getBrowser().executeJavaScriptAndReturnValue("window." + namespace);
-                ns.asObject().setProperty(variable, t);
+        browser.set(InjectJsCallback.class, params -> {
+            JsObject ns = params.frame().executeJavaScript("window." + namespace);
+            if (ns != null) {
+                ns.putProperty(variable, t);
             }
+            return InjectJsCallback.Response.proceed();
         });
     }
 
     public T update() {
-        JSValue jsValue = browser.executeJavaScriptAndReturnValue("window." + namespace + "." + expression);
-        if (jsValue.isObject()) {
-            return (T)jsValue.asJavaObject();
+        if (browser.mainFrame().isPresent()) {
+            return browser.mainFrame().get().executeJavaScript("window." + namespace + "." + expression);
         }
         return null;
     }
@@ -154,79 +141,89 @@ public class ModernUIPane<T> extends BasicPane {
 
         private ModernUIPane<T> pane = new ModernUIPane<>();
 
-        public Builder<T> prepare(ScriptContextListener contextListener) {
-            pane.browser.addScriptContextListener(contextListener);
-            return this;
-        }
-
-        public Builder<T> prepare(LoadListener loadListener) {
-            pane.browser.addLoadListener(loadListener);
+        public Builder<T> prepare(InjectJsCallback callback) {
+            pane.browser.set(InjectJsCallback.class, callback);
             return this;
         }
 
         /**
          * 加载jar包中的资源
+         *
          * @param path 资源路径
          */
         public Builder<T> withEMB(final String path) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
-            pane.browser.loadURL("emb:" + path);
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxInterceptRequestCallback(network));
+            pane.browser.navigation().loadUrl("emb:" + path);
             return this;
         }
 
         /**
          * 加载url指向的资源
+         *
          * @param url 文件的地址
          */
         public Builder<T> withURL(final String url) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
-            pane.browser.loadURL(url);
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxInterceptRequestCallback(network));
+            pane.browser.navigation().loadUrl(url);
             return this;
         }
 
         /**
          * 加载url指向的资源
+         *
          * @param url 文件的地址
          */
         public Builder<T> withURL(final String url, Map<String, String> map) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(map));
-            pane.browser.loadURL(url);
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxInterceptRequestCallback(network, map));
+            pane.browser.navigation().loadUrl(url);
             return this;
         }
 
         /**
          * 加载Atom组件
+         *
          * @param component Atom组件
          */
         public Builder<T> withComponent(AssembleComponent component) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(component));
-            pane.browser.loadURL("emb:dynamic");
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxComplexInterceptRequestCallback(network, component));
+            pane.browser.navigation().loadUrl("emb:dynamic");
             return this;
         }
 
         /**
          * 加载Atom组件
+         *
          * @param component Atom组件
          */
         public Builder<T> withComponent(AssembleComponent component, Map<String, String> map) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler(component, map));
-            pane.browser.loadURL("emb:dynamic");
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxComplexInterceptRequestCallback(network, component, map));
+            pane.browser.navigation().loadUrl("emb:dynamic");
             return this;
         }
 
 
         /**
          * 加载html文本内容
+         *
          * @param html 要加载html文本内容
          */
         public Builder<T> withHTML(String html) {
-            Assistant.setEmbProtocolHandler(pane.browser, new EmbProtocolHandler());
-            pane.browser.loadHTML(html);
+            Network network = pane.browser.engine().network();
+            network.set(InterceptRequestCallback.class, new NxInterceptRequestCallback(network));
+            pane.browser.mainFrame().ifPresent(frame -> {
+                frame.loadHtml(html);
+            });
             return this;
         }
 
         /**
          * 设置该前端页面做数据交换所使用的对象
+         *
          * @param namespace 对象名
          */
         public Builder<T> namespace(String namespace) {
@@ -236,6 +233,7 @@ public class ModernUIPane<T> extends BasicPane {
 
         /**
          * java端往js端传数据时使用的变量名字
+         *
          * @param name 变量的名字
          */
         public Builder<T> variable(String name) {
@@ -245,6 +243,7 @@ public class ModernUIPane<T> extends BasicPane {
 
         /**
          * js端往java端传数据时执行的函数表达式
+         *
          * @param expression 函数表达式
          */
         public Builder<T> expression(String expression) {
