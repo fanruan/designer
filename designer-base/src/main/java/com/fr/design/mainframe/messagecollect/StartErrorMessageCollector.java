@@ -1,8 +1,8 @@
 package com.fr.design.mainframe.messagecollect;
 
-import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.mainframe.errorinfo.ErrorInfo;
+import com.fr.log.FineLoggerFactory;
 import com.fr.stable.StringUtils;
 
 /**
@@ -30,6 +30,7 @@ public class StartErrorMessageCollector {
     }
 
     public void record(String id, String msg, String detail) {
+        FineLoggerFactory.getLogger().error(id +  ": " + msg + "detail: " + detail);
         ErrorInfo errorInfo = new ErrorInfo(StringUtils.EMPTY, uuid, activeKey);
         errorInfo.setLogid(id);
         errorInfo.setLog(msg);
