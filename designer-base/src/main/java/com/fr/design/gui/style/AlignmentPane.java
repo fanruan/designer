@@ -102,7 +102,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/h_s_normal_white.png")},
                 {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/defaultAlignment_white.png")}};
         Integer[] hAlignment = new Integer[]{Constants.LEFT, Constants.CENTER, Constants.RIGHT, Integer.valueOf(Constants.DISTRIBUTED), Constants.NULL};
-        hAlignmentPane = new UIButtonGroup<Integer>(hAlignmentIconArray, hAlignment);
+        hAlignmentPane = new UIButtonGroup<>(hAlignmentIconArray, hAlignment);
         hAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Right"),
                 com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Distributed"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_DEFAULT")});
         hPaneContainer = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -112,7 +112,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
                 {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_center_normal_white.png")},
                 {IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal.png"), IOUtils.readIcon("/com/fr/design/images/m_format/cellstyle/v_down_normal_white.png")}};
         Integer[] vAlignment = new Integer[]{Constants.TOP, Constants.CENTER, Constants.BOTTOM};
-        vAlignmentPane = new UIButtonGroup<Integer>(vAlignmentIconArray, vAlignment);
+        vAlignmentPane = new UIButtonGroup<>(vAlignmentIconArray, vAlignment);
         vAlignmentPane.setAllToolTips(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Center"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Tooltips_Bottom")});
         initOtherComponent();
         initAllNames();
@@ -174,7 +174,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     }
 
     private void initTextRotationCombox() {
-        ArrayList<String> selectOption = new ArrayList<String>();
+        ArrayList<String> selectOption = new ArrayList<>();
         selectOption.add(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Custom_Angle"));
         VerticalTextProcessor processor = ExtraClassManager.getInstance().getSingle(VerticalTextProcessor.XML_TAG, DefaultVerticalTextProcessor.class);
         selectOption.addAll(Arrays.asList(processor.getComboxOption()));
@@ -343,8 +343,8 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
         int rightPadding = indentationUnitProcessor.paddingUnitProcessor(style.getPaddingRight());
 
         // alex:indent
-        this.leftIndentSpinner.setValue(new Integer(leftPadding));
-        this.rightIndentSpinner.setValue(new Integer(rightPadding));
+        this.leftIndentSpinner.setValue(leftPadding);
+        this.rightIndentSpinner.setValue(rightPadding);
 
         this.spaceBeforeSpinner.setValue(style.getSpacingBefore());
         this.spaceAfterSpinner.setValue(style.getSpacingAfter());
@@ -360,7 +360,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     public Style update(Style style) {
         // peter:需要判断传递进来的值是否为null.
         if (style == null) {
-            return style;
+            return null;
         }
 
         if (ComparatorUtils.equals(globalNameListener.getGlobalName(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Style_Alignment_Pane_Horizontal"))) {
@@ -463,7 +463,7 @@ public class AlignmentPane extends AbstractBasicStylePane implements GlobalNameO
     }
 
     /**
-     * @param name
+     * @param name 全局名
      */
     public void setGlobalName(String name) {
     }

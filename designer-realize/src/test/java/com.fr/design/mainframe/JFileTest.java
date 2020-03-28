@@ -19,6 +19,7 @@ import com.fr.report.worksheet.WorkSheet;
 import com.fr.restriction.Restrictions;
 import com.fr.stable.module.Module;
 import com.fr.start.Designer;
+import com.fr.start.MainDesigner;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
@@ -33,7 +34,7 @@ public class JFileTest extends TestCase {
         Restrictions.register(ReportRestrictionScene.CELL_COUNT, new CellCountRestriction());
         ModuleContext.startModule(Module.PAGE_MODULE);
         ModuleContext.startModule(Module.VIEW_MODULE);
-        Designer designer = new Designer(new String[0]);
+        MainDesigner designer = new MainDesigner(new String[0]);
     }
 
     public void testJWorkBookSetPicture() {

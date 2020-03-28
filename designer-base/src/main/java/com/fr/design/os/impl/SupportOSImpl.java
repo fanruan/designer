@@ -73,6 +73,30 @@ public enum SupportOSImpl implements SupportOS {
         public boolean support() {
             return FRContext.isChineseEnv() && !OperatingSystem.isMacos() && Arch.getArch() != Arch.ARM;
         }
+    },
+
+    /**
+     * mac下dock栏右键退出
+     */
+    DOCK_QUIT {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isMacos();
+        }
+    },
+
+    NON_GUARDIAN_START {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isLinux() || Arch.getArch() == Arch.ARM;
+        }
+    },
+
+    DOCK_ICON {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isMacos();
+        }
     }
 
 }

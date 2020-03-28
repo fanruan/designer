@@ -58,7 +58,14 @@ public class DesignerPushUpdateManager {
 
     private String getFullLatestVersion() {
         try {
-            String res = HttpToolbox.get(CloudCenter.getInstance().acquireUrlByKind("jar10.update"));
+            String url = CloudCenter.getInstance().acquireUrlByKind("jar10.update");
+            if(StringUtils.isBlank(url)){
+                return StringUtils.EMPTY;
+            }
+            String res = HttpToolbox.get(url);
+            if(StringUtils.isBlank(res)){
+                return StringUtils.EMPTY;
+            }
             return new JSONObject(res).optString("buildNO");
         } catch (Throwable e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);

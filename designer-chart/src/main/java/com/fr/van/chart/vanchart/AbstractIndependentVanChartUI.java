@@ -46,4 +46,15 @@ public abstract class AbstractIndependentVanChartUI extends AbstractIndependentC
     public int currentAPILevel() {
         return CURRENT_API_LEVEL;
     }
+
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new SingleCategoryDataSetFieldsPane(), new SingleCategoryCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

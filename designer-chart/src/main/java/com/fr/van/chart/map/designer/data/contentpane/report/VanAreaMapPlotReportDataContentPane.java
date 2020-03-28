@@ -7,7 +7,6 @@ import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-
 import com.fr.plugin.chart.map.data.VanMapReportDefinition;
 
 import javax.swing.BorderFactory;
@@ -26,7 +25,7 @@ public class VanAreaMapPlotReportDataContentPane extends AbstractReportDataConte
         initEveryPane();
         initAreaName();
         JPanel panel = getContent();
-        panel.setBorder(BorderFactory.createEmptyBorder(0,24,0,15));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 24, 0, 15));
         this.add(panel, "0,0,2,0");
     }
 

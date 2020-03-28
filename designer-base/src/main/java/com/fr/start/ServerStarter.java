@@ -3,10 +3,9 @@ package com.fr.start;
 import com.fr.base.ServerConfig;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.BrowseUtils;
-import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
-import com.fr.stable.StableUtils;
 import com.fr.start.server.FineEmbedServer;
 import com.fr.start.server.FineEmbedServerMonitor;
 import com.fr.workspace.WorkContext;
@@ -25,23 +24,11 @@ public class ServerStarter {
         if (!WorkContext.getCurrent().isLocal()) {
             //有问题，这里拿不到远程的http端口
             BrowseUtils.browser(WorkContext.getCurrent().getPath());
-        } else if (ComparatorUtils.equals(StableUtils.getInstallHome(), ".")) {//august:供代码使用
-            String web = GeneralContext.getCurrentAppNameOfEnv();
-            browserURLWithLocalEnv("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + web + "/" + ServerConfig.getInstance().getServletName());
         } else {
-            initDemoServerAndBrowser();
-        }
-
-    }
-
-
-    private static void initDemoServerAndBrowser() {
-
-        try {
-            FineEmbedServer.start();
-        } finally {
-            //先访问Demo, 后访问报表, 不需要重置服务器.
-            BrowseUtils.browser("http://localhost:" + DesignerEnvManager.getEnvManager().getEmbedServerPort() + "/" + GeneralContext.getCurrentAppNameOfEnv() + "/" + ServerConfig.getInstance().getServletName());
+            browserURLWithLocalEnv("http://localhost:"
+                    + DesignerEnvManager.getEnvManager().getEmbedServerPort()
+                    + "/" + GeneralContext.getCurrentAppNameOfEnv()
+                    + "/" + ServerConfig.getInstance().getServletName());
         }
     }
 
@@ -51,8 +38,8 @@ public class ServerStarter {
      * @param url 指定路径
      */
     public static void browserURLWithLocalEnv(final String url) {
-
-        if (!FineEmbedServerMonitor.getInstance().isComplete()) {
+        // 内置服务器没有启动并且设计器已经打开，可以使用带进度条的启动方式
+        if (!FineEmbedServer.isRunning() && DesignerContext.getDesignerFrame().isDesignerOpened()) {
             FineEmbedServerMonitor.getInstance().monitor();
             ExecutorService service = Executors.newSingleThreadExecutor(new NamedThreadFactory("ServerStarter"));
             service.submit(new Runnable() {
@@ -68,8 +55,15 @@ public class ServerStarter {
                 }
             });
             service.shutdown();
+        } else if (!FineEmbedServer.isRunning()) {
+            // 普通方式启动内置服务器
+            try {
+                FineEmbedServer.start();
+            } finally {
+                BrowseUtils.browser(url);
+            }
         } else {
-            FineEmbedServer.start();
+            // 已经启动内置服务器只需打开链接
             BrowseUtils.browser(url);
         }
     }

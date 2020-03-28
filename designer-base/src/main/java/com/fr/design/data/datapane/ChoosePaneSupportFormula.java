@@ -75,6 +75,7 @@ public class ChoosePaneSupportFormula extends ChoosePane {
     }
 
     protected void addFocusListener() {
+        // Do nothing
     }
 
     /**

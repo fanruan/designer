@@ -53,6 +53,12 @@ public class DesignerLogHandler {
 
     private static final int SERVER_GAP_Y = -20;
 
+    private static final String ERROR_MARK = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert") + ":";
+
+    private static final String WARN_MARK = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + ":";
+
+    private static final String NORMAL_MARK = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Normal") + ":";
+
     public static DesignerLogHandler getInstance() {
 
         return HOLDER.singleton;
@@ -310,11 +316,11 @@ public class DesignerLogHandler {
         private String appendLocaleMark(String str, int style) {
 
             if (style == DesignerLogger.ERROR_INT) {
-                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert") + ":" + str + "\n";
+                str = ERROR_MARK + str + "\n";
             } else if (style == DesignerLogger.WARN_INT) {
-                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Seriously") + ":" + str + "\n";
+                str = WARN_MARK + str + "\n";
             } else {
-                str = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Normal") + ":" + str + "\n";
+                str = NORMAL_MARK + str + "\n";
             }
             return str;
         }

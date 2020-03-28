@@ -34,7 +34,7 @@ public enum TestConnectionResult {
     },
 
     /**
-     * 不完全成功，版本不匹配，但测试连接成功。
+     * 不完全成功，版本不匹配，但测试连接成功。该状态先保留
      */
     PARTLY_SUCCESS {
         @Override
@@ -89,16 +89,7 @@ public enum TestConnectionResult {
         if (!value) {
             return FULLY_FAILED;
         }
-        try {
-            String serverVersion = new FunctionalHttpRequest(info).getServerVersion();
-            if (AssistUtils.equals(serverVersion, WorkContext.getVersion())) {
-                return FULLY_SUCCESS;
-            }
-            return PARTLY_SUCCESS;
-        } catch (Exception e) {
-            // 发生异常，说明没连接上。返回完全失败。
-            FineLoggerFactory.getLogger().error(e.getMessage());
-            return FULLY_FAILED;
-        }
+        //去掉测试连接时所做的检测
+        return FULLY_SUCCESS;
     }
 }

@@ -505,6 +505,9 @@ public class FILEChooserPane extends BasicPane {
         if (StringUtils.isEmpty(fileName) || StringUtils.isEmpty(filterExtension) || fileFilter.containsExtension(fileExtension.getExtension())) {
             return fileName;
         }
+        if (!ComparatorUtils.equals(fileNameExtension, filterExtension)) {
+            return fileName + filterExtension;
+        }
         return fileNameWithOutExtension + filterExtension;
     }
 
@@ -734,6 +737,7 @@ public class FILEChooserPane extends BasicPane {
             fileNameTextField.setText("");
             fileNameTextField.addDocumentListener();
         }
+        dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
         return option;
     }

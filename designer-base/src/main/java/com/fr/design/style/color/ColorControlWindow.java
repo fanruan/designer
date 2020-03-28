@@ -38,6 +38,10 @@ public abstract class ColorControlWindow extends JPopupMenu {
         return selectionPopupPane.getColor();
     }
 
+    public PopupHider getPopupHider() {
+        return popupHider;
+    }
+
     /**
      * Init components.
      */
@@ -49,9 +53,13 @@ public abstract class ColorControlWindow extends JPopupMenu {
         setOpaque(false);
         setDoubleBuffered(true);
         setFocusable(false);
+        initSelectionPopupPane(isSupportTransparent);
+        this.pack();
+    }
+
+    protected void initSelectionPopupPane(boolean isSupportTransparent) {
         selectionPopupPane = new ColorSelectionPopupPane(isSupportTransparent);
         this.add(selectionPopupPane, BorderLayout.CENTER);
-        this.pack();
     }
 
     class ColorSelectionPopupPane extends NewColorSelectPane {

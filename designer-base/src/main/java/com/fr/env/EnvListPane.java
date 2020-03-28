@@ -96,8 +96,9 @@ public class EnvListPane extends JListControlPane {
      */
     public String updateEnvManager() {
         DesignerEnvManager mgr = DesignerEnvManager.getEnvManager();
-        mgr.clearAllEnv();
+        //这里代码时序换一下，因为update中需要借助mgr来获取提醒时间，已确认mgr对res无依赖
         Nameable[] res = this.update();
+        mgr.clearAllEnv();
         for (Nameable re : res) {
             NameObject nameObject = (NameObject) re;
             mgr.putEnv(nameObject.getName(), (DesignerWorkspaceInfo) nameObject.getObject());

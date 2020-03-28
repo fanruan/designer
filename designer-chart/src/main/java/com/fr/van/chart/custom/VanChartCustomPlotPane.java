@@ -6,10 +6,14 @@ import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
+import com.fr.chartx.data.AbstractDataDefinition;
+import com.fr.chartx.data.ChartDataDefinitionProvider;
+import com.fr.chartx.data.CustomChartDataDefinition;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.type.ChartImagePane;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartTools;
 import com.fr.plugin.chart.custom.CustomDefinition;
@@ -24,11 +28,11 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
 
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Mitisky on 16/2/16.
@@ -123,6 +127,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         //如果上次的状态和这次的装填不在同一个页面，说明同一个图表內切换了，需要情況数据配置
         if (lastState != chart.getPlot().getDetailType()) {
             chart.setFilterDefinition(null);
+            ((VanChart) chart).setChartDataDefinition(null);
         }
 
         Chart[] customChart = CustomIndependentVanChart.CustomVanChartTypes;
@@ -137,6 +142,9 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
                         dealCustomDefinition(chart);
 
                         customSelectPane.updateBean(chart);
+
+                        //更新新的数据配置
+                        dealCustomChartDataDefinition(chart);
                     } else if (isSamePlot()) {//如果是同一个图表切换过来，则重置面板
                         customSelectPane.populateBean(chart);
                     }
@@ -148,6 +156,27 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
 
         checkCardPane();
 
+    }
+
+    private void dealCustomChartDataDefinition(Chart chart) {
+        CustomChartDataDefinition chartDataDefinition = (CustomChartDataDefinition) ((VanChart) chart).getChartDataDefinition();
+
+        if (chartDataDefinition == null) {
+            return;
+        }
+
+        Map<CustomPlotType, AbstractDataDefinition> customDefinitions = chartDataDefinition.getCustomDefinitions();
+
+        Map<CustomPlotType, AbstractDataDefinition> newCustomDefinitions = new HashMap<>();
+
+        VanChartCustomPlot customPlot = chart.getPlot();
+        for (int i = 0; i < customPlot.getCustomPlotList().size(); i++) {
+            CustomPlotType plotType = CustomPlotFactory.getCustomType(customPlot.getCustomPlotList().get(i));
+            AbstractDataDefinition definition = customDefinitions.get(plotType);
+            newCustomDefinitions.put(plotType, definition);
+        }
+
+        chartDataDefinition.setCustomDefinitions(newCustomDefinitions);
     }
 
     private void dealCustomDefinition(Chart chart) {
@@ -229,9 +258,9 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
         }
         Plot cloned = null;
         try {
-              if(newPlot != null) {
-                 cloned = (Plot) newPlot.clone();
-              }
+            if (newPlot != null) {
+                cloned = (Plot) newPlot.clone();
+            }
         } catch (CloneNotSupportedException e) {
             FineLoggerFactory.getLogger().error("Error In ScatterChart");
         }
@@ -267,5 +296,10 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
                 attrList.remove(VanChartAttrLine.class);
             }
         }
+    }
+
+    @Override
+    protected boolean acceptDefinition(ChartDataDefinitionProvider definition, VanChartPlot vanChartPlot) {
+        return definition instanceof CustomDefinition;
     }
 }

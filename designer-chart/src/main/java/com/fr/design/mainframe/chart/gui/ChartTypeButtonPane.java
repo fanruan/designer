@@ -440,6 +440,7 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
 
         private void changeChartName(String name) {
             this.setText(name);
+            this.setToolTipText(name);
             buttonName = name;
         }
 
@@ -502,6 +503,13 @@ public class ChartTypeButtonPane extends BasicBeanPane<ChartCollection> implemen
                 if (this.isSelected()) {
                     indexList.get(0).setSelected(true);
                     changeCollectionSelected(indexList.get(0).getButtonName());
+                } else {//删除的tab非选中状态, 原为选中状态的tab保持选中不变
+                    for (ChartChangeButton button : indexList) {
+                        if (button.isSelected()) {
+                            changeCollectionSelected(button.getButtonName());
+                            break;
+                        }
+                    }
                 }
             }
 

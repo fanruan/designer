@@ -9,7 +9,7 @@ import com.fr.report.core.PaintUtils;
 import com.fr.report.elementcase.ElementCase;
 
 public class CellElementPainter {
-	public void paintBackground(Graphics2D g2d, ElementCase report, CellElement ce, int width, int height) {
+	public void paintBackground(Graphics2D g2d, ElementCase report, CellElement ce, double width, double height) {
 		Style.paintBackground(g2d, ce.getStyle(), width, height);
 	}
 

@@ -10,6 +10,7 @@ import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.fun.DesignerEnvProcessor;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
+import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ipasswordfield.UIPassWordField;
 import com.fr.design.gui.itextfield.UITextField;
@@ -25,17 +26,7 @@ import com.fr.workspace.WorkContext;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.engine.exception.WorkspaceAuthException;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -295,10 +286,13 @@ public class RemoteEnvPane extends BasicBeanPane<RemoteDesignerWorkspaceInfo> {
 
         contentPanel.add(configPanel, BorderLayout.NORTH);
         contentPanel.add(accountPanel, BorderLayout.CENTER);
-
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        panel.add(contentPanel, BorderLayout.NORTH);
+        panel.add(testPanel, BorderLayout.CENTER);
+        panel.setPreferredSize(new Dimension(440, 600));
+        UIScrollPane scrollPane = new UIScrollPane(panel);
         this.setLayout(new BorderLayout());
-        this.add(contentPanel, BorderLayout.NORTH);
-        this.add(testPanel, BorderLayout.CENTER);
+        this.add(scrollPane);
     }
 
     @Override

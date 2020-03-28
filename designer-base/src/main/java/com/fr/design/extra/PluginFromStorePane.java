@@ -14,11 +14,7 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -99,7 +95,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public void pressInstallButton() {
-
+                // do nothing
             }
 
             @Override
@@ -175,7 +171,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
             PluginManager.getController().install(chosenFile, new ProgressCallback() {
                 @Override
                 public void updateProgress(String description, double progress) {
-
+                    // do nothing
                 }
 
                 @Override

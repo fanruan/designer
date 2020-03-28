@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane;
-
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
 
@@ -23,6 +22,7 @@ import java.util.List;
 public class AreaPane extends AbstractTableDataContentPane {
     protected VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane listener;
     protected UIComboBox areaNameCom;
+
     public AreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
         this.listener = parentPane;
         this.setLayout(new BorderLayout());
@@ -47,10 +47,10 @@ public class AreaPane extends AbstractTableDataContentPane {
         double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p};
         Component[][] components = getComponent();
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 12, 6);
     }
 
-    protected Component[][] getComponent () {
+    protected Component[][] getComponent() {
         return new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), areaNameCom}
         };
@@ -86,7 +86,7 @@ public class AreaPane extends AbstractTableDataContentPane {
     }
 
     public void populate(LongitudeLatitudeAndArea longLatArea) {
-        if (longLatArea.getArea() != null){
+        if (longLatArea.getArea() != null) {
             areaNameCom.setSelectedItem(longLatArea.getArea());
         }
     }
