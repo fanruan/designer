@@ -1,7 +1,6 @@
 package com.fr.van.chart.map.designer.data.component.table;
 
 import com.fr.design.gui.ilable.BoldFontTextLabel;
-
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
@@ -18,6 +17,7 @@ import java.util.List;
 public class LineMapAreaPane extends PointMapAreaPane {
     private static final int V_GAP = 10;
     protected AreaPane endAreaPane;
+
     public LineMapAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
         super(parentPane);
     }
@@ -33,8 +33,8 @@ public class LineMapAreaPane extends PointMapAreaPane {
     }
 
     protected void initAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
-        areaPane = new AreaPane(parentPane){
-            protected Component[][] getComponent () {
+        areaPane = new AreaPane(parentPane) {
+            protected Component[][] getComponent() {
                 return new Component[][]{
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Start_Area_Name")), areaNameCom}
                 };
@@ -43,8 +43,8 @@ public class LineMapAreaPane extends PointMapAreaPane {
     }
 
     protected void initEndAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
-        endAreaPane = new AreaPane(parentPane){
-            protected Component[][] getComponent () {
+        endAreaPane = new AreaPane(parentPane) {
+            protected Component[][] getComponent() {
                 return new Component[][]{
                         new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_End_Area_Name")), areaNameCom}
                 };

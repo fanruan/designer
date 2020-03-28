@@ -656,7 +656,7 @@ public class SyntaxView extends View implements TabExpander,
 		if (tabSize == 0)
 			return x;
 		int ntabs = (((int) x) - tabBase) / tabSize;
-		return tabBase + ((ntabs + 1) * tabSize);
+		return (float) (tabBase + ((ntabs + 1) * tabSize));
 	}
 
 

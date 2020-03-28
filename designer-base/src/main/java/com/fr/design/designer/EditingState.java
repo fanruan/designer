@@ -7,6 +7,7 @@ public interface EditingState {
 
 		@Override
 		public void revert() {
+			//do nothing
 		}
 
 	};

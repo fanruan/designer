@@ -8,7 +8,6 @@ import com.fr.design.dialog.MultiTabPane;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.general.ComparatorUtils;
-
 import com.fr.plugin.chart.drillmap.DrillMapHelper;
 import com.fr.plugin.chart.drillmap.VanChartDrillMapPlot;
 import com.fr.plugin.chart.drillmap.data.DrillMapDefinition;
@@ -17,9 +16,9 @@ import com.fr.plugin.chart.type.MapType;
 import com.fr.van.chart.map.designer.data.MapDataPaneHelper;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.CardLayout;
 
 /**
  * Created by Mitisky on 16/6/20.
@@ -38,7 +37,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         cardLayout = new CardLayout();
     }
 
-    private void initComponents(){
+    private void initComponents() {
         super.relayoutWhenListChange();
     }
 
@@ -56,7 +55,7 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
     protected List<BasicPane> initPaneList() {
         List<BasicPane> paneList = new ArrayList<BasicPane>();
 
-        for(int i = 1; i < depth + 1; i++){
+        for (int i = 1; i < depth + 1; i++) {
             String tile = String.format("%s%d%s", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Index_Article"), i, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Index_Layer"));
 
             SingleLayerDataDefinitionPane pane = new SingleLayerDataDefinitionPane(tile, this.listener, this.parent);
@@ -70,10 +69,10 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
     @Override
     public void populateBean(ChartCollection ob) {
         VanChartDrillMapPlot drillMapPlot = DrillMapHelper.getDrillMapPlot(ob);
-        if(drillMapPlot == null){
+        if (drillMapPlot == null) {
             return;
         }
-        if(!ComparatorUtils.equals(oldGeoUrl, drillMapPlot.getGeoUrl())) {
+        if (!ComparatorUtils.equals(oldGeoUrl, drillMapPlot.getGeoUrl())) {
             oldGeoUrl = drillMapPlot.getGeoUrl();
             DefaultMutableTreeNode root = CompatibleGeoJSONTreeHelper.getNodeByJSONPath(oldGeoUrl);
             if (root == null) {
@@ -90,13 +89,13 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
         populatePaneList(ob);
     }
 
-    private void populatePaneList(ChartCollection chartCollection){
-        for(int i = 0, len = paneList.size(); i < len; i++){
+    private void populatePaneList(ChartCollection chartCollection) {
+        for (int i = 0, len = paneList.size(); i < len; i++) {
             BasicPane basicPane = paneList.get(i);
             MapType mapType = oldMapList.get(i);
-            if(basicPane instanceof SingleLayerDataDefinitionPane){
+            if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ChartCollection clone = MapDataPaneHelper.getLayerChartCollection(chartCollection, i, mapType);
-                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone);
+                ((SingleLayerDataDefinitionPane) basicPane).populateBean(clone, i);
             }
         }
     }
@@ -113,8 +112,8 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
     public void updateBean(ChartCollection ob) {
         DrillMapDefinition drillMapDefinition = MapDataPaneHelper.getDrillMapDefinition(ob);
         List<TopDefinitionProvider> eachLayerDataDefinitionList = new ArrayList<TopDefinitionProvider>();
-        for(BasicPane basicPane : paneList){
-            if(basicPane instanceof SingleLayerDataDefinitionPane){
+        for (BasicPane basicPane : paneList) {
+            if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ChartCollection temp = new ChartCollection(new Chart());
                 ((SingleLayerDataDefinitionPane) basicPane).updateBean(temp);
                 eachLayerDataDefinitionList.add(temp.getSelectedChart().getFilterDefinition());
@@ -159,11 +158,11 @@ public class EachLayerDataDefinitionPane extends MultiTabPane<ChartCollection> {
      * @param supportCellData
      */
     public void setSupportCellData(boolean supportCellData) {
-        if(paneList == null){
+        if (paneList == null) {
             return;
         }
-        for(BasicPane basicPane : paneList){
-            if(basicPane instanceof SingleLayerDataDefinitionPane){
+        for (BasicPane basicPane : paneList) {
+            if (basicPane instanceof SingleLayerDataDefinitionPane) {
                 ((SingleLayerDataDefinitionPane) basicPane).setSupportCellData(supportCellData);
             }
         }

@@ -248,6 +248,15 @@ public abstract class DesignTableDataManager {
         }
     }
 
+    public static String[] getDsColumnNames(String dsName) {
+        TableDataSource dataSource = getEditingTableDataSource();
+        Map<String, String[]> map = columnCache.get(dataSource);
+        if (map == null) {
+            return new String[0];
+        }
+        return map.get(dsName);
+    }
+
     /**
      * august:返回当前正在编辑的具有报表数据源的模板(基本报表、聚合报表) 包括 : 图表模板
      *

@@ -28,6 +28,7 @@ public class PointMapAreaPane extends AbstractLongLatAreaPane {
     protected void initAreaPane() {
         areaPane = new AreaPane();
     }
+
     @Override
     public void populate(VanMapReportDefinition vanMapReportDefinition) {
         LongitudeLatitudeAndArea longLatArea = new LongitudeLatitudeAndArea();

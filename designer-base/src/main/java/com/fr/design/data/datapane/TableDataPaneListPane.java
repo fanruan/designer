@@ -69,7 +69,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 }
                 if (nameableList.getSelectedValue() instanceof ListModelElement) {
                     Nameable selected = ((ListModelElement) nameableList.getSelectedValue()).wrapper;
-                    if (!ComparatorUtils.equals(tempName, selected.getName())) {
+                    if (!ComparatorUtils.equals(tempName, selected.getName()) && !isNameRepeated(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
                         rename(selected.getName(), tempName);
 
                     }
@@ -256,6 +256,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     }
 
     protected void checkRepeatedDSName(List<String> exsitTableDataNameList) {
+        // Do nothing
     }
 
     /**

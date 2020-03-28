@@ -90,4 +90,15 @@ public class FunnelIndependentVanChartInterface extends AbstractIndependentVanCh
         return "com/fr/design/images/form/toolbar/funnel.png";
     }
 
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new FunnelDataSetFieldsPane(), new FunnelCellDataFieldsPane());
+//            }
+//        };
+//
+//    }
 }

@@ -2,8 +2,10 @@ package com.fr.van.chart.gauge;
 
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
+import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -11,9 +13,11 @@ import com.fr.design.mainframe.chart.gui.style.series.ColorPickerPaneWithFormula
 import com.fr.design.mainframe.chart.gui.style.series.UIColorPickerPane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
+import com.fr.design.i18n.Toolkit;
 
 import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.base.AttrLabel;
+import com.fr.plugin.chart.base.AttrLabelDetail;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
@@ -46,6 +50,9 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private UIColorPickerPane colorPickerPane;
 
+    private UISpinner thermometerWidth;
+    private UINumberDragPane chutePercent;
+
     public VanChartGaugeSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
@@ -66,15 +73,26 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     private JPanel createGaugeLayoutPane() {
-        gaugeLayout = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation"),gaugeLayout);
+        gaugeLayout = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")});
+
+        String title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation");
+
+        if (plot instanceof VanChartGaugePlot) {
+            VanChartGaugePlot gaugePlot = (VanChartGaugePlot) plot;
+
+            if (gaugePlot.getGaugeStyle() == GaugeStyle.THERMOMETER) {
+                title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Sort_Orientation");
+            }
+        }
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(title, gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 changeLabelPosition();
             }
         });
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Layout"), panel);
     }
 
     private void changeLabelPosition() {
@@ -86,13 +104,16 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                 if(attrLabel == null){
                     return;
                 }
+                AttrLabelDetail attrLabelDetail = attrLabel.getAttrLabelDetail();
+                if(attrLabelDetail == null || attrLabelDetail.getTextAttr() == null){
+                    return;
+                }
+                attrLabelDetail.getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_LABEL_FONT);
                 if(gaugeLayout.getSelectedIndex() == 0){
                     attrLabel.getAttrLabelDetail().setPosition(Constants.LEFT);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_VERTICAL_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.LEFT);
                 } else {
                     attrLabel.getAttrLabelDetail().setPosition(Constants.BOTTOM);
-                    attrLabel.getAttrLabelDetail().getTextAttr().setFRFont(VanChartGaugePlot.THERMOMETER_PERCENT_LABEL_FONT);
                     attrLabel.getGaugeValueLabelDetail().setPosition(Constants.BOTTOM);
                 }
             }
@@ -104,10 +125,10 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
         JPanel centerPanel = TableLayoutHelper.createTableLayoutPane(getDiffComponentsWithGaugeStyle(), row, col);
         panel.add(centerPanel, BorderLayout.CENTER);
         if(rotate != null){
-            JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Rotation_Direction"), rotate);
+            JPanel panel1 = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Rotation_Direction"), rotate);
             panel.add(panel1, BorderLayout.NORTH);
         }
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), panel);
     }
 
     private Component[][] getDiffComponentsWithGaugeStyle() {
@@ -119,21 +140,24 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         new Component[]{null, null},
                         getPaneBackgroundColor(),
                         getInnerPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null},
+                        getChutePercent()
                 };
             case SLOT:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null},
+                        getChutePercent()
                 };
             case THERMOMETER:
                 return new Component[][]{
                         new Component[]{null, null},
                         getNeedleColor(),
                         getSlotBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(Toolkit.i18nText("Fine-Design_Chart_Length_Set")), null},
+                        getThermometerWidth()
                 };
             default:
                 return new Component[][]{
@@ -142,48 +166,58 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
                         getHingeBackgroundColor(),
                         getNeedleColor(),
                         getPaneBackgroundColor(),
-                        new Component[]{createRadiusPane(), null}
+                        new Component[]{createRadiusPane(Toolkit.i18nText("Fine-Design_Chart_Radius_Set")), null}
                 };
         }
     }
 
     private Component[] getHingeColor() {
         hingeColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hinge")),hingeColor};
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Hinge")),hingeColor};
     }
 
     private Component[] getHingeBackgroundColor() {
         hingeBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hinge_Background")),hingeBackgroundColor};
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Hinge_Background")),hingeBackgroundColor};
     }
 
     private Component[] getNeedleColor() {
         needleColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Needle")),needleColor};
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Needle")),needleColor};
     }
 
     private Component[] getPaneBackgroundColor() {
         paneBackgroundColor = new ColorSelectBox(120);
-        return  new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Pane_Background")),paneBackgroundColor};
+        return  new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Pane_Background")),paneBackgroundColor};
     }
 
     private Component[] getSlotBackgroundColor() {
         slotBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Slot_Background")),slotBackgroundColor};
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Slot_Background")),slotBackgroundColor};
+    }
+
+    private Component[] getThermometerWidth() {
+        thermometerWidth = new UISpinner(0, Double.MAX_VALUE, 0.1, 10);
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Thermometer_Width")),thermometerWidth};
+    }
+
+    private Component[] getChutePercent() {
+        chutePercent = new UINumberDragPane(0, 100, 1);
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Chute_Percent")),chutePercent};
     }
 
     private void initRotate() {
-        rotate = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_AntiClockWise"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
+        rotate = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_AntiClockWise"), Toolkit.i18nText("Fine-Design_Chart_ClockWise")});
     }
 
     private Component[] getInnerPaneBackgroundColor() {
         innerPaneBackgroundColor = new ColorSelectBox(120);
-        return new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Inner_Pane_Background")),innerPaneBackgroundColor};
+        return new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Inner_Pane_Background")),innerPaneBackgroundColor};
     }
 
     private JPanel createGaugeBandsPane() {
         colorPickerPane = new ColorPickerPaneWithFormula(parentPane, "meterString");
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Range"), colorPickerPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Range"), colorPickerPane);
     }
 
 
@@ -217,6 +251,12 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
             if(innerPaneBackgroundColor != null){
                 innerPaneBackgroundColor.setSelectObject(detailStyle.getInnerPaneBackgroundColor());
+            }
+            if(thermometerWidth != null){
+                thermometerWidth.setValue(detailStyle.getThermometerWidth());
+            }
+            if(chutePercent != null){
+                chutePercent.populateBean(detailStyle.getChutePercent());
             }
 
             colorPickerPane.populateBean(detailStyle.getHotAreaColor());
@@ -255,6 +295,12 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
             }
             if(innerPaneBackgroundColor != null){
                 detailStyle.setInnerPaneBackgroundColor(innerPaneBackgroundColor.getSelectObject());
+            }
+            if(thermometerWidth != null){
+                detailStyle.setThermometerWidth(thermometerWidth.getValue());
+            }
+            if(chutePercent != null){
+                detailStyle.setChutePercent(chutePercent.updateBean());
             }
 
             colorPickerPane.updateBean(detailStyle.getHotAreaColor());

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 /**
  * Created by Mitisky on 16/5/17.
  */
-public class CustomMapChartDataContentsPane extends DataContentsPane{
+public class CustomMapChartDataContentsPane extends DataContentsPane {
     private NormalChartDataPane areaMapChartDataPane;
     private NormalChartDataPane pointMapChartDataPane;
     private NormalChartDataPane lineMapChartDataPane;

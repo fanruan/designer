@@ -88,7 +88,7 @@ public class BiasTextPainterCellEditor extends AbstractCellEditor {
         Window parentWindow = SwingUtilities.getWindowAncestor(grid);
         this.biasTextPainterPane = new BiasTextPainterPane();
         Dimension dimension = this.biasTextPainterPane.getPreferredSize();
-        Dimension wrapDimension = new Dimension((int) (dimension.width * MULTIPLE), (int) (dimension.height * MULTIPLE));
+        Dimension wrapDimension = new Dimension((int) (dimension.width * MULTIPLE), (int) (dimension.height * Math.pow(MULTIPLE, 2)));
         this.biasTextPainterPane.populate(biasTextPainter);
         return this.biasTextPainterPane.showWindowWithCustomSize(parentWindow, new DialogActionAdapter() {
 

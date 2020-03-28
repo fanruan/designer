@@ -4,7 +4,6 @@ import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 import com.fr.van.chart.map.designer.data.contentpane.table.VanPointMapPlotTableDataContentPane;
 
@@ -37,10 +36,10 @@ public class LongLatAreaPane extends AreaPane {
         double[] rowSize = {p, p, p};
         Component[][] components = getComponent();
 
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 12, 6);
     }
 
-    protected Component[][] getComponent () {
+    protected Component[][] getComponent() {
         return new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude")), longitudeCom},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude")), latitudeCom},
@@ -69,10 +68,10 @@ public class LongLatAreaPane extends AreaPane {
     @Override
     public void populate(LongitudeLatitudeAndArea longLatArea) {
         super.populate(longLatArea);
-        if(longLatArea.getLongitude() != null){
+        if (longLatArea.getLongitude() != null) {
             longitudeCom.setSelectedItem(longLatArea.getLongitude());
         }
-        if(longLatArea.getLatitude() != null){
+        if (longLatArea.getLatitude() != null) {
             latitudeCom.setSelectedItem(longLatArea.getLatitude());
         }
     }

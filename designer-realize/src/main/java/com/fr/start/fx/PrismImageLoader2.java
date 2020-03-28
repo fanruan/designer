@@ -141,7 +141,7 @@ class PrismImageLoader2 implements com.sun.javafx.tk.ImageLoader {
                 ImageFrame imageFrame = loader.load(i, w, h, preserveRatio, smooth);
                 images[i] = convert(imageFrame);
                 synchronized (this) {
-                    this.notify();
+                    notifyAll();
                 }
             }
         } catch (ImageStorageException e) {

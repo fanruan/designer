@@ -11,10 +11,10 @@ import com.fr.stable.AssistUtils;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * Created by shine on 2019/6/18.
@@ -147,5 +147,9 @@ public abstract class AbstractMultiComponentPaneWithUISpinner<T extends JCompone
             categoryList.add(temp);
             updateField(comboBox, temp);
         }
+    }
+
+    public void checkEnable(boolean hasUse){
+        levelNumSpinner.setEnabled(hasUse);
     }
 }

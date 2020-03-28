@@ -41,25 +41,27 @@ public class MultiPieIndependentVanChartInterface extends AbstractIndependentVan
         };
     }
 
-    @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new MultiPiePlotTableDataContentPane(parent);
-    }
-
-    @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
-        return new MultiPiePlotReportDataContentPane(parent);
-    }
-
+    //图表数据结构 恢复用注释。取消注释。
 //    @Override
 //    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
-//        return new AbstractDataPane(listener) {
+//        return new AbstractVanSingleDataPane(listener) {
 //            @Override
 //            protected SingleDataPane createSingleDataPane() {
 //                return new SingleDataPane(new MultiPieDataSetFieldsPane(), new MultiPieCellDataFieldsPane());
 //            }
 //        };
 //    }
+
+    //图表数据结构 恢复用注释。删除下面两个方法 getTableDataSourcePane getReportDataSourcePane。
+    @Override
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+        return new MultiPiePlotTableDataContentPane(parent);
+    }
+
+    @Override
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+        return new MultiPiePlotReportDataContentPane(parent);
+    }
 
     public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
         return new VanChartMultiPieSeriesPane(parent, plot);
