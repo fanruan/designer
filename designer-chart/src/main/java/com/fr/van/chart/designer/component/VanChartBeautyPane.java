@@ -29,7 +29,7 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
         double[] columnSize = {f, e};
         double[] rowSize = {p};
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Style")), styleBox},
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Gradient_Style")), styleBox},
         } ;
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, rowSize, columnSize);
         this.setLayout(new BorderLayout());
@@ -37,17 +37,17 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
     }
 
     protected String[] getNameArray(){
-        return new String[]{Toolkit.i18nText("Fine-Design_Chart_Default_Name"),
-                Toolkit.i18nText("Fine-Design_Chart_Style_TopDownShade")
+        return new String[]{Toolkit.i18nText("Fine-Design_Chart_On"),
+                Toolkit.i18nText("Fine-Design_Chart_Off")
         };
     }
     @Override
     public void populateBean(Integer ob) {
         int finalIndex;
         switch (ob){
-            case ChartConstants.STYLE_NONE: finalIndex = 0; break;
-            case ChartConstants.STYLE_SHADE: finalIndex = 1; break;
-            default: finalIndex = 0;
+            case ChartConstants.STYLE_NONE: finalIndex = 1; break;
+            case ChartConstants.STYLE_SHADE: finalIndex = 0; break;
+            default: finalIndex = 1;
         }
         styleBox.setSelectedIndex(finalIndex);
     }
@@ -57,8 +57,8 @@ public class VanChartBeautyPane extends BasicBeanPane<Integer> {
         int index =  styleBox.getSelectedIndex();
         int style;
         switch (index){
-            case 0: style = ChartConstants.STYLE_NONE; break;
-            case 1: style = ChartConstants.STYLE_SHADE; break;
+            case 0: style = ChartConstants.STYLE_SHADE; break;
+            case 1: style = ChartConstants.STYLE_NONE; break;
             default: style = ChartConstants.STYLE_NONE;
         }
         return style;

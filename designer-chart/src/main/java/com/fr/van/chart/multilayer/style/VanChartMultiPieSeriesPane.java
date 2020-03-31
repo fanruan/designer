@@ -7,9 +7,9 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-
 import com.fr.plugin.chart.multilayer.VanChartMultiPiePlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.pie.VanChartPieSeriesPane;
 
 import javax.swing.JPanel;
@@ -89,5 +89,10 @@ public class VanChartMultiPieSeriesPane extends VanChartPieSeriesPane {
             multiPiePlot.setSupportDrill(supportDrill.getSelectedIndex() == 0);
             multiPiePlot.setSupportRotation(supportRotation.getSelectedIndex() == 0);
         }
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 }

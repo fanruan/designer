@@ -11,16 +11,21 @@ import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 /**
  * The pane used to select color
@@ -196,6 +201,6 @@ public class ColorSelectPane extends TransparentPane implements ColorSelectable 
     @Override
     public void customButtonPressed() {
         pane = new ColorSelectDetailPane(Color.WHITE);
-        ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, this);
+        ColorSelectDialog.showDialog(DesignerContext.getDesignerFrame(), pane, Color.WHITE, this, true);
     }
 }

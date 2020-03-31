@@ -10,8 +10,8 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.AbstractPlotSeriesPane;
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
@@ -23,7 +23,6 @@ import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.base.VanChartAttrTrendLine;
 import com.fr.van.chart.custom.style.VanChartCustomStylePane;
-import com.fr.design.i18n.Toolkit;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartAreaSeriesFillColorPane;
 import com.fr.van.chart.designer.component.VanChartBeautyPane;
@@ -62,6 +61,8 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
     private VanChartBorderPane borderPane;//边框
 
+    protected VanChartFillStylePane vanChartFillStylePane;//配色
+
     private UINumberDragPane transparent;//不透明度
 
     protected VanChartStackedAndAxisListControlPane stackAndAxisEditPane;//堆積和坐標軸
@@ -86,18 +87,18 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         }
         JPanel panel = new JPanel(new BorderLayout());
-        if (fillStylePane != null) {
-            panel.add(fillStylePane, BorderLayout.NORTH);
+        JPanel colorPane = getColorPane();
+        if(colorPane != null) {
+            panel.add(colorPane, BorderLayout.NORTH);
         }
         panel.add(getContentInPlotType(), BorderLayout.CENTER);
         return panel;
     }
 
-    @Override
     /**
      * 返回 填充界面.
      */
-    protected ChartFillStylePane getFillStylePane() {
+    protected VanChartFillStylePane getVanChartFillStylePane() {
         //如果是自定義組合圖，則不創建填充界面
         return parentPane instanceof VanChartCustomStylePane ? null : new VanChartFillStylePane();
     }
@@ -111,9 +112,13 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
     protected JPanel getColorPane() {
         JPanel panel = new JPanel(new BorderLayout());
         stylePane = createStylePane();
+        vanChartFillStylePane = getVanChartFillStylePane();
+        if (vanChartFillStylePane != null) {
+            panel.add(vanChartFillStylePane, BorderLayout.NORTH);
+        }
         setColorPaneContent(panel);
         JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Color"), panel);
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 0));
         return panel.getComponentCount() == 0 ? null : colorPane;
     }
 
@@ -266,7 +271,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
 
         checkoutMapType(plot);
 
-        super.populateBean(plot);//配色
+        if(vanChartFillStylePane != null) { //配色
+            vanChartFillStylePane.populateBean(plot.getPlotFillStyle());
+        }
 
         if (stylePane != null) {//风格
             stylePane.populateBean(plot.getPlotStyle());
@@ -323,7 +330,9 @@ public abstract class VanChartAbstractPlotSeriesPane extends AbstractPlotSeriesP
         //更新之前先更新界面的map类型属性
         checkoutMapType(plot);
 
-        super.updateBean(plot);//配色
+        if(vanChartFillStylePane != null) {//配色
+            plot.setPlotFillStyle(vanChartFillStylePane.updateBean());
+        }
 
         if (stylePane != null) {//风格
             plot.setPlotStyle(stylePane.updateBean());

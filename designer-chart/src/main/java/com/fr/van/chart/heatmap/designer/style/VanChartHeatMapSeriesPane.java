@@ -9,10 +9,9 @@ import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-import com.fr.design.mainframe.chart.gui.style.ChartFillStylePane;
-
 import com.fr.plugin.chart.heatmap.VanChartHeatMapPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartFillStylePane;
 import com.fr.van.chart.map.VanChartMapSeriesPane;
 
 import javax.swing.JPanel;
@@ -41,7 +40,7 @@ public class VanChartHeatMapSeriesPane extends VanChartMapSeriesPane {
     /**
      * 返回 填充界面.
      */
-    protected ChartFillStylePane getFillStylePane() {
+    protected VanChartFillStylePane getVanChartFillStylePane() {
         return null;
     }
 
