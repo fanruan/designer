@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 根据配置生成运行环境
@@ -55,7 +56,7 @@ public class DesignerWorkspaceGenerator {
                 WorkspaceClient client = null;
                 try {
                      client = future.get(WAIT_FREQ, TimeUnit.SECONDS);
-                } catch (Exception e) {
+                } catch (TimeoutException e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     RemoteHandler.handle(config);
                 }
@@ -92,7 +93,6 @@ public class DesignerWorkspaceGenerator {
                 } catch (Exception e) {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                 }
-            } else {
             }
         }
     }
