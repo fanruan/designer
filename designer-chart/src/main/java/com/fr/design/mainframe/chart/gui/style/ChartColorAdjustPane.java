@@ -34,7 +34,7 @@ import java.awt.image.BufferedImage;
  */
 public class ChartColorAdjustPane extends JPanel implements UIObserver {
 
-    public static final Color[] defaultColors = {
+    public static final Color[] DEFAULT_COLORS = {
             new Color(99, 178, 238),
             new Color(118, 218, 145),
             new Color(248, 203, 127),
@@ -61,7 +61,7 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
 
 
     public ChartColorAdjustPane() {
-        this(defaultColors);
+        this(DEFAULT_COLORS);
     }
 
     public ChartColorAdjustPane(Color[] colors) {
@@ -71,7 +71,7 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
     }
 
     public void updateColor() {
-        updateColor(defaultColors);
+        updateColor(DEFAULT_COLORS);
     }
 
     public void updateColor(Color[] colors) {

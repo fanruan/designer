@@ -58,7 +58,7 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
         changeColorSetPane.add(colorGradient = new FixedGradientBar(4, 130), "gradient");
         gradientColors = new Color[]{Color.WHITE, FixedGradientBar.NEW_CHARACTER};
         changeColorSetPane.add(colorAdjustPane = new ChartColorAdjustPane(), "acc");
-        accColors = ChartColorAdjustPane.defaultColors;
+        accColors = ChartColorAdjustPane.DEFAULT_COLORS;
         cardLayout.show(changeColorSetPane, "acc");
         customPane.add(changeColorSetPane, BorderLayout.CENTER);
         initListener();
