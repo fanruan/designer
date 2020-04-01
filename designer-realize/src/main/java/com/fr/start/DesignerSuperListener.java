@@ -81,6 +81,9 @@ public class DesignerSuperListener {
                     if (ComparatorUtils.equals(ReportState.ACTIVE.getValue(), msg)) {
                         startFrameListener();
                     }
+                    if (ComparatorUtils.equals(DesignerProcessType.INSTANCE.obtain(), msg)) {
+                        frameReport();
+                    }
                 }
             }
         });
@@ -90,6 +93,7 @@ public class DesignerSuperListener {
         onceFuture = service.schedule(new Runnable() {
             @Override
             public void run() {
+                cancel = true;
                 ProcessEventPipe pipe = process.getPipe();
                 pipe.fire(FineProcessEngineEvent.READY);
                 if (StringUtils.isNotEmpty(pipe.info())) {
