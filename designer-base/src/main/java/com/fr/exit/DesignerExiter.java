@@ -22,7 +22,7 @@ public class DesignerExiter {
     public void execute() {
         beforeExit();
         if (FineProcessContext.getParentPipe() != null) {
-            FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
+            FineProcessContext.getParentPipe().syncFire(FineProcessEngineEvent.DESTROY);
         }
         System.exit(0);
     }
