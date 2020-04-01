@@ -8,6 +8,7 @@ import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
@@ -81,7 +82,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     protected void initComponents(){
-        isLegendVisible = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Visible"));
+        isLegendVisible = new UICheckBox(Toolkit.i18nText("Fine-Design_Chart_Legend_Visible"));
         legendPane = createLegendPane();
 
         double p = TableLayout.PREFERRED;
@@ -121,9 +122,9 @@ public class VanChartPlotLegendPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePositionPane(new double[]{p,p,p},columnSize),null},
                 new Component[]{createTitleStylePane(),null} ,
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), createDisplayStrategy()),null}
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), createDisplayStrategy()),null}
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
@@ -146,16 +147,16 @@ public class VanChartPlotLegendPane extends BasicPane {
         Component[][] components = new Component[][]{
                 new Component[]{createTitlePositionPane(new double[]{p,p,p},columnSize),null},
                 new Component[]{createTitleStylePane(),null} ,
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Border"),borderPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Background"), backgroundPane),null},
+                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Display_Strategy"), panel),null},
         };
         return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
     protected JPanel createTitlePositionPane(double[] row, double[] col){
-        String[] textArray = {com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Top"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Bottom"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Left"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Right"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Right_Top")};
+        String[] textArray = {Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Top"), Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Bottom"),
+                Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Left"), Toolkit.i18nText("Fine-Design_Chart_Style_Alignment_Right"), Toolkit.i18nText("Fine-Design_Chart_Right_Top")};
         Integer[] valueArray = {Constants.TOP, Constants.BOTTOM, Constants.LEFT, Constants.RIGHT, Constants.RIGHT_TOP};
         Icon[] iconArray = {BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_top.png"),
                 BaseUtils.readIcon("/com/fr/design/images/chart/ChartLegend/layout_bottom.png"),
@@ -167,13 +168,13 @@ public class VanChartPlotLegendPane extends BasicPane {
         location = new UIButtonGroup<Integer>(iconArray, valueArray);
         location.setAllToolTips(textArray);
 
-        customFloatPositionButton = new UIToggleButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Float_Position"));
+        customFloatPositionButton = new UIToggleButton(Toolkit.i18nText("Fine-Design_Chart_Custom_Float_Position"));
         UIComponentUtils.setLineWrap(customFloatPositionButton);
         customFloatPositionButton.setEventBannded(true);
 
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),location},
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Layout_Position")),location},
                 new Component[]{null,customFloatPositionButton}
         };
 
@@ -182,7 +183,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         initPositionListener();
 
         JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,row,col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Form_Layout"), panel);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Basic_Form_Layout"), panel);
     }
 
     private void initPositionListener(){
@@ -230,18 +231,17 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     protected JPanel createTitleStylePane(){
         textAttrPane = new ChartTextAttrPane();
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), textAttrPane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Widget_Style"), textAttrPane);
     }
 
     protected JPanel createDisplayStrategy(){
         //区域显示策略 恢复用注释。开始删除。
         maxProportion = new UISpinner(0, 100, 1, 30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Limit"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Not_Limit")});
-        limitSizeTitle = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"));
+        limitSize = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Auto"), Toolkit.i18nText("Fine-Design_Chart_Custom")});
+        limitSizeTitle = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"));
 
-
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Size"), limitSize);
-        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"), maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Area_Size"), limitSize);
+        maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"), maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
@@ -262,7 +262,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     private JPanel createHighlightPane(){
-        highlightButton = new UIButtonGroup<Boolean>(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_On"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
+        highlightButton = new UIButtonGroup<>(new String[]{Toolkit.i18nText("Fine-Design_Chart_On"), Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -271,7 +271,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Highlight")),highlightButton}
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Highlight")),highlightButton}
         };
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
     }
@@ -295,8 +295,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     //区域显示策略 恢复用注释。删除下面方法。
     //检查最大显示占比是否可用
     private void checkMaxProPortionUse() {
-        maxProportion.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
-        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 0 && limitSize.isEnabled());
+        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 1 && limitSize.isEnabled());
     }
 
     protected void checkBoxUse() {
@@ -328,7 +327,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         }
         legend.setFloating(customFloatPositionButton.isSelected());
         //区域显示策略 恢复用注释。下面2行删除。
-        legend.setLimitSize(limitSize.getSelectedIndex() == 0);
+        legend.setLimitSize(limitSize.getSelectedIndex() == 1);
         legend.setMaxHeight(maxProportion.getValue());
         //区域显示策略 恢复用注释。取消注释。
         //legend.setLimitAttribute(limitPane.updateBean());
@@ -352,7 +351,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             customFloatPositionPane.setFloatPosition_x(legend.getFloatPercentX());
             customFloatPositionPane.setFloatPosition_y(legend.getFloatPercentY());
             //区域显示策略 恢复用注释。下面2行删除。
-            limitSize.setSelectedIndex(legend.isLimitSize() ? 0 : 1);
+            limitSize.setSelectedIndex(legend.isLimitSize() ? 1 : 0);
             maxProportion.setValue(legend.getMaxHeight());
             //区域显示策略 恢复用注释。取消注释。
             //limitPane.populateBean(legend.getLimitAttribute());
