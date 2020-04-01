@@ -13,6 +13,7 @@ import com.fr.plugin.chart.base.VanChartAttrMarker;
 import com.fr.plugin.chart.gantt.VanChartGanttPlot;
 import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.designer.component.VanChartMarkerPane;
 import com.fr.van.chart.designer.component.marker.VanChartCommonMarkerPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
@@ -120,5 +121,10 @@ public class VanChartGanttSeriesPane extends VanChartAbstractPlotSeriesPane {
             ganttPlot.setLineColor(colorSelect.getSelectObject());
 
         }
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.van.chart.column.VanChartCustomStackAndAxisConditionPane;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.line.VanChartLineSeriesPane;
 
 import javax.swing.JPanel;
@@ -27,7 +28,6 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createLineTypePane()},
                 new Component[]{createMarkerPane()},
                 new Component[]{createAreaFillColorPane()},
@@ -43,5 +43,10 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane {
 
     protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
         return VanChartCustomStackAndAxisConditionPane.class;
+    }
+
+    //风格
+    protected VanChartBeautyPane createStylePane() {
+        return new VanChartBeautyPane();
     }
 }
