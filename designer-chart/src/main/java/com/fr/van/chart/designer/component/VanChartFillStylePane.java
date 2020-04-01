@@ -70,8 +70,8 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
             @Override
             public void doChange() {
                 accColors = colorAdjustPane.getColors();
-                if (styleSelectBox.getSelectedIndex() != styleSelectBox.getItemCount() - 2) {
-                    styleSelectBox.setSelectedIndex(styleSelectBox.getItemCount() - 2);
+                if (styleSelectBox.getSelectType() != ColorSchemeComboBox.SelectType.COMBINATION_COLOR) {
+                    styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.COMBINATION_COLOR);
                 }
                 VanChartFillStylePane.this.revalidate();
             }
@@ -81,33 +81,37 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
             public void doChange() {
                 gradientColors[0] = colorGradient.getSelectColorPointBtnP1().getColorInner();
                 gradientColors[1] = colorGradient.getSelectColorPointBtnP2().getColorInner();
-                if (styleSelectBox.getSelectedIndex() != styleSelectBox.getItemCount() - 1) {
-                    styleSelectBox.setSelectedIndex(styleSelectBox.getItemCount() - 1);
+                if (styleSelectBox.getSelectType() != ColorSchemeComboBox.SelectType.GRADATION_COLOR) {
+                    styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.GRADATION_COLOR);
                 }
             }
         });
         styleSelectBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ColorSchemeComboBox.ColorInfo selectColorInfo = styleSelectBox.getSelectColorInfo();
-                if (styleSelectBox.getSelectedIndex() == styleSelectBox.getItemCount() - 2) {
-                    colorAdjustPane.updateColor(accColors);
-                    cardLayout.show(changeColorSetPane, "acc");
-                    gradientSelect = false;
-                } else if (styleSelectBox.getSelectedIndex() == styleSelectBox.getItemCount() - 1) {
-                    colorGradient.updateColor(gradientColors[0], gradientColors[1]);
-                    changeColorSetPane.add(colorGradient, "gradient");
-                    cardLayout.show(changeColorSetPane, "gradient");
-                    gradientSelect = true;
-                } else if (selectColorInfo.isGradient()) {
-                    colorGradient.updateColor(selectColorInfo.getColors().get(0), selectColorInfo.getColors().get(1));
-                    changeColorSetPane.add(colorGradient, "gradient");
-                    cardLayout.show(changeColorSetPane, "gradient");
-                    gradientSelect = true;
-                } else {
-                    colorAdjustPane.updateColor(selectColorInfo.getColors().toArray(new Color[]{}));
-                    cardLayout.show(changeColorSetPane, "acc");
-                    gradientSelect = false;
+                switch (styleSelectBox.getSelectType()) {
+                    case COMBINATION_COLOR:
+                        colorAdjustPane.updateColor(accColors);
+                        cardLayout.show(changeColorSetPane, "acc");
+                        gradientSelect = false;
+                        break;
+                    case GRADATION_COLOR:
+                        colorGradient.updateColor(gradientColors[0], gradientColors[1]);
+                        cardLayout.show(changeColorSetPane, "gradient");
+                        gradientSelect = true;
+                        break;
+                    default:
+                        ColorSchemeComboBox.ColorInfo selectColorInfo = styleSelectBox.getSelectColorInfo();
+                        if (selectColorInfo.isGradient()) {
+                            colorGradient.updateColor(selectColorInfo.getColors().get(0), selectColorInfo.getColors().get(1));
+                            cardLayout.show(changeColorSetPane, "gradient");
+                            gradientSelect = true;
+                        } else {
+                            colorAdjustPane.updateColor(selectColorInfo.getColors().toArray(new Color[]{}));
+                            cardLayout.show(changeColorSetPane, "acc");
+                            gradientSelect = false;
+                        }
+                        break;
                 }
                 VanChartFillStylePane.this.revalidate();
             }
@@ -153,20 +157,20 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
         String fillStyleName = condition == null ? "" : condition.getFillStyleName();
         if (StringUtils.isBlank(fillStyleName)) {//兼容处理
             if (condition == null || condition.getColorStyle() == ChartConstants.COLOR_DEFAULT) {
-                styleSelectBox.setSelectedIndex(0);//默认
+                styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.DEFAULT);//默认
             } else {
                 int colorStyle = condition.getColorStyle();
                 if (colorStyle == ChartConstants.COLOR_GRADIENT) {
                     gradientColors[0] = condition.getColorIndex(0);
                     gradientColors[1] = condition.getColorIndex(1);
-                    styleSelectBox.setSelectedIndex(styleSelectBox.getItemCount() - 1);
+                    styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.GRADATION_COLOR);
                 } else {
                     int colorSize = condition.getColorSize();
                     accColors = new Color[colorSize];
                     for (int i = 0; i < colorSize; i++) {
                         accColors[i] = condition.getColorIndex(i);
                     }
-                    styleSelectBox.setSelectedIndex(styleSelectBox.getItemCount() - 2);
+                    styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.COMBINATION_COLOR);
                 }
             }
         } else {
@@ -176,37 +180,57 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
 
     @Override
     public AttrFillStyle updateBean() {
+        switch (styleSelectBox.getSelectType()) {
+            case COMBINATION_COLOR:
+                return updateCombinationColor();
+            case GRADATION_COLOR:
+                return updateGradationColor();
+            case DEFAULT:
+                return updateDefaultColor();
+            default:
+                return updateNormalColor();
+        }
+    }
+
+    private AttrFillStyle updateCombinationColor() {
         AttrFillStyle condition = new AttrFillStyle();
         condition.clearColors();
-
-        //自定义组合色
-        if (styleSelectBox.getSelectedIndex() == styleSelectBox.getItemCount() - 2) {
-            condition.setColorStyle(ChartConstants.COLOR_ACC);
-            for (int i = 0, length = accColors.length; i < length; i++) {
-                condition.addFillColor(accColors[i]);
-            }
-            //自定义渐变色
-        } else if (styleSelectBox.getSelectedIndex() == styleSelectBox.getItemCount() - 1) {
-            condition.setColorStyle(ChartConstants.COLOR_GRADIENT);
-            Color start = gradientColors[0];
-            Color end = gradientColors[1];
-            condition.addFillColor(start);
-            condition.addFillColor(end);
-        } else if (styleSelectBox.getSelectedIndex() == 0) {
-            condition.setColorStyle(ChartConstants.COLOR_DEFAULT);
-        } else {
-            ChartPreStyleConfig manager = ChartPreStyleConfig.getInstance();
-            Object preStyle = manager.getPreStyle(styleSelectBox.getSelectedItem());
-            if (preStyle instanceof ChartColorMatching) {
-                AttrFillStyle def = ChartUtils.chartColorMatching2AttrFillStyle((ChartColorMatching) preStyle);
-                def.setFillStyleName(Utils.objectToString(styleSelectBox.getSelectedItem()));
-                return def;
-            } else {
-                condition.setColorStyle(ChartConstants.COLOR_DEFAULT);
-            }
-            condition.setCustomFillStyle(true);
+        condition.setColorStyle(ChartConstants.COLOR_ACC);
+        for (int i = 0, length = accColors.length; i < length; i++) {
+            condition.addFillColor(accColors[i]);
         }
-
+        condition.setCustomFillStyle(true);
         return condition;
+    }
+
+    private AttrFillStyle updateGradationColor() {
+        AttrFillStyle condition = new AttrFillStyle();
+        condition.clearColors();
+        condition.setColorStyle(ChartConstants.COLOR_GRADIENT);
+        Color start = gradientColors[0];
+        Color end = gradientColors[1];
+        condition.addFillColor(start);
+        condition.addFillColor(end);
+        condition.setCustomFillStyle(true);
+        return condition;
+    }
+
+    private AttrFillStyle updateDefaultColor() {
+        AttrFillStyle condition = new AttrFillStyle();
+        condition.clearColors();
+        condition.setColorStyle(ChartConstants.COLOR_DEFAULT);
+        return condition;
+    }
+
+    private AttrFillStyle updateNormalColor() {
+        ChartPreStyleConfig manager = ChartPreStyleConfig.getInstance();
+        Object preStyle = manager.getPreStyle(styleSelectBox.getSelectedItem());
+        if (preStyle instanceof ChartColorMatching) {
+            AttrFillStyle def = ChartUtils.chartColorMatching2AttrFillStyle((ChartColorMatching) preStyle);
+            def.setFillStyleName(Utils.objectToString(styleSelectBox.getSelectedItem()));
+            return def;
+        } else {
+            return updateDefaultColor();
+        }
     }
 }

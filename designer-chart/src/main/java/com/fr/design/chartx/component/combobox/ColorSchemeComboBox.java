@@ -93,6 +93,43 @@ public class ColorSchemeComboBox extends UIComboBox {
         return colorInfo;
     }
 
+    public SelectType getSelectType() {
+        int selectedIndex = this.getSelectedIndex();
+        int itemCount = this.getItemCount();
+        if (selectedIndex == itemCount - 1) {
+            return SelectType.GRADATION_COLOR;
+        }
+        if (selectedIndex == itemCount - 2) {
+            return SelectType.COMBINATION_COLOR;
+        }
+        if (selectedIndex == 0) {
+            return SelectType.DEFAULT;
+        }
+        return SelectType.NORMAL;
+    }
+
+    public void setSelectType(SelectType selectType) {
+        int itemCount = this.getItemCount();
+        switch (selectType) {
+            case DEFAULT:
+                setSelectedIndex(0);
+                break;
+            case GRADATION_COLOR:
+                setSelectedIndex(itemCount - 1);
+                break;
+            case COMBINATION_COLOR:
+                setSelectedIndex(itemCount - 2);
+                break;
+        }
+    }
+
+    public enum SelectType {
+        DEFAULT,
+        COMBINATION_COLOR,
+        GRADATION_COLOR,
+        NORMAL
+    }
+
 
     public class ColorInfo {
 
@@ -134,6 +171,8 @@ public class ColorSchemeComboBox extends UIComboBox {
 
         private static final int HEIGHT = 20;
 
+        private static final int MAX_COUNT = 5;
+
         @Override
         public Dimension getPreferredSize() {
             Dimension preferredSize = super.getPreferredSize();
@@ -155,8 +194,9 @@ public class ColorSchemeComboBox extends UIComboBox {
                 comp.setText(BLANK_SPACE + schemeName);
             } else {
                 FontMetrics fontMetrics = comp.getFontMetrics(comp.getFont());
-                double width = (HEIGHT - 2 * Y) * 5;
+                double width = (HEIGHT - 2 * Y) * MAX_COUNT;
                 String fill = BLANK_SPACE;
+                //图形和文字之间留的宽度大于3倍的X
                 while (fontMetrics.stringWidth(fill) < width + 3 * X) {
                     fill += BLANK_SPACE;
                 }
@@ -184,7 +224,7 @@ public class ColorSchemeComboBox extends UIComboBox {
         private void drawGradient(Graphics2D g2d, List<Color> colors) {
             //上下留4px，宽度等于5倍高
             double height = HEIGHT - 2 * Y;
-            double width = height * 5;
+            double width = height * MAX_COUNT;
             LinearGradientPaint linearGradientPaint = new LinearGradientPaint((float) X, (float) Y, (float) (X + width), (float) Y, new float[]{0f, 1f}, colors.toArray(new Color[colors.size()]));
             g2d.setPaint(linearGradientPaint);
             Rectangle2D rec = new Rectangle2D.Double(X, Y, width, height);
@@ -192,9 +232,9 @@ public class ColorSchemeComboBox extends UIComboBox {
         }
 
         private void drawCombineColor(Graphics2D g2d, List<Color> colors) {
-            int size = colors.size() > 5 ? 5 : colors.size();
+            int size = Math.min(colors.size(), MAX_COUNT);
             double height = HEIGHT - 2 * Y;
-            double width = height * 5 / size;
+            double width = height * MAX_COUNT / size;
             for (int i = 0; i < size; i++) {
                 g2d.setPaint(colors.get(i));
                 Rectangle2D rec = new Rectangle2D.Double(X + width * i, Y, width, height);
