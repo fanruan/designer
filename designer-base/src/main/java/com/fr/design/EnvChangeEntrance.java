@@ -1,5 +1,6 @@
 package com.fr.design;
 
+import com.fr.common.report.ReportState;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
@@ -24,6 +25,9 @@ import com.fr.json.JSONArray;
 import com.fr.license.exception.RegistEditionException;
 import com.fr.locale.InterProviderFactory;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.ProcessEventPipe;
+import com.fr.process.engine.core.CarryMessageEvent;
+import com.fr.process.engine.core.FineProcessContext;
 import com.fr.rpc.Result;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EnvChangedListener;
@@ -407,6 +411,10 @@ public class EnvChangeEntrance {
 
             @Override
             public void doOk() {
+                ProcessEventPipe pipe = FineProcessContext.getParentPipe();
+                if (FineProcessContext.getParentPipe() != null) {
+                    pipe.fire(new CarryMessageEvent(ReportState.ACTIVE.getValue()));
+                }
                 if (!envListOkAction(envListPane, PopTipStrategy.NOW)) {
                     DesignerExiter.getInstance().execute();
                 }
@@ -414,7 +422,8 @@ public class EnvChangeEntrance {
 
             @Override
             public void doCancel() {
-                DesignerExiter.getInstance().execute();            }
+                DesignerExiter.getInstance().execute();
+            }
         });
         envListDialog.setVisible(true);
     }

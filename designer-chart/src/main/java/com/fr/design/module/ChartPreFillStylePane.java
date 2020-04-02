@@ -7,11 +7,12 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.mainframe.chart.gui.style.ChartAccColorPane;
+import com.fr.design.mainframe.chart.gui.style.ChartColorAdjustPane;
 import com.fr.design.style.background.gradient.FixedGradientBar;
 
-
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -20,8 +21,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -37,7 +36,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
     private UIButton accButton;
     private UIButton gradientButton;
 
-    private ChartAccColorPane colorAcc;
+    private ChartColorAdjustPane colorAdjustPane;
     private FixedGradientBar colorGradient;
 
     public ChartPreFillStylePane() {
@@ -53,13 +52,13 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-        buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Acc_Set")));
+        buttonPane.add(accButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Color")));
         buttonPane.add(gradientButton = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Gradient_Color")));
         customPane.add(buttonPane, BorderLayout.NORTH);
 
         changeColorSetPane = new JPanel(cardLayout = new CardLayout());
         changeColorSetPane.add(colorGradient = new FixedGradientBar(4, 130), "gradient");
-        changeColorSetPane.add(colorAcc = new ChartAccColorPane(), "acc");
+        changeColorSetPane.add(colorAdjustPane = new ChartColorAdjustPane(), "acc");
         cardLayout.show(changeColorSetPane, "acc");
         customPane.add(changeColorSetPane, BorderLayout.CENTER);
 
@@ -68,7 +67,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
         customPane.setPreferredSize(new Dimension(200, 200));
         colorGradient.setPreferredSize(new Dimension(120, 30));
         colorGradient.getSelectColorPointBtnP1().setColorInner(Color.WHITE);
-        colorGradient.getSelectColorPointBtnP2().setColorInner(Color.black);
+        colorGradient.getSelectColorPointBtnP2().setColorInner(FixedGradientBar.NEW_CHARACTER);
 
         double p = TableLayout.PREFERRED;
         double[] columnSize = {p, p};
@@ -131,7 +130,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
             cardLayout.show(changeColorSetPane, "acc");
 
             if (colorList.size() > 0) {
-                colorAcc.populateBean(colorList.toArray(new Color[colorList.size()]));
+                colorAdjustPane.updateColor(colorList.toArray(new Color[colorList.size()]));
             }
         }
     }
@@ -152,7 +151,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
         } else {
             chartColorMatching.setGradient(false);
 
-            Color[] colors = colorAcc.updateBean();
+            Color[] colors = colorAdjustPane.getColors();
             for(Color color : colors) {
                 colorList.add(color);
             }

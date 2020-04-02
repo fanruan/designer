@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.common.report.ReportState;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.design.dialog.ErrorDialog;
 import com.fr.design.i18n.Toolkit;
@@ -9,12 +10,14 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.event.Event;
 import com.fr.event.Listener;
 import com.fr.event.Null;
+import com.fr.general.ComparatorUtils;
 import com.fr.process.FineProcess;
 import com.fr.process.ProcessEventPipe;
 import com.fr.process.engine.core.FineProcessContext;
 import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.StringUtils;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -33,10 +36,12 @@ public class DesignerSuperListener {
     private static final int FIXED_FREQ = 2;
 
     private final ScheduledExecutorService service = Executors.newScheduledThreadPool(2, new NamedThreadFactory("DesignerListener"));
+    private final ExecutorService helpService = Executors.newSingleThreadExecutor( new NamedThreadFactory("DesignerSuperListener-Help"));
 
     private FineProcess process;
     private ScheduledFuture fixedFuture;
     private ScheduledFuture onceFuture;
+    private volatile boolean cancel = false;
 
     private DesignerSuperListener() {
 
@@ -49,6 +54,7 @@ public class DesignerSuperListener {
     public void start() {
         process = FineProcessContext.getProcess(DesignerProcessType.INSTANCE);
         startExitListener();
+        startHelpLister();
         startFrameListener();
         startFallBackListener();
     }
@@ -62,10 +68,32 @@ public class DesignerSuperListener {
         });
     }
 
+    private void startHelpLister() {
+        helpService.submit(new Runnable() {
+            @Override
+            public void run() {
+                while (!cancel) {
+                    ProcessEventPipe pipe = process.getPipe();
+                    String msg = pipe.info();
+                    if (ComparatorUtils.equals(ReportState.STOP.getValue(), msg)) {
+                        onceFuture.cancel(false);
+                    }
+                    if (ComparatorUtils.equals(ReportState.ACTIVE.getValue(), msg)) {
+                        startFrameListener();
+                    }
+                    if (ComparatorUtils.equals(DesignerProcessType.INSTANCE.obtain(), msg)) {
+                        frameReport();
+                    }
+                }
+            }
+        });
+    }
+
     private void startFrameListener() {
         onceFuture = service.schedule(new Runnable() {
             @Override
             public void run() {
+                cancel = true;
                 ProcessEventPipe pipe = process.getPipe();
                 pipe.fire(FineProcessEngineEvent.READY);
                 if (StringUtils.isNotEmpty(pipe.info())) {
@@ -138,10 +166,12 @@ public class DesignerSuperListener {
     public void stopTask() {
         onceFuture.cancel(false);
         fixedFuture.cancel(false);
+        cancel = true;
     }
 
     public void stop() {
         stopTask();
         service.shutdown();
+        helpService.shutdown();
     }
 }

@@ -21,6 +21,9 @@ import java.util.Date;
  */
 public class ErrorInfo {
 
+    private static final String SUFFIX = ".json";
+    private static final String FOLDER_NAME = "errorInfo";
+
     private String username;
     private String uuid;
     private String activekey;
@@ -128,8 +131,8 @@ public class ErrorInfo {
 
     public void saveFileToCache(JSONObject jo) {
         String content = jo.toString();
-        String fileName = UUID.randomUUID() + ErrorInfoUploader.SUFFIX;
-        File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), ErrorInfoUploader.FOLDER_NAME, fileName));
+        String fileName = UUID.randomUUID() + SUFFIX;
+        File file = new File(StableUtils.pathJoin(ProductConstants.getEnvHome(), FOLDER_NAME, fileName));
         FileOutputStream out = null;
         try (InputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
             StableUtils.makesureFileExist(file);

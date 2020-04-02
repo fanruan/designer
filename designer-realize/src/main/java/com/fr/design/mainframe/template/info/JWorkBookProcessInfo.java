@@ -5,6 +5,7 @@ import com.fr.main.impl.WorkBook;
 import com.fr.main.parameter.ReportParameterAttr;
 import com.fr.report.cellcase.CellCase;
 import com.fr.report.poly.PolyWorkSheet;
+import com.fr.report.report.Report;
 import com.fr.report.worksheet.WorkSheet;
 
 import java.util.Iterator;
@@ -61,8 +62,12 @@ public class JWorkBookProcessInfo extends TemplateProcessInfo<WorkBook> {
         int blockCount = 0;
         if (!template.isElementCaseBook()) {  // 如果是聚合报表
             for (int i = 0; i < template.getReportCount(); i++) {
-                PolyWorkSheet r = (PolyWorkSheet) template.getReport(i);
-                blockCount += r.getBlockCount();
+                Report report = template.getReport(i);
+                // 考虑多个sheet下 包含WorkSheet的情况 需要判断下
+                if (report instanceof PolyWorkSheet) {
+                    PolyWorkSheet r = (PolyWorkSheet) report;
+                    blockCount += r.getBlockCount();
+                }
             }
         }
         return blockCount;

@@ -8,18 +8,21 @@ import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.dialog.ErrorDialog;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.locale.impl.ProductImproveMark;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -199,6 +202,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                XmlHandler.Self.handle(e);
             }
 
             // james：如果没有env定义，要设置一个默认的
@@ -345,6 +349,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            XmlHandler.Self.handle(e);
         } finally {
             if (null != fileWriter) {
                 try {
@@ -2039,4 +2044,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setVcsConfigManager(VcsConfigManager vcsConfigManager) {
         this.vcsConfigManager = vcsConfigManager;
     }
+
+    enum XmlHandler {
+        Self;
+        public void handle(Throwable throwable) {
+            ErrorDialog dialog = new ErrorDialog(null,
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Report"),
+                                                 throwable.getMessage()) {
+                @Override
+                protected void okEvent() {
+                    dispose();
+                    DesignerExiter.getInstance().execute();
+                }
+
+                @Override
+                protected void restartEvent() {
+                    dispose();
+                    RestartHelper.restart();
+                }
+            };
+            dialog.setVisible(true);
+            DesignerExiter.getInstance().execute();
+        }
+    };
 }

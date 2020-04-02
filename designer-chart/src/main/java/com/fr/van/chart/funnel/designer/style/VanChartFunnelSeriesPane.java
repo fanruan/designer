@@ -31,7 +31,6 @@ public class VanChartFunnelSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] columnSize = {f};
         double[] rowSize = {p,p,p,p,p,p,p,p,p,p};
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createFunnelStylePane()},
                 new Component[]{createBorderPane()},
         };
