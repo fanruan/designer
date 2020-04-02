@@ -3,6 +3,7 @@ package com.fr.van.chart.designer.style;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.mainframe.chart.gui.ColorSelectBoxWithOutTransparent;
 import com.fr.design.mainframe.chart.gui.style.series.MapColorPickerPaneWithFormula;
@@ -38,8 +39,8 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
     @Override
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
         return new UIButtonGroup<LegendType>(new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Gradual"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Section")
+                Toolkit.i18nText("Fine-Design_Chart_Legend_Gradual"),
+                Toolkit.i18nText("Fine-Design_Chart_Legend_Section")
         }, new LegendType[]{LegendType.GRADUAL, LegendType.SECTION});
     }
 
@@ -53,7 +54,7 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
                     protected Component[][] getPaneComponents(MinMaxValuePaneWithOutTick minMaxValuePane, ColorSelectBoxWithOutTransparent colorSelectBox, UINumberDragPane numberDragPane, LegendGradientBar legendGradientBar) {
                         return new Component[][]{
                                 new Component[]{minMaxValuePane, null},
-                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
+                                new Component[]{new BoldFontTextLabel(Toolkit.i18nText("Fine-Design_Chart_Value_Divided_Stage")), numberDragPane},
                                 new Component[]{null, legendGradientBar}
                         };
                     }
@@ -64,7 +65,7 @@ public class HeatMapRangeLegendPane extends VanChartRangeLegendPane {
 
     @Override
     protected SectionLegendPane createSectionLegendPane() {
-        return new SectionLegendPane(this.parent) {
+        return new SectionLegendPane(this.getLegendPaneParent()) {
             @Override
             protected MapColorPickerPaneWithFormula createSectionIntervalConfigPane(AbstractAttrNoScrollPane parent) {
                 return new SectionIntervalConfigPaneWithOutNum(parent);
