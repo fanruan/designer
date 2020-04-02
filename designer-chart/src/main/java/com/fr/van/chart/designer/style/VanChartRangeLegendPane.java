@@ -130,7 +130,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCardPane();
-                checkArrangePaneVisible();
+                checkLayoutPaneVisible();
             }
         });
     }
@@ -143,18 +143,15 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     @Override
     protected void checkAllUse() {
         checkBoxUse();
-        checkArrangePaneVisible();
+        checkLayoutPaneVisible();
         checkDisplayStrategyUse();
         checkCardPane();
         this.repaint();
     }
 
-    protected void checkArrangePaneVisible() {
-        boolean visible = legendTypeButton.getSelectedItem() != LegendType.GRADUAL
-                && !getCustomFloatPositionButton().isSelected()
-                && (getLegendLocation().getSelectedIndex() == 0 || getLegendLocation().getSelectedIndex() == 1);
+    protected boolean isVisibleLayoutPane() {
 
-        getArrangePane().setVisible(visible);
+        return super.isVisibleLayoutPane() && legendTypeButton.getSelectedItem() != LegendType.GRADUAL;
     }
 
     private void checkHighlightVisible(){

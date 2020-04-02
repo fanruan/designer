@@ -16,7 +16,7 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartLegend;
-import com.fr.plugin.chart.type.ArrangeType;
+import com.fr.plugin.chart.type.LayoutType;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartFloatPositionPane;
@@ -54,8 +54,8 @@ public class VanChartPlotLegendPane extends BasicPane {
     private VanChartBackgroundWithOutImagePane backgroundPane;
     private UIButtonGroup<Integer> location;
     private UIToggleButton customFloatPositionButton;
-    private UIButtonGroup<ArrangeType> arrangeButton;
-    private JPanel arrangePane;
+    private UIButtonGroup<LayoutType> layoutButton;
+    private JPanel layoutPane;
     private VanChartFloatPositionPane customFloatPositionPane;
 
     //区域显示策略 恢复用注释。下面4行删除。
@@ -87,10 +87,6 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     public VanChartStylePane getLegendPaneParent() {
         return parent;
-    }
-
-    public JPanel getArrangePane() {
-        return arrangePane;
     }
 
     public UIButtonGroup<Integer> getLegendLocation() {
@@ -207,7 +203,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         };
 
         customFloatPositionPane =  new VanChartFloatPositionPane();
-        arrangePane = createArrangePane();
+        layoutPane = createLayoutPane();
 
         initPositionListener();
 
@@ -215,14 +211,15 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(positionPane, BorderLayout.NORTH);
-        panel.add(arrangePane, BorderLayout.CENTER);
+        panel.add(layoutPane, BorderLayout.CENTER);
 
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Basic_Form_Layout"), panel);
     }
 
-    private JPanel createArrangePane() {
-        arrangeButton = new UIButtonGroup<>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Arrange_Flow"), Toolkit.i18nText("Fine-Design_Chart_Arrange_Aligned")},
-                new ArrangeType[]{ArrangeType.FLOW, ArrangeType.ALIGNED});
+    private JPanel createLayoutPane() {
+        layoutButton = new UIButtonGroup<>(
+                new String[]{Toolkit.i18nText("Fine-Design_Chart_Layout_Flow"), Toolkit.i18nText("Fine-Design_Chart_Layout_Aligned")},
+                new LayoutType[]{LayoutType.FLOW, LayoutType.ALIGNED});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -230,7 +227,7 @@ public class VanChartPlotLegendPane extends BasicPane {
 
         Component[][] components = new Component[][]{
                 new Component[]{null, null},
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Arrange")), arrangeButton}
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Arrange")), layoutButton}
         };
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components, new double[]{p, p}, new double[]{f, e});
@@ -242,7 +239,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             @Override
             public void stateChanged(ChangeEvent e) {
                 customFloatPositionButton.setSelected(false);
-                checkArrangePaneVisible();
+                checkLayoutPaneVisible();
                 checkDisplayStrategyUse();
             }
         });
@@ -252,7 +249,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             public void mouseClicked(MouseEvent e) {
                 if(!customFloatPositionButton.isSelected()){
                     customFloatPositionButton.setSelected(true);
-                    checkArrangePaneVisible();
+                    checkLayoutPaneVisible();
                     checkDisplayStrategyUse();
                 }
             }
@@ -330,16 +327,19 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     protected void checkAllUse() {
         checkBoxUse();
-        checkArrangePaneVisible();
+        checkLayoutPaneVisible();
         checkDisplayStrategyUse();
         this.repaint();
     }
 
-    protected void checkArrangePaneVisible() {
-        boolean visible = !getCustomFloatPositionButton().isSelected()
-                && (getLegendLocation().getSelectedIndex() == 0 || getLegendLocation().getSelectedIndex() == 1);
+    protected void checkLayoutPaneVisible() {
+        layoutPane.setVisible(isVisibleLayoutPane());
+    }
 
-        arrangePane.setVisible(visible);
+    protected boolean isVisibleLayoutPane() {
+        int locationIndex = getLegendLocation().getSelectedIndex();
+
+        return !getCustomFloatPositionButton().isSelected() && (locationIndex == 0 || locationIndex == 1);
     }
 
     //检查显示策略界面是否可用
@@ -386,7 +386,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             legend.setPosition(-1);
         }
         legend.setFloating(customFloatPositionButton.isSelected());
-        legend.setArrange(arrangeButton.getSelectedItem());
+        legend.setLayout(layoutButton.getSelectedItem());
         //区域显示策略 恢复用注释。下面2行删除。
         legend.setLimitSize(limitSize.getSelectedIndex() == 1);
         legend.setMaxHeight(maxProportion.getValue());
@@ -411,7 +411,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             customFloatPositionButton.setSelected(legend.isFloating());
             customFloatPositionPane.setFloatPosition_x(legend.getFloatPercentX());
             customFloatPositionPane.setFloatPosition_y(legend.getFloatPercentY());
-            arrangeButton.setSelectedItem(legend.getArrange());
+            layoutButton.setSelectedItem(legend.getLayout());
             //区域显示策略 恢复用注释。下面2行删除。
             limitSize.setSelectedIndex(legend.isLimitSize() ? 1 : 0);
             maxProportion.setValue(legend.getMaxHeight());
