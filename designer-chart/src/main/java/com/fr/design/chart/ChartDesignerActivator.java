@@ -4,7 +4,6 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.gui.ChartComponent;
-import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.module.ChartEmptyDataStyleAction;
 import com.fr.design.module.ChartHyperlinkGroup;
@@ -16,42 +15,37 @@ import com.fr.locale.LocaleMarker;
 import com.fr.locale.LocaleScope;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
-import com.fr.plugin.chart.vanchart.imgevent.design.DesignImageEvent;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
-import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 
 /**
  * Created by juhaoyu on 2018/6/27.
  */
 public class ChartDesignerActivator extends Activator implements Prepare {
-    
+
     @Override
     public void start() {
-        
+
         StableFactory.registerMarkedClass(ExtraChartDesignClassManagerProvider.XML_TAG, ChartTypeInterfaceManager.class);
         StableFactory.getStaticMarkedInstanceObjectFromClass(ExtraChartDesignClassManagerProvider.XML_TAG, ExtraChartDesignClassManagerProvider.class);
-        
+
         DesignModuleFactory.registerHyperlinkGroupType(new ChartHyperlinkGroup());
-        
+
         DesignModuleFactory.registerChartEditorClass(ChartEditor.class);
         DesignModuleFactory.registerChartComponentClass(ChartComponent.class);
-        
+
         DesignModuleFactory.registerChartDialogClass(ChartDialog.class);
-        
+
         DesignModuleFactory.registerChartPropertyPaneClass(ChartPropertyPane.class);
-        
+
         ActionFactory.registerChartPreStyleAction(new ChartPreStyleAction());
         ActionFactory.registerChartEmptyDataStyleAction(new ChartEmptyDataStyleAction());
         ActionFactory.registerChartMapEditorAction(new ChartMapEditorAction());
-        
+
         ActionFactory.registerChartCollection(ChartCollection.class);
-        
+
         DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
-        
-        DesignImageEvent.registerDefaultCallbackEvent(HistoryTemplateListPane.getInstance());
-        DesignImageEvent.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
 
         ChartTypeInterfaceManager.addPluginChangedListener();
     }
@@ -63,6 +57,6 @@ public class ChartDesignerActivator extends Activator implements Prepare {
 
     @Override
     public void stop() {
-    
+
     }
 }
