@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.fr.design.designer.creator.cardlayout;
 
@@ -62,6 +62,8 @@ public class XCardSwitchButton extends XButton {
 
 	private static final int MIN_SIZE = 1;
 
+	private static final int HALF_NUMBER = 2;
+
 	// 删除按钮识别区域偏移量
 	private static final int CLOSE_ICON_RIGHT_OFFSET = 15;
 	private static final int CLOSE_ICON_TOP_OFFSET = 15;
@@ -81,7 +83,7 @@ public class XCardSwitchButton extends XButton {
 	private UILabel label;
 
 	private Icon closeIcon = MOUSE_CLOSE;
-	
+
 	public XWCardTagLayout getTagLayout() {
 		return tagLayout;
 	}
@@ -127,12 +129,12 @@ public class XCardSwitchButton extends XButton {
 
 	/**
 	 * 响应点击事件
-	 * 
+	 *
 	 * @param editingMouseListener
 	 *            事件处理器
 	 * @param e
 	 *            点击事件
-	 * 
+	 *
 	 */
 	@Override
 	public void respondClick(EditingMouseListener editingMouseListener,
@@ -144,12 +146,12 @@ public class XCardSwitchButton extends XButton {
 		if(cardLayout == null){
 			initRelateLayout();
 		}
-		
+
 		//获取当前tab的index
 		CardSwitchButton currentButton = (CardSwitchButton) this.toData();
 		int index = currentButton.getIndex();
 		int maxIndex = cardLayout.getComponentCount() - 1;
-		
+
 		//点击删除图标时
 		if (isSelectedClose(e, designer)) {
 			//当删除到最后一个tab时，删除整个tab布局
@@ -236,8 +238,8 @@ public class XCardSwitchButton extends XButton {
 			}
 		}
 	}
-	
-	
+
+
 	//SwitchButton对应的XWCardLayout和XWCardTagLayout暂未存到xml中,重新打开时根据父子层关系获取
 	private void initRelateLayout(){
 		this.tagLayout = (XWCardTagLayout)this.getBackupParent();
@@ -245,28 +247,28 @@ public class XCardSwitchButton extends XButton {
 		XWCardMainBorderLayout borderLayout = (XWCardMainBorderLayout)titleLayout.getBackupParent();
 		this.cardLayout = borderLayout.getCardPart();
 	}
-	
+
 	//是否进入点击关闭按钮区域
 	private boolean isSelectedClose(MouseEvent e, FormDesigner designer){
-		
+
 		int diff = designer.getArea().getHorScrollBar().getValue();
-		
+
 		// mouse position
 		int ex = e.getX() + diff;
 		int ey = e.getY();
-		
+
 		//获取tab布局的位置,鼠标相对于tab按钮的位置
 		XLayoutContainer mainLayout = cardLayout.getBackupParent();
 		Point point = mainLayout.getLocation();
 		double mainX = point.getX();
 		double mainY = point.getY();
-		
+
 		// 参数界面对坐标的影响
 		JForm jform = (JForm) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate();
 		if(jform.getFormDesign().getParaComponent() != null){
 			ey -= jform.getFormDesign().getParaHeight();
 		}
-		
+
 		//减掉tab布局的相对位置
 		ex -= mainX;
 		ey -= mainY;
@@ -281,10 +283,10 @@ public class XCardSwitchButton extends XButton {
 		// 鼠标进入按钮右侧删除图标区域
 		double recX = position.getX() + titlePoint.getX() +  (width - CLOSE_ICON_RIGHT_OFFSET);
 		double recY = position.getY() + titlePoint.getY() + CLOSE_ICON_TOP_OFFSET;
-		
+
 		return (recX < ex && ex < recX + CLOSE_ICON_RIGHT_OFFSET &&  ey < recY && ey > position.getY());
 	}
-	
+
 	//将当前switchButton改为选中状态
 	private void changeButtonState(int index) {
 		for (int i = 0; i < this.tagLayout.getComponentCount(); i++) {
@@ -293,7 +295,7 @@ public class XCardSwitchButton extends XButton {
 			tempButton.setShowButton(tempButton.getIndex() == index);
 		}
 	}
-	
+
     @Override
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -306,12 +308,12 @@ public class XCardSwitchButton extends XButton {
 		this.getContentBackground().paint(g, new Rectangle2D.Double(0, 0, panelSize.getWidth(), panelSize.getHeight()));
 		drawCloseIcon(g2d);
     }
-	
+
     //画删除图标
 	private void drawCloseIcon(Graphics2D g2d){
 		closeIcon.paintIcon(this, g2d, this.getWidth() - LEFT_GAP, 0);
 	}
-	
+
 	//画背景
 	private void drawBackground(CardSwitchButton button, TitlePacker widgetTitle){
 		Background background = widgetTitle.getBackground() == null ? ColorBackground.getInstance(NORMAL_GRAL) : widgetTitle.getBackground();
@@ -329,7 +331,7 @@ public class XCardSwitchButton extends XButton {
 			this.setContentBackground(initialBackground == null ? background : initialBackground);
 		}
 	}
-	
+
 	//画标题
 	private void drawTitle(CardSwitchButton button, TitlePacker widgetTitle) {
 		String titleText = button.getText();
@@ -349,7 +351,7 @@ public class XCardSwitchButton extends XButton {
 		BorderPacker style = this.cardLayout.toData().getBorderStyle();
 		return style.getTitle();
 	}
-	
+
 	//删除tab布局
 	private void deleteTabLayout(SelectionModel selectionModel, FormDesigner designer){
 		String titleName = this.getContentLabel().getText();
@@ -456,7 +458,8 @@ public class XCardSwitchButton extends XButton {
 			StringBuilder titleStringBuf = new StringBuilder();
 			TitlePacker title = getWidgetTitle();
 			FRFont font = title.getFrFont();
-			FRFont newFont = FRFont.getInstance(font.getName(), font.getStyle(), font.getSize() + FONT_SIZE_ADJUST);
+			int fontSize = font.getSize() + FONT_SIZE_ADJUST;
+			FRFont newFont = FRFont.getInstance(font.getName(), font.getStyle(), fontSize);
 			FontMetrics fm = GraphHelper.getFontMetrics(newFont);
 			for (int i = 0; i < titleText.length(); i++) {
 				titleStringBuf.append(titleText.charAt(i));
@@ -470,12 +473,13 @@ public class XCardSwitchButton extends XButton {
 			for (int i = 0; i < verticalTextList.size(); i++) {
 				String paint_str = (String) verticalTextList.get(i);
 
-				GraphHelper.drawString(g2d, paint_str, (width - fm.stringWidth(paint_str)) / 2, textY);
+				GraphHelper.drawString(g2d, paint_str,
+						(width - fm.stringWidth(paint_str)) / (HALF_NUMBER * 1.0D), textY);
 				textY += textHeight;
 				textY += PT.pt2pix(0, RESLUTION);
 				if (textY > height - textHeight && i < verticalTextList.size() - 1) {
 					textY -= DOTS_HEIGHT;
-					paintDots(g2d, textY, (width - fm.stringWidth(paint_str)) / 2);
+					paintDots(g2d, textY, (width - fm.stringWidth(paint_str)) / HALF_NUMBER);
 					break;
 				}
 			}

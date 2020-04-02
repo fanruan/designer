@@ -44,6 +44,11 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     }
 
     @Override
+    public String getRemindTime() {
+        return null;
+    }
+
+    @Override
     public WorkspaceConnectionInfo getConnection() {
         return null;
     }
@@ -64,7 +69,9 @@ public class LocalDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
         writer.attr("path", path);
     }
 
+
     @Override
+    @SuppressWarnings("squid:S2975")
     public Object clone() throws CloneNotSupportedException {
         LocalDesignerWorkspaceInfo object = (LocalDesignerWorkspaceInfo)super.clone();
 

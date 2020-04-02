@@ -51,7 +51,7 @@ public class FineUIAction extends UpdateAction {
        BasicDialog dialog = pane.showLargeWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
-
+                // Do nothing
             }
         });
        dialog.setVisible(true);

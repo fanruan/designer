@@ -16,6 +16,7 @@ import com.fr.design.mainframe.chart.gui.data.table.AbstractTableDataContentPane
 import com.fr.design.mainframe.chart.gui.type.AbstractChartTypePane;
 import com.fr.van.chart.designer.other.VanChartInteractivePaneWithOutSort;
 import com.fr.van.chart.designer.other.VanChartOtherPane;
+import com.fr.van.chart.designer.other.zoom.ZoomPane;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.scatter.component.VanChartScatterStylePane;
 import com.fr.van.chart.scatter.data.VanChartScatterPlotTableDataContentPane;
@@ -56,18 +57,19 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
     public String getIconPath() {
         return "com/fr/design/images/form/toolbar/scatter.png";
     }
+
     @Override
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartScatterSeriesPane(parent, plot);
     }
 
     @Override
-    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractTableDataContentPane getTableDataSourcePane(Plot plot, ChartDataPane parent) {
         return new VanChartScatterPlotTableDataContentPane(parent);
     }
 
     @Override
-    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent){
+    public AbstractReportDataContentPane getReportDataSourcePane(Plot plot, ChartDataPane parent) {
         return new BubblePlotReportDataContentPane(parent);
     }
 
@@ -76,19 +78,40 @@ public class ScatterIndependentVanChartInterface extends AbstractIndependentVanC
      * 图表的属性界面数组
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartScatterStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane(){
+        VanChartOtherPane otherPane = new VanChartOtherPane() {
             @Override
             protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartInteractivePaneWithOutSort();
+                return new VanChartInteractivePaneWithOutSort() {
+                    @Override
+                    protected ZoomPane createZoomPane() {
+                        return new ZoomPane();
+                    }
+
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
+                    }
+                };
             }
 
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartScatterConditionPane(plot);
     }
+
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                return new SingleDataPane(new ScatterDataSetFieldsPane(), new ScatterCellDataFieldsPane());
+//            }
+//        };
+//    }
 }

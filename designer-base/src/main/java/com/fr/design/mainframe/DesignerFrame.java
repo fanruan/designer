@@ -40,25 +40,29 @@ import com.fr.design.mainframe.toolbar.ToolBarMenuDockPlus;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.menu.MenuManager;
 import com.fr.design.menu.ShortCut;
+import com.fr.design.os.impl.MacOsAddListenerAction;
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.event.EventDispatcher;
 import com.fr.exception.DecryptTemplateException;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILE;
 import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralContext;
+import com.fr.general.IOUtils;
+import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
 import com.fr.plugin.injectable.PluginModule;
 import com.fr.plugin.manage.PluginFilter;
 import com.fr.plugin.observer.PluginEvent;
 import com.fr.plugin.observer.PluginEventListener;
-import com.fr.stable.OperatingSystem;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.image4j.codec.ico.ICODecoder;
+import com.fr.stable.os.OperatingSystem;
 import com.fr.stable.os.support.OSBasedAction;
 import com.fr.stable.os.support.OSSupportCenter;
 import com.fr.stable.project.ProjectConstants;
@@ -313,6 +317,8 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         // window close listener.
         this.addWindowListeners(getFrameListeners());
 
+        addMacOsListener();
+
         this.addComponentListener(new ComponentAdapter() {
 
             @Override
@@ -465,7 +471,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             OSSupportCenter.buildAction(new OSBasedAction() {
                 @Override
                 public void execute(Object... objects) {
-                   bbsLoginPane[0] =  ad.createBBSLoginPane();
+                    bbsLoginPane[0] = ad.createBBSLoginPane();
                 }
             }, SupportOSImpl.USERINFOPANE);
             processor.hold(northEastPane, LogMessageBar.getInstance(), bbsLoginPane[0]);
@@ -477,7 +483,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         OSSupportCenter.buildAction(new OSBasedAction() {
             @Override
             public void execute(Object... objects) {
-               northEastPane.add(ad.createBBSLoginPane());
+                northEastPane.add(ad.createBBSLoginPane());
             }
         }, SupportOSImpl.USERINFOPANE);
 
@@ -500,8 +506,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
                 image = ICODecoder.read(DesignerFrame.class
                         .getResourceAsStream("/com/fr/base/images/oem/logo.ico"));
             }
-            this.setIconImages(image);
-        } catch (IOException e) {
+            if (OperatingSystem.isMacos()) {
+                Class clazz = Class.forName("com.apple.eawt.Application");
+                BufferedImage icon = image.isEmpty() ? IOUtils.readImage("/com/fr/base/images/oem/logo.png") : image.get(image.size() - 1);
+                Reflect.on(Reflect.on(clazz).call("getApplication").get()).call("setDockIconImage", icon);
+            } else {
+                this.setIconImages(image);
+            }
+        } catch (IOException | ClassNotFoundException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             this.setIconImage(BaseUtils.readImage("/com/fr/base/images/oem/logo.png"));
         }
@@ -512,6 +524,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         for (WindowListener listener : listeners) {
             this.addWindowListener(listener);
         }
+    }
+
+    private void addMacOsListener() {
+        OSSupportCenter.buildAction(new MacOsAddListenerAction(), SupportOSImpl.DOCK_QUIT);
     }
 
     protected ArrayList<WindowListener> getFrameListeners() {
@@ -1088,8 +1104,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (tplFile != null) {
             int index = HistoryTemplateListCache.getInstance().contains(tplFile);
             if (index != -1) {
-                HistoryTemplateListCache.getInstance().getHistoryList().get(index).activeOldJTemplate();
-                return;
+                JTemplate jt = HistoryTemplateListCache.getInstance().getHistoryList().get(index);
+                if (!(jt instanceof JVirtualTemplate)) {
+                    jt.activeOldJTemplate();
+                    return;
+                }
             }
         }
 
@@ -1125,8 +1144,10 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
             Thread.currentThread().interrupt();
         }
 
-        DesignerEnvManager.getEnvManager().setLastOpenFile(
-                HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().getEditingFILE().getPath());
+        JTemplate jt = HistoryTemplateListCache.getInstance().getCurrentEditingTemplate();
+        if (jt != null)  {
+            DesignerEnvManager.getEnvManager().setLastOpenFile(jt.getEditingFILE().getPath());
+        }
 
         DesignerEnvManager.getEnvManager().setLastWestRegionToolPaneY(
                 WestRegionContainerPane.getInstance().getToolPaneY());
@@ -1152,8 +1173,7 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         this.dispose();
 
         this.ad.shutDown();
-
-        System.exit(0);
+        DesignerExiter.getInstance().execute();
     }
 
     // harry：添加程序外拖拽文件进来打开的功能
@@ -1259,5 +1279,14 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
     public void disposeProgressDialog() {
 
         progressDialog.dispose();
+    }
+
+    /**
+     * 设计器是否已经打开
+     *
+     * @return 设计器是否已经打开
+     */
+    public boolean isDesignerOpened() {
+        return designerOpened;
     }
 }

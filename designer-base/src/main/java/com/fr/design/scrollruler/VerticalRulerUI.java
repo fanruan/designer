@@ -20,7 +20,7 @@ public class VerticalRulerUI  extends RulerUI{
     @Override
     protected void paintRuler(Graphics g, int showText, int extra, Dimension size, int ratio) {
         int k = pxToLength(extra) * ratio;
-        for (int i = k; i < (pxToLength(size.height + extra) + 1) * ratio; i++) {
+        for (int i = k; i < (pxToLength( (double)size.height + extra) + 1) * ratio; i++) {
             g.setColor(BaseRuler.UNIT_SIGN_COLOR);
             if (i % BaseRuler.SCALE_10 == 0) {
                 double times = (double) HistoryTemplateListPane.getInstance().getCurrentEditingTemplate().getJTemplateResolution() / ScreenResolution.getScreenResolution();
@@ -44,7 +44,7 @@ public class VerticalRulerUI  extends RulerUI{
     @Override
     protected void paintPTRuler(Graphics g, int extra, Dimension size, int unit) {
         int k = pxToLength(extra);
-        for (int i = unit * (k/unit); i < pxToLength(size.height + extra); i += unit) {
+        for (int i = unit * (k/unit); i < pxToLength((double)size.height + extra); i += unit) {
             g.setColor(BaseRuler.UNIT_SIGN_COLOR);
             if (i % BaseRuler.SCALE_100 == 0) {
                 GraphHelper.drawLine(g, size.width, toPX(i) - extra, 0, toPX(i) - extra);

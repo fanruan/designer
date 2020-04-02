@@ -27,12 +27,12 @@ public class VanChartMapDataPane extends ChartDataPane {
     }
 
     protected void repeatLayout(ChartCollection collection) {
-        if(contentsPane != null) {
+        if (contentsPane != null) {
             this.remove(contentsPane);
         }
         this.setLayout(new BorderLayout(0, 0));
 
-        switch (mapType){
+        switch (mapType) {
             case CUSTOM:
                 contentsPane = new CustomMapChartDataContentsPane(listener, VanChartMapDataPane.this);
                 break;
@@ -54,7 +54,7 @@ public class VanChartMapDataPane extends ChartDataPane {
 
         repeatLayout(collection);
 
-        switch (mapType){
+        switch (mapType) {
             case AREA:
                 ChartCollection areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
                 contentsPane.populate(areaClone);
@@ -71,8 +71,8 @@ public class VanChartMapDataPane extends ChartDataPane {
                 ChartCollection areaClone1 = MapDataPaneHelper.getAreaMapChartCollection(collection);
                 ChartCollection pointClone1 = MapDataPaneHelper.getPointMapChartCollection(collection);
                 ChartCollection lineClone1 = MapDataPaneHelper.getLineMapChartCollection(collection);
-                ((CustomMapChartDataContentsPane)contentsPane).populateAreaMap(areaClone1);
-                ((CustomMapChartDataContentsPane)contentsPane).populatePointMap(pointClone1);
+                ((CustomMapChartDataContentsPane) contentsPane).populateAreaMap(areaClone1);
+                ((CustomMapChartDataContentsPane) contentsPane).populatePointMap(pointClone1);
                 ((CustomMapChartDataContentsPane) contentsPane).populateLineMap(lineClone1);
         }
 
@@ -82,14 +82,14 @@ public class VanChartMapDataPane extends ChartDataPane {
      * 保存 数据界面内容
      */
     public void update(ChartCollection collection) {
-        if(contentsPane != null) {
+        if (contentsPane != null) {
             VanMapDefinition vanMapDefinition = new VanMapDefinition();
 
             ChartCollection pointClone = MapDataPaneHelper.getPointMapChartCollection(collection);
             ChartCollection areaClone = MapDataPaneHelper.getAreaMapChartCollection(collection);
             ChartCollection lineClone = MapDataPaneHelper.getLineMapChartCollection(collection);
 
-            switch (mapType){
+            switch (mapType) {
                 case AREA:
                     contentsPane.update(areaClone);
                     pointClone.getSelectedChart().setFilterDefinition(null);
@@ -106,8 +106,8 @@ public class VanChartMapDataPane extends ChartDataPane {
                     pointClone.getSelectedChart().setFilterDefinition(null);
                     break;
                 case CUSTOM:
-                    ((CustomMapChartDataContentsPane)contentsPane).updateAreaMap(areaClone);
-                    ((CustomMapChartDataContentsPane)contentsPane).updatePointMap(pointClone);
+                    ((CustomMapChartDataContentsPane) contentsPane).updateAreaMap(areaClone);
+                    ((CustomMapChartDataContentsPane) contentsPane).updatePointMap(pointClone);
                     ((CustomMapChartDataContentsPane) contentsPane).updateLineMap(lineClone);
                     break;
             }

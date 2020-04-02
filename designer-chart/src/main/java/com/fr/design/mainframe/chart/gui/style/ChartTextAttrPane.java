@@ -10,10 +10,12 @@ import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 
+import com.fr.general.GeneralUtils;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -25,25 +27,52 @@ import java.awt.Font;
 
 public class ChartTextAttrPane extends BasicPane {
     private static final long serialVersionUID = 6731679928019436869L;
-    private static final int FONT_START = 6;
-    private static final int FONT_END = 72;
-    protected UIComboBox fontNameComboBox;
-    protected UIComboBox fontSizeComboBox;
-    protected UIToggleButton bold;
-    protected UIToggleButton italic;
-    protected UIColorButton fontColor;
-    public static Integer[] Font_Sizes = new Integer[FONT_END-FONT_START+1];
-    static{
-        for(int i = FONT_START; i <= FONT_END; i++){
-            Font_Sizes [i - FONT_START] = new Integer(i);
+    public static final int FONT_START = 6;
+    public static final int FONT_END = 72;
+    private UIComboBox fontNameComboBox;
+    private UIComboBox fontSizeComboBox;
+    private UIToggleButton bold;
+    private UIToggleButton italic;
+    private UIColorButton fontColor;
+    public static Integer[] FONT_SIZES = new Integer[FONT_END - FONT_START + 1];
+    static {
+        for (int i = FONT_START; i <= FONT_END; i++) {
+            FONT_SIZES[i - FONT_START] = i;
         }
     }
+
     public ChartTextAttrPane() {
+        initState();
         initComponents();
+    }
+
+    public UIComboBox getFontNameComboBox() {
+        return fontNameComboBox;
+    }
+
+    public UIComboBox getFontSizeComboBox() {
+        return fontSizeComboBox;
+    }
+
+    public UIToggleButton getBold() {
+        return bold;
+    }
+
+    public UIToggleButton getItalic() {
+        return italic;
+    }
+
+    public UIColorButton getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(UIColorButton fontColor) {
+        this.fontColor = fontColor;
     }
 
     /**
      * 标题
+     *
      * @return 标题
      */
     public String title4PopupWindow() {
@@ -84,9 +113,7 @@ public class ChartTextAttrPane extends BasicPane {
             fontNameComboBox.setSelectedItem(frFont.getFamily());
             bold.setSelected(frFont.isBold());
             italic.setSelected(frFont.isItalic());
-            if(fontSizeComboBox != null) {
-                fontSizeComboBox.setSelectedItem(frFont.getSize());
-            }
+            populateFontSize(frFont);
             if (fontColor != null) {
                 fontColor.setColor(frFont.getForeground());
             }
@@ -94,6 +121,12 @@ public class ChartTextAttrPane extends BasicPane {
 
         //更新结束后，注册监听器
         registerAllComboBoxListener(listener);
+    }
+
+    protected void populateFontSize(FRFont frFont) {
+        if (fontSizeComboBox != null) {
+            fontSizeComboBox.setSelectedItem(frFont.getSize());
+        }
     }
 
     private void removeAllComboBoxListener() {
@@ -108,9 +141,16 @@ public class ChartTextAttrPane extends BasicPane {
 
     /**
      * 更新字
+     *
      * @return 更新字
      */
     public FRFont updateFRFont() {
+        String name = GeneralUtils.objectToString(fontNameComboBox.getSelectedItem());
+
+        return FRFont.getInstance(name, updateFontStyle(), updateFontSize(), fontColor.getColor());
+    }
+
+    protected int updateFontStyle() {
         int style = Font.PLAIN;
         if (bold.isSelected() && !italic.isSelected()) {
             style = Font.BOLD;
@@ -119,8 +159,12 @@ public class ChartTextAttrPane extends BasicPane {
         } else if (bold.isSelected() && italic.isSelected()) {
             style = 3;
         }
-        return FRFont.getInstance(Utils.objectToString(fontNameComboBox.getSelectedItem()), style,
-                Float.valueOf(Utils.objectToString(fontSizeComboBox.getSelectedItem())), fontColor.getColor());
+
+        return style;
+    }
+
+    protected float updateFontSize() {
+        return Float.parseFloat(GeneralUtils.objectToString(fontSizeComboBox.getSelectedItem()));
     }
 
     public void setEnabled(boolean enabled) {
@@ -131,13 +175,23 @@ public class ChartTextAttrPane extends BasicPane {
         this.italic.setEnabled(enabled);
     }
 
-    protected void initComponents() {
+    protected Object[] getFontSizeComboBoxModel() {
+        return FONT_SIZES;
+    }
+
+    protected void initState() {
         fontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
-        fontSizeComboBox = new UIComboBox(Font_Sizes);
-        fontColor = new UIColorButton();
+        fontSizeComboBox = new UIComboBox(getFontSizeComboBoxModel());
         bold = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/bold.png"));
         italic = new UIToggleButton(BaseUtils.readIcon("/com/fr/design/images/m_format/cellstyle/italic.png"));
+        initFontColorState();
+    }
 
+    protected void initFontColorState() {
+        setFontColor(new UIColorButton());
+    }
+
+    protected void initComponents() {
         Component[] components1 = new Component[]{
                 fontColor, italic, bold
         };
@@ -151,21 +205,21 @@ public class ChartTextAttrPane extends BasicPane {
         populate(FRFont.getInstance());
     }
 
-    protected JPanel getContentPane (JPanel buttonPane) {
+    protected JPanel getContentPane(JPanel buttonPane) {
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] columnSize = {f,e};
+        double[] columnSize = {f, e};
 
         return TableLayout4VanChartHelper.createGapTableLayoutPane(getComponents(buttonPane), getRowSize(), columnSize);
     }
 
-    protected double[] getRowSize () {
+    protected double[] getRowSize() {
         double p = TableLayout.PREFERRED;
         return new double[]{p, p, p};
     }
 
     protected Component[][] getComponents(JPanel buttonPane) {
-        UILabel text = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
+        UILabel text = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Character"), SwingConstants.LEFT);
         return new Component[][]{
                 new Component[]{null, null},
                 new Component[]{text, fontNameComboBox},

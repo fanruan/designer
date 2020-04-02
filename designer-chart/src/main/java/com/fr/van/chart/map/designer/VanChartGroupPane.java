@@ -35,12 +35,16 @@ public abstract class VanChartGroupPane extends JPanel{
             @Override
             public void stateChanged(ChangeEvent e) {
                 cardLayout.show(centerPane, nameList[buttonGroup.getSelectedIndex()]);
+                tabChanged(buttonGroup.getSelectedIndex());
             }
         });
         buttonGroup.setBorder(getButtonGroupBorder());
         this.setLayout(new BorderLayout(0, 4));
         this.add(buttonGroup, BorderLayout.NORTH);
         this.add(centerPane, BorderLayout.CENTER);
+    }
+
+    protected void tabChanged(int index) {
     }
 
     protected Border getButtonGroupBorder () {

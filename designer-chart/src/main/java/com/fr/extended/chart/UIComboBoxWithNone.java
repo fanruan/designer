@@ -14,6 +14,11 @@ public class UIComboBoxWithNone extends UIComboBox {
         return Toolkit.i18nText("Fine-Design_Chart_Use_None");
     }
 
+    public UIComboBoxWithNone() {
+        super();
+        addDefaultItem();
+    }
+
     @Override
     public void refreshBoxItems(List list) {
         super.refreshBoxItems(list);

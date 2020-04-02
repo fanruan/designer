@@ -101,10 +101,10 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
             @Override
             protected void addKeyMonitor() {
                 searchField.addKeyListener(new KeyListener() {
-                    
+
                     @Override
                     public void keyTyped(KeyEvent e) {
-
+                        //do nothing
                     }
 
                     @Override
@@ -117,7 +117,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
 
                     @Override
                     public void keyReleased(KeyEvent e) {
-
+                        //do nothing
                     }
                 });
             }
@@ -240,7 +240,7 @@ public class DBTableDataPane extends AbstractTableDataPane<DBTableData> {
         maxPanel.setBorder(null);
         JPanel wrapMaxPanel = FRGUIPaneFactory.createBorderLayout_S_Pane();
         wrapMaxPanel.add(maxPanel);
-        wrapMaxPanel.setPreferredSize(new Dimension(250, 20));
+        wrapMaxPanel.setPreferredSize(new Dimension(350, 20));
         UIToolbar editToolBar = ToolBarDef.createJToolBar();
         toolBarDef.updateToolBar(editToolBar);
         editToolBar.add(isShareCheckBox);

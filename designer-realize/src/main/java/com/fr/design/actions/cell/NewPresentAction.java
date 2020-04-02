@@ -9,8 +9,12 @@ import com.fr.general.GeneralUtils;
 
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.Selection;
+import com.fr.report.cell.DefaultTemplateCellElement;
 import com.fr.report.cell.TemplateCellElement;
+import com.fr.report.elementcase.TemplateElementCase;
 import com.fr.stable.StableUtils;
+
+import java.awt.*;
 
 public class NewPresentAction extends PresentCheckBoxAction {
 
@@ -28,10 +32,28 @@ public class NewPresentAction extends PresentCheckBoxAction {
         if (!ComparatorUtils.equals(this.itemName, "NOPRESENT")) {
             CellElementPropertyPane.getInstance().GoToPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Present"), this.itemName);
         } else {
-            TemplateCellElement ce = getSelectedCellElement();
-            // 只有原来ce设置了形态的情况下才有undo操作
-            if (ce != null && ce.getPresent() != null) {
-                ce.setPresent(null);
+            ElementCasePane ePane = this.getEditingComponent();
+            TemplateElementCase elementCase = ePane.getEditingElementCase();
+            Selection sel = ePane.getSelection();
+            if (sel instanceof CellSelection) {
+                CellSelection cs = (CellSelection) sel;
+                int cellRectangleCount = cs.getCellRectangleCount();
+                for (int rect = 0; rect < cellRectangleCount; rect++) {
+                    Rectangle cellRectangle = cs.getCellRectangle(rect);
+                    for (int j = 0; j < cellRectangle.height; j++) {
+                        for (int i = 0; i < cellRectangle.width; i++) {
+                            int column = i + cellRectangle.x;
+                            int row = j + cellRectangle.y;
+                            TemplateCellElement cellElement = elementCase.getTemplateCellElement(column, row);
+                            if (cellElement == null) {
+                                cellElement = new DefaultTemplateCellElement(column, row);
+                                elementCase.addCellElement(cellElement);
+                            } else if (cellElement.getPresent() != null) {
+                                cellElement.setPresent(null);
+                            }
+                        }
+                    }
+                }
                 return true;
             } else {
                 return false;

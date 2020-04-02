@@ -77,8 +77,8 @@ public class ComboCheckBox extends UIComboBox {
         protected ComboCheckBox comboBox;
         protected JScrollPane scrollPane;
 
-        protected MouseListener mouseListener;
-        protected MouseMotionListener mouseMotionListener;
+        protected MouseListener checkListMouseListener;
+        protected MouseMotionListener checkListMouseMotionListener;
 
         public CheckListPopup(JComboBox comboBox) {
             this.comboBox = (ComboCheckBox) comboBox;
@@ -157,22 +157,22 @@ public class ComboCheckBox extends UIComboBox {
 
         @Override
         public MouseListener getMouseListener() {
-            if (mouseListener == null) {
-                mouseListener = new InvocationMouseHandler();
+            if (checkListMouseListener == null) {
+                checkListMouseListener = new InvocationMouseHandler();
             }
-            return mouseListener;
+            return checkListMouseListener;
         }
 
         public MouseMotionListener getMouseMotionListener() {
-            if (mouseMotionListener == null) {
-                mouseMotionListener = new MouseMotionAdapter() {
+            if (checkListMouseMotionListener == null) {
+                checkListMouseMotionListener = new MouseMotionAdapter() {
                 };
             }
-            return mouseMotionListener;
+            return checkListMouseMotionListener;
         }
 
         public void uninstallingUI() {
-
+            // do nothing
         }
 
         protected class InvocationMouseHandler extends MouseAdapter {

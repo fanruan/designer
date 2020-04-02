@@ -407,8 +407,7 @@ public class HistoryTemplateListCache implements CallbackEvent {
         JTemplate<?, ?> jt = getCurrentEditingTemplate();
         boolean access = jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
         if (access) {
-            closeSelectedReport(jt);
-            DesignerContext.getDesignerFrame().openTemplate(jt.getEditingFILE());
+            jt.refreshResource();
         }
     }
 
