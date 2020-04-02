@@ -6,6 +6,7 @@ import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -13,8 +14,6 @@ import com.fr.design.mainframe.chart.gui.style.series.ColorPickerPaneWithFormula
 import com.fr.design.mainframe.chart.gui.style.series.UIColorPickerPane;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
-import com.fr.design.i18n.Toolkit;
-
 import com.fr.plugin.chart.attr.GaugeDetailStyle;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.plugin.chart.base.AttrLabelDetail;
@@ -22,6 +21,7 @@ import com.fr.plugin.chart.gauge.VanChartGaugePlot;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.stable.Constants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
 import javax.swing.JPanel;
@@ -74,7 +74,18 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     private JPanel createGaugeLayoutPane() {
         gaugeLayout = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation"),gaugeLayout);
+
+        String title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Orientation");
+
+        if (plot instanceof VanChartGaugePlot) {
+            VanChartGaugePlot gaugePlot = (VanChartGaugePlot) plot;
+
+            if (gaugePlot.getGaugeStyle() == GaugeStyle.THERMOMETER) {
+                title = Toolkit.i18nText("Fine-Design_Report_Page_Setup_Sort_Orientation");
+            }
+        }
+
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(title, gaugeLayout);
         gaugeLayout.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -294,5 +305,10 @@ public class VanChartGaugeSeriesPane extends VanChartAbstractPlotSeriesPane {
 
             colorPickerPane.updateBean(detailStyle.getHotAreaColor());
         }
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 }

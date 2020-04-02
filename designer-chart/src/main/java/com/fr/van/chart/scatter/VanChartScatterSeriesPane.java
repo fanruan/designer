@@ -35,7 +35,6 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createLineTypePane()},
                 new Component[]{createMarkerPane()},
                 new Component[]{createStackedAndAxisPane()},

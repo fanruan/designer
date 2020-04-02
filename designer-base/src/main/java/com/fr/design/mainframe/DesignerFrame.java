@@ -1104,8 +1104,11 @@ public class DesignerFrame extends JFrame implements JTemplateActionListener, Ta
         if (tplFile != null) {
             int index = HistoryTemplateListCache.getInstance().contains(tplFile);
             if (index != -1) {
-                HistoryTemplateListCache.getInstance().getHistoryList().get(index).activeOldJTemplate();
-                return;
+                JTemplate jt = HistoryTemplateListCache.getInstance().getHistoryList().get(index);
+                if (!(jt instanceof JVirtualTemplate)) {
+                    jt.activeOldJTemplate();
+                    return;
+                }
             }
         }
 

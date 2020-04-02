@@ -24,6 +24,8 @@ public class VanChartGaugeAxisPane extends VanChartAxisPane {
         this.setLayout(new BorderLayout());
         gaugeAxisPane = new VanChartAxisScrollPaneWithGauge();
         this.add(gaugeAxisPane, BorderLayout.CENTER);
+
+        gaugeAxisPane.setParentPane(parent);
     }
 
     @Override

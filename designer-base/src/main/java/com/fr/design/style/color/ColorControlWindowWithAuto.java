@@ -16,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,6 +46,8 @@ public abstract class ColorControlWindowWithAuto extends ColorControlWindow {
 
     class ColorSelectionPopupPaneWithAuto extends NewColorSelectPane {
         private static final long serialVersionUID = 7822856562329146354L;
+
+        private final static int BUTTON_HEIGHT = 15;
 
         public ColorSelectionPopupPaneWithAuto(boolean isSupportTransparent) {
             super(isSupportTransparent);
@@ -109,6 +112,13 @@ public abstract class ColorControlWindowWithAuto extends ColorControlWindow {
             } else {
                 this.add(autoButton, BorderLayout.NORTH);
             }
+        }
+
+        public Dimension getPreferredSize() {
+            if (isSupportTransparent()) {
+                return new Dimension(super.getPreferredSize().width, TRANSPARENT_WINDOW_HEIGHT + BUTTON_HEIGHT);
+            }
+            return new Dimension(super.getPreferredSize().width, WINDOW_HEIGHT + BUTTON_HEIGHT);
         }
 
     }
