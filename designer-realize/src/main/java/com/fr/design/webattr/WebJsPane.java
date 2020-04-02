@@ -15,6 +15,7 @@ import com.fr.file.filter.ChooseFileFilter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.CoreConstants;
 import com.fr.stable.StringUtils;
+import com.fr.stable.project.ProjectConstants;
 import com.fr.web.attr.ReportWebAttr;
 
 import javax.swing.BorderFactory;
@@ -97,7 +98,8 @@ public class WebJsPane extends BasicPane {
 		northPane.add(localText);
 		northPane.add(chooseFile);
 		firstnorth.add(northPane,BorderLayout.NORTH);
-		infor1 = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
+		infor1 = FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1",
+																						 ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBAPP_NAME));
 		infor1.setForeground(new Color(207, 42, 39));
 		firstnorth.add(infor1,BorderLayout.CENTER);
 
@@ -107,7 +109,7 @@ public class WebJsPane extends BasicPane {
 		centerPane.add(urlText);
 		centerPane.add(testConnection);
 		secondnorth.add(centerPane,BorderLayout.NORTH);
-		infor2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2"));
+		infor2 = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2", ProjectConstants.WEBAPP_NAME));
 		infor2.setForeground(new Color(207, 42, 39));
 		secondnorth.add(infor2,BorderLayout.CENTER);
 
@@ -221,13 +223,13 @@ public class WebJsPane extends BasicPane {
 				localRadioSelectAction();
 				urlFileRadioButton.setForeground(new Color(143, 142, 139));
 				localFileRadioButton.setForeground(Color.black);
-				infor1.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1"));
+				infor1.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING1", ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBAPP_NAME));
 				infor2.setText(" ");
 			} else if (urlFileRadioButton.isSelected()) {
 				urlRadioSelectAction();
 				localFileRadioButton.setForeground(new Color(143, 142, 139));
 				urlFileRadioButton.setForeground(Color.black);
-				infor2.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2"));
+				infor2.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_JS_WARNING2", ProjectConstants.WEBAPP_NAME));
 				infor1.setText(" ");
 			}
 			if (StringUtils.isEmpty(urlText.getText()) && StringUtils.isEmpty(localText.getText())) {

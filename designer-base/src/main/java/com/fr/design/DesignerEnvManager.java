@@ -8,17 +8,21 @@ import com.fr.base.Utils;
 import com.fr.design.actions.help.alphafine.AlphaFineConfigManager;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.dialog.ErrorDialog;
 import com.fr.design.env.DesignerWorkspaceGenerator;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.DesignerWorkspaceType;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
 import com.fr.design.file.HistoryTemplateListPane;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.locale.impl.ProductImproveMark;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.update.push.DesignerPushUpdateConfigManager;
 import com.fr.design.style.color.ColorSelectConfigManager;
 import com.fr.design.utils.DesignUtils;
+import com.fr.design.utils.DesignerPort;
+import com.fr.exit.DesignerExiter;
 import com.fr.file.FILEFactory;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRLogFormatter;
@@ -81,6 +85,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     private static final String VERSION_80 = "80";
     private static final int CACHINGTEMPLATE_LIMIT = 5;
     private static final String WEB_NAME = "webapps";
+    /**
+     * 指定默认工作空间
+     */
+    public static final String DEFAULT_WORKSPACE_PATH = "fr.designer.workspace.default";
 
     private static DesignerEnvManager designerEnvManager; // gui.
     private String activationKey = null;
@@ -194,6 +202,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 XMLTools.readFileXML(designerEnvManager, designerEnvManager.getDesignerEnvFile());
             } catch (Exception e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                XmlHandler.Self.handle(e);
             }
 
             // james：如果没有env定义，要设置一个默认的
@@ -340,6 +349,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
         } catch (IOException e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            XmlHandler.Self.handle(e);
         } finally {
             if (null != fileWriter) {
                 try {
@@ -554,6 +564,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
 
 
     private String getDefaultenvPath(String installHome) {
+        String defaultWorkspacePath = System.getProperty(DEFAULT_WORKSPACE_PATH);
+        if (defaultWorkspacePath != null) {
+            return defaultWorkspacePath;
+        }
         //这里需要转成反斜杠和生成默认路径一致
         return new File(StableUtils.pathJoin(installHome, WEB_NAME, ProjectConstants.WEBAPP_NAME, ProjectConstants.WEBINF_NAME)).getPath();
     }
@@ -1396,6 +1410,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     /**
      * 对国际化进行校验
      * 非简繁英日韩的默认环境 设计器全部默认为英文版本
+     *
      * @param locale
      * @return
      */
@@ -1545,6 +1560,8 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
                 readDesignerPushUpdateAttr(reader);
             } else if (name.equals(vcsConfigManager.XML_TAG)) {
                 readVcsAttr(reader);
+            } else if (DesignerPort.XML_TAG.equals(name)) {
+                readDesignerPort(reader);
             } else {
                 readLayout(reader, name);
             }
@@ -1736,6 +1753,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         reader.readXMLObject(vcsConfigManager);
     }
 
+    public void readDesignerPort(XMLableReader reader) {
+        reader.readXMLObject(DesignerPort.getInstance());
+    }
+
     /**
      * Write XML.<br>
      * The method will be invoked when save data to XML file.<br>
@@ -1761,6 +1782,7 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         writeOpenDebug(writer);
         writeDesignerPushUpdateAttr(writer);
         writeVcsAttr(writer);
+        writeDesignerPort(writer);
         writer.end();
     }
 
@@ -2010,6 +2032,10 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
         this.vcsConfigManager.writeXML(writer);
     }
 
+    private void writeDesignerPort(XMLPrintWriter writer) {
+        DesignerPort.getInstance().writeXML(writer);
+    }
+
 
     public VcsConfigManager getVcsConfigManager() {
         return vcsConfigManager;
@@ -2018,4 +2044,28 @@ public class DesignerEnvManager implements XMLReadable, XMLWriter {
     public void setVcsConfigManager(VcsConfigManager vcsConfigManager) {
         this.vcsConfigManager = vcsConfigManager;
     }
+
+    enum XmlHandler {
+        Self;
+        public void handle(Throwable throwable) {
+            ErrorDialog dialog = new ErrorDialog(null,
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Apology_Message"),
+                                                 Toolkit.i18nText("Fine-Design_Error_Start_Report"),
+                                                 throwable.getMessage()) {
+                @Override
+                protected void okEvent() {
+                    dispose();
+                    DesignerExiter.getInstance().execute();
+                }
+
+                @Override
+                protected void restartEvent() {
+                    dispose();
+                    RestartHelper.restart();
+                }
+            };
+            dialog.setVisible(true);
+            DesignerExiter.getInstance().execute();
+        }
+    };
 }

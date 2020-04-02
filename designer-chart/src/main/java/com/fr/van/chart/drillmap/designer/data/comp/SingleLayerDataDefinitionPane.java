@@ -6,7 +6,6 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
 
-
 import java.awt.BorderLayout;
 
 /**
@@ -76,6 +75,11 @@ public class SingleLayerDataDefinitionPane extends FurtherBasicBeanPane<ChartCol
     @Override
     public void populateBean(ChartCollection ob) {
         normalChartDataPane.populate(ob);
+
+    }
+
+    public void populateBean(ChartCollection ob, int level) {
+        normalChartDataPane.populate(ob, level);
 
     }
 

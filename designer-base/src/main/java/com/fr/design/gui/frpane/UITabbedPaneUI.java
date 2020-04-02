@@ -330,7 +330,9 @@ public class UITabbedPaneUI extends BasicTabbedPaneUI {
         g.drawLine(x + 1, y + h - 2, x + w - 3, y + h - 2); // bottom
     }
 
+    @Override
     protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+        // do nothing
     }
 
     /**

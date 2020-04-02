@@ -93,7 +93,7 @@ public class FormCreatorDropTarget extends DropTarget {
             //SetSelection时要确保选中的是最顶层的布局
             //tab布局添加的时候是初始化了XWCardLayout，实际上最顶层的布局是XWCardMainBorderLayout
             XCreator addingXCreator = addingModel.getXCreator();
-            Widget widget = (addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
+            Widget widget = (addingXCreator.getBackupParent() != null && addingXCreator.getTopLayout() != null) ? (addingXCreator.getTopLayout().toData()) : addingXCreator.toData();
             //图表埋点
             dealChartBuryingPoint(widget);
             if (addingXCreator.isShared()) {
@@ -257,6 +257,7 @@ public class FormCreatorDropTarget extends DropTarget {
      */
     @Override
     public synchronized void dropActionChanged(DropTargetDragEvent dtde) {
+        //do nothing
     }
 
     /**

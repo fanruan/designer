@@ -15,13 +15,13 @@ import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.heatmap.designer.other.VanChartHeatMapConditionPane;
 import com.fr.van.chart.heatmap.designer.style.VanChartHeatMapSeriesPane;
 import com.fr.van.chart.heatmap.designer.type.VanChartHeatMapTypePane;
-import com.fr.van.chart.map.MapIndependentVanChartInterface;
+import com.fr.van.chart.map.VanMapChartTypeUI;
 import com.fr.van.chart.map.designer.style.VanChartMapStylePane;
 
 /**
  * Created by Mitisky on 16/10/20.
  */
-public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartInterface {
+public class VanHeatMapChartTypeUI extends VanMapChartTypeUI {
 
     /**
      * 图标路径
@@ -56,28 +56,48 @@ public class HeatMapIndependentVanChartInterface extends MapIndependentVanChartI
         return new VanChartHeatMapTypePane();
     }
 
+    //图表数据结构 恢复用注释。删除下面方法。
     @Override
-    protected boolean areaPlot(Plot plot){
+    protected boolean areaPlot(Plot plot) {
         return false;
     }
 
-    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot){
+    //图表数据结构 恢复用注释。取消注释。
+//    @Override
+//    public ChartDataPane getChartDataPane(AttributeChangeListener listener) {
+//        return new AbstractVanSingleDataPane(listener) {
+//            @Override
+//            protected SingleDataPane createSingleDataPane() {
+//                PointMapDataSetFieldsPane pointMapDataSetFieldsPane = new PointMapDataSetFieldsPane();
+//                pointMapDataSetFieldsPane.setChart(getVanChart());
+//                return new SingleDataPane(pointMapDataSetFieldsPane, new PointMapCellDataFieldsPane());
+//            }
+//        };
+//    }
+
+    public BasicBeanPane<Plot> getPlotSeriesPane(ChartStylePane parent, Plot plot) {
         return new VanChartHeatMapSeriesPane(parent, plot);
     }
 
-    public ConditionAttributesPane getPlotConditionPane(Plot plot){
+    public ConditionAttributesPane getPlotConditionPane(Plot plot) {
         return new VanChartHeatMapConditionPane(plot);
     }
 
     /**
      * 图表的属性界面数组
+     *
      * @return 属性界面
      */
-    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener){
+    public AbstractChartAttrPane[] getAttrPaneArray(AttributeChangeListener listener) {
         VanChartStylePane stylePane = new VanChartMapStylePane(listener);
-        VanChartOtherPane otherPane = new VanChartOtherPane(){
+        VanChartOtherPane otherPane = new VanChartOtherPane() {
             protected BasicBeanPane<Chart> createInteractivePane() {
-                return new VanChartInteractivePaneWithMapZoom();
+                return new VanChartInteractivePaneWithMapZoom() {
+                    @Override
+                    protected boolean isCurrentChartSupportLargeDataMode() {
+                        return true;
+                    }
+                };
             }
         };
         return new AbstractChartAttrPane[]{stylePane, otherPane};

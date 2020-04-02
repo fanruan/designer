@@ -12,23 +12,24 @@ import java.awt.Component;
 /**
  * 折线图的系列界面
  */
-public class VanChartLineSeriesPane extends VanChartAbstractPlotSeriesPane{
+public class VanChartLineSeriesPane extends VanChartAbstractPlotSeriesPane {
     private static final long serialVersionUID = 5595016643808487932L;
 
-    public VanChartLineSeriesPane(ChartStylePane parent, Plot plot){
+    public VanChartLineSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
 
-    protected JPanel getContentInPlotType(){
+    protected JPanel getContentInPlotType() {
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p,p,p,p,p};
+        double[] row = {p, p, p, p, p, p, p, p};
         double[] col = {f};
 
         Component[][] components = new Component[][]{
                 new Component[]{createLineTypePane()},
                 new Component[]{createMarkerPane()},
                 new Component[]{createStackedAndAxisPane()},
+                //大数据模式 恢复用注释。下面1行删除。
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createTrendLinePane()},
         };

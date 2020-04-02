@@ -25,15 +25,30 @@ public class FILEChooserPaneTest {
 
         ChooseFileFilter chooseFileFilter2 = new ChooseFileFilter(FileExtension.CPTX, StringUtils.EMPTY);
         String result3 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cpt", chooseFileFilter2).get();
-        Assert.assertEquals("WorkBook1.cptx", result3);
+        Assert.assertEquals("WorkBook1.cpt.cptx", result3);
 
         ChooseFileFilter chooseFileFilter3 = new ChooseFileFilter(FileExtension.CPT, StringUtils.EMPTY);
         String result4 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cptx", chooseFileFilter3).get();
-        Assert.assertEquals("WorkBook1.cpt", result4);
+        Assert.assertEquals("WorkBook1.cptx.cpt", result4);
 
         ChooseFileFilter chooseFileFilter5 = new ChooseFileFilter(FileExtension.CPTX, StringUtils.EMPTY);
         String result5 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.cptx", chooseFileFilter5).get();
         Assert.assertEquals("WorkBook1.cptx", result5);
+
+        ChooseFileFilter chooseFileFilter6 = new ChooseFileFilter(FileExtension.CPT, StringUtils.EMPTY);
+        String result6 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1.xls", chooseFileFilter6).get();
+        Assert.assertEquals("WorkBook1.xls.cpt", result6);
+
+        ChooseFileFilter chooseFileFilter7 = new ChooseFileFilter(FileExtension.XLS, StringUtils.EMPTY);
+        chooseFileFilter7.addExtension(".xlsx");
+        String result7 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1", chooseFileFilter7).get();
+        Assert.assertEquals("WorkBook1.xls", result7);
+
+        ChooseFileFilter chooseFileFilter8 = new ChooseFileFilter(FileExtension.XLSX, StringUtils.EMPTY);
+        chooseFileFilter8.addExtension(".xls");
+        String result8 = Reflect.on(chooserPane).call("calProperFileName", "WorkBook1", chooseFileFilter8).get();
+        Assert.assertEquals("WorkBook1.xlsx", result8);
+
     }
 
 }

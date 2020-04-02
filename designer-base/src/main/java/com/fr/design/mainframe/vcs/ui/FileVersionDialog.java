@@ -31,7 +31,7 @@ import java.util.List;
 
 
 public class FileVersionDialog extends UIDialog {
-    public static final long DELAY = 24 * 60 * 60 * 1000;
+    public static final long DELAY = 24 * 60 * 60 * 1000L;
     private UIButton okBtn;
     private UIButton cancelBtn;
     private DateEditor dateEditor;

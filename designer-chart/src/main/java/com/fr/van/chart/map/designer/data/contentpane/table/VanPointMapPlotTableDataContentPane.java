@@ -2,13 +2,14 @@ package com.fr.van.chart.map.designer.data.contentpane.table;
 
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
+import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
-
 import com.fr.plugin.chart.map.data.VanMapTableDefinitionProvider;
 import com.fr.van.chart.map.designer.data.component.table.AbstractLongLatAreaPane;
+import com.fr.van.chart.map.designer.data.component.table.AreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapAreaPane;
 import com.fr.van.chart.map.designer.data.component.table.PointMapLongLatAreaPane;
 
@@ -16,11 +17,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.List;
 
 /**
  * Created by Mitisky on 16/5/17.
@@ -41,7 +42,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
 
     protected JPanel createAreaNamePane() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(0,LEFT_GAP,V_GAP,0));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, LEFT_GAP, V_GAP, 0));
         panel.add(longLatTableComboPane, BorderLayout.CENTER);
         return panel;
     }
@@ -56,7 +57,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
         longLatTableComboPane.checkBoxUse(hasUse);
     }
 
-    protected boolean isAreaSelectedItem(){
+    protected boolean isAreaSelectedItem() {
         return longLatTableComboPane.isSelectedItem();
     }
 
@@ -92,12 +93,12 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
             double f = TableLayout.FILL;
 
             this.setLayout(new BorderLayout(0, 5));
-            centerPane = new JPanel(new CardLayout()){
+            centerPane = new JPanel(new CardLayout()) {
                 @Override
                 public Dimension getPreferredSize() {
-                    if (locationType.getSelectedIndex() == 0){
+                    if (locationType.getSelectedIndex() == 0) {
                         return new Dimension(180, (int) areaNamePane.getPreferredSize().getHeight());
-                    }else {
+                    } else {
                         return new Dimension(180, (int) longLatAreaPane.getPreferredSize().getHeight());
                     }
                 }
@@ -124,17 +125,17 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
             double[] columnSize = {p, f};
             double[] rowSize = {p};
             Component[][] components = new Component[][]{
-                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Geographic")),locationType},
+                    new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Geographic")), locationType},
             };
 
-            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,30,6);
+            JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 30, 6);
 
             this.add(panel, BorderLayout.NORTH);
             this.add(centerPane, BorderLayout.CENTER);
 
         }
 
-        public void fireCheckSeriesUse(boolean hasUse){
+        public void fireCheckSeriesUse(boolean hasUse) {
             checkSeriseUse(hasUse);
         }
 
@@ -142,7 +143,7 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
             CardLayout cardLayout = (CardLayout) centerPane.getLayout();
             if (locationType.getSelectedIndex() == 0) {
                 cardLayout.show(centerPane, "area");
-            }else {
+            } else {
                 cardLayout.show(centerPane, "longLat");
             }
             fireCheckSeriesUse(true);
@@ -177,18 +178,18 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
 
             if (locationType.getSelectedIndex() == 0) {
                 areaNamePane.populate(mapTableDefinitionProvider);
-            }else {
+            } else {
                 longLatAreaPane.populate(mapTableDefinitionProvider);
             }
             checkCenterPane();
         }
 
-        public void updateBean(VanMapTableDefinitionProvider mapTableDefinitionProvider){
+        public void updateBean(VanMapTableDefinitionProvider mapTableDefinitionProvider) {
             boolean useAreaName = locationType.getSelectedIndex() == 0;
             mapTableDefinitionProvider.setUseAreaName(useAreaName);
             if (useAreaName) {
                 areaNamePane.update(mapTableDefinitionProvider);
-            }else {
+            } else {
                 longLatAreaPane.update(mapTableDefinitionProvider);
             }
 
@@ -206,16 +207,26 @@ public class VanPointMapPlotTableDataContentPane extends VanAreaMapPlotTableData
         }
 
         public boolean isSelectedItem() {
-            if (locationType.getSelectedIndex() == 0){
+            if (locationType.getSelectedIndex() == 0) {
                 return areaNamePane.isSelectedItem();
-            }else {
+            } else {
                 return longLatAreaPane.isSelectedItem();
             }
         }
     }
 
     protected AbstractLongLatAreaPane createAreaPane(LongLatAreaTableComboPane longLatAreaTableComboPane) {
-        return new PointMapAreaPane(longLatAreaTableComboPane);
+        return new PointMapAreaPane(longLatAreaTableComboPane) {
+            protected void initAreaPane(VanPointMapPlotTableDataContentPane.LongLatAreaTableComboPane parentPane) {
+                areaPane = new AreaPane(parentPane) {
+                    protected Component[][] getComponent () {
+                        return new Component[][]{
+                                new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), VanPointMapPlotTableDataContentPane.this.createAreaPanel(areaNameCom)}
+                        };
+                    }
+                };
+            }
+        };
     }
 
     protected AbstractLongLatAreaPane createLongLatAreaPane(LongLatAreaTableComboPane longLatAreaTableComboPane) {

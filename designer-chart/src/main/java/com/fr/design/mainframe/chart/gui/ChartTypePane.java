@@ -294,13 +294,14 @@ public class ChartTypePane extends AbstractChartAttrPane{
 	 * @param collection
 	 */
 	public void reLayoutEditPane(String lastPlotID, ChartCollection collection){
+		if (editPane == null) {
+			return;
+		}
 		ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
 		String plotID = chart.getID();
 		boolean isUseDefault = ChartTypeInterfaceManager.getInstance().isUseDefaultPane(plotID);
-		if (editPane != null && editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))){
+		if (editPane.isDefaultPane() != isUseDefault || (!isUseDefault && !ComparatorUtils.equals(lastPlotID, plotID))) {
 			editPane.reLayout(chart);
-		}else {
-			throw new IllegalArgumentException("editPane can not be null.");
 		}
 	}
 

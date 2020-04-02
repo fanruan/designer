@@ -9,5 +9,6 @@ import javax.swing.JPanel;
  */
 public abstract class AbstractLongLatAreaPane extends JPanel {
     public abstract void populate(VanMapReportDefinition vanMapReportDefinition);
+
     public abstract void update(VanMapReportDefinition vanMapReportDefinition);
 }

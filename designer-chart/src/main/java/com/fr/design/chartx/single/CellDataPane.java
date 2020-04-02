@@ -43,6 +43,11 @@ public class CellDataPane extends FurtherBasicBeanPane<CellDataDefinition> {
 
     @Override
     public void populateBean(CellDataDefinition ob) {
+
+        if (ob == null || ob.getColumnFieldCollection() == null) {
+            return;
+        }
+
         cellDataFieldsPane.populateBean(ob.getColumnFieldCollection());
     }
 

@@ -29,5 +29,6 @@ public class ShopDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
+        // do nothing
     }
 }

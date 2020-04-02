@@ -25,7 +25,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	private static final long serialVersionUID = 2595221900000305396L;
 
 	private static final int GISMAP = 0;
-	
+
 	private UITextField keyInput;
 
 	public GisMapPlotPane(){
@@ -34,7 +34,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
         Component[][] components = null;
 
 		styleList = createStyleList();
-		
+
 		checkDemosBackground();
 
 		JPanel layoutPane = FRGUIPaneFactory.createNColumnGridInnerContainer_S_Pane(4);
@@ -45,7 +45,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 				tmp.setDemoGroup(styleList.toArray(new ChartSelectDemoPane[styleList.size()]));
 			}
 		}
-		
+
 		keyInput = new UITextField();
 
         double[] columnSize = { f };
@@ -58,16 +58,16 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 					new Component[]{keyInput},
 			};
 		}
-		
+
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
         this.setLayout(new BorderLayout());
         this.add(panel,BorderLayout.CENTER);
-	
+
 	}
 
 	@Override
 	public void reLayout(String chartID){
-
+		//do nothing
 	}
 
     @Override
@@ -93,7 +93,8 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 		return ChartConstants.GIS_CHAER;
 	}
 
-	protected String[] getTypeLayoutPath() {
+	@Override
+    protected String[] getTypeLayoutPath() {
         return new String[]{"/com/fr/design/images/chart/GisMapPlot/layout/0.png",
                 "/com/fr/design/images/chart/GisMapPlot/layout/1.png",
         };
@@ -110,6 +111,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	/**
 	 * 保存界面属性
 	 */
+	@Override
 	public void updateBean(Chart chart) {
         if(needsResetChart(chart)){
             resetChart(chart);
@@ -126,14 +128,14 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 		} else {
 			plot = new GisMapPlot();
 		}
-		
+
 		try {
 			chart.switchPlot((Plot)plot.clone());
 		} catch (CloneNotSupportedException e) {
 			FineLoggerFactory.getLogger().error("Error In LineChart");
 			chart.switchPlot(new GisMapPlot());
 		}
-		
+
 		plot = (GisMapPlot) chart.getPlot();
 		boolean index = plot.isGisType();
 		if(styleList.get(BAIDU).isPressing){
@@ -141,7 +143,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 		}else{
 			plot.setGisType(false);
 		}
-		
+
 		if(index != plot.isGisType()){
 			if(plot.isGisType()){
 				this.keyInput.setText(plot.getBaiduKey());
@@ -161,6 +163,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 	/**
 	 * 更新界面内容
 	 */
+	@Override
 	public void populateBean(Chart chart) {
 		GisMapPlot plot = (GisMapPlot) chart.getPlot();
 
@@ -168,7 +171,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
 			styleList.get(BAIDU).isPressing = true;
             styleList.get(GOOGLE).isPressing = false;
 			keyInput.setText(plot.getBaiduKey());
-			
+
 		}else{
             styleList.get(GOOGLE).isPressing = true;
             styleList.get(BAIDU).isPressing  =false;
@@ -182,6 +185,7 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
      * 界面标题
      * @return 标题
      */
+	@Override
 	public String title4PopupWindow() {
 		return Toolkit.i18nText("Fine-Design_Chart_GIS_Map_OLD");
 	}
@@ -195,7 +199,8 @@ public class GisMapPlotPane extends AbstractDeprecatedChartTypePane {
     }
 
 
-    public Chart getDefaultChart() {
+    @Override
+	public Chart getDefaultChart() {
         return GisMapIndependentChart.gisChartTypes[0];
     }
 }
