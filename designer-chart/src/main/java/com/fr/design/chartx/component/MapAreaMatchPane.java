@@ -118,6 +118,7 @@ public class MapAreaMatchPane extends BasicBeanPane<MapMatchResult> {
         matchAreaTable.setItems(treeNodeAndItems.getSecond());
 
         matchResultTable = new MatchResultTable(new Object[0][3], HEADER_WITH_EMPTY);
+        matchResultTable.setItems(treeNodeAndItems.getSecond());
 
         DefaultTableModel model = new DefaultTableModel(new Object[0][3], HEADER_WITH_EMPTY);
         matchResultTable.setModel(model);
