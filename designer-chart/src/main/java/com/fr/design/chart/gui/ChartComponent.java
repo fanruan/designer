@@ -31,7 +31,7 @@ import java.awt.event.MouseMotionListener;
 * 类说明: 事件说明: 工具栏编辑--> 是刷新ChartComponent 然后响应整个设计块的改变事件
  				       右键编辑 ---> 刷新ChartCompment  刷新对应的工具栏(加入事件) 然后响应整个设计块的改变事件
  */
-public class ChartComponent extends MiddleChartComponent implements MouseListener, MouseMotionListener, CallbackEvent{
+public class ChartComponent extends MiddleChartComponent implements MouseListener, MouseMotionListener{
 	private static final long serialVersionUID = 744164838619052097L;
 	private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
     private ChartCollection chartCollection4Design;
@@ -257,12 +257,7 @@ public class ChartComponent extends MiddleChartComponent implements MouseListene
             if (resolution == 0){
                 resolution = ScreenResolution.getScreenResolution();
             }
-            painter.paint(g2d, chartWidth, chartHeight, resolution, null, this);
+            painter.paint(g2d, chartWidth, chartHeight, resolution, null);
         }
-    }
-
-    @Override
-    public void callback() {
-        this.repaint();
     }
 }
