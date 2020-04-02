@@ -337,9 +337,13 @@ public class VanChartPlotLegendPane extends BasicPane {
     }
 
     protected boolean isVisibleLayoutPane() {
-        int locationIndex = getLegendLocation().getSelectedIndex();
+        if (customFloatPositionButton.isSelected()) {
+            return false;
+        }
 
-        return !getCustomFloatPositionButton().isSelected() && (locationIndex == 0 || locationIndex == 1);
+        int locationIntValue = getLegendLocation().getSelectedItem();
+
+        return locationIntValue == Constants.TOP || locationIntValue == Constants.BOTTOM;
     }
 
     //检查显示策略界面是否可用
