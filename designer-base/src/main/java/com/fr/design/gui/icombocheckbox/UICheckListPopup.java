@@ -192,7 +192,8 @@ public class UICheckListPopup extends UIPopupMenu {
         List<Object> allValue = Arrays.asList(values);
         for (Object value : selectedValues.keySet()) {
             int index = allValue.indexOf(value);
-            checkBoxList.get(index + 1).setSelected(selectedValues.get(value));
+            index = supportSelectAll ? index + 1 : index;
+            checkBoxList.get(index).setSelected(selectedValues.get(value));
         }
     }
 
@@ -204,15 +205,19 @@ public class UICheckListPopup extends UIPopupMenu {
     public Object[] getSelectedValues() {
         List<Object> selectedValues = new ArrayList<Object>();
         int selectCount = 0;
-
-        for (int i = 1; i < checkBoxList.size(); i++) {
+        int startIndex = supportSelectAll ? 1 : 0;
+        for (int i = startIndex; i < checkBoxList.size(); i++) {
             if (checkBoxList.get(i).isSelected()) {
-                selectedValues.add(values[i - 1]);
+                int valueIndex = supportSelectAll ? i - 1 : i;
+                selectedValues.add(values[valueIndex]);
                 selectCount++;
             }
         }
+
         //全选半选切换
-        switchSelectIcon(selectCount);
+        if (supportSelectAll) {
+            switchSelectIcon(selectCount);
+        }
 
         return selectedValues.toArray(new Object[selectedValues.size()]);
     }
