@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.dialog.BasicPane;
@@ -20,9 +19,9 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.ChartOtherPane;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.ChartTypePane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -116,6 +115,7 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
                 try {
+                    ChartInfoCollector.getInstance().checkTestChart(collection.getSelectedChartProvider(ChartProvider.class));
                     lastCollection = collection.clone();
                 } catch (CloneNotSupportedException e) {
                     FineLoggerFactory.getLogger().error("error in clone ChartEditPane");
