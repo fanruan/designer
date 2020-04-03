@@ -149,9 +149,6 @@ public class PreferencePane extends BasicPane {
 
     private UIColorButton paginationLineColorTBButton;
 
-    private UICheckBox supportCellEditorDefCheckBox;
-    private UICheckBox isDragPermitedCheckBox;
-
     private UITextField logExportDirectoryField;
 
     private UIComboBox logLevelComboBox, pageLengthComboBox, reportLengthComboBox;
@@ -199,7 +196,6 @@ public class PreferencePane extends BasicPane {
 
         createFunctionPane(generalPane);
         createEditPane(generalPane);
-        createGuiOfGridPane(generalPane);
         createColorSettingPane(generalPane);
         createVcsSettingPane(generalPane);
 
@@ -447,18 +443,6 @@ public class PreferencePane extends BasicPane {
 
     }
 
-    private void createGuiOfGridPane(JPanel generalPane) {
-        // GridPane
-        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Preference_Setting_Grid"));
-        generalPane.add(guiOfGridPane);
-
-        supportCellEditorDefCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Preference_Support_Cell_Editor_Definition"));
-        guiOfGridPane.add(supportCellEditorDefCheckBox);
-
-        isDragPermitedCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Preference_Is_Drag_Permited"));
-        guiOfGridPane.add(isDragPermitedCheckBox);
-    }
-
     private void createColorSettingPane(JPanel generalPane) {
         // Color Setting Pane
         JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Preference_Setting_Colors"));
@@ -696,9 +680,6 @@ public class PreferencePane extends BasicPane {
         useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
         gcEnableCheckBox.setSelected(GcConfig.getInstance().isGcEnable());
         gcButton.setEnabled(gcEnableCheckBox.isSelected());
-        supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
-
-        isDragPermitedCheckBox.setSelected(designerEnvManager.isDragPermited());
 
         gridLineColorTBButton.setColor(designerEnvManager.getGridLineColor());
         paginationLineColorTBButton.setColor(designerEnvManager.getPaginationLineColor());
@@ -768,11 +749,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setDefaultStringToFormula(defaultStringToFormulaBox.isSelected());
 
-        designerEnvManager.setSupportCellEditorDef(supportCellEditorDefCheckBox.isSelected());
-
         designerEnvManager.setAutoCompleteShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : shortCutLabel.getText());
-
-        designerEnvManager.setDragPermited(isDragPermitedCheckBox.isSelected());
 
         designerEnvManager.setGridLineColor(gridLineColorTBButton.getColor());
 
