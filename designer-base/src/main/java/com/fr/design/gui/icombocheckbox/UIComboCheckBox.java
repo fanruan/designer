@@ -59,8 +59,18 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
     private String multiComboName = StringUtils.EMPTY;
     private boolean showOmitText = true;
 
+    private boolean supportSelectAll = true;
+
     public UIComboCheckBox(Object[] value) {
-        this(value, DEFAULT_VALUE_SPERATOR);
+        this(value, DEFAULT_VALUE_SPERATOR, true);
+    }
+
+    public UIComboCheckBox(Object[] value, boolean supportSelectAll) {
+        this(value, DEFAULT_VALUE_SPERATOR, supportSelectAll);
+    }
+
+    public UIComboCheckBox(Object[] values, String valueSperator) {
+        this(values, valueSperator, true);
     }
 
     /**
@@ -69,8 +79,9 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
      * @param value
      * @param valueSperator
      */
-    public UIComboCheckBox(Object[] value, String valueSperator) {
+    public UIComboCheckBox(Object[] value, String valueSperator, boolean supportSelectAll) {
         values = value;
+        this.supportSelectAll = supportSelectAll;
         this.valueSperator = valueSperator;
         initComponent();
     }
@@ -102,7 +113,7 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
 
     private void initComponent() {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        this.popup = new UICheckListPopup(values);
+        this.popup = new UICheckListPopup(values, supportSelectAll);
         this.popup.addActionListener(new PopupAction());
         this.editor = createEditor();
         this.arrowButton = createArrowButton();

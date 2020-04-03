@@ -36,14 +36,20 @@ public class UICheckListPopup extends UIPopupMenu {
     private UIScrollPane jScrollPane;
     private Color mouseEnteredColor = UIConstants.CHECKBOX_HOVER_SELECTED;
     private int maxDisplayNumber = 8;
+    private boolean supportSelectAll = true;
 
     public static final String COMMIT_EVENT = "commit";
-    public static final String SELECT_ALL = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Choose_All");
+    private static final String SELECT_ALL = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Choose_All");
     private static final int CHECKBOX_HEIGHT = 25;
 
-    public UICheckListPopup(Object[] value) {
+    public UICheckListPopup(Object[] values) {
+        this(values, true);
+    }
+
+    public UICheckListPopup(Object[] value, boolean supportSelectAll) {
         super();
         values = value;
+        this.supportSelectAll = supportSelectAll;
         initComponent();
     }
 
@@ -73,7 +79,9 @@ public class UICheckListPopup extends UIPopupMenu {
         checkBoxList.clear();
 
         //全选加在第一个位置
-        addOneCheckValue(SELECT_ALL);
+        if (supportSelectAll) {
+            addOneCheckValue(SELECT_ALL);
+        }
         for (Object checkValue : value) {
             addOneCheckValue(checkValue);
         }
@@ -146,7 +154,7 @@ public class UICheckListPopup extends UIPopupMenu {
     private void addSelectListener() {
         for (int i = 0; i < checkBoxList.size(); i++) {
             JCheckBox checkBox = checkBoxList.get(i);
-            if (i == 0) {
+            if (supportSelectAll && i == 0) {
                 checkBox.addItemListener(new ItemListener() {
                     @Override
                     public void itemStateChanged(ItemEvent e) {
