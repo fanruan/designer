@@ -115,12 +115,6 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
 
-                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
-                if (vanChart != null) {
-                    //此处画图
-                    vanChart.demoImgEvent(true);
-                }
-
                 try {
                     lastCollection = collection.clone();
                 } catch (CloneNotSupportedException e) {

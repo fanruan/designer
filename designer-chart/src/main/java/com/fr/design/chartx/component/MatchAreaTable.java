@@ -1,6 +1,5 @@
 package com.fr.design.chartx.component;
 
-import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.GeneralUtils;
 import com.fr.plugin.chart.map.server.ChartGEOJSONHelper;
@@ -63,6 +62,16 @@ public class MatchAreaTable extends JTable {
         this.areaNameIndex = areaNameIndex;
     }
 
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        //第一列不可编辑
+        int col = convertColumnIndexToModel(column);
+        if (col == 0) {
+            return false;
+        }
+        return true;
+    }
+
     public void setModel(TableModel dataModel) {
         super.setModel(dataModel);
 
@@ -70,7 +79,6 @@ public class MatchAreaTable extends JTable {
             items = new HashSet<>();
         }
         TableColumnModel columnModel = getColumnModel();
-        columnModel.getColumn(0).setCellEditor(new UILabelEditor());
         columnModel.getColumn(1).setCellEditor(new UIComboBoxRenderAndEditor());
         columnModel.getColumn(1).setCellRenderer(new UIComboBoxRenderAndEditor());
     }
@@ -129,22 +137,6 @@ public class MatchAreaTable extends JTable {
         public Object getCellEditorValue() {
             comboBox.resetText();
             return comboBox.getSelectedItem();
-        }
-    }
-
-    public static class UILabelEditor extends AbstractCellEditor implements TableCellEditor {
-
-        UILabel uiLabel;
-
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected,
-                                                     int row, int column) {
-            uiLabel = new UILabel(GeneralUtils.objectToString(value));
-            return uiLabel;
-        }
-
-        public Object getCellEditorValue() {
-            return uiLabel.getText();
         }
     }
 }
