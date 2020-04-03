@@ -111,7 +111,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             //切换图表时，数据配置不变,分类个数也不变
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
             //切换类型埋点
-            ChartInfoCollector.getInstance().updateChartTypeTime(chart);
+            ChartInfoCollector.getInstance().updateChartTypeTime(chart, oldPlot.getPlotID());
 
         }
         if(chart instanceof VanChart

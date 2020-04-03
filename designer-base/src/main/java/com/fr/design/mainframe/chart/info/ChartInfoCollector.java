@@ -53,21 +53,25 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
     }
 
     public void collection(ChartProvider chartProvider, String createTime) {
+        collection(chartProvider, createTime, false);
+    }
+
+    public void collection(ChartProvider chartProvider, String createTime, boolean isReuse) {
         if (chartProvider instanceof VanChart) {
             VanChart vanChart = (VanChart) chartProvider;
-            collection(vanChart.getUuid(), vanChart.getID(), createTime);
+            collection(vanChart.getUuid(), vanChart.getID(), createTime, isReuse);
         }
     }
 
     /**
      * 新建图表，保存状态
      */
-    public void collection(String chartId, String chartType, String createTime) {
+    public void collection(String chartId, String chartType, String createTime, boolean isReuse) {
         if (!shouldCollectInfo()) {
             return;
         }
 
-        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType, createTime);
+        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType, createTime, true, isReuse);
         chartInfoCacheMap.put(chartId, chartInfo);
     }
 
@@ -85,7 +89,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         if (!shouldCollectInfo()) {
             return;
         }
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType);
+        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, null);
 
         //更新编辑时间
         chartInfo.updatePropertyTime();
@@ -94,22 +98,22 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         chartInfo.resetIdleDayCount();
     }
 
-    public void updateChartTypeTime(ChartProvider chartProvider) {
+    public void updateChartTypeTime(ChartProvider chartProvider, String oldType) {
         if (chartProvider instanceof VanChart) {
             VanChart vanChart = (VanChart) chartProvider;
-            updateChartTypeTime(vanChart.getUuid(), vanChart.getID());
+            updateChartTypeTime(vanChart.getUuid(), vanChart.getID(), oldType);
         }
     }
 
     /**
      * 图表类型变化，更新类型和类型确认时间
      */
-    public void updateChartTypeTime(String chartId, String chartType) {
+    public void updateChartTypeTime(String chartId, String chartType, String oldType) {
         if (!shouldCollectInfo()) {
             return;
         }
 
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType);
+        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, oldType);
 
         //更新类型确认时间和类型
         chartInfo.updateChartType(chartType);
@@ -118,7 +122,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         chartInfo.resetIdleDayCount();
     }
 
-    private ChartInfo getOrCreateChartInfo(String chartId, String chartType) {
+    private ChartInfo getOrCreateChartInfo(String chartId, String chartType, String oldType) {
         //缓存中有从缓存中拿
         if (chartInfoCacheMap.containsKey(chartId)) {
             return chartInfoCacheMap.get(chartId);
@@ -129,10 +133,28 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
             chartInfoCacheMap.put(chartId, chartInfo);
             return chartInfo;
         }
-        //都有的话创建一个并加入到缓存中
+        //都没有的话创建一个并加入到缓存中
         ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType);
+        if (StringUtils.isNotEmpty(oldType)) {
+            chartInfo.updateFirstType(oldType);
+        }
         chartInfoCacheMap.put(chartId, chartInfo);
         return chartInfo;
+    }
+
+    public void checkTestChart(ChartProvider chartProvider) {
+        if (chartProvider instanceof VanChart) {
+            checkTestChart((VanChart) chartProvider);
+        }
+    }
+
+    public void checkTestChart(VanChart vanChart) {
+        if (!shouldCollectInfo()) {
+            return;
+        }
+        boolean testChart = vanChart.isTestChart();
+        ChartInfo chartInfo = chartInfoCacheMap.get(vanChart.getUuid());
+        chartInfo.setTestChart(testChart);
     }
 
     /**
