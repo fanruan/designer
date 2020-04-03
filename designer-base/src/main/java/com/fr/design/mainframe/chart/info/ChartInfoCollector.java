@@ -149,6 +149,9 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
     }
 
     public void checkTestChart(VanChart vanChart) {
+        if (!shouldCollectInfo()) {
+            return;
+        }
         boolean testChart = vanChart.isTestChart();
         ChartInfo chartInfo = chartInfoCacheMap.get(vanChart.getUuid());
         chartInfo.setTestChart(testChart);
