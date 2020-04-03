@@ -59,9 +59,8 @@ public class VanChartPlotLegendPane extends BasicPane {
     private VanChartFloatPositionPane customFloatPositionPane;
 
     //区域显示策略 恢复用注释。下面4行删除。
-    private UIButtonGroup<Integer> limitSize;
+    private UIButtonGroup<Integer> customSize;
     private UISpinner maxProportion;
-    private UILabel limitSizeTitle;
     private JPanel maxProportionPane;
     //区域显示策略 恢复用注释。取消注释。
     //private LimitPane limitPane;
@@ -286,17 +285,16 @@ public class VanChartPlotLegendPane extends BasicPane {
     private JPanel createDisplayStrategy() {
         //区域显示策略 恢复用注释。开始删除。
         maxProportion = new UISpinner(0, 100, 1, 30);
-        limitSize = new UIButtonGroup<Integer>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Auto"), Toolkit.i18nText("Fine-Design_Chart_Custom")});
-        limitSizeTitle = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"));
+        customSize = new UIButtonGroup<>(new String[]{Toolkit.i18nText("Fine-Design_Chart_Auto"), Toolkit.i18nText("Fine-Design_Chart_Custom")});
 
-        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Area_Size"), limitSize);
+        JPanel limitSizePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Area_Size"), customSize);
         maxProportionPane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Max_Proportion"), maxProportion, TableLayout4VanChartHelper.SECOND_EDIT_AREA_WIDTH);
         maxProportionPane.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 0));
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(limitSizePane, BorderLayout.NORTH);
         panel.add(maxProportionPane, BorderLayout.CENTER);
 
-        limitSize.addActionListener(new ActionListener() {
+        customSize.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkMaxProPortionUse();
@@ -349,7 +347,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     //检查显示策略界面是否可用
     protected void checkDisplayStrategyUse() {
         //区域显示策略 恢复用注释。下面2行删除。
-        limitSize.setEnabled(!customFloatPositionButton.isSelected());
+        customSize.setEnabled(!customFloatPositionButton.isSelected());
         checkMaxProPortionUse();
         //区域显示策略 恢复用注释。取消注释。
 //        GUICoreUtils.setEnabled(limitPane, !customFloatPositionButton.isSelected());
@@ -359,7 +357,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     //区域显示策略 恢复用注释。删除下面方法。
     //检查最大显示占比是否可用
     private void checkMaxProPortionUse() {
-        maxProportionPane.setVisible(limitSize.getSelectedIndex() == 1 && limitSize.isEnabled());
+        maxProportionPane.setVisible(customSize.getSelectedIndex() == 1 && customSize.isEnabled());
     }
 
     protected void checkBoxUse() {
@@ -392,7 +390,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         legend.setFloating(customFloatPositionButton.isSelected());
         legend.setLayout(layoutButton.getSelectedItem());
         //区域显示策略 恢复用注释。下面2行删除。
-        legend.setLimitSize(limitSize.getSelectedIndex() == 1);
+        legend.setCustomSize(customSize.getSelectedIndex() == 1);
         legend.setMaxHeight(maxProportion.getValue());
         //区域显示策略 恢复用注释。取消注释。
         //legend.setLimitAttribute(limitPane.updateBean());
@@ -417,7 +415,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             customFloatPositionPane.setFloatPosition_y(legend.getFloatPercentY());
             layoutButton.setSelectedItem(legend.getLayout());
             //区域显示策略 恢复用注释。下面2行删除。
-            limitSize.setSelectedIndex(legend.isLimitSize() ? 1 : 0);
+            customSize.setSelectedIndex(legend.isCustomSize() ? 1 : 0);
             maxProportion.setValue(legend.getMaxHeight());
             //区域显示策略 恢复用注释。取消注释。
             //limitPane.populateBean(legend.getLimitAttribute());
