@@ -1,5 +1,6 @@
-package com.fr.design.gui.ifilechooser;
+package com.fr.design.gui.ifilechooser.swing;
 
+import com.fr.design.gui.ifilechooser.swing.AbstractFileChooser;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.stable.os.OperatingSystem;
 

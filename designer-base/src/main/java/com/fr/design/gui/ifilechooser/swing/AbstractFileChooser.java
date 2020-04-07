@@ -1,4 +1,4 @@
-package com.fr.design.gui.ifilechooser;
+package com.fr.design.gui.ifilechooser.swing;
 
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
