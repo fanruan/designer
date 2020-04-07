@@ -1,5 +1,6 @@
 package com.fr.design.gui.ifilechooser;
 
+import com.fr.design.gui.ifilechooser.AbstractFileChooser;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.stable.os.OperatingSystem;
 
@@ -126,6 +127,11 @@ public class UINativeFileChooser extends AbstractFileChooser {
         fileDialog.setMode(FileDialog.SAVE);
         fileDialog.setVisible(true);
         return fileDialog.getFile() == null ? JFileChooser.CANCEL_OPTION : JFileChooser.APPROVE_OPTION;
+    }
+
+    @Override
+    public void setExtensionFilter(String file) {
+        fileDialog.setFile(file);
     }
 
     /**

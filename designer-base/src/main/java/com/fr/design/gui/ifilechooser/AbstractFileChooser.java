@@ -91,4 +91,13 @@ public abstract class AbstractFileChooser {
      *
      */
     public abstract int showSaveDialog(Component parent);
+
+
+    /**
+     * https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4031440
+     *
+     * 设置文件名后缀 起到文件过滤的作用 形如 "*.jpg;*.jpeg"
+     *
+     */
+    public abstract void setExtensionFilter(String file);
 }

@@ -5,6 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
+import com.fr.design.gui.ifilechooser.UINativeFileChooser;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.FRWidgetFactory;
@@ -16,20 +17,9 @@ import com.fr.share.ShareConstants;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StringUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -333,10 +323,13 @@ public class FormWidgetDetailPane extends FormDockView{
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JFileChooser fileChooser = new JFileChooser();
+                        UINativeFileChooser fileChooser = new UINativeFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                        fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
+                        FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter(".reu", "reu");
+                        fileChooser.setFileFilter(extensionFilter);
+                        fileChooser.setExtensionFilter("*.reu");
+                        fileChooser.setDialogTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
+                        int returnValue = fileChooser.showOpenDialog(new UILabel());
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);
