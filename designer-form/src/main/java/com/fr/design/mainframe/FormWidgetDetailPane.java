@@ -5,7 +5,7 @@ import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
-import com.fr.design.gui.ifilechooser.FRFileChooserFactory;
+import com.fr.design.gui.ifilechooser.UINativeFileChooser;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.FRWidgetFactory;
@@ -323,10 +323,13 @@ public class FormWidgetDetailPane extends FormDockView{
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JFileChooser fileChooser = FRFileChooserFactory.createFileChooser();
+                        UINativeFileChooser fileChooser = new UINativeFileChooser();
                         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                        fileChooser.setFileFilter(new FileNameExtensionFilter(".reu", "reu"));
-                        int returnValue = fileChooser.showDialog(new UILabel(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
+                        FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter(".reu", "reu");
+                        fileChooser.setFileFilter(extensionFilter);
+                        fileChooser.setExtensionFilter("*.reu");
+                        fileChooser.setDialogTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Select"));
+                        int returnValue = fileChooser.showOpenDialog(new UILabel());
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             final File chosenFile = fileChooser.getSelectedFile();
                             installFromDiskZipFile(chosenFile);
