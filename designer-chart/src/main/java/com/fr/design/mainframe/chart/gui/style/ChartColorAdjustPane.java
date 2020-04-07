@@ -58,8 +58,6 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
     private ChangeListener changeListener;
 
 
-
-
     public ChartColorAdjustPane() {
         this(DEFAULT_COLORS);
     }
@@ -68,10 +66,6 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
         iniListener();
         createColorButton(colors);
         createContentPane();
-    }
-
-    public void updateColor() {
-        updateColor(DEFAULT_COLORS);
     }
 
     public void updateColor(Color[] colors) {
@@ -124,8 +118,9 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
 
     private void createColorButton(Color[] colors) {
         colorButtons.clear();
-        for (Color color : colors) {
-            colorButtons.add(createColorButton(color));
+        int size = Math.min(colors.length, MAX_BUTTON);
+        for (int i = 0; i < size; i++) {
+            colorButtons.add(createColorButton(colors[i]));
         }
     }
 
@@ -219,7 +214,9 @@ public class ChartColorAdjustPane extends JPanel implements UIObserver {
                     hidePopupMenu();
                     Color color = ((ColorSelectPane) e.getSource()).getColor();
                     fireDisplayComponent(ColorBackground.getInstance(color));
-                    colorButtons.add(createColorButton(color));
+                    if(colorButtons.size() < MAX_BUTTON) {
+                        colorButtons.add(createColorButton(color));
+                    }
                     ChartColorAdjustPane.this.stateChanged();
                     relayout();
                 }

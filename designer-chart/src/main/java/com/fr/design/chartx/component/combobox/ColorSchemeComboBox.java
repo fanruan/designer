@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -130,6 +131,9 @@ public class ColorSchemeComboBox extends UIComboBox {
         NORMAL
     }
 
+    public Set<String> getItems() {
+        return colorSchemes.keySet();
+    }
 
     public class ColorInfo {
 
