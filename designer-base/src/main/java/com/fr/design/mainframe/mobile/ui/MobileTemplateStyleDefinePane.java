@@ -63,14 +63,16 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
     protected void init() {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         previewPane = createPreviewPane();
-        previewPane.setPreferredSize(new Dimension(500, 60));
-        JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        TitledBorder titledBorder = GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null);
-        titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 9, Color.BLUE));
-        northPane.setBorder(titledBorder);
-        northPane.setPreferredSize(new Dimension(500, 83));
-        northPane.add(previewPane, BorderLayout.CENTER);
-        this.add(northPane, BorderLayout.NORTH);
+        if (previewPane != null) {
+            previewPane.setPreferredSize(new Dimension(500, 60));
+            JPanel northPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
+            TitledBorder titledBorder = GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Preview"), null);
+            titledBorder.setTitleFont(FRFont.getInstance("PingFangSC-Regular", Font.PLAIN, 9, Color.BLUE));
+            northPane.setBorder(titledBorder);
+            northPane.setPreferredSize(new Dimension(500, 83));
+            northPane.add(previewPane, BorderLayout.CENTER);
+            this.add(northPane, BorderLayout.NORTH);
+        }
         createConfigPane();
 
     }
@@ -218,9 +220,11 @@ public abstract class MobileTemplateStyleDefinePane extends BasicBeanPane<Mobile
     protected abstract MobileTemplateStyle getDefaultTemplateStyle();
 
     public void updatePreviewPane() {
-        previewPane.populateConfig(updateConfig());
-        previewPane.setBackground(previewPane.getInitialColor());
-        previewPane.repaint();
+        if (previewPane != null) {
+            previewPane.populateConfig(updateConfig());
+            previewPane.setBackground(previewPane.getInitialColor());
+            previewPane.repaint();
+        }
     }
 
     public abstract void populateSubStyle(MobileTemplateStyle ob);
