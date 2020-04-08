@@ -155,7 +155,7 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
     @Override
     public void populateBean(AttrFillStyle condition) {
         String fillStyleName = condition == null ? "" : condition.getFillStyleName();
-        if (StringUtils.isBlank(fillStyleName)) {//兼容处理
+        if (StringUtils.isBlank(fillStyleName) || !styleSelectBox.getItems().contains(fillStyleName)) {//兼容处理
             if (condition == null || condition.getColorStyle() == ChartConstants.COLOR_DEFAULT) {
                 styleSelectBox.setSelectType(ColorSchemeComboBox.SelectType.DEFAULT);//默认
             } else {
