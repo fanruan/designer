@@ -35,6 +35,7 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         STYLE_LIST.add(MobileTemplateStyleType.UP_MENU_STYLE);
         STYLE_LIST.add(MobileTemplateStyleType.DOWN_MENU_STYLE);
         STYLE_LIST.add(MobileTemplateStyleType.SLIDER_STYLE);
+        STYLE_LIST.add(MobileTemplateStyleType.UNITE_STYLE);
     }
 
     private DefaultListModel listModel;
