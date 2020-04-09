@@ -1,5 +1,6 @@
 package com.fr.design.i18n;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.general.GeneralContext;
 import com.fr.general.log.MessageFormatter;
 import com.fr.locale.DesignI18nProvider;
@@ -29,7 +30,7 @@ public class DesignI18nImpl implements DesignI18nProvider {
 
     @Override
     public String i18nText(String key) {
-        return localeManager.getLocalBundle(GeneralContext.getLocale()).getText(localeManager, key);
+        return localeManager.getLocalBundle(DesignerEnvManager.getEnvManager().getLanguage()).getText(localeManager, key);
     }
 
     @Override
