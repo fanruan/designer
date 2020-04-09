@@ -7,6 +7,7 @@ import com.fr.general.cardtag.mobile.DownMenuStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.SliderStyle;
 import com.fr.general.cardtag.mobile.UpMenuStyle;
+import com.fr.general.cardtag.mobile.UniteStyle;
 import com.fr.invoke.Reflect;
 import com.fr.log.FineLoggerFactory;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class TemplateStyleDefinePaneFactory {
         defineMap.put(UpMenuStyle.STYLE_NAME, new StyleDefinePaneUI(UpMenuStyleDefinePane.class));
         defineMap.put(DownMenuStyle.STYLE_NAME, new StyleDefinePaneUI(DownMenuStyleDefinePane.class));
         defineMap.put(SliderStyle.STYLE_NAME, new StyleDefinePaneUI(SliderStyleDefinePane.class));
+        defineMap.put(UniteStyle.STYLE_NAME, new StyleDefinePaneUI(UniteStyleDefinePane.class));
     }
 
     public static BasicBeanPane<MobileTemplateStyle> createDefinePane(String style, WCardTagLayout tagLayout) {
