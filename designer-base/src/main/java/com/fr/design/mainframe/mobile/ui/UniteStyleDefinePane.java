@@ -196,7 +196,7 @@ public class UniteStyleDefinePane extends MobileTemplateStyleDefinePane {
         this.initialBackgroundColorBox.setSelectObject(style.getInitialColor());
         this.selectedBackgroundColorBox.setSelectObject(style.getSelectColor());
 
-        this.borderWidthComboBox.setSelectedLineStyle(style.getBorderWidth());
+        this.borderWidthComboBox.setSelectedLineStyle(style.getBorderLineStyle());
         this.borderColorBox.setSelectObject(style.getBorderColor());
         this.borderRadiusSpinner.setValue(style.getBorderRadius());
 
@@ -213,7 +213,7 @@ public class UniteStyleDefinePane extends MobileTemplateStyleDefinePane {
         style.setInitialColor(this.initialBackgroundColorBox.getSelectObject());
         style.setSelectColor(this.selectedBackgroundColorBox.getSelectObject());
 
-        style.setBorderWidth(this.borderWidthComboBox.getSelectedLineStyle());
+        style.setBorderLineStyle(this.borderWidthComboBox.getSelectedLineStyle());
         style.setBorderColor(this.borderColorBox.getSelectObject());
         style.setBorderRadius((int) this.borderRadiusSpinner.getValue());
 
