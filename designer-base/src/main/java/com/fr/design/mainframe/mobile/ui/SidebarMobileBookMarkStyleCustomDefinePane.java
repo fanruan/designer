@@ -145,7 +145,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
             }
         });
         normalBorderWidthComBox = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
-        normalBorderWidthComBox.setSelectedLineStyle(DEFAULT_STYLE.getBorderWidth());
+        normalBorderWidthComBox.setSelectedLineStyle(DEFAULT_STYLE.getBorderLineStyle());
         normalBorderColorBox = new ColorSelectBox(COLUMN_WIDTH);
         normalBorderColorBox.setSelectObject(DEFAULT_STYLE.getBorderColor());
         normalFontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
@@ -232,7 +232,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
             }
         });
         selectedBorderWidthComBox = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
-        selectedBorderWidthComBox.setSelectedLineStyle(DEFAULT_STYLE.getSelectedBorderWidth());
+        selectedBorderWidthComBox.setSelectedLineStyle(DEFAULT_STYLE.getSelectedBorderLineStyle());
         selectedBorderColorBox = new ColorSelectBox(COLUMN_WIDTH);
         selectedBorderColorBox.setSelectObject(DEFAULT_STYLE.getSelectedBorderColor());
         selectedFontNameComboBox = new UIComboBox(Utils.getAvailableFontFamilyNames4Report());
@@ -316,7 +316,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
         normalBackgroundColorBox.setSelectObject(style.getBackgroundColor());
         normalOpacityDragBar.setValue(style.getOpacity());
         normalOpacitySpinner.setValue(style.getOpacity());
-        normalBorderWidthComBox.setSelectedLineStyle(style.getBorderWidth());
+        normalBorderWidthComBox.setSelectedLineStyle(style.getBorderLineStyle());
         normalBorderColorBox.setSelectObject(style.getBorderColor());
         normalFontNameComboBox.setSelectedItem(style.getFontFamily());
         normalFontSizeComboBox.setSelectedItem(style.getFontSize());
@@ -327,7 +327,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
         selectedBackgroundColorBox.setSelectObject(style.getSelectedBackgroundColor());
         selectedOpacityDragBar.setValue(style.getSelectedOpacity());
         selectedOpacitySpinner.setValue(style.getSelectedOpacity());
-        selectedBorderWidthComBox.setSelectedLineStyle(style.getSelectedBorderWidth());
+        selectedBorderWidthComBox.setSelectedLineStyle(style.getSelectedBorderLineStyle());
         selectedBorderColorBox.setSelectObject(style.getSelectedBorderColor());
         selectedFontNameComboBox.setSelectedItem(style.getSelectedFontFamily());
         selectedFontSizeComboBox.setSelectedItem(style.getSelectedFontSize());
@@ -349,7 +349,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
             style.setBackgroundColor(normalBackgroundColorBox.getSelectObject());
         }
         style.setOpacity((int) normalOpacitySpinner.getValue());
-        style.setBorderWidth(normalBorderWidthComBox.getSelectedLineStyle());
+        style.setBorderLineStyle(normalBorderWidthComBox.getSelectedLineStyle());
         style.setBorderColor(normalBorderColorBox.getSelectObject());
         if (normalFontNameComboBox.getSelectedItem() != null) {
             style.setFontFamily((String) normalFontNameComboBox.getSelectedItem());
@@ -365,7 +365,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
             style.setSelectedBackgroundColor(selectedBackgroundColorBox.getSelectObject());
         }
         style.setSelectedOpacity((int) selectedOpacitySpinner.getValue());
-        style.setSelectedBorderWidth(selectedBorderWidthComBox.getSelectedLineStyle());
+        style.setSelectedBorderLineStyle(selectedBorderWidthComBox.getSelectedLineStyle());
         style.setSelectedBorderColor(selectedBorderColorBox.getSelectObject());
         if (selectedFontNameComboBox.getSelectedItem() != null) {
             style.setSelectedFontFamily((String) selectedFontNameComboBox.getSelectedItem());
