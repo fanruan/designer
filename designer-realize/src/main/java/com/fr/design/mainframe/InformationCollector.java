@@ -198,6 +198,9 @@ public class InformationCollector implements XMLReadable, XMLWriter {
         }
         JSONObject content = getJSONContentAsByte();
         String url = CloudCenter.getInstance().acquireUrlByKind("user.info.v10");
+        if (StringUtils.isBlank(url)) {
+            return;
+        }
         boolean success = false;
         try {
             HashMap<String, Object> para = new HashMap<>();
