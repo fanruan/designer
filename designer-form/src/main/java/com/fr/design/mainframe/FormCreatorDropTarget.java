@@ -23,8 +23,9 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.SharableEditorProvider;
+import com.fr.form.share.SharableWidgetProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.SharableWidgetBindInfo;
+import com.fr.form.ui.ChartEditor;
 import com.fr.form.ui.Widget;
 import com.fr.stable.Constants;
 import com.fr.stable.StringUtils;
@@ -42,6 +43,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
+import java.util.Map;
 
 /**
  * 添加模式下鼠标事件处理器。
@@ -101,7 +103,7 @@ public class FormCreatorDropTarget extends DropTarget {
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
                 SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                SharableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableWidgetProvider bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动

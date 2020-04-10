@@ -1,14 +1,13 @@
 package com.fr.design.mainframe;
 
-import com.fr.base.BaseUtils;
 import com.fr.base.iofile.attr.SharableAttrMark;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XCreatorUtils;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.form.share.SharableWidgetProvider;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.AbstractBorderStyleWidget;
-import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.cardlayout.WCardMainBorderLayout;
 import com.fr.general.ComparatorUtils;
@@ -52,8 +51,9 @@ import java.io.Serializable;
  * Time: 16:14
  */
 public class ShareWidgetButton extends JPanel implements MouseListener, MouseMotionListener, Serializable {
+    
     private static final Dimension TAB_DEFAULT_SIZE = new Dimension(500, 300);
-    private SharableWidgetBindInfo bindInfo;
+    private SharableWidgetProvider bindInfo;
     private MouseEvent lastPressEvent;
     private JPanel reportPane;
     private boolean isEdit;
@@ -72,7 +72,7 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         }
     };
 
-    public ShareWidgetButton(SharableWidgetBindInfo bindInfo) {
+    public ShareWidgetButton(SharableWidgetProvider bindInfo) {
         this.bindInfo = bindInfo;
         this.setPreferredSize(new Dimension(108, 68));
         initUI();
@@ -149,11 +149,11 @@ public class ShareWidgetButton extends JPanel implements MouseListener, MouseMot
         };
     }
 
-    public SharableWidgetBindInfo getBindInfo() {
+    public SharableWidgetProvider getBindInfo() {
         return bindInfo;
     }
 
-    public void setBindInfo(SharableWidgetBindInfo bindInfo) {
+    public void setBindInfo(SharableWidgetProvider bindInfo) {
         this.bindInfo = bindInfo;
     }
 
