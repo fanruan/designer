@@ -115,5 +115,6 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         }
         if (mobileBookMarkUsePane != null) {
             mobileBookMarkUsePane.update(xCreator);
-        }    }
+        }
+    }
 }
