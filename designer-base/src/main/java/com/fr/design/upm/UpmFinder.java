@@ -2,6 +2,7 @@ package com.fr.design.upm;
 
 import com.fr.base.FRContext;
 import com.fr.decision.webservice.v10.plugin.helper.category.impl.UpmResourceLoader;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
@@ -64,18 +65,18 @@ public class UpmFinder {
         if (flag) {
             if (!checkUPMResourcesExist()){
                 // upm下载
-                int val = JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
-                        Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                int val = FineJOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Need_Install"),
+                        Toolkit.i18nText("Fine-Design_Basic_Confirm"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (val == JOptionPane.OK_OPTION){
                     try {
                         UpmResourceLoader.INSTANCE.download();
                         UpmResourceLoader.INSTANCE.install();
-                        JOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"),
-                                Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
+                        FineJOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Basic_Plugin_Shop_Installed"),
+                                Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception e){
                         FineLoggerFactory.getLogger().error(e.getMessage(), e);
-                        JOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Updater_Download_Failed"),
-                                Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"), JOptionPane.INFORMATION_MESSAGE);
+                        FineJOptionPane.showMessageDialog(null, Toolkit.i18nText("Fine-Design_Updater_Download_Failed"),
+                                Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }

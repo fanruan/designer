@@ -14,11 +14,13 @@ import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * 属性表: 柱形, 饼图 数据集界面, "系列名使用"界面.
@@ -57,7 +59,7 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
         this.add(cardPane, BorderLayout.CENTER);
         dataScreeningPane =  new ChartDataFilterPane(this.initplot, parent);
         JPanel panel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"), 290, 24, dataScreeningPane);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
+        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
         dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,5));
         this.add(panel, BorderLayout.SOUTH);
     }

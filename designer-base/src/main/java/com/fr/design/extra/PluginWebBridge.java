@@ -55,7 +55,7 @@ public class PluginWebBridge {
     private static PluginWebBridge helper;
 
     private UIDialog uiDialog;
-    private ACTIONS action;
+    private ACTIONS actions;
 
     private Map<String, Object> config;
     private WebEngine webEngine;
@@ -94,10 +94,10 @@ public class PluginWebBridge {
      * @return 配置信息
      */
     public String getRunConfig() {
-        if (action != null) {
+        if (actions != null) {
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put(ACTION, action.getContext());
+                jsonObject.put(ACTION, actions.getContext());
                 Set<String> keySet = config.keySet();
                 for (String key : keySet) {
                     jsonObject.put(key, config.get(key).toString());
@@ -117,7 +117,7 @@ public class PluginWebBridge {
      * @param config 参数
      */
     public void setRunConfig(ACTIONS action, Map<String, Object> config) {
-        this.action = action;
+        this.actions = action;
         this.config = config;
     }
 
@@ -125,7 +125,7 @@ public class PluginWebBridge {
      * 清楚打开动作
      */
     public void clearRunConfig() {
-        this.action = null;
+        this.actions = null;
         this.config = null;
     }
 

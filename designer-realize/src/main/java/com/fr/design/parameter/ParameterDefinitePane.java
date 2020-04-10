@@ -4,6 +4,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Parameter;
 import com.fr.base.parameter.ParameterUI;
 import com.fr.base.vcs.DesignerMode;
+import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignState;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
@@ -326,7 +327,8 @@ public class ParameterDefinitePane extends JPanel implements ToolBarMenuDockPlus
     }
 
     private boolean isWithoutParaXCreator() {
-        return paraDesignEditor.isWithoutParaXCreator(allParameters);
+        // allParameters只包含全部的模板参数
+        return paraDesignEditor.isWithoutParaXCreator(DesignModelAdapter.getCurrentModelAdapter().getParameters());
     }
 
     /**

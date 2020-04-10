@@ -1,6 +1,7 @@
 package com.fr.design.gui.controlpane;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ilist.JNameEdList;
 import com.fr.design.gui.ilist.ListModelElement;
 import com.fr.stable.Nameable;
@@ -32,7 +33,7 @@ class ListControlPaneHelper {
             try {
                 listControlPane.checkValid();
             } catch (Exception exp) {
-                JOptionPane.showMessageDialog((Component) listControlPane, exp.getMessage());
+                FineJOptionPane.showMessageDialog((Component) listControlPane, exp.getMessage());
                 listControlPane.setSelectedIndex(idx);
                 return true;
             }

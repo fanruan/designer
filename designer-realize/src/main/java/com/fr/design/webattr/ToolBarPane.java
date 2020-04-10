@@ -3,6 +3,7 @@ package com.fr.design.webattr;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.DialogActionAdapter;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.form.ui.ToolBar;
@@ -86,7 +87,7 @@ public class ToolBarPane extends BasicBeanPane<ToolBar> {
 	public Component add(Component comp) {
 		if (comp instanceof ToolBarButton) {
 			if (isPopulateFinished() && ((ToolBarButton) comp).getWidget().getClass().isAnnotationPresent(OldPrintMethod.class)) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_New_Print_Tip"));
+				FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Use_New_Print_Tip"));
 				return comp;
 			}
 			this.ftoolbar.addButton((ToolBarButton) comp);

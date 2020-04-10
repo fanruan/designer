@@ -5,7 +5,6 @@ import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
-
 import com.fr.van.chart.custom.component.VanChartCustomAxisConditionPane;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartLineTypePane;
@@ -20,19 +19,19 @@ import java.awt.Component;
 /**
  * 散点图的系列界面
  */
-public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
+public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane {
     private static final long serialVersionUID = 5595016643808487932L;
 
-    public VanChartScatterSeriesPane(ChartStylePane parent, Plot plot){
+    public VanChartScatterSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
 
-    protected JPanel getContentInPlotType(){
+    protected JPanel getContentInPlotType() {
 
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p,p,p,p,p,p,p};
+        double[] row = {p, p, p, p, p, p, p, p, p, p};
         double[] col = {f};
 
         Component[][] components = new Component[][]{
@@ -40,6 +39,7 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
                 new Component[]{createLineTypePane()},
                 new Component[]{createMarkerPane()},
                 new Component[]{createStackedAndAxisPane()},
+                //大数据模式 恢复用注释。下面1行删除。
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createTrendLinePane()},
         };
@@ -49,25 +49,25 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
     }
 
     //设置色彩面板内容
-    protected void setColorPaneContent (JPanel panel) {
+    protected void setColorPaneContent(JPanel panel) {
         panel.add(createAlphaPane(), BorderLayout.CENTER);
     }
 
     @Override
     //堆积和坐标轴设置(自定义柱形图等用到)
     protected JPanel createStackedAndAxisPane() {
-        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane(){
+        stackAndAxisEditPane = new VanChartStackedAndAxisListControlPane() {
             @Override
             protected Class<? extends BasicBeanPane> getStackAndAxisPaneClass() {
                 return VanChartCustomAxisConditionPane.class;
             }
 
             @Override
-            public String getPaneTitle(){
+            public String getPaneTitle() {
                 return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Custom_Axis");
             }
         };
-        stackAndAxisEditExpandablePane =  TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
+        stackAndAxisEditExpandablePane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(stackAndAxisEditPane.getPaneTitle(), stackAndAxisEditPane);
         return stackAndAxisEditExpandablePane;
     }
 
@@ -77,8 +77,8 @@ public class VanChartScatterSeriesPane extends VanChartAbstractPlotSeriesPane{
     }
 
     @Override
-    protected void checkCompsEnabledWithLarge() {
-        super.checkCompsEnabledWithLarge();
+    protected void checkCompsEnabledWithLarge(Plot plot) {
+        super.checkCompsEnabledWithLarge(this.plot);
 
         checkLinePane();
     }

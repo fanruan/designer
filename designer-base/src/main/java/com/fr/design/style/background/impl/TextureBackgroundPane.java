@@ -152,8 +152,8 @@ public class TextureBackgroundPane extends BPane {
             Dimension d = getSize();
 
             g2d.setPaint(this.buttonTexturePaint);
-            GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, d.width - 1,
-                d.height - 1));
+            GraphHelper.fill(g2d, new Rectangle2D.Double(0, 0, d.width - 1d,
+                d.height - 1d));
 
             if (ComparatorUtils.equals(texturePaint, this.buttonTexturePaint)) {// it's
                 // selected.
@@ -161,8 +161,8 @@ public class TextureBackgroundPane extends BPane {
             } else {
                 g2d.setPaint(Color.gray);
             }
-            GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1,
-                d.height - 1));
+            GraphHelper.draw(g2d, new Rectangle2D.Double(0, 0, d.width - 1d,
+                d.height - 1d));
         }
 
         public Dimension getPreferredSize() {

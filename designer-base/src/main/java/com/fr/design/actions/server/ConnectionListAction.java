@@ -57,49 +57,6 @@ public class ConnectionListAction extends UpdateAction {
         osBasedAction.execute();
     }
 
-   /* private void openDesignDatabaseManager() {
-        DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
-        final ConnectionConfig datasourceManager = ConnectionConfig.getInstance();
-        final ConnectionManagerPane databaseManagerPane = new ConnectionManagerPane() {
-            public void complete() {
-                ConnectionConfig connectionConfig = datasourceManager.mirror();
-                populate(connectionConfig);
-            }
-
-            protected void renameConnection(String oldName, String newName) {
-                datasourceManager.renameConnection(oldName, newName);
-            }
-        };
-        final BasicDialog databaseListDialog = databaseManagerPane.showLargeWindow(designerFrame, null);
-        databaseListDialog.addDialogActionListener(new DialogActionAdapter() {
-            public void doOk() {
-                if (!databaseManagerPane.isNamePermitted()) {
-                    databaseListDialog.setDoOKSucceed(false);
-                    return;
-                }
-                Configurations.modify(new WorkerFacade(ConnectionConfig.class) {
-                    @Override
-                    public void run() {
-                        databaseManagerPane.update(datasourceManager);
-                    }
-                }.addCallBack(new CallBackAdaptor() {
-                    @Override
-                    public boolean beforeCommit() {
-                        //如果更新失败，则不关闭对话框，也不写xml文件，并且将对话框定位在请重命名的那个对象页面
-                        return doWithDatasourceManager(datasourceManager, databaseManagerPane, databaseListDialog);
-                    }
-
-                    @Override
-                    public void afterCommit() {
-                        DesignerContext.getDesignerBean("databasename").refreshBeanElement();
-                    }
-                }));
-            }
-        });
-        databaseListDialog.setVisible(true);
-    }
-*/
-
     /**
      * 更新datasourceManager
      *

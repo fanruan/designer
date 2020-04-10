@@ -5,6 +5,7 @@ import com.fr.decision.update.info.UpdateCallBack;
 import com.fr.decision.update.info.UpdateProgressCallBack;
 import com.fr.design.RestartHelper;
 import com.fr.design.constants.LayoutConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -29,6 +30,8 @@ import com.fr.general.http.HttpToolbox;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.engine.core.FineProcessContext;
+import com.fr.process.engine.core.FineProcessEngineEvent;
 import com.fr.stable.*;
 import com.fr.stable.project.ProjectConstants;
 import com.fr.third.org.apache.http.client.methods.CloseableHttpResponse;
@@ -597,6 +600,7 @@ public class UpdateMainDialog extends UIDialog {
                     final String installLib = StableUtils.pathJoin(StableUtils.getInstallHome(), ProjectConstants.LOGS_NAME, UpdateConstants.INSTALL_LIB);
                     final JFrame frame = DesignerContext.getDesignerFrame();
                     final RestartHelper helper = new RestartHelper();
+                    FineProcessContext.getParentPipe().fire(FineProcessEngineEvent.DESTROY);
                     new FileProcess(callBack) {
                         @Override
                         public void onDownloadSuccess() {
@@ -608,7 +612,7 @@ public class UpdateMainDialog extends UIDialog {
                         public void onDownloadFailed() {
                             progressBar.setVisible(false);
                             deleteForDesignerUpdate(installLib);
-                            JOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
+                            FineJOptionPane.showMessageDialog(getParent(), Toolkit.i18nText("Fine-Design_Update_Info_Failed_Message"));
                             helper.restartForUpdate(frame);
                         }
                     }.execute();

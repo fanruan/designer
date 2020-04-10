@@ -90,6 +90,7 @@ public class UISBChooser extends JDialog {
                         (frame.getHeight() - getSize().height) / 2);
     }
 
+    @SuppressWarnings("squid:S1226")
     private void initP3(JPanel p3, JPanel p1) {
         p3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 8));
         p3.add(new JLabel("R:"));
@@ -198,6 +199,7 @@ public class UISBChooser extends JDialog {
         twoColorField.setUpperColor(outColor);
     }
 
+    @SuppressWarnings("squid:S2164")
     public static Color getAdjustedColor(Color inColor, int sat, int bri) {
         Color briColor = inColor;
 
@@ -219,9 +221,9 @@ public class UISBChooser extends JDialog {
             int dg = briColor.getGreen() - satColor.getGreen();
             int db = briColor.getBlue() - satColor.getBlue();
 
-            r = briColor.getRed() - (int) Math.round(dr * sat / VALUE * 1.0);
-            g = briColor.getGreen() - (int) Math.round(dg * sat / VALUE * 1.0);
-            b = briColor.getBlue() - (int) Math.round(db * sat / VALUE * 1.0);
+            r = briColor.getRed() - (int) Math.round(dr * sat / (VALUE * 1.0));
+            g = briColor.getGreen() - (int) Math.round(dg * sat / (VALUE * 1.0));
+            b = briColor.getBlue() - (int) Math.round(db * sat / (VALUE * 1.0));
         } else {
             float d = ColorRoutines.getGreyValue(briColor);
             float dr = briColor.getRed() - d;

@@ -178,14 +178,27 @@ public class HistoryTemplateListCache implements CallbackEvent {
      * @return 位置
      */
     public int contains(JTemplate<?, ?> jt) {
+        return contains(jt, null);
+    }
+
+    public int contains(FILE file) {
+        return contains(null, file);
+    }
+
+    private int contains(JTemplate jt, FILE file) {
+        FILE item = null;
+        if (jt != null) {
+            item = jt.getEditingFILE();
+        } else {
+            item = file;
+        }
         for (int i = 0; i < historyList.size(); i++) {
-            if (ComparatorUtils.equals(historyList.get(i).getEditingFILE(), jt.getEditingFILE())) {
+            if (ComparatorUtils.equals(historyList.get(i).getEditingFILE(), item)) {
                 return i;
             }
         }
         return -1;
     }
-
 
     /**
      * 判断是否打开过该模板
@@ -386,4 +399,16 @@ public class HistoryTemplateListCache implements CallbackEvent {
         }
         FineLoggerFactory.getLogger().info("Env Change Template Loaded.");
     }
+
+    /**
+     * 重新载入当前模板，刷新数据/对象
+     */
+    public void reloadCurrentTemplate() {
+        JTemplate<?, ?> jt = getCurrentEditingTemplate();
+        boolean access = jt != null && jt.getEditingFILE() != null && jt.getEditingFILE().exists();
+        if (access) {
+            jt.refreshResource();
+        }
+    }
+
 }

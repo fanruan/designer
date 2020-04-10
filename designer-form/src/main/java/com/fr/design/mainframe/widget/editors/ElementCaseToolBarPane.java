@@ -1,6 +1,7 @@
 package com.fr.design.mainframe.widget.editors;
 
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.core.WidgetOption;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -98,7 +99,7 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
                     northToolBar.validate();
                     northToolBar.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
                 }
             }
         });
@@ -123,7 +124,7 @@ public class ElementCaseToolBarPane extends BasicBeanPane<FormToolBarManager[]> 
                     southToolBar.validate();
                     southToolBar.repaint();
                 } else {
-                    JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
+                    FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Choose_One_Button"));
                 }
             }
         });

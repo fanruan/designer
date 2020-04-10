@@ -2,6 +2,7 @@ package com.fr.design;
 
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.os.impl.RestartAction;
+import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.GeneralUtils;
 import com.fr.log.FineLoggerFactory;
@@ -152,7 +153,14 @@ public class RestartHelper {
         } finally {
             WorkContext.getCurrent().close();
             frame.dispose();
-            System.exit(0);
+            try {
+                // 更新升级过渡用 供当前测试 后面可删除
+                Class.forName("com.fr.exit.DesignerExiter");
+                DesignerExiter.getInstance().execute();
+            } catch (Exception ignore) {
+            } finally {
+                System.exit(0);
+            }
         }
     }
 
@@ -194,7 +202,11 @@ public class RestartHelper {
             } catch (IOException e) {
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
-            DesignerContext.getDesignerFrame().exit();
+            if (DesignerContext.getDesignerFrame() != null) {
+                DesignerContext.getDesignerFrame().exit();
+            } else {
+                DesignerExiter.getInstance().execute();
+            }
         }
     }
 }

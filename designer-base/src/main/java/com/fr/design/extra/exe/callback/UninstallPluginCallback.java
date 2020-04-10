@@ -1,6 +1,7 @@
 package com.fr.design.extra.exe.callback;
 
 import com.fr.design.bridge.exec.JSCallback;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginUtils;
 
 import com.fr.log.FineLoggerFactory;
@@ -27,7 +28,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
         if (result.isSuccess()) {
             jsCallback.execute("success");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Success"));
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Success"));
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Success"));
         }else if (result.errorCode() == PluginErrorCode.NeedUninstallDependingPluginFirst) {
             int rv = JOptionPane.showOptionDialog(
                     null,
@@ -36,7 +37,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
                     JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.INFORMATION_MESSAGE,
                     null,
-                    null,
+                    FineJOptionPane.OPTION_YES_NO_CANCEL,
                     null
             );
             if (rv == JOptionPane.CANCEL_OPTION || rv == JOptionPane.CLOSED_OPTION) {
@@ -46,7 +47,7 @@ public class UninstallPluginCallback extends AbstractPluginTaskCallback {
         } else {
             jsCallback.execute("failed");
             FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Delete_Failed"));
-            JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 }

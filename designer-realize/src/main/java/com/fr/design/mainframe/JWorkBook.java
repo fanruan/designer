@@ -1188,4 +1188,9 @@ public class JWorkBook extends JTemplate<WorkBook, WorkBookUndoState> {
             provider.addChooseFileFilter(fileChooser, this.suffix());
         }
     }
+
+    @Override
+    public void whenClose() {
+        reportComposite.doRemoveAction();
+    }
 }

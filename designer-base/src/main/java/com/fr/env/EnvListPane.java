@@ -1,6 +1,7 @@
 package com.fr.env;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.env.DesignerWorkspaceInfo;
 import com.fr.design.env.LocalDesignerWorkspaceInfo;
 import com.fr.design.env.RemoteDesignerWorkspaceInfo;
@@ -33,13 +34,13 @@ public class EnvListPane extends JListControlPane {
                 allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
                 if (StringUtils.isEmpty(tempName)) {
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Empty_Name_Warn_Text"));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Empty_Name_Warn_Text"));
                     setIllegalIndex(editingIndex);
                     return;
                 }
                 if (!ComparatorUtils.equals(tempName, selectedName) && isNameRepeated(new List[]{Arrays.asList(allListNames)}, tempName)) {
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Duplicate_Name_Warn_Text", tempName));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(EnvListPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Workspace_Duplicate_Name_Warn_Text", tempName));
                     setIllegalIndex(editingIndex);
                 }
             }
@@ -95,8 +96,9 @@ public class EnvListPane extends JListControlPane {
      */
     public String updateEnvManager() {
         DesignerEnvManager mgr = DesignerEnvManager.getEnvManager();
-        mgr.clearAllEnv();
+        //这里代码时序换一下，因为update中需要借助mgr来获取提醒时间，已确认mgr对res无依赖
         Nameable[] res = this.update();
+        mgr.clearAllEnv();
         for (Nameable re : res) {
             NameObject nameObject = (NameObject) re;
             mgr.putEnv(nameObject.getName(), (DesignerWorkspaceInfo) nameObject.getObject());

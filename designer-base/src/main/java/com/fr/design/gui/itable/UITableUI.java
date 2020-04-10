@@ -19,6 +19,7 @@ import javax.swing.table.TableModel;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.mainframe.DesignerContext;
 
 import com.fr.stable.Constants;
@@ -132,7 +133,7 @@ public class UITableUI extends BasicTableUI {
                     return;
                 }
                 if (!table.isEditing()) {
-                    int val = JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
+                    int val = FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Utils_Are_You_Sure_To_Remove_The_Selected_Item") + "?",
                             com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Remove"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (val == JOptionPane.OK_OPTION) {
                         ((UITable) table).removeLine(table.rowAtPoint(e.getPoint()));

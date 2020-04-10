@@ -145,7 +145,6 @@ public interface UIConstants {
     public static final Color LIST_ITEM_SPLIT_LINE = new Color(0xf0f0f3);
 
 
-
     public static final BufferedImage DRAG_BAR = IOUtils.readImage("com/fr/design/images/control/bar.png");
     public static final BufferedImage DRAG_BAR_LIGHT = IOUtils.readImage("com/fr/design/images/control/bar-light.png");
     public static final BufferedImage ARROW_NORTH = IOUtils.readImage("com/fr/design/images/control/up_arrow.png");
@@ -196,6 +195,7 @@ public interface UIConstants {
     public static final Icon ANA_SMALL_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/anas.png");
     public static final Icon REFRESH_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/refresh.png");
     public static final Icon FONT_ICON = IOUtils.readIcon("/com/fr/design/images/gui/color/foreground.png");
+    public static final Icon AUTO_FONT_ICON = IOUtils.readIcon("/com/fr/design/images/gui/color/autoForeground.png");
     public static final Icon HISTORY_ICON = IOUtils.readIcon("com/fr/design/images/buttonicon/history.png");
     public static final Icon DELETE_ICON = IOUtils.readIcon("com/fr/design/images/m_file/close.png");
     public static final Icon EDIT_ICON = IOUtils.readIcon("com/fr/design/images/m_file/edit.png");

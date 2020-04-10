@@ -1,15 +1,16 @@
 package com.fr.design.chartx.fields.diff;
 
 import com.fr.chartx.data.field.ColumnField;
-import com.fr.chartx.data.field.SeriesValueCorrelationDefinition;
 import com.fr.chartx.data.field.diff.MultiCategoryColumnFieldCollection;
-import com.fr.design.chartx.component.AbstractSingleFilterPane;
+import com.fr.design.chartx.component.CategorySeriesFilterPane;
 import com.fr.design.chartx.component.MultiComboBoxPane;
 import com.fr.design.gui.icombobox.UIComboBox;
-import com.fr.van.chart.map.designer.VanChartGroupPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import java.util.List;
+import java.awt.BorderLayout;
 
 
 /**
@@ -19,8 +20,23 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
     private MultiComboBoxPane multiCategoryPane;
 
-    private AbstractSingleFilterPane seriesFilterPane;
-    private AbstractSingleFilterPane categoryFilterPane;
+    private CategorySeriesFilterPane filterPane;
+
+    @Override
+    protected void initComponents() {
+        multiCategoryPane = new MultiComboBoxPane();
+        filterPane = new CategorySeriesFilterPane();
+
+        JPanel northPane = new JPanel(new BorderLayout(0, 6));
+        northPane.add(multiCategoryPane, BorderLayout.NORTH);
+        northPane.add(new JSeparator(), BorderLayout.CENTER);
+        northPane.add(createCenterPane(), BorderLayout.SOUTH);
+        northPane.setBorder(BorderFactory.createEmptyBorder(4, 24, 0, 15));
+
+        this.setLayout(new BorderLayout(0, 6));
+        this.add(northPane, BorderLayout.NORTH);
+        this.add(filterPane, BorderLayout.CENTER);
+    }
 
     @Override
     protected String[] fieldLabels() {
@@ -29,42 +45,14 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
     @Override
     protected UIComboBox[] filedComboBoxes() {
-        List<UIComboBox> list = initMultiCategoryPane().componentList();
+        List<UIComboBox> list = multiCategoryPane.componentList();
         return list.toArray(new UIComboBox[list.size()]);
     }
 
-    private MultiComboBoxPane initMultiCategoryPane() {
-        if (multiCategoryPane == null) {
-            multiCategoryPane = new MultiComboBoxPane();
-        }
-        return multiCategoryPane;
-    }
-
     @Override
-    protected JPanel createNorthPane() {
-        return initMultiCategoryPane();
-    }
-
-    @Override
-    protected JPanel createSouthPane() {
-        if (seriesFilterPane == null) {
-            seriesFilterPane = new AbstractSingleFilterPane() {
-                @Override
-                public String title4PopupWindow() {
-                    //todo@shinerefactor
-                    return "series";
-                }
-            };
-            categoryFilterPane = new AbstractSingleFilterPane() {
-                @Override
-                public String title4PopupWindow() {
-                    return "category";
-                }
-            };
-        }
-        return new VanChartGroupPane(new String[]{seriesFilterPane.title4PopupWindow(), categoryFilterPane.title4PopupWindow()}
-                , new JPanel[]{seriesFilterPane, categoryFilterPane}) {
-        };
+    public void checkBoxUse(boolean hasUse) {
+        super.checkBoxUse(hasUse);
+        multiCategoryPane.checkEnable(hasUse);
     }
 
     @Override
@@ -81,15 +69,7 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         populateSeriesValuePane(multiCategoryColumnFieldCollection);
 
-        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = multiCategoryColumnFieldCollection.getSeriesValueCorrelationDefinition();
-        if (seriesValueCorrelationDefinition != null) {
-            seriesFilterPane.populateBean(seriesValueCorrelationDefinition.getFilterProperties());
-
-        }
-
-        if (categoryList != null && !categoryList.isEmpty()) {
-            categoryFilterPane.populateBean(categoryList.get(0).getFilterProperties());
-        }
+        filterPane.populateMultiCategoryFieldCollection(multiCategoryColumnFieldCollection);
     }
 
     @Override
@@ -102,15 +82,12 @@ public class MultiCategoryDataSetFieldsPane extends AbstractDataSetFieldsWithSer
 
         updateSeriesValuePane(columnFieldCollection);
 
-        SeriesValueCorrelationDefinition seriesValueCorrelationDefinition = columnFieldCollection.getSeriesValueCorrelationDefinition();
-        if (seriesValueCorrelationDefinition != null) {
-            seriesValueCorrelationDefinition.setFilterProperties(seriesFilterPane.updateBean());
-        }
-
-        if (categoryList != null && !categoryList.isEmpty()) {
-            categoryList.get(0).setFilterProperties(categoryFilterPane.updateBean());
-        }
+        filterPane.updateMultiCategoryFieldCollection(columnFieldCollection);
 
         return columnFieldCollection;
+    }
+
+    public void setCategoryAxis(boolean categoryAxis){
+        multiCategoryPane.setCategoryAxis(categoryAxis);
     }
 }

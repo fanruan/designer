@@ -3,7 +3,6 @@ package com.fr.design.extra;
 import com.fr.design.dialog.UIDialog;
 import com.fr.design.utils.gui.GUICoreUtils;
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,6 +26,7 @@ public class QQLoginDialog extends UIDialog {
 
     @Override
     public void checkValid() throws Exception {
+        // do nothing
     }
 
 }

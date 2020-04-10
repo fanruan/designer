@@ -11,6 +11,10 @@ import com.fr.general.FRFont;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @deprecated
+ */
+@Deprecated
 public class RadioDefinePane extends AbstractDataModify<Radio> {
 	public RadioDefinePane(XCreator xCreator) {
 		super(xCreator);

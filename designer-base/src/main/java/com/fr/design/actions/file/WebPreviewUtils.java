@@ -21,7 +21,7 @@ import java.util.Map;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.OK_OPTION;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
-import static javax.swing.JOptionPane.showConfirmDialog;
+import static com.fr.design.dialog.FineJOptionPane.showConfirmDialog;
 
 public final class WebPreviewUtils {
 

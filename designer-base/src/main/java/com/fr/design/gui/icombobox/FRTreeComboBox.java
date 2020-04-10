@@ -1,22 +1,14 @@
 package com.fr.design.gui.icombobox;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.IllegalComponentStateException;
-import java.awt.RenderingHints;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.util.Enumeration;
+import com.fr.design.constants.UIConstants;
+import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.gui.itextfield.UITextField;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.general.ComparatorUtils;
+import com.fr.general.NameObject;
+import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -38,16 +30,23 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-
-import com.fr.design.constants.UIConstants;
-import com.fr.design.gui.ibutton.UIButton;
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.gui.itextfield.UITextField;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.general.ComparatorUtils;
-import com.fr.general.NameObject;
-import com.fr.stable.Constants;
-import com.fr.stable.StringUtils;
+import java.util.Enumeration;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.IllegalComponentStateException;
+import java.awt.RenderingHints;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
 public class FRTreeComboBox extends UIComboBox {
 
@@ -79,7 +78,7 @@ public class FRTreeComboBox extends UIComboBox {
                           boolean showRoot, boolean editable) {
         this.setTree(tree);
         this.tree.setCellRenderer(renderer);
-        this.setEditor(new FrTreeSearchComboBoxEditor(this));
+        this.setEditor(createEditor());
         if (!showRoot) {
             tree.expandPath(new TreePath(tree.getModel().getRoot()));
             tree.setRootVisible(false);
@@ -99,6 +98,10 @@ public class FRTreeComboBox extends UIComboBox {
      */
     protected boolean customSelectable(DefaultMutableTreeNode node){
         return true;
+    }
+
+    protected UIComboBoxEditor createEditor() {
+        return new FrTreeSearchComboBoxEditor(this);
     }
 
     public void setTree(JTree tree) {
@@ -318,6 +321,7 @@ public class FRTreeComboBox extends UIComboBox {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            // do nothing
         }
 
         @Override
@@ -528,7 +532,7 @@ public class FRTreeComboBox extends UIComboBox {
         }
     }
 
-    class FrTreeSearchComboBoxEditor extends UIComboBoxEditor implements DocumentListener {
+    public class FrTreeSearchComboBoxEditor extends UIComboBoxEditor implements DocumentListener {
         private volatile boolean setting = false;
         private FRTreeComboBox comboBox;
         private Object item;

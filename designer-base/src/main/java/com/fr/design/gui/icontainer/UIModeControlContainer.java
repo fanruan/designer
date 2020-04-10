@@ -1,6 +1,7 @@
 package com.fr.design.gui.icontainer;
 
 import com.fr.base.vcs.DesignerMode;
+import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -46,7 +47,7 @@ public class UIModeControlContainer extends JLayeredPane {
     private boolean isHideMode = false;
     private boolean isSheeetCovered = false;
 
-    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 30 / 100.0F);
+    private AlphaComposite composite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
 
     public UIModeControlContainer() {
         this(new JPanel(), new JPanel());
@@ -85,7 +86,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
 
     public void needToShowCoverAndHidPane() {
-        if (DesignerMode.isAuthorityEditing()) {
+        if (DesignModeContext.isAuthorityEditing()) {
             this.remove(coverPane);
             this.remove(hidePane);
         } else {
@@ -128,7 +129,7 @@ public class UIModeControlContainer extends JLayeredPane {
             if (isHideMode || !upEditMode) {
                 return;
             }
-            if (DesignerMode.isAuthorityEditing()) {
+            if (DesignModeContext.isAuthorityEditing()) {
                 return;
             }
             setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
@@ -151,11 +152,12 @@ public class UIModeControlContainer extends JLayeredPane {
     MouseMotionListener mouseMotionListener = new MouseMotionListener() {
         @Override
         public void mouseMoved(MouseEvent e) {
+            //do nothing
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (DesignerMode.isAuthorityEditing()) {
+            if (DesignModeContext.isAuthorityEditing()) {
                 return;
             }
             boolean notUpEditMode = isHideMode || !upEditMode;
@@ -174,7 +176,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
         @Override
         public void removeLayoutComponent(Component comp) {
-
+            //do nothing
         }
 
         @Override
@@ -234,11 +236,12 @@ public class UIModeControlContainer extends JLayeredPane {
 
         @Override
         public void addLayoutComponent(String name, Component comp) {
+            // do nothing
         }
     };
 
     protected void onModeChanged() {
-
+            //do nothing here
     }
 
     /**
@@ -309,7 +312,7 @@ public class UIModeControlContainer extends JLayeredPane {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-
+                     // do nothing
                 }
             });
         }
@@ -319,6 +322,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
             @Override
             public void removeLayoutComponent(Component comp) {
+                // do nothing
             }
 
             @Override
@@ -333,10 +337,12 @@ public class UIModeControlContainer extends JLayeredPane {
 
             @Override
             public void layoutContainer(Container parent) {
+                 // do nothing
             }
 
             @Override
             public void addLayoutComponent(String name, Component comp) {
+                // do nothing
             }
         };
 
@@ -366,7 +372,7 @@ public class UIModeControlContainer extends JLayeredPane {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-
+                    // do nothing
                 }
             });
 
@@ -407,6 +413,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
             @Override
             public void removeLayoutComponent(Component comp) {
+                // do nothing
             }
 
             @Override
@@ -437,6 +444,7 @@ public class UIModeControlContainer extends JLayeredPane {
 
             @Override
             public void addLayoutComponent(String name, Component comp) {
+                // do nothing
             }
         };
 

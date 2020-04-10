@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 /**
  * Created by Mitisky on 16/6/20.
  */
-public class VanChartDrillMapDataPane extends ChartDataPane{
+public class VanChartDrillMapDataPane extends ChartDataPane {
 
     public VanChartDrillMapDataPane(AttributeChangeListener listener) {
         super(listener);
@@ -25,7 +25,7 @@ public class VanChartDrillMapDataPane extends ChartDataPane{
     //编辑内置数据集会stateChange,会调用这里
     @Override
     protected void repeatLayout(ChartCollection collection) {
-        if(contentsPane != null) {
+        if (contentsPane != null) {
             this.remove(contentsPane);
         }
         this.setLayout(new BorderLayout(0, 0));

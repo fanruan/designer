@@ -6,6 +6,7 @@ package com.fr.design.actions.help;
 
 import com.fr.base.BaseUtils;
 import com.fr.design.actions.UpdateAction;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.menu.MenuKeySet;
 
 import com.fr.log.FineLoggerFactory;
@@ -37,7 +38,7 @@ public class SupportQQAction extends UpdateAction {
         try {
             Desktop.getDesktop().browse(new URI(ProductConstants.SUPPORT_QQ));
         } catch (IOException exp) {
-            JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser"));
+            FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Set_Default_Browser"));
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);
         } catch (URISyntaxException exp) {
             FineLoggerFactory.getLogger().error(exp.getMessage(), exp);

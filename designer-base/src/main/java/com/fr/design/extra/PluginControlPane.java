@@ -7,7 +7,6 @@ import com.fr.design.gui.ilist.UIList;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.IOUtils;
-
 import com.fr.plugin.context.PluginMarker;
 import com.fr.plugin.license.Licensed;
 import com.fr.plugin.manage.PluginManager;
@@ -23,7 +22,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -155,7 +154,7 @@ public class PluginControlPane extends BasicPane {
         PluginManager.getController().uninstall(PluginMarker.create(id, version), true, new PluginTaskCallback() {
             @Override
             public void done(PluginTaskResult result) {
-
+                // do nothing
             }
         });
     }

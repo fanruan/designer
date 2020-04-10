@@ -17,6 +17,7 @@ import com.fr.design.data.datapane.preview.PreviewLabel;
 import com.fr.design.data.datapane.preview.PreviewLabel.Previewable;
 import com.fr.design.data.datapane.preview.PreviewTablePane;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.icombobox.FRTreeComboBox;
 import com.fr.design.gui.icombobox.FilterableComboBoxModel;
 import com.fr.design.gui.icombobox.UIComboBox;
@@ -103,10 +104,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
 
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
+            // Do nothing
         }
     };
 
@@ -114,10 +117,12 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     private PopupMenuListener listener = new PopupMenuListener() {
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+            // Do nothing
         }
 
         @Override
@@ -199,6 +204,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void addFocusListener() {
+        // Do nothing
     }
 
     @SuppressWarnings("unchecked")
@@ -332,7 +338,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         DBUtils.refreshDatabase();
         String schema = StringUtils.isEmpty(schemaBox.getSelectedItem()) ? null : schemaBox.getSelectedItem();
         DataCoreUtils.refreshTables(getConnection(), TableProcedure.TABLE, schema);
-        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Database"),
+        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Successfully") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Refresh_Database"),
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -438,7 +444,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
             }
         } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Failed"), JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -462,7 +468,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
         }
         if (!connect) {
             DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
-            JOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
+            FineJOptionPane.showMessageDialog(designerFrame, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"),
                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Failed"), JOptionPane.ERROR_MESSAGE);
             failedToFindTable();
             return null;
@@ -492,6 +498,7 @@ public class ChoosePane extends BasicBeanPane<DataBaseItems> implements Refresha
     }
 
     protected void failedToFindTable() {
+        // Do nothing
     }
 
     protected String getTableName() {

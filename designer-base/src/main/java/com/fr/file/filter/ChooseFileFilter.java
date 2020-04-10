@@ -4,6 +4,8 @@ import com.fr.base.extension.FileExtension;
 import com.fr.file.FILE;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
+import com.fr.stable.CoreConstants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
@@ -275,25 +277,25 @@ public class ChooseFileFilter extends FileFilter implements FILEFilter, java.io.
     }
 
     /**
+     * 默认情况下 返回首位的后缀名
      * get extention.
      */
     public String getExtensionString() {
-        if (filters == null) {
-            return "";
+        return getExtensionString(0);
+    }
+
+    public String getExtensionString(int index) {
+        if (filters == null || filters.isEmpty() || index >= filters.size()) {
+            return StringUtils.EMPTY;
         }
+        return CoreConstants.DOT + filters.get(index);
+    }
 
-        StringBuffer extsb = new StringBuffer(".");
-
-//        Enumeration keys = filters.keys();
-//        while (keys.hasMoreElements()) {
-//            extsb.append((String) keys.nextElement());
-//        }
-
-        for (int i = 0; i < filters.size(); i++) {
-            extsb.append(filters.get(i));
+    public int getExtensionCount() {
+        if (filters == null || filters.isEmpty()) {
+            return 0;
         }
-
-        return extsb.toString();
+        return filters.size();
     }
 
     /**

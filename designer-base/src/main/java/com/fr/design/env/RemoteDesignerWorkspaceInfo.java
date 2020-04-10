@@ -1,15 +1,19 @@
 package com.fr.design.env;
 
+import com.fr.log.FineLoggerFactory;
 import com.fr.security.SecurityToolbox;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLableReader;
+import com.fr.workspace.WorkContext;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 
 public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
     private String name;
+
+    private String remindTime;
 
     private WorkspaceConnectionInfo connection;
 
@@ -43,11 +47,21 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
         return connection;
     }
 
+    public void setRemindTime(String remindTime){
+        this.remindTime = remindTime;
+    }
+
+    @Override
+    public String getRemindTime(){
+        return remindTime;
+    }
+
     @Override
     public void readXML(XMLableReader reader) {
 
         if (reader.isAttr()) {
             this.name = reader.getAttrAsString("name", StringUtils.EMPTY);
+            this.remindTime = reader.getAttrAsString("remindTime", StringUtils.EMPTY);
         }
         if (reader.isChildNode()) {
             String tagName = reader.getTagName();
@@ -67,6 +81,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     public void writeXML(XMLPrintWriter writer) {
 
         writer.attr("name", name);
+        writer.attr("remindTime", remindTime);
         if (this.connection != null) {
             writer.startTAG("Connection");
             writer.attr("url", connection.getUrl());
@@ -79,6 +94,7 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
     }
 
     @Override
+    @SuppressWarnings("squid:S2975")
     public Object clone() throws CloneNotSupportedException {
 
         RemoteDesignerWorkspaceInfo object = (RemoteDesignerWorkspaceInfo) super.clone();
@@ -89,8 +105,14 @@ public class RemoteDesignerWorkspaceInfo implements DesignerWorkspaceInfo {
 
 
     @Override
-    public boolean checkValid(){
-
-        return true;
+    public boolean checkValid() {
+        boolean result = false;
+        try {
+            result = WorkContext.getConnector().testConnection(connection);
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            return result;
+        }
+        return result;
     }
 }

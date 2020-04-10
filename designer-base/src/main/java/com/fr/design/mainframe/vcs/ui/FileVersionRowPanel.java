@@ -1,5 +1,6 @@
 package com.fr.design.mainframe.vcs.ui;
 
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.UITextPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ilable.UILabel;
@@ -61,7 +62,7 @@ public class FileVersionRowPanel extends JPanel {
         confirmBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Title"),
+                if (FineJOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Version_Revert_Title"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     vcsEntity.setUsername(VcsHelper.getInstance().getCurrentUsername());
                     WorkContext.getCurrent().get(VcsOperator.class).rollbackTo(vcsEntity);
@@ -75,7 +76,7 @@ public class FileVersionRowPanel extends JPanel {
         deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (JOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Delete-Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Remove"),
+                if (FineJOptionPane.showConfirmDialog(null, Toolkit.i18nText("Fine-Design_Vcs_Delete-Confirm"), Toolkit.i18nText("Fine-Design_Vcs_Remove"),
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     try {
                         WorkContext.getCurrent().get(VcsOperator.class).deleteVersion(vcsEntity.getFilename(), vcsEntity.getVersion());

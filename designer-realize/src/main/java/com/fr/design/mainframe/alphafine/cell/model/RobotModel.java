@@ -9,7 +9,7 @@ import com.fr.log.FineLoggerFactory;
 import com.fr.stable.AssistUtils;
 import com.fr.stable.EncodeConstants;
 import com.fr.stable.StringUtils;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.fr.third.org.apache.commons.codec.digest.DigestUtils;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class RobotModel extends AlphaCellModel {
 
         try {
             String result = HttpToolbox.get(url);
-            if(StringUtils.isEmpty(result)){
+            if (StringUtils.isEmpty(result)) {
                 return StringUtils.EMPTY;
             }
             JSONObject jsonObject = new JSONObject(result);
@@ -94,7 +94,7 @@ public class RobotModel extends AlphaCellModel {
     @Override
     public final boolean equals(Object obj) {
         return obj instanceof RobotModel
-                && AssistUtils.equals(this.title, ((RobotModel)obj).title)
+                && AssistUtils.equals(this.title, ((RobotModel) obj).title)
                 && AssistUtils.equals(this.content, ((RobotModel) obj).content);
     }
 
