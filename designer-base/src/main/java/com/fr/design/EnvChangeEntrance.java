@@ -404,6 +404,10 @@ public class EnvChangeEntrance {
      * 处理异常
      */
     public void dealEvnExceptionWhenStartDesigner() {
+        ProcessEventPipe eventPipe = FineProcessContext.getParentPipe();
+        if (eventPipe != null) {
+            eventPipe.fire(new CarryMessageEvent(ReportState.STOP.getValue()));
+        }
         final EnvListPane envListPane = new EnvListPane();
         envListPane.populateEnvManager(currentEnvName);
         BasicDialog envListDialog = envListPane.showWindow(SwingUtilities.getWindowAncestor(DesignerContext.getDesignerFrame()));
