@@ -52,7 +52,15 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
         this.setLayout(new BorderLayout());
 
         styleSelectBox = new ColorSchemeComboBox();
-        customPane = new JPanel(FRGUIPaneFactory.createBorderLayout());
+        customPane = new JPanel(FRGUIPaneFactory.createBorderLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                if (!gradientSelect) {
+                    return colorAdjustPane.getPreferredSize();
+                }
+                return colorGradient.getPreferredSize();
+            }
+        };
 
         changeColorSetPane = new JPanel(cardLayout = new CardLayout());
         changeColorSetPane.add(colorGradient = new FixedGradientBar(4, 130), "gradient");
@@ -119,16 +127,9 @@ public class VanChartFillStylePane extends BasicBeanPane<AttrFillStyle> {
     }
 
     protected void initLayout() {
+        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         this.setLayout(new BorderLayout());
         this.add(getContentPane(), BorderLayout.CENTER);
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        if (gradientSelect) {
-            return new Dimension(225, 80);
-        }
-        return super.getPreferredSize();
     }
 
     protected JPanel getContentPane() {
