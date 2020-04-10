@@ -3,6 +3,7 @@ package com.fr.design.mainframe.mobile.ui;
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.dialog.AttrScrollPane;
 import com.fr.design.gui.ibutton.UIColorButton;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icombobox.LineComboBox;
@@ -34,6 +35,7 @@ import java.awt.*;
 public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<MobileBookMarkStyle> {
     private static final long serialVersionUID = 1L;
 
+    private static final int COLUMN_HEIGHT = 20;
     private static final int COLUMN_WIDTH = 160;
 
     private UnsignedIntUISpinner buttonWidthSpinner;
@@ -73,9 +75,20 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
-        this.add(this.createNavButtonStylePanel());
-        this.add(this.createNormalStateStylePanel());
-        this.add(this.createSelectedStateStylePanel());
+        final JPanel contentPanel = FRGUIPaneFactory.createYBoxEmptyBorderPane();
+
+        contentPanel.add(this.createNavButtonStylePanel());
+        contentPanel.add(this.createNormalStateStylePanel());
+        contentPanel.add(this.createSelectedStateStylePanel());
+
+        JPanel scrollPanel = new AttrScrollPane() {
+            @Override
+            protected JPanel createContentPane() {
+                return contentPanel;
+            }
+        };
+        scrollPanel.setPreferredSize(new Dimension(-2, -2));
+        this.add(scrollPanel, BorderLayout.CENTER);
     }
 
     private JPanel createNavButtonStylePanel() {
@@ -87,11 +100,11 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
 
         UILabel sizeLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_BookMark_Style_Sidebar_Button_Size") + ":",
                 SwingConstants.RIGHT);
-        JPanel sizePane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(2, 5, 0);
+        JPanel sizePane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(2, 4, 0);
         sizePane.add(buttonWidthSpinner);
         sizePane.add(buttonHeightSpinner);
 
-        JPanel sizeTipsPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(2, 5, 0);
+        JPanel sizeTipsPane = FRGUIPaneFactory.createNColumnGridInnerContainer_Pane(2, 4, 0);
         sizeTipsPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_BookMark_Style_Sidebar_Button_Width"),
                 SwingConstants.CENTER));
         sizeTipsPane.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_BookMark_Style_Sidebar_Button_Height"),
@@ -103,7 +116,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
                 SwingConstants.RIGHT);
 
         double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p};
+        double[] rowSize = {COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT};
         double[] columnSize = {p, COLUMN_WIDTH};
         double[] verticalGaps = {0, 10, 10};
 
@@ -167,12 +180,12 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
 
         JPanel fontExtraPane = TableLayoutHelper.createGapTableLayoutPane(
                 new JComponent[][]{{normalFontSizeComboBox, normalFontColorButton, normalFontItalicButton, normalFontBoldButton}},
-                new double[]{p},
+                new double[]{COLUMN_HEIGHT},
                 new double[]{p, p, p, p},
-                0, 5
+                7, 0
         );
 
-        double[] rowSize = {p, p, p, p, p};
+        double[] rowSize = {COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT};
         double[] columnSize = {p, COLUMN_WIDTH, p};
 
         JPanel normalStateStyleSettingsPanel = TableLayoutHelper.createGapTableLayoutPane(new JComponent[][]{
@@ -254,12 +267,12 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
 
         JPanel fontExtraPane = TableLayoutHelper.createGapTableLayoutPane(
                 new JComponent[][]{{selectedFontSizeComboBox, selectedFontColorButton, selectedFontItalicButton, selectedFontBoldButton}},
-                new double[]{p},
+                new double[]{COLUMN_HEIGHT},
                 new double[]{p, p, p, p},
-                0, 5
+                7, 0
         );
 
-        double[] rowSize = {p, p, p, p, p};
+        double[] rowSize = {COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT, COLUMN_HEIGHT};
         double[] columnSize = {p, COLUMN_WIDTH, p};
 
         JPanel selectedStateStyleSettingsPanel = TableLayoutHelper.createGapTableLayoutPane(new JComponent[][]{
