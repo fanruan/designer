@@ -8,6 +8,13 @@ package com.fr.design.notification;
 public interface SnapChat {
     
     /**
+     * 默认状态
+     *
+     * @return 默认状态
+     */
+    boolean defaultStatus();
+    
+    /**
      * 已读
      *
      * @return 是否为已读
