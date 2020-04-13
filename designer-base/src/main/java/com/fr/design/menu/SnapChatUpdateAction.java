@@ -32,7 +32,8 @@ public abstract class SnapChatUpdateAction extends UpdateAction implements SnapC
     public boolean hasRead() {
         
         String calcKey = calcKey();
-        return SnapChatConfig.getInstance().hasRead(calcKey);
+        Boolean val = SnapChatConfig.getInstance().hasRead(calcKey);
+        return val == null ? defaultStatus() : val;
     }
     
     @Override
@@ -40,6 +41,12 @@ public abstract class SnapChatUpdateAction extends UpdateAction implements SnapC
         
         String calcKey = calcKey();
         SnapChatConfig.getInstance().markRead(calcKey);
+    }
+    
+    @Override
+    public boolean defaultStatus() {
+        
+        return false;
     }
     
     @Override

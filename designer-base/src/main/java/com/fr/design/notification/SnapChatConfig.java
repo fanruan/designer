@@ -31,13 +31,17 @@ public class SnapChatConfig implements XMLable {
     public Boolean hasRead(String key) {
         
         Map<String, Boolean> map = markReadMap;
-        Boolean val = map.get(key);
-        return val == null ? Boolean.FALSE : val;
+        return map.get(key);
     }
     
     public void markRead(String key) {
         
         markReadMap.put(key, Boolean.TRUE);
+    }
+    
+    public void resetRead(String key) {
+    
+        markReadMap.put(key, Boolean.FALSE);
     }
     
     @Override

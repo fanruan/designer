@@ -42,7 +42,9 @@ public class SnapChatMenuDef extends MenuDef implements SnapChat {
     public boolean hasRead() {
         
         String calcKey = calcKey();
-        return SnapChatConfig.getInstance().hasRead(calcKey);
+        Boolean val = SnapChatConfig.getInstance().hasRead(calcKey);
+        // 默认读过了。
+        return val == null ? defaultStatus() : val;
     }
     
     @Override
@@ -50,6 +52,30 @@ public class SnapChatMenuDef extends MenuDef implements SnapChat {
         
         String calcKey = calcKey();
         SnapChatConfig.getInstance().markRead(calcKey);
+    }
+    
+    @Override
+    public boolean defaultStatus() {
+        
+        return true;
+    }
+    
+    @Override
+    public void addShortCut(ShortCut... shortCuts) {
+    
+        if (shortCuts == null) {
+            return;
+        }
+        for (ShortCut shortCut : shortCuts) {
+            if (shortCut instanceof SnapChatUpdateAction) {
+                SnapChatUpdateAction action = (SnapChatUpdateAction) shortCut;
+                if (!action.hasRead()) {
+                    String calcKey = calcKey();
+                    SnapChatConfig.getInstance().resetRead(calcKey);
+                }
+            }
+        }
+        super.addShortCut(shortCuts);
     }
     
     @Override
