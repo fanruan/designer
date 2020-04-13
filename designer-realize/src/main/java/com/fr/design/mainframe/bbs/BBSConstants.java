@@ -64,7 +64,7 @@ public class BBSConstants {
     }
 
     private static String[] loadAllGuestsInfoOnline(String key, String defaultValue) {
-        String guest = CloudCenter.getInstance().acquireUrlByKind(key, defaultValue);
+        String guest = CloudCenter.getInstance().acquireConf(key, defaultValue);
         if (StringUtils.isNotEmpty(guest)) {
             return guest.split("\\|");
         }

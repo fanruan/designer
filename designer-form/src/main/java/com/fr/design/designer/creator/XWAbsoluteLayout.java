@@ -13,11 +13,8 @@ import com.fr.design.designer.beans.adapters.layout.FRAbsoluteLayoutAdapter;
 import com.fr.design.designer.beans.location.Direction;
 import com.fr.design.designer.beans.models.SelectionModel;
 import com.fr.design.designer.creator.cardlayout.XWTabFitLayout;
-import com.fr.design.designer.properties.mobile.MobileBooKMarkUsePropertyUI;
 import com.fr.design.form.layout.FRAbsoluteLayout;
-import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.form.util.XCreatorConstants;
-import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.EditingMouseListener;
@@ -592,14 +589,5 @@ public class XWAbsoluteLayout extends XLayoutContainer {
      */
     public boolean isSupportShared() {
         return true;
-    }
-
-    @Override
-    public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-        if (FormDesignerUtils.isAppRelayout(WidgetPropertyPane.getInstance().getEditingFormDesigner())) {
-            return new WidgetPropertyUIProvider[] {new MobileBooKMarkUsePropertyUI(this)};
-        } else {
-            return super.getWidgetPropertyUIProviders();
-        }
     }
 }

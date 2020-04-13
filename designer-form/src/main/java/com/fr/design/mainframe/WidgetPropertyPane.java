@@ -9,6 +9,7 @@ import com.fr.design.designer.creator.*;
 import com.fr.design.designer.properties.EventPropertyTable;
 import com.fr.design.designer.properties.mobile.MobileBookMarkPropertyUI;
 import com.fr.design.designer.properties.mobile.MobileStylePropertyUI;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.ibutton.UIHeadGroup;
 import com.fr.design.gui.icontainer.UIScrollPane;
@@ -178,7 +179,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         if (selection != null && xCreator != null) {
             embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
             if(!designer.getDesignerMode().isFormParameterEditor()) {
-                if (!xCreator.acceptType(XWAbsoluteLayout.class, XWFitLayout.class)) {
+                if (!xCreator.acceptType(XWAbsoluteLayout.class, XWFitLayout.class) && FormDesignerUtils.isAppRelayout(designer)) {
                     embeddedPropertyUIProviders = ArrayUtils.insert(0, embeddedPropertyUIProviders, new MobileBookMarkPropertyUI(xCreator));
                 }
                 if (xCreator.supportMobileStyle()) {

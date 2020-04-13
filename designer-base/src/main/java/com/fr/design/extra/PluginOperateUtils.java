@@ -1,10 +1,10 @@
 package com.fr.design.extra;
 
 import com.fr.config.MarketConfig;
+import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.exe.callback.InstallFromDiskCallback;
 import com.fr.design.extra.exe.callback.InstallOnlineCallback;
-import com.fr.design.bridge.exec.JSCallback;
 import com.fr.design.extra.exe.callback.ModifyStatusCallback;
 import com.fr.design.extra.exe.callback.UninstallPluginCallback;
 import com.fr.design.extra.exe.callback.UpdateFromDiskCallback;
@@ -13,6 +13,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
 import com.fr.json.JSONArray;
+import com.fr.json.JSONException;
 import com.fr.json.JSONObject;
 import com.fr.log.FineLoggerFactory;
 import com.fr.plugin.context.PluginContext;
@@ -25,9 +26,9 @@ import com.fr.plugin.manage.control.PluginTaskResult;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 
@@ -110,13 +111,18 @@ public class PluginOperateUtils {
     public static String getRecommendPlugins() {
         String plistUrl = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.feature");
         JSONArray resultArray = JSONArray.create();
+        if (StringUtils.isBlank(plistUrl)) {
+            return resultArray.toString();
+        }
         try {
             HttpClient httpClient = new HttpClient(plistUrl);
-            String result = httpClient.getResponseText();
-            JSONArray jsonArray = new JSONArray(result);
-            resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
-        } catch (Exception e) {
-            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+            if (httpClient.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                String result = httpClient.getResponseText();
+                JSONArray jsonArray = new JSONArray(result);
+                resultArray = PluginUtils.filterPluginsFromVersion(jsonArray);
+            }
+        } catch (JSONException e) {
+            FineLoggerFactory.getLogger().info(e.getMessage(), e);
         }
         return resultArray.toString();
     }

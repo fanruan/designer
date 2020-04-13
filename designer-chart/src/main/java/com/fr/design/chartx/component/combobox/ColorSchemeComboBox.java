@@ -177,6 +177,8 @@ public class ColorSchemeComboBox extends UIComboBox {
 
         private static final int MAX_COUNT = 5;
 
+        private static final int BLANK = 1;
+
         @Override
         public Dimension getPreferredSize() {
             Dimension preferredSize = super.getPreferredSize();
@@ -198,7 +200,8 @@ public class ColorSchemeComboBox extends UIComboBox {
                 comp.setText(BLANK_SPACE + schemeName);
             } else {
                 FontMetrics fontMetrics = comp.getFontMetrics(comp.getFont());
-                double width = (HEIGHT - 2 * Y) * MAX_COUNT;
+                //宽度是5倍的高加上4倍的留白
+                double width = (HEIGHT - 2 * Y) * MAX_COUNT + BLANK * (MAX_COUNT - 1);
                 String fill = BLANK_SPACE;
                 //图形和文字之间留的宽度大于3倍的X
                 while (fontMetrics.stringWidth(fill) < width + 3 * X) {
@@ -228,7 +231,7 @@ public class ColorSchemeComboBox extends UIComboBox {
         private void drawGradient(Graphics2D g2d, List<Color> colors) {
             //上下留4px，宽度等于5倍高
             double height = HEIGHT - 2 * Y;
-            double width = height * MAX_COUNT;
+            double width = height * MAX_COUNT + BLANK * (MAX_COUNT - 1);
             LinearGradientPaint linearGradientPaint = new LinearGradientPaint((float) X, (float) Y, (float) (X + width), (float) Y, new float[]{0f, 1f}, colors.toArray(new Color[colors.size()]));
             g2d.setPaint(linearGradientPaint);
             Rectangle2D rec = new Rectangle2D.Double(X, Y, width, height);
@@ -238,10 +241,11 @@ public class ColorSchemeComboBox extends UIComboBox {
         private void drawCombineColor(Graphics2D g2d, List<Color> colors) {
             int size = Math.min(colors.size(), MAX_COUNT);
             double height = HEIGHT - 2 * Y;
-            double width = height * MAX_COUNT / size;
+            //加上1px留白
+            double width = ((height + BLANK) * MAX_COUNT - size) / size;
             for (int i = 0; i < size; i++) {
                 g2d.setPaint(colors.get(i));
-                Rectangle2D rec = new Rectangle2D.Double(X + width * i, Y, width, height);
+                Rectangle2D rec = new Rectangle2D.Double(X + (width + BLANK) * i, Y, width, height);
                 g2d.fill(rec);
             }
         }
