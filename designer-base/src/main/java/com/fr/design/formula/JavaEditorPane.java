@@ -220,8 +220,8 @@ public class JavaEditorPane extends BasicPane {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 获取数据集的列数\n" +
-            "     * @return 数据集的列\n" +
+            "     * Get the number of columns in a dataset\n" +
+            "     * @return Dataset columns\n" +
             "     * @throws TableDataException\n" +
             "     */\n" +
             "    public int getColumnCount() throws TableDataException {\n" +
@@ -229,9 +229,9 @@ public class JavaEditorPane extends BasicPane {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 获取数据集指定列的列名\n" +
-            "     * @param columnIndex 指定列的索引\n" +
-            "     * @return 指定列的列名\n" +
+            "     * Get the column name of the specified column of the dataset\n" +
+            "     * @param columnIndex The index of the specified column\n" +
+            "     * @return The column name of the specified column\n" +
             "     * @throws TableDataException\n" +
             "     */\n" +
             "    public String getColumnName(int columnIndex) throws TableDataException {\n" +
@@ -239,8 +239,8 @@ public class JavaEditorPane extends BasicPane {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 获取数据集的行数\n" +
-            "     * @return 数据集数据行数\n" +
+            "     * Get the number of rows in the dataset\n" +
+            "     * @return Dataset rows\n" +
             "     * @throws TableDataException\n" +
             "     */\n" +
             "    public int getRowCount() throws TableDataException {\n" +
@@ -248,10 +248,10 @@ public class JavaEditorPane extends BasicPane {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 获取数据集指定位置上的值\n" +
-            "     * @param rowIndex 指定的行索引\n" +
-            "     * @param columnIndex  指定的列索引\n" +
-            "     * @return  指定位置的值\n" +
+            "     * Get the value at the specified position in the dataset\n" +
+            "     * @param rowIndex The specified row index\n" +
+            "     * @param columnIndex  The specified column index\n" +
+            "     * @return  The value of the specified location\n" +
             "     */\n" +
             "    public Object getValueAt(int rowIndex, int columnIndex) {\n" +
             "        return null;\n" +
@@ -263,12 +263,12 @@ public class JavaEditorPane extends BasicPane {
             "import com.fr.script.AbstractFunction;\n" +
             "\n" +
             "/**\n" +
-            " * 自定义函数\n" +
+            " * Custom function\n" +
             " */\n" +
             "public class CustomFun extends AbstractFunction {\n" +
             "    /**\n" +
-            "     * @param args 函数的参数，是经过了算子处理了其中特殊参数的\n" +
-            "     * @return 经过函数处理的值，用于参与最终计算\n" +
+            "     * @param args The parameters of the function are processed by calculator with special parameters\n" +
+            "     * @return The value processed by the function is used to participate in the final calculation\n" +
             "     */\n" +
             "    public Object run(Object[] args) {\n" +
             "        return null;\n" +
