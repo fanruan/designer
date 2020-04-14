@@ -7,6 +7,8 @@ import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.unit.ReportLengthUNIT;
+import com.fr.design.unit.UnitConvertUtil;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.grid.selection.CellSelection;
 import com.fr.grid.selection.FloatSelection;
@@ -14,7 +16,6 @@ import com.fr.grid.selection.Selection;
 import com.fr.log.FineLoggerFactory;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.ColumnRow;
-import com.fr.stable.Constants;
 import com.fr.stable.unit.FU;
 import com.fr.stable.unit.UNIT;
 
@@ -306,25 +307,10 @@ public abstract class AbstractGridHeaderMouseHandler extends MouseInputAdapter {
 //        int resolution = ScreenResolution.getScreenResolution();
         FU ulen = FU.valueOfPix((int) doubleValue, resolution);
         FU tulen = FU.valueOfPix((int) totalDoubleValue, resolution);
-        String unit;
-        double len, tlen;
-        if (unitType == Constants.UNIT_PT) {
-            len = ulen.toPTValue4Scale2();
-            tlen = tulen.toPTValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT");
-        } else if (unitType == Constants.UNIT_CM) {
-            len = ulen.toCMValue4Scale2();
-            tlen = tulen.toCMValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM");
-        } else if (unitType == Constants.UNIT_INCH) {
-            len = ulen.toINCHValue4Scale3();
-            tlen = tulen.toINCHValue4Scale3();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");
-        } else {
-            len = ulen.toMMValue4Scale2();
-            tlen = tulen.toMMValue4Scale2();
-            unit = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM");
-        }
+        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        String unit = lengthUNIT.unitText();
+        double len = lengthUNIT.unit2Value4Scale(ulen);
+        double tlen = lengthUNIT.unit2Value4Scale(tulen);
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%.2f", new Double(len)))
                 .append('/').append(String.format("%.2f", new Double(tlen)))

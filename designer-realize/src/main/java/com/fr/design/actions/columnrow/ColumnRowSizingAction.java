@@ -10,14 +10,11 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.DialogActionAdapter;
 
 import com.fr.design.mainframe.ElementCasePane;
+import com.fr.design.unit.ReportLengthUNIT;
+import com.fr.design.unit.UnitConvertUtil;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
 import com.fr.stable.ArrayUtils;
-import com.fr.stable.Constants;
-import com.fr.stable.unit.CM;
-import com.fr.stable.unit.INCH;
-import com.fr.stable.unit.MM;
-import com.fr.stable.unit.PT;
 import com.fr.stable.unit.UNIT;
 
 /**
@@ -28,7 +25,7 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
 	protected ColumnRowSizingAction(ElementCasePane t, int indexOfColumnOrRow) {
 		super(t, indexOfColumnOrRow);
 	}
-	
+
 	@Override
 	protected boolean executeActionReturnUndoRecordNeededWithCellSelection(
 			CellSelection cs) {
@@ -43,7 +40,7 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
         };
         UNIT len = getShowLen(report, cs);
         populateNumberDialog(uPane, len);
-        
+
         final CellSelection finalCS = cs;
         uPane.showSmallWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
 
@@ -52,21 +49,13 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
                 try {
 					float newHeight = (float) uPane.update();
 					int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-					UNIT len;
-					if (unitType == Constants.UNIT_CM) {
-						len = new CM(newHeight);
-					} else if (unitType == Constants.UNIT_INCH) {
-						len = new INCH(newHeight);
-					} else if (unitType == Constants.UNIT_PT) {
-						len = new PT(newHeight);
-					} else {
-						len = new MM(newHeight);
-					}
+                    ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+					UNIT len = lengthUNIT.float2UNIT(newHeight);
 					updateAction(report, len, finalCS);
 				} catch (ValueNotChangeException e) {
 					// nothing
 				}
-                
+
                 ePane.fireTargetModified();
             }
         }).setVisible(true);
@@ -75,28 +64,16 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
 
     protected void populateNumberDialog(final UnitInputPane uPane, UNIT unit) {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        float va;
-        if (unitType == Constants.UNIT_CM) {
-            va = unit.toCMValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
-        } else if (unitType == Constants.UNIT_INCH) {
-            va = unit.toINCHValue4Scale3();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"));
-        } else if (unitType == Constants.UNIT_PT) {
-            va = unit.toPTValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT"));
-        } else {
-            va = unit.toMMValue4Scale2();
-            uPane.setUnitText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"));
-        }
-
+        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        float va = lengthUNIT.unit2Value4Scale(unit);
+        uPane.setUnitText(lengthUNIT.unitText());
         uPane.populate(va);
     }
-    
+
     protected abstract String title4UnitInputPane();
-    
+
     protected abstract void updateAction(ElementCase report, UNIT len, CellSelection cs);
-    
+
     protected abstract UNIT getShowLen(ElementCase report, CellSelection cs);
 
     protected abstract UNIT getIndexLen(int index, ElementCase report);
