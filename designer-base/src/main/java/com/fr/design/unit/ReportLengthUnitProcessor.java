@@ -9,6 +9,6 @@ public interface ReportLengthUnitProcessor extends Immutable {
     String MARK_STRING = "ReportLengthUnitProcessor";
     int CURRENT_LEVEL = 1;
 
-    ReportLengthUNIT getReportLengthUNIT();
+    ReportLengthUNIT getReportLengthUNIT(int unitType);
 
 }

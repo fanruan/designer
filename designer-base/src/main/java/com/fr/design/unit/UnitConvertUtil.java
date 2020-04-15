@@ -30,7 +30,7 @@ public class UnitConvertUtil {
     public static ReportLengthUNIT parseLengthUNIT(int unitType) {
         ReportLengthUnitProcessor lengthUnitProcessor = ExtraDesignClassManager.getInstance().getSingle(ReportLengthUnitProcessor.MARK_STRING);
         if (lengthUnitProcessor != null) {
-            return lengthUnitProcessor.getReportLengthUNIT();
+            return lengthUnitProcessor.getReportLengthUNIT(unitType);
         }
         for (ReportLengthUNIT lengthUNIT : lengthUNITList) {
             if (unitType == lengthUNIT.unitType()) {
