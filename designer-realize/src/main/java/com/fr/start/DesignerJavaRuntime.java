@@ -111,7 +111,6 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
             String[] options = super.getJvmOptions();
             // win下环境变量 存在错误的设置会导致问题 直接读vmoptions
             if (SupportOSImpl.VM_OPTIONS_ADAPTER.support()) {
-                long start = System.currentTimeMillis();
                 List<String> optionList = new ArrayList<>();
                 try (BufferedReader reader = new BufferedReader(new FileReader(new File(WIN_VM_OPTIONS_PATH)))) {
                     String option = null;
@@ -122,7 +121,6 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
                     FineLoggerFactory.getLogger().error(e.getMessage(), e);
                     return DEBUG_OPTIONS;
                 }
-                FineLoggerFactory.getLogger().error("time: " + (System.currentTimeMillis() - start));
                 if (!optionList.isEmpty()) {
                     return optionList.toArray(new String[0]);
                 }
