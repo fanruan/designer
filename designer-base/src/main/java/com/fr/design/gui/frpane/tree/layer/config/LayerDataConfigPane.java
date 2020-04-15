@@ -76,18 +76,17 @@ public class LayerDataConfigPane extends BasicBeanPane<LayerConfig> {
         } else {
             columnNames = new ArrayList<>();
         }
-        TableDataDictionary dataDictionary = tableDataDictPane.updateBean();
-        String viewColStr = dataDictionary.getValueColumnName();
-        String modelColStr = dataDictionary.getKeyColumnName();
+        TableDataDictionary dictionary = tableDataDictPane.updateBean();
+        String viewColStr = dictionary.getValueColumnName();
+        String modelColStr = dictionary.getKeyColumnName();
         int viewCol = columnNames.indexOf(viewColStr);
         int modelCol = columnNames.indexOf(modelColStr);
         if (StringUtils.EMPTY.equals(viewColStr)) {
-            viewCol = dataDictionary.getValueColumnIndex();
+            viewCol = dictionary.getValueColumnIndex();
         }
         if (StringUtils.EMPTY.equals(modelColStr)) {
-            modelCol = dataDictionary.getKeyColumnIndex();
+            modelCol = dictionary.getKeyColumnIndex();
         }
-        TableDataDictionary dictionary = tableDataDictPane.updateBean();
         //将数据设置到当前正在修改的layerData中
         this.layerConfig.setDictionary(dictionary);
         this.layerConfig.setModelColumn(modelCol);
