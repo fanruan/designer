@@ -4,6 +4,7 @@ import com.fr.design.extra.PluginConstants;
 import com.fr.design.extra.Process;
 import com.fr.general.CloudCenter;
 import com.fr.general.http.HttpClient;
+import com.fr.stable.StringUtils;
 
 /**
  * Created by vito on 16/5/16.
@@ -28,7 +29,7 @@ public class GetPluginCategoriesExecutor implements Executor {
                     @Override
                     public void run(Process<String> process) {
                         String url = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.category");
-                        if (url != null) {
+                        if (StringUtils.isNotEmpty(url)) {
                             HttpClient httpClient = new HttpClient(url);
                             result = httpClient.getResponseText();
                         } else {
