@@ -20,6 +20,7 @@ import com.fr.form.ui.Widget;
 import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WSortLayout;
 import com.fr.form.ui.mobile.MobileBookMark;
+import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
 import com.fr.stable.StringUtils;
@@ -33,6 +34,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author hades
@@ -180,10 +182,14 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
         Form form = WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
         WLayout container = form.getContainer();
         WSortLayout wSortLayout = (WSortLayout) container.getWidget(container.getWidgetCount() - 1);
-        Iterator<String> iterator = wSortLayout.getMobileWidgetIterator();
-        while (iterator.hasNext()) {
-            Widget widget = form.getWidgetByName(iterator.next());
+        List<String> list = wSortLayout.getOrderedMobileWidgetList();
+        for (String value : list) {
+            Widget widget = form.getWidgetByName(value);
             if (widget != null && ComparatorUtils.equals(widget.getMobileBookMark().getBookMarkName(), name)) {
+                return true;
+            }
+            CRBoundsWidget boundsWidget = (CRBoundsWidget) wSortLayout.getWidget(value);
+            if (boundsWidget != null && ComparatorUtils.equals(boundsWidget.getWidget().getMobileBookMark().getBookMarkName(), name)) {
                 return true;
             }
         }
