@@ -138,8 +138,12 @@ public class MenuDef extends ShortCut {
      */
     public void addShortCut(ShortCut... shortcut) {
         for (ShortCut i : shortcut) {
-            this.shortcutList.add(i);
+            addShortCut(i);
         }
+    }
+    
+    public void addShortCut(ShortCut shortCut) {
+        this.shortcutList.add(shortCut);
     }
 
     public void removeShortCut(ShortCut shortCut) {

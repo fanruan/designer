@@ -61,22 +61,19 @@ public class SnapChatMenuDef extends MenuDef implements SnapChat {
     }
     
     @Override
-    public void addShortCut(ShortCut... shortCuts) {
+    public void addShortCut(ShortCut shortCut) {
     
-        if (shortCuts == null) {
-            return;
-        }
-        for (ShortCut shortCut : shortCuts) {
-            if (shortCut instanceof SnapChatUpdateAction) {
-                SnapChatUpdateAction action = (SnapChatUpdateAction) shortCut;
-                if (!action.hasRead()) {
-                    String calcKey = calcKey();
-                    SnapChatConfig.getInstance().resetRead(calcKey);
-                }
-            }
-        }
-        super.addShortCut(shortCuts);
+        addSnapChatNotification(shortCut);
+        super.addShortCut(shortCut);
     }
+    
+    @Override
+    public void insertShortCut(int index, ShortCut shortCut) {
+        
+        addSnapChatNotification(shortCut);
+        super.insertShortCut(index, shortCut);
+    }
+    
     
     @Override
     public SnapChatKey key() {
@@ -88,6 +85,22 @@ public class SnapChatMenuDef extends MenuDef implements SnapChat {
     protected MenuListener createMenuListener() {
         
         return new SnapChatMenuListener();
+    }
+    
+    /**
+     * 添加提醒
+     *
+     * @param shortCut 快捷方式
+     */
+    private void addSnapChatNotification(ShortCut shortCut) {
+        
+        if (shortCut instanceof SnapChatUpdateAction) {
+            SnapChatUpdateAction action = (SnapChatUpdateAction) shortCut;
+            if (!action.hasRead()) {
+                String calcKey = calcKey();
+                SnapChatConfig.getInstance().resetRead(calcKey);
+            }
+        }
     }
     
     private String calcKey() {
