@@ -12,6 +12,7 @@ import com.fr.design.mainframe.widget.MobileTabFontConfPane;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.mainframe.widget.preview.MobileTemplatePreviewPane;
 import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.TabFontConfig;
@@ -33,8 +34,8 @@ public class UniteStyleDefinePane extends MobileTemplateStyleDefinePane {
     private UnsignedIntUISpinner paddingLeftSpinner;
     private UnsignedIntUISpinner paddingRightSpinner;
 
-    private ColorSelectBox initialBackgroundColorBox;
-    private ColorSelectBox selectedBackgroundColorBox;
+    private NewColorSelectBox initialBackgroundColorBox;
+    private NewColorSelectBox selectedBackgroundColorBox;
 
     private LineComboBox borderWidthComboBox;
     private ColorSelectBox borderColorBox;
@@ -96,9 +97,9 @@ public class UniteStyleDefinePane extends MobileTemplateStyleDefinePane {
     }
 
     private JPanel createBackgroundColorConfPanel() {
-        this.initialBackgroundColorBox = new ColorSelectBox(LINE_COMPONENT_WIDTH);
+        this.initialBackgroundColorBox = new NewColorSelectBox(LINE_COMPONENT_WIDTH);
         this.initialBackgroundColorBox.setPreferredSize(new Dimension(LINE_COMPONENT_WIDTH, LINE_COMPONENT_HEIGHT));
-        this.selectedBackgroundColorBox = new ColorSelectBox(LINE_COMPONENT_WIDTH);
+        this.selectedBackgroundColorBox = new NewColorSelectBox(LINE_COMPONENT_WIDTH);
         this.selectedBackgroundColorBox.setPreferredSize(new Dimension(LINE_COMPONENT_WIDTH, LINE_COMPONENT_HEIGHT));
 
         UILabel initialBackgroundColorLabel = new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_Init_Fill") + ":", SwingConstants.RIGHT);

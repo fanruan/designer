@@ -6,26 +6,32 @@ import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.PluginConstants;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.utils.gui.GUICoreUtils;
-import com.fr.general.IOUtils;
-
 import com.fr.general.CloudCenter;
+import com.fr.general.IOUtils;
 import com.fr.general.http.HttpClient;
 import com.fr.plugin.chart.DownloadSourcesEvent;
 import com.fr.stable.CommonUtils;
 import com.fr.stable.StableUtils;
 import com.fr.workspace.WorkContext;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by shine on 2017/8/21.
@@ -50,13 +56,6 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
 
     //总共字节数
     private double totalBytes = 0;
-
-
-    private static final double PHANTOM_MB = 96.1 * 1024 * 1024;
-
-    public void addPhantomSiteInfo() {
-        this.addSiteInfo("plugin.phantomjs", ChartConstants.PHANTOMJS_URL, PHANTOM_MB);
-    }
 
     private static final double MAP_JSON_MB = 4.5 * 1024 * 1024;
 
@@ -219,7 +218,6 @@ public class DownloadOnlineSourcesHelper implements DownloadSourcesEvent {
     @Override
     public void downloadSources() {
         this.addMapJSONSiteInfo();
-        this.addPhantomSiteInfo();
         this.installOnline();
     }
 

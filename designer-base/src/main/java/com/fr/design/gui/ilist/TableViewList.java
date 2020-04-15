@@ -91,10 +91,10 @@ public class TableViewList extends UIList {
         if (refreshList != null) {
             refreshList.cancel(true);
         }
-        refreshList = new SwingWorker<Void, Void>() {
+        refreshList = new SwingWorker<DefaultListModel, Void>() {
 
             @Override
-            protected Void doInBackground() throws Exception {
+            protected DefaultListModel doInBackground() throws Exception {
                 Connection datasource = ConnectionConfig.getInstance().getConnection(databaseName);
                 boolean status = false;
                 int count = 3;
@@ -106,13 +106,13 @@ public class TableViewList extends UIList {
                 if (!status) {
                     throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Database_Connection_Failed"));
                 }
-                TableViewList.this.setModel(processDataInAnotherThread(databaseName, searchFilter, typesFilter));
-                return null;
+                return processDataInAnotherThread(databaseName, searchFilter, typesFilter);
             }
 
+            @Override
             public void done() {
                 try {
-                    get();
+                    TableViewList.this.setModel(get());
                 } catch (Exception e) {
                     if (!(e instanceof InterruptedException) && !(e instanceof CancellationException)) {
                         TableViewList.this.setModel(failed);

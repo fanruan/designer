@@ -1,6 +1,7 @@
 package com.fr.design.chart;
 
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.decision.webservice.v10.map.geojson.helper.GEOJSONHelper;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.gui.ChartComponent;
@@ -17,6 +18,7 @@ import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 
 /**
@@ -46,6 +48,8 @@ public class ChartDesignerActivator extends Activator implements Prepare {
         ActionFactory.registerChartCollection(ChartCollection.class);
 
         DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
+
+        GEOJSONHelper.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
 
         ChartTypeInterfaceManager.addPluginChangedListener();
     }
