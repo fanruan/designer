@@ -75,7 +75,7 @@ public class WebViewDlgHelper {
                 }
                 return;
             }
-            String jar_version = PluginStoreConstants.getInstance().getProps(ENV_VERSION, StringUtils.EMPTY);
+            String jar_version = PluginStoreConstants.getProps(ENV_VERSION, StringUtils.EMPTY);
             if (ComparatorUtils.equals(jar_version, ProductConstants.VERSION)) {
                 updateShopScripts(SHOP_SCRIPTS);
                 showPluginDlg();
@@ -297,7 +297,7 @@ public class WebViewDlgHelper {
             protected Void doInBackground() throws Exception {
                 String url = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.update");
                 if (url != null) {
-                    String text = HttpToolbox.get(url + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getInstance().getProps("VERSION"));
+                    String text = HttpToolbox.get(url + "?" + PluginUtils.FR_VERSION + "=" + ProductConstants.VERSION + "&version=" + PluginStoreConstants.getProps("VERSION"));
                     JSONObject resultJSONObject = new JSONObject(text);
                     String isLatest = resultJSONObject.optString("result");
                     if (!ComparatorUtils.equals(isLatest, LATEST)) {

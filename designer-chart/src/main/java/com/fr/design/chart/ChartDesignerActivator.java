@@ -15,8 +15,10 @@ import com.fr.locale.LocaleMarker;
 import com.fr.locale.LocaleScope;
 import com.fr.module.Activator;
 import com.fr.module.extension.Prepare;
+import com.fr.plugin.chart.vanchart.export.ImagePainter;
 import com.fr.stable.bridge.StableFactory;
 import com.fr.stable.plugin.ExtraChartDesignClassManagerProvider;
+import com.fr.van.chart.DownloadOnlineSourcesHelper;
 import com.fr.van.chart.map.server.ChartMapEditorAction;
 
 /**
@@ -46,6 +48,8 @@ public class ChartDesignerActivator extends Activator implements Prepare {
         ActionFactory.registerChartCollection(ChartCollection.class);
 
         DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
+
+        ImagePainter.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
 
         ChartTypeInterfaceManager.addPluginChangedListener();
     }

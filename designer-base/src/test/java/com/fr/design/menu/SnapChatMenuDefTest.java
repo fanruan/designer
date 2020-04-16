@@ -73,4 +73,34 @@ public class SnapChatMenuDefTest {
         menuDef.addShortCut(action);
         Assert.assertFalse(menuDef.hasRead());
     }
+    
+    @Test
+    public void testInsertShortCut() throws Exception {
+    
+        PowerMock.suppress(MemberMatcher.constructor(UpdateAction.class));
+        SnapChatConfig snapChatConfig = EasyMock.partialMockBuilder(SnapChatConfig.class)
+                .addMockedMethod("readXML")
+                .createMock();
+        Whitebox.setInternalState(snapChatConfig, "markReadMap", new HashMap());
+        snapChatConfig.readXML(EasyMock.anyObject(XMLableReader.class));
+        EasyMock.expectLastCall().anyTimes();
+        EasyMock.replay(snapChatConfig);
+    
+        PowerMock.mockStatic(SnapChatConfig.class);
+        EasyMock.expect(SnapChatConfig.getInstance()).andReturn(snapChatConfig).anyTimes();
+        PowerMock.replayAll();
+    
+        SnapChatMenuDef menuDef = new SnapChatMenuDef("test", SnapChatAllTypes.Menu.BBS);
+        ShortCut action = new SnapChatUpdateAction(SnapChatAllTypes.Menu.BBS) {
+            @Override
+            protected void actionPerformed0(ActionEvent e) {
+            
+            }
+        };
+    
+        Assert.assertTrue(menuDef.hasRead());
+    
+        menuDef.insertShortCut(0, action);
+        Assert.assertFalse(menuDef.hasRead());
+    }
 }

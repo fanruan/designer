@@ -68,6 +68,7 @@ public class VanChartLegendPane extends AbstractVanChartScrollPane<VanChart> {
         if (plot == null) {
             return;
         }
+        legendContent.setPlot(plot);
         VanChartLegend legend = (VanChartLegend) plot.getLegend();
         if (legendContent != null) {
             legendContent.populateBean(legend);

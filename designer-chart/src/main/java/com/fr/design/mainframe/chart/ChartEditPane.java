@@ -22,6 +22,7 @@ import com.fr.design.mainframe.chart.gui.ChartTypePane;
 import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.plugin.chart.vanchart.VanChart;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -113,7 +114,11 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             selectedPane.update(collection);
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
-
+                VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
+                if (vanChart != null) {
+                    //此处画图
+                    vanChart.attrChange();
+                }
                 try {
                     ChartInfoCollector.getInstance().checkTestChart(collection.getSelectedChartProvider(ChartProvider.class));
                     lastCollection = collection.clone();

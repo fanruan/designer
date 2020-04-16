@@ -2,14 +2,15 @@ package com.fr.van.chart.designer.style;
 
 import com.fr.base.BaseUtils;
 import com.fr.base.Style;
+import com.fr.chart.chartattr.Plot;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ibutton.UIToggleButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.i18n.Toolkit;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
@@ -18,6 +19,7 @@ import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.type.LayoutType;
 import com.fr.stable.Constants;
+import com.fr.van.chart.designer.PlotFactory;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.component.VanChartFloatPositionPane;
 import com.fr.van.chart.designer.component.background.VanChartBackgroundWithOutImagePane;
@@ -45,6 +47,8 @@ public class VanChartPlotLegendPane extends BasicPane {
     private static final int WIDTH = 165;
     private static final int HEIGHT = 100;
     private static final int GAP = 20;
+
+    private Plot plot;
 
     private UICheckBox isLegendVisible;
     private JPanel legendPane;
@@ -78,6 +82,10 @@ public class VanChartPlotLegendPane extends BasicPane {
     public VanChartPlotLegendPane(VanChartStylePane parent){
         this.parent = parent;
         initComponents();
+    }
+
+    public void setPlot(Plot plot) {
+        this.plot = plot;
     }
 
     public JPanel getHighlightPane() {
@@ -421,6 +429,7 @@ public class VanChartPlotLegendPane extends BasicPane {
             //limitPane.populateBean(legend.getLimitAttribute());
             if(highlightButton != null){
                 highlightButton.setSelectedItem(legend.isHighlight());
+                highlightButton.setEnabled(!PlotFactory.largeDataModel(plot));
             }
         }
 

@@ -358,9 +358,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
         style.setGap((int) buttonGapSpinner.getValue());
         style.setBorderRadius((int) buttonBorderRadiusSpinner.getValue());
 
-        if (normalBackgroundColorBox.getSelectObject() != null) {
-            style.setBackgroundColor(normalBackgroundColorBox.getSelectObject());
-        }
+        style.setBackgroundColor(normalBackgroundColorBox.getSelectObject());
         style.setOpacity((int) normalOpacitySpinner.getValue());
         style.setBorderLineStyle(normalBorderWidthComBox.getSelectedLineStyle());
         style.setBorderColor(normalBorderColorBox.getSelectObject());
@@ -374,9 +372,7 @@ public class SidebarMobileBookMarkStyleCustomDefinePane extends BasicBeanPane<Mo
         style.setFontItalic(normalFontItalicButton.isSelected());
         style.setFontBold(normalFontBoldButton.isSelected());
 
-        if (selectedBackgroundColorBox.getSelectObject() != null) {
-            style.setSelectedBackgroundColor(selectedBackgroundColorBox.getSelectObject());
-        }
+        style.setSelectedBackgroundColor(selectedBackgroundColorBox.getSelectObject());
         style.setSelectedOpacity((int) selectedOpacitySpinner.getValue());
         style.setSelectedBorderLineStyle(selectedBorderWidthComBox.getSelectedLineStyle());
         style.setSelectedBorderColor(selectedBorderColorBox.getSelectObject());

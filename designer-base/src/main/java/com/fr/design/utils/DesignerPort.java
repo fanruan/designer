@@ -1,5 +1,6 @@
 package com.fr.design.utils;
 
+import com.fr.common.report.ReportState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.TipDialog;
@@ -12,6 +13,9 @@ import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.IOUtils;
+import com.fr.process.ProcessEventPipe;
+import com.fr.process.engine.core.CarryMessageEvent;
+import com.fr.process.engine.core.FineProcessContext;
 import com.fr.stable.StringUtils;
 import com.fr.stable.xml.XMLPrintWriter;
 import com.fr.stable.xml.XMLReadable;
@@ -86,7 +90,10 @@ public class DesignerPort implements XMLReadable, XMLWriter {
     }
 
     public void resetPort() {
-
+        ProcessEventPipe eventPipe = FineProcessContext.getParentPipe();
+        if (eventPipe != null) {
+            eventPipe.fire(new CarryMessageEvent(ReportState.STOP.getValue()));
+        }
         TipDialog dialog = new TipDialog(null,
                                          StringUtils.EMPTY,
                                          Toolkit.i18nText("Fine-Design_Port_Found_Port_Conflict"),

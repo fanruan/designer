@@ -2,15 +2,25 @@ package com.fr.start;
 
 import com.fr.design.os.impl.SupportOSImpl;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralContext;
+import com.fr.general.GeneralUtils;
 import com.fr.general.IOUtils;
+import com.fr.locale.InterProviderFactory;
+import com.fr.log.FineLoggerFactory;
 import com.fr.process.engine.core.AbstractJavaRuntime;
 import com.fr.stable.ArrayUtils;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
 import com.fr.stable.os.OperatingSystem;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -32,11 +42,14 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     private static final String LOGO_PATH = StableUtils.pathJoin(BIN_HOME, "logo.png");
     private static final String DOCK_OPTIONS = "-Xdock:icon=" + LOGO_PATH;
     private static final String DOCK_NAME_OPTIONS = "-Xdock:name=" + FineDesigner.class.getSimpleName();
+    private static final String WIN_VM_OPTIONS_PATH =  StableUtils.pathJoin(BIN_HOME, "designer.vmoptions");
     private static final String[] DEBUG_OPTIONS = new String[]{"-Dfile.encoding=UTF-8", "-Xmx2048m"};
 
     static {
         try {
-            IOUtils.copy(DesignerJavaRuntime.class.getResourceAsStream("/com/fr/design/icon/logo.png"), "logo.png", new File(BIN_HOME));
+            if (SupportOSImpl.DOCK_ICON.support()) {
+                IOUtils.copy(DesignerJavaRuntime.class.getResourceAsStream("/com/fr/design/icon/logo.png"), "logo.png", new File(BIN_HOME));
+            }
         } catch (IOException ignore) {
         }
     }
@@ -82,7 +95,7 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     }
 
     private boolean isInstallVersion() {
-        return !ComparatorUtils.equals(StableUtils.getInstallHome(), DOT);
+        return !ComparatorUtils.equals(GeneralUtils.readFullBuildNO(), InterProviderFactory.getProvider().getLocText("Fine-Core_Basic_About_No_Build"));
     }
 
 
@@ -96,9 +109,26 @@ public class DesignerJavaRuntime extends AbstractJavaRuntime {
     public String[] getJvmOptions() {
         if (isInstallVersion()) {
             String[] options = super.getJvmOptions();
+            // win下环境变量 存在错误的设置会导致问题 直接读vmoptions
+            if (SupportOSImpl.VM_OPTIONS_ADAPTER.support()) {
+                List<String> optionList = new ArrayList<>();
+                try (BufferedReader reader = new BufferedReader(new FileReader(new File(WIN_VM_OPTIONS_PATH)))) {
+                    String option = null;
+                    while ((option = reader.readLine()) != null) {
+                        optionList.add(option.trim());
+                    }
+                } catch (Exception e) {
+                    FineLoggerFactory.getLogger().error(e.getMessage(), e);
+                    return DEBUG_OPTIONS;
+                }
+                if (!optionList.isEmpty()) {
+                    return optionList.toArray(new String[0]);
+                }
+            }
             if (SupportOSImpl.DOCK_ICON.support()) {
                 options = ArrayUtils.addAll(options, DOCK_OPTIONS, DOCK_NAME_OPTIONS);
             }
+            FineLoggerFactory.getLogger().debug("Vm Options: " + Arrays.toString(options));
             return options;
         } else {
             return DEBUG_OPTIONS;

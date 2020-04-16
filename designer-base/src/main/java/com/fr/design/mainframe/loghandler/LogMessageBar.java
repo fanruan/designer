@@ -12,6 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LogMessageBar extends JPanel {
+
+	private static final String LOG_MARK = com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log");
+
 	private UILabel messageLabel;
     private int width = 600;
 	private static volatile LogMessageBar THIS;
@@ -56,7 +59,7 @@ public class LogMessageBar extends JPanel {
 		if (message == null) {
 			return;
 		}
-		messageLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Log") + " | " + message);
+		messageLabel.setText(LOG_MARK + " | " + message);
 		repaint();
 	}
 
