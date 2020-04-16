@@ -235,7 +235,7 @@ public abstract class UITableModelAdapter<T extends Object> extends AbstractTabl
 		public void actionPerformed(ActionEvent e) {
 			int[] selectedRow = table.getSelectedRows();
 			if (ismultiSelected()) {
-				JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multiple_Select_Warn_Text"));
+				FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Multiple_Select_Warn_Text"));
 				return;
 			}
 			if (table.getCellEditor() != null) {

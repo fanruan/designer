@@ -2,6 +2,7 @@ package com.fr.design.parameter;
 
 import com.fr.base.Parameter;
 import com.fr.base.ParameterConfig;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.controlpane.NameableSelfCreator;
@@ -36,14 +37,14 @@ public class ParameterArrayPane extends JListControlPane {
 				String tempName = getEditingName();
 				if (StringUtils.isEmpty(tempName)) {
 					nameableList.stopEditing();
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Empty_Parameter_Name"));
+					FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Empty_Parameter_Name"));
 					setIllegalIndex(editingIndex);
 					return;
 				}
 				if (!ComparatorUtils.equals(tempName, selectedName)
 						&& isNameRepeated(new List[]{Arrays.asList(parameters), Arrays.asList(allListNames)}, tempName)) {
 					nameableList.stopEditing();
-					JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this),
+					FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ParameterArrayPane.this),
 							com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Duplicate_Parameter_Name"));
 					setIllegalIndex(editingIndex);
 				}
