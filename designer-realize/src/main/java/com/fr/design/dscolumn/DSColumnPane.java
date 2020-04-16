@@ -26,6 +26,8 @@ import java.beans.PropertyChangeListener;
  */
 public class DSColumnPane extends BasicPane {
 
+    public static final Dimension DEFAULT_DIMENSION = new Dimension(700, 600);
+
     private TableDataSource tplEC;
     private UITabbedPane tabbedPane;
     private DSColumnBasicPane basicPane = null;

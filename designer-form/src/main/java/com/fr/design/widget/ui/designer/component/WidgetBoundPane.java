@@ -10,6 +10,7 @@ import com.fr.design.designer.creator.XWParameterLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardLayout;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
@@ -115,11 +116,11 @@ public class WidgetBoundPane extends BasicPane {
         PaddingMargin margin = wabs.getMargin();
         if (bounds.width != w) {
             if (bounds.width == rec.width - margin.getLeft() - margin.getRight()) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Bounds"));
                 width.setValue(bounds.width);
                 return;
             } else if (w < minWidth) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Width") + Integer.toString(minWidth));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Width") + Integer.toString(minWidth));
                 width.setValue(bounds.width);
                 return;
             }
@@ -136,11 +137,11 @@ public class WidgetBoundPane extends BasicPane {
         int minHeight = (int) (MINHEIGHT * ((WFitLayout) wabs).getResolutionScaling());
         if (bounds.height != h) {
             if (bounds.height == rec.height - margin.getTop() - margin.getBottom()) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Bounds"));
                 height.setValue(bounds.height);
                 return;
             } else if (h < minHeight) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Height") + Integer.toString(minHeight));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Min_Height") + Integer.toString(minHeight));
                 height.setValue(bounds.height);
                 return;
             }
