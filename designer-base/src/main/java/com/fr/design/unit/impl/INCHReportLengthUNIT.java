@@ -1,6 +1,6 @@
 package com.fr.design.unit.impl;
 
-import com.fr.design.unit.impl.AbstractReportLengthUNIT;
+import com.fr.design.fun.impl.AbstractReportLengthUNITProvider;
 import com.fr.stable.Constants;
 import com.fr.stable.unit.INCH;
 import com.fr.stable.unit.UNIT;
@@ -8,7 +8,7 @@ import com.fr.stable.unit.UNIT;
 /**
  * Created by kerry on 2020-04-09
  */
-public class INCHReportLengthUNIT extends AbstractReportLengthUNIT {
+public class INCHReportLengthUNIT extends AbstractReportLengthUNITProvider {
     @Override
     public String unitText() {
         return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");

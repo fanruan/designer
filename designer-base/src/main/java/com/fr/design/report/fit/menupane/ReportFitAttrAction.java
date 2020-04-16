@@ -5,6 +5,7 @@ import com.fr.design.actions.JTemplateAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.UIDialog;
+import com.fr.design.fun.FormAdaptiveConfigUIProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
@@ -43,7 +44,7 @@ public class ReportFitAttrAction extends JTemplateAction {
 
         @Override
         public String getMenuName() {
-            FormAdaptiveConfigUI configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUI.MARK_STRING);
+            FormAdaptiveConfigUIProcessor configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
             if (configPane != null) {
                 return configPane.getConfigPane().getTitle();
             }
@@ -91,7 +92,7 @@ public class ReportFitAttrAction extends JTemplateAction {
             showReportFitDialog(fitAttr, jwb, wbTpl, attrPane);
         } else {
             BasicBeanPane attrPane = null;
-            FormAdaptiveConfigUI configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUI.MARK_STRING);
+            FormAdaptiveConfigUIProcessor configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
             if (configPane != null) {
                 attrPane =  configPane.getConfigPane();
             }else{

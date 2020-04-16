@@ -4,13 +4,14 @@
 package com.fr.design.actions.columnrow;
 
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.fun.ReportLengthUNITProvider;
 import com.fr.design.gui.frpane.UnitInputPane;
 import com.fr.design.gui.frpane.UnitInputPane.ValueNotChangeException;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.dialog.DialogActionAdapter;
 
 import com.fr.design.mainframe.ElementCasePane;
-import com.fr.design.unit.ReportLengthUNIT;
+import com.fr.design.fun.ReportLengthUNITProvider;
 import com.fr.design.unit.UnitConvertUtil;
 import com.fr.grid.selection.CellSelection;
 import com.fr.report.elementcase.ElementCase;
@@ -49,7 +50,7 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
                 try {
 					float newHeight = (float) uPane.update();
 					int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-                    ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+                    ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
 					UNIT len = lengthUNIT.float2UNIT(newHeight);
 					updateAction(report, len, finalCS);
 				} catch (ValueNotChangeException e) {
@@ -64,7 +65,7 @@ public abstract class ColumnRowSizingAction extends AbstractColumnRowIndexAction
 
     protected void populateNumberDialog(final UnitInputPane uPane, UNIT unit) {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
         float va = lengthUNIT.unit2Value4Scale(unit);
         uPane.setUnitText(lengthUNIT.unitText());
         uPane.populate(va);

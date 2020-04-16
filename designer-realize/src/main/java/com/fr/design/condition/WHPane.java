@@ -3,7 +3,7 @@ package com.fr.design.condition;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
-import com.fr.design.unit.ReportLengthUNIT;
+import com.fr.design.fun.ReportLengthUNITProvider;
 import com.fr.design.unit.UnitConvertUtil;
 import com.fr.design.utils.gui.GUICoreUtils;
 
@@ -47,7 +47,7 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
     public void populate(HighlightAction ha, JSpinner sp) {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
         UNIT width = getUnit(ha);
-        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
         double va = lengthUNIT.unit2Value4Scale(width);
         unitLabel.setText(lengthUNIT.unitText());
         // 只保留两位
@@ -59,7 +59,7 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
 
     protected String getUnitString() {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
         return lengthUNIT.unitText();
     }
 
@@ -68,7 +68,7 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
         // 只保留两位
         newWidth = new Float(new BigDecimal(newWidth + "").setScale(2, BigDecimal.ROUND_DOWN).floatValue());
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        ReportLengthUNIT lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
         UNIT width = lengthUNIT.float2UNIT(newWidth);
         return returnAction(width);
     }

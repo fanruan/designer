@@ -28,6 +28,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.os.impl.SupportOSImpl;
+import com.fr.design.unit.UnitConvertUtil;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -575,7 +576,7 @@ public class PreferencePane extends BasicPane {
         pageLengthComboBox = new UIComboBox(new String[]{i18nText("Fine-Design_Basic_Page_Setup_MM"), i18nText("Fine-Design_Report_Unit_CM"), i18nText("Fine-Design_Report_Unit_INCH")});
         pageLengthComboBox.setPreferredSize(new Dimension(80, 20));
         pageLengthComboBox.setMinimumSize(new Dimension(80, 20));
-        reportLengthComboBox = new UIComboBox(new String[]{i18nText("Fine-Design_Basic_Page_Setup_MM"), i18nText("Fine-Design_Report_Unit_CM"), i18nText("Fine-Design_Report_Unit_INCH"), i18nText("Fine-Design_Report_Unit_PT_Duplicate")});
+        reportLengthComboBox = new UIComboBox(UnitConvertUtil.getUnitItems());
         reportLengthComboBox.setPreferredSize(new Dimension(80, 20));
         reportLengthComboBox.setMinimumSize(new Dimension(80, 20));
         UILabel pagelengthLabel = new UILabel(i18nText("Fine-Design_Basic_Page_Setup_Scale_Units") + ":");

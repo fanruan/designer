@@ -26,7 +26,7 @@ import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.present.ConditionAttributesGroupPane;
-import com.fr.design.report.fit.menupane.FormAdaptiveConfigUI;
+import com.fr.design.fun.FormAdaptiveConfigUIProcessor;
 import com.fr.design.selection.SelectableElement;
 import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionListener;
@@ -80,6 +80,7 @@ public class FormElementCaseDesigner
 
     }
 
+
     @Override
     public void setTarget(T t) {
         super.setTarget(t);
@@ -125,9 +126,9 @@ public class FormElementCaseDesigner
      */
     @Override
     public BufferedImage getElementCaseImage(Dimension size) {
-        FormAdaptiveConfigUI adaptiveConfigUI = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUI.MARK_STRING);
+        FormAdaptiveConfigUIProcessor adaptiveConfigUI = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
         if (adaptiveConfigUI != null) {
-            return adaptiveConfigUI.getElementCaseImage(size, this.elementCasePane);
+            return adaptiveConfigUI.paintFormElementCaseImage(size, this.elementCasePane);
         }
         BufferedImage image = null;
         try {
