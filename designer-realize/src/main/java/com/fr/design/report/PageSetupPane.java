@@ -885,12 +885,12 @@ public class PageSetupPane extends BasicPane {
 
 
             Icon topBottomIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/down.png");
-            topBottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Top_To_Bottom"));
+            topBottomRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Top_To_Bottom"),false,false);
             pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(topBottomIcon, topBottomRadioButton));
             topBottomRadioButton.setMnemonic('B');
 
             Icon leftRightIcon = BaseUtils.readIcon("/com/fr/base/images/dialog/pagesetup/over.png");
-            leftRightRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Left_To_Right"));
+            leftRightRadioButton = new UIRadioButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Left_To_Right"), false, false);
             pageOrderPane.add(FRGUIPaneFactory.createIconRadio_S_Pane(leftRightIcon, leftRightRadioButton));
             leftRightRadioButton.setMnemonic('R');
 
@@ -907,9 +907,9 @@ public class PageSetupPane extends BasicPane {
             defaultPane.add(outcenterOnPagePane);
 
 
-            this.horizonalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Horizontally"));
+            this.horizonalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Horizontally"), false, false);
             this.horizonalCenterCheckBox.setMnemonic('H');
-            this.verticalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Vertically"));
+            this.verticalCenterCheckBox = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_Vertically"), false, false);
             this.verticalCenterCheckBox.setMnemonic('V');
 
             centerOnPagePane.add(GUICoreUtils.createFlowPane(horizonalCenterCheckBox, FlowLayout.CENTER));
