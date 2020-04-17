@@ -1,5 +1,6 @@
 package com.fr.design.actions.report;
 
+import com.fr.base.PaperSize;
 import com.fr.base.iofile.attr.MobileOnlyTemplateAttrMark;
 import com.fr.design.actions.JWorkBookAction;
 import com.fr.design.dialog.BasicDialog;
@@ -13,8 +14,10 @@ import com.fr.general.IOUtils;
 
 import com.fr.intelli.record.Focus;
 import com.fr.main.TemplateWorkBook;
+import com.fr.page.PaperSettingProvider;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.report.mobile.ElementCaseMobileAttr;
+import com.fr.report.report.Report;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -51,6 +54,7 @@ public class ReportMobileAttrAction extends JWorkBookAction{
 
         final ReportMobileAttrPane mobileAttrPane = new ReportMobileAttrPane();
         mobileAttrPane.populateBean(mobileAttr);
+        final boolean oldMobileCanvasSize = mobileAttr.isMobileCanvasSize();
         BasicDialog dialog = mobileAttrPane.showWindow(DesignerContext.getDesignerFrame(), new DialogActionAdapter() {
             @Override
             public void doOk() {
@@ -69,7 +73,16 @@ public class ReportMobileAttrAction extends JWorkBookAction{
                 }
                 recordFunction();
                 // 设置移动端属性并刷新界面
-                wbTpl.setReportMobileAttr(elementCaseMobileAttr);  // 会同时修改页面设置，放到最后
+                wbTpl.setReportMobileAttr(elementCaseMobileAttr);
+                boolean change = !oldMobileCanvasSize && elementCaseMobileAttr.isMobileCanvasSize();
+                if (change) {
+                    // 当相关属性从未勾选到勾选状态时 设置成移动端标准页面大小
+                    for (int i = 0; i < wbTpl.getReportCount(); i++) {
+                        Report report = wbTpl.getReport(i);
+                        PaperSettingProvider paperSetting = report.getReportSettings().getPaperSetting();
+                        paperSetting.setPaperSize(PaperSize.PAPERSIZE_MOBILE);
+                    }
+                }
                 jwb.fireTargetModified();
             }
         });
