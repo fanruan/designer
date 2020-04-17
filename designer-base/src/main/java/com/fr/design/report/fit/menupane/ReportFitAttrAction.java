@@ -1,11 +1,9 @@
 package com.fr.design.report.fit.menupane;
 
-import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.JTemplateAction;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.DialogActionAdapter;
 import com.fr.design.dialog.UIDialog;
-import com.fr.design.fun.FormAdaptiveConfigUIProcessor;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.JTemplate;
 import com.fr.design.menu.MenuKeySet;
@@ -44,10 +42,6 @@ public class ReportFitAttrAction extends JTemplateAction {
 
         @Override
         public String getMenuName() {
-            FormAdaptiveConfigUIProcessor configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
-            if (configPane != null) {
-                return configPane.getConfigPane().getTitle();
-            }
             return com.fr.design.i18n.Toolkit.i18nText("Fine-Designer_Fit-Elementcase");
         }
 
@@ -91,13 +85,7 @@ public class ReportFitAttrAction extends JTemplateAction {
             final TemplateFitAttrPane attrPane = new TemplateFitAttrPane();
             showReportFitDialog(fitAttr, jwb, wbTpl, attrPane);
         } else {
-            BasicBeanPane attrPane = null;
-            FormAdaptiveConfigUIProcessor configPane = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
-            if (configPane != null) {
-                attrPane =  configPane.getConfigPane();
-            }else{
-                attrPane = new ReportFitAttrPane();
-            }
+            final ReportFitAttrPane attrPane = new ReportFitAttrPane();
             showReportFitDialog(fitAttr, jwb, wbTpl, attrPane);
         }
     }
