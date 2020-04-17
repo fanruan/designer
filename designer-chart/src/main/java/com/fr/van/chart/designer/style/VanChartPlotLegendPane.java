@@ -70,6 +70,7 @@ public class VanChartPlotLegendPane extends BasicPane {
     //private LimitPane limitPane;
 
     //高亮显示的按钮
+    private UILabel highlightLabel;
     private UIButtonGroup<Boolean> highlightButton;
     private JPanel highlightPane;
 
@@ -318,7 +319,7 @@ public class VanChartPlotLegendPane extends BasicPane {
 
     private JPanel createHighlightPane(){
         highlightButton = new UIButtonGroup<>(new String[]{Toolkit.i18nText("Fine-Design_Chart_On"), Toolkit.i18nText("Fine-Design_Chart_Off")}, new Boolean[]{true, false});
-
+        highlightLabel = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Highlight"));
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
         double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
@@ -326,7 +327,7 @@ public class VanChartPlotLegendPane extends BasicPane {
         double[] rowSize = {p,p};
         Component[][] components = new Component[][]{
                 new Component[]{null,null},
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Highlight")),highlightButton}
+                new Component[]{highlightLabel, highlightButton}
         };
         return TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
     }
@@ -429,7 +430,9 @@ public class VanChartPlotLegendPane extends BasicPane {
             //limitPane.populateBean(legend.getLimitAttribute());
             if(highlightButton != null){
                 highlightButton.setSelectedItem(legend.isHighlight());
-                highlightButton.setEnabled(!PlotFactory.largeDataModel(plot));
+                boolean largeDataModel = PlotFactory.largeDataModel(plot);
+                highlightButton.setEnabled(!largeDataModel);
+                highlightLabel.setEnabled(!largeDataModel);
             }
         }
 
