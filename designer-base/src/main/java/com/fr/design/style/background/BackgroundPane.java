@@ -118,6 +118,9 @@ public class BackgroundPane extends BasicPane {
      */
     public void populate(Background background) {
         BackgroundUIWrapper wrapper = getBackgroundUIWrapper(background);
+        if (wrapper == null) {
+            return;
+        }
         int index = wrapper.getIndex();
         BackgroundDetailPane quickPane = getTabItemPane(background, index);
         quickPane.populate(background);
