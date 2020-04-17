@@ -244,6 +244,7 @@ public class GradientBar extends JComponent implements UIObserver, ColorSelectab
      */
     public void setStartValue(double startValue) {
         startLabel.setValue(startValue);
+        p1.setX(startValue);
     }
 
     /**
@@ -251,6 +252,7 @@ public class GradientBar extends JComponent implements UIObserver, ColorSelectab
      */
     public void setEndValue(double endValue) {
         endLabel.setValue(endValue);
+        p2.setX(endValue);
     }
 
     /**
