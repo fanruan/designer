@@ -15,6 +15,7 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTemplateStyleEditor;
 import com.fr.design.mainframe.widget.accessibles.MobileTemplateStylePane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileAdvanceInnerPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileBookMarkUsePane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentMarginPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentLayoutIntervalPane;
@@ -33,6 +34,7 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
     private MobileComponentMarginPane marginPane;
     private MobileComponentLayoutIntervalPane intervalPane;
     private MobileBookMarkUsePane mobileBookMarkUsePane;
+    private MobileAdvanceInnerPane mobileAdvanceInnerPane;
 
     public TabMobileWidgetDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -70,9 +72,12 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
             intervalPane = new MobileComponentLayoutIntervalPane(FormTabPaddingAttrMark.XML_TAG);
             if (FormDesignerUtils.isAppRelayout(designer)) {
                 mobileBookMarkUsePane = new MobileBookMarkUsePane();
-                innerAdvancePane.add(mobileBookMarkUsePane, BorderLayout.SOUTH);
+                mobileAdvanceInnerPane = new MobileAdvanceInnerPane(xCreator);
+                innerAdvancePane.add(mobileBookMarkUsePane, BorderLayout.CENTER);
+                innerAdvancePane.add(mobileAdvanceInnerPane, BorderLayout.SOUTH);
+
             }
-            innerAdvancePane.add(marginPane, BorderLayout.CENTER);
+            innerAdvancePane.add(marginPane, BorderLayout.NORTH);
             UIExpandablePane advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, innerAdvancePane);
             UIExpandablePane layoutPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, intervalPane);
             //高级
@@ -100,6 +105,9 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         if (mobileBookMarkUsePane != null) {
             mobileBookMarkUsePane.populate(xCreator);
         }
+        if (mobileAdvanceInnerPane != null) {
+            mobileAdvanceInnerPane.populate();
+        }
     }
 
     @Override
@@ -115,6 +123,9 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         }
         if (mobileBookMarkUsePane != null) {
             mobileBookMarkUsePane.update(xCreator);
+        }
+        if (mobileAdvanceInnerPane != null) {
+            this.mobileAdvanceInnerPane.update();
         }
     }
 }

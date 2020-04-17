@@ -11,9 +11,12 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.form.main.Form;
 import com.fr.form.ui.FormWidgetHelper;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WSortLayout;
+import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.BorderFactory;
@@ -97,6 +100,22 @@ public class MobileComponentFrozenPane extends BasicPane {
             map.put(value, false);
         }
         uiComboCheckBox.setSelectedValues(map);
+        if (ArrayUtils.isEmpty(uiComboCheckBox.getSelectedValues()) || !uiComboCheckBox.isEnabled()) {
+            uiComboCheckBox.setEnabled(!shouldFrozen());
+        }
+    }
+
+    private boolean shouldFrozen() {
+        Form form = WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
+        WLayout container = form.getContainer();
+        WSortLayout wSortLayout = (WSortLayout) container.getWidget(container.getWidgetCount() - 1);
+        boolean frozen = false;
+        List<String> list = wSortLayout.getOrderedMobileWidgetList();
+        for (String value : list) {
+            CRBoundsWidget boundsWidget = (CRBoundsWidget) wSortLayout.getWidget(value);
+            frozen = frozen || boundsWidget.getWidget().getMobileBookMark().isUseBookMark();
+        }
+        return frozen;
     }
 
     @Override
