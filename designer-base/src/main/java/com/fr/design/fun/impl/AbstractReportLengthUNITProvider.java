@@ -36,6 +36,7 @@ public abstract class AbstractReportLengthUNITProvider extends AbstractProvider 
 
     @Override
     public UNIT float2UNIT(float value) {
-        return null;
+        return UNIT.ZERO;
     }
 }
+
