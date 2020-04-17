@@ -27,7 +27,7 @@ public class MacOsAddListenerAction implements OSBasedAction {
             Class quitHandler = Class.forName("com.apple.eawt.QuitHandler");
             Object quitInstance = getProxy(quitHandler, "handleQuitRequestWith", new QuitAction());
             Class aboutHandler = Class.forName("com.apple.eawt.AboutHandler");
-            Object aboutInstance = getProxy(aboutHandler, "", new AboutAction());
+            Object aboutInstance = getProxy(aboutHandler, "handleAbout", new AboutAction());
             Reflect.on(Reflect.on(app).call("getApplication").get()).call("setQuitHandler", quitInstance)
                                                                     .call("setAboutHandler", aboutInstance);
         } catch (ClassNotFoundException e) {
