@@ -61,6 +61,7 @@ public class MobileComponentFrozenPane extends BasicPane {
         }
 
         List<String> widgetList = ((WSortLayout) selectedModel).getNonContainerWidgetList();
+        widgetList.removeAll(frozenWidgets());
         return widgetList.toArray(new String[0]);
     }
 
@@ -100,22 +101,21 @@ public class MobileComponentFrozenPane extends BasicPane {
             map.put(value, false);
         }
         uiComboCheckBox.setSelectedValues(map);
-        if (ArrayUtils.isEmpty(uiComboCheckBox.getSelectedValues()) || !uiComboCheckBox.isEnabled()) {
-            uiComboCheckBox.setEnabled(!shouldFrozen());
-        }
     }
 
-    private boolean shouldFrozen() {
+    private List<String> frozenWidgets() {
         Form form = WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
         WLayout container = form.getContainer();
         WSortLayout wSortLayout = (WSortLayout) container.getWidget(container.getWidgetCount() - 1);
-        boolean frozen = false;
-        List<String> list = wSortLayout.getOrderedMobileWidgetList();
+        List<String> list = wSortLayout.getNonContainerWidgetList();
+        List<String> widgets = new ArrayList<>();
         for (String value : list) {
             CRBoundsWidget boundsWidget = (CRBoundsWidget) wSortLayout.getWidget(value);
-            frozen = frozen || boundsWidget.getWidget().getMobileBookMark().isUseBookMark();
+            if (boundsWidget.getWidget().getMobileBookMark().isUseBookMark()) {
+                widgets.add(value);
+            }
         }
-        return frozen;
+        return widgets;
     }
 
     @Override
