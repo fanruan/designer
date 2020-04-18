@@ -5,6 +5,7 @@ package com.fr.design.mainframe.form;
 
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.DesignState;
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.actions.AllowAuthorityEditAction;
 import com.fr.design.actions.ExitAuthorityEditAction;
 import com.fr.design.base.mode.DesignModeContext;
@@ -25,6 +26,7 @@ import com.fr.design.menu.NameSeparator;
 import com.fr.design.menu.ShortCut;
 import com.fr.design.menu.ToolBarDef;
 import com.fr.design.present.ConditionAttributesGroupPane;
+import com.fr.design.fun.FormAdaptiveConfigUIProcessor;
 import com.fr.design.selection.SelectableElement;
 import com.fr.design.selection.Selectedable;
 import com.fr.design.selection.SelectionListener;
@@ -78,6 +80,7 @@ public class FormElementCaseDesigner
 
     }
 
+
     @Override
     public void setTarget(T t) {
         super.setTarget(t);
@@ -123,6 +126,10 @@ public class FormElementCaseDesigner
      */
     @Override
     public BufferedImage getElementCaseImage(Dimension size) {
+        FormAdaptiveConfigUIProcessor adaptiveConfigUI = ExtraDesignClassManager.getInstance().getSingle(FormAdaptiveConfigUIProcessor.MARK_STRING);
+        if (adaptiveConfigUI != null) {
+            return adaptiveConfigUI.paintFormElementCaseImage(size, this.elementCasePane);
+        }
         BufferedImage image = null;
         try {
             image = new java.awt.image.BufferedImage(size.width, size.height,

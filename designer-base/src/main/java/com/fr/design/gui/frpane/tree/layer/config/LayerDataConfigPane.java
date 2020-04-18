@@ -7,6 +7,7 @@ import com.fr.design.data.tabledata.wrapper.TableDataWrapper;
 import com.fr.design.present.dict.TableDataDictPane;
 import com.fr.form.ui.tree.LayerConfig;
 import com.fr.form.ui.tree.LayerDependence;
+import com.fr.stable.StringUtils;
 
 import java.awt.*;
 import java.util.*;
@@ -73,13 +74,19 @@ public class LayerDataConfigPane extends BasicBeanPane<LayerConfig> {
         if (wrapper != null) {
             columnNames = wrapper.calculateColumnNameList();
         } else {
-            columnNames = new ArrayList<String>();
+            columnNames = new ArrayList<>();
         }
-        String viewColStr = tableDataDictPane.updateBean().getValueColumnName();
-        String modelColStr = tableDataDictPane.updateBean().getKeyColumnName();
         TableDataDictionary dictionary = tableDataDictPane.updateBean();
+        String viewColStr = dictionary.getValueColumnName();
+        String modelColStr = dictionary.getKeyColumnName();
         int viewCol = columnNames.indexOf(viewColStr);
         int modelCol = columnNames.indexOf(modelColStr);
+        if (StringUtils.EMPTY.equals(viewColStr)) {
+            viewCol = dictionary.getValueColumnIndex();
+        }
+        if (StringUtils.EMPTY.equals(modelColStr)) {
+            modelCol = dictionary.getKeyColumnIndex();
+        }
         //将数据设置到当前正在修改的layerData中
         this.layerConfig.setDictionary(dictionary);
         this.layerConfig.setModelColumn(modelCol);

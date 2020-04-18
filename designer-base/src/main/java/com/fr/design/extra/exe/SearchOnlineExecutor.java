@@ -14,8 +14,8 @@ import com.fr.stable.StringUtils;
  * Created by vito on 16/4/18.
  */
 public class SearchOnlineExecutor implements Executor {
-    private String result = StringUtils.EMPTY;
-    private String keyword;
+    private String result = JSONArray.create().toString();
+    private final String keyword;
 
     public SearchOnlineExecutor(String keyword) {
         this.keyword = keyword;
@@ -42,7 +42,11 @@ public class SearchOnlineExecutor implements Executor {
                                 result = PluginOperateUtils.getRecommendPlugins();
                                 return;
                             }
-                            HttpClient httpClient = new HttpClient(CloudCenter.getInstance().acquireUrlByKind("shop.plugin.store") + "&keyword=" + keyword);
+                            String url = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.store");
+                            if (StringUtils.isEmpty(url)) {
+                                return;
+                            }
+                            HttpClient httpClient = new HttpClient(url + "&keyword=" + keyword);
                             httpClient.asGet();
                             String responseText = httpClient.getResponseText();
                             JSONObject jsonObject = new JSONObject(responseText);

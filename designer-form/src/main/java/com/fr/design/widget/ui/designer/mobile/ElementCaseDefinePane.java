@@ -107,9 +107,9 @@ public class ElementCaseDefinePane extends MobileWidgetDefinePane {
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Horizontal"), SwingConstants.LEFT), hComboBox},
                 new Component[] {new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Mobile_Vertical"), SwingConstants.LEFT), vComboBox},
                 createComponents(),
-                new Component[] {heightRestrictCheckBox, null},
                 new Component[] {allowFullCheckBox, null},
                 new Component[] {functionalWhenUnactivatedCheckBox, null},
+                new Component[] {heightRestrictCheckBox, null},
                 new Component[] {maxHeightLabel, maxHeightSpinner}
         };
         double f = TableLayout.FILL;

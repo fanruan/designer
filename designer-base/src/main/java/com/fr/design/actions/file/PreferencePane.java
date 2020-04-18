@@ -28,6 +28,7 @@ import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.vcs.VcsConfigManager;
 import com.fr.design.mainframe.vcs.common.VcsHelper;
 import com.fr.design.os.impl.SupportOSImpl;
+import com.fr.design.unit.UnitConvertUtil;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.design.widget.FRWidgetFactory;
 import com.fr.general.ComparatorUtils;
@@ -149,9 +150,6 @@ public class PreferencePane extends BasicPane {
 
     private UIColorButton paginationLineColorTBButton;
 
-    private UICheckBox supportCellEditorDefCheckBox;
-    private UICheckBox isDragPermitedCheckBox;
-
     private UITextField logExportDirectoryField;
 
     private UIComboBox logLevelComboBox, pageLengthComboBox, reportLengthComboBox;
@@ -199,7 +197,6 @@ public class PreferencePane extends BasicPane {
 
         createFunctionPane(generalPane);
         createEditPane(generalPane);
-        createGuiOfGridPane(generalPane);
         createColorSettingPane(generalPane);
         createVcsSettingPane(generalPane);
 
@@ -447,18 +444,6 @@ public class PreferencePane extends BasicPane {
 
     }
 
-    private void createGuiOfGridPane(JPanel generalPane) {
-        // GridPane
-        JPanel guiOfGridPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Preference_Setting_Grid"));
-        generalPane.add(guiOfGridPane);
-
-        supportCellEditorDefCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Preference_Support_Cell_Editor_Definition"));
-        guiOfGridPane.add(supportCellEditorDefCheckBox);
-
-        isDragPermitedCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Preference_Is_Drag_Permited"));
-        guiOfGridPane.add(isDragPermitedCheckBox);
-    }
-
     private void createColorSettingPane(JPanel generalPane) {
         // Color Setting Pane
         JPanel colorSettingPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Preference_Setting_Colors"));
@@ -591,7 +576,7 @@ public class PreferencePane extends BasicPane {
         pageLengthComboBox = new UIComboBox(new String[]{i18nText("Fine-Design_Basic_Page_Setup_MM"), i18nText("Fine-Design_Report_Unit_CM"), i18nText("Fine-Design_Report_Unit_INCH")});
         pageLengthComboBox.setPreferredSize(new Dimension(80, 20));
         pageLengthComboBox.setMinimumSize(new Dimension(80, 20));
-        reportLengthComboBox = new UIComboBox(new String[]{i18nText("Fine-Design_Basic_Page_Setup_MM"), i18nText("Fine-Design_Report_Unit_CM"), i18nText("Fine-Design_Report_Unit_INCH"), i18nText("Fine-Design_Report_Unit_PT_Duplicate")});
+        reportLengthComboBox = new UIComboBox(UnitConvertUtil.getUnitItems());
         reportLengthComboBox.setPreferredSize(new Dimension(80, 20));
         reportLengthComboBox.setMinimumSize(new Dimension(80, 20));
         UILabel pagelengthLabel = new UILabel(i18nText("Fine-Design_Basic_Page_Setup_Scale_Units") + ":");
@@ -696,9 +681,6 @@ public class PreferencePane extends BasicPane {
         useIntervalCheckBox.setSelected(vcsConfigManager.isUseInterval());
         gcEnableCheckBox.setSelected(GcConfig.getInstance().isGcEnable());
         gcButton.setEnabled(gcEnableCheckBox.isSelected());
-        supportCellEditorDefCheckBox.setSelected(designerEnvManager.isSupportCellEditorDef());
-
-        isDragPermitedCheckBox.setSelected(designerEnvManager.isDragPermited());
 
         gridLineColorTBButton.setColor(designerEnvManager.getGridLineColor());
         paginationLineColorTBButton.setColor(designerEnvManager.getPaginationLineColor());
@@ -768,11 +750,7 @@ public class PreferencePane extends BasicPane {
 
         designerEnvManager.setDefaultStringToFormula(defaultStringToFormulaBox.isSelected());
 
-        designerEnvManager.setSupportCellEditorDef(supportCellEditorDefCheckBox.isSelected());
-
         designerEnvManager.setAutoCompleteShortcuts(shortCutKeyStore != null ? shortCutKeyStore.toString().replace(TYPE, DISPLAY_TYPE) : shortCutLabel.getText());
-
-        designerEnvManager.setDragPermited(isDragPermitedCheckBox.isSelected());
 
         designerEnvManager.setGridLineColor(gridLineColorTBButton.getColor());
 

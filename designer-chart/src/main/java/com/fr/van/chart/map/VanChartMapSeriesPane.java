@@ -6,6 +6,7 @@ import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.design.gui.frpane.UINumberDragPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.icombobox.UIComboBox;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
@@ -36,6 +37,7 @@ import com.fr.van.chart.map.designer.style.series.VanChartMapScatterMarkerPane;
 import com.fr.van.chart.map.line.VanChartCurvePane;
 import com.fr.van.chart.map.line.VanChartLineMapEffectPane;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -157,6 +159,35 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         }
     }
 
+    @Override
+    protected JPanel getContentPane(boolean custom) {
+        JPanel panel = new JPanel(new BorderLayout());
+        mapType = ((VanChartMapPlot) plot).getAllLayersMapType();
+        if(mapType == MapType.CUSTOM || mapType == MapType.DRILL_CUSTOM) {
+            vanChartFillStylePane = getVanChartFillStylePane();
+            panel.add(vanChartFillStylePane, BorderLayout.NORTH);
+        }
+        panel.add(getContentInPlotType(), BorderLayout.CENTER);
+        return panel;
+    }
+
+    //获取颜色面板
+    private JPanel getColorPane(MapType paneType) {
+        JPanel panel = new JPanel(new BorderLayout());
+        stylePane = createStylePane();
+        mapType = ((VanChartMapPlot) plot).getAllLayersMapType();
+        if(mapType != MapType.CUSTOM && mapType != MapType.DRILL_CUSTOM) {
+            vanChartFillStylePane = getVanChartFillStylePane();
+            if (vanChartFillStylePane != null) {
+                panel.add(vanChartFillStylePane, BorderLayout.NORTH);
+            }
+        }
+        setColorPaneContent(panel, paneType);
+        JPanel colorPane = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Color"), panel);
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 0));
+        return panel.getComponentCount() == 0 ? null : colorPane;
+    }
+
     /**
      * 在每个不同类型Plot, 得到不同类型的属性. 比如: 柱形的风格, 折线的线型曲线.
      */
@@ -176,10 +207,17 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
     }
 
     //设置色彩面板内容
-    protected void setColorPaneContent(JPanel panel) {
-        panel.add(createNullValueColorPane(), BorderLayout.CENTER);
-        panel.add(createAlphaPane(), BorderLayout.SOUTH);
-
+    protected void setColorPaneContent(JPanel panel, MapType paneType) {
+        switch (paneType) {
+            case AREA:
+                panel.add(createNullValueColorPane(), BorderLayout.CENTER);
+                panel.add(createAlphaPane(), BorderLayout.SOUTH);
+                break;
+            case POINT:
+                panel.add(createPointAlphaPane(), BorderLayout.CENTER);
+            default:
+                return;
+        }
     }
 
 
@@ -192,7 +230,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
+                new Component[]{getColorPane(MapType.AREA)},
                 new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Border"), borderWithAlphaPane)},
         };
 
@@ -213,7 +251,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{TableLayout4VanChartHelper.createExpandablePaneWithTitle((com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Color")), createPointAlphaPane())},
+                new Component[]{getColorPane(MapType.POINT)},
                 new Component[]{createMarkerComPane()},
                 //大数据模式 恢复用注释。下面1行删除。
                 new Component[]{createLargeDataModelPane()},
@@ -232,6 +270,7 @@ public class VanChartMapSeriesPane extends VanChartAbstractPlotSeriesPane {
         curvePane = new VanChartCurvePane();
 
         Component[][] components = new Component[][]{
+                new Component[]{getColorPane(MapType.LINE)},
                 new Component[]{createCurvePane()},
                 //大数据模式 恢复用注释。下面1行删除。
                 new Component[]{createLineMapLargeDataModelPane()},

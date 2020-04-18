@@ -97,6 +97,14 @@ public enum SupportOSImpl implements SupportOS {
         public boolean support() {
             return OperatingSystem.isMacos();
         }
+    },
+
+    
+    VM_OPTIONS_ADAPTER {
+        @Override
+        public boolean support() {
+            return OperatingSystem.isWindows();
+        }
     }
 
 }

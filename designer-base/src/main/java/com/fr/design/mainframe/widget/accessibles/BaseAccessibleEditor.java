@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.event.UIObserverListener;
 import com.fr.design.gui.ibutton.UIButton;
 
@@ -222,7 +223,7 @@ public class BaseAccessibleEditor extends BasicPane implements AccessibleEditor 
     }
 
 	public static void showMessage(String message, Component editorComponent) {
-	    JOptionPane.showMessageDialog(editorComponent, message, "Validation Error", JOptionPane.ERROR_MESSAGE);
+	    FineJOptionPane.showMessageDialog(editorComponent, message, "Validation Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 

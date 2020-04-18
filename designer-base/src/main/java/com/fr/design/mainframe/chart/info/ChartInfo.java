@@ -30,6 +30,7 @@ public class ChartInfo extends AbstractPointInfo {
 
     private static final String XML_CHART_CONSUMING_MAP = "chartConsumingMap";
     private static final String ATTR_TEST_TEMPLATE = "testTemplate";
+    private static final String ATTR_TEST_CHART = "testChart";
     private static final String ATTR_DAY_COUNT = "day_count";
     private static final String ATTR_USERNAME = "username";
     private static final String ATTR_UUID = "uuid";
@@ -44,6 +45,11 @@ public class ChartInfo extends AbstractPointInfo {
     private static final String ATTR_CHART_PROPERTY_END_TIME = "chartPropertyEndTime";
     private static final String ATTR_JAR_TIME = "jarTime";
     private static final String ATTR_VERSION = "version";
+    private static final String ATTR_USER_ID = "userId";
+    private static final String ATTR_FIRST_CHART_TYPE = "firstChartType";
+    private static final String ATTR_OVER_CHART_TYPE_COUNT = "overChartTypeCount";
+    private static final String ATTR_IS_NEW = "isNew";
+    private static final String ATTR_IS_REUSE = "isReuse";
 
     private static final int COMPLETE_DAY_COUNT = 3;  // 判断图表是否可以上传的天数
 
@@ -57,6 +63,8 @@ public class ChartInfo extends AbstractPointInfo {
 
     private boolean testTemplate;
 
+    private boolean testChart;
+
     private ChartInfo() {
     }
 
@@ -64,6 +72,7 @@ public class ChartInfo extends AbstractPointInfo {
         this.chartId = chartId;
         this.templateId = templateId;
         this.book = book;
+        this.testChart = true;
     }
 
     public String getChartId() {
@@ -91,11 +100,15 @@ public class ChartInfo extends AbstractPointInfo {
 
     @Override
     public boolean isTestTemplate() {
-        return testTemplate;
+        return testTemplate || testChart;
     }
 
     public void setTestTemplate(boolean testTemplate) {
         this.testTemplate = testTemplate;
+    }
+
+    public void setTestChart(boolean testChart) {
+        this.testChart = testChart;
     }
 
     static ChartInfo newInstanceByRead(XMLableReader reader) {
@@ -105,13 +118,14 @@ public class ChartInfo extends AbstractPointInfo {
     }
 
     public static ChartInfo newInstance(String chartId, String chartType) {
-        return newInstance(chartId, chartType, null);
+        return newInstance(chartId, chartType, null, false, false);
     }
 
-    public static ChartInfo newInstance(String chartId, String chartType, String createTime) {
+    public static ChartInfo newInstance(String chartId, String chartType, String createTime, boolean isNew, boolean isReuse) {
         HashMap<String, String> chartConsumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
+        String userId = String.valueOf(MarketConfig.getInstance().getBbsUid());
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
         String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
 
@@ -138,6 +152,11 @@ public class ChartInfo extends AbstractPointInfo {
         chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, "");
         chartConsumingMap.put(ATTR_JAR_TIME, jarTime);
         chartConsumingMap.put(ATTR_VERSION, version);
+        chartConsumingMap.put(ATTR_USER_ID, userId);
+        chartConsumingMap.put(ATTR_FIRST_CHART_TYPE, chartType);
+        chartConsumingMap.put(ATTR_OVER_CHART_TYPE_COUNT, "0");
+        chartConsumingMap.put(ATTR_IS_NEW, String.valueOf(isNew));
+        chartConsumingMap.put(ATTR_IS_REUSE, String.valueOf(isReuse));
 
         ChartInfo chartInfo = new ChartInfo(chartId, templateId, book);
         chartInfo.chartConsumingMap = chartConsumingMap;
@@ -158,6 +177,7 @@ public class ChartInfo extends AbstractPointInfo {
             writer.attr(ATTR_DAY_COUNT, this.idleDayCount);
         }
         writer.attr(ATTR_TEST_TEMPLATE, this.testTemplate);
+        writer.attr(ATTR_TEST_CHART, this.testChart);
         writer.startTAG(XML_CHART_CONSUMING_MAP);
         writer.attr(ATTR_USERNAME, chartConsumingMap.get(ATTR_USERNAME));
         writer.attr(ATTR_UUID, chartConsumingMap.get(ATTR_UUID));
@@ -170,6 +190,11 @@ public class ChartInfo extends AbstractPointInfo {
         writer.attr(ATTR_CHART_PROPERTY_END_TIME, chartConsumingMap.get(ATTR_CHART_PROPERTY_END_TIME));
         writer.attr(ATTR_JAR_TIME, chartConsumingMap.get(ATTR_JAR_TIME));
         writer.attr(ATTR_VERSION, chartConsumingMap.get(ATTR_VERSION));
+        writer.attr(ATTR_USER_ID, chartConsumingMap.get(ATTR_USER_ID));
+        writer.attr(ATTR_FIRST_CHART_TYPE, chartConsumingMap.get(ATTR_FIRST_CHART_TYPE));
+        writer.attr(ATTR_OVER_CHART_TYPE_COUNT, chartConsumingMap.get(ATTR_OVER_CHART_TYPE_COUNT));
+        writer.attr(ATTR_IS_NEW, chartConsumingMap.get(ATTR_IS_NEW));
+        writer.attr(ATTR_IS_REUSE, chartConsumingMap.get(ATTR_IS_REUSE));
         writer.end();
         writer.end();
     }
@@ -182,6 +207,7 @@ public class ChartInfo extends AbstractPointInfo {
             chartId = reader.getAttrAsString(ATTR_CHART_ID, StringUtils.EMPTY);
             templateId = reader.getAttrAsString(ATTR_TEMPLATE_ID, StringUtils.EMPTY);
             testTemplate = reader.getAttrAsBoolean(ATTR_TEST_TEMPLATE, true);
+            testChart = reader.getAttrAsBoolean(ATTR_TEST_CHART, false);
         } else {
             String name = reader.getTagName();
             if (XML_CHART_CONSUMING_MAP.equals(name)) {
@@ -198,6 +224,11 @@ public class ChartInfo extends AbstractPointInfo {
                 chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, reader.getAttrAsString(ATTR_CHART_PROPERTY_END_TIME, StringUtils.EMPTY));
                 chartConsumingMap.put(ATTR_JAR_TIME, reader.getAttrAsString(ATTR_JAR_TIME, StringUtils.EMPTY));
                 chartConsumingMap.put(ATTR_VERSION, reader.getAttrAsString(ATTR_VERSION, "8.0"));
+                chartConsumingMap.put(ATTR_USER_ID, reader.getAttrAsString(ATTR_USER_ID, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_FIRST_CHART_TYPE, reader.getAttrAsString(ATTR_FIRST_CHART_TYPE, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_OVER_CHART_TYPE_COUNT, reader.getAttrAsString(ATTR_OVER_CHART_TYPE_COUNT, "0"));
+                chartConsumingMap.put(ATTR_IS_NEW, reader.getAttrAsString(ATTR_IS_NEW, StringUtils.EMPTY));
+                chartConsumingMap.put(ATTR_IS_REUSE, reader.getAttrAsString(ATTR_IS_REUSE, StringUtils.EMPTY));
             }
         }
     }
@@ -231,7 +262,15 @@ public class ChartInfo extends AbstractPointInfo {
         chartConsumingMap.put(ATTR_CHART_TYPE, chartType);
         chartConsumingMap.put(ATTR_CHART_PROPERTY_FIRST_TIME, "");
         chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, "");
+        String count = chartConsumingMap.get(ATTR_OVER_CHART_TYPE_COUNT);
+        count = StringUtils.isEmpty(count) ? "1" : String.valueOf(Integer.parseInt(count) + 1);
+        chartConsumingMap.put(ATTR_OVER_CHART_TYPE_COUNT, count);
     }
+
+    public void updateFirstType(String chartType) {
+        chartConsumingMap.put(ATTR_FIRST_CHART_TYPE, chartType);
+    }
+
 
     @Override
     public ChartInfo clone() {

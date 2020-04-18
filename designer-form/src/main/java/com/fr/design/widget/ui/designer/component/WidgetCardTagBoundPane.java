@@ -4,6 +4,7 @@ import com.fr.design.designer.beans.AdapterBus;
 import com.fr.design.designer.beans.LayoutAdapter;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
@@ -48,13 +49,13 @@ public class WidgetCardTagBoundPane extends WidgetBoundPane {
         Rectangle rectangle = tabLayout.getBounds();
         if(ComparatorUtils.equals(displayPosition, WTabDisplayPosition.TOP_POSITION) || ComparatorUtils.equals(displayPosition, WTabDisplayPosition.BOTTOM_POSITION)){
             if(rectangle.height < size){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.height = size;
         }else{
             if(rectangle.width < size){
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return;
             }
             parentBounds.width = size;

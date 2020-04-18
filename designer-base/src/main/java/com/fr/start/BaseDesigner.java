@@ -3,6 +3,7 @@
  */
 package com.fr.start;
 
+import com.fr.common.report.ReportState;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.constants.DesignerLaunchStatus;
@@ -24,6 +25,9 @@ import com.fr.file.FILEFactory;
 import com.fr.file.FileFILE;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.ProcessEventPipe;
+import com.fr.process.engine.core.CarryMessageEvent;
+import com.fr.process.engine.core.FineProcessContext;
 import com.fr.stable.OperatingSystem;
 
 import java.awt.Window;
@@ -75,6 +79,11 @@ public abstract class BaseDesigner extends ToolBarMenuDock {
             @Override
             public void on(Event event, Null param) {
                 EventDispatcher.stopListen(this);
+                // 启动完成 停止监听
+                ProcessEventPipe eventPipe = FineProcessContext.getParentPipe();
+                if (eventPipe != null) {
+                    eventPipe.fire(new CarryMessageEvent(ReportState.STOP.getValue()));
+                }
                 collectUserInformation();
             }
         });

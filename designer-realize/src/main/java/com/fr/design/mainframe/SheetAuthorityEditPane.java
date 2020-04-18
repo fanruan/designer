@@ -8,6 +8,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.roleAuthority.ReportAndFSManagePane;
 import com.fr.design.roleAuthority.RolesAlreadyEditedPane;
+import com.fr.design.ui.util.UIUtil;
 import com.fr.general.ComparatorUtils;
 
 import com.fr.main.impl.WorkBook;
@@ -119,9 +120,14 @@ public class SheetAuthorityEditPane extends AuthorityEditPane {
         if (StringUtils.isEmpty(name.getText())){
             return;
         }
-        checkPane.add(populateCheckPane(), BorderLayout.CENTER);
-        checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
-        checkVisibleCheckBoxes();
+        UIUtil.invokeLaterIfNeeded(new Runnable() {
+            @Override
+            public void run() {
+                checkPane.add(populateCheckPane(), BorderLayout.CENTER);
+                checkPane.setBorder(BorderFactory.createEmptyBorder(0, LEFT_CHECKPANE, 0, 0));
+                checkVisibleCheckBoxes();
+            }
+        });
     }
 
     /**

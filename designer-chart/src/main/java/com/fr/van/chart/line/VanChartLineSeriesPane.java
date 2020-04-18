@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.Plot;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
 import javax.swing.JPanel;
@@ -36,6 +37,11 @@ public class VanChartLineSeriesPane extends VanChartAbstractPlotSeriesPane {
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);
         return contentPane;
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 
 }

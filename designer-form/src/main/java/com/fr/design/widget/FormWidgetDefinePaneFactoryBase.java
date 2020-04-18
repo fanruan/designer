@@ -127,6 +127,11 @@ public class FormWidgetDefinePaneFactoryBase {
 
     }
 
+
+    public static void registerDefinePane(Class<? extends Widget> widget, Appearance appearance) {
+        defineMap.put(widget, appearance);
+    }
+
     public static RN createWidgetDefinePane(XCreator creator, FormDesigner designer, Widget widget, Operator operator) {
         if (isExtraXWidget(widget)) {
             WidgetDefinePane widgetDefinePane = new WidgetDefinePane(creator, designer);

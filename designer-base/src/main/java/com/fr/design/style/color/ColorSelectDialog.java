@@ -6,6 +6,7 @@ import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import javax.swing.JPanel;
+import java.io.Serializable;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog;
@@ -13,7 +14,6 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 
 
 /**
@@ -136,8 +136,13 @@ public class ColorSelectDialog extends MiddleChartDialog{
 	 * void
 	 */
 	public static void showDialog(Frame owner,ColorSelectDetailPane pane,Color initialColor,ColorSelectable selectePane){
+		showDialog(owner,pane,initialColor,selectePane,false);
+	}
+
+	public static void showDialog(Frame owner,ColorSelectDetailPane pane,Color initialColor,ColorSelectable selectePane, boolean alwaysOnTop){
 		ColorTracker okListener = new ColorTracker(pane);
 		ColorSelectDialog dialog = new ColorSelectDialog(owner,pane,initialColor,okListener,selectePane);
+		dialog.setAlwaysOnTop(alwaysOnTop);
 		dialog.setModal(true);
 		dialog.show();
 	}

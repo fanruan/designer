@@ -6,7 +6,6 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.beans.FurtherBasicBeanPane;
-import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.tabledata.Prepare4DataSourceChange;
 import com.fr.design.dialog.BasicPane;
@@ -115,14 +114,13 @@ public class ChartEditPane extends BasicPane implements AttributeChange, Prepare
             selectedPane.update(collection);
 
             if (!ComparatorUtils.equals(collection, lastCollection)) {
-
                 VanChart vanChart = collection.getSelectedChartProvider(VanChart.class);
                 if (vanChart != null) {
                     //此处画图
-                    vanChart.demoImgEvent(true);
+                    vanChart.attrChange();
                 }
-
                 try {
+                    ChartInfoCollector.getInstance().checkTestChart(collection.getSelectedChartProvider(ChartProvider.class));
                     lastCollection = collection.clone();
                 } catch (CloneNotSupportedException e) {
                     FineLoggerFactory.getLogger().error("error in clone ChartEditPane");
