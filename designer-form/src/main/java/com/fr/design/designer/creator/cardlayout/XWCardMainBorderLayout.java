@@ -514,13 +514,4 @@ public class XWCardMainBorderLayout extends XWBorderLayout {
 	public boolean isSupportShared() {
 		return true;
 	}
-
-	@Override
-	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		if (FormDesignerUtils.isAppRelayout(WidgetPropertyPane.getInstance().getEditingFormDesigner())) {
-            return new WidgetPropertyUIProvider[] {new MobileBooKMarkUsePropertyUI(this)};
-		} else {
-			return super.getWidgetPropertyUIProviders();
-		}
-	}
 }

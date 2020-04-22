@@ -593,11 +593,7 @@ public class XWTabFitLayout extends XWFitLayout {
 	 */
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		if (FormDesignerUtils.isAppRelayout(WidgetPropertyPane.getInstance().getEditingFormDesigner())) {
-			return new WidgetPropertyUIProvider[] {new MobileBookMarkPropertyUI(this), new MobileBooKMarkUsePropertyUI(this)};
-		} else {
-			return new WidgetPropertyUIProvider[0];
-		}
+		return new WidgetPropertyUIProvider[0];
 	}
 
 	@Override
