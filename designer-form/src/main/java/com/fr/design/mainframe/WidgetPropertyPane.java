@@ -181,7 +181,7 @@ public class WidgetPropertyPane extends FormDockView implements BaseWidgetProper
         if (selection != null && xCreator != null) {
             embeddedPropertyUIProviders = selection.getSelectedCreator().getWidgetPropertyUIProviders();
             if(!designer.getDesignerMode().isFormParameterEditor()) {
-                if (!xCreator.acceptType(XWAbsoluteLayout.class, XWFitLayout.class, XWCardTagLayout.class, XWCardMainBorderLayout.class) && FormDesignerUtils.isAppRelayout(designer)) {
+                if (!xCreator.acceptType(XWAbsoluteLayout.class, XWFitLayout.class, XWCardTagLayout.class) && FormDesignerUtils.isAppRelayout(designer)) {
                     embeddedPropertyUIProviders = ArrayUtils.insert(0, embeddedPropertyUIProviders, new MobileBookMarkPropertyUI(xCreator));
                 }
                 if (xCreator.supportMobileStyle()) {
