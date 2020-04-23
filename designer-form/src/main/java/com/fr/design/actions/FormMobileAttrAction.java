@@ -112,7 +112,7 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
     private static final MenuKeySet REPORT_APP_ATTR = new MenuKeySet() {
         @Override
         public char getMnemonic() {
-            return 'T';
+            return 'P';
         }
 
         @Override
