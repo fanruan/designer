@@ -6,7 +6,11 @@ import com.fr.design.unit.impl.CMReportLengthUNIT;
 import com.fr.design.unit.impl.INCHReportLengthUNIT;
 import com.fr.design.unit.impl.MMReportLengthUNIT;
 import com.fr.design.unit.impl.PTReportLengthUNIT;
-
+import com.fr.general.GeneralContext;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +22,23 @@ public class UnitConvertUtil {
     private static List<ReportLengthUNITProvider> lengthUNITList = new ArrayList<ReportLengthUNITProvider>();
 
     static {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            @Override
+            public void on(PluginEvent pluginEvent) {
+                initSupportedReportLengthUNIT();
+            }
+        }, new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext pluginContext) {
+                return pluginContext.contain(ReportLengthUNITProvider.MARK_STRING);
+            }
+        });
+
+        initSupportedReportLengthUNIT();
+    }
+
+    private static void initSupportedReportLengthUNIT(){
+        lengthUNITList.clear();
         lengthUNITList.add(new MMReportLengthUNIT());
         lengthUNITList.add(new CMReportLengthUNIT());
         lengthUNITList.add(new INCHReportLengthUNIT());
