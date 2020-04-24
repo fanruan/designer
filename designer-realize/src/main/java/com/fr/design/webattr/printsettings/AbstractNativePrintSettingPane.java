@@ -103,14 +103,14 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
         showDialogCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Show_Print_Setting_Window_When_Printing"));
         showDialogCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel showDialogCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Use_Default_Settings"));
-        JPanel showDialogCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+        JPanel showDialogCheckPane = GUICoreUtils.createFlowPane(new Component[]{
                 showDialogCheck, showDialogCheckTip}, FlowLayout.LEFT);
 
         // 打印需要指定 sheet
         needSelectSheetCheck = new UICheckBox(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Engine_Need_Select_Sheet_When_Printing"));
         needSelectSheetCheck.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         UILabel needSelectSheetCheckTip = GUICoreUtils.createTipLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Tip_Invalid_In_Page_View"));
-        JPanel needSelectSheetCheckPane =  GUICoreUtils.createFlowPane(new Component[] {
+        JPanel needSelectSheetCheckPane = GUICoreUtils.createFlowPane(new Component[]{
                 needSelectSheetCheck, needSelectSheetCheckTip}, FlowLayout.LEFT);
 
         return createHeaderPane(tipDownload, showDialogCheckPane, needSelectSheetCheckPane);
@@ -263,7 +263,7 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
                                     ' ' +
                                     com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_PageSetup_mm") +
                                     ']';
-                            this.setText(sbuf);
+                            this.setText(" " + sbuf);
                             break;
                         }
                     }
@@ -461,8 +461,8 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
         extraUpdate(nativePrintAttr);
         nativePrintAttr.setShowDialog(showDialogCheck.isSelected());
         nativePrintAttr.setNeedSelectSheet(needSelectSheetCheck.isSelected());
-        nativePrintAttr.setPrinterName((String)printerComboBox.getSelectedItem());
-        nativePrintAttr.setCopy((int)copySpinner.getValue());
+        nativePrintAttr.setPrinterName((String) printerComboBox.getSelectedItem());
+        nativePrintAttr.setCopy((int) copySpinner.getValue());
 
         // 页码
         if (allPageRadioButton.isSelected()) {
@@ -472,7 +472,7 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
         } else if (customPageRadioButton.isSelected()) {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.SPECIFIED_PAGES);
             nativePrintAttr.setArea(specifiedAreaField.getText());
-        } else if (doublePrintComboBox.getSelectedIndex() == ODD_INDEX){
+        } else if (doublePrintComboBox.getSelectedIndex() == ODD_INDEX) {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.ODD_PAGES);
         } else {
             nativePrintAttr.setPageType(NativePrintAttr.PageType.EVEN_PAGES);
@@ -494,7 +494,7 @@ public abstract class AbstractNativePrintSettingPane extends JPanel {
         nativePrintAttr.setInheritPageMarginSetting(inheritPageMarginSettingCheck.isSelected());
         nativePrintAttr.setMargin(pageMarginSettingPane.updateBean());
         nativePrintAttr.setFitPaperSize(fitPaperSizeCheck.isSelected());
-        nativePrintAttr.setScalePercent((int)scalePercentField.getValue());
+        nativePrintAttr.setScalePercent((int) scalePercentField.getValue());
     }
 
     protected void extraUpdate(NativePrintAttr nativePrintAttr) {

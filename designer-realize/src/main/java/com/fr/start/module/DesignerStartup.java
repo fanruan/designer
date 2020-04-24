@@ -16,11 +16,11 @@ import com.fr.design.utils.DesignUtils;
 import com.fr.design.utils.DesignerPort;
 import com.fr.exit.DesignerExiter;
 import com.fr.general.ComparatorUtils;
-import com.fr.general.IOUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.module.Activator;
 import com.fr.record.analyzer.EnableMetrics;
 import com.fr.record.analyzer.Metrics;
+import com.fr.stable.ArrayUtils;
 import com.fr.stable.BuildContext;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
@@ -35,8 +35,6 @@ import com.fr.start.server.FineEmbedServer;
 import com.fr.value.NotNullLazyValue;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 
@@ -71,7 +69,9 @@ public class DesignerStartup extends Activator {
         if (DesignUtils.isStarted()) {
             // 如果端口被占用了 说明程序已经运行了一次,也就是说，已经建立一个监听服务器，现在只要给服务器发送命令就好了
             final String[] args = startupArgsValue.getValue().get();
-            DesignUtils.clientSend(args);
+            if (ArrayUtils.isNotEmpty(args)) {
+                DesignUtils.clientSend(args);
+            }
             FineLoggerFactory.getLogger().info("The Designer Has Been Started");
             if (args.length == 0) {
                 TipDialog dialog = new TipDialog(null,

@@ -14,6 +14,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.style.color.ColorSelectBox;
+import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.log.FineLoggerFactory;
 import com.fr.stable.Constants;
@@ -69,7 +70,7 @@ public class BorderPane extends BasicPane {
 	private JToggleButton rightToggleButton;
 
 	private LineComboBox currentLineCombo;
-	private ColorSelectBox currentLineColorPane;
+	private NewColorSelectBox currentLineColorPane;
 
 	
 	private UIButton insidebutton;
@@ -88,7 +89,7 @@ public class BorderPane extends BasicPane {
 		verticalToggleButton = new ToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/vertical.png"), BorderPane.VERTICAL_BORDER);
 		rightToggleButton = new ToggleButton(BaseUtils.readIcon("/com/fr/base/images/dialog/border/right.png"), BorderPane.RIGHT_BORDER);
 		this.currentLineCombo = new LineComboBox(CoreConstants.UNDERLINE_STYLE_ARRAY);
-		this.currentLineColorPane = new ColorSelectBox(100);
+		this.currentLineColorPane = new NewColorSelectBox(100);
 
 		this.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 		this.setLayout(FRGUIPaneFactory.createBorderLayout());

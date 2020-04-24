@@ -3,6 +3,7 @@ package com.fr.design.designer.beans.adapters.layout;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.cardlayout.XWCardTagLayout;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.form.layout.FRBorderLayout;
 import com.fr.general.ComparatorUtils;
 
@@ -47,13 +48,13 @@ public class FRCardMainBorderLayoutAdapter extends FRBorderLayoutAdapter {
         if (ComparatorUtils.equals(constraints, BorderLayout.NORTH) || ComparatorUtils.equals(constraints, BorderLayout.SOUTH)) {
             int containerHeight = container.getHeight();
             if (rectangle.height > containerHeight) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return true;
             }
         } else if (ComparatorUtils.equals(constraints, BorderLayout.EAST) || ComparatorUtils.equals(constraints, BorderLayout.WEST)) {
             int containerWidth = container.getWidth();
             if (rectangle.width > containerWidth) {
-                JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
+                FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Beyond_Tablayout_Bounds"));
                 return true;
             }
         }

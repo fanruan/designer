@@ -1,6 +1,7 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.chart.BaseChartCollection;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chartx.attr.ChartProvider;
 import com.fr.design.DesignModelAdapter;
@@ -22,14 +23,16 @@ import com.fr.design.icon.IconPathConstants;
 import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.utils.ComponentUtils;
 import com.fr.form.share.SharableEditorProvider;
+import com.fr.form.share.SharableWidgetProvider;
 import com.fr.form.share.ShareLoader;
 import com.fr.form.ui.ChartEditor;
-import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.form.ui.Widget;
 import com.fr.stable.Constants;
+import com.fr.stable.StringUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JWindow;
+import java.util.List;
 import java.util.Map;
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +43,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
+import java.util.Map;
 
 /**
  * 添加模式下鼠标事件处理器。
@@ -99,7 +103,7 @@ public class FormCreatorDropTarget extends DropTarget {
             if (addingXCreator.isShared()) {
                 String shareId = addingXCreator.getShareId();
                 SharableEditorProvider sharableEditor = ShareLoader.getLoader().getSharedElCaseEditorById(shareId);
-                SharableWidgetBindInfo bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
+                SharableWidgetProvider bindInfo = ShareLoader.getLoader().getElCaseBindInfoById(shareId);
                 if (sharableEditor != null && bindInfo != null) {
                     Map<String, String> tdNameMap = TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter()).addTableData(bindInfo.getName(), sharableEditor.getTableDataSource());
                     //合并数据集之后,可能会有数据集名称变化，做一下联动
@@ -284,9 +288,16 @@ public class FormCreatorDropTarget extends DropTarget {
     }
 
     private void dealChartBuryingPoint(Widget widget) {
-        if (widget instanceof ChartEditor) {
-            ChartCollection chartCollection = (ChartCollection)((ChartEditor) widget).getChartCollection();
-            ChartInfoCollector.getInstance().collection(chartCollection.getSelectedChartProvider(ChartProvider.class), null);
+        List<BaseChartCollection> chartCollections = widget.getChartCollections();
+        for (BaseChartCollection baseChartCollection : chartCollections) {
+            ChartCollection chartCollection = (ChartCollection) baseChartCollection;
+            for (int i = 0, size = chartCollection.getChartCount(); i < size; i++) {
+                ChartProvider chart = chartCollection.getChart(i, ChartProvider.class);
+                //是否是共享的复用组件
+                boolean isReuse = StringUtils.isNotEmpty(this.addingModel.getXCreator().getShareId());
+                ChartInfoCollector.getInstance().collection(chart, null, isReuse);
+                ChartInfoCollector.getInstance().checkTestChart(chart);
+            }
         }
     }
 }

@@ -38,8 +38,8 @@ public class MenuDef extends ShortCut {
     protected UIMenu createdJMenu;
     protected UIButton createdButton;
     protected JPopupMenu popupMenu;
-    private boolean hasScrollSubMenu;
-    private boolean isHeadMenu;
+    protected boolean hasScrollSubMenu;
+    protected boolean isHeadMenu;
 
     private String anchor;
 
@@ -138,8 +138,12 @@ public class MenuDef extends ShortCut {
      */
     public void addShortCut(ShortCut... shortcut) {
         for (ShortCut i : shortcut) {
-            this.shortcutList.add(i);
+            addShortCut(i);
         }
+    }
+    
+    public void addShortCut(ShortCut shortCut) {
+        this.shortcutList.add(shortCut);
     }
 
     public void removeShortCut(ShortCut shortCut) {
@@ -187,18 +191,13 @@ public class MenuDef extends ShortCut {
      */
     public UIMenu createJMenu() {
         if (createdJMenu == null) {
-            if (hasScrollSubMenu) {
-                createdJMenu = new UIScrollMenu(this.getName());
-            } else if (isHeadMenu){
-                createdJMenu = new UIHeadMenu(this.getName());
-            } else {
-                createdJMenu = new UIMenu(this.getName());
-            }
+            createdJMenu = createJMenu0();
             createdJMenu.setMnemonic(this.getMnemonic());
             if (this.iconPath != null) {
                 createdJMenu.setIcon(BaseUtils.readIcon(this.iconPath));
             }
-            createdJMenu.addMenuListener(menuDefListener);
+            MenuListener menuListener = createMenuListener();
+            createdJMenu.addMenuListener(menuListener);
             ContainerListener listener = getContainerListener();
             if (listener != null) {
                 createdJMenu.getPopupMenu().addContainerListener(listener);
@@ -207,7 +206,20 @@ public class MenuDef extends ShortCut {
 
         return createdJMenu;
     }
-
+    
+    protected UIMenu createJMenu0() {
+        
+        UIMenu createdJMenu;
+        if (hasScrollSubMenu) {
+            createdJMenu = new UIScrollMenu(this.getName());
+        } else if (isHeadMenu){
+            createdJMenu = new UIHeadMenu(this.getName());
+        } else {
+            createdJMenu = new UIMenu(this.getName());
+        }
+        return createdJMenu;
+    }
+    
     protected ContainerListener getContainerListener() {
         return null;
     }
@@ -376,6 +388,11 @@ public class MenuDef extends ShortCut {
     @Override
     public void intoJToolBar(JToolBar toolBar) {
         toolBar.add(this.createUIButton());
+    }
+    
+    protected MenuListener createMenuListener() {
+        
+        return menuDefListener;
     }
 
     private MenuListener menuDefListener = new MenuListener() {

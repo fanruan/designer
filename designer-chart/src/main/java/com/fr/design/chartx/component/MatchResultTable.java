@@ -3,8 +3,10 @@ package com.fr.design.chartx.component;
 import com.fr.base.BaseUtils;
 import com.fr.base.Utils;
 import com.fr.design.gui.ibutton.UIButton;
+import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.i18n.Toolkit;
 import com.fr.general.ComparatorUtils;
+import com.fr.general.GeneralUtils;
 import com.fr.plugin.chart.map.data.MapMatchResult;
 import com.fr.stable.StringUtils;
 
@@ -18,7 +20,9 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,6 +36,8 @@ public class MatchResultTable extends JTable {
 
     private MatchAreaTable matchAreaTable;
 
+    private Set<String> items;
+
     public MatchResultTable(Object[][] data, Object[] header) {
         super(data, header);
         this.getTableHeader().setReorderingAllowed(false);
@@ -41,12 +47,26 @@ public class MatchResultTable extends JTable {
         this.matchAreaTable = matchAreaTable;
     }
 
+    public void setItems(Set<String> items) {
+        this.items = items;
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        //第一列和第二列不可编辑
+        int col = convertColumnIndexToModel(column);
+        if (col == 0 || col == 1) {
+            return false;
+        }
+        return true;
+    }
+
+
     public void setModel(TableModel dataModel) {
         super.setModel(dataModel);
 
         TableColumnModel columnModel = getColumnModel();
-        columnModel.getColumn(0).setCellEditor(new MatchAreaTable.UILabelEditor());
-        columnModel.getColumn(1).setCellEditor(new MatchAreaTable.UILabelEditor());
+        columnModel.getColumn(1).setCellRenderer(new UILabelEditorAndRender());
         columnModel.getColumn(2).setCellEditor(new UIButtonEditorAndRender());
         columnModel.getColumn(2).setCellRenderer(new UIButtonEditorAndRender());
         columnModel.getColumn(2).setMaxWidth(20);
@@ -56,7 +76,6 @@ public class MatchResultTable extends JTable {
         int rowCount = this.getRowCount();
         for (int i = 0; i < rowCount; i++) {
             if (ComparatorUtils.equals(this.getValueAt(i, 0), areaName)) {
-                getColumnModel().getColumn(1).getCellEditor().stopCellEditing();
                 this.setValueAt(result, i, 1);
                 return;
             }
@@ -140,6 +159,20 @@ public class MatchResultTable extends JTable {
 
         public Object getCellEditorValue() {
             return StringUtils.EMPTY;
+        }
+    }
+
+    public class UILabelEditorAndRender implements TableCellRenderer {
+
+        UILabel uiLabel;
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            uiLabel = new UILabel(GeneralUtils.objectToString(value));
+            if (!items.contains(value)) {
+                uiLabel.setForeground(Color.GRAY);
+                uiLabel.setText(value + Toolkit.i18nText("Fine-Design_Chart_Lost_Data"));
+            }
+            return uiLabel;
         }
     }
 

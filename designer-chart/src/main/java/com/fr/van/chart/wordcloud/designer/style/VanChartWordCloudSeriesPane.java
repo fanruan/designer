@@ -15,10 +15,10 @@ import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.utils.gui.GUICoreUtils;
 import com.fr.general.FRFont;
 import com.fr.general.IOUtils;
-
 import com.fr.plugin.chart.wordcloud.CloudShapeType;
 import com.fr.plugin.chart.wordcloud.VanChartWordCloudPlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
 import javax.swing.JPanel;
@@ -227,5 +227,10 @@ public class VanChartWordCloudSeriesPane extends VanChartAbstractPlotSeriesPane 
                 wordCloudPlot.setShapeImage(null);
             }
         }
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 }

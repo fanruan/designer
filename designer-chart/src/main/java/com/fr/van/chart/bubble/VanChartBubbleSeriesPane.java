@@ -37,14 +37,13 @@ public class VanChartBubbleSeriesPane extends VanChartAbstractPlotSeriesPane {
         double[] col = {f};
 
         Component[][] components = new Component[][]{
-                new Component[]{getColorPane()},
                 new Component[]{createBubblePane()},
                 new Component[]{createStackedAndAxisPane()},
                 new Component[]{null}
         };
 
         if (!((VanChartBubblePlot) plot).isForceBubble()) {
-            components[3] = new Component[]{createLargeDataModelPane()};
+            components[2] = new Component[]{createLargeDataModelPane()};
         }
 
         contentPane = TableLayoutHelper.createTableLayoutPane(components, row, col);

@@ -17,6 +17,7 @@ import com.fr.stable.ArrayUtils;
 import com.fr.stable.EnvChangedListener;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
+import com.fr.stable.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,7 +101,10 @@ public class ErrorInfoUploader {
 
     private void downloadSolution(File localCacheZip) {
         try {
-            String downloadURL = CloudCenter.getInstance().acquireUrlByKind("solution.download", "http://cloud.fanruan.com/api/solution");
+            String downloadURL = CloudCenter.getInstance().acquireUrlByKind("solution.download");
+            if (StringUtils.isBlank(downloadURL)) {
+                return;
+            }
             downloadURL = String.format("%s?token=%s", downloadURL, SiteCenterToken.generateToken());
             InputStream in = HttpToolbox.post(downloadURL, new HashMap<String, Object>(), HttpResponseType.STREAM);
             StableUtils.makesureFileExist(localCacheZip);
@@ -119,7 +123,10 @@ public class ErrorInfoUploader {
     private boolean needUpdate(File localCacheZip) {
         if (localCacheZip.exists()) {
             // 判断本地文件大小.
-            String checkURL = CloudCenter.getInstance().acquireUrlByKind("solution.check", "http://cloud.fanruan.com/api/solution/cache/check");
+            String checkURL = CloudCenter.getInstance().acquireUrlByKind("solution.check");
+            if (StringUtils.isBlank(checkURL)) {
+                return false;
+            }
             checkURL = String.format("%s?token=%s", checkURL, SiteCenterToken.generateToken());
             try {
                 JSONObject res = new JSONObject(HttpToolbox.get(checkURL));
@@ -143,6 +150,9 @@ public class ErrorInfoUploader {
         }
 
         File[] files = folder.listFiles();
+        if (files == null) {
+            return;
+        }
         if (ArrayUtils.getLength(files) > MAX_ERROR_SIZE) {
             CommonIOUtils.deleteFile(folder);
             return;
@@ -166,9 +176,12 @@ public class ErrorInfoUploader {
                         }
                         jsonArray.put(new JSONObject(content));
                         tempFiles.add(file);
-                        if( jsonArray.length() == MAX_ITEMS || count == files.length){
+                        if (jsonArray.length() == MAX_ITEMS || count == files.length) {
                             String url = CloudCenter.getInstance().acquireUrlByKind("design.error");
-                            if(sendErrorInfo(url, jsonArray)){
+                            if (StringUtils.isBlank(url)) {
+                                return;
+                            }
+                            if (sendErrorInfo(url, jsonArray)) {
                                 deleteFiles(tempFiles);
                             }
                             jsonArray = new JSONArray();
@@ -182,7 +195,7 @@ public class ErrorInfoUploader {
     }
 
     private void deleteFiles(List<File> files) {
-        for(File file : files) {
+        for (File file : files) {
             CommonIOUtils.deleteFile(file);
         }
     }
