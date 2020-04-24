@@ -5,6 +5,7 @@ import com.fr.design.constants.LayoutConstants;
 import com.fr.design.designer.IntervalConstants;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.foldablepane.UIExpandablePane;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
@@ -14,6 +15,8 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.accessibles.AccessibleTemplateStyleEditor;
 import com.fr.design.mainframe.widget.accessibles.MobileTemplateStylePane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileAdvanceInnerPane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileBookMarkUsePane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentMarginPane;
 import com.fr.design.widget.ui.designer.mobile.component.MobileComponentLayoutIntervalPane;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
@@ -30,6 +33,7 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
     private AttributeChangeListener changeListener;
     private MobileComponentMarginPane marginPane;
     private MobileComponentLayoutIntervalPane intervalPane;
+    private MobileBookMarkUsePane mobileBookMarkUsePane;
 
     public TabMobileWidgetDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -62,9 +66,15 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         JPanel holder = FRGUIPaneFactory.createBorderLayout_S_Pane();
         holder.add(jPanel, BorderLayout.NORTH);
         if (!shouldHidePadding(designer)) {
+            JPanel innerAdvancePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
             marginPane = new MobileComponentMarginPane(FormTabPaddingAttrMark.XML_TAG);
             intervalPane = new MobileComponentLayoutIntervalPane(FormTabPaddingAttrMark.XML_TAG);
-            UIExpandablePane advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, marginPane);
+            if (FormDesignerUtils.isAppRelayout(designer)) {
+                mobileBookMarkUsePane = new MobileBookMarkUsePane();
+                innerAdvancePane.add(mobileBookMarkUsePane, BorderLayout.CENTER);
+            }
+            innerAdvancePane.add(marginPane, BorderLayout.NORTH);
+            UIExpandablePane advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, innerAdvancePane);
             UIExpandablePane layoutPane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Layout"), 280, 20, intervalPane);
             //高级
             holder.add(advancePane, BorderLayout.CENTER);
@@ -77,27 +87,35 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
 
     @Override
     public void populate(FormDesigner designer) {
-        templateStyleEditor.setValue(((WCardTagLayout) xCreator.toData()).getMobileTemplateStyle());
+        WCardTagLayout wCardTagLayout = (WCardTagLayout) xCreator.toData();
+        templateStyleEditor.setValue((wCardTagLayout).getMobileTemplateStyle());
         // 数据 populate 完成后，再设置监听
         this.bindListeners2Widgets();
         this.addAttributeChangeListener(changeListener);
         if (marginPane != null) {//业务层面可以写成shouldHidePadding但是这样写应该性能差点
-            marginPane.populate((WCardTagLayout) xCreator.toData());
+            marginPane.populate(wCardTagLayout);
         }
         if (intervalPane != null) {
-            intervalPane.populate((WCardTagLayout) xCreator.toData());
+            intervalPane.populate(wCardTagLayout);
+        }
+        if (mobileBookMarkUsePane != null) {
+            mobileBookMarkUsePane.populate(xCreator);
         }
     }
 
     @Override
     public void update() {
-        ((WCardTagLayout) xCreator.toData()).setMobileTemplateStyle((MobileTemplateStyle) templateStyleEditor.getValue());
+        WCardTagLayout wCardTagLayout = (WCardTagLayout) xCreator.toData();
+        (wCardTagLayout).setMobileTemplateStyle((MobileTemplateStyle) templateStyleEditor.getValue());
         DesignerContext.getDesignerFrame().getSelectedJTemplate().fireTargetModified(); // 触发设计器保存按钮亮起来
         if (marginPane != null) {
-            marginPane.update((WCardTagLayout) xCreator.toData());
+            marginPane.update(wCardTagLayout);
         }
         if (intervalPane != null) {
-            intervalPane.update((WCardTagLayout) xCreator.toData());
+            intervalPane.update(wCardTagLayout);
+        }
+        if (mobileBookMarkUsePane != null) {
+            mobileBookMarkUsePane.update(xCreator);
         }
     }
 }

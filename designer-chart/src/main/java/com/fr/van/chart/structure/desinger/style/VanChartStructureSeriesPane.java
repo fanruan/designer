@@ -10,10 +10,10 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.style.color.ColorSelectBox;
-
 import com.fr.plugin.chart.base.AttrNode;
 import com.fr.plugin.chart.structure.VanChartStructurePlot;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.VanChartBeautyPane;
 import com.fr.van.chart.designer.style.series.VanChartAbstractPlotSeriesPane;
 
 import javax.swing.JPanel;
@@ -141,5 +141,10 @@ public class VanChartStructureSeriesPane extends VanChartAbstractPlotSeriesPane 
                 defaultAttr.addDataSeriesCondition(nodeStylePane.updateBean());
             }
         }
+    }
+
+    @Override
+    protected VanChartBeautyPane createStylePane() {
+        return null;
     }
 }

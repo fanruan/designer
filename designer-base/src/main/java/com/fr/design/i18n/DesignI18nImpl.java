@@ -1,5 +1,6 @@
 package com.fr.design.i18n;
 
+import com.fr.design.DesignerEnvManager;
 import com.fr.general.GeneralContext;
 import com.fr.general.log.MessageFormatter;
 import com.fr.locale.DesignI18nProvider;
@@ -13,6 +14,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class DesignI18nImpl implements DesignI18nProvider {
+
+    static {
+        // GeneralContext上下文 存储本次启动的语言环境 直接使用DesignerEnvManager 会在设置语言环境后 不重启 立即生效 存在问题
+        GeneralContext.setLocale(DesignerEnvManager.getEnvManager().getLanguage());
+    }
 
     private static DesignI18nImpl instance = new DesignI18nImpl();
 

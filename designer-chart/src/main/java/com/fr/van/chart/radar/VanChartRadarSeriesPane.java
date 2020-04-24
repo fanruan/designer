@@ -43,7 +43,6 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
     private Component[][] getPaneComponents() {
         if(plot instanceof VanChartRadarPlot && ((VanChartRadarPlot)plot).isStackChart()) {
             return new Component[][]{
-                    new Component[]{getColorPane()},
                     new Component[]{createRadarTypePane()},
                     new Component[]{createBorderPane()},
             };
@@ -59,7 +58,9 @@ public class VanChartRadarSeriesPane extends VanChartAbstractPlotSeriesPane {
 
     //设置色彩面板内容
     protected void setColorPaneContent (JPanel panel) {
-        panel.add(createAlphaPane(), BorderLayout.CENTER);
+        if(plot instanceof VanChartRadarPlot && ((VanChartRadarPlot)plot).isStackChart()) {
+            panel.add(createAlphaPane(), BorderLayout.CENTER);
+        }
     }
 
     private JPanel createRadarTypePane() {

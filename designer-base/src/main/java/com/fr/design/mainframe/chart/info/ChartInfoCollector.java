@@ -7,7 +7,6 @@ import com.fr.design.mainframe.template.info.TemplateInfo;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.general.ComparatorUtils;
 import com.fr.log.FineLoggerFactory;
-import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.stable.ProductConstants;
 import com.fr.stable.StableUtils;
 import com.fr.stable.StringUtils;
@@ -53,39 +52,36 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
     }
 
     public void collection(ChartProvider chartProvider, String createTime) {
-        if (chartProvider instanceof VanChart) {
-            VanChart vanChart = (VanChart) chartProvider;
-            collection(vanChart.getUuid(), vanChart.getID(), createTime);
-        }
+        collection(chartProvider, createTime, false);
+    }
+
+    public void collection(ChartProvider chartProvider, String createTime, boolean isReuse) {
+        collection(chartProvider.getChartUuid(), chartProvider.getID(), createTime, isReuse);
     }
 
     /**
      * 新建图表，保存状态
      */
-    public void collection(String chartId, String chartType, String createTime) {
-        if (!shouldCollectInfo()) {
+    public void collection(String chartId, String chartType, String createTime, boolean isReuse) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
             return;
         }
-
-        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType, createTime);
+        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType, createTime, true, isReuse);
         chartInfoCacheMap.put(chartId, chartInfo);
     }
 
     public void updateChartPropertyTime(ChartProvider chartProvider) {
-        if (chartProvider instanceof VanChart) {
-            VanChart vanChart = (VanChart) chartProvider;
-            updateChartPropertyTime(vanChart.getUuid(), vanChart.getID());
-        }
+        updateChartPropertyTime(chartProvider.getChartUuid(), chartProvider.getID());
     }
 
     /**
      * 图表编辑，更新编辑时间
      */
     public void updateChartPropertyTime(String chartId, String chartType) {
-        if (!shouldCollectInfo()) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
             return;
         }
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType);
+        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, null);
 
         //更新编辑时间
         chartInfo.updatePropertyTime();
@@ -94,22 +90,19 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         chartInfo.resetIdleDayCount();
     }
 
-    public void updateChartTypeTime(ChartProvider chartProvider) {
-        if (chartProvider instanceof VanChart) {
-            VanChart vanChart = (VanChart) chartProvider;
-            updateChartTypeTime(vanChart.getUuid(), vanChart.getID());
-        }
+    public void updateChartTypeTime(ChartProvider chartProvider, String oldType) {
+        updateChartTypeTime(chartProvider.getChartUuid(), chartProvider.getID(), oldType);
     }
 
     /**
      * 图表类型变化，更新类型和类型确认时间
      */
-    public void updateChartTypeTime(String chartId, String chartType) {
-        if (!shouldCollectInfo()) {
+    public void updateChartTypeTime(String chartId, String chartType, String oldType) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
             return;
         }
 
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType);
+        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, oldType);
 
         //更新类型确认时间和类型
         chartInfo.updateChartType(chartType);
@@ -118,7 +111,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         chartInfo.resetIdleDayCount();
     }
 
-    private ChartInfo getOrCreateChartInfo(String chartId, String chartType) {
+    private ChartInfo getOrCreateChartInfo(String chartId, String chartType, String oldType) {
         //缓存中有从缓存中拿
         if (chartInfoCacheMap.containsKey(chartId)) {
             return chartInfoCacheMap.get(chartId);
@@ -129,10 +122,24 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
             chartInfoCacheMap.put(chartId, chartInfo);
             return chartInfo;
         }
-        //都有的话创建一个并加入到缓存中
+        //都没有的话创建一个并加入到缓存中
         ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType);
+        if (StringUtils.isNotEmpty(oldType)) {
+            chartInfo.updateFirstType(oldType);
+        }
         chartInfoCacheMap.put(chartId, chartInfo);
         return chartInfo;
+    }
+
+    public void checkTestChart(ChartProvider chartProvider) {
+        if (!shouldCollectInfo()) {
+            return;
+        }
+        ChartInfo chartInfo = chartInfoCacheMap.get(chartProvider.getChartUuid());
+        if (chartInfo != null) {
+            boolean testChart = chartProvider.isTestChart();
+            chartInfo.setTestChart(testChart);
+        }
     }
 
     /**

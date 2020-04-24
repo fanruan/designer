@@ -1,14 +1,15 @@
 package com.fr.design.mainframe;
 
 import com.fr.base.BaseUtils;
+import com.fr.base.FRContext;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.form.share.SharableWidgetProvider;
 import com.fr.form.share.ShareLoader;
-import com.fr.form.ui.SharableWidgetBindInfo;
 import com.fr.general.CloudCenter;
 import com.fr.log.FineLoggerFactory;
 import com.fr.share.ShareConstants;
@@ -50,7 +51,7 @@ public class FormWidgetDetailPane extends FormDockView{
     private UIScrollPane downPane;
     private JPanel reuWidgetPanel;
     private UIComboBox comboBox;
-    private SharableWidgetBindInfo[] elCaseBindInfoList;
+    private SharableWidgetProvider[] elCaseBindInfoList;
     private UIButton deleteButton;
     private JPanel editPanel;
     private JPanel resetPanel;
@@ -303,7 +304,7 @@ public class FormWidgetDetailPane extends FormDockView{
             public void actionPerformed(ActionEvent e) {
                 String url = CloudCenter.getInstance().acquireUrlByKind("reuse.url");
                 if (StringUtils.isEmpty(url)) {
-                    FineLoggerFactory.getLogger().info("The URL is empty!");
+                    FRContext.getLogger().info("The URL is empty!");
                     return;
                 }
                 try {

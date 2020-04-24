@@ -3,6 +3,7 @@ package com.fr.design.mainframe.socketio;
 import com.fr.config.RemoteConfigEvent;
 import com.fr.decision.webservice.utils.DecisionServiceConstants;
 import com.fr.design.EnvChangeEntrance;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.mainframe.DesignerContext;
 import com.fr.design.mainframe.loghandler.DesignerLogger;
@@ -146,7 +147,7 @@ public class DesignerSocketIO {
                     UIUtil.invokeAndWaitIfNeeded(new Runnable() {
                         @Override
                         public void run() {
-                            JOptionPane.showMessageDialog(
+                            FineJOptionPane.showMessageDialog(
                                     DesignerContext.getDesignerFrame(),
                                     Toolkit.i18nText("Fine-Design_Basic_Remote_Disconnected"),
                                     UIManager.getString("OptionPane.messageDialogTitle"),

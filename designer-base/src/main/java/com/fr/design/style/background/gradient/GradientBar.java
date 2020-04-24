@@ -1,5 +1,24 @@
 package com.fr.design.style.background.gradient;
 
+import com.fr.design.DesignerEnvManager;
+import com.fr.design.event.UIObserver;
+import com.fr.design.event.UIObserverListener;
+import com.fr.design.gui.itextfield.UINumberField;
+import com.fr.design.mainframe.DesignerContext;
+import com.fr.design.style.color.ColorCell;
+import com.fr.design.style.color.ColorSelectDetailPane;
+import com.fr.design.style.color.ColorSelectDialog;
+import com.fr.design.style.color.ColorSelectable;
+import com.fr.stable.AssistUtils;
+
+import javax.swing.JComponent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -9,32 +28,11 @@ import java.awt.LinearGradientPaint;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import com.fr.design.DesignerEnvManager;
-import com.fr.design.event.UIObserver;
-import com.fr.design.event.UIObserverListener;
-import com.fr.design.gui.itextfield.UINumberField;
-import com.fr.design.mainframe.DesignerContext;
-import com.fr.design.style.color.ColorCell;
-import com.fr.design.style.color.ColorSelectConfigManager;
-import com.fr.design.style.color.ColorSelectDetailPane;
-import com.fr.design.style.color.ColorSelectDialog;
-import com.fr.design.style.color.ColorSelectable;
-import com.fr.stable.AssistUtils;
 
 /**
  * TODO:面板缩放的功能没有考虑（就是尾值过大，导致超过界面显示的情况），原来的那个实现完全是个BUG。要缩放的情况也比较少，就干脆以后弄吧
  */
-public class GradientBar extends JComponent implements UIObserver,ColorSelectable{
+public class GradientBar extends JComponent implements UIObserver, ColorSelectable {
 
     /**
      *
@@ -54,12 +52,12 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
     private UINumberField endLabel;
 
     private ChangeListener changeListener = null;
-    private UIObserverListener uiObserverListener;
-    
+    private List<UIObserverListener> uiObserverListener;
+
     private static final int MOUSE_OFFSET = 4;
-    
+
     private static final int MAX_VERTICAL = 45;
-    
+
     // 选中的颜色
     private Color color;
 
@@ -87,6 +85,11 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         addMouseClickListener();
         addMouseDragListener();
         iniListener();
+    }
+
+    public void updateColor(Color begin, Color end) {
+        p1.setColorInner(begin);
+        p2.setColorInner(end);
     }
 
     protected void addMouseClickListener() {
@@ -142,14 +145,14 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
     }
 
     private void iniListener() {
+        uiObserverListener = new ArrayList<>();
         if (shouldResponseChangeListener()) {
             this.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    if (uiObserverListener == null) {
-                        return;
+                    for (UIObserverListener observerListener : uiObserverListener) {
+                        observerListener.doChange();
                     }
-                    uiObserverListener.doChange();
                 }
             });
         }
@@ -199,14 +202,14 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
      * 状态改变
      */
     public void stateChanged() {
-        if (changeListener != null)  {
+        if (changeListener != null) {
             changeListener.stateChanged(null);
         }
     }
 
     /**
      * 增加监听
-     *	
+     *
      * @param changeListener 监听
      */
     public void addChangeListener(ChangeListener changeListener) {
@@ -215,14 +218,14 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
 
     /**
      * 如果左右两个按钮还在初始位置，就为true
-     *  @return 同上
+     *
+     * @return 同上
      */
     public boolean isOriginalPlace() {
         return AssistUtils.equals(startLabel.getValue(), min) && AssistUtils.equals(endLabel.getValue(), max);
     }
 
     /**
-     *
      * @return
      */
     public double getStartValue() {
@@ -230,7 +233,6 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
     }
 
     /**
-     *
      * @return
      */
     public double getEndValue() {
@@ -238,23 +240,22 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
     }
 
     /**
-     *
      * @param startValue
      */
     public void setStartValue(double startValue) {
         startLabel.setValue(startValue);
+        p1.setX(startValue);
     }
 
     /**
-     *
      * @param endValue
      */
     public void setEndValue(double endValue) {
         endLabel.setValue(endValue);
+        p2.setX(endValue);
     }
 
     /**
-     *
      * @return
      */
     public SelectColorPointBtn getSelectColorPointBtnP1() {
@@ -262,7 +263,6 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
     }
 
     /**
-     *
      * @return
      */
     public SelectColorPointBtn getSelectColorPointBtnP2() {
@@ -276,7 +276,7 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
      *
      */
     public void registerChangeListener(UIObserverListener listener) {
-        uiObserverListener = listener;
+        uiObserverListener.add(listener);
     }
 
     @Override
@@ -288,22 +288,23 @@ public class GradientBar extends JComponent implements UIObserver,ColorSelectabl
         return true;
     }
 
-	@Override
-	public void setColor(Color color) {
-		this.color = color;
-	}
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
-	@Override
-	public Color getColor() {
-		return this.color;
-	}
+    @Override
+    public Color getColor() {
+        return this.color;
+    }
 
-	/**
-	 * 选中颜色
-	 * @param ColorCell 颜色单元格
-	 */
-	@Override
-	public void colorSetted(ColorCell colorCell) {
-		
-	}
+    /**
+     * 选中颜色
+     *
+     * @param ColorCell 颜色单元格
+     */
+    @Override
+    public void colorSetted(ColorCell colorCell) {
+
+    }
 }

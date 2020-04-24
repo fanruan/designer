@@ -34,6 +34,7 @@ public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObser
     private UIObserverListener uiObserverListener;
     private GlobalNameListener globalNameListener = null;
     private String checkboxName = "";
+    private boolean markMnemonic = true;
 
     public UICheckBox(String string) {
         super(string);
@@ -51,6 +52,13 @@ public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObser
         super(locText, b);
         setUI(new UICheckBoxUI());
         initListener();
+    }
+
+    public UICheckBox(String locText, boolean b, boolean markMnemonic) {
+        super(locText, b);
+        setUI(new UICheckBoxUI());
+        initListener();
+        this.markMnemonic=markMnemonic;
     }
 
     public UICheckBox(String text, Icon icon) {
@@ -189,14 +197,18 @@ public class UICheckBox extends JCheckBox implements UIObserver, GlobalNameObser
                 if (v != null) {
                     v.paint(g, textRect);
                 } else {
-                    int mnemIndex = b.getDisplayedMnemonicIndex();
+
                     if (model.isEnabled()) {
                         g.setColor(b.getForeground());
                     } else {
                         g.setColor(getDisabledTextColor());
                     }
-                    SwingUtilities2.drawStringUnderlineCharAt(c, g, text,
-                            mnemIndex, textRect.x, textRect.y + fm.getAscent());
+                    if (markMnemonic) {
+                        SwingUtilities2.drawStringUnderlineCharAt(c, g, text,
+                                b.getDisplayedMnemonicIndex(), textRect.x, textRect.y + fm.getAscent());
+                    } else {
+                        SwingUtilities2.drawString(c, g, text, textRect.x, textRect.y + fm.getAscent());
+                    }
                 }
             }
         }

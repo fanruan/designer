@@ -52,7 +52,7 @@ public class GetPluginFromStoreExecutor implements Executor {
 
                     @Override
                     public void run(Process<String> process) {
-                        String plistUrl = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.plist") + "?";
+                        String plistUrl = CloudCenter.getInstance().acquireUrlByKind("shop.plugin.plist");
                         boolean getRecommend = StringUtils.isEmpty(category) && StringUtils.isEmpty(seller) && StringUtils.isEmpty(fee) && StringUtils.isEmpty(scope);
                         if (getRecommend) {
                             result = PluginOperateUtils.getRecommendPlugins();
@@ -61,7 +61,7 @@ public class GetPluginFromStoreExecutor implements Executor {
 
                         if (StringUtils.isNotBlank(plistUrl)) {
                             StringBuilder url = new StringBuilder();
-                            url.append(plistUrl);
+                            url.append(plistUrl).append("?");
                             PluginOperateUtils.dealParams(url, category, seller, fee, scope);
                             try {
                                 HttpClient httpClient = new HttpClient(url.toString());

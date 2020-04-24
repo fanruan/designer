@@ -9,10 +9,12 @@ import com.fr.design.beans.FurtherBasicBeanPane;
 import com.fr.design.constants.LayoutConstants;
 import com.fr.design.foldablepane.UIExpandablePane;
 import com.fr.design.gui.frpane.UIComboBoxPane;
+import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.ChartDataFilterPane;
 import com.fr.design.utils.gui.GUICoreUtils;
+import com.fr.design.utils.gui.UIComponentUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -59,11 +61,16 @@ public class SeriesTypeUseComboxPane extends UIComboBoxPane<ChartCollection> {
         this.add(cardPane, BorderLayout.CENTER);
         dataScreeningPane =  new ChartDataFilterPane(this.initplot, parent);
         JPanel panel = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Data_Filter"), 290, 24, dataScreeningPane);
-        panel.setBorder(BorderFactory.createEmptyBorder(0,10,0,10));
+        panel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));
         dataScreeningPane.setBorder(BorderFactory.createEmptyBorder(10,5,0,5));
         this.add(panel, BorderLayout.SOUTH);
     }
 
+    protected UIComboBox createComboBox() {
+        UIComboBox uiComboBox = new UIComboBox();
+        UIComponentUtils.setPreferedWidth(uiComboBox, 100);
+        return uiComboBox;
+    }
     /**
      * 检查box 是否使用, hasUse, 表示上层已经使用, 否则, 则此界面都可使用
      * @param hasUse 是否使用

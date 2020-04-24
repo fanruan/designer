@@ -5,15 +5,22 @@ import com.fr.design.style.background.BackgroundJComponent;
 import com.fr.design.style.background.gradient.GradientBackgroundPane;
 import com.fr.general.Background;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JWindow;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.AWTEvent;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author kunsnat E-mail:kunsnat@gmail.com
@@ -50,7 +57,7 @@ public abstract class AbstractPopBox extends JPanel {
         }
     };
 
-    private void showPopupMenu() {
+    protected void showPopupMenu() {
         if (selectPopupWindow != null && selectPopupWindow.isVisible()) {
             hidePopupMenu();
             return;
@@ -98,12 +105,16 @@ public abstract class AbstractPopBox extends JPanel {
     private void mouseClick(MouseEvent evt) {
         Point point = new Point((int) (evt.getLocationOnScreen().getX()), (int) evt.getLocationOnScreen().getY());
         Dimension popBoxD = AbstractPopBox.this.getSize();
-        Point popBoxP = AbstractPopBox.this.getLocationOnScreen();
-        Dimension popMenuD = this.getControlWindow().getSize();
-        Point popMenuP = this.getControlWindow().getLocation();
-        Rectangle popBoxRect = new Rectangle(popBoxP, popBoxD);
-        Rectangle popMenuRect = new Rectangle(popMenuP, popMenuD);
-        if (!popBoxRect.contains(point) && !popMenuRect.contains(point)) {
+        try {
+            Point popBoxP = AbstractPopBox.this.getLocationOnScreen();
+            Dimension popMenuD = this.getControlWindow().getSize();
+            Point popMenuP = this.getControlWindow().getLocation();
+            Rectangle popBoxRect = new Rectangle(popBoxP, popBoxD);
+            Rectangle popMenuRect = new Rectangle(popMenuP, popMenuD);
+            if (!popBoxRect.contains(point) && !popMenuRect.contains(point)) {
+                this.hidePopupMenu();
+            }
+        } catch (Exception ignore){
             this.hidePopupMenu();
         }
     }

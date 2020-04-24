@@ -1,11 +1,14 @@
 package com.fr.design.mainframe.widget.accessibles;
 
+import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
+import com.fr.design.fun.MobileTemplateStyleProvider;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.mobile.ui.TemplateStyleDefinePaneFactory;
 import com.fr.form.ui.container.cardlayout.WCardTagLayout;
 import com.fr.general.cardtag.mobile.MobileTemplateStyle;
 import com.fr.general.cardtag.mobile.MobileTemplateStyleType;
+import com.fr.invoke.Reflect;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -18,9 +21,12 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTemplateStyle> {
     private static final List<MobileTemplateStyleType> STYLE_LIST = new ArrayList<MobileTemplateStyleType>();
@@ -29,6 +35,7 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         STYLE_LIST.add(MobileTemplateStyleType.UP_MENU_STYLE);
         STYLE_LIST.add(MobileTemplateStyleType.DOWN_MENU_STYLE);
         STYLE_LIST.add(MobileTemplateStyleType.SLIDER_STYLE);
+        STYLE_LIST.add(MobileTemplateStyleType.UNITE_STYLE);
     }
 
     private DefaultListModel listModel;
@@ -36,6 +43,7 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
     private Map<String, BasicBeanPane<MobileTemplateStyle>> map = new HashMap<>();
     private JPanel right;
     private CardLayout card;
+    private Set<Class<? extends MobileTemplateStyle>> extraStyle = new HashSet<>();
     public MobileTemplateStylePane(WCardTagLayout tagLayout){
         init(tagLayout);
     }
@@ -52,6 +60,7 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
             map.put(style.getDisplayName(), styleBasicBeanPane);
             right.add(style.getDisplayName(), styleBasicBeanPane);
         }
+        initExtra();
         styleList = new JList(listModel);
         styleList.setCellRenderer(render);
 
@@ -74,6 +83,20 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
         this.add(westPane, BorderLayout.WEST);
         this.add(centerPane, BorderLayout.CENTER);
     }
+
+    private void initExtra() {
+        List<MobileTemplateStyleProvider> list = getMobileTemplateStyleProvider();
+        for (MobileTemplateStyleProvider provider : list) {
+            String displayName = provider.displayName();
+            Class<? extends BasicBeanPane<MobileTemplateStyle>> clazz = provider.classFroMobileTemplateStyleAppearance();
+            BasicBeanPane<MobileTemplateStyle> styleBasicBeanPane = Reflect.on(clazz).create().get();
+            listModel.addElement(displayName);
+            map.put(displayName, styleBasicBeanPane);
+            right.add(displayName, styleBasicBeanPane);
+            extraStyle.add(provider.classFroMobileTemplateStyle());
+        }
+    }
+
     public static ListCellRenderer render = new DefaultListCellRenderer() {
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -97,16 +120,31 @@ public class MobileTemplateStylePane extends AbstractTemplateStylePane<MobileTem
             String style = templateStyle.getStyle();
             MobileTemplateStyleType templateStyleType = MobileTemplateStyleType.parse(style);
             if((listModel.getElementAt(i)).equals(templateStyleType.getDisplayName())){
-                styleList.setSelectedIndex(i);
-                map.get(templateStyle.toString()).populateBean(templateStyle);
-                card.show(right, templateStyle.toString());
+                populateStyle(templateStyle, i);
+                return;
+            }
+            if (extraStyle.contains(templateStyle.getClass())) {
+                populateStyle(templateStyle, i);
                 return;
             }
         }
         styleList.setSelectedIndex(0);
     }
 
+    private void populateStyle(MobileTemplateStyle templateStyle, int index) {
+        styleList.setSelectedIndex(index);
+        map.get(templateStyle.toString()).populateBean(templateStyle);
+        card.show(right, templateStyle.toString());
+    }
+
     public MobileTemplateStyle update() {
         return map.get(styleList.getSelectedValue()).updateBean();
+    }
+
+    private List<MobileTemplateStyleProvider> getMobileTemplateStyleProvider() {
+        List<MobileTemplateStyleProvider> list = new ArrayList<>();
+        Set<MobileTemplateStyleProvider> sets = ExtraDesignClassManager.getInstance().getArray(MobileTemplateStyleProvider.XML_TAG);
+        list.addAll(sets);
+        return Collections.unmodifiableList(list);
     }
 }

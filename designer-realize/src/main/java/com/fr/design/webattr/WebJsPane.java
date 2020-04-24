@@ -129,7 +129,7 @@ public class WebJsPane extends BasicPane {
 					if (url.matches("^[a-zA-z]+://.+js")) {
 						return url;
 					} else {
-						JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
+						FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
 						return "";
 					}
 				}
@@ -190,7 +190,7 @@ public class WebJsPane extends BasicPane {
 		public void actionPerformed(ActionEvent arg0) {
 			String uri = urlText.getText();
 			if (!uri.matches("^[a-zA-z]+://.+js")) {
-				JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
+				FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(WebJsPane.this), com.fr.design.i18n.Toolkit.i18nText("Add_JS_warning"));
 				return;
 			}
 			InputStream in = null;

@@ -3,6 +3,7 @@ package com.fr.van.chart.designer.style;
 
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.layout.TableLayout;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.range.VanChartRangeLegend;
@@ -49,10 +50,10 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
         ordinaryLegendPane = new JPanel();
         //渐变色图例面板
         gradualLegendPane = createGradualLegendPane();
-        gradualLegendPane.setParentPane(parent);
+        gradualLegendPane.setParentPane(this.getLegendPaneParent());
         //区域段图例面板
         sectionLegendPane = createSectionLegendPane();
-        sectionLegendPane.setParentPane(parent);
+        sectionLegendPane.setParentPane(this.getLegendPaneParent());
 
         JPanel panel = new JPanel(new CardLayout()){
             @Override
@@ -79,7 +80,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     }
 
     protected SectionLegendPane createSectionLegendPane() {
-        return new SectionLegendPane(this.parent);
+        return new SectionLegendPane(this.getLegendPaneParent());
     }
 
     private JPanel createTableLayoutPaneWithTitle(String title, Component component) {
@@ -88,9 +89,9 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
 
     protected UIButtonGroup<LegendType> createLegendTypeButton(){
         return new UIButtonGroup<LegendType>(new String[]{
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Ordinary"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Gradual"),
-                com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Section")
+                Toolkit.i18nText("Fine-Design_Chart_Legend_Ordinary"),
+                Toolkit.i18nText("Fine-Design_Chart_Legend_Gradual"),
+                Toolkit.i18nText("Fine-Design_Chart_Legend_Section")
         }, new LegendType[]{LegendType.ORDINARY, LegendType.GRADUAL, LegendType.SECTION});
     }
 
@@ -104,7 +105,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
 
         initLegendTypeButtonListener();
 
-        JPanel legendTypeButtonWithTilePane = createTableLayoutPaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Legend_Form"),legendTypeButton);
+        JPanel legendTypeButtonWithTilePane = createTableLayoutPaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Legend_Form"), legendTypeButton);
         legendTypeButtonWithTilePane.setBorder(BorderFactory.createEmptyBorder(0,5,0,0));
 
         rangeLegendPane = createRangeLegendPane();
@@ -129,6 +130,7 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkCardPane();
+                checkLayoutPaneVisible();
             }
         });
     }
@@ -139,32 +141,25 @@ public class VanChartRangeLegendPane extends VanChartPlotLegendPane {
     }
 
     @Override
-    protected void addLegendListener(){
-        isLegendVisible.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                checkBoxUse();
-            }
-        });
-    }
-
-    @Override
     protected void checkAllUse() {
         checkBoxUse();
+        checkLayoutPaneVisible();
         checkDisplayStrategyUse();
         checkCardPane();
         this.repaint();
     }
 
-    @Override
-    protected void checkBoxUse() {
-        isLegendVisible.setEnabled(true);
-        legendPane.setVisible(isLegendVisible.isSelected());
+    protected boolean isVisibleLayoutPane() {
+
+        return super.isVisibleLayoutPane() && legendTypeButton.getSelectedItem() != LegendType.GRADUAL;
     }
 
     private void checkHighlightVisible(){
-        if(this.highlightPane != null){
+        JPanel highlightPane = this.getHighlightPane();
+
+        if (highlightPane != null) {
             LegendType legendType = legendTypeButton.getSelectedItem();
-            this.highlightPane.setVisible(legendType != LegendType.GRADUAL);
+            highlightPane.setVisible(legendType != LegendType.GRADUAL);
         }
     }
 

@@ -3,17 +3,16 @@ package com.fr.design.condition;
 import com.fr.design.DesignerEnvManager;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UIBasicSpinner;
+import com.fr.design.fun.ReportLengthUNITProvider;
+import com.fr.design.unit.UnitConvertUtil;
 import com.fr.design.utils.gui.GUICoreUtils;
 
 import com.fr.report.cell.cellattr.highlight.HighlightAction;
-import com.fr.stable.Constants;
-import com.fr.stable.unit.*;
+import com.fr.stable.unit.UNIT;
 
-import javax.swing.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import java.math.BigDecimal;
-import java.text.ParseException;
 
 /**
 * @author richie
@@ -45,23 +44,12 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
         return nameForPopupMenuItem();
     }
 
-    public  void populate(HighlightAction ha, JSpinner sp) {
+    public void populate(HighlightAction ha, JSpinner sp) {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
         UNIT width = getUnit(ha);
-        double va;
-        if (unitType == Constants.UNIT_CM) {
-            va = width.toCMValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM"));
-        } else if (unitType == Constants.UNIT_INCH) {
-            va = width.toINCHValue4Scale3();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH"));
-        } else if (unitType == Constants.UNIT_PT) {
-            va = width.toPTValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate"));
-        } else {
-            va = width.toMMValue4Scale2();
-            unitLabel.setText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM"));
-        }
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        double va = lengthUNIT.unit2Value4Scale(width);
+        unitLabel.setText(lengthUNIT.unitText());
         // 只保留两位
         Float d = new Float(new BigDecimal(va + "").setScale(2, BigDecimal.ROUND_DOWN).floatValue());
         sp.setValue(d);
@@ -71,15 +59,8 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
 
     protected String getUnitString() {
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        if (unitType == Constants.UNIT_CM) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_CM");
-        } else if (unitType == Constants.UNIT_INCH) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_INCH");
-        } else if (unitType == Constants.UNIT_PT) {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_PT_Duplicate");
-        } else {
-            return com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Unit_MM");
-        }
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        return lengthUNIT.unitText();
     }
 
     public HighlightAction update(UIBasicSpinner sp) {
@@ -87,16 +68,8 @@ public abstract class WHPane extends ConditionAttrSingleConditionPane<HighlightA
         // 只保留两位
         newWidth = new Float(new BigDecimal(newWidth + "").setScale(2, BigDecimal.ROUND_DOWN).floatValue());
         int unitType = DesignerEnvManager.getEnvManager().getReportLengthUnit();
-        UNIT width;
-        if (unitType == Constants.UNIT_CM) {
-            width = new CM(newWidth);
-        } else if (unitType == Constants.UNIT_INCH) {
-            width = new INCH(newWidth);
-        } else if (unitType == Constants.UNIT_PT) {
-            width = new PT(newWidth);
-        } else {
-            width = new MM(newWidth);
-        }
+        ReportLengthUNITProvider lengthUNIT = UnitConvertUtil.parseLengthUNIT(unitType);
+        UNIT width = lengthUNIT.float2UNIT(newWidth);
         return returnAction(width);
     }
 
