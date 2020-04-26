@@ -40,10 +40,13 @@ public class StyleListAction extends UpdateAction {
 	public void actionPerformed(ActionEvent evt) {
 		DesignerFrame designerFrame = DesignerContext.getDesignerFrame();
 		final StyleManagerPane styleListPane = new StyleManagerPane();
-		BasicDialog styleListDialog = styleListPane.showWindow(designerFrame);
+		final BasicDialog styleListDialog = styleListPane.showWindow(designerFrame);
 		styleListDialog.addDialogActionListener(new DialogActionAdapter() {
 			@Override
 			public void doOk() {
+			    if (!styleListPane.isNamePermitted()) {
+			        styleListDialog.setDoOKSucceed(false);
+                }
 				Configurations.modify(new WorkerFacade(ServerPreferenceConfig.class) {
 					@Override
 					public void run() {
