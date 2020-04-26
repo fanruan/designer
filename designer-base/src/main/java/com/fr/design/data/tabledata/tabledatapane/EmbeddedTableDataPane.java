@@ -34,6 +34,7 @@ import java.util.Date;
 
 
 public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableData> {
+	private static final int MIN_CELL_WIDTH = 30;
 	private JTable dataJTable ;
 	private JScrollPane scrollPane;
 	private UILabel coordinatelabel;
@@ -220,7 +221,7 @@ public class EmbeddedTableDataPane extends AbstractTableDataPane<EmbeddedTableDa
 		// 行号显示,每次dateJTable的表结构发生变化时都要调用
 		TableColumn tableColumn = dataJTable.getColumnModel().getColumn(0);
 		tableColumn.setCellRenderer(new CellRenderer());
-		tableColumn.setMaxWidth(dataJTable.getColumnCount());
+		tableColumn.setMaxWidth(Math.max(dataJTable.getColumnCount(), MIN_CELL_WIDTH));
 	}
 
 	private class DoubleRenderer extends DefaultTableCellRenderer {
