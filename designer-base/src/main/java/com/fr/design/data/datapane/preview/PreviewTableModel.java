@@ -140,8 +140,6 @@ public class PreviewTableModel extends AbstractTableModel {
      * 就是由于预览的JTable在不停的getRowCount来显示数据.
      */
     private static class ErrorResultSet extends AbstractDataModel {
-        public ErrorResultSet() {
-        }
 
         public int getRowCount() {
             return 0;
@@ -160,6 +158,7 @@ public class PreviewTableModel extends AbstractTableModel {
         }
 
         public void release() throws Exception {
+            // Do nothing
         }
     }
 

@@ -133,14 +133,17 @@ public abstract class UnitInputPane extends BasicPane {
 
 		@Override
 		public void keyTyped(KeyEvent arg0) {
+			// 敲击键盘，发生在按键按下后，按键放开前
 		}
 
 		@Override
 		public void keyReleased(KeyEvent arg0) {
+			// 松开按键时
 		}
 
 		@Override
 		public void keyPressed(KeyEvent arg0) {
+			// 按下按键时
 			changed = true;
 		}
 	};
@@ -149,23 +152,28 @@ public abstract class UnitInputPane extends BasicPane {
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
+			// 鼠标按键在组件上释放时
 		}
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
+			// 鼠标按键在组件上按下时
 			changed = true;
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
+			// 鼠标离开组件时
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
+			// 鼠标进入到组件时
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
+			// 鼠标按键在组件上单击时
 		}
 	};
 }

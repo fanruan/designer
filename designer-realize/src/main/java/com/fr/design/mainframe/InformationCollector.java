@@ -7,6 +7,7 @@ import com.fr.base.FRContext;
 import com.fr.concurrent.NamedThreadFactory;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignerEnvManager;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.mainframe.errorinfo.ErrorInfoUploader;
 import com.fr.design.mainframe.messagecollect.impl.FocusPointMessageUploader;
 import com.fr.design.mainframe.messagecollect.solid.SolidCollector;
@@ -234,7 +235,8 @@ public class InformationCollector implements XMLReadable, XMLWriter {
                 SolidCollector.getInstance().sendToCloudCenterAndDeleteFile();
                 sendUserInfo();
                 FocusPointMessageUploader.getInstance().sendToCloudCenter();
-                TemplateInfoCollector.getInstance().sendTemplateInfo();
+                TemplateInfoCollector.getInstance().sendPointInfo();
+                ChartInfoCollector.getInstance().sendPointInfo();
                 ErrorInfoUploader.getInstance().sendErrorInfo();
             }
         }, SEND_DELAY, TimeUnit.MILLISECONDS);

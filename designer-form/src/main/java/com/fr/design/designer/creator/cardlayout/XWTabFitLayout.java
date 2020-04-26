@@ -8,11 +8,15 @@ import com.fr.design.designer.creator.CRPropertyDescriptor;
 import com.fr.design.designer.creator.XCreator;
 import com.fr.design.designer.creator.XLayoutContainer;
 import com.fr.design.designer.creator.XWFitLayout;
+import com.fr.design.designer.properties.mobile.MobileBooKMarkUsePropertyUI;
+import com.fr.design.designer.properties.mobile.MobileBookMarkPropertyUI;
+import com.fr.design.form.util.FormDesignerUtils;
 import com.fr.design.form.util.XCreatorConstants;
 import com.fr.design.fun.WidgetPropertyUIProvider;
 import com.fr.design.gui.imenu.UIPopupMenu;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.FormHierarchyTreePane;
+import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.mainframe.widget.editors.ButtonTypeEditor;
 import com.fr.design.mainframe.widget.editors.ImgBackgroundEditor;
 import com.fr.design.utils.gui.LayoutUtils;
@@ -589,7 +593,11 @@ public class XWTabFitLayout extends XWFitLayout {
 	 */
 	@Override
 	public WidgetPropertyUIProvider[] getWidgetPropertyUIProviders() {
-		return new WidgetPropertyUIProvider[0];
+		if (FormDesignerUtils.isAppRelayout(WidgetPropertyPane.getInstance().getEditingFormDesigner())) {
+			return new WidgetPropertyUIProvider[] {new MobileBookMarkPropertyUI(this), new MobileBooKMarkUsePropertyUI(this)};
+		} else {
+			return new WidgetPropertyUIProvider[0];
+		}
 	}
 
 	@Override

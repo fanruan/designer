@@ -17,6 +17,7 @@ import com.fr.design.data.datapane.sqlpane.SQLEditPane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
 import com.fr.design.data.tabledata.StoreProcedureWorkerListener;
 import com.fr.design.data.tabledata.wrapper.StoreProcedureDataWrapper;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -187,6 +188,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
         }
         populateWorker = new SwingWorker<Void, Void>() {
 
+            @Override
             protected Void doInBackground() throws Exception {
                 try {
                     storeProcedureContext.setText(StringUtils.EMPTY);
@@ -204,6 +206,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
                 return null;
             }
 
+            @Override
             public void done() {
                 editorPane.populate(storeprocedure.getParameters());
             }
@@ -218,6 +221,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
      *
      * @param listener 监听器
      */
+    @Override
     public void addStoreProcedureWorkerListener(StoreProcedureWorkerListener listener) {
 
         this.storeProcedureWorkerListener = listener;
@@ -227,6 +231,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
     /**
      * 去除存储过程监听器
      */
+    @Override
     public void removeStoreProcedureWorkerListener() {
         this.storeProcedureWorkerListener = null;
 
@@ -239,7 +244,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             try {
                 throw new Exception(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(ProcedureDataPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
+                FineJOptionPane.showMessageDialog(ProcedureDataPane.this, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Connect_SQL_Cannot_Null") + ".");
             }
         }
 
@@ -264,6 +269,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             }
             updateWorker = new SwingWorker<Void, Void>() {
     
+                @Override
                 protected Void doInBackground() throws Exception {
                     DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
                     sp.setCalculating(true);
@@ -271,6 +277,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
                     return null;
                 }
     
+                @Override
                 public void done() {
                     DesignTableDataManager.setThreadLocal(DesignTableDataManager.NO_PARAMETER);
                     sp.setCalculating(false);
@@ -328,6 +335,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
     /**
      * 响应数据集改变
      */
+    @Override
     public void fireDSChanged() {
         fireDSChanged(new HashMap<String, String>());
     }
@@ -337,6 +345,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
      *
      * @param map 改变的map
      */
+    @Override
     public void fireDSChanged(Map<String, String> map) {
         DesignTableDataManager.fireDSChanged(map);
     }
@@ -348,6 +357,7 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/m_file/preview.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent evt) {
         	StoreProcedure sp = updateBeanWithOutExecute();
             StoreProcedureDataWrapper storeProcedureDataWrappe = new StoreProcedureDataWrapper(sp, StringUtils.EMPTY, queryText.getText());
@@ -361,12 +371,14 @@ public class ProcedureDataPane extends AbstractTableDataPane<StoreProcedure> imp
             this.setSmallIcon(BaseUtils.readIcon("/com/fr/design/images/control/refresh.png"));
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             refresh();
         }
 
         @Override
         public void checkEnabled() {
+            //do nothing
         }
     }
 }

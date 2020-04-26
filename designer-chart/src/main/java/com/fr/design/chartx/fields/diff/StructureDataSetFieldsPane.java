@@ -32,6 +32,7 @@ public class StructureDataSetFieldsPane extends AbstractDataSetFieldsPane<Struct
         nodeValue = new UIComboBox();
         calculateCombox = new CalculateComboBox();
 
+        initValueAndCalComboBox(nodeValue, calculateCombox);
         super.initComponents();
     }
 
@@ -63,7 +64,7 @@ public class StructureDataSetFieldsPane extends AbstractDataSetFieldsPane<Struct
                 nodeName,
                 nodeId,
                 parentId,
-                nodeValue,
+                seriesName,
                 nodeValue,
                 calculateCombox
         };

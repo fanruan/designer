@@ -44,6 +44,7 @@ public class ChartIcon implements Icon, XMLable {
      * @param x 缩略图的起始坐标x
      * @param y 缩略图的起始坐标y
      */
+    @Override
     public void paintIcon(Component c, Graphics g, int x, int y) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -66,6 +67,7 @@ public class ChartIcon implements Icon, XMLable {
      *
      * @return int 缩略图宽度
      */
+    @Override
     public int getIconWidth() {
         return WIDTH;
     }
@@ -75,6 +77,7 @@ public class ChartIcon implements Icon, XMLable {
      *
      * @return int 缩略图高度
      */
+    @Override
     public int getIconHeight() {
         return HEIGHT;
     }
@@ -94,18 +97,21 @@ public class ChartIcon implements Icon, XMLable {
     }
 
 
+    @Override
     public void readXML(XMLableReader reader) {
-
+        //do nothing
     }
 
+    @Override
     public void writeXML(XMLPrintWriter writer) {
-
+        //do nothing
     }
 
     /**
      * @return 克隆后的对象
      * @throws CloneNotSupportedException 如果克隆失败则抛出此异常
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         ChartIcon cloned = (ChartIcon) super.clone();
         cloned.imagePath = this.imagePath;

@@ -15,15 +15,15 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane {
 
     private static final long serialVersionUID = 5497989595104913025L;
 
-    public VanChartAreaSeriesPane(ChartStylePane parent, Plot plot){
+    public VanChartAreaSeriesPane(ChartStylePane parent, Plot plot) {
         super(parent, plot);
     }
 
-    protected JPanel getContentInPlotType(){
+    protected JPanel getContentInPlotType() {
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
-        double[] row = {p,p,p,p,p,p,p};
+        double[] row = {p, p, p, p, p, p, p};
         double[] col = {f};
 
         Component[][] components = new Component[][]{
@@ -32,6 +32,7 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane {
                 new Component[]{createMarkerPane()},
                 new Component[]{createAreaFillColorPane()},
                 new Component[]{createStackedAndAxisPane()},
+                //大数据模式 恢复用注释。下面1行删除。
                 new Component[]{createLargeDataModelPane()},
                 new Component[]{createTrendLinePane()},
         };

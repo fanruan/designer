@@ -60,8 +60,10 @@ import com.fr.design.parameter.FormParameterReader;
 import com.fr.design.parameter.ParameterPropertyPane;
 import com.fr.design.parameter.WorkBookParameterReader;
 import com.fr.design.update.actions.RecoverForDesigner;
+import com.fr.design.update.push.DesignerPushUpdateManager;
 import com.fr.design.widget.ui.btn.FormSubmitButtonDetailPane;
 import com.fr.form.stable.ElementCaseThumbnailProcessor;
+import com.fr.general.GeneralContext;
 import com.fr.general.xml.GeneralXMLTools;
 import com.fr.js.EmailJavaScript;
 import com.fr.js.JavaScriptImpl;
@@ -74,6 +76,11 @@ import com.fr.locale.LocaleScope;
 import com.fr.log.FineLoggerFactory;
 import com.fr.log.LogHandler;
 import com.fr.module.Activator;
+import com.fr.plugin.context.PluginContext;
+import com.fr.plugin.injectable.PluginModule;
+import com.fr.plugin.manage.PluginFilter;
+import com.fr.plugin.observer.PluginEvent;
+import com.fr.plugin.observer.PluginEventListener;
 import com.fr.quickeditor.cellquick.CellBiasTextPainterEditor;
 import com.fr.quickeditor.cellquick.CellDSColumnEditor;
 import com.fr.quickeditor.cellquick.CellFormulaQuickEditor;
@@ -102,6 +109,7 @@ import com.fr.stable.script.ValueConverter;
 import com.fr.stable.xml.ObjectTokenizer;
 import com.fr.stable.xml.ObjectXMLWriterFinder;
 import com.fr.start.BBSGuestPaneProvider;
+import com.fr.task.Once;
 import com.fr.xml.ReportXMLUtils;
 
 import java.awt.*;
@@ -118,6 +126,13 @@ import java.util.Set;
 public class DesignerActivator extends Activator {
 
     private LogHandler<DesignerLogAppender> logHandler = null;
+
+    private final Once pushUpdateTask = new Once(new Runnable() {
+        @Override
+        public void run() {
+            DesignerPushUpdateManager.getInstance().preparePushUpdate();
+        }
+    });
 
     @Override
     public void start() {
@@ -139,6 +154,7 @@ public class DesignerActivator extends Activator {
         storePassport();
         AlphaFineHelper.switchConfig4Locale();
         RecoverManager.register(new RecoverForDesigner());
+        pushUpdateTask.run();
     }
 
     @Override
@@ -171,6 +187,7 @@ public class DesignerActivator extends Activator {
         ActionFactory.registerFloatInsertActionClass(actionsForInsertFloatElement());
         DesignModuleFactory.registerCreators4Hyperlink(hyperlinkTypes());
 
+        createPluginListener();
         justStartModules4Designer();
 
         CalculatorProviderContext.setValueConverter(valueConverter());
@@ -181,6 +198,21 @@ public class DesignerActivator extends Activator {
         designerRegister();
 
         InformationCollector.getInstance().collectStartTime();
+    }
+
+    private void createPluginListener() {
+        GeneralContext.listenPluginRunningChanged(new PluginEventListener() {
+            @Override
+            public void on(PluginEvent event) {
+                ActionFactory.referCellInsertActionClass(actionsForInsertCellElement());
+                ActionFactory.referFloatInsertActionClass(actionsForInsertFloatElement());
+            }
+        }, new PluginFilter() {
+            @Override
+            public boolean accept(PluginContext context) {
+                return context.contain(PluginModule.ExtraDesign, ElementUIProvider.MARK_STRING);
+            }
+        });
     }
 
     private static Class<?>[] actionsForInsertCellElement() {

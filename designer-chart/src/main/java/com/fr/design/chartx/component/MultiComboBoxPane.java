@@ -14,6 +14,7 @@ import java.util.List;
 public class MultiComboBoxPane extends AbstractMultiComponentPane<UIComboBox> {
     private List currentBoxItems = new ArrayList();
 
+
     public void setCurrentBoxItems(List currentBoxItems) {
         this.currentBoxItems = currentBoxItems;
     }

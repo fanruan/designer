@@ -8,16 +8,15 @@ import com.fr.design.gui.frpane.UIComboBoxPane;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.utils.gui.GUICoreUtils;
-
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 一般数据界面
@@ -131,6 +130,14 @@ public class NormalChartDataPane extends DataContentsPane {
 		
 		reportDataPane.checkBoxUse();
 		tableDataPane.checkBoxUse();
+	}
+
+	/**
+	 * 钻取地图需要同时更新层级
+	 */
+	public void populate(ChartCollection collection, int level) {
+		populate(collection);
+		tableDataPane.refreshLevel(level);
 	}
 
 	/**

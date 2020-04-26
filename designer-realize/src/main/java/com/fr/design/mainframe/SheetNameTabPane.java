@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -26,6 +27,8 @@ import com.fr.base.GraphHelper;
 import com.fr.base.vcs.DesignerMode;
 import com.fr.design.actions.UpdateAction;
 import com.fr.design.constants.UIConstants;
+import com.fr.design.dialog.FineJOptionPane;
+import com.fr.design.event.RemoveListener;
 import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.ibutton.UIButtonUI;
@@ -43,7 +46,6 @@ import com.fr.poly.PolyDesigner;
 import com.fr.report.poly.PolyWorkSheet;
 import com.fr.report.report.TemplateReport;
 import com.fr.report.worksheet.WorkSheet;
-import com.fr.stable.ProductConstants;
 
 /**
  * NameTabPane of sheets
@@ -51,7 +53,7 @@ import com.fr.stable.ProductConstants;
  * @editor zhou
  * @since 2012-3-26下午1:45:53
  */
-public class SheetNameTabPane extends JComponent implements MouseListener, MouseMotionListener {
+public class SheetNameTabPane extends JComponent implements MouseListener, MouseMotionListener, RemoveListener {
 
     private static final Color LINE_COLOR = new Color(0xababab);
 
@@ -139,6 +141,10 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
 
     private boolean isAuthorityEditing = false;
 
+    private ComponentListener listener;
+
+    private DesignerFrame designerFrame;
+
     public SheetNameTabPane(ReportComponentComposite reportCompositeX) {
         this.reportComposite = reportCompositeX;
         this.setLayout(new BorderLayout(0, 0));
@@ -202,14 +208,20 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 }
             }
         });
-
-        DesignerContext.getDesignerFrame().addComponentListener(new ComponentAdapter(){
+        listener = new ComponentAdapter(){
             @Override public void componentResized(ComponentEvent e) {
                 for (int i = 0; i < lastOneIndex * NUM; i++) {
                     moveLeft();
                 }
             }
-        });
+        };
+        designerFrame = DesignerContext.getDesignerFrame();
+        designerFrame.addComponentListener(listener);
+    }
+
+    @Override
+    public void doRemoveAction() {
+        designerFrame.removeComponentListener(listener);
     }
 
     private ActionListener createLeftButtonActionListener() {
@@ -875,7 +887,8 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_At_Least_One_Visual_Worksheet") + "！");
                 return;
             }
-            int returnValue = JOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Des_Remove_Work_Sheet"), ProductConstants.APP_NAME,
+            int returnValue = FineJOptionPane.showConfirmDialog(SwingUtilities.getWindowAncestor(reportComposite), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Des_Remove_Work_Sheet"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Confirm"),
                     JOptionPane.OK_CANCEL_OPTION);
             if (returnValue == JOptionPane.OK_OPTION) {
                 if (DesignerContext.getFormatState() != DesignerContext.FORMAT_STATE_NULL) {
@@ -927,7 +940,7 @@ public class SheetNameTabPane extends JComponent implements MouseListener, Mouse
                 return;
             }
 
-            String newName = JOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
+            String newName = FineJOptionPane.showInputDialog(reportComposite, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Rename") + ":", reportComposite.getEditingWorkBook().getReportName(selectedIndex));
             if (newName != null) {
                 // marks：判断是否重名
                 boolean isExisted = false;

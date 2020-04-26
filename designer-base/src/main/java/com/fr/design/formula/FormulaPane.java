@@ -8,6 +8,7 @@ import com.fr.design.border.UIRoundedBorder;
 import com.fr.design.constants.UIConstants;
 import com.fr.design.dialog.BasicDialog;
 import com.fr.design.dialog.BasicPane;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.ibutton.UIButton;
 import com.fr.design.gui.icontainer.UIScrollPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -28,17 +29,7 @@ import com.fr.stable.ProductConstants;
 import com.fr.stable.StringUtils;
 import com.fr.stable.script.Expression;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -48,10 +39,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -149,10 +137,12 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
         keyWordTextField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
+                //do nothing
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+                //do nothing
             }
 
             @Override
@@ -237,7 +227,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
 
     protected void extendCheckBoxPane(JPanel checkBoxPane) {
-
+        // do nothing
     }
 
     private void configFormulaArea() {
@@ -413,6 +403,7 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
 
     @Override
     public void keyTyped(KeyEvent e) {
+        // do nothing
     }
 
     protected void search(String keyWord, boolean findDescription) {
@@ -583,14 +574,15 @@ public class FormulaPane extends BasicPane implements KeyListener, UIFormula {
                     // alex:继续往下面走,expression为null时告知不合法公式
                 }
 
-                JOptionPane.showMessageDialog(
+                FineJOptionPane.showMessageDialog(
                         FormulaPane.this,
                         /*
                         * alex:仅仅只需要根据expression是否为null作合法性判断
                         * 不需要eval
                         * TODO 但有个问题,有些函数的参数个数是有规定的,何以判别之
                         */
-                        (expression != null ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Valid_Formula") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Invalid_Formula")) + ".", ProductConstants.PRODUCT_NAME,
+                        (expression != null ? com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Valid_Formula") : com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_FormulaD_Invalid_Formula")) + ".",
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }

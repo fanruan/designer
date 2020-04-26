@@ -1,7 +1,10 @@
 package com.fr.design.env;
 
-import com.fr.cluster.engine.base.FineClusterConfig;
+import com.fr.cluster.engine.remote.ClusterOperator;
 import com.fr.design.i18n.Toolkit;
+import com.fr.base.operator.common.CommonOperator;
+import com.fr.rpc.ExceptionHandler;
+import com.fr.rpc.RPCInvokerExceptionInfo;
 import com.fr.stable.AssistUtils;
 import com.fr.workspace.WorkContext;
 import com.fr.workspace.Workspace;
@@ -9,6 +12,8 @@ import com.fr.workspace.connect.WorkspaceClient;
 import com.fr.workspace.connect.WorkspaceConnection;
 import com.fr.workspace.connect.WorkspaceConnectionInfo;
 import com.fr.workspace.server.authority.decision.DecisionOperator;
+import com.fr.workspace.engine.rpc.WorkspaceProxyPool;
+import com.fr.workspace.pool.WorkObjectPool;
 
 /**
  * Created by juhaoyu on 2018/6/14.
@@ -45,8 +50,12 @@ public class RemoteWorkspace implements Workspace {
     
     @Override
     public boolean isWarDeploy() {
-
-        return false;
+        return WorkContext.getCurrent().get(CommonOperator.class, new ExceptionHandler<Boolean>() {
+            @Override
+            public Boolean callHandler(RPCInvokerExceptionInfo rpcInvokerExceptionInfo) {
+                return false;
+            }
+         }).isWarDeploy();
     }
 
     @Override
@@ -70,7 +79,12 @@ public class RemoteWorkspace implements Workspace {
 
     @Override
     public boolean isCluster() {
-        return FineClusterConfig.getInstance().isCluster();
+        return WorkContext.getCurrent().get(ClusterOperator.class, new ExceptionHandler<Boolean>() {
+            @Override
+            public Boolean callHandler(RPCInvokerExceptionInfo rpcInvokerExceptionInfo) {
+                return false;
+            }
+        }).isCluster();
     }
 
     @Override
@@ -82,6 +96,19 @@ public class RemoteWorkspace implements Workspace {
     @Override
     public <T> T get(Class<T> type) {
 
+        return client.getPool().get(type);
+    }
+
+    @Override
+    public <T> T get(Class<T> type, ExceptionHandler exceptionHandler){
+        if(exceptionHandler != null) {
+            WorkObjectPool objectPool = client.getPool();
+            if (objectPool instanceof WorkspaceProxyPool) {
+                return ((WorkspaceProxyPool) objectPool).get(type, exceptionHandler);
+            }else {
+                return client.getPool().get(type);
+            }
+        }
         return client.getPool().get(type);
     }
     
@@ -101,5 +128,9 @@ public class RemoteWorkspace implements Workspace {
     public boolean equals(Object obj) {
         
         return obj instanceof RemoteWorkspace && AssistUtils.equals(((RemoteWorkspace) obj).connection, this.connection);
+    }
+
+    public WorkspaceClient getClient(){
+        return client;
     }
 }

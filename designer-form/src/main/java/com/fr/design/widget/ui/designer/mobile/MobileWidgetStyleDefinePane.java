@@ -66,7 +66,7 @@ public class MobileWidgetStyleDefinePane extends MobileWidgetDefinePane {
 
     @Override
     public Dimension getMaximumSize() {
-        return new Dimension(400, 200);
+        return new Dimension(400, 30);
     }
 
     private void bindListeners2Widgets() {

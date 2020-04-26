@@ -18,42 +18,42 @@ import java.util.List;
  */
 public class MapDataPaneHelper {
     public static ChartCollection getPointMapChartCollection(ChartCollection chartCollection) {
-        try{
+        try {
             ChartCollection cloneCollection = (ChartCollection) chartCollection.clone();
             Chart chart = cloneCollection.getSelectedChart();
 
             TopDefinitionProvider definition = chart.getFilterDefinition();
-            if(definition != null && definition instanceof VanMapDefinition) {
+            if (definition != null && definition instanceof VanMapDefinition) {
                 chart.setFilterDefinition(((VanMapDefinition) definition).getPointDefinition());
             }
 
             Plot plot = chart.getPlot();
-            if(plot != null && plot instanceof VanChartMapPlot){
+            if (plot != null && plot instanceof VanChartMapPlot) {
                 ((VanChartMapPlot) plot).setMapType(MapType.POINT);
             }
             return cloneCollection;
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
 
     public static ChartCollection getLineMapChartCollection(ChartCollection chartCollection) {
-        try{
+        try {
             ChartCollection cloneCollection = (ChartCollection) chartCollection.clone();
             Chart chart = cloneCollection.getSelectedChart();
 
             TopDefinitionProvider definition = chart.getFilterDefinition();
-            if(definition != null && definition instanceof VanMapDefinition) {
+            if (definition != null && definition instanceof VanMapDefinition) {
                 chart.setFilterDefinition(((VanMapDefinition) definition).getLineDefinition());
             }
 
             Plot plot = chart.getPlot();
-            if(plot != null && plot instanceof VanChartMapPlot){
+            if (plot != null && plot instanceof VanChartMapPlot) {
                 ((VanChartMapPlot) plot).setMapType(MapType.LINE);
             }
             return cloneCollection;
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
@@ -61,71 +61,71 @@ public class MapDataPaneHelper {
 
 
     public static ChartCollection getAreaMapChartCollection(ChartCollection chartCollection) {
-        try{
+        try {
             ChartCollection cloneCollection = (ChartCollection) chartCollection.clone();
             Chart chart = cloneCollection.getSelectedChart();
 
             TopDefinitionProvider definition = chart.getFilterDefinition();
-            if(definition != null && definition instanceof VanMapDefinition) {
+            if (definition != null && definition instanceof VanMapDefinition) {
                 chart.setFilterDefinition(((VanMapDefinition) definition).getAreaDefinition());
             }
 
             Plot plot = chart.getPlot();
-            if(plot != null && plot instanceof VanChartMapPlot){
+            if (plot != null && plot instanceof VanChartMapPlot) {
                 ((VanChartMapPlot) plot).setMapType(MapType.AREA);
             }
             return cloneCollection;
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
 
     public static ChartCollection getBottomDataDrillMapChartCollection(ChartCollection chartCollection) {
-        try{
+        try {
             ChartCollection cloneCollection = (ChartCollection) chartCollection.clone();
             Chart chart = cloneCollection.getSelectedChart();
 
             TopDefinitionProvider definition = chart.getFilterDefinition();
-            if(definition != null && definition instanceof DrillMapDefinition) {
+            if (definition != null && definition instanceof DrillMapDefinition) {
                 chart.setFilterDefinition(((DrillMapDefinition) definition).getBottomDataDefinition());
             }
 
             Plot plot = chart.getPlot();
-            if(plot != null && plot instanceof VanChartDrillMapPlot){
+            if (plot != null && plot instanceof VanChartDrillMapPlot) {
                 List<MapType> list = ((VanChartDrillMapPlot) plot).getLayerMapTypeList();
                 MapType mapType = (list != null && list.size() > 0) ? list.get(list.size() - 1) : MapType.AREA;
                 ((VanChartMapPlot) plot).setMapType(mapType);
             }
             return cloneCollection;
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
     }
 
-    public static ChartCollection getLayerChartCollection(ChartCollection chartCollection, int level, MapType mapType){
-        if(mapType == null){
+    public static ChartCollection getLayerChartCollection(ChartCollection chartCollection, int level, MapType mapType) {
+        if (mapType == null) {
             mapType = MapType.AREA;
         }
-        try{
+        try {
             ChartCollection cloneCollection = (ChartCollection) chartCollection.clone();
             Chart chart = cloneCollection.getSelectedChart();
 
             TopDefinitionProvider definition = chart.getFilterDefinition();
-            if(definition != null && definition instanceof DrillMapDefinition) {
+            if (definition != null && definition instanceof DrillMapDefinition) {
                 List<TopDefinitionProvider> list = ((DrillMapDefinition) definition).getEachLayerDataDefinitionList();
-                if(list.size() > level){
+                if (list.size() > level) {
                     chart.setFilterDefinition(list.get(level));
                 }
             }
 
             Plot plot = chart.getPlot();
-            if(plot != null && plot instanceof VanChartMapPlot){
+            if (plot != null && plot instanceof VanChartMapPlot) {
                 ((VanChartMapPlot) plot).setMapType(mapType);
             }
             return cloneCollection;
-        } catch (Exception e){
+        } catch (Exception e) {
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
             return chartCollection;
         }
@@ -138,11 +138,11 @@ public class MapDataPaneHelper {
     }
 
     public static DrillMapDefinition getDrillMapDefinition(ChartCollection chartCollection) {
-        if(chartCollection != null){
+        if (chartCollection != null) {
             Chart chart = chartCollection.getSelectedChart();
-            if(chart != null){
+            if (chart != null) {
                 TopDefinitionProvider definitionProvider = chart.getFilterDefinition();
-                if(definitionProvider instanceof DrillMapDefinition){
+                if (definitionProvider instanceof DrillMapDefinition) {
                     return (DrillMapDefinition) definitionProvider;
                 }
             }
@@ -151,25 +151,25 @@ public class MapDataPaneHelper {
     }
 
     public static List<MapType> getDrillMapLayerMapTypeList(ChartCollection chartCollection) {
-        if(chartCollection != null){
+        if (chartCollection != null) {
             Chart chart = chartCollection.getSelectedChart();
-            if(chart != null){
+            if (chart != null) {
                 Plot plot = chart.getPlot();
-                if(plot instanceof VanChartDrillMapPlot){
-                    return((VanChartDrillMapPlot) plot).getLayerMapTypeList();
+                if (plot instanceof VanChartDrillMapPlot) {
+                    return ((VanChartDrillMapPlot) plot).getLayerMapTypeList();
                 }
             }
         }
         return null;
     }
 
-    public static MapType getPlotMapType(ChartCollection chartCollection){
+    public static MapType getPlotMapType(ChartCollection chartCollection) {
         Plot plot = chartCollection.getSelectedChart().getPlot();
         return getPlotMapType(plot);
     }
 
-    public static MapType getPlotMapType(Plot plot){
-        if(plot != null && plot instanceof VanChartMapPlot){
+    public static MapType getPlotMapType(Plot plot) {
+        if (plot != null && plot instanceof VanChartMapPlot) {
             return ((VanChartMapPlot) plot).getMapType();
         }
         return MapType.AREA;

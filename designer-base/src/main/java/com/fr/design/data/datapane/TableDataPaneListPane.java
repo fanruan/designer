@@ -5,6 +5,7 @@ import com.fr.data.TableDataSource;
 import com.fr.data.api.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
 import com.fr.design.data.DesignTableDataManager;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
 import com.fr.design.gui.ilist.ListModelElement;
@@ -49,7 +50,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 if (StringUtils.isEmpty(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Empty_Name_Tips"));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Empty_Name_Tips"));
                     setIllegalIndex(editingIndex);
                     return;
                 }
@@ -58,17 +59,17 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                         && isNameRepeated(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Duplicate_Name_Tips", tempName));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Table_Data_Duplicate_Name_Tips", tempName));
                     setIllegalIndex(editingIndex);
                 } else if (editingType instanceof StoreProcedure && isIncludeUnderline(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
-                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Stored_Procedure_Name_Tips"));
+                    FineJOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(TableDataPaneListPane.this), Toolkit.i18nText("Fine-Design_Basic_Stored_Procedure_Name_Tips"));
                     setIllegalIndex(editingIndex);
                 }
                 if (nameableList.getSelectedValue() instanceof ListModelElement) {
                     Nameable selected = ((ListModelElement) nameableList.getSelectedValue()).wrapper;
-                    if (!ComparatorUtils.equals(tempName, selected.getName())) {
+                    if (!ComparatorUtils.equals(tempName, selected.getName()) && !isNameRepeated(new List[]{Arrays.asList(allDSNames), Arrays.asList(allListNames)}, tempName)) {
                         rename(selected.getName(), tempName);
 
                     }
@@ -255,6 +256,7 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
     }
 
     protected void checkRepeatedDSName(List<String> exsitTableDataNameList) {
+        // Do nothing
     }
 
     /**

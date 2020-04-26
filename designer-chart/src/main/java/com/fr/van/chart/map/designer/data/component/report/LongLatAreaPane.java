@@ -5,7 +5,6 @@ import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 
 import javax.swing.JPanel;
@@ -35,10 +34,10 @@ public class LongLatAreaPane extends AreaPane {
         double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p, p, p};
         Component[][] components = getComponent();
-        return TableLayoutHelper.createGapTableLayoutPane(components,rowSize,columnSize,12,6);
+        return TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, 12, 6);
     }
 
-    protected Component[][] getComponent () {
+    protected Component[][] getComponent() {
         return new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Longitude")), longitude},
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Latitude")), latitude},
@@ -62,7 +61,7 @@ public class LongLatAreaPane extends AreaPane {
         if (longLatArea.getLongitude() != null) {
             longitude.getUITextField().setText(longLatArea.getLongitude().toString());
         }
-        if (longLatArea.getLatitude() != null){
+        if (longLatArea.getLatitude() != null) {
             latitude.getUITextField().setText(longLatArea.getLatitude().toString());
         }
     }

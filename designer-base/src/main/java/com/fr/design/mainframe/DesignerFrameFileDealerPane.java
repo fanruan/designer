@@ -11,6 +11,7 @@ import com.fr.design.constants.UIConstants;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.data.datapane.TableDataTreePane;
 import com.fr.design.data.tabledata.ResponseDataSourceChange;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.file.FileOperations;
 import com.fr.design.file.FileToolbarStateChangeListener;
 import com.fr.design.file.HistoryTemplateListCache;
@@ -217,7 +218,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         if (VcsHelper.getInstance().needInit()) {
             vcsAction = new VcsAction();
 
-            if (WorkContext.getCurrent().isLocal()) {
+            if (!WorkContext.getCurrent().isCluster()) {
                 vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_Title"));
             } else {
                 vcsAction.setName(Toolkit.i18nText("Fine-Design_Vcs_NotSupportRemote"));
@@ -324,9 +325,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         public void actionPerformed(ActionEvent evt) {
 
             if (!selectedOperation.access()) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
-                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         WARNING_MESSAGE);
                 return;
             }
@@ -466,9 +467,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         @Override
         public void actionPerformed(ActionEvent evt) {
             if (!selectedOperation.access()) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
-                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         WARNING_MESSAGE);
                 return;
             }
@@ -477,9 +478,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             String lock = node.getLock();
             if (lock != null && !lock.equals(node.getUserID())) {
                 // 提醒被锁定模板无法重命名
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Unable_Rename_Locked_File"),
-                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         WARNING_MESSAGE);
                 return;
             }
@@ -506,9 +507,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
         public void actionPerformed(ActionEvent evt) {
 
             if (!selectedOperation.access()) {
-                JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied"),
-                        Toolkit.i18nText("Fine-Design_Basic_Tool_Tips"),
+                        Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         WARNING_MESSAGE);
                 return;
             }
@@ -683,21 +684,7 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             this.dispose();
 
             //模版重命名
-            boolean success = false;
-
-            // 提醒保存文件
-            SaveSomeTemplatePane saveSomeTempaltePane = new SaveSomeTemplatePane(true);
-            // 只有一个文件未保存时
-            if (HistoryTemplateListCache.getInstance().getHistoryCount() == 1) {
-                int choose = saveSomeTempaltePane.saveLastOneTemplate();
-                if (choose != JOptionPane.CANCEL_OPTION) {
-                    success = selectedOperation.rename(fnf, path, newPath);
-                }
-            } else {
-                if (saveSomeTempaltePane.showSavePane()) {
-                    success = selectedOperation.rename(fnf, path, newPath);
-                }
-            }
+            boolean success = selectedOperation.rename(fnf, path, newPath);
 
             if (success) {
                 HistoryTemplateListCache.getInstance().rename(fnf, path, newPath);
@@ -705,9 +692,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
                 selectedOperation.refresh();
                 DesignerContext.getDesignerFrame().setTitle();
             } else {
-                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Rename_Failure"),
-                        UIManager.getString("OptionPane.messageDialogTitle"),
+                        Toolkit.i18nText("Fine-Design_Basic_Error"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }
@@ -896,9 +883,9 @@ public class DesignerFrameFileDealerPane extends JPanel implements FileToolbarSt
             selectedOperation.refresh();
             this.dispose();
             if (!success) {
-                JOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
+                FineJOptionPane.showConfirmDialog(DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Make_Failure"),
-                        UIManager.getString("OptionPane.messageDialogTitle"),
+                        Toolkit.i18nText("Fine-Design_Basic_Error"),
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             }

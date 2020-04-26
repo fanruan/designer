@@ -1,6 +1,7 @@
 package com.fr.design.extra;
 
 import com.fr.config.MarketConfig;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.extra.tradition.callback.UpdateOnlineCallback;
 import com.fr.design.gui.frpane.UITabbedPane;
 import com.fr.design.gui.ilable.UILabel;
@@ -13,11 +14,7 @@ import com.fr.plugin.manage.control.ProgressCallback;
 import com.fr.plugin.view.PluginView;
 import com.fr.stable.StringUtils;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
@@ -98,7 +95,7 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
 
             @Override
             public void pressInstallButton() {
-
+                // do nothing
             }
 
             @Override
@@ -174,21 +171,21 @@ public class PluginFromStorePane extends PluginAbstractLoadingViewPane<List<Plug
             PluginManager.getController().install(chosenFile, new ProgressCallback() {
                 @Override
                 public void updateProgress(String description, double progress) {
-
+                    // do nothing
                 }
 
                 @Override
                 public void done(PluginTaskResult result) {
                     if (result.isSuccess()) {
                         FineLoggerFactory.getLogger().info(com.fr.design.i18n.Toolkit.i18nText("FR-Designer-Plugin_Install_Success"));
-                        JOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
+                        FineJOptionPane.showMessageDialog(null, com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Install_Successful"));
                     } else {
-                        JOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+                        FineJOptionPane.showMessageDialog(null, PluginUtils.getMessageByErrorCode(result.errorCode()), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
                     }
                 }
             });
         } catch (Exception e1) {
-            JOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
+            FineJOptionPane.showMessageDialog(PluginFromStorePane.this, e1.getMessage(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Plugin_Warning"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

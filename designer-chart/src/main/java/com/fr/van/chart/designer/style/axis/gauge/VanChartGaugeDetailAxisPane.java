@@ -2,14 +2,18 @@ package com.fr.van.chart.designer.style.axis.gauge;
 
 import com.fr.design.gui.ibutton.UIButtonGroup;
 import com.fr.design.gui.ilable.UILabel;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
+import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPaneWithAuto;
 import com.fr.design.style.color.ColorSelectBox;
 
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.axis.VanChartGaugeAxis;
 import com.fr.plugin.chart.gauge.VanChartGaugePlot;
+import com.fr.plugin.chart.type.FontAutoType;
 import com.fr.plugin.chart.type.GaugeStyle;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 import com.fr.van.chart.designer.style.VanChartStylePane;
@@ -77,13 +81,13 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
     }
 
     protected JPanel createLabelPane(double[] row, double[] col){
-        showLabel = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Use_Show"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Hidden")});
+        showLabel = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Use_Show"), Toolkit.i18nText("Fine-Design_Chart_Hidden")});
         labelTextAttrPane = getChartTextAttrPane();
         labelPanel = new JPanel(new BorderLayout());
         labelPanel.add(labelTextAttrPane);
         labelPanel.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
         JPanel panel = new JPanel(new BorderLayout(0, 6));
-        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Axis_Label"), showLabel), BorderLayout.NORTH);
+        panel.add(TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Axis_Label"), showLabel), BorderLayout.NORTH);
         panel.add(labelPanel, BorderLayout.CENTER);
         showLabel.addActionListener(new ActionListener() {
             @Override
@@ -96,11 +100,17 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
         return jPanel;
     }
 
+    protected ChartTextAttrPane getChartTextAttrPane() {
+        if (isMulti(gaugeStyle)) {
+            return new ChartTextAttrPaneWithAuto(FontAutoType.SIZE_AND_COLOR);
+        } else {
+            return new ChartTextAttrPane();
+        }
+    }
+
     private JPanel createValueDefinition(){
         switch (gaugeStyle){
             case RING:
-                minMaxValuePane = new MinMaxValuePaneWithOutTick();
-                break;
             case SLOT:
                 minMaxValuePane = new MinMaxValuePaneWithOutTick();
                 break;
@@ -108,18 +118,18 @@ public class VanChartGaugeDetailAxisPane extends VanChartValueAxisPane {
                 minMaxValuePane = new VanChartMinMaxValuePane();
                 break;
         }
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), minMaxValuePane);
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Value_Definition"), minMaxValuePane);
     }
 
     private JPanel createTickColorPane(double[] row, double[] col){
         mainTickColor = new ColorSelectBox(100);
         secTickColor = new ColorSelectBox(100);
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Line")), mainTickColor},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")), secTickColor},
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Main_Graduation_Line")), mainTickColor},
+                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Second_Graduation_Line")), secTickColor},
         };
         JPanel panel = TableLayoutHelper.createTableLayoutPane(components, row, col);
-        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_TickColor"), panel);
+        JPanel jPanel = TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_TickColor"), panel);
         panel.setBorder(BorderFactory.createEmptyBorder(10,10,0,15));
         return jPanel;
     }

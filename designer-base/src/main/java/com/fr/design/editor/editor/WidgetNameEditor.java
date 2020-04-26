@@ -1,17 +1,16 @@
 package com.fr.design.editor.editor;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import com.fr.design.DesignModelAdapter;
+import com.fr.design.gui.icombobox.FilterComboBox;
+import com.fr.design.gui.icombobox.UIComboBoxRenderer;
+import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.stable.js.WidgetName;
 
 import javax.swing.JList;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-
-import com.fr.design.DesignModelAdapter;
-import com.fr.design.gui.icombobox.UIComboBoxRenderer;
-import com.fr.design.gui.icombobox.FilterComboBox;
-import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.stable.js.WidgetName;
+import java.awt.BorderLayout;
+import java.awt.Component;
 
 /**
  * the editor to edit WidgetName
@@ -43,12 +42,12 @@ public class WidgetNameEditor extends Editor<WidgetName> {
 
 			@Override
 			public void popupMenuCanceled(PopupMenuEvent e) {
-
+				//do nothing
 			}
 
 			@Override
 			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-
+				//do nothing
 			}
 
 			@Override

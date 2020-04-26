@@ -21,6 +21,7 @@ import com.fr.design.actions.file.WebPreviewUtils;
 import com.fr.design.base.mode.DesignModeContext;
 import com.fr.design.designer.DesignerProxy;
 import com.fr.design.designer.TargetComponent;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.dialog.InformationWarnPane;
 import com.fr.design.file.HistoryTemplateListPane;
 import com.fr.design.file.TemplateTreePane;
@@ -35,6 +36,7 @@ import com.fr.design.gui.imenu.UIMenuItem;
 import com.fr.design.gui.itree.filetree.TemplateFileTree;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateInfoCollector;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
 import com.fr.design.mainframe.template.info.TimeConsumeTimer;
@@ -69,11 +71,11 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.undo.UndoManager;
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.awt.BorderLayout;
 
 /**
  * 报表设计和表单设计的编辑区域(设计器编辑的IO文件)
@@ -91,6 +93,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     protected U authorityUndoState = null;
     protected T template; // 当前模板
     protected TemplateProcessInfo<T> processInfo; // 模板过程的相关信息
+    private JComponent centerPane;
     private static short currentIndex = 0;// 此变量用于多次新建模板时，让名字不重复
     private DesignModelAdapter<T, ?> designModel;
     private PreviewProvider previewType;
@@ -121,13 +124,13 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
         this.editingFILE = file;
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder());
-        this.add(createCenterPane(), BorderLayout.CENTER);
+        addCenterPane();
         this.undoState = createUndoState();
         designModel = createDesignModel();
 
         consumeTimer.setEnabled(shouldInitForCollectInfo(isNewFile));
     }
-
+    
     void onGetFocus() {
         consumeTimer.start();
     }
@@ -163,6 +166,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     private void collectInfo(String originID) {  // 执行收集操作
+        ChartInfoCollector.getInstance().collectInfo(template.getTemplateID(), originID, getProcessInfo(), 0);
         if (!consumeTimer.isEnabled()) {
             return;
         }
@@ -243,6 +247,47 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
 
     }
 
+    /**
+     * 模板关闭时
+     */
+    public void whenClose() {
+        // do nothing
+    }
+
+    /**
+     * 刷新内部资源
+     *
+     * 刷新资源的同时。
+     * CenterPane 负责监听改动。
+     * 所以需要同步处理
+     */
+    public void refreshResource() {
+
+        try {
+            this.template = JTemplateFactory.asIOFile(this.editingFILE);
+            setTarget(this.template);
+            
+            // 先移除旧的。
+            removeCenterPane();
+            // 加入新的
+            addCenterPane();
+        } catch (Exception e) {
+            FineLoggerFactory.getLogger().error(e.getMessage(), e);
+        }
+    }
+    
+    private void addCenterPane() {
+        
+        this.centerPane = createCenterPane();
+        this.add(centerPane, BorderLayout.CENTER);
+    }
+    
+    private void removeCenterPane() {
+        
+        JComponent centerPane = this.centerPane;
+        this.remove(centerPane);
+    }
+    
     /**
      * 刷新容器
      */
@@ -540,7 +585,7 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             FineLoggerFactory.getLogger().error(e.getMessage(), e);
         }
         if (!access) {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"), JOptionPane.WARNING_MESSAGE);
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!", com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"), JOptionPane.WARNING_MESSAGE);
             return false;
         }
         collectInfo();
@@ -594,10 +639,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
                 FineLoggerFactory.getLogger().error(e.getMessage(), e);
             }
             if (!access) {
-                JOptionPane.showMessageDialog(
+                FineJOptionPane.showMessageDialog(
                         DesignerContext.getDesignerFrame(),
                         Toolkit.i18nText("Fine-Design_Basic_Template_Permission_Denied") + "!",
-                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                        com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
@@ -618,10 +663,10 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
             }
             return saved;
         } else {
-            JOptionPane.showMessageDialog(
+            FineJOptionPane.showMessageDialog(
                     DesignerContext.getDesignerFrame(),
                     Toolkit.i18nText("Fine-Design-Basic_Save_Failure"),
-                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Message"),
+                    com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Alert"),
                     JOptionPane.WARNING_MESSAGE);
             return false;
         }
@@ -1218,4 +1263,9 @@ public abstract class JTemplate<T extends BaseBook, U extends BaseUndoState<?>> 
     }
 
     public abstract String route();
+
+    public String getTemplateName() {
+        return getEditingFILE().getName();
+    }
+
 }

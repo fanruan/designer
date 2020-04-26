@@ -6,7 +6,6 @@ import com.fr.design.gui.ilable.BoldFontTextLabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.data.report.AbstractReportDataContentPane;
-
 import com.fr.van.chart.map.designer.data.component.LongitudeLatitudeAndArea;
 
 import javax.swing.JPanel;
@@ -31,12 +30,12 @@ public class AreaPane extends AbstractReportDataContentPane {
         double f = TableLayout.FILL;
         double[] columnSize = {f, COMPONENT_WIDTH};
         double[] rowSize = {p};
-        Component[][] components = getComponent ();
-        return TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize);
+        Component[][] components = getComponent();
+        return TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize);
     }
 
-    protected Component[][] getComponent () {
-       return new Component[][]{
+    protected Component[][] getComponent() {
+        return new Component[][]{
                 new Component[]{new BoldFontTextLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Area_Name")), areaName}
         };
     }

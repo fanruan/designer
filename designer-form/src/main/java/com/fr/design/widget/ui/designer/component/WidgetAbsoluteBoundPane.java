@@ -26,10 +26,10 @@ public class WidgetAbsoluteBoundPane extends WidgetBoundPane {
 
     @Override
     public void initBoundPane() {
-        x = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        y = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
-        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1);
+        x = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
+        y = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
+        width = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
+        height = new UIBoundSpinner(0, Integer.MAX_VALUE, 1, 0d);
         x.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));
         y.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));
         width.setGlobalName(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Form_Coords_And_Size"));

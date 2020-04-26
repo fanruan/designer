@@ -17,6 +17,7 @@ import com.fr.design.editor.editor.Editor;
 import com.fr.design.editor.editor.FloatEditor;
 import com.fr.design.editor.editor.IntegerEditor;
 import com.fr.design.editor.editor.TextEditor;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.FRGUIPaneFactory;
 
@@ -24,6 +25,8 @@ import com.fr.stable.ParameterProvider;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,6 +106,12 @@ public class ParameterInputPane extends BasicPane {
                 contentPane.add(flowTableLayoutHelper.createLabelFlowPane(parameterDisplayName + ":", editPane));
 
                 //add editor to parameter hashtable.
+				textF.getCurrentEditor().addChangeListener(new ChangeListener() {
+					@Override
+					public void stateChanged(ChangeEvent e) {
+						HistoryTemplateListCache.getInstance().getCurrentEditingTemplate().fireTargetModified();
+					}
+				});
                 this.editorNameMap.put(textF, parameter.getName());
                 nameAddedList.add(parameter.getName());
             }

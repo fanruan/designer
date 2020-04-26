@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
  * @since 8.0
  */
 public class PluginManagerAction extends UpdateAction {
-    private static String PLUGIN_MANAGER_ROUTE = "#management/plugin";
     public PluginManagerAction() {
         this.setMenuKeySet(PLUGIN_MANAGER);
         this.setName(getMenuKeySet().getMenuKeySetName());

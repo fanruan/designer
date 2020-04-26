@@ -1,5 +1,6 @@
 package com.fr.design.extra;
 
+import com.fr.design.dialog.FineJOptionPane;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
@@ -46,7 +47,7 @@ public class LoginWebPane extends JFXPanel {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(LoginWebPane.this, message);
+                FineJOptionPane.showMessageDialog(LoginWebPane.this, message);
             }
         });
     }
