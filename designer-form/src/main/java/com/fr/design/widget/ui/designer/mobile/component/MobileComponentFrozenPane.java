@@ -11,9 +11,12 @@ import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.mainframe.WidgetPropertyPane;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.design.widget.FRWidgetFactory;
+import com.fr.form.main.Form;
 import com.fr.form.ui.FormWidgetHelper;
 import com.fr.form.ui.Widget;
+import com.fr.form.ui.container.WLayout;
 import com.fr.form.ui.container.WSortLayout;
+import com.fr.form.ui.widget.CRBoundsWidget;
 import com.fr.stable.ArrayUtils;
 
 import javax.swing.BorderFactory;
@@ -58,6 +61,7 @@ public class MobileComponentFrozenPane extends BasicPane {
         }
 
         List<String> widgetList = ((WSortLayout) selectedModel).getNonContainerWidgetList();
+        widgetList.removeAll(frozenWidgets());
         return widgetList.toArray(new String[0]);
     }
 
@@ -97,6 +101,21 @@ public class MobileComponentFrozenPane extends BasicPane {
             map.put(value, false);
         }
         uiComboCheckBox.setSelectedValues(map);
+    }
+
+    private List<String> frozenWidgets() {
+        Form form = WidgetPropertyPane.getInstance().getEditingFormDesigner().getTarget();
+        WLayout container = form.getContainer();
+        WSortLayout wSortLayout = (WSortLayout) container.getWidget(container.getWidgetCount() - 1);
+        List<String> list = wSortLayout.getNonContainerWidgetList();
+        List<String> widgets = new ArrayList<>();
+        for (String value : list) {
+            CRBoundsWidget boundsWidget = (CRBoundsWidget) wSortLayout.getWidget(value);
+            if (boundsWidget.getWidget().getMobileBookMark().isUseBookMark()) {
+                widgets.add(value);
+            }
+        }
+        return widgets;
     }
 
     @Override

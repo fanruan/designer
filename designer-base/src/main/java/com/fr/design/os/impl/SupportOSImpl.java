@@ -88,7 +88,7 @@ public enum SupportOSImpl implements SupportOS {
     NON_GUARDIAN_START {
         @Override
         public boolean support() {
-            return OperatingSystem.isLinux() || Arch.getArch() == Arch.ARM;
+            return OperatingSystem.isLinux() || Arch.getArch() == Arch.ARM || OperatingSystem.isMacos();
         }
     },
 

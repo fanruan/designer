@@ -14,6 +14,7 @@ import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.icombobox.UIComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
+import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
@@ -60,6 +61,7 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     private UIComboBox largeDataMode;
     private UISpinner largeModeThresholdNumber;
 
+    protected UILabel chartAnimationLabel;
     protected UIButtonGroup isChartAnimation;
 
     //坐标轴翻转属性
@@ -371,7 +373,17 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
 
     protected JPanel createAnimationPane() {
         isChartAnimation = new UIButtonGroup(new String[]{com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Open"), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Close")});
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation_Effects"), isChartAnimation);
+        chartAnimationLabel = new UILabel(Toolkit.i18nText("Fine-Design_Chart_Animation_Effects"));
+        double p = TableLayout.PREFERRED;
+        double f = TableLayout.FILL;
+        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
+        double[] columnSize = {f, e};
+        double[] rowSize = {p,p};
+        Component[][] components = new Component[][]{
+                new Component[]{null,null},
+                new Component[]{chartAnimationLabel,isChartAnimation}
+        };
+        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components,rowSize,columnSize);
         return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Animation"), panel);
     }
 
@@ -499,7 +511,9 @@ public class VanChartInteractivePane extends AbstractVanChartScrollPane<Chart> {
     private void populateChartAnimate(Chart chart, Plot plot) {
         if (plot.isSupportAnimate()) {
             isChartAnimation.setSelectedIndex(chart.isJSDraw() ? 0 : 1);
-            isChartAnimation.setEnabled(!largeModel(plot));
+            boolean largeModel = largeModel(plot);
+            isChartAnimation.setEnabled(!largeModel);
+            chartAnimationLabel.setEnabled(!largeModel);
         }
     }
 

@@ -360,6 +360,14 @@ public class UIComboCheckBox extends JComponent implements UIObserver, GlobalNam
         popup.setSelectedValue(map);
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        this.popup.setEnabled(enabled);
+        this.editor.setEnabled(enabled);
+        this.arrowButton.setEnabled(enabled);
+    }
+
     /**
      * 简单的测试demo
      * @param args
