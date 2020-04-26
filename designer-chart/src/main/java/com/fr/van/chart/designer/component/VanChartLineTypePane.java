@@ -2,7 +2,6 @@ package com.fr.van.chart.designer.component;
 
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
-import com.fr.design.gui.icombobox.LineComboBox;
 import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.ispinner.UISpinner;
 import com.fr.design.i18n.Toolkit;
@@ -13,8 +12,6 @@ import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.base.VanChartAttrLine;
 import com.fr.plugin.chart.type.LineStyle;
 import com.fr.plugin.chart.type.LineType;
-import com.fr.stable.Constants;
-import com.fr.stable.CoreConstants;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
 
 import javax.swing.JPanel;
@@ -30,8 +27,10 @@ import java.util.Arrays;
 public class VanChartLineTypePane extends BasicPane {
 
     private static final long serialVersionUID = -6581862503009962973L;
-    //线型支持虚线 恢复用注释。下面1行删除。
-    protected LineComboBox lineWidth;//线型
+
+    private static final double LINE_WIDTH_MIN_VALUE = 0.5;
+    private static final double LINE_WIDTH_DIERTA_VALUE = 0.5;
+    private static final double LINE_WIDTH_DEFAULT_VALUE = 2;
 
     private LineTypeComboBox lineTypeComboBox;//线型
     private UISpinner lineWidthSpinner;//线宽
@@ -42,14 +41,14 @@ public class VanChartLineTypePane extends BasicPane {
     private JPanel lineStylePane;
 
     public VanChartLineTypePane() {
-        //线型支持虚线 恢复用注释。下面1行删除。
-        lineWidth = new LineComboBox(CoreConstants.STRIKE_LINE_STYLE_ARRAY_4_CHART);
 
         JPanel typeAndWidthPane = createTypeAndWidthPane();
 
         createLineStyle();
 
-        nullValueBreak = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Open"), Toolkit.i18nText("Fine-Design_Chart_Close")});
+        nullValueBreak = new UIButtonGroup(new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Open"),
+                Toolkit.i18nText("Fine-Design_Chart_Close")});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -67,8 +66,7 @@ public class VanChartLineTypePane extends BasicPane {
         lineStylePane = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
 
         this.setLayout(new BorderLayout(0, 6));
-        //线型支持虚线 恢复用注释。取消注释。
-        //this.add(typeAndWidthPane, BorderLayout.NORTH);
+        this.add(typeAndWidthPane, BorderLayout.NORTH);
         this.add(lineStylePane, BorderLayout.CENTER);
     }
 
@@ -76,7 +74,7 @@ public class VanChartLineTypePane extends BasicPane {
 
         lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
 
-        lineWidthSpinner = new UISpinner(0.5, Integer.MAX_VALUE, 0.5, 2);
+        lineWidthSpinner = new UISpinner(LINE_WIDTH_MIN_VALUE, Integer.MAX_VALUE, LINE_WIDTH_DIERTA_VALUE, LINE_WIDTH_DEFAULT_VALUE);
 
         lineTypeComboBox.addActionListener(new ActionListener() {
             @Override
@@ -117,12 +115,6 @@ public class VanChartLineTypePane extends BasicPane {
 
     protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
         return new Component[][]{
-                //线型支持虚线 恢复用注释。下面5行删除。
-                new Component[]{null, null},
-                new Component[]{
-                        FRWidgetFactory.createLineWrapLabel(Toolkit.i18nText("Fine-Design_Chart_Line_Style")),
-                        UIComponentUtils.wrapWithBorderLayoutPane(lineWidth)
-                },
                 lineStyleComponent,
                 nullValueBreakComponent
         };
@@ -141,16 +133,10 @@ public class VanChartLineTypePane extends BasicPane {
     }
 
     public void checkLarge(boolean large) {
-        //线型支持虚线 恢复用注释。下面4行删除。
         if (large) {
-            lineWidth.setSelectedLineStyle(Constants.LINE_NONE);
+            lineTypeComboBox.setSelectedItem(LineType.NONE);
         }
-        lineWidth.setEnabled(!large);
-        //线型支持虚线 恢复用注释。取消注释。
-//        if (large) {
-//            lineTypeComboBox.setSelectedItem(LineType.NONE);
-//        }
-//        lineTypeComboBox.setEnabled(!large);
+        lineTypeComboBox.setEnabled(!large);
         lineStyle.setEnabled(!large);
     }
 
@@ -162,11 +148,8 @@ public class VanChartLineTypePane extends BasicPane {
         if (line == null) {
             line = initVanChartAttrLine();
         }
-        //线型支持虚线 恢复用注释。下面1行删除。
-        lineWidth.setSelectedLineStyle(line.getLineWidth());
-        //线型支持虚线 恢复用注释。取消注释。
-//        lineTypeComboBox.setSelectedItem(line.getLineType());
-//        lineWidthSpinner.setValue(line.getLineWidth());
+        lineTypeComboBox.setSelectedItem(line.getLineType());
+        lineWidthSpinner.setValue(line.getLineWidth());
         lineStyle.setSelectedItem(line.getLineStyle());
         nullValueBreak.setSelectedIndex(line.isNullValueBreak() ? 0 : 1);
     }
@@ -177,11 +160,8 @@ public class VanChartLineTypePane extends BasicPane {
 
     public VanChartAttrLine update() {
         VanChartAttrLine line = new VanChartAttrLine();
-        //线型支持虚线 恢复用注释。下面1行删除。
-        line.setLineWidth(lineWidth.getSelectedLineStyle());
-        //线型支持虚线 恢复用注释。取消注释。
-//        line.setLineType((LineType) lineTypeComboBox.getSelectedItem());
-//        line.setLineWidth(lineWidthSpinner.getValue());
+        line.setLineType((LineType) lineTypeComboBox.getSelectedItem());
+        line.setLineWidth(lineWidthSpinner.getValue());
         line.setLineStyle(lineStyle.getSelectedItem());
         line.setNullValueBreak(nullValueBreak.getSelectedIndex() == 0);
         return line;

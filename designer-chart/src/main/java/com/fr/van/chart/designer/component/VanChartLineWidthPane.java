@@ -1,8 +1,5 @@
 package com.fr.van.chart.designer.component;
 
-import com.fr.design.gui.ilable.UILabel;
-import com.fr.design.i18n.Toolkit;
-
 import java.awt.Component;
 
 /**
@@ -14,9 +11,6 @@ public class VanChartLineWidthPane extends VanChartLineTypePane {
     @Override
     protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
         return new Component[][]{
-                //线型支持虚线 恢复用注释。下面2行删除。
-                new Component[]{null, null},
-                new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineWidth},
                 nullValueBreakComponent
         };
     }
