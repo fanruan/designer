@@ -77,17 +77,7 @@ public class GlobalTableDataAction extends UpdateAction implements ResponseDataS
             }
 
             protected void renameConnection(final String oldName, final String newName) {
-                Configurations.update(new Worker() {
-                    @Override
-                    public void run() {
-                        tableDataConfig.renameTableData(oldName, newName);
-                    }
-
-                    @Override
-                    public Class<? extends Configuration>[] targets() {
-                        return new Class[]{TableDataConfig.class, ProcedureConfig.class};
-                    }
-                });
+                tableDataConfig.renameTableData(oldName, newName);
             }
         };
         final BasicDialog globalTableDataDialog = globalTableDataPane.showLargeWindow(designerFrame, null);
