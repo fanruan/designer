@@ -25,7 +25,7 @@ import java.util.Date;
 
 
 public class EmbeddedTableDataDefinedPane extends BasicPane{
-	
+	private static final int MIN_CELL_WIDTH = 30;
 	private EmbeddedTableData tableData;
 	private JTable dataJTable;
 	private UIButton add;
@@ -64,7 +64,7 @@ public class EmbeddedTableDataDefinedPane extends BasicPane{
     	// 行号显示
         TableColumn tableColumn = dataJTable.getColumnModel().getColumn(0);
         tableColumn.setCellRenderer(new CellRenderer());
-        tableColumn.setMaxWidth(dataJTable.getColumnCount());
+        tableColumn.setMaxWidth(Math.max(dataJTable.getColumnCount(), MIN_CELL_WIDTH));
         
         // 控制按钮
         add = new UIButton(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Add"));
