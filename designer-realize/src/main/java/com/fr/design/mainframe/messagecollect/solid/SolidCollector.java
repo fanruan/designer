@@ -22,7 +22,6 @@ import java.util.Map;
 public class SolidCollector {
     private static final String ATTR_CIPHER_TEXT = "cipherText";
     private static final String ATTR_SIGNATURE = "signature";
-    private static final String SOLID_UPLOAD_URL = CloudCenter.getInstance().acquireUrlByKind("design.solid");
 
     private static volatile SolidCollector instance;
 
@@ -44,6 +43,11 @@ public class SolidCollector {
         if (WorkContext.getCurrent().isLocal()) {
             return;
         }
+        String url = CloudCenter.getInstance().acquireConf("design.solid", "https://cloud.fanruan.com/api/solid/upload");
+        if (StringUtils.isEmpty(url)) {
+            FineLoggerFactory.getLogger().info("failed to get solid content upload url...");
+            return;
+        }
         FineLoggerFactory.getLogger().info("start to get solid content from server...");
         try {
             String cipherText = requestContent();
@@ -51,7 +55,7 @@ public class SolidCollector {
                 Map<String, Object> params = new HashMap<>();
                 params.put(ATTR_CIPHER_TEXT, cipherText);
                 params.put(ATTR_SIGNATURE, String.valueOf(CommonUtils.signature()));
-                HttpToolbox.post(SOLID_UPLOAD_URL, params);
+                HttpToolbox.post(url, params);
 
                 deleteSolidFile();
             }

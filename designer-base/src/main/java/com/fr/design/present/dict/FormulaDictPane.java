@@ -10,6 +10,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 
+import com.fr.design.widget.FRWidgetFactory;
 import com.fr.stable.StringUtils;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
 
     private static final int EDITOR_COLUMN = 15;
     private static final int LEFT_BORDER = 5;
+    private static final int MAX_WIDTH = 30;
     private FormulaEditor keyFormulaEditor;
     private FormulaEditor valueFormulaEditor;
 
@@ -61,10 +63,9 @@ public class FormulaDictPane extends FurtherBasicBeanPane<FormulaDictionary> {
         valueFormulaContainer.add(new JLabel(icon));
         valueFormulaContainer.add(valueFormulaEditor);
 
-
         Component[][] components = new Component[][]{
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), UILabel.LEFT), keyFormulaContainer},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"), UILabel.LEFT), valueFormulaContainer},
+                new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Actual_Value"), MAX_WIDTH, UILabel.LEFT), keyFormulaContainer},
+                new Component[]{FRWidgetFactory.createLineWrapLabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Display_Value"), MAX_WIDTH, UILabel.LEFT), valueFormulaContainer},
                 new Component[]{tag, null}
         };
         JPanel panel = TableLayoutHelper.createGapTableLayoutPane(components, rowSize, columnSize, rowCount, LayoutConstants.VGAP_LARGE, LayoutConstants.VGAP_LARGE);

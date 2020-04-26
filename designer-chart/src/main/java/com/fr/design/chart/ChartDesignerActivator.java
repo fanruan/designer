@@ -4,6 +4,7 @@ import com.fr.chart.chartattr.ChartCollection;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.actions.core.ActionFactory;
 import com.fr.design.chart.gui.ChartComponent;
+import com.fr.design.file.HistoryTemplateListCache;
 import com.fr.design.mainframe.ChartPropertyPane;
 import com.fr.design.module.ChartEmptyDataStyleAction;
 import com.fr.design.module.ChartHyperlinkGroup;
@@ -50,6 +51,7 @@ public class ChartDesignerActivator extends Activator implements Prepare {
         DesignModuleFactory.registerExtraWidgetOptions(ChartTypeInterfaceManager.initWidgetOption());
 
         ImagePainter.registerDownloadSourcesEvent(new DownloadOnlineSourcesHelper());
+        ImagePainter.registerDefaultCallbackEvent(HistoryTemplateListCache.getInstance());
 
         ChartTypeInterfaceManager.addPluginChangedListener();
     }

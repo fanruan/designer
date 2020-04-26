@@ -88,7 +88,7 @@ public class UpmFinder {
                 dialog.setVisible(true);
             }
         } else {
-            JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
+            FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), Toolkit.i18nText("Fine-Design_Update_Info_Plugin_Message"));
             UpdateMainDialog dialog = new UpdateMainDialog(DesignerContext.getDesignerFrame());
             dialog.setAutoUpdateAfterInit();
             dialog.showDialog();

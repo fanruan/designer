@@ -65,7 +65,7 @@ public class DSColumnCellEditor extends AbstractCellEditor implements DialogActi
 		this.dsColumnPane = new DSColumnPane();
 		dsColumnPane.putElementcase(grid.getElementCasePane());
 		dsColumnPane.putCellElement(cellElement);
-		BasicDialog dsColumnDialog = this.dsColumnPane.showWindow(SwingUtilities.getWindowAncestor(grid));
+		BasicDialog dsColumnDialog = this.dsColumnPane.showWindowWithCustomSize(SwingUtilities.getWindowAncestor(grid), null, DSColumnPane.DEFAULT_DIMENSION);
 
 		dsColumnDialog.addDialogActionListener(this);
 

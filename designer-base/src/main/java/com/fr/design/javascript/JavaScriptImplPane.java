@@ -2,6 +2,7 @@ package com.fr.design.javascript;
 
 import com.fr.base.Parameter;
 import com.fr.design.data.tabledata.tabledatapane.OneListTableModel;
+import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.frpane.ReportletParameterViewPane;
 import com.fr.design.gui.itableeditorpane.ParameterTableModel;
 import com.fr.design.gui.itableeditorpane.UITableEditAction;
@@ -62,7 +63,7 @@ public class JavaScriptImplPane extends AbstractHyperLinkPane<JavaScriptImpl> {
                     }
                     if (tempSet.contains(list.get(i).toString())) {
                         list.remove(i);
-                        JOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Duplicate_Name") + "!");
+                        FineJOptionPane.showMessageDialog(DesignerContext.getDesignerFrame(), com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Parameter_Duplicate_Name") + "!");
                         parameterChanger(list);
                         return;
                     }

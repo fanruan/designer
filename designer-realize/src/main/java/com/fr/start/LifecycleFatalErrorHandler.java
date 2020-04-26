@@ -1,5 +1,6 @@
 package com.fr.start;
 
+import com.fr.common.report.ReportState;
 import com.fr.design.RestartHelper;
 import com.fr.design.dialog.ErrorDialog;
 import com.fr.design.dialog.FineJOptionPane;
@@ -10,6 +11,9 @@ import com.fr.exit.DesignerExiter;
 import com.fr.general.IOUtils;
 import com.fr.io.utils.ResourceIOUtils;
 import com.fr.log.FineLoggerFactory;
+import com.fr.process.ProcessEventPipe;
+import com.fr.process.engine.core.CarryMessageEvent;
+import com.fr.process.engine.core.FineProcessContext;
 import com.fr.stable.StableUtils;
 import com.fr.stable.lifecycle.ErrorType;
 import com.fr.stable.lifecycle.FineLifecycleFatalError;
@@ -45,6 +49,10 @@ public class LifecycleFatalErrorHandler {
 
     public void handle(FineLifecycleFatalError fatal) {
         SplashContext.getInstance().hide();
+        ProcessEventPipe eventPipe = FineProcessContext.getParentPipe();
+        if (eventPipe != null) {
+            eventPipe.fire(new CarryMessageEvent(ReportState.STOP.getValue()));
+        }
         map.get(fatal.getErrorType()).handle(fatal);
     }
 

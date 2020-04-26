@@ -22,6 +22,8 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
     private GlobalNameListener globalNameListener = null;
     private String radioButtonName = StringUtils.EMPTY;
 
+    private boolean markMnemonic = true;
+
     public UIRadioButton() {
         super();
         initListener();
@@ -58,6 +60,13 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
         initComponent();
     }
 
+    public UIRadioButton(String text, boolean selected, boolean markMnemonic) {
+        super(text, selected);
+        initListener();
+        initComponent();
+        this.markMnemonic = markMnemonic;
+    }
+
     public UIRadioButton(String text, Icon icon) {
         super(text, icon);
         initListener();
@@ -68,6 +77,13 @@ public class UIRadioButton extends JRadioButton implements UIObserver, GlobalNam
     public UIRadioButton(String text, Icon icon, boolean selected) {
         super(text, icon, selected);
         initListener();
+    }
+
+    public void setMnemonic(char mnemonic) {
+        super.setMnemonic(mnemonic);
+        if (!markMnemonic) {
+            setDisplayedMnemonicIndex(-1);
+        }
     }
 
     private void initListener() {

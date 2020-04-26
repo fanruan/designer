@@ -82,13 +82,13 @@ public class FormMobileAttrAction extends JTemplateAction<JForm> {
                 if (changeSize) {
                     ((FormArea)jf.getFormDesign().getParent()).onMobileAttrModified();
                 }
-                jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
                 //改变布局为自适应布局,只在移动端属性设置保存后改变一次
                 boolean changeLayout = !oldAdaptive && formMobileAttr.isAdaptivePropertyAutoMatch();
                 if (changeLayout) {
+                    jf.getFormDesign().getSelectionModel().setSelectedCreator(jf.getFormDesign().getRootComponent());
                     doChangeBodyLayout();
+                    WidgetPropertyPane.getInstance().refreshDockingView();
                 }
-                WidgetPropertyPane.getInstance().refreshDockingView();
                 jf.fireTargetModified();
             }
         });

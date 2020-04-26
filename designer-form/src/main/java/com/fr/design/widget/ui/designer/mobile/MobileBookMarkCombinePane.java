@@ -6,6 +6,7 @@ import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.layout.FRGUIPaneFactory;
 import com.fr.design.mainframe.FormDesigner;
 import com.fr.design.widget.ui.designer.mobile.component.MobileAdvanceInnerPane;
+import com.fr.design.widget.ui.designer.mobile.component.MobileBookMarkUsePane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,27 +14,30 @@ import java.awt.*;
 /**
  * @author hades
  * @version 10.0
- * Created by hades on 2019/12/24
+ * Created by hades on 2020/4/18
  */
-public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
+public class MobileBookMarkCombinePane extends MobileWidgetDefinePane {
 
+    private MobileBookMarkUsePane mobileBookMarkUsePane;
+    private MobileAdvanceInnerPane mobileAdvanceInnerPane;
     private XCreator xCreator;
-    private MobileAdvanceInnerPane innerPane;
 
-    public MobileAdvanceDefinePane(XCreator xCreator) {
+
+    public MobileBookMarkCombinePane(XCreator xCreator) {
         this.xCreator = xCreator;
     }
 
     @Override
     public void initPropertyGroups(Object source) {
         this.setLayout(FRGUIPaneFactory.createBorderLayout());
-        this.innerPane = new MobileAdvanceInnerPane(xCreator);
-        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Mobile_BookMark"), 280, 20, innerPane);
-        JPanel wrapPane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        wrapPane.add(uiExpandablePane, BorderLayout.NORTH);
-        this.add(wrapPane, BorderLayout.NORTH);
+        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
+        this.mobileAdvanceInnerPane = new MobileAdvanceInnerPane(xCreator);
+        this.mobileBookMarkUsePane = new MobileBookMarkUsePane();
+        panel.add(this.mobileBookMarkUsePane, BorderLayout.NORTH);
+        panel.add(this.mobileAdvanceInnerPane, BorderLayout.CENTER);
+        UIExpandablePane uiExpandablePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, panel);
+        this.add(uiExpandablePane, BorderLayout.NORTH);
     }
-
 
     private void bindListeners2Widgets() {
         reInitAllListeners();
@@ -51,24 +55,15 @@ public class MobileAdvanceDefinePane extends MobileWidgetDefinePane {
     }
 
     @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(super.getPreferredSize().width, 80);
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-        return new Dimension(400, 200);
-    }
-
-    @Override
     public void populate(FormDesigner designer) {
-        this.innerPane.populate();
+        this.mobileBookMarkUsePane.populate(xCreator);
+        this.mobileAdvanceInnerPane.populate();
         this.bindListeners2Widgets();
     }
 
     @Override
     public void update() {
-        this.innerPane.update();
+        this.mobileBookMarkUsePane.update(xCreator);
+        this.mobileAdvanceInnerPane.update();
     }
-
 }

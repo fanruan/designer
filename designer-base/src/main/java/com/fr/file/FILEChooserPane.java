@@ -505,10 +505,19 @@ public class FILEChooserPane extends BasicPane {
         if (StringUtils.isEmpty(fileName) || StringUtils.isEmpty(filterExtension) || fileFilter.containsExtension(fileExtension.getExtension())) {
             return fileName;
         }
-        if (!ComparatorUtils.equals(fileNameExtension, filterExtension)) {
+        if (!ComparatorUtils.equals(fileNameExtension, filterExtension) && !isMapping(fileNameExtension, filterExtension)) {
             return fileName + filterExtension;
         }
         return fileNameWithOutExtension + filterExtension;
+    }
+
+    private boolean isMapping(String fromExtension, String toExtension){
+        if(FileExtension.CPTX.matchExtension(fromExtension)){
+            return FileExtension.CPT.matchExtension(toExtension);
+        }else if(FileExtension.CPT.matchExtension(fromExtension)){
+            return FileExtension.CPTX.matchExtension(toExtension);
+        }
+        return false;
     }
 
     private void doCancel() {
