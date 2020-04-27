@@ -60,7 +60,7 @@ public class VanChartTrendLinePane extends BasicPane{
         double[] col = {f, e};
         trendLineName = new UITextField();
         trendLineColor = new ColorSelectBox(PREFERRED_WIDTH);
-        trendLineStyle = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
+        trendLineStyle = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
         lineWidthSpinner = new UISpinner(LINE_WIDTH_MIN_VALUE, Integer.MAX_VALUE, LINE_WIDTH_DIERTA_VALUE, LINE_WIDTH_DEFAULT_VALUE);
         trendLineType = new UIComboBox(TYPES);
         prePeriod = new UISpinner(0, Integer.MAX_VALUE, 1, 0);

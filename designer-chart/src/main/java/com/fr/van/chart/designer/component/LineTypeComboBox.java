@@ -59,10 +59,10 @@ public class LineTypeComboBox extends UIComboBox {
                     FontMetrics fm = GraphHelper.getFontMetrics(rfont);
                     GraphHelper.drawString(g2d, Toolkit.i18nText("Fine-Design_Report_None"), 4, (d.height - fm.getHeight()) / 2 + fm.getAscent());
                     break;
-                case NORMAL:
+                case SOLID:
                     GraphHelper.drawLine(g2d, 4, d.height / 2, d.width - 8, d.height / 2);
                     break;
-                case DASH:
+                case DASHED:
                     GraphHelper.drawLine(g2d, 4, d.height / 2, d.width - 8, d.height / 2, Constants.LINE_DASH);
                     break;
                 default:

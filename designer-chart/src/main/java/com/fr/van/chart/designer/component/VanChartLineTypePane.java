@@ -72,7 +72,7 @@ public class VanChartLineTypePane extends BasicPane {
 
     private JPanel createTypeAndWidthPane() {
 
-        lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
+        lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
 
         lineWidthSpinner = new UISpinner(LINE_WIDTH_MIN_VALUE, Integer.MAX_VALUE, LINE_WIDTH_DIERTA_VALUE, LINE_WIDTH_DEFAULT_VALUE);
 

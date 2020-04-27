@@ -73,7 +73,7 @@ public class VanChartAlertValuePane extends BasicBeanPane<VanChartAlertValue> {
         //設置大小，防止文本過長導致界面“變形”
         alertValue.setPreferredSize(new Dimension(VALUE_WD, HT));
 
-        alertLineStyle = new LineTypeComboBox(new LineType[]{LineType.NORMAL, LineType.DASH});
+        alertLineStyle = new LineTypeComboBox(new LineType[]{LineType.SOLID, LineType.DASHED});
         lineWidthSpinner = new UISpinner(LINE_WIDTH_MIN_VALUE, Integer.MAX_VALUE, LINE_WIDTH_DIERTA_VALUE, LINE_WIDTH_DEFAULT_VALUE);
         alertLineColor = new ColorSelectBox(PREFERRED_WIDTH);
         alertTextPosition = new UIButtonGroup(new String[]{Toolkit.i18nText("Fine-Design_Chart_Axis_Top"), Toolkit.i18nText("Fine-Design_Chart_Axis_Bottom")});
