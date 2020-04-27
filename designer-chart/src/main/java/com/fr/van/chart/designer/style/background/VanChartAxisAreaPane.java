@@ -56,8 +56,8 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     protected void initComponents() {
         horizontalGridLine = new ColorSelectBox(PREFERRED_WIDTH);
         verticalGridLine = new ColorSelectBox(PREFERRED_WIDTH);
-        horizonLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
-        verticalLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
+        horizonLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
+        verticalLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
