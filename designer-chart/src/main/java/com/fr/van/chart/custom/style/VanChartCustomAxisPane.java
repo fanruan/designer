@@ -66,7 +66,7 @@ public class VanChartCustomAxisPane extends BasicScrollPane<Chart> {
         VanChartCustomPlot plot = (VanChartCustomPlot) chart.getPlot();
         axisPane.updateBean(plot);
         //坐标轴埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getPlot().getBuryingPointAxisConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getBuryingPointAxisConfig());
     }
 
     @Override

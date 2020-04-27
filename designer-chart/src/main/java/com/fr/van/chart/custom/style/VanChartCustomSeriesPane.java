@@ -115,7 +115,7 @@ public class VanChartCustomSeriesPane extends ChartSeriesPane {
             plotSeriesPane.updateBean(plot);
         }
         //系列埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.SERIES, chart.getPlot().getBuryingPointSeriesConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.SERIES, chart.getBuryingPointSeriesConfig());
     }
 
     /**

@@ -66,7 +66,7 @@ public class VanChartCustomLabelPane extends BasicScrollPane<Chart> {
 
         labelPane.updateBean((VanChartCustomPlot)chart.getPlot());
         //标签埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LABEL, chart.getPlot().getBuryingPointLabelConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LABEL, chart.getBuryingPointLabelConfig());
     }
 
     @Override

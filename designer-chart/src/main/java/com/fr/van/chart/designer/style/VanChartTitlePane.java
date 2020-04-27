@@ -366,7 +366,7 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         backgroundPane.update(title);
 
         //标题埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TITLE, title.getBuryingPointTitleConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TITLE, chart.getBuryingPointTitleConfig());
     }
 
 }

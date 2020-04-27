@@ -56,7 +56,7 @@ public class VanChartLegendPane extends AbstractVanChartScrollPane<VanChart> {
         legendContent.updateBean(legend);
 
         //图例埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LEGEND, legend.getBuryingPointLegendConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LEGEND, chart.getBuryingPointLegendConfig());
     }
 
     @Override

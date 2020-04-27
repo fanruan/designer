@@ -122,7 +122,7 @@ public class ChartDataPane extends AbstractChartAttrPane {
 			VanChartPlot plot = vanchart.getPlot();
 			if( !plot.isInCustom()) {
 				ChartInfoCollector.getInstance().updateChartConfig(vanchart, ConfigType.DATA,
-						vanchart.getFilterDefinition().getBuryingPointDataConfig());
+						vanchart.getBuryingPointDataConfig());
 			}
         }
     }

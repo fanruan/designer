@@ -120,7 +120,7 @@ public class VanChartMapLabelPane extends AbstractVanChartScrollPane<Chart> {
         defaultAttr.addDataSeriesCondition(attrMapLabel);
 
         //标签埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LABEL, chart.getPlot().getBuryingPointLabelConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LABEL, chart.getBuryingPointLabelConfig());
     }
 
     @Override

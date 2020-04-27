@@ -97,7 +97,7 @@ public class VanChartAreaPane extends ThirdTabPane<VanChart> implements AutoSele
         areaPane.updateBean(chart);
         plotPane.updateBean(chart);
         //背景埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.BACKGROUND, chart.getPlot().getBuryingPointBackGroundConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.BACKGROUND, chart.getBuryingPointBackGroundConfig());
     }
 
     /**

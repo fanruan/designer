@@ -138,7 +138,7 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         }
 
         //数据表埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.DATA_TABLE, chart.getPlot().getDataSheet().getBuryingPointDataTableConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.DATA_TABLE, chart.getBuryingPointDataTableConfig());
 //        plot.setDataSheet2PlotList();
     }
 

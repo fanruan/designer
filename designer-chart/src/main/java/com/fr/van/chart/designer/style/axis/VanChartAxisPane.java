@@ -244,7 +244,7 @@ public class VanChartAxisPane extends BasicBeanPane<VanChart> {
 
     protected void updateBuryingPoint(VanChart chart) {
         //坐标轴埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getPlot().getBuryingPointAxisConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getBuryingPointAxisConfig());
     }
 
     public void updateBean(Plot plot){

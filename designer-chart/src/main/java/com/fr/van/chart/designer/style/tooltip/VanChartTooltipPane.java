@@ -69,7 +69,7 @@ public class VanChartTooltipPane extends AbstractVanChartScrollPane<Chart> {
             attrList.addDataSeriesCondition(attrTooltip);
         }
         //提示埋点
-        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TOOLTIP, chart.getPlot().getBuryingPointTooltipConfig());
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TOOLTIP, chart.getBuryingPointTooltipConfig());
     }
 
     @Override
