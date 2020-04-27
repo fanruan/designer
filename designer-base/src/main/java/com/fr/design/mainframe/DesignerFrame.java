@@ -117,11 +117,6 @@ import java.util.Set;
 
 public class DesignerFrame extends JFrame implements JTemplateActionListener, TargetModifiedListener {
 
-    static {
-        UIManager.put("ProgressMonitor.progressText", Toolkit.i18nText("Fine-Design_Basic_ProgressBar_Title"));
-        UIManager.put("OptionPane.cancelButtonText", Toolkit.i18nText("Fine-Design_Basic_Cancel"));
-    }
-
     private static final String DESIGNER_FRAME_NAME = "designer_frame";
 
     private static final Dimension MIN_SIZE = new Dimension(100, 100);
