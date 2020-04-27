@@ -2,7 +2,9 @@ package com.fr.van.chart.designer.style;
 
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.attr.VanChartLegend;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -52,6 +54,9 @@ public class VanChartLegendPane extends AbstractVanChartScrollPane<VanChart> {
         }
         VanChartLegend legend = (VanChartLegend) plot.getLegend();
         legendContent.updateBean(legend);
+
+        //图例埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LEGEND, chart.getBuryingPointLegendConfig());
     }
 
     @Override

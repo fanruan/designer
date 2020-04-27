@@ -7,6 +7,7 @@ import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.AttrSeriesStackAndAxis;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
+import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.custom.CustomPlotDesignerPaneFactory;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.designer.style.axis.VanChartAxisPane;
@@ -51,5 +52,9 @@ public class VanChartCustomPlotAxisPane extends VanChartAxisPane {
                 stackAndAxisCondition.removeConditionAttr(conditionAttr);
             }
         }
+    }
+
+    @Override
+    protected void updateBuryingPoint(VanChart chart) {
     }
 }

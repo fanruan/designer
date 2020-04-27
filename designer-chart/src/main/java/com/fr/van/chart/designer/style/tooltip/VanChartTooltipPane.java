@@ -4,7 +4,8 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-
+import com.fr.chartx.config.info.constant.ConfigType;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrTooltip;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -67,6 +68,8 @@ public class VanChartTooltipPane extends AbstractVanChartScrollPane<Chart> {
         if (attrTooltip != null) {
             attrList.addDataSeriesCondition(attrTooltip);
         }
+        //提示埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TOOLTIP, chart.getBuryingPointTooltipConfig());
     }
 
     @Override

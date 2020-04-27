@@ -3,6 +3,7 @@ package com.fr.design.mainframe.chart.gui;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.ChartCollection;
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.dialog.BasicPane;
 import com.fr.design.mainframe.chart.AbstractChartAttrPane;
@@ -11,11 +12,12 @@ import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.other.ChartConditionAttrPane;
 import com.fr.design.mainframe.chart.gui.other.ChartInteractivePane;
 import com.fr.design.mainframe.chart.gui.type.ChartTabPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
 
 public class ChartOtherPane extends AbstractChartAttrPane {
 	private static final long serialVersionUID = -5612046386597783406L;
@@ -121,6 +123,8 @@ public class ChartOtherPane extends AbstractChartAttrPane {
 			if (ChartOtherPane.this.isHaveCondition()) {
 				conditionAttrPane.updateBean(chart);
 			}
+			//特效埋点
+			ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.EFFECT, chart.getBuryingPointEffectConfig());
 		}
 		
 		/**
