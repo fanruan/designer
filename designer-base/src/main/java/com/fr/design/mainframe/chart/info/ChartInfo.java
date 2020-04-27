@@ -1,6 +1,10 @@
 package com.fr.design.mainframe.chart.info;
 
 import com.fr.base.io.BaseBook;
+import com.fr.chartx.attr.ChartProvider;
+import com.fr.chartx.config.info.AbstractConfig;
+import com.fr.chartx.config.info.ChartConfigInfo;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.config.MarketConfig;
 import com.fr.design.DesignModelAdapter;
 import com.fr.design.DesignerEnvManager;
@@ -26,7 +30,7 @@ import java.util.Map;
 public class ChartInfo extends AbstractPointInfo {
     public static final String XML_TAG = "ChartInfo";
     private static final String CHART_CONSUMING_URL = CloudCenter.getInstance().acquireUrlByKind("chartinfo.consuming") + "/single";
-
+    private static final String CHART_FUNCTION_URL = CloudCenter.getInstance().acquireUrlByKind("chart.info.function") + "/single";
 
     private static final String XML_CHART_CONSUMING_MAP = "chartConsumingMap";
     private static final String ATTR_TEST_TEMPLATE = "testTemplate";
@@ -58,6 +62,8 @@ public class ChartInfo extends AbstractPointInfo {
     private String templateId = StringUtils.EMPTY;
 
     private Map<String, String> chartConsumingMap = new HashMap<>();
+
+    private ChartConfigInfo chartConfigInfo = new ChartConfigInfo();
 
     private BaseBook book;
 
@@ -93,7 +99,6 @@ public class ChartInfo extends AbstractPointInfo {
         this.chartConsumingMap.put(ATTR_TEMPLATE_ID, templateId);
     }
 
-
     public BaseBook getBook() {
         return book;
     }
@@ -117,17 +122,19 @@ public class ChartInfo extends AbstractPointInfo {
         return chartInfo;
     }
 
-    public static ChartInfo newInstance(String chartId, String chartType) {
-        return newInstance(chartId, chartType, null, false, false);
+    public static ChartInfo newInstance(ChartProvider chartProvider) {
+        return newInstance(chartProvider, null, false, false);
     }
 
-    public static ChartInfo newInstance(String chartId, String chartType, String createTime, boolean isNew, boolean isReuse) {
+    public static ChartInfo newInstance(ChartProvider chartProvider, String createTime, boolean isNew, boolean isReuse) {
         HashMap<String, String> chartConsumingMap = new HashMap<>();
 
         String username = MarketConfig.getInstance().getBbsUsername();
         String userId = String.valueOf(MarketConfig.getInstance().getBbsUid());
         String uuid = DesignerEnvManager.getEnvManager().getUUID();
         String activityKey = DesignerEnvManager.getEnvManager().getActivationKey();
+        String chartId = chartProvider.getChartUuid();
+        String chartType = chartProvider.getID();
 
         BaseBook book = DesignModelAdapter.getCurrentModelAdapter().getBook();
         String templateId = book.getTemplateID();
@@ -160,6 +167,7 @@ public class ChartInfo extends AbstractPointInfo {
 
         ChartInfo chartInfo = new ChartInfo(chartId, templateId, book);
         chartInfo.chartConsumingMap = chartConsumingMap;
+        chartProvider.initChartConfigInfo(chartInfo.chartConfigInfo);
 
         return chartInfo;
     }
@@ -196,6 +204,8 @@ public class ChartInfo extends AbstractPointInfo {
         writer.attr(ATTR_IS_NEW, chartConsumingMap.get(ATTR_IS_NEW));
         writer.attr(ATTR_IS_REUSE, chartConsumingMap.get(ATTR_IS_REUSE));
         writer.end();
+
+        chartConfigInfo.writeXML(writer);
         writer.end();
     }
 
@@ -230,6 +240,9 @@ public class ChartInfo extends AbstractPointInfo {
                 chartConsumingMap.put(ATTR_IS_NEW, reader.getAttrAsString(ATTR_IS_NEW, StringUtils.EMPTY));
                 chartConsumingMap.put(ATTR_IS_REUSE, reader.getAttrAsString(ATTR_IS_REUSE, StringUtils.EMPTY));
             }
+            if (ChartConfigInfo.XML_TAG.equals(name)) {
+                this.chartConfigInfo = (ChartConfigInfo) reader.readXMLObject(new ChartConfigInfo());
+            }
         }
     }
 
@@ -243,7 +256,15 @@ public class ChartInfo extends AbstractPointInfo {
     public Map<String, String> getSendInfo() {
         Map<String, String> sendMap = new HashMap<>();
         sendMap.put(CHART_CONSUMING_URL, new JSONObject(chartConsumingMap).toString());
+        sendMap.put(CHART_FUNCTION_URL, getFunctionJson());
         return sendMap;
+    }
+
+    private String getFunctionJson() {
+        JSONObject jsonObject = JSONObject.create();
+        jsonObject.put("chartID", this.chartId);
+        chartConfigInfo.toJSONObject(jsonObject);
+        return jsonObject.toString();
     }
 
     public void updatePropertyTime() {
@@ -255,22 +276,32 @@ public class ChartInfo extends AbstractPointInfo {
         chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, propertyTime);
     }
 
-    public void updateChartType(String chartType) {
+    public void updateChartType(ChartProvider chartProvider) {
         String typeTime = DateTime.now().toString("yyyy-MM-dd HH:mm:ss");
 
         chartConsumingMap.put(ATTR_CHART_TYPE_TIME, typeTime);
-        chartConsumingMap.put(ATTR_CHART_TYPE, chartType);
+        chartConsumingMap.put(ATTR_CHART_TYPE, chartProvider.getID());
         chartConsumingMap.put(ATTR_CHART_PROPERTY_FIRST_TIME, "");
         chartConsumingMap.put(ATTR_CHART_PROPERTY_END_TIME, "");
         String count = chartConsumingMap.get(ATTR_OVER_CHART_TYPE_COUNT);
         count = StringUtils.isEmpty(count) ? "1" : String.valueOf(Integer.parseInt(count) + 1);
         chartConsumingMap.put(ATTR_OVER_CHART_TYPE_COUNT, count);
+
+        resetChartConfigInfo(chartProvider);
+    }
+
+    public void resetChartConfigInfo(ChartProvider chartProvider) {
+        chartConfigInfo.reset();
+        chartProvider.initChartConfigInfo(chartConfigInfo);
     }
 
     public void updateFirstType(String chartType) {
         chartConsumingMap.put(ATTR_FIRST_CHART_TYPE, chartType);
     }
 
+    public void updateChartConfig(ConfigType configType, AbstractConfig config) {
+        chartConfigInfo.updateChartConfig(configType, config);
+    }
 
     @Override
     public ChartInfo clone() {
@@ -284,6 +315,7 @@ public class ChartInfo extends AbstractPointInfo {
             chartConsumingMap.put(entry.getKey(), entry.getValue());
         }
         chartInfo.chartConsumingMap = chartConsumingMap;
+        chartInfo.chartConfigInfo = chartConfigInfo.clone();
         return chartInfo;
     }
 }

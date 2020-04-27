@@ -1,20 +1,22 @@
 package com.fr.van.chart.designer.style.background;
 
 import com.fr.chart.chartattr.Plot;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.gui.frpane.AbstractAttrNoScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ThirdTabPane;
 import com.fr.design.mainframe.chart.gui.style.legend.AutoSelectedPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 /**
  * 属性表, 图表样式-背景界面.
@@ -94,6 +96,8 @@ public class VanChartAreaPane extends ThirdTabPane<VanChart> implements AutoSele
     public void updateBean(VanChart chart) {
         areaPane.updateBean(chart);
         plotPane.updateBean(chart);
+        //背景埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.BACKGROUND, chart.getPlot().getBuryingPointBackGroundConfig());
     }
 
     /**

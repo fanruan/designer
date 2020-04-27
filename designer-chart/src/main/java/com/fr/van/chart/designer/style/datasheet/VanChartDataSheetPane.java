@@ -4,15 +4,16 @@ import com.fr.base.FRContext;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.DataSheet;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.gui.icheckbox.UICheckBox;
 import com.fr.design.gui.style.FormatPane;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.ComparatorUtils;
 import com.fr.general.FRFont;
-
 import com.fr.plugin.chart.VanChartAttrHelper;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
 import com.fr.plugin.chart.base.VanChartConstants;
@@ -135,6 +136,9 @@ public class VanChartDataSheetPane extends AbstractVanChartScrollPane<Chart> {
         if(isShowDataSheet.isSelected()){
             update(dataSheet);
         }
+
+        //数据表埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.DATA_TABLE, chart.getPlot().getDataSheet().getBuryingPointDataTableConfig());
 //        plot.setDataSheet2PlotList();
     }
 

@@ -2,9 +2,11 @@ package com.fr.design.mainframe.chart.gui.style.series;
 
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.ChartTypeInterfaceManager;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
 
 import javax.swing.JPanel;
@@ -60,6 +62,8 @@ public class ChartSeriesPane extends AbstractVanChartScrollPane<Chart> {
 		if(seriesStyleContentPane != null) {
 			seriesStyleContentPane.setCurrentChart(chart);
 			seriesStyleContentPane.updateBean(chart.getPlot());
+			//系列埋点
+			ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.SERIES, chart.getPlot().getBuryingPointSeriesConfig());
 		}
 	}
 

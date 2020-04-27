@@ -1,8 +1,10 @@
 package com.fr.van.chart.custom.style;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.dialog.BasicScrollPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.plugin.chart.vanchart.VanChart;
 import com.fr.van.chart.designer.style.VanChartStylePane;
@@ -63,6 +65,8 @@ public class VanChartCustomAxisPane extends BasicScrollPane<Chart> {
         }
         VanChartCustomPlot plot = (VanChartCustomPlot) chart.getPlot();
         axisPane.updateBean(plot);
+        //坐标轴埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getPlot().getBuryingPointAxisConfig());
     }
 
     @Override

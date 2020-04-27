@@ -1,9 +1,13 @@
 package com.fr.van.chart.map.designer.data;
 
 import com.fr.chart.chartattr.ChartCollection;
+import com.fr.chartx.attr.ChartProvider;
+import com.fr.chartx.config.info.DataConfig;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.gui.frpane.AttributeChangeListener;
 import com.fr.design.mainframe.chart.gui.ChartDataPane;
 import com.fr.design.mainframe.chart.gui.data.NormalChartDataPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.map.data.VanMapDefinition;
 import com.fr.plugin.chart.type.MapType;
 
@@ -116,6 +120,27 @@ public class VanChartMapDataPane extends ChartDataPane {
             vanMapDefinition.setLineDefinition(lineClone.getSelectedChart().getFilterDefinition());
 
             collection.getSelectedChart().setFilterDefinition(vanMapDefinition);
+            updateBuryingPoint(collection, vanMapDefinition);
         }
+    }
+
+    private void updateBuryingPoint(ChartCollection collection, VanMapDefinition vanMapDefinition) {
+        ChartProvider chart = collection.getSelectedChartProvider(ChartProvider.class);
+        DataConfig dataConfig;
+        switch (mapType) {
+            case AREA:
+                dataConfig = vanMapDefinition.getAreaDefinition().getBuryingPointDataConfig();
+                break;
+            case POINT:
+                dataConfig = vanMapDefinition.getPointDefinition().getBuryingPointDataConfig();
+                break;
+            case LINE:
+                dataConfig = vanMapDefinition.getLineDefinition().getBuryingPointDataConfig();
+                break;
+            default:
+                dataConfig = vanMapDefinition.getBuryingPointDataConfig();
+                break;
+        }
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.DATA, dataConfig);
     }
 }

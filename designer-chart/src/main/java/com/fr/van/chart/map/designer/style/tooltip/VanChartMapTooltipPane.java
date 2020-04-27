@@ -3,7 +3,8 @@ package com.fr.van.chart.map.designer.style.tooltip;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
-
+import com.fr.chartx.config.info.constant.ConfigType;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.map.VanChartMapPlot;
 import com.fr.plugin.chart.map.attr.AttrMapTooltip;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -119,6 +120,8 @@ public class VanChartMapTooltipPane extends AbstractVanChartScrollPane<Chart> {
             attrMapTooltip.setLineTooltip(lineTooltipPane.update());
         }
         defaultAttr.addDataSeriesCondition(attrMapTooltip);
+        //提示埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TOOLTIP, chart.getPlot().getBuryingPointTooltipConfig());
     }
 
     @Override

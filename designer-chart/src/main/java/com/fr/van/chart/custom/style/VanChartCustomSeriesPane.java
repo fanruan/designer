@@ -1,10 +1,12 @@
 package com.fr.van.chart.custom.style;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.design.mainframe.chart.gui.style.series.ChartSeriesPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.van.chart.designer.component.VanChartBeautyPane;
@@ -112,6 +114,8 @@ public class VanChartCustomSeriesPane extends ChartSeriesPane {
         if (seriesPane != null){
             plotSeriesPane.updateBean(plot);
         }
+        //系列埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.SERIES, chart.getPlot().getBuryingPointSeriesConfig());
     }
 
     /**
