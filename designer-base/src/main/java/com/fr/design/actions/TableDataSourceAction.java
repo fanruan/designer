@@ -42,11 +42,15 @@ public class TableDataSourceAction extends TemplateComponentAction<JTemplate<?, 
                 populate(tds);
             }
         };
-        BasicDialog reportTableDataDialog = tableDataPane.showLargeWindow(SwingUtilities.getWindowAncestor(this.getEditingComponent()), null);
+        final BasicDialog reportTableDataDialog = tableDataPane.showLargeWindow(SwingUtilities.getWindowAncestor(this.getEditingComponent()), null);
         reportTableDataDialog.addDialogActionListener(new DialogActionAdapter() {
 
             @Override
             public void doOk() {
+                if (!tableDataPane.isNamePermitted()) {
+                    reportTableDataDialog.setDoOKSucceed(false);
+                    return;
+                }
                 DesignModelAdapter.getCurrentModelAdapter().renameTableData(tableDataPane.getDsNameChangedMap());
                 tableDataPane.update(tds);
                 TableDataTreePane.getInstance(DesignModelAdapter.getCurrentModelAdapter());

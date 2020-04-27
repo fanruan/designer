@@ -59,4 +59,8 @@ public class ReportTableDataPane extends LoadingBasicPane {
     public Map<String, String> getDsNameChangedMap() {
         return tdPane.getDsNameChangedMap();
     }
+
+    public boolean isNamePermitted() {
+        return tdPane.isNamePermitted();
+    }
 }

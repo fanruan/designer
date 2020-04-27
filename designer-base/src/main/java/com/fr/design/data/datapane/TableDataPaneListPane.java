@@ -4,6 +4,7 @@ import com.fr.base.TableData;
 import com.fr.data.TableDataSource;
 import com.fr.data.api.StoreProcedureAssist;
 import com.fr.data.impl.storeproc.StoreProcedure;
+import com.fr.design.data.BasicTableDataUtils;
 import com.fr.design.data.DesignTableDataManager;
 import com.fr.design.dialog.FineJOptionPane;
 import com.fr.design.gui.controlpane.JListControlPane;
@@ -47,6 +48,14 @@ public class TableDataPaneListPane extends JListControlPane implements TableData
                 allListNames[nameableList.getSelectedIndex()] = StringUtils.EMPTY;
                 String tempName = getEditingName();
                 Object editingType = getEditingType();
+
+                if (!BasicTableDataUtils.checkName(tempName)) {
+                    isNamePermitted = false;
+                    nameableList.stopEditing();
+                    setIllegalIndex(editingIndex);
+                    return;
+                }
+
                 if (StringUtils.isEmpty(tempName)) {
                     isNamePermitted = false;
                     nameableList.stopEditing();
