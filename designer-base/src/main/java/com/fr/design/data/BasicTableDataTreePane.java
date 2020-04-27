@@ -137,6 +137,8 @@ public abstract class BasicTableDataTreePane extends DockingView implements Resp
                 nPanel.setShowText(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Basic_Stored_Procedure_Name_Tips"));
                 dg.setButtonEnabled(false);
             }
+        } else if (!BasicTableDataUtils.checkName(tempName)) {
+            dg.setButtonEnabled(false);
         } else {
             nPanel.setShowText(StringUtils.BLANK);
             dg.setButtonEnabled(true);

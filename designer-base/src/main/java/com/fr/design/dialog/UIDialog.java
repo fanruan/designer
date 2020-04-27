@@ -123,8 +123,11 @@ public abstract class UIDialog extends JDialog {
         // transfer focus to CurrentEditor
         inputMapAncestor.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "dialogOK");
         actionMap.put("dialogOK", new AbstractAction() {
-
+            @Override
             public void actionPerformed(ActionEvent evt) {
+                if (!okButton.isEnabled()) {
+                    return;
+                }
                 doOK();
             }
         });
