@@ -34,4 +34,8 @@ public class StyleManagerPane extends BasicPane {
 	public void update(ServerPreferenceConfig configManager) {
 		this.styleArrayPane.update(configManager);
 	}
+
+	public boolean isNamePermitted() {
+		return styleArrayPane.isNamePermitted();
+	}
 }

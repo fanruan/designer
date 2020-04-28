@@ -2,6 +2,8 @@ package com.fr.design.mainframe.chart.info;
 
 import com.fr.base.io.BaseBook;
 import com.fr.chartx.attr.ChartProvider;
+import com.fr.chartx.config.info.AbstractConfig;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.mainframe.burying.point.AbstractPointCollector;
 import com.fr.design.mainframe.template.info.TemplateInfo;
 import com.fr.design.mainframe.template.info.TemplateProcessInfo;
@@ -55,33 +57,26 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         collection(chartProvider, createTime, false);
     }
 
-    public void collection(ChartProvider chartProvider, String createTime, boolean isReuse) {
-        collection(chartProvider.getChartUuid(), chartProvider.getID(), createTime, isReuse);
-    }
-
     /**
      * 新建图表，保存状态
      */
-    public void collection(String chartId, String chartType, String createTime, boolean isReuse) {
+    public void collection(ChartProvider chartProvider, String createTime, boolean isReuse) {
+        String chartId = chartProvider.getChartUuid();
         if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
             return;
         }
-        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType, createTime, true, isReuse);
+        ChartInfo chartInfo = ChartInfo.newInstance(chartProvider, createTime, true, isReuse);
         chartInfoCacheMap.put(chartId, chartInfo);
-    }
-
-    public void updateChartPropertyTime(ChartProvider chartProvider) {
-        updateChartPropertyTime(chartProvider.getChartUuid(), chartProvider.getID());
     }
 
     /**
      * 图表编辑，更新编辑时间
      */
-    public void updateChartPropertyTime(String chartId, String chartType) {
-        if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
+    public void updateChartPropertyTime(ChartProvider chartProvider) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartProvider.getChartUuid())) {
             return;
         }
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, null);
+        ChartInfo chartInfo = getOrCreateChartInfo(chartProvider);
 
         //更新编辑时间
         chartInfo.updatePropertyTime();
@@ -90,28 +85,61 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
         chartInfo.resetIdleDayCount();
     }
 
-    public void updateChartTypeTime(ChartProvider chartProvider, String oldType) {
-        updateChartTypeTime(chartProvider.getChartUuid(), chartProvider.getID(), oldType);
-    }
-
     /**
-     * 图表类型变化，更新类型和类型确认时间
+     * 图表编辑，更新编辑时间
      */
-    public void updateChartTypeTime(String chartId, String chartType, String oldType) {
-        if (!shouldCollectInfo() || StringUtils.isEmpty(chartId)) {
+    public void updateChartConfig(ChartProvider chartProvider, ConfigType configType, AbstractConfig config) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartProvider.getChartUuid())) {
             return;
         }
+        ChartInfo chartInfo = getOrCreateChartInfo(chartProvider);
 
-        ChartInfo chartInfo = getOrCreateChartInfo(chartId, chartType, oldType);
-
-        //更新类型确认时间和类型
-        chartInfo.updateChartType(chartType);
+        //更新对应的配置
+        chartInfo.updateChartConfig(configType, config);
 
         //重置计数
         chartInfo.resetIdleDayCount();
     }
 
-    private ChartInfo getOrCreateChartInfo(String chartId, String chartType, String oldType) {
+    /**
+     * 图表子类型更新
+     */
+    public void updateChartMiniType(ChartProvider chartProvider) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartProvider.getChartUuid())) {
+            return;
+        }
+        ChartInfo chartInfo = getOrCreateChartInfo(chartProvider);
+
+        //图表子类型更新
+        chartInfo.resetChartConfigInfo(chartProvider);
+
+        //重置计数
+        chartInfo.resetIdleDayCount();
+    }
+
+    /**
+     * 图表类型变化，更新类型和类型确认时间
+     */
+    public void updateChartTypeTime(ChartProvider chartProvider, String oldType) {
+        if (!shouldCollectInfo() || StringUtils.isEmpty(chartProvider.getChartUuid())) {
+            return;
+        }
+
+        ChartInfo chartInfo = getOrCreateChartInfo(chartProvider, oldType);
+
+        //更新类型确认时间和类型
+        chartInfo.updateChartType(chartProvider);
+
+        //重置计数
+        chartInfo.resetIdleDayCount();
+    }
+
+    private ChartInfo getOrCreateChartInfo(ChartProvider chartProvider) {
+        return getOrCreateChartInfo(chartProvider, null);
+    }
+
+    private ChartInfo getOrCreateChartInfo(ChartProvider chartProvider, String oldType) {
+        String chartId = chartProvider.getChartUuid();
         //缓存中有从缓存中拿
         if (chartInfoCacheMap.containsKey(chartId)) {
             return chartInfoCacheMap.get(chartId);
@@ -123,7 +151,7 @@ public class ChartInfoCollector extends AbstractPointCollector<ChartInfo> {
             return chartInfo;
         }
         //都没有的话创建一个并加入到缓存中
-        ChartInfo chartInfo = ChartInfo.newInstance(chartId, chartType);
+        ChartInfo chartInfo = ChartInfo.newInstance(chartProvider);
         if (StringUtils.isNotEmpty(oldType)) {
             chartInfo.updateFirstType(oldType);
         }

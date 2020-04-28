@@ -29,6 +29,7 @@ import com.fr.van.chart.designer.type.AbstractVanChartTypePane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.CardLayout;
 import java.awt.Component;
@@ -192,7 +193,7 @@ public class VanChartCustomPlotPane extends AbstractVanChartTypePane {
             return;
         }
 
-        Map<CustomPlotType, TopDefinitionProvider> newDefinitionMap = new HashMap<CustomPlotType, TopDefinitionProvider>();
+        Map<CustomPlotType, TopDefinitionProvider> newDefinitionMap = new LinkedHashMap<CustomPlotType, TopDefinitionProvider>();
 
         VanChartCustomPlot customPlot = (VanChartCustomPlot) chart.getPlot();
         for (int i = 0; i < customPlot.getCustomPlotList().size(); i++) {

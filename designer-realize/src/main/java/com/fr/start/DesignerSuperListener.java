@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class DesignerSuperListener {
 
     private static final DesignerSuperListener INSTANCE =  new DesignerSuperListener();
-    private static final int ONCE_DELAY = 90;
+    private static final int ONCE_DELAY = 180;
     private static final int FIXED_DELAY = 0;
     private static final int FIXED_FREQ = 2;
 
@@ -116,6 +116,7 @@ public class DesignerSuperListener {
             @Override
             protected void okEvent() {
                 dispose();
+                DesignerLauncher.getInstance().exit();
             }
 
             @Override
@@ -125,7 +126,6 @@ public class DesignerSuperListener {
             }
         };
         dialog.setVisible(true);
-        DesignerLauncher.getInstance().exit();
     }
 
     private void startFallBackListener() {

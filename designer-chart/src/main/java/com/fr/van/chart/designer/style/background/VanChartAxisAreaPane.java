@@ -10,8 +10,11 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.style.color.ColorSelectBox;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.VanChartAttrHelper;
+import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartRectanglePlot;
+import com.fr.plugin.chart.type.LineType;
 import com.fr.van.chart.designer.TableLayout4VanChartHelper;
+import com.fr.van.chart.designer.component.LineTypeComboBox;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -20,13 +23,14 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
 /**
  * 样式-背景-绘图区背景-坐标轴图表特有（间隔背景、网格线、警戒线）
  */
 public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     private static final long serialVersionUID = -1880497996650835504L;
+
+    private static final int PREFERRED_WIDTH = 100;
 
     protected ColorSelectBox horizontalGridLine;
     protected ColorSelectBox verticalGridLine;
@@ -40,22 +44,20 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     private ColorSelectBox verticalColorBackground;
     protected BackgroundListControlPane customIntervalBackground;
 
-    //线型支持虚线 恢复用注释。取消注释。
-//    private LineTypeComboBox horizonLineType;//横向线型
-//    private LineTypeComboBox verticalLineType;//纵向线型
-//    private JPanel horizontalColorPane;
-//    private JPanel verticalColorPane;
+    private LineTypeComboBox horizonLineType;//横向线型
+    private LineTypeComboBox verticalLineType;//纵向线型
+    private JPanel horizontalColorPane;
+    private JPanel verticalColorPane;
 
     public VanChartAxisAreaPane() {
         initComponents();
     }
 
     protected void initComponents() {
-        horizontalGridLine = new ColorSelectBox(100);
-        verticalGridLine = new ColorSelectBox(100);
-        //线型支持虚线 恢复用注释。取消注释。
-//        horizonLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
-//        verticalLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.NORMAL, LineType.DASH});
+        horizontalGridLine = new ColorSelectBox(PREFERRED_WIDTH);
+        verticalGridLine = new ColorSelectBox(PREFERRED_WIDTH);
+        horizonLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
+        verticalLineType = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
 
         double p = TableLayout.PREFERRED;
         double f = TableLayout.FILL;
@@ -74,78 +76,58 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
         this.add(panel, BorderLayout.CENTER);
     }
 
-    //线型支持虚线 恢复用注释。删除下面方法。
     protected JPanel createGridLinePane() {
-        horizontalGridLine = new ColorSelectBox(100);
-        verticalGridLine = new ColorSelectBox(100);
-        Component[][] components = new Component[][]{
-                new Component[]{null, null},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal")), horizontalGridLine},
-                new Component[]{new UILabel(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical")), verticalGridLine},
-        };
-        double p = TableLayout.PREFERRED;
-        double f = TableLayout.FILL;
-        double e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] row = new double[components.length];
-        Arrays.fill(row, p);
-        double[] col = {f, e};
-        JPanel panel = TableLayout4VanChartHelper.createGapTableLayoutPane(components, row, col);
-        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Chart_Grid_Line"), panel);
-    }
 
-    //线型支持虚线 恢复用注释。取消注释。
-//    protected JPanel createGridLinePane() {
-//
-//        Component[][] upComponent = new Component[][]{
-//                new Component[]{null, null},
-//                new Component[]{null, horizontalGridLine}
-//        };
-//        horizontalColorPane = TableLayout4VanChartHelper.createGapTableLayoutPane(upComponent);
-//
-//        Component[][] downComponent = new Component[][]{
-//                new Component[]{null,null},
-//                new Component[]{null, verticalGridLine}
-//        };
-//        verticalColorPane = TableLayout4VanChartHelper.createGapTableLayoutPane(downComponent);
-//
-//        horizonLineType.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (horizontalGridLine == null || horizonLineType == null){
-//                    return;
-//                }
-//                horizontalColorPane.setVisible(horizonLineType.getSelectedItem() != LineType.NONE);
-//            }
-//        });
-//
-//        verticalLineType.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (verticalGridLine == null || verticalLineType == null){
-//                    return;
-//                }
-//                verticalColorPane.setVisible(verticalLineType.getSelectedItem() != LineType.NONE);
-//            }
-//        });
-//
-//        checkColorBoxVisible();
-//
-//        JPanel horizonLineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), horizonLineType);
-//        JPanel horizontal = new JPanel(new BorderLayout());
-//        horizontal.add(horizonLineTypePane, BorderLayout.NORTH);
-//        horizontal.add(horizontalColorPane, BorderLayout.CENTER);
-//
-//        JPanel verticalLineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical"), verticalLineType);
-//        JPanel vertical = new JPanel(new BorderLayout());
-//        vertical.add(verticalLineTypePane, BorderLayout.NORTH);
-//        vertical.add(verticalColorPane, BorderLayout.CENTER);
-//
-//        JPanel panel = new JPanel(new BorderLayout(0, 4));
-//        panel.add(horizontal, BorderLayout.NORTH);
-//        panel.add(vertical, BorderLayout.CENTER);
-//
-//        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Grid_Line"), panel);
-//    }
+        Component[][] upComponent = new Component[][]{
+                new Component[]{null, null},
+                new Component[]{null, horizontalGridLine}
+        };
+        horizontalColorPane = TableLayout4VanChartHelper.createGapTableLayoutPane(upComponent);
+
+        Component[][] downComponent = new Component[][]{
+                new Component[]{null, null},
+                new Component[]{null, verticalGridLine}
+        };
+        verticalColorPane = TableLayout4VanChartHelper.createGapTableLayoutPane(downComponent);
+
+        horizonLineType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (horizontalGridLine == null || horizonLineType == null) {
+                    return;
+                }
+                horizontalColorPane.setVisible(horizonLineType.getSelectedItem() != LineType.NONE);
+            }
+        });
+
+        verticalLineType.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (verticalGridLine == null || verticalLineType == null) {
+                    return;
+                }
+                verticalColorPane.setVisible(verticalLineType.getSelectedItem() != LineType.NONE);
+            }
+        });
+
+        checkColorBoxVisible();
+
+        JPanel horizonLineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Direction_Horizontal"), horizonLineType);
+        JPanel horizontal = new JPanel(new BorderLayout());
+        horizontal.add(horizonLineTypePane, BorderLayout.NORTH);
+        horizontal.add(horizontalColorPane, BorderLayout.CENTER);
+
+        JPanel verticalLineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(Toolkit.i18nText("Fine-Design_Chart_Direction_Vertical"), verticalLineType);
+        JPanel vertical = new JPanel(new BorderLayout());
+        vertical.add(verticalLineTypePane, BorderLayout.NORTH);
+        vertical.add(verticalColorPane, BorderLayout.CENTER);
+
+        JPanel panel = new JPanel(new BorderLayout(0, 4));
+        panel.add(horizontal, BorderLayout.NORTH);
+        panel.add(vertical, BorderLayout.CENTER);
+
+        return TableLayout4VanChartHelper.createExpandablePaneWithTitle(Toolkit.i18nText("Fine-Design_Chart_Grid_Line"), panel);
+    }
 
     protected JPanel createAlertLinePane() {
         alertLine = getAlertLinePane();
@@ -227,13 +209,19 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     private void populateGridLine(VanChartRectanglePlot rectanglePlot) {
-        horizontalGridLine.setSelectObject(rectanglePlot.getDefaultYAxis().getMainGridColor());
-        verticalGridLine.setSelectObject(rectanglePlot.getDefaultXAxis().getMainGridColor());
-//线型支持虚线 恢复用注释。取消注释。
-//        horizonLineType.setSelectedItem(rectanglePlot.getDefaultYAxis().getGridLineType());
-//        verticalLineType.setSelectedItem(rectanglePlot.getDefaultXAxis().getGridLineType());
-    }
+        VanChartAxis defaultXAxis = rectanglePlot.getDefaultXAxis();
+        VanChartAxis defaultYAxis = rectanglePlot.getDefaultYAxis();
 
+        if (defaultXAxis != null) {
+            verticalGridLine.setSelectObject(defaultXAxis.getMainGridColor());
+            verticalLineType.setSelectedItem(defaultXAxis.getGridLineType());
+        }
+
+        if (defaultYAxis != null) {
+            horizontalGridLine.setSelectObject(defaultYAxis.getMainGridColor());
+            horizonLineType.setSelectedItem(defaultYAxis.getGridLineType());
+        }
+    }
 
     public void updateBean(Plot plot) {
         VanChartRectanglePlot rectanglePlot = (VanChartRectanglePlot) plot;
@@ -254,11 +242,18 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     private void updateGirdLine(VanChartRectanglePlot rectanglePlot) {
-        rectanglePlot.getDefaultYAxis().setMainGridColor(horizontalGridLine.getSelectObject());
-        rectanglePlot.getDefaultXAxis().setMainGridColor(verticalGridLine.getSelectObject());
-        //线型支持虚线 恢复用注释。取消注释。
-//        rectanglePlot.getDefaultYAxis().setGridLineType((LineType)horizonLineType.getSelectedItem());
-//        rectanglePlot.getDefaultXAxis().setGridLineType((LineType)verticalLineType.getSelectedItem());
+        VanChartAxis defaultXAxis = rectanglePlot.getDefaultXAxis();
+        VanChartAxis defaultYAxis = rectanglePlot.getDefaultYAxis();
+
+        if (defaultXAxis != null) {
+            defaultXAxis.setMainGridColor(verticalGridLine.getSelectObject());
+            defaultXAxis.setGridLineType((LineType) verticalLineType.getSelectedItem());
+        }
+
+        if (defaultYAxis != null) {
+            defaultYAxis.setMainGridColor(horizontalGridLine.getSelectObject());
+            defaultYAxis.setGridLineType((LineType) horizonLineType.getSelectedItem());
+        }
     }
 
     /**
@@ -278,13 +273,12 @@ public class VanChartAxisAreaPane extends BasicBeanPane<Plot> {
     }
 
     private void checkColorBoxVisible() {
-//线型支持虚线 恢复用注释。取消注释。
-//        if (horizontalColorPane != null && horizonLineType != null){
-//            horizontalColorPane.setVisible(horizonLineType.getSelectedItem() != LineType.NONE);
-//        }
-//
-//        if (verticalColorPane != null && verticalLineType != null){
-//            verticalColorPane.setVisible(verticalLineType.getSelectedItem() != LineType.NONE);
-//        }
+        if (horizontalColorPane != null && horizonLineType != null) {
+            horizontalColorPane.setVisible(horizonLineType.getSelectedItem() != LineType.NONE);
+        }
+
+        if (verticalColorPane != null && verticalLineType != null) {
+            verticalColorPane.setVisible(verticalLineType.getSelectedItem() != LineType.NONE);
+        }
     }
 }

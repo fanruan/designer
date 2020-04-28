@@ -34,7 +34,6 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
     private MobileComponentMarginPane marginPane;
     private MobileComponentLayoutIntervalPane intervalPane;
     private MobileBookMarkUsePane mobileBookMarkUsePane;
-    private MobileAdvanceInnerPane mobileAdvanceInnerPane;
 
     public TabMobileWidgetDefinePane(XCreator xCreator) {
         this.xCreator = xCreator;
@@ -72,10 +71,7 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
             intervalPane = new MobileComponentLayoutIntervalPane(FormTabPaddingAttrMark.XML_TAG);
             if (FormDesignerUtils.isAppRelayout(designer)) {
                 mobileBookMarkUsePane = new MobileBookMarkUsePane();
-                mobileAdvanceInnerPane = new MobileAdvanceInnerPane(xCreator);
                 innerAdvancePane.add(mobileBookMarkUsePane, BorderLayout.CENTER);
-                innerAdvancePane.add(mobileAdvanceInnerPane, BorderLayout.SOUTH);
-
             }
             innerAdvancePane.add(marginPane, BorderLayout.NORTH);
             UIExpandablePane advancePane = new UIExpandablePane(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Advanced"), 280, 20, innerAdvancePane);
@@ -105,9 +101,6 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         if (mobileBookMarkUsePane != null) {
             mobileBookMarkUsePane.populate(xCreator);
         }
-        if (mobileAdvanceInnerPane != null) {
-            mobileAdvanceInnerPane.populate();
-        }
     }
 
     @Override
@@ -123,9 +116,6 @@ public class TabMobileWidgetDefinePane extends MobileWidgetDefinePane {
         }
         if (mobileBookMarkUsePane != null) {
             mobileBookMarkUsePane.update(xCreator);
-        }
-        if (mobileAdvanceInnerPane != null) {
-            this.mobileAdvanceInnerPane.update();
         }
     }
 }

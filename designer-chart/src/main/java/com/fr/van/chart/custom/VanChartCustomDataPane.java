@@ -62,6 +62,7 @@ public class VanChartCustomDataPane extends ChartDataPane {
     public void update(ChartCollection collection){
         if(contentsTabPane != null) {
             contentsTabPane.updateBean(collection);
+            updateBuryingPoint(collection);
         }
     }
 }
