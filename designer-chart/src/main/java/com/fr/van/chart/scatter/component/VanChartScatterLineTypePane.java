@@ -15,12 +15,12 @@ import java.awt.Component;
 public class VanChartScatterLineTypePane extends VanChartLineTypePane {
 
     @Override
-    protected void createLineStyle() {
+    protected UIButtonGroup<LineStyle> createLineStyle() {
         String[] textArray = new String[]{
                 Toolkit.i18nText("Fine-Design_Chart_Normal_Line"),
                 Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
 
-        lineStyle = new UIButtonGroup<>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
+        return new UIButtonGroup<>(textArray, new LineStyle[]{LineStyle.NORMAL, LineStyle.CURVE});
     }
 
     @Override

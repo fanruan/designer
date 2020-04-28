@@ -5,7 +5,7 @@ import java.awt.Component;
 /**
  * 线型+线宽+空值断开
  */
-public class VanChartLineWidthPane extends VanChartLineTypePane {
+public class VanChartLineWidthPane extends VanChartLineTypePaneWithoutDashed {
     private static final long serialVersionUID = 4537158946119294689L;
 
     @Override

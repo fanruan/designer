@@ -34,7 +34,7 @@ public class VanChartLineTypePane extends BasicPane {
 
     private LineTypeComboBox lineTypeComboBox;//线型
     private UISpinner lineWidthSpinner;//线宽
-    protected UIButtonGroup<LineStyle> lineStyle;//形态
+    private UIButtonGroup<LineStyle> lineStyle;//形态
     private UIButtonGroup nullValueBreak;//空值断开
 
     private JPanel lineWidthPane;
@@ -44,7 +44,7 @@ public class VanChartLineTypePane extends BasicPane {
 
         JPanel typeAndWidthPane = createTypeAndWidthPane();
 
-        createLineStyle();
+        lineStyle = createLineStyle();
 
         nullValueBreak = new UIButtonGroup(new String[]{
                 Toolkit.i18nText("Fine-Design_Chart_Open"),
@@ -72,7 +72,7 @@ public class VanChartLineTypePane extends BasicPane {
 
     private JPanel createTypeAndWidthPane() {
 
-        lineTypeComboBox = new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
+        lineTypeComboBox = createLineType();
 
         lineWidthSpinner = new UISpinner(LINE_WIDTH_MIN_VALUE, Integer.MAX_VALUE, LINE_WIDTH_DIERTA_VALUE, LINE_WIDTH_DEFAULT_VALUE);
 
@@ -85,6 +85,7 @@ public class VanChartLineTypePane extends BasicPane {
         });
 
         Component[][] lineTypeComps = new Component[][]{
+                new Component[]{null, null},
                 new Component[]{new UILabel(Toolkit.i18nText("Fine-Design_Chart_Line_Style")), lineTypeComboBox}
         };
         Component[][] lineWidthComps = new Component[][]{
@@ -94,10 +95,10 @@ public class VanChartLineTypePane extends BasicPane {
         };
 
         double p = TableLayout.PREFERRED, f = TableLayout.FILL, e = TableLayout4VanChartHelper.EDIT_AREA_WIDTH;
-        double[] row = {p}, col = {f, e};
+        double[] col = {f, e};
 
-        JPanel lineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineTypeComps, row, col);
-        lineWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineWidthComps, row, col);
+        JPanel lineTypePane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineTypeComps, new double[]{p, p}, col);
+        lineWidthPane = TableLayout4VanChartHelper.createGapTableLayoutPane(lineWidthComps, new double[]{p}, col);
 
         JPanel contentPane = new JPanel(new BorderLayout(0, 6));
 
@@ -107,10 +108,17 @@ public class VanChartLineTypePane extends BasicPane {
         return contentPane;
     }
 
-    protected void createLineStyle() {
-        String[] textArray = new String[]{Toolkit.i18nText("Fine-Design_Chart_Normal_Line"),
-                Toolkit.i18nText("Fine-Design_Chart_StepLine"), Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
-        lineStyle = new UIButtonGroup<LineStyle>(textArray, LineStyle.values());
+    protected LineTypeComboBox createLineType() {
+        return new LineTypeComboBox(new LineType[]{LineType.NONE, LineType.SOLID, LineType.DASHED});
+    }
+
+    protected UIButtonGroup<LineStyle> createLineStyle() {
+        String[] textArray = new String[]{
+                Toolkit.i18nText("Fine-Design_Chart_Normal_Line"),
+                Toolkit.i18nText("Fine-Design_Chart_StepLine"),
+                Toolkit.i18nText("Fine-Design_Chart_CurveLine")};
+
+        return new UIButtonGroup<>(textArray, LineStyle.values());
     }
 
     protected Component[][] createContentComponent(Component[] lineStyleComponent, Component[] nullValueBreakComponent) {
@@ -128,7 +136,7 @@ public class VanChartLineTypePane extends BasicPane {
 
     private void checkLineStyle() {
         if (lineStylePane != null && lineTypeComboBox != null) {
-            lineStylePane.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(),LineType.NONE));
+            lineStylePane.setVisible(!ComparatorUtils.equals(lineTypeComboBox.getSelectedItem(), LineType.NONE));
         }
     }
 
