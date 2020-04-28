@@ -359,7 +359,7 @@ public class EnvChangeEntrance {
      */
     private String formatBranch(String branch){
         if(branch.contains("#")){
-            return branch.substring(branch.lastIndexOf("#") + 1, branch.length() - 13);
+            return branch.substring(branch.lastIndexOf("-") + 1, branch.length() - 13);
         }
         return branch;
     }
