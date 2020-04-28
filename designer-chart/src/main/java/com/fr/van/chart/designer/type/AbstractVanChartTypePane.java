@@ -105,6 +105,7 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             cloneOldPlot2New(oldPlot, newPlot);
             chart.setPlot(newPlot);
             resetChartAttr4SamePlot(chart);
+            ChartInfoCollector.getInstance().updateChartMiniType(chart);
         } else if(!samePlot){
             //不同的图表类型切換
             resetChartAttr(chart, newPlot);
@@ -112,7 +113,6 @@ public abstract class AbstractVanChartTypePane extends AbstractChartTypePane<Cha
             newPlot.setCategoryNum(oldPlot.getCategoryNum());
             //切换类型埋点
             ChartInfoCollector.getInstance().updateChartTypeTime(chart, oldPlot.getPlotID());
-
         }
         if(chart instanceof VanChart
                 && !acceptDefinition(((VanChart) chart).getChartDataDefinition(), newPlot)) {

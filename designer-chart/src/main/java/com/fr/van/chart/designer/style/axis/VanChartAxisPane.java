@@ -3,8 +3,10 @@ package com.fr.van.chart.designer.style.axis;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
 import com.fr.chart.chartglyph.ConditionCollection;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.beans.BasicBeanPane;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.general.ComparatorUtils;
 import com.fr.plugin.chart.attr.axis.VanChartAxis;
 import com.fr.plugin.chart.attr.plot.VanChartAxisPlot;
@@ -16,12 +18,12 @@ import com.fr.van.chart.designer.style.VanChartStylePane;
 import com.fr.van.chart.designer.style.axis.component.VanChartAxisButtonPane;
 
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 /**
  * 样式-坐标轴界面
@@ -237,6 +239,12 @@ public class VanChartAxisPane extends BasicBeanPane<VanChart> {
 
         updateBean(plot);
 
+        updateBuryingPoint(chart);
+    }
+
+    protected void updateBuryingPoint(VanChart chart) {
+        //坐标轴埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.AXIS, chart.getBuryingPointAxisConfig());
     }
 
     public void updateBean(Plot plot){

@@ -4,7 +4,9 @@ import com.fr.chart.base.DataSeriesCondition;
 import com.fr.chart.chartattr.Chart;
 import com.fr.chart.chartattr.Plot;
 import com.fr.chart.chartglyph.ConditionAttr;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.attr.plot.VanChartPlot;
 import com.fr.plugin.chart.base.AttrLabel;
 import com.fr.van.chart.designer.AbstractVanChartScrollPane;
@@ -70,6 +72,8 @@ public class VanChartLabelPane extends AbstractVanChartScrollPane<Chart> {
         if (attrLabel != null) {
             attrList.addDataSeriesCondition(attrLabel);
         }
+        //标签埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.LABEL, chart.getBuryingPointLabelConfig());
     }
 
     @Override

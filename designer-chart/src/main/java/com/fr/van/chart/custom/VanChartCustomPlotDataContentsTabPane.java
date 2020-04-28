@@ -14,7 +14,7 @@ import com.fr.van.chart.custom.component.VanChartDataPane;
 
 import javax.swing.JPanel;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,7 +118,7 @@ public class VanChartCustomPlotDataContentsTabPane extends VanChartCustomPlotTab
         }
         try {
 
-            Map<CustomPlotType, TopDefinitionProvider> definitionMap = new HashMap<CustomPlotType, TopDefinitionProvider>();
+            Map<CustomPlotType, TopDefinitionProvider> definitionMap = new LinkedHashMap<CustomPlotType, TopDefinitionProvider>();
 
             //已经有的数据配置不允许重置
 

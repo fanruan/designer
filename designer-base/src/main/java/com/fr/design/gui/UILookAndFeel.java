@@ -29,11 +29,11 @@ import com.fr.design.gui.itoolbar.UIToolBarBorder;
 import com.fr.design.gui.itoolbar.UIToolBarSeparatorUI;
 import com.fr.design.gui.itooltip.UIToolTipBorder;
 import com.fr.design.gui.itree.UITreeUI;
+import com.fr.design.i18n.Toolkit;
 import com.fr.log.FineLoggerFactory;
 import com.fr.general.IOUtils;
 
-import javax.swing.ImageIcon;
-import javax.swing.UIDefaults;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.BorderUIResource;
@@ -51,6 +51,12 @@ import java.net.URL;
  * Time: 上午9:38
  */
 public class UILookAndFeel extends MetalLookAndFeel {
+
+
+    static {
+        UIManager.put("ProgressMonitor.progressText", Toolkit.i18nText("Fine-Design_Basic_ProgressBar_Title"));
+        UIManager.put("OptionPane.cancelButtonText", Toolkit.i18nText("Fine-Design_Basic_Cancel"));
+    }
 
     public static boolean CONTROL_PANEL_INSTANTIATED = false;
 

@@ -5,6 +5,7 @@ import com.fr.base.BaseUtils;
 import com.fr.base.Style;
 import com.fr.base.Utils;
 import com.fr.chart.base.TextAttr;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.formula.TinyFormulaPane;
 import com.fr.design.gui.frpane.UIBubbleFloatPane;
 import com.fr.design.gui.ibutton.UIButtonGroup;
@@ -16,6 +17,7 @@ import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.PaneTitleConstants;
 import com.fr.design.mainframe.chart.gui.style.ChartTextAttrPane;
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.design.utils.gui.UIComponentUtils;
 import com.fr.plugin.chart.attr.VanChartTitle;
 import com.fr.plugin.chart.vanchart.VanChart;
@@ -362,6 +364,9 @@ public class VanChartTitlePane extends AbstractVanChartScrollPane<VanChart> {
         title.setFloatPercentY(customFloatPositionPane.getFloatPosition_y());
         textAttrPane.update(textAttr);
         backgroundPane.update(title);
+
+        //标题埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TITLE, chart.getBuryingPointTitleConfig());
     }
 
 }

@@ -1,8 +1,9 @@
 package com.fr.van.chart.custom.style;
 
 import com.fr.chart.chartattr.Chart;
+import com.fr.chartx.config.info.constant.ConfigType;
 import com.fr.design.dialog.BasicScrollPane;
-
+import com.fr.design.mainframe.chart.info.ChartInfoCollector;
 import com.fr.plugin.chart.custom.VanChartCustomPlot;
 import com.fr.van.chart.designer.style.VanChartStylePane;
 
@@ -63,7 +64,8 @@ public class VanChartCustomTooltipPane extends BasicScrollPane<Chart> {
         }
 
         tooltipPane.updateBean((VanChartCustomPlot)chart.getPlot());
-
+        //提示埋点
+        ChartInfoCollector.getInstance().updateChartConfig(chart, ConfigType.TOOLTIP, chart.getBuryingPointTooltipConfig());
     }
 
     @Override
