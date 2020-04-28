@@ -20,7 +20,7 @@ import com.fr.van.chart.designer.other.condition.item.VanChartAreaFillColorCondi
 import com.fr.van.chart.designer.other.condition.item.VanChartDataSheetContentPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartEffectConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartLabelConditionPane;
-import com.fr.van.chart.designer.other.condition.item.VanChartLineTypeConditionPane;
+import com.fr.van.chart.designer.other.condition.item.VanChartLineTypeConditionPaneWithoutDashed;
 import com.fr.van.chart.designer.other.condition.item.VanChartMarkerConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartSeriesColorConditionPane;
 import com.fr.van.chart.designer.other.condition.item.VanChartTooltipConditionPane;
@@ -50,7 +50,7 @@ public class VanChartAreaConditionPane extends DataSeriesConditionPane {
         classPaneMap.put(AttrBackground.class, new VanChartSeriesColorConditionPane(this));
         classPaneMap.put(VanChartAttrTrendLine.class, new VanChartTrendLineConditionPane(this));
         classPaneMap.put(AttrAreaSeriesFillColorBackground.class, new VanChartAreaFillColorConditionPane(this, plot));
-        classPaneMap.put(VanChartAttrLine.class, new VanChartLineTypeConditionPane(this));
+        classPaneMap.put(VanChartAttrLine.class, new VanChartLineTypeConditionPaneWithoutDashed(this));
         classPaneMap.put(AttrTooltip.class, new VanChartTooltipConditionPane(this, plot));
         //是否使用数据表
         if (plot.getDataSheet().isVisible()) {

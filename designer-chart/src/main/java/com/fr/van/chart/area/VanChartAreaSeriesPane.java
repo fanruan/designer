@@ -7,6 +7,8 @@ import com.fr.design.layout.TableLayoutHelper;
 import com.fr.design.mainframe.chart.gui.ChartStylePane;
 import com.fr.van.chart.column.VanChartCustomStackAndAxisConditionPane;
 import com.fr.van.chart.designer.component.VanChartBeautyPane;
+import com.fr.van.chart.designer.component.VanChartLineTypePane;
+import com.fr.van.chart.designer.component.VanChartLineTypePaneWithoutDashed;
 import com.fr.van.chart.line.VanChartLineSeriesPane;
 
 import javax.swing.JPanel;
@@ -48,5 +50,9 @@ public class VanChartAreaSeriesPane extends VanChartLineSeriesPane {
     //风格
     protected VanChartBeautyPane createStylePane() {
         return new VanChartBeautyPane();
+    }
+
+    protected VanChartLineTypePane getLineTypePane() {
+        return new VanChartLineTypePaneWithoutDashed();
     }
 }
