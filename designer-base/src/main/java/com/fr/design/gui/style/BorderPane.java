@@ -229,6 +229,16 @@ public class BorderPane extends AbstractBasicStylePane implements GlobalNameObse
         cellBorderStyle.setVerticalStyle(verticalToggleButton.isSelected() ? lineStyle : Constants.LINE_NONE);
         cellBorderStyle.setHorizontalColor(lineColor);
         cellBorderStyle.setHorizontalStyle(horizontalToggleButton.isSelected() ? lineStyle : Constants.LINE_NONE);
+        if (leftToggleButton.isSelected() && bottomToggleButton.isSelected() && rightToggleButton.isSelected() && topToggleButton.isSelected()) {
+            outerToggleButton.setSelected(true);
+        } else {
+            outerToggleButton.setSelected(false);
+        }
+        if (verticalToggleButton.isSelected() && horizontalToggleButton.isSelected()) {
+            innerToggleButton.setSelected(true);
+        } else {
+            innerToggleButton.setSelected(false);
+        }
         return cellBorderStyle;
     }
 
