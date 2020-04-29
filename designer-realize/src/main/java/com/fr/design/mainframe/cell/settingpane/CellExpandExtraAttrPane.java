@@ -2,7 +2,7 @@ package com.fr.design.mainframe.cell.settingpane;
 
 import com.fr.design.ExtraDesignClassManager;
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.fun.CellExpandAttrProvider;
+import com.fr.design.fun.CellExpandAttrPanelProvider;
 import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
 import com.fr.event.EventDispatcher;
@@ -49,7 +49,7 @@ public class CellExpandExtraAttrPane extends JPanel {
         PluginFilter filter = new PluginFilter() {
             @Override
             public boolean accept(PluginContext pluginContext) {
-                return pluginContext.contain(PluginModule.ExtraDesign, CellExpandAttrProvider.MARK_STRING);
+                return pluginContext.contain(PluginModule.ExtraDesign, CellExpandAttrPanelProvider.MARK_STRING);
             }
         };
         PluginEventListener listener = new PluginEventListener() {
@@ -103,9 +103,9 @@ public class CellExpandExtraAttrPane extends JPanel {
             extras = new ArrayList<>();
         }
         extras.clear();
-        Set<CellExpandAttrProvider> attrProviders = ExtraDesignClassManager.getInstance().getArray(CellExpandAttrProvider.MARK_STRING);
+        Set<CellExpandAttrPanelProvider> attrProviders = ExtraDesignClassManager.getInstance().getArray(CellExpandAttrPanelProvider.MARK_STRING);
         if (attrProviders != null) {
-            for (CellExpandAttrProvider attrProvider : attrProviders) {
+            for (CellExpandAttrPanelProvider attrProvider : attrProviders) {
                 BasicBeanPane<TemplateCellElement> extra = attrProvider.createPanel();
                 if (extra != null) {
                     extras.add(extra);
