@@ -131,7 +131,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
             gradientButton.setSelected(false);
             cardLayout.show(changeColorSetPane, "acc");
 
-            if (colorList.size() > 0) {
+            if (!colorList.isEmpty()) {
                 colorAdjustPane.updateColor(colorList.toArray(new Color[colorList.size()]));
             } else {
                 List<Color> resultList = new ArrayList<>();
