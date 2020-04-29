@@ -21,11 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static com.fr.plugin.observer.PluginEventType.AfterActive;
-import static com.fr.plugin.observer.PluginEventType.AfterInstall;
 import static com.fr.plugin.observer.PluginEventType.AfterRun;
 import static com.fr.plugin.observer.PluginEventType.AfterStop;
-import static com.fr.plugin.observer.PluginEventType.AfterUpdate;
 
 /**
  * @author yaohwu
@@ -60,10 +57,6 @@ public class CellExpandExtraAttrPane extends JPanel {
         };
         EventDispatcher.listen(AfterRun, listener, filter);
         EventDispatcher.listen(AfterStop, listener, filter);
-        EventDispatcher.listen(AfterInstall, listener, filter);
-        EventDispatcher.listen(AfterUpdate, listener, filter);
-        EventDispatcher.listen(AfterActive, listener, filter);
-        EventDispatcher.listen(AfterActive, listener, filter);
     }
 
     public static CellExpandExtraAttrPane getInstance() {
