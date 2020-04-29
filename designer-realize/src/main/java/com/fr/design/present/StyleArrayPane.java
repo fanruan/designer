@@ -4,6 +4,7 @@ import com.fr.base.Style;
 import com.fr.config.ServerPreferenceConfig;
 import com.fr.config.StyleMap;
 import com.fr.design.dialog.FineJOptionPane;
+import com.fr.design.gui.NameInspector;
 import com.fr.design.gui.controlpane.AbstractNameableCreator;
 import com.fr.design.gui.controlpane.JListControlPane;
 import com.fr.design.gui.controlpane.NameableCreator;
@@ -35,7 +36,7 @@ public class StyleArrayPane extends JListControlPane {
 		super();
 		this.addModNameActionListener(new ModNameActionListener() {
 			public void nameModed(int index, String oldName, String newName) {
-				if (ComparatorUtils.equals(oldName, newName)) {
+				if (ComparatorUtils.equals(oldName, newName) || ComparatorUtils.equals(newName, NameInspector.ILLEGAL_NAME_HOLDER)) {
 					return;
 				}
 				namePermitted = true;
