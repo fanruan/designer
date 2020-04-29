@@ -12,6 +12,7 @@ import com.fr.design.style.background.gradient.FixedGradientBar;
 
 import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,6 +26,7 @@ import java.awt.event.ActionListener;
 
 /**
  * 预定义的图表配色界面.
+ *
  * @author kunsnat E-mail:kunsnat@gmail.com
  * @version 创建时间：2013-8-21 下午03:16:27
  */
@@ -78,7 +80,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
         };
 
         this.setLayout(new BorderLayout());
-        this.add(TableLayoutHelper.createTableLayoutPane(components,rowSize,columnSize), BorderLayout.WEST);
+        this.add(TableLayoutHelper.createTableLayoutPane(components, rowSize, columnSize), BorderLayout.WEST);
     }
 
     private void initListener() {
@@ -131,6 +133,11 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
             if (colorList.size() > 0) {
                 colorAdjustPane.updateColor(colorList.toArray(new Color[colorList.size()]));
+            } else {
+                List<Color> resultList = new ArrayList<>();
+                Collections.addAll(resultList, ChartColorAdjustPane.DEFAULT_COLORS);
+                condition.setColorList(resultList);
+                colorAdjustPane.updateColor(ChartColorAdjustPane.DEFAULT_COLORS);
             }
         }
     }
@@ -141,7 +148,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
 
         List<Color> colorList = new ArrayList<Color>();
 
-        if(gradientButton.isSelected()) {
+        if (gradientButton.isSelected()) {
             chartColorMatching.setGradient(true);
 
             Color start = colorGradient.getSelectColorPointBtnP1().getColorInner();
@@ -152,7 +159,7 @@ public class ChartPreFillStylePane extends BasicBeanPane<ChartColorMatching> {
             chartColorMatching.setGradient(false);
 
             Color[] colors = colorAdjustPane.getColors();
-            for(Color color : colors) {
+            for (Color color : colors) {
                 colorList.add(color);
             }
         }
