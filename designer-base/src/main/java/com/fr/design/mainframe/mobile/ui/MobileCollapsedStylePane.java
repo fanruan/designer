@@ -1,8 +1,6 @@
 package com.fr.design.mainframe.mobile.ui;
 
 import com.fr.design.beans.BasicBeanPane;
-import com.fr.design.constants.LayoutConstants;
-import com.fr.design.designer.IntervalConstants;
 import com.fr.design.gui.ibutton.ModeButtonGroup;
 import com.fr.design.gui.ibutton.UIRadioButton;
 import com.fr.design.gui.icheckbox.UICheckBox;
@@ -10,9 +8,7 @@ import com.fr.design.gui.ilable.UILabel;
 import com.fr.design.gui.itextfield.UITextField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.layout.TableLayout;
 import com.fr.design.layout.TableLayoutHelper;
-import com.fr.design.layout.VerticalFlowLayout;
 import com.fr.design.mainframe.widget.UITitleSplitLine;
 import com.fr.design.style.color.NewColorSelectBox;
 import com.fr.design.utils.gui.GUICoreUtils;
@@ -21,13 +17,7 @@ import com.fr.form.ui.mobile.MobileChartCollapsedStyle;
 import com.fr.form.ui.mobile.MobileCollapsedStyle;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 /**
  * @author hades
@@ -35,6 +25,13 @@ import java.awt.FlowLayout;
  * Created by hades on 2020/2/13
  */
 public class MobileCollapsedStylePane extends BasicBeanPane<MobileCollapsedStyle> {
+
+    public final static Color THEME_COLOR = Color.decode("#2F8EF1");
+    public final static Font TEXT_FONT = new Font("Default", Font.PLAIN, 12);
+    public final static Color TEXT_FONT_COLOR = Color.decode("#333334");
+    public final static int LABEL_WIDTH = 96;
+    public final static int COMPONENT_HEIGHT = 20;
+    public final static int COMPONENT_WIDTH = 160;
 
     private UICheckBox showButtonCheck;
     private NewColorSelectBox buttonColorBox;
@@ -44,74 +41,94 @@ public class MobileCollapsedStylePane extends BasicBeanPane<MobileCollapsedStyle
 
 
     public MobileCollapsedStylePane() {
-        TitledBorder titledBorder = GUICoreUtils.createTitledBorder(com.fr.design.i18n.Toolkit.i18nText("Fine-Design_Report_Set"), null);
-        VerticalFlowLayout layout = new VerticalFlowLayout(FlowLayout.LEADING, 0, 10);
-        layout.setAlignLeft(true);
-        this.setBorder(titledBorder);
-        this.setLayout(layout);
-        this.add(createLinePane());
-        this.add(createSettingPane());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(BorderFactory.createEmptyBorder( 10, 5, 0, 5));
+
+        JPanel settingPane = this.createSettingPane();
+        this.createConfigPanes(settingPane);
+
+        this.add(settingPane);
     }
 
     private JPanel createSettingPane() {
-        JPanel settingPane = FRGUIPaneFactory.createVerticalFlowLayout_Pane(true, FlowLayout.LEADING, 0, 0);
-        UITitleSplitLine splitLine = new UITitleSplitLine(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button"), 520);
-        splitLine.setPreferredSize(new Dimension(520, 20));
-        UILabel showButtonLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button"));
-        showButtonCheck = new UICheckBox(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button_On_Right"));
-        showButtonCheck.setPreferredSize(new Dimension(140, 24));
-        UILabel buttonColorLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button_Color"));
-        buttonColorBox = new NewColorSelectBox(137);
-        UILabel foldedLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Folded_Hint"));
-        foldedTextFiled = new UITextField();
-        UILabel unfoldedLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_UnFolded_Hint"));
-        unfoldedTextFiled = new UITextField();
-        UILabel defaultStateLabel = new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Default_State"));
-        buttonGroup = new ModeButtonGroup<>();
-        UIRadioButton foldedButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Fold"));
-        foldedButton.setSelected(true);
-        UIRadioButton unfoldedButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Unfold"));
-        buttonGroup.put(CollapseState.FOLDED, foldedButton);
-        buttonGroup.put(CollapseState.UNFOLDED, unfoldedButton);
-        JPanel flowLeftPane = FRGUIPaneFactory.createNormalFlowInnerContainer_M_Pane();
-        flowLeftPane.add(foldedButton);
-        flowLeftPane.add(unfoldedButton);
-        Component[][] northComponents = new Component[][] {
-                new Component[] {showButtonLabel, showButtonCheck}
-        };
-        Component[][] southComponents = new Component[][] {
-                new Component[] {defaultStateLabel, flowLeftPane}
-        };
-        double f = TableLayout.FILL;
-        double p = TableLayout.PREFERRED;
-        double[] rowSize = {p, p, p, p, p};
-        double[] colSize = {p, f};
-        int[][] rowCount = {{1, 1}, {1, 1}, {1, 1}};
-        Component[][] centerComponents = new Component[][] {
-                new Component[] {buttonColorLabel, buttonColorBox},
-                new Component[] {foldedLabel, foldedTextFiled},
-                new Component[] {unfoldedLabel, unfoldedTextFiled},
-        };
-        JPanel northPane = TableLayoutHelper.createGapTableLayoutPane(northComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W2, IntervalConstants.INTERVAL_L1);
-        JPanel southPane = TableLayoutHelper.createGapTableLayoutPane(southComponents, TableLayoutHelper.FILL_LASTCOLUMN, IntervalConstants.INTERVAL_W1, IntervalConstants.INTERVAL_L1);
-        final JPanel centerPane = TableLayoutHelper.createGapTableLayoutPane(centerComponents, rowSize, colSize, rowCount, LayoutConstants.HGAP_LARGE, LayoutConstants.VGAP_SMALL);
-        JPanel panel = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        panel.add(northPane, BorderLayout.NORTH);
-        panel.add(centerPane, BorderLayout.CENTER);
-        panel.add(southPane, BorderLayout.SOUTH);
-        settingPane.add(splitLine);
-        settingPane.add(panel);
-        showButtonCheck.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                centerPane.setVisible(showButtonCheck.isSelected());
-            }
-        });
+        JPanel settingPane = FRGUIPaneFactory.createNormalFlowInnerContainer_S_Pane();
+        settingPane.setBorder(GUICoreUtils.createTitledBorder(Toolkit.i18nText("Fine-Design_Report_Set"), THEME_COLOR));
         return settingPane;
     }
 
-    protected JPanel createLinePane() {
-        return FRGUIPaneFactory.createBorderLayout_S_Pane();
+    protected UILabel createLabel(String text) {
+        UILabel label = new UILabel(text, SwingConstants.RIGHT);
+        label.setForeground(TEXT_FONT_COLOR);
+        label.setFont(TEXT_FONT);
+        return label;
+    }
+
+    protected void createConfigPanes(JPanel settingPane) {
+        JPanel collapsedButtonConfigPane = this.createCollapsedButtonConfigPane();
+        settingPane.add(collapsedButtonConfigPane);
+    }
+
+    protected JPanel createTitleConfigPane(String title) {
+        JPanel configPane = new JPanel();
+        configPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        configPane.setLayout(new BoxLayout(configPane, BoxLayout.Y_AXIS));
+        Dimension titleLineDim = new Dimension(610, 20);
+        UITitleSplitLine splitLine = new UITitleSplitLine(title, titleLineDim.width);
+        splitLine.setPreferredSize(titleLineDim);
+        configPane.add(splitLine);
+        return configPane;
+    }
+
+    private JPanel createCollapsedButtonConfigPane() {
+        JPanel configPane = this.createTitleConfigPane(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button"));
+
+        UILabel showButtonLabel = this.createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button"));
+        showButtonCheck = new UICheckBox(Toolkit.i18nText(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button_On_Right")));
+        showButtonCheck.setForeground(TEXT_FONT_COLOR);
+        showButtonCheck.setFont(TEXT_FONT);
+
+        UILabel buttonColorLabel = this.createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Button_Color"));
+        buttonColorBox = new NewColorSelectBox(COMPONENT_WIDTH);
+
+        UILabel foldedLabel = this.createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Folded_Hint"));
+        foldedTextFiled = new UITextField();
+
+        UILabel unfoldedLabel = this.createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_UnFolded_Hint"));
+        unfoldedTextFiled = new UITextField();
+
+        UILabel defaultCollapsedStateLabel = this.createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Default_State"));
+        JPanel defaultCollapsedStatePanel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        UIRadioButton foldedButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Fold"));
+        foldedButton.setSelected(true);
+        foldedButton.setPreferredSize(new Dimension(COMPONENT_WIDTH / 2, COMPONENT_HEIGHT));
+        foldedButton.setForeground(TEXT_FONT_COLOR);
+        foldedButton.setFont(TEXT_FONT);
+        UIRadioButton unfoldedButton = new UIRadioButton(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Unfold"));
+        unfoldedButton.setPreferredSize(new Dimension(COMPONENT_WIDTH / 2, COMPONENT_HEIGHT));
+        unfoldedButton.setForeground(TEXT_FONT_COLOR);
+        unfoldedButton.setFont(TEXT_FONT);
+        defaultCollapsedStatePanel.add(foldedButton);
+        defaultCollapsedStatePanel.add(unfoldedButton);
+
+        buttonGroup = new ModeButtonGroup<>();
+        buttonGroup.put(CollapseState.FOLDED, foldedButton);
+        buttonGroup.put(CollapseState.UNFOLDED, unfoldedButton);
+
+        double[] rowSize = {COMPONENT_HEIGHT, COMPONENT_HEIGHT, COMPONENT_HEIGHT, COMPONENT_HEIGHT, COMPONENT_HEIGHT};
+        double[] columnSize = {LABEL_WIDTH, COMPONENT_WIDTH};
+        double[] verticalGaps = {10, 10, 10, 10, 10};
+        JPanel contentPane = TableLayoutHelper.createDiffVGapTableLayoutPane(new JComponent[][]{
+                {showButtonLabel, showButtonCheck},
+                {buttonColorLabel, buttonColorBox},
+                {foldedLabel, foldedTextFiled},
+                {unfoldedLabel, unfoldedTextFiled},
+                {defaultCollapsedStateLabel, defaultCollapsedStatePanel}
+        }, rowSize, columnSize, 5, verticalGaps);
+        contentPane.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
+
+        configPane.add(contentPane);
+
+        return configPane;
     }
 
     @Override

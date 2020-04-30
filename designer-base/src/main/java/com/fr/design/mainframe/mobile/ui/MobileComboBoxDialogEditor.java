@@ -9,8 +9,8 @@ import com.fr.design.i18n.Toolkit;
 import com.fr.form.ui.mobile.MobileCollapsedStyle;
 import com.fr.general.ComparatorUtils;
 
-import javax.swing.SwingUtilities;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +33,7 @@ public class MobileComboBoxDialogEditor extends BasicPane {
     private ActionListener listener;
 
     public MobileComboBoxDialogEditor(MobileCollapsedStylePane stylePane) {
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.stylePane = stylePane;
         this.comboBox = new UIComboBox(new Object[] {NONE, CUSTOM});
         this.comboBox.setPreferredSize(COMBOX_DIMENSION);
