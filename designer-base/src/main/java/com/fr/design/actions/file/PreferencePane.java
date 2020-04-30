@@ -225,8 +225,8 @@ public class PreferencePane extends BasicPane {
 
         JPanel dbmSelectorPane = FRGUIPaneFactory.createTitledBorderPane(i18nText("Fine-Design_Basic_Database_Manager"));
         useUniverseDBMCheckbox = new UICheckBox(i18nText("Fine-Design_Basic_Use_Universe_Database_Manager"));
-        dbmSelectorPane.add(useUniverseDBMCheckbox);
-        advancePane.add(dbmSelectorPane);
+        //dbmSelectorPane.add(useUniverseDBMCheckbox);
+        //advancePane.add(dbmSelectorPane);
 
         JPanel improvePane = FRGUIPaneFactory.createVerticalTitledBorderPane(i18nText("Fine-Design_Basic_Product_Improve"));
         joinProductImproveCheckBox = new UICheckBox(i18nText("Fine-Design_Basic_Join_Product_Improve"));
