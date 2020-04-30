@@ -6,13 +6,12 @@ import com.fr.design.gui.itextfield.UIIntNumberField;
 import com.fr.design.gui.itextfield.UINumberField;
 import com.fr.design.i18n.Toolkit;
 import com.fr.design.layout.FRGUIPaneFactory;
-import com.fr.design.mainframe.widget.UITitleSplitLine;
+import com.fr.design.layout.TableLayoutHelper;
 import com.fr.form.ui.mobile.MobileCollapsedStyle;
 import com.fr.form.ui.mobile.MobileFormCollapsedStyle;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author hades
@@ -21,34 +20,45 @@ import java.awt.Dimension;
  */
 public class MobileCollapsedStyleExpandPane extends MobileCollapsedStylePane {
 
-    private static final Dimension DEFAULT_SPINNER_SIZE = new Dimension(60, 24);
-
     private UISpinner rowSpinner;
 
     public MobileCollapsedStyleExpandPane() {
     }
 
-
     @Override
-    protected JPanel createLinePane() {
-        UITitleSplitLine splitLine = new UITitleSplitLine(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Line_Number"), 520);
-        splitLine.setPreferredSize(new Dimension(520, 20));
+    protected void createConfigPanes(JPanel settingPane) {
+        JPanel lineNumberConfigPane = this.createLineNumberConfigPane();
+        settingPane.add(lineNumberConfigPane);
+        super.createConfigPanes(settingPane);
+    }
+
+    protected JPanel createLineNumberConfigPane() {
+        JPanel configPane = super.createTitleConfigPane(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Line_Number"));
+
+        UILabel collapseLocationLabel = createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Show_Button"));
         this.rowSpinner = new UISpinner(1, Integer.MAX_VALUE, 1, 1) {
             @Override
             protected UINumberField initNumberField(){
                 return new UIIntNumberField();
             }
         };
-        rowSpinner.setPreferredSize(DEFAULT_SPINNER_SIZE);
-        JPanel panel = new JPanel();
-        panel.setLayout(FRGUIPaneFactory.createBoxFlowLayout());
-        panel.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Start_From")));
-        panel.add(rowSpinner);
-        panel.add(new UILabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Row_To_Fold")));
-        JPanel linePane = FRGUIPaneFactory.createBorderLayout_S_Pane();
-        linePane.add(splitLine, BorderLayout.NORTH);
-        linePane.add(panel, BorderLayout.CENTER);
-        return linePane;
+        this.rowSpinner.setPreferredSize(new Dimension(62, COMPONENT_HEIGHT));
+        JPanel defaultCollapsedStatePanel = FRGUIPaneFactory.createLeftFlowZeroGapBorderPane();
+        defaultCollapsedStatePanel.add(createLabel(Toolkit.i18nText("Fine-Design_Mobile_Collapse_Start_From") + " "));
+        defaultCollapsedStatePanel.add(rowSpinner);
+        defaultCollapsedStatePanel.add(createLabel(" " + Toolkit.i18nText("Fine-Design_Mobile_Collapse_Row_To_Fold")));
+
+        double[] rowSize = {COMPONENT_HEIGHT};
+        double[] columnSize = {LABEL_WIDTH, COMPONENT_WIDTH};
+        double[] verticalGaps = {0};
+        JPanel navButtonSettingsPanel = TableLayoutHelper.createDiffVGapTableLayoutPane(new JComponent[][]{
+                {collapseLocationLabel, defaultCollapsedStatePanel},
+        }, rowSize, columnSize, 5, verticalGaps);
+        navButtonSettingsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
+
+        configPane.add(navButtonSettingsPanel);
+
+        return configPane;
     }
 
     @Override
